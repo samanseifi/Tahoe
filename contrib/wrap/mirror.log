@@ -1,0 +1,7 @@
+     source directory: /home/saman/Tahoe/contrib/wrap/src
+destination directory: /home/saman/Tahoe/contrib/wrap/src-mirror
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/contrib/wrap/src
+found destination directory /home/saman/Tahoe/contrib/wrap/src-mirror
+ln -sf /home/saman/Tahoe/contrib/wrap/src/main.cpp /home/saman/Tahoe/contrib/wrap/src-mirror/main.cpp
+ln -sf /home/saman/Tahoe/contrib/wrap/src/makefile /home/saman/Tahoe/contrib/wrap/src-mirror/makefile

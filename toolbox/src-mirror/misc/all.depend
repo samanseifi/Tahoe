@@ -1,0 +1,103 @@
+FileCrawlerT.o: FileCrawlerT.cpp FileCrawlerT.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/StringT.h \
+ /home/saman/Tahoe/toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/ifstreamT.h \
+ /home/saman/Tahoe/toolbox/inc/fstreamT.h \
+ /home/saman/Tahoe/toolbox/inc/StringT.h \
+ /home/saman/Tahoe/toolbox/inc/ofstreamT.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h
+GroupAverageT.o: GroupAverageT.cpp GroupAverageT.h \
+ /home/saman/Tahoe/toolbox/inc/iArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/nArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/dArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/AutoArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/StringT.h \
+ /home/saman/Tahoe/toolbox/inc/iArray2DT.h
+LocalParabolaT.o: LocalParabolaT.cpp LocalParabolaT.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h
+MonitorT.o: MonitorT.cpp MonitorT.h \
+ /home/saman/Tahoe/toolbox/inc/iArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/nArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/VariArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/VariBaseT.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h
+Rotate2DT.o: Rotate2DT.cpp Rotate2DT.h \
+ /home/saman/Tahoe/toolbox/inc/dMatrixT.h \
+ /home/saman/Tahoe/toolbox/inc/nMatrixT.h \
+ /home/saman/Tahoe/toolbox/inc/nArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/dSymMatrixT.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h
+Rotate3DT.o: Rotate3DT.cpp Rotate3DT.h \
+ /home/saman/Tahoe/toolbox/inc/dMatrixT.h \
+ /home/saman/Tahoe/toolbox/inc/nMatrixT.h \
+ /home/saman/Tahoe/toolbox/inc/nArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/dArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h
+SecantMethodT.o: SecantMethodT.cpp SecantMethodT.h \
+ /home/saman/Tahoe/toolbox/inc/dArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h
+SpectralDecompT.o: SpectralDecompT.cpp SpectralDecompT.h \
+ /home/saman/Tahoe/toolbox/inc/dMatrixT.h \
+ /home/saman/Tahoe/toolbox/inc/nMatrixT.h \
+ /home/saman/Tahoe/toolbox/inc/nArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/dSymMatrixT.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h
+InverseMapT.o: InverseMapT.cpp InverseMapT.h \
+ /home/saman/Tahoe/toolbox/inc/AutoArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/nArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/iArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/nArrayT.h

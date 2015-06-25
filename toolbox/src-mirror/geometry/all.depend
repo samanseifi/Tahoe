@@ -1,0 +1,170 @@
+ParentDomainT.o: ParentDomainT.cpp ParentDomainT.h \
+ /home/saman/Tahoe/toolbox/inc/iArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/dMatrixT.h \
+ /home/saman/Tahoe/toolbox/inc/nMatrixT.h \
+ /home/saman/Tahoe/toolbox/inc/dArray2DT.h GeometryBaseT.h GeometryT.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/LocalArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h
+GeometryT.o: GeometryT.cpp GeometryT.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h LineT.h GeometryBaseT.h \
+ /home/saman/Tahoe/toolbox/inc/dArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/LocalArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h QuadT.h TriT.h HexahedronT.h \
+ TetrahedronT.h PentahedronT.h \
+ /home/saman/Tahoe/toolbox/inc/ParameterContainerT.h \
+ /home/saman/Tahoe/toolbox/inc/ParameterInterfaceT.h \
+ /home/saman/Tahoe/toolbox/inc/ParameterListT.h \
+ /home/saman/Tahoe/toolbox/inc/ParameterT.h \
+ /home/saman/Tahoe/toolbox/inc/ValueT.h \
+ /home/saman/Tahoe/toolbox/inc/StringT.h \
+ /home/saman/Tahoe/toolbox/inc/AutoArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/LimitT.h
+GeometryBaseT.o: GeometryBaseT.cpp GeometryBaseT.h GeometryT.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/dArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/LocalArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h
+HexahedronT.o: HexahedronT.cpp HexahedronT.h GeometryBaseT.h GeometryT.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/dArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/LocalArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/iArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/iArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/dMatrixT.h \
+ /home/saman/Tahoe/toolbox/inc/nMatrixT.h
+LineT.o: LineT.cpp LineT.h GeometryBaseT.h GeometryT.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/dArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/LocalArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/iArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/iArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/dMatrixT.h \
+ /home/saman/Tahoe/toolbox/inc/nMatrixT.h
+PentahedronT.o: PentahedronT.cpp PentahedronT.h GeometryBaseT.h \
+ GeometryT.h /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/dArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/LocalArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h QuadT.h TriT.h \
+ /home/saman/Tahoe/toolbox/inc/iArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/iArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/dMatrixT.h \
+ /home/saman/Tahoe/toolbox/inc/nMatrixT.h
+QuadT.o: QuadT.cpp QuadT.h GeometryBaseT.h GeometryT.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/dArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/LocalArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/iArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/iArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/dMatrixT.h \
+ /home/saman/Tahoe/toolbox/inc/nMatrixT.h
+TetrahedronT.o: TetrahedronT.cpp TetrahedronT.h GeometryBaseT.h \
+ GeometryT.h /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/dArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/LocalArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h QuadT.h \
+ /home/saman/Tahoe/toolbox/inc/iArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/iArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/dMatrixT.h \
+ /home/saman/Tahoe/toolbox/inc/nMatrixT.h
+TriT.o: TriT.cpp TriT.h GeometryBaseT.h GeometryT.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/Environment.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/toolbox/inc/dArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/nArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/toolbox/inc/LocalArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h QuadT.h \
+ /home/saman/Tahoe/toolbox/inc/iArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/dArrayT.h \
+ /home/saman/Tahoe/toolbox/inc/iArray2DT.h \
+ /home/saman/Tahoe/toolbox/inc/dMatrixT.h \
+ /home/saman/Tahoe/toolbox/inc/nMatrixT.h

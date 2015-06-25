@@ -1,0 +1,3 @@
+SuperLUMatrixT.o: SuperLUMatrixT.cpp SuperLUMatrixT.h
+SuperLU_MTMatrixT.o: SuperLU_MTMatrixT.cpp SuperLU_MTMatrixT.h
+SuperLU_DISTMatrixT.o: SuperLU_DISTMatrixT.cpp SuperLU_DISTMatrixT.h

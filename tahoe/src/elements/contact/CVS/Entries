@@ -1,0 +1,25 @@
+/ACME_Contact3DT.cpp/1.6/Thu Jul 15 08:26:08 2004//
+/ACME_Contact3DT.h/1.3/Tue Jul  2 19:55:18 2002//
+/AugLagContact2DT.cpp/1.22/Thu Dec  1 21:11:36 2011//
+/AugLagContact2DT.h/1.12/Thu Jul 15 08:26:08 2004//
+/AugLagContact3DT.cpp/1.8/Thu Dec  1 21:11:36 2011//
+/AugLagContact3DT.h/1.3/Thu Jul 15 08:26:08 2004//
+/Contact2DT.cpp/1.11/Thu Dec  1 21:11:36 2011//
+/Contact2DT.h/1.6/Thu Jul 15 08:26:08 2004//
+/Contact3DT.cpp/1.12/Thu Dec  1 21:11:36 2011//
+/Contact3DT.h/1.6/Thu Jul 15 08:26:08 2004//
+/Contact3DT_K.cpp/1.3/Mon May  5 00:58:28 2003//
+/ContactT.cpp/1.26/Thu Dec  1 21:11:36 2011//
+/ContactT.h/1.17/Thu Jul 28 07:57:23 2005//
+/MFPenaltyContact2DT.cpp/1.18/Thu Dec  1 21:11:36 2011//
+/MFPenaltyContact2DT.h/1.7/Sat Mar 12 10:05:42 2005//
+/PenaltyContact2DT.cpp/1.18/Thu Dec  1 21:11:36 2011//
+/PenaltyContact2DT.h/1.7/Thu Jul 15 08:26:08 2004//
+/PenaltyContact3DT.cpp/1.17/Thu Dec  1 21:11:36 2011//
+/PenaltyContact3DT.h/1.7/Thu Jul 15 08:26:08 2004//
+/PenaltyContactDrag2DT.cpp/1.9/Thu Dec  1 21:11:36 2011//
+/PenaltyContactDrag2DT.h/1.4/Wed Jul 20 06:54:46 2005//
+/PenaltyContactDrag3DT.cpp/1.8/Thu Dec  1 21:11:36 2011//
+/PenaltyContactDrag3DT.h/1.3/Wed Jul 20 06:54:46 2005//
+/makefile/1.21/Fri Aug 12 05:20:48 2005//
+D

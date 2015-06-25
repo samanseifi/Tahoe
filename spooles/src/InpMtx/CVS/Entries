@@ -1,0 +1,20 @@
+/InpMtx.IO.c/1.1.1.1/Wed Jan 31 21:32:19 2001//
+/InpMtx.adjForATA.c/1.1.1.1/Wed Jan 31 21:32:20 2001//
+/InpMtx.basics.c/1.1.1.1/Wed Jan 31 21:32:19 2001//
+/InpMtx.extract.c/1.1.1.1/Wed Jan 31 21:32:20 2001//
+/InpMtx.fullAdj.c/1.1.1.1/Wed Jan 31 21:32:20 2001//
+/InpMtx.gmmm.c/1.1.1.1/Wed Jan 31 21:32:19 2001//
+/InpMtx.gmvm.c/1.1.1.1/Wed Jan 31 21:32:19 2001//
+/InpMtx.h/1.1.1.1/Wed Jan 31 21:32:20 2001//
+/InpMtx.init.c/1.1.1.1/Wed Jan 31 21:32:18 2001//
+/InpMtx.input.c/1.1.1.1/Wed Jan 31 21:32:19 2001//
+/InpMtx.instance.c/1.1.1.1/Wed Jan 31 21:32:19 2001//
+/InpMtx.map.c/1.1.1.1/Wed Jan 31 21:32:19 2001//
+/InpMtx.mvm.c/1.1.1.1/Wed Jan 31 21:32:19 2001//
+/InpMtx.mvmVector.c/1.1.1.1/Wed Jan 31 21:32:19 2001//
+/InpMtx.permute.c/1.1.1.1/Wed Jan 31 21:32:19 2001//
+/InpMtx.profile.c/1.1.1.1/Wed Jan 31 21:32:19 2001//
+/InpMtx.support.c/1.1.1.1/Wed Jan 31 21:32:18 2001//
+/InpMtx.util.c/1.1.1.1/Wed Jan 31 21:32:19 2001//
+/makefile/1.4/Fri Aug 12 05:27:12 2005//
+D

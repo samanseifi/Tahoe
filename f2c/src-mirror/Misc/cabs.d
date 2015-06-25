@@ -1,0 +1,1 @@
+cabs.o: cabs.c

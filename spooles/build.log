@@ -1,0 +1,729 @@
+cd /home/saman/Tahoe/spooles/src-mirror
+cd /home/saman/Tahoe/spooles/src-mirror; \
+	make  objects \
+	"ARCH = GNU-GCC4.6" \
+	"MACRO_DIR = /home/saman/Tahoe/spooles/../macros" \
+	"INC_DIR = /home/saman/Tahoe/spooles/inc" \
+	"SRC_DIR = /home/saman/Tahoe/spooles/src-mirror" \
+	"BLD_DIR = /home/saman/Tahoe/spooles" \
+	"OBJ_DIR = /home/saman/Tahoe/spooles/obj" \
+	"LIB_DIR = /home/saman/Tahoe/spooles/lib" \
+	"PCH = spoolesPrefix.h" \
+	"OPT_CFLAGS =                        " \
+	"MOD_CFLAGS_C = " \
+	"MOD_CFLAGS_CC = " \
+	"MOD_CFLAGS_F = " \
+	"MOD_LFLAGS = " \
+	"OPT_MAKEDEPENDFLAGS =                                                " \
+	"MOD_MAKEDEPENDFLAGS = " \
+	"DEPEND = all.depend" \
+	"CURR_DIR = /home/saman/Tahoe/spooles/src-mirror"
+make[1]: Entering directory `/home/saman/Tahoe/spooles/src-mirror'
+make[2]: Entering directory `/home/saman/Tahoe/spooles/src-mirror'
+make[2]: Nothing to be done for `update_objects'.
+make[2]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror'
+make[2]: Entering directory `/home/saman/Tahoe/spooles/src-mirror'
+ cd A2
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/A2'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/A2'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/A2'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/A2'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/A2'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/A2'
+ cd BKL
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
+ cd BPG
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
+ cd Chv
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
+ cd ChvList
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
+ cd ChvManager
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+ cd Coords
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
+ cd DenseMtx
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+ cd Drand
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
+ cd drivers
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
+ cd DSTree
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
+ cd DV
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DV'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DV'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DV'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DV'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DV'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DV'
+ cd EGraph
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
+ cd ETree
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
+ cd FrontMtx
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+ cd GPart
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
+ cd Graph
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
+ cd Ideq
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
+ cd IIheap
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
+ cd ILUMtx
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+ cd InpMtx
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+ cd Iter
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
+ cd IV
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IV'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IV'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IV'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IV'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IV'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IV'
+ cd IVL
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
+ cd I2Ohash
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+ cd Lock
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
+ cd misc
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/misc'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/misc'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/misc'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/misc'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/misc'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/misc'
+ cd MSMD
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
+ cd Network
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Network'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Network'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Network'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Network'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Network'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Network'
+ cd PatchAndGoInfo
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+ cd Pencil
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
+ cd Perm
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
+ cd SemiImplMtx
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+ cd SolveMap
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+ cd SubMtx
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+ cd SubMtxList
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+ cd SubMtxManager
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+ cd SymbFac
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+ cd Tree
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
+ cd Utilities
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
+ cd ZV
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[2]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror'
+make[1]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror'
+make archive "OBJECT_LIST = /home/saman/Tahoe/spooles/object_list" "ARCH = GNU-GCC4.6" "MACRO_DIR = /home/saman/Tahoe/spooles/../macros" "HOME_DIR = /home/saman/Tahoe/spooles"
+make[1]: Entering directory `/home/saman/Tahoe/spooles'
+cd /home/saman/Tahoe/spooles/obj; \
+	printf " building archive /home/saman/Tahoe/spooles/lib/libspooles.a\n"; \
+	ar -cruv /home/saman/Tahoe/spooles/lib/libspooles.a A2.basics.o A2.copyEntriesToVector.o A2.init.o A2.instance.o A2.IO.o A2.makeStaircase.o A2.norms.o A2.QRreduce.o A2.sort.o A2.util.o  BKL.basics.o BKL.evalfcn.o BKL.exhSearch.o BKL.fidmat.o BKL.init.o BKL.util.o  BPG.basics.o BPG.DM.o BPG.init.o BPG.IO.o BPG.makeGraphs.o BPG.maxFlow.o BPG.pseudo.o  Chv.assemble.o Chv.basics.o Chv.copy.o Chv.factor.o Chv.findPivot.o Chv.init.o Chv.instance.o Chv.IO.o Chv.search.o Chv.swap.o Chv.update.o Chv.util.o  ChvList.basics.o ChvList.init.o ChvList.IO.o ChvList.util.o  ChvManager.basics.o ChvManager.init.o ChvManager.IO.o ChvManager.util.o  Coords.basics.o Coords.init.o Coords.IO.o Coords.util.o  DenseMtx.basics.o DenseMtx.initAsSubmtx.o DenseMtx.init.o DenseMtx.instance.o DenseMtx.IO.o DenseMtx.permute.o DenseMtx.scale.o DenseMtx.util.o  Drand.basics.o Drand.init.o Drand.util.o  LU_serial_driver.o LU_serial_driver_init.o LU_serial_driver_factorize.o LU_serial_driver_solve.o LU_serial_driver_free.o	  DSTree.basics.o DSTree.init.o DSTree.instance.o DSTree.IO.o DSTree.stages.o DSTree.util.o  DV.basics.o DV.init.o DV.instance.o DV.IO.o DV.profile.o DV.util.o  EGraph.basics.o EGraph.init.o EGraph.IO.o EGraph.misc.o EGraph.mkAdjGraph.o  ETree.basics.o ETree.compress.o ETree.init.o ETree.initFromSubtree.o ETree.instance.o ETree.IO.o ETree.justify.o ETree.maps.o ETree.metrics.o ETree.ms.o ETree.permute.o ETree.semi.o ETree.storage.o ETree.transform.o ETree.util.o  FrontMtx.basics.o FrontMtx.factor.o FrontMtx.factorUtil.o FrontMtx.init.o FrontMtx.instance.o FrontMtx.IO.o FrontMtx.loadEntries.o FrontMtx.permute.o FrontMtx.postponed.o FrontMtx.postProcess.o FrontMtx.QRfactor.o FrontMtx.QRsolve.o FrontMtx.QRutil.o FrontMtx.solve.o FrontMtx.solveUtil.o FrontMtx.split.o FrontMtx.storeFront.o FrontMtx.update.o FrontMtx.util.o  GPart.basics.o GPart.DDsepInfo.o GPart.DDviaFishnet.o GPart.DDviaProjection.o GPart.domSegMap.o GPart.identifyWideSep.o GPart.init.o GPart.makeYCmap.o GPart.RBviaDDsep.o GPart.smoothBisector.o GPart.smoothBy2layers.o GPart.smoothYSep.o GPart.split.o GPart.TwoSetViaBKL.o GPart.util.o  Graph.basics.o Graph.compress.o Graph.equivMap.o Graph.expand.o Graph.fillFromOffsets.o Graph.init.o Graph.IO.o Graph.setListsFromOffsets.o Graph.util.o Graph.wirebasket.o  Ideq.basics.o Ideq.IO.o Ideq.resize.o Ideq.util.o  IIheap.basics.o  ILUMtx.basics.o ILUMtx.factor.o ILUMtx.init.o ILUMtx.IO.o ILUMtx.misc.o ILUMtx.solve.o  InpMtx.adjForATA.o InpMtx.basics.o InpMtx.extract.o InpMtx.fullAdj.o InpMtx.gmmm.o InpMtx.gmvm.o InpMtx.init.o InpMtx.input.o InpMtx.instance.o InpMtx.IO.o InpMtx.map.o InpMtx.mvm.o InpMtx.mvmVector.o InpMtx.permute.o InpMtx.profile.o InpMtx.support.o InpMtx.util.o  Iter.bgmresl.o Iter.bgmresr.o Iter.bicgstabl.o Iter.bicgstabr.o Iter.DenseMtx_mmm.o Iter.mlbicgstabl.o Iter.mlbicgstabr.o Iter.pcgl.o Iter.pcgr.o Iter.tfqmrl.o Iter.tfqmrr.o Iter.util.o Iter.zbicgstabl.o Iter.zbicgstabr.o Iter.zmlbicgstabl.o Iter.zmlbicgstabr.o Iter.zpcgl.o Iter.zpcgr.o Iter.ztfqmrl.o Iter.ztfqmrr.o  IV.basics.o IV.init.o IV.instance.o IV.IO.o IV.util.o  IVL.basics.o IVL.init.o IVL.instance.o IVL.IO.o IVL.listmanip.o IVL.misc.o IVL.subIVL.o IVL.util.o  I2Ohash.basics.o I2Ohash.init.o I2Ohash.IO.o I2Ohash.util.o  Lock.basics.o Lock.init.o Lock.util.o  misc.drawGraphEPS.o misc.fpgrids.o misc.localND.o misc.mkNDlinsys.o misc.mkNDlinsysQR.o misc.ND.o misc.ND2.o misc.orderViaBestOfNDandMS.o misc.orderViaMMD.o misc.orderViaMS.o misc.orderViaND.o  MSMD.basics.o MSMD.cleanReachSet.o MSMD.eliminate.o MSMD.fillPerms.o MSMD.findInodes.o MSMD.frontETree.o MSMD.init.o MSMD.makeSchurComplement.o MSMD.MSMDinfo.o MSMD.MSMDvtx.o MSMD.order.o MSMD.update.o  Network.addArc.o Network.augmentPath.o Network.basics.o Network.findAugmentingPath.o Network.findMaxFlow.o Network.findMincut.o Network.init.o Network.IO.o  PatchAndGoInfo.basics.o PatchAndGoInfo.init.o  Pencil.basics.o Pencil.init.o Pencil.IO.o Pencil.mmm.o Pencil.permute.o Pencil.setup.o Pencil.util.o  Perm.basics.o Perm.compress.o Perm.init.o Perm.IO.o Perm.util.o  SemiImplMtx.basics.o SemiImplMtx.init.o SemiImplMtx.IO.o SemiImplMtx.solve.o SemiImplMtx.util.o  SolveMap.basics.o SolveMap.init.o SolveMap.instance.o SolveMap.IO.o SolveMap.maps.o SolveMap.setup.o SolveMap.util.o  SubMtx.basics.o SubMtx.init.o SubMtx.initRandom.o SubMtx.instance.o SubMtx.IO.o SubMtx.scalevec.o SubMtx.solve.o SubMtx.solveH.o SubMtx.solveT.o SubMtx.solveupd.o SubMtx.solveupdH.o SubMtx.solveupdT.o SubMtx.sort.o SubMtx.util.o  SubMtxList.basics.o SubMtxList.init.o SubMtxList.IO.o SubMtxList.util.o  SubMtxManager.basics.o SubMtxManager.init.o SubMtxManager.IO.o SubMtxManager.util.o  SymbFac.symbfac.o  Tree.basics.o Tree.compress.o Tree.draw.o Tree.getCoords.o Tree.init.o Tree.instance.o Tree.IO.o Tree.justify.o Tree.maximizeGain.o Tree.metrics.o Tree.perms.o Tree.permute.o Tree.subtree.o Tree.util.o  Utilities.axpy.o Utilities.CV.o Utilities.DV.o Utilities.FV.o Utilities.iohb.o Utilities.IP.o Utilities.IV.o Utilities.I2OP.o Utilities.newsort.o Utilities.PCV.o Utilities.PDV.o Utilities.PFV.o Utilities.PIV.o Utilities.sortAndCompress.o Utilities.ZV.o  ZV.basics.o ZV.init.o ZV.instance.o ZV.IO.o ZV.profile.o ZV.util.o ; \
+	printf " running ranlib /home/saman/Tahoe/spooles/lib/libspooles.a\n"; \
+	echo  /home/saman/Tahoe/spooles/lib/libspooles.a
+ building archive /home/saman/Tahoe/spooles/lib/libspooles.a
+a - A2.basics.o
+a - A2.copyEntriesToVector.o
+a - A2.init.o
+a - A2.instance.o
+a - A2.IO.o
+a - A2.makeStaircase.o
+a - A2.norms.o
+a - A2.QRreduce.o
+a - A2.sort.o
+a - A2.util.o
+a - BKL.basics.o
+a - BKL.evalfcn.o
+a - BKL.exhSearch.o
+a - BKL.fidmat.o
+a - BKL.init.o
+a - BKL.util.o
+a - BPG.basics.o
+a - BPG.DM.o
+a - BPG.init.o
+a - BPG.IO.o
+a - BPG.makeGraphs.o
+a - BPG.maxFlow.o
+a - BPG.pseudo.o
+a - Chv.assemble.o
+a - Chv.basics.o
+a - Chv.copy.o
+a - Chv.factor.o
+a - Chv.findPivot.o
+a - Chv.init.o
+a - Chv.instance.o
+a - Chv.IO.o
+a - Chv.search.o
+a - Chv.swap.o
+a - Chv.update.o
+a - Chv.util.o
+a - ChvList.basics.o
+a - ChvList.init.o
+a - ChvList.IO.o
+a - ChvList.util.o
+a - ChvManager.basics.o
+a - ChvManager.init.o
+a - ChvManager.IO.o
+a - ChvManager.util.o
+a - Coords.basics.o
+a - Coords.init.o
+a - Coords.IO.o
+a - Coords.util.o
+a - DenseMtx.basics.o
+a - DenseMtx.initAsSubmtx.o
+a - DenseMtx.init.o
+a - DenseMtx.instance.o
+a - DenseMtx.IO.o
+a - DenseMtx.permute.o
+a - DenseMtx.scale.o
+a - DenseMtx.util.o
+a - Drand.basics.o
+a - Drand.init.o
+a - Drand.util.o
+a - LU_serial_driver.o
+a - LU_serial_driver_init.o
+a - LU_serial_driver_factorize.o
+a - LU_serial_driver_solve.o
+a - LU_serial_driver_free.o
+a - DSTree.basics.o
+a - DSTree.init.o
+a - DSTree.instance.o
+a - DSTree.IO.o
+a - DSTree.stages.o
+a - DSTree.util.o
+a - DV.basics.o
+a - DV.init.o
+a - DV.instance.o
+a - DV.IO.o
+a - DV.profile.o
+a - DV.util.o
+a - EGraph.basics.o
+a - EGraph.init.o
+a - EGraph.IO.o
+a - EGraph.misc.o
+a - EGraph.mkAdjGraph.o
+a - ETree.basics.o
+a - ETree.compress.o
+a - ETree.init.o
+a - ETree.initFromSubtree.o
+a - ETree.instance.o
+a - ETree.IO.o
+a - ETree.justify.o
+a - ETree.maps.o
+a - ETree.metrics.o
+a - ETree.ms.o
+a - ETree.permute.o
+a - ETree.semi.o
+a - ETree.storage.o
+a - ETree.transform.o
+a - ETree.util.o
+a - FrontMtx.basics.o
+a - FrontMtx.factor.o
+a - FrontMtx.factorUtil.o
+a - FrontMtx.init.o
+a - FrontMtx.instance.o
+a - FrontMtx.IO.o
+a - FrontMtx.loadEntries.o
+a - FrontMtx.permute.o
+a - FrontMtx.postponed.o
+a - FrontMtx.postProcess.o
+a - FrontMtx.QRfactor.o
+a - FrontMtx.QRsolve.o
+a - FrontMtx.QRutil.o
+a - FrontMtx.solve.o
+a - FrontMtx.solveUtil.o
+a - FrontMtx.split.o
+a - FrontMtx.storeFront.o
+a - FrontMtx.update.o
+a - FrontMtx.util.o
+a - GPart.basics.o
+a - GPart.DDsepInfo.o
+a - GPart.DDviaFishnet.o
+a - GPart.DDviaProjection.o
+a - GPart.domSegMap.o
+a - GPart.identifyWideSep.o
+a - GPart.init.o
+a - GPart.makeYCmap.o
+a - GPart.RBviaDDsep.o
+a - GPart.smoothBisector.o
+a - GPart.smoothBy2layers.o
+a - GPart.smoothYSep.o
+a - GPart.split.o
+a - GPart.TwoSetViaBKL.o
+a - GPart.util.o
+a - Graph.basics.o
+a - Graph.compress.o
+a - Graph.equivMap.o
+a - Graph.expand.o
+a - Graph.fillFromOffsets.o
+a - Graph.init.o
+a - Graph.IO.o
+a - Graph.setListsFromOffsets.o
+a - Graph.util.o
+a - Graph.wirebasket.o
+a - Ideq.basics.o
+a - Ideq.IO.o
+a - Ideq.resize.o
+a - Ideq.util.o
+a - IIheap.basics.o
+a - ILUMtx.basics.o
+a - ILUMtx.factor.o
+a - ILUMtx.init.o
+a - ILUMtx.IO.o
+a - ILUMtx.misc.o
+a - ILUMtx.solve.o
+a - InpMtx.adjForATA.o
+a - InpMtx.basics.o
+a - InpMtx.extract.o
+a - InpMtx.fullAdj.o
+a - InpMtx.gmmm.o
+a - InpMtx.gmvm.o
+a - InpMtx.init.o
+a - InpMtx.input.o
+a - InpMtx.instance.o
+a - InpMtx.IO.o
+a - InpMtx.map.o
+a - InpMtx.mvm.o
+a - InpMtx.mvmVector.o
+a - InpMtx.permute.o
+a - InpMtx.profile.o
+a - InpMtx.support.o
+a - InpMtx.util.o
+a - Iter.bgmresl.o
+a - Iter.bgmresr.o
+a - Iter.bicgstabl.o
+a - Iter.bicgstabr.o
+a - Iter.DenseMtx_mmm.o
+a - Iter.mlbicgstabl.o
+a - Iter.mlbicgstabr.o
+a - Iter.pcgl.o
+a - Iter.pcgr.o
+a - Iter.tfqmrl.o
+a - Iter.tfqmrr.o
+a - Iter.util.o
+a - Iter.zbicgstabl.o
+a - Iter.zbicgstabr.o
+a - Iter.zmlbicgstabl.o
+a - Iter.zmlbicgstabr.o
+a - Iter.zpcgl.o
+a - Iter.zpcgr.o
+a - Iter.ztfqmrl.o
+a - Iter.ztfqmrr.o
+a - IV.basics.o
+a - IV.init.o
+a - IV.instance.o
+a - IV.IO.o
+a - IV.util.o
+a - IVL.basics.o
+a - IVL.init.o
+a - IVL.instance.o
+a - IVL.IO.o
+a - IVL.listmanip.o
+a - IVL.misc.o
+a - IVL.subIVL.o
+a - IVL.util.o
+a - I2Ohash.basics.o
+a - I2Ohash.init.o
+a - I2Ohash.IO.o
+a - I2Ohash.util.o
+a - Lock.basics.o
+a - Lock.init.o
+a - Lock.util.o
+a - misc.drawGraphEPS.o
+a - misc.fpgrids.o
+a - misc.localND.o
+a - misc.mkNDlinsys.o
+a - misc.mkNDlinsysQR.o
+a - misc.ND.o
+a - misc.ND2.o
+a - misc.orderViaBestOfNDandMS.o
+a - misc.orderViaMMD.o
+a - misc.orderViaMS.o
+a - misc.orderViaND.o
+a - MSMD.basics.o
+a - MSMD.cleanReachSet.o
+a - MSMD.eliminate.o
+a - MSMD.fillPerms.o
+a - MSMD.findInodes.o
+a - MSMD.frontETree.o
+a - MSMD.init.o
+a - MSMD.makeSchurComplement.o
+a - MSMD.MSMDinfo.o
+a - MSMD.MSMDvtx.o
+a - MSMD.order.o
+a - MSMD.update.o
+a - Network.addArc.o
+a - Network.augmentPath.o
+a - Network.basics.o
+a - Network.findAugmentingPath.o
+a - Network.findMaxFlow.o
+a - Network.findMincut.o
+a - Network.init.o
+a - Network.IO.o
+a - PatchAndGoInfo.basics.o
+a - PatchAndGoInfo.init.o
+a - Pencil.basics.o
+a - Pencil.init.o
+a - Pencil.IO.o
+a - Pencil.mmm.o
+a - Pencil.permute.o
+a - Pencil.setup.o
+a - Pencil.util.o
+a - Perm.basics.o
+a - Perm.compress.o
+a - Perm.init.o
+a - Perm.IO.o
+a - Perm.util.o
+a - SemiImplMtx.basics.o
+a - SemiImplMtx.init.o
+a - SemiImplMtx.IO.o
+a - SemiImplMtx.solve.o
+a - SemiImplMtx.util.o
+a - SolveMap.basics.o
+a - SolveMap.init.o
+a - SolveMap.instance.o
+a - SolveMap.IO.o
+a - SolveMap.maps.o
+a - SolveMap.setup.o
+a - SolveMap.util.o
+a - SubMtx.basics.o
+a - SubMtx.init.o
+a - SubMtx.initRandom.o
+a - SubMtx.instance.o
+a - SubMtx.IO.o
+a - SubMtx.scalevec.o
+a - SubMtx.solve.o
+a - SubMtx.solveH.o
+a - SubMtx.solveT.o
+a - SubMtx.solveupd.o
+a - SubMtx.solveupdH.o
+a - SubMtx.solveupdT.o
+a - SubMtx.sort.o
+a - SubMtx.util.o
+a - SubMtxList.basics.o
+a - SubMtxList.init.o
+a - SubMtxList.IO.o
+a - SubMtxList.util.o
+a - SubMtxManager.basics.o
+a - SubMtxManager.init.o
+a - SubMtxManager.IO.o
+a - SubMtxManager.util.o
+a - SymbFac.symbfac.o
+a - Tree.basics.o
+a - Tree.compress.o
+a - Tree.draw.o
+a - Tree.getCoords.o
+a - Tree.init.o
+a - Tree.instance.o
+a - Tree.IO.o
+a - Tree.justify.o
+a - Tree.maximizeGain.o
+a - Tree.metrics.o
+a - Tree.perms.o
+a - Tree.permute.o
+a - Tree.subtree.o
+a - Tree.util.o
+a - Utilities.axpy.o
+a - Utilities.CV.o
+a - Utilities.DV.o
+a - Utilities.FV.o
+a - Utilities.iohb.o
+a - Utilities.IP.o
+a - Utilities.IV.o
+a - Utilities.I2OP.o
+a - Utilities.newsort.o
+a - Utilities.PCV.o
+a - Utilities.PDV.o
+a - Utilities.PFV.o
+a - Utilities.PIV.o
+a - Utilities.sortAndCompress.o
+a - Utilities.ZV.o
+a - ZV.basics.o
+a - ZV.init.o
+a - ZV.instance.o
+a - ZV.IO.o
+a - ZV.profile.o
+a - ZV.util.o
+ running ranlib /home/saman/Tahoe/spooles/lib/libspooles.a
+/home/saman/Tahoe/spooles/lib/libspooles.a
+make[1]: Leaving directory `/home/saman/Tahoe/spooles'

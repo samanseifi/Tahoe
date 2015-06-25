@@ -1,0 +1,56 @@
+BCJHypoIsoDamageKE3D.o: BCJHypoIsoDamageKE3D.cpp BCJHypoIsoDamageKE3D.h \
+ BCJHypo3D.h EVPFDBaseT.h /home/saman/Tahoe/tahoe/inc/IsotropicT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/ParameterInterfaceT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/ParameterListT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/ParameterT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/ValueT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/StringT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/Environment.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/AutoArrayT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/LimitT.h \
+ /home/saman/Tahoe/tahoe/inc/SolidMaterialT.h \
+ /home/saman/Tahoe/tahoe/inc/GlobalT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/Environment.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/tahoe/inc/ContinuumMaterialT.h \
+ /home/saman/Tahoe/tahoe/inc/MaterialSupportT.h \
+ /home/saman/Tahoe/tahoe/inc/BasicSupportT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/dArray2DT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/nArray2DT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/nArrayT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/LocalArrayT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/dArrayT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/AutoArrayT.h \
+ /home/saman/Tahoe/tahoe/inc/ElementCardT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/iArrayT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/dArrayT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/dMatrixT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/nMatrixT.h \
+ /home/saman/Tahoe/tahoe/inc/ThermalDilatationT.h \
+ /home/saman/Tahoe/tahoe/inc/FDHookeanMatT.h \
+ /home/saman/Tahoe/tahoe/inc/FSSolidMatT.h \
+ /home/saman/Tahoe/tahoe/inc/TensorTransformT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/dSymMatrixT.h \
+ /home/saman/Tahoe/tahoe/inc/FSMatSupportT.h \
+ /home/saman/Tahoe/tahoe/inc/SolidMatSupportT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/tahoe/inc/HookeanMatT.h \
+ /home/saman/Tahoe/tahoe/inc/NLCSolverWrapperPtr.h \
+ /home/saman/Tahoe/tahoe/inc/NLCSolverWrapper.h KineticEqnBase.h \
+ /home/saman/Tahoe/tahoe/inc/GlobalT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/Array2DT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/ifstreamT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/fstreamT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/SpectralDecompT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/dMatrixT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/dSymMatrixT.h \
+ VoidGrowthModelImp.h /home/saman/Tahoe/tahoe/inc/NLCSolver.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/StringT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/LAdMatrixT.h \
+ /home/saman/Tahoe/tahoe/inc/NewtonMethodBase.h \
+ /home/saman/Tahoe/tahoe/inc/ElementCardT.h \
+ /home/saman/Tahoe/tahoe/inc/Utils.h BCJKineticEqn.h

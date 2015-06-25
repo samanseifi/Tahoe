@@ -1,0 +1,22 @@
+/FrontMtx.IO.c/1.1.1.1/Wed Jan 31 21:32:22 2001//
+/FrontMtx.QRfactor.c/1.1.1.1/Wed Jan 31 21:32:20 2001//
+/FrontMtx.QRsolve.c/1.1.1.1/Wed Jan 31 21:32:20 2001//
+/FrontMtx.QRutil.c/1.1.1.1/Wed Jan 31 21:32:20 2001//
+/FrontMtx.basics.c/1.1.1.1/Wed Jan 31 21:32:22 2001//
+/FrontMtx.factor.c/1.1.1.1/Wed Jan 31 21:32:20 2001//
+/FrontMtx.factorUtil.c/1.1.1.1/Wed Jan 31 21:32:22 2001//
+/FrontMtx.h/1.1.1.1/Wed Jan 31 21:32:22 2001//
+/FrontMtx.init.c/1.1.1.1/Wed Jan 31 21:32:22 2001//
+/FrontMtx.instance.c/1.1.1.1/Wed Jan 31 21:32:22 2001//
+/FrontMtx.loadEntries.c/1.1.1.1/Wed Jan 31 21:32:20 2001//
+/FrontMtx.permute.c/1.1.1.1/Wed Jan 31 21:32:22 2001//
+/FrontMtx.postProcess.c/1.1.1.1/Wed Jan 31 21:32:22 2001//
+/FrontMtx.postponed.c/1.1.1.1/Wed Jan 31 21:32:20 2001//
+/FrontMtx.solve.c/1.1.1.1/Wed Jan 31 21:32:22 2001//
+/FrontMtx.solveUtil.c/1.1.1.1/Wed Jan 31 21:32:22 2001//
+/FrontMtx.split.c/1.1.1.1/Wed Jan 31 21:32:22 2001//
+/FrontMtx.storeFront.c/1.1.1.1/Wed Jan 31 21:32:20 2001//
+/FrontMtx.update.c/1.1.1.1/Wed Jan 31 21:32:20 2001//
+/FrontMtx.util.c/1.1.1.1/Wed Jan 31 21:32:20 2001//
+/makefile/1.4/Fri Aug 12 05:27:11 2005//
+D

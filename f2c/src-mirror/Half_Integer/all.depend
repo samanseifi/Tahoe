@@ -1,0 +1,8 @@
+h_abs.o: h_abs.c /home/saman/Tahoe/f2c/inc/f2c.h
+h_dim.o: h_dim.c /home/saman/Tahoe/f2c/inc/f2c.h
+h_dnnt.o: h_dnnt.c /home/saman/Tahoe/f2c/inc/f2c.h
+h_indx.o: h_indx.c /home/saman/Tahoe/f2c/inc/f2c.h
+h_len.o: h_len.c /home/saman/Tahoe/f2c/inc/f2c.h
+h_mod.o: h_mod.c /home/saman/Tahoe/f2c/inc/f2c.h
+h_nint.o: h_nint.c /home/saman/Tahoe/f2c/inc/f2c.h
+h_sign.o: h_sign.c /home/saman/Tahoe/f2c/inc/f2c.h

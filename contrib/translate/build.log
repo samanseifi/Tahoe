@@ -1,0 +1,52 @@
+cd /home/saman/Tahoe/contrib/translate/src-mirror
+cd /home/saman/Tahoe/contrib/translate/src-mirror; \
+	make  objects \
+	"ARCH = GNU-GCC4.6" \
+	"MACRO_DIR = /home/saman/Tahoe/contrib/translate/../../macros" \
+	"INC_DIR = /home/saman/Tahoe/contrib/translate/inc" \
+	"SRC_DIR = /home/saman/Tahoe/contrib/translate/src-mirror" \
+	"BLD_DIR = /home/saman/Tahoe/contrib/translate" \
+	"OBJ_DIR = /home/saman/Tahoe/contrib/translate/obj" \
+	"LIB_DIR = /home/saman/Tahoe/contrib/translate/lib" \
+	"PCH = translatePrefix.h" \
+	"OPT_CFLAGS =    -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__   " \
+	"MOD_CFLAGS_C = " \
+	"MOD_CFLAGS_CC = " \
+	"MOD_CFLAGS_F = " \
+	"MOD_LFLAGS = " \
+	"OPT_MAKEDEPENDFLAGS =      -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__   " \
+	"MOD_MAKEDEPENDFLAGS = " \
+	"DEPEND = all.depend" \
+	"CURR_DIR = /home/saman/Tahoe/contrib/translate/src-mirror"
+make[1]: Entering directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+make[2]: Entering directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+make[2]: Nothing to be done for `update_objects'.
+make[2]: Leaving directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+make[2]: Entering directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+make[2]: Nothing to be done for `subdir_driver'.
+make[2]: Leaving directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+make[1]: Leaving directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+make archive "OBJECT_LIST = /home/saman/Tahoe/contrib/translate/object_list" "ARCH = GNU-GCC4.6" "MACRO_DIR = /home/saman/Tahoe/contrib/translate/../../macros" "HOME_DIR = /home/saman/Tahoe/contrib/translate"
+make[1]: Entering directory `/home/saman/Tahoe/contrib/translate'
+cd /home/saman/Tahoe/contrib/translate/obj; \
+	printf " building archive /home/saman/Tahoe/contrib/translate/lib/libtranslate.a\n"; \
+	ar -cruv /home/saman/Tahoe/contrib/translate/lib/libtranslate.a TranslateIOManager.o ExtractIOManager.o ExtractNode.o ExtractElement.o ExtractQuad.o PointPlots.o MergeResults.o JoinResults.o Scroller.o main.o ; \
+	printf " running ranlib /home/saman/Tahoe/contrib/translate/lib/libtranslate.a\n"; \
+	echo  /home/saman/Tahoe/contrib/translate/lib/libtranslate.a
+ building archive /home/saman/Tahoe/contrib/translate/lib/libtranslate.a
+a - TranslateIOManager.o
+a - ExtractIOManager.o
+a - ExtractNode.o
+a - ExtractElement.o
+a - ExtractQuad.o
+a - PointPlots.o
+a - MergeResults.o
+a - JoinResults.o
+a - Scroller.o
+a - main.o
+ running ranlib /home/saman/Tahoe/contrib/translate/lib/libtranslate.a
+/home/saman/Tahoe/contrib/translate/lib/libtranslate.a
+make[1]: Leaving directory `/home/saman/Tahoe/contrib/translate'
+ linking...
+/usr/bin/g++ /home/saman/Tahoe/contrib/translate/src-mirror/main.o -o translate -L/home/saman/Tahoe/contrib/translate/lib -ltranslate     -L/home/saman/Tahoe/contrib/translate/../../toolbox/lib -ltoolbox                 -L/usr/local/ACCESS/lib -lexoIIv2c -lnetcdf     -lpthread
+    ...wrote translate

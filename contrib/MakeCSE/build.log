@@ -1,0 +1,55 @@
+cd /home/saman/Tahoe/contrib/MakeCSE/src-mirror
+cd /home/saman/Tahoe/contrib/MakeCSE/src-mirror; \
+	make  objects \
+	"ARCH = GNU-GCC4.6" \
+	"MACRO_DIR = /home/saman/Tahoe/contrib/MakeCSE/../../macros" \
+	"INC_DIR = /home/saman/Tahoe/contrib/MakeCSE/inc" \
+	"SRC_DIR = /home/saman/Tahoe/contrib/MakeCSE/src-mirror" \
+	"BLD_DIR = /home/saman/Tahoe/contrib/MakeCSE" \
+	"OBJ_DIR = /home/saman/Tahoe/contrib/MakeCSE/obj" \
+	"LIB_DIR = /home/saman/Tahoe/contrib/MakeCSE/lib" \
+	"PCH = MakeCSEPrefix.h" \
+	"OPT_CFLAGS =    -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__   " \
+	"MOD_CFLAGS_C = " \
+	"MOD_CFLAGS_CC = " \
+	"MOD_CFLAGS_F = " \
+	"MOD_LFLAGS = " \
+	"OPT_MAKEDEPENDFLAGS =      -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__   " \
+	"MOD_MAKEDEPENDFLAGS = " \
+	"DEPEND = all.depend" \
+	"CURR_DIR = /home/saman/Tahoe/contrib/MakeCSE/src-mirror"
+make[1]: Entering directory `/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
+make[2]: Entering directory `/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
+make[2]: Nothing to be done for `update_objects'.
+make[2]: Leaving directory `/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
+make[2]: Entering directory `/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
+make[2]: Nothing to be done for `subdir_driver'.
+make[2]: Leaving directory `/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
+make[1]: Leaving directory `/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
+make archive "OBJECT_LIST = /home/saman/Tahoe/contrib/MakeCSE/object_list" "ARCH = GNU-GCC4.6" "MACRO_DIR = /home/saman/Tahoe/contrib/MakeCSE/../../macros" "HOME_DIR = /home/saman/Tahoe/contrib/MakeCSE"
+make[1]: Entering directory `/home/saman/Tahoe/contrib/MakeCSE'
+cd /home/saman/Tahoe/contrib/MakeCSE/obj; \
+	printf " building archive /home/saman/Tahoe/contrib/MakeCSE/lib/libMakeCSE.a\n"; \
+	ar -cruv /home/saman/Tahoe/contrib/MakeCSE/lib/libMakeCSE.a MakeCSE_IOManager.o MakeCSE_FEManager.o MakeCSE_ElementBaseT.o Quad2Tri.o MakeCSE_CSEBaseT.o MakeCSE.o GlobalEdgeFinderT.o NodeManagerPrimitive.o CSEConstants.o InteractiveIOManagerT.o main.o ParameterFileManagerT.o MakeCSE_ExecutionT.o ; \
+	printf " running ranlib /home/saman/Tahoe/contrib/MakeCSE/lib/libMakeCSE.a\n"; \
+	echo  /home/saman/Tahoe/contrib/MakeCSE/lib/libMakeCSE.a
+ building archive /home/saman/Tahoe/contrib/MakeCSE/lib/libMakeCSE.a
+a - MakeCSE_IOManager.o
+a - MakeCSE_FEManager.o
+a - MakeCSE_ElementBaseT.o
+a - Quad2Tri.o
+a - MakeCSE_CSEBaseT.o
+a - MakeCSE.o
+a - GlobalEdgeFinderT.o
+a - NodeManagerPrimitive.o
+a - CSEConstants.o
+a - InteractiveIOManagerT.o
+a - main.o
+a - ParameterFileManagerT.o
+a - MakeCSE_ExecutionT.o
+ running ranlib /home/saman/Tahoe/contrib/MakeCSE/lib/libMakeCSE.a
+/home/saman/Tahoe/contrib/MakeCSE/lib/libMakeCSE.a
+make[1]: Leaving directory `/home/saman/Tahoe/contrib/MakeCSE'
+ linking...
+/usr/bin/g++ /home/saman/Tahoe/contrib/MakeCSE/src-mirror/main.o -o MakeCSE -L/home/saman/Tahoe/contrib/MakeCSE/lib -lMakeCSE     -L/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/lib -ltahoe -L/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/lib -ltoolbox                 -L/usr/local/ACCESS/lib -lexoIIv2c -lnetcdf     -lpthread
+    ...wrote MakeCSE

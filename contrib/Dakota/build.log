@@ -1,0 +1,22 @@
+/usr/bin/g++ -I. -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/Dakota/../../toolbox//inc  -I/usr/local/ACCESS/inc -D__ACCESS__ extract_1D.cpp -o extract_1D -L/home/saman/Tahoe/contrib/Dakota/../../toolbox//lib -ltoolbox -L/usr/local/ACCESS/lib -lexoIIv2c -lnetcdf -lpthread
+/usr/bin/g++ -I. -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/Dakota/../../toolbox//inc  -I/usr/local/ACCESS/inc -D__ACCESS__ extract_CT.cpp -o extract_CT -L/home/saman/Tahoe/contrib/Dakota/../../toolbox//lib -ltoolbox -L/usr/local/ACCESS/lib -lexoIIv2c -lnetcdf -lpthread
+/usr/bin/g++ -I. -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/Dakota/../../toolbox//inc  -I/usr/local/ACCESS/inc -D__ACCESS__ least_square.cpp -o least_square -L/home/saman/Tahoe/contrib/Dakota/../../toolbox//lib -ltoolbox -L/usr/local/ACCESS/lib -lexoIIv2c -lnetcdf -lpthread
+least_square.cpp: In function ‘double squared_difference(const Tahoe::dArray2DT&, const Tahoe::dArray2DT&)’:
+least_square.cpp:181:9: warning: unused variable ‘x2’ [-Wunused-variable]
+least_square.cpp:225:49: warning: ‘b2’ may be used uninitialized in this function [-Wuninitialized]
+least_square.cpp:225:49: warning: ‘m2’ may be used uninitialized in this function [-Wuninitialized]
+least_square.cpp:225:49: warning: ‘b1’ may be used uninitialized in this function [-Wuninitialized]
+least_square.cpp:225:49: warning: ‘m1’ may be used uninitialized in this function [-Wuninitialized]
+/usr/bin/g++ -I. -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/Dakota/../../toolbox//inc  -I/usr/local/ACCESS/inc -D__ACCESS__ least_square_trap.cpp -o least_square_trap -L/home/saman/Tahoe/contrib/Dakota/../../toolbox//lib -ltoolbox -L/usr/local/ACCESS/lib -lexoIIv2c -lnetcdf -lpthread
+/usr/bin/g++ -I. -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/Dakota/../../toolbox//inc  -I/usr/local/ACCESS/inc -D__ACCESS__ area_diff.cpp -o area_diff -L/home/saman/Tahoe/contrib/Dakota/../../toolbox//lib -ltoolbox -L/usr/local/ACCESS/lib -lexoIIv2c -lnetcdf -lpthread
+area_diff.cpp: In function ‘double difference(const Tahoe::dArray2DT&, const Tahoe::dArray2DT&)’:
+area_diff.cpp:183:9: warning: unused variable ‘x2’ [-Wunused-variable]
+area_diff.cpp: In function ‘double area(const Tahoe::dArray2DT&)’:
+area_diff.cpp:265:13: warning: unused variable ‘caller’ [-Wunused-variable]
+area_diff.cpp: In function ‘double difference(const Tahoe::dArray2DT&, const Tahoe::dArray2DT&)’:
+area_diff.cpp:226:58: warning: ‘b2’ may be used uninitialized in this function [-Wuninitialized]
+area_diff.cpp:226:58: warning: ‘m2’ may be used uninitialized in this function [-Wuninitialized]
+area_diff.cpp:226:58: warning: ‘b1’ may be used uninitialized in this function [-Wuninitialized]
+area_diff.cpp:226:58: warning: ‘m1’ may be used uninitialized in this function [-Wuninitialized]
+/usr/bin/g++ -I. -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/Dakota/../../toolbox//inc  -I/usr/local/ACCESS/inc -D__ACCESS__ extract_Disp.cpp -o extract_Disp -L/home/saman/Tahoe/contrib/Dakota/../../toolbox//lib -ltoolbox -L/usr/local/ACCESS/lib -lexoIIv2c -lnetcdf -lpthread
+/usr/bin/g++ -I. -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/Dakota/../../toolbox//inc  -I/usr/local/ACCESS/inc -D__ACCESS__ calc_disp_cost.cpp -o calc_disp_cost -L/home/saman/Tahoe/contrib/Dakota/../../toolbox//lib -ltoolbox -L/usr/local/ACCESS/lib -lexoIIv2c -lnetcdf -lpthread

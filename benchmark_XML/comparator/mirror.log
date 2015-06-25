@@ -1,0 +1,9 @@
+     source directory: /home/saman/Tahoe/benchmark_XML/comparator/src
+destination directory: /home/saman/Tahoe/benchmark_XML/comparator/src-mirror
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/benchmark_XML/comparator/src
+found destination directory /home/saman/Tahoe/benchmark_XML/comparator/src-mirror
+ln -sf /home/saman/Tahoe/benchmark_XML/comparator/src/main.cpp /home/saman/Tahoe/benchmark_XML/comparator/src-mirror/main.cpp
+ln -sf /home/saman/Tahoe/benchmark_XML/comparator/src/makefile /home/saman/Tahoe/benchmark_XML/comparator/src-mirror/makefile
+ln -sf /home/saman/Tahoe/benchmark_XML/comparator/src/ComparatorT.cpp /home/saman/Tahoe/benchmark_XML/comparator/src-mirror/ComparatorT.cpp
+ln -sf /home/saman/Tahoe/benchmark_XML/comparator/src/ComparatorT.h /home/saman/Tahoe/benchmark_XML/comparator/src-mirror/ComparatorT.h

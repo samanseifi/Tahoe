@@ -1,0 +1,35 @@
+backspace.o: backspace.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h
+close.o: close.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h
+dfe.o: dfe.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h fmt.h
+dolio.o: dolio.c /home/saman/Tahoe/f2c/inc/f2c.h
+due.o: due.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h
+endfile.o: endfile.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h rawio.h
+err.o: err.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h fmt.h rawio.h
+fmt.o: fmt.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h fmt.h
+fmtlib.o: fmtlib.c /home/saman/Tahoe/f2c/inc/f2c.h
+ftell_.o: ftell_.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h
+iio.o: iio.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h fmt.h
+ilnw.o: ilnw.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h lio.h
+inquire.o: inquire.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h
+lread.o: lread.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h fmt.h lio.h \
+ /home/saman/Tahoe/f2c/inc/fp.h
+lwrite.o: lwrite.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h fmt.h lio.h
+open.o: open.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h rawio.h
+rdfmt.o: rdfmt.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h fmt.h \
+ /home/saman/Tahoe/f2c/inc/fp.h
+rewind.o: rewind.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h
+rsfe.o: rsfe.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h fmt.h
+rsli.o: rsli.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h lio.h fmt.h
+rsne.o: rsne.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h lio.h
+sfe.o: sfe.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h
+sue.o: sue.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h
+typesize.o: typesize.c /home/saman/Tahoe/f2c/inc/f2c.h
+uio.o: uio.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h
+util.o: util.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h
+wref.o: wref.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h fmt.h \
+ /home/saman/Tahoe/f2c/inc/fp.h
+wrtfmt.o: wrtfmt.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h fmt.h
+wsfe.o: wsfe.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h fmt.h
+wsle.o: wsle.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h fmt.h lio.h
+wsne.o: wsne.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h lio.h
+xwsne.o: xwsne.c /home/saman/Tahoe/f2c/inc/f2c.h fio.h lio.h fmt.h

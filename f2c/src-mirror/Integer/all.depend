@@ -1,0 +1,10 @@
+i_abs.o: i_abs.c /home/saman/Tahoe/f2c/inc/f2c.h
+i_dim.o: i_dim.c /home/saman/Tahoe/f2c/inc/f2c.h
+i_dnnt.o: i_dnnt.c /home/saman/Tahoe/f2c/inc/f2c.h
+i_indx.o: i_indx.c /home/saman/Tahoe/f2c/inc/f2c.h
+i_len.o: i_len.c /home/saman/Tahoe/f2c/inc/f2c.h
+i_mod.o: i_mod.c /home/saman/Tahoe/f2c/inc/f2c.h
+i_nint.o: i_nint.c /home/saman/Tahoe/f2c/inc/f2c.h
+i_sign.o: i_sign.c /home/saman/Tahoe/f2c/inc/f2c.h
+lbitbits.o: lbitbits.c /home/saman/Tahoe/f2c/inc/f2c.h
+lbitshft.o: lbitshft.c /home/saman/Tahoe/f2c/inc/f2c.h

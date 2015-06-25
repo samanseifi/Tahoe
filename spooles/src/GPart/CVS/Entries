@@ -1,0 +1,19 @@
+/DDsepInfo.h/1.1.1.1/Wed Jan 31 21:32:15 2001//
+/GPart.DDsepInfo.c/1.1.1.1/Wed Jan 31 21:32:10 2001//
+/GPart.DDviaFishnet.c/1.1.1.1/Wed Jan 31 21:32:14 2001//
+/GPart.DDviaProjection.c/1.1.1.1/Wed Jan 31 21:32:11 2001//
+/GPart.RBviaDDsep.c/1.1.1.1/Wed Jan 31 21:32:15 2001//
+/GPart.TwoSetViaBKL.c/1.1.1.1/Wed Jan 31 21:32:14 2001//
+/GPart.basics.c/1.1.1.1/Wed Jan 31 21:32:15 2001//
+/GPart.domSegMap.c/1.1.1.1/Wed Jan 31 21:32:15 2001//
+/GPart.h/1.1.1.1/Wed Jan 31 21:32:11 2001//
+/GPart.identifyWideSep.c/1.1.1.1/Wed Jan 31 21:32:15 2001//
+/GPart.init.c/1.1.1.1/Wed Jan 31 21:32:11 2001//
+/GPart.makeYCmap.c/1.1.1.1/Wed Jan 31 21:32:15 2001//
+/GPart.smoothBisector.c/1.1.1.1/Wed Jan 31 21:32:15 2001//
+/GPart.smoothBy2layers.c/1.1.1.1/Wed Jan 31 21:32:15 2001//
+/GPart.smoothYSep.c/1.1.1.1/Wed Jan 31 21:32:14 2001//
+/GPart.split.c/1.1.1.1/Wed Jan 31 21:32:15 2001//
+/GPart.util.c/1.1.1.1/Wed Jan 31 21:32:15 2001//
+/makefile/1.4/Fri Aug 12 05:27:11 2005//
+D

@@ -1,0 +1,230 @@
+cd expat; gunzip expat-1.95.7.tar.gz; tar xvf expat-1.95.7.tar; gzip expat-1.95.7.tar
+expat-1.95.7/
+expat-1.95.7/Changes
+expat-1.95.7/COPYING
+expat-1.95.7/MANIFEST
+expat-1.95.7/Makefile.in
+expat-1.95.7/README
+expat-1.95.7/configure
+expat-1.95.7/configure.in
+expat-1.95.7/expat_config.h.in
+expat-1.95.7/bcb5/
+expat-1.95.7/bcb5/README.txt
+expat-1.95.7/bcb5/elements.bpf
+expat-1.95.7/bcb5/elements.bpr
+expat-1.95.7/bcb5/elements.mak
+expat-1.95.7/bcb5/expat.bpf
+expat-1.95.7/bcb5/expat.bpr
+expat-1.95.7/bcb5/expat.mak
+expat-1.95.7/bcb5/expat_static.bpf
+expat-1.95.7/bcb5/expat_static.bpr
+expat-1.95.7/bcb5/expat_static.mak
+expat-1.95.7/bcb5/expatw.bpf
+expat-1.95.7/bcb5/expatw.bpr
+expat-1.95.7/bcb5/expatw.mak
+expat-1.95.7/bcb5/expatw_static.bpf
+expat-1.95.7/bcb5/expatw_static.bpr
+expat-1.95.7/bcb5/expatw_static.mak
+expat-1.95.7/bcb5/libexpat_mtd.def
+expat-1.95.7/bcb5/libexpatw_mtd.def
+expat-1.95.7/bcb5/makefile.mak
+expat-1.95.7/bcb5/outline.bpf
+expat-1.95.7/bcb5/outline.bpr
+expat-1.95.7/bcb5/outline.mak
+expat-1.95.7/bcb5/setup.bat
+expat-1.95.7/bcb5/xmlwf.bpf
+expat-1.95.7/bcb5/xmlwf.bpr
+expat-1.95.7/bcb5/xmlwf.mak
+expat-1.95.7/conftools/
+expat-1.95.7/conftools/PrintPath
+expat-1.95.7/conftools/ac_c_bigendian_cross.m4
+expat-1.95.7/conftools/config.guess
+expat-1.95.7/conftools/config.sub
+expat-1.95.7/conftools/expat.m4
+expat-1.95.7/conftools/install-sh
+expat-1.95.7/conftools/libtool.m4
+expat-1.95.7/conftools/ltmain.sh
+expat-1.95.7/conftools/mkinstalldirs
+expat-1.95.7/doc/
+expat-1.95.7/doc/reference.html
+expat-1.95.7/doc/style.css
+expat-1.95.7/doc/valid-xhtml10.png
+expat-1.95.7/doc/xmlwf.1
+expat-1.95.7/doc/xmlwf.sgml
+expat-1.95.7/examples/
+expat-1.95.7/examples/elements.c
+expat-1.95.7/examples/outline.c
+expat-1.95.7/lib/
+expat-1.95.7/lib/ascii.h
+expat-1.95.7/lib/asciitab.h
+expat-1.95.7/lib/expat.h
+expat-1.95.7/lib/iasciitab.h
+expat-1.95.7/lib/internal.h
+expat-1.95.7/lib/latin1tab.h
+expat-1.95.7/lib/nametab.h
+expat-1.95.7/lib/utf8tab.h
+expat-1.95.7/lib/xmlparse.c
+expat-1.95.7/lib/xmlrole.c
+expat-1.95.7/lib/xmlrole.h
+expat-1.95.7/lib/xmltok.c
+expat-1.95.7/lib/xmltok.h
+expat-1.95.7/lib/xmltok_impl.c
+expat-1.95.7/lib/xmltok_impl.h
+expat-1.95.7/lib/xmltok_ns.c
+expat-1.95.7/lib/winconfig.h
+expat-1.95.7/tests/
+expat-1.95.7/tests/README.txt
+expat-1.95.7/tests/chardata.c
+expat-1.95.7/tests/chardata.h
+expat-1.95.7/tests/runtests.c
+expat-1.95.7/tests/xmltest.sh
+expat-1.95.7/vms/
+expat-1.95.7/vms/descrip.mms
+expat-1.95.7/vms/expat_config.h
+expat-1.95.7/vms/README.vms
+expat-1.95.7/win32/
+expat-1.95.7/win32/expat.iss
+expat-1.95.7/win32/MANIFEST.txt
+expat-1.95.7/xmlwf/
+expat-1.95.7/xmlwf/codepage.c
+expat-1.95.7/xmlwf/codepage.h
+expat-1.95.7/xmlwf/ct.c
+expat-1.95.7/xmlwf/filemap.h
+expat-1.95.7/xmlwf/readfilemap.c
+expat-1.95.7/xmlwf/unixfilemap.c
+expat-1.95.7/xmlwf/win32filemap.c
+expat-1.95.7/xmlwf/xmlfile.c
+expat-1.95.7/xmlwf/xmlfile.h
+expat-1.95.7/xmlwf/xmlmime.c
+expat-1.95.7/xmlwf/xmlmime.h
+expat-1.95.7/xmlwf/xmltchar.h
+expat-1.95.7/xmlwf/xmlurl.h
+expat-1.95.7/xmlwf/xmlwf.c
+expat-1.95.7/xmlwf/xmlwin32url.cxx
+cd expat/expat-1.95.7; ./configure --prefix=/home/saman/Tahoe/expat/local --disable-shared CC=/usr/bin/gcc CFLAGS="-O3 -DNDEBUG"
+checking build system type... x86_64-unknown-linux-gnu
+checking host system type... x86_64-unknown-linux-gnu
+checking for gcc... /usr/bin/gcc
+checking for C compiler default output... a.out
+checking whether the C compiler works... yes
+checking whether we are cross compiling... no
+checking for suffix of executables... 
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether /usr/bin/gcc accepts -g... yes
+checking for ld used by GCC... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for /usr/bin/ld option to reload object files... -r
+checking for BSD-compatible nm... /usr/bin/nm -B
+checking whether ln -s works... yes
+checking how to recognise dependant libraries... file_magic ELF [0-9][0-9]*-bit [LM]SB (shared object|dynamic lib )
+checking command to parse /usr/bin/nm -B output... ok
+checking how to run the C preprocessor... /usr/bin/gcc -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking dlfcn.h usability... yes
+checking dlfcn.h presence... yes
+checking for dlfcn.h... yes
+checking for file... /usr/bin/file
+checking for ranlib... ranlib
+checking for strip... strip
+checking for objdir... .libs
+checking for /usr/bin/gcc option to produce PIC... -fPIC
+checking if /usr/bin/gcc PIC flag -fPIC works... yes
+checking if /usr/bin/gcc static flag -static works... yes
+checking if /usr/bin/gcc supports -c -o file.o... yes
+checking if /usr/bin/gcc supports -c -o file.lo... yes
+checking if /usr/bin/gcc supports -fno-rtti -fno-exceptions... yes
+checking whether the linker (/usr/bin/ld) supports shared libraries... yes
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... no
+checking whether to build static libraries... yes
+creating libtool
+checking for gcc... (cached) /usr/bin/gcc
+checking whether we are using the GNU C compiler... (cached) yes
+checking whether /usr/bin/gcc accepts -g... (cached) yes
+checking for a BSD-compatible install... /usr/bin/install -c
+checking whether gcc accepts -fexceptions... yes
+checking for ANSI C header files... (cached) yes
+checking whether byte ordering is bigendian... no
+checking for /usr/bin/gcc option to accept ANSI C... none needed
+checking for an ANSI C-conforming const... yes
+checking for size_t... yes
+checking for memmove... yes
+checking for bcopy... yes
+checking fcntl.h usability... yes
+checking fcntl.h presence... yes
+checking for fcntl.h... yes
+checking for unistd.h... (cached) yes
+checking for off_t... yes
+checking for stdlib.h... (cached) yes
+checking for unistd.h... (cached) yes
+checking for getpagesize... yes
+checking for working mmap... yes
+checking check.h usability... no
+checking check.h presence... no
+checking for check.h... no
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating expat_config.h
+config.status: expat_config.h is unchanged
+make install
+make[1]: Entering directory `/home/saman/Tahoe/expat'
+cd expat/expat-1.95.7; make; make install
+make[2]: Entering directory `/home/saman/Tahoe/expat/expat/expat-1.95.7'
+make[2]: Nothing to be done for `default'.
+make[2]: Leaving directory `/home/saman/Tahoe/expat/expat/expat-1.95.7'
+make[2]: Entering directory `/home/saman/Tahoe/expat/expat/expat-1.95.7'
+/bin/bash ./conftools/mkinstalldirs /home/saman/Tahoe/expat/local/lib /home/saman/Tahoe/expat/local/include
+/bin/bash ./libtool --mode=install /usr/bin/install -c libexpat.la /home/saman/Tahoe/expat/local/lib/libexpat.la
+/usr/bin/install -c .libs/libexpat.lai /home/saman/Tahoe/expat/local/lib/libexpat.la
+/usr/bin/install -c .libs/libexpat.a /home/saman/Tahoe/expat/local/lib/libexpat.a
+ranlib /home/saman/Tahoe/expat/local/lib/libexpat.a
+chmod 644 /home/saman/Tahoe/expat/local/lib/libexpat.a
+PATH="$PATH:/sbin" ldconfig -n /home/saman/Tahoe/expat/local/lib
+----------------------------------------------------------------------
+Libraries have been installed in:
+   /home/saman/Tahoe/expat/local/lib
+
+If you ever happen to want to link against installed libraries
+in a given directory, LIBDIR, you must either use libtool, and
+specify the full pathname of the library, or use the `-LLIBDIR'
+flag during linking and do at least one of the following:
+   - add LIBDIR to the `LD_LIBRARY_PATH' environment variable
+     during execution
+   - add LIBDIR to the `LD_RUN_PATH' environment variable
+     during linking
+   - use the `-Wl,--rpath -Wl,LIBDIR' linker flag
+   - have your system administrator add LIBDIR to `/etc/ld.so.conf'
+
+See any operating system documentation about shared libraries for
+more information, such as the ld(1) and ld.so(8) manual pages.
+----------------------------------------------------------------------
+/usr/bin/install -c -m 644 ./lib/expat.h /home/saman/Tahoe/expat/local/include
+/bin/bash ./conftools/mkinstalldirs /home/saman/Tahoe/expat/local/bin /home/saman/Tahoe/expat/local/man/man1
+/bin/bash ./libtool --mode=install /usr/bin/install -c xmlwf/xmlwf /home/saman/Tahoe/expat/local/bin/xmlwf
+/usr/bin/install -c xmlwf/xmlwf /home/saman/Tahoe/expat/local/bin/xmlwf
+/usr/bin/install -c -m 644 ./doc/xmlwf.1 /home/saman/Tahoe/expat/local/man/man1
+make[2]: Leaving directory `/home/saman/Tahoe/expat/expat/expat-1.95.7'
+make include
+make[2]: Entering directory `/home/saman/Tahoe/expat'
+if [ ! -d include ]; then mkdir include; fi
+cp -f local/include/* include
+make[2]: Leaving directory `/home/saman/Tahoe/expat'
+make lib
+make[2]: Entering directory `/home/saman/Tahoe/expat'
+if [ ! -d lib ]; then mkdir lib; fi
+cp -f local/lib/* lib
+make[2]: Leaving directory `/home/saman/Tahoe/expat'
+make[1]: Leaving directory `/home/saman/Tahoe/expat'

@@ -1,0 +1,2 @@
+rm -rf expat/expat-1.95.7
+rm -rf pch bin include lib local

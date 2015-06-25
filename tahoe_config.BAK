@@ -1,0 +1,28 @@
+# TAHOE_SF_LOGIN
+samanseifi
+
+# TAHOE_CLD_LOGIN
+tahoe.samanseifi
+
+# CONNECTION
+cvs
+
+# PROXY
+NONE
+
+# ARCHITECTURE
+GNU-GCC4.6
+
+# USE_DEFAULT
+true
+
+# MODULES
+macros expat toolbox tahoe access development f2c spooles
+
+# VERBOSE
+false
+
+# TAHOE_HOME
+/home/saman/Tahoe
+
+# EOF

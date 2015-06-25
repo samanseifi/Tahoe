@@ -1,0 +1,8 @@
+hl_ge.o: hl_ge.c /home/saman/Tahoe/f2c/inc/f2c.h
+hl_gt.o: hl_gt.c /home/saman/Tahoe/f2c/inc/f2c.h
+hl_le.o: hl_le.c /home/saman/Tahoe/f2c/inc/f2c.h
+hl_lt.o: hl_lt.c /home/saman/Tahoe/f2c/inc/f2c.h
+l_ge.o: l_ge.c /home/saman/Tahoe/f2c/inc/f2c.h
+l_gt.o: l_gt.c /home/saman/Tahoe/f2c/inc/f2c.h
+l_le.o: l_le.c /home/saman/Tahoe/f2c/inc/f2c.h
+l_lt.o: l_lt.c /home/saman/Tahoe/f2c/inc/f2c.h

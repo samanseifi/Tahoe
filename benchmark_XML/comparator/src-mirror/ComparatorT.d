@@ -1,0 +1,34 @@
+ComparatorT.o: ComparatorT.cpp ComparatorT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/FileCrawlerT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/Environment.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/toolboxConstants.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/ios_fwd_decl.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/StringT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/AutoArrayT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/ExceptionT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/ModelManagerT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/iArrayT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/nArrayT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/iAutoArrayT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/AutoArrayT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/GeometryT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/iArray2DT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/nArray2DT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/dArray2DT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/dArrayT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/InputBaseT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/IOBaseT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/nVariArray2DT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/VariBaseT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/ifstreamT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/fstreamT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/ofstreamT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/dArrayT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/ParameterListT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/ParameterT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/ValueT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/LimitT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/expat_ParseT.h \
+ /home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h

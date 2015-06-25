@@ -1,0 +1,101 @@
+Mon Jun 22 10:24:39 EDT 2015
+make[1]: Entering directory `/home/saman/Tahoe/contrib/translate'
+ mirroring /home/saman/Tahoe/contrib/translate/src to /home/saman/Tahoe/contrib/translate/src-mirror
+perl -w /home/saman/Tahoe/contrib/translate/../../macros/MirrorTree.pl /home/saman/Tahoe/contrib/translate/src /home/saman/Tahoe/contrib/translate/src-mirror "ln -sf" > /home/saman/Tahoe/contrib/translate/mirror.log
+make[1]: Leaving directory `/home/saman/Tahoe/contrib/translate'
+make[1]: Entering directory `/home/saman/Tahoe/contrib/translate'
+Mon Jun 22 10:24:39 EDT 2015
+removed 9 files matching regex ".*[.]h"
+cd /home/saman/Tahoe/contrib/translate/src-mirror
+cd /home/saman/Tahoe/contrib/translate/src-mirror; \
+	make  headers \
+	"ARCH = GNU-GCC4.6" \
+	"MACRO_DIR = /home/saman/Tahoe/contrib/translate/../../macros" \
+	"INC_DIR = /home/saman/Tahoe/contrib/translate/inc" \
+	"SRC_DIR = /home/saman/Tahoe/contrib/translate/src-mirror" \
+	"CURR_DIR = /home/saman/Tahoe/contrib/translate/src-mirror"
+make[2]: Entering directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+    ln -sf: TranslateIOManager.h
+ln -sf /home/saman/Tahoe/contrib/translate/src-mirror/TranslateIOManager.h /home/saman/Tahoe/contrib/translate/inc/TranslateIOManager.h
+    ln -sf: ExtractIOManager.h
+ln -sf /home/saman/Tahoe/contrib/translate/src-mirror/ExtractIOManager.h /home/saman/Tahoe/contrib/translate/inc/ExtractIOManager.h
+    ln -sf: ExtractNode.h
+ln -sf /home/saman/Tahoe/contrib/translate/src-mirror/ExtractNode.h /home/saman/Tahoe/contrib/translate/inc/ExtractNode.h
+    ln -sf: ExtractElement.h
+ln -sf /home/saman/Tahoe/contrib/translate/src-mirror/ExtractElement.h /home/saman/Tahoe/contrib/translate/inc/ExtractElement.h
+    ln -sf: ExtractQuad.h
+ln -sf /home/saman/Tahoe/contrib/translate/src-mirror/ExtractQuad.h /home/saman/Tahoe/contrib/translate/inc/ExtractQuad.h
+    ln -sf: MergeResults.h
+ln -sf /home/saman/Tahoe/contrib/translate/src-mirror/MergeResults.h /home/saman/Tahoe/contrib/translate/inc/MergeResults.h
+    ln -sf: JoinResults.h
+ln -sf /home/saman/Tahoe/contrib/translate/src-mirror/JoinResults.h /home/saman/Tahoe/contrib/translate/inc/JoinResults.h
+    ln -sf: Scroller.h
+ln -sf /home/saman/Tahoe/contrib/translate/src-mirror/Scroller.h /home/saman/Tahoe/contrib/translate/inc/Scroller.h
+    ln -sf: PointPlots.h
+ln -sf /home/saman/Tahoe/contrib/translate/src-mirror/PointPlots.h /home/saman/Tahoe/contrib/translate/inc/PointPlots.h
+make[3]: Entering directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+make[3]: Nothing to be done for `subdir_driver'.
+make[3]: Leaving directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+make[2]: Leaving directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+make[1]: Leaving directory `/home/saman/Tahoe/contrib/translate'
+make[1]: Entering directory `/home/saman/Tahoe/contrib/translate'
+Mon Jun 22 10:24:39 EDT 2015
+cd /home/saman/Tahoe/contrib/translate/src-mirror
+cd /home/saman/Tahoe/contrib/translate/src-mirror; \
+	make  depend_init \
+	"ARCH = GNU-GCC4.6" \
+	"SRC_DIR = /home/saman/Tahoe/contrib/translate/src-mirror" \
+	"INC_DIR = /home/saman/Tahoe/contrib/translate/inc" \
+	"MACRO_DIR = /home/saman/Tahoe/contrib/translate/../../macros" \
+	"OPT_MAKEDEPENDFLAGS =      -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__   " \
+	"MOD_MAKEDEPENDFLAGS = " \
+	"CURR_DIR = /home/saman/Tahoe/contrib/translate/src-mirror"
+make[2]: Entering directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+make[3]: Entering directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+removed 10 files matching regex ".*[.]d"
+make[3]: Leaving directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+make[3]: Entering directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+    /usr/bin/g++ -MM: TranslateIOManager.cpp
+/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/translate/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFTranslateIOManager.d TranslateIOManager.cpp
+    /usr/bin/g++ -MM: ExtractIOManager.cpp
+/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/translate/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFExtractIOManager.d ExtractIOManager.cpp
+    /usr/bin/g++ -MM: ExtractNode.cpp
+/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/translate/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFExtractNode.d ExtractNode.cpp
+    /usr/bin/g++ -MM: ExtractElement.cpp
+/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/translate/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFExtractElement.d ExtractElement.cpp
+    /usr/bin/g++ -MM: ExtractQuad.cpp
+/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/translate/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFExtractQuad.d ExtractQuad.cpp
+    /usr/bin/g++ -MM: PointPlots.cpp
+/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/translate/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFPointPlots.d PointPlots.cpp
+    /usr/bin/g++ -MM: MergeResults.cpp
+/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/translate/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFMergeResults.d MergeResults.cpp
+    /usr/bin/g++ -MM: JoinResults.cpp
+/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/translate/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFJoinResults.d JoinResults.cpp
+    /usr/bin/g++ -MM: Scroller.cpp
+/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/translate/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFScroller.d Scroller.cpp
+    /usr/bin/g++ -MM: main.cpp
+/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/translate/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFmain.d main.cpp
+    cat: TranslateIOManager.d ExtractIOManager.d ExtractNode.d ExtractElement.d ExtractQuad.d PointPlots.d MergeResults.d JoinResults.d Scroller.d main.d > all.depend
+make[3]: Leaving directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+make[3]: Entering directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+make[3]: Nothing to be done for `subdir_driver'.
+make[3]: Leaving directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+make[2]: Leaving directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+make[1]: Leaving directory `/home/saman/Tahoe/contrib/translate'
+make[1]: Entering directory `/home/saman/Tahoe/contrib/translate'
+collecting list of object files
+cd /home/saman/Tahoe/contrib/translate/src-mirror; \
+	make library \
+	"ARCH = GNU-GCC4.6" \
+	"HOME_DIR = /home/saman/Tahoe/contrib/translate" \
+	"MACRO_DIR = /home/saman/Tahoe/contrib/translate/../../macros" \
+	"LIBRARY = /home/saman/Tahoe/contrib/translate/object_list" \
+	"SRC_DIR = /home/saman/Tahoe/contrib/translate/src-mirror" \
+	"LIB_DIR = /home/saman/Tahoe/contrib/translate/lib" \
+	"CURR_DIR = /home/saman/Tahoe/contrib/translate/src-mirror"
+make[2]: Entering directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+make[3]: Entering directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+make[3]: Nothing to be done for `subdir_driver'.
+make[3]: Leaving directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+make[2]: Leaving directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+make[1]: Leaving directory `/home/saman/Tahoe/contrib/translate'

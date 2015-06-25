@@ -1,0 +1,4 @@
+f77_aloc.o: f77_aloc.c /home/saman/Tahoe/f2c/inc/f2c.h
+s_cat.o: s_cat.c /home/saman/Tahoe/f2c/inc/f2c.h
+s_cmp.o: s_cmp.c /home/saman/Tahoe/f2c/inc/f2c.h
+s_copy.o: s_copy.c /home/saman/Tahoe/f2c/inc/f2c.h

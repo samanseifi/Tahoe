@@ -1,0 +1,2 @@
+dtime_.o: dtime_.c
+etime_.o: etime_.c

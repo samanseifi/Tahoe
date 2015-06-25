@@ -1,0 +1,18 @@
+abort_.o: abort_.c f2c.h
+cabs.o: cabs.c
+derf_.o: derf_.c f2c.h
+derfc_.o: derfc_.c f2c.h
+erf_.o: erf_.c f2c.h
+erfc_.o: erfc_.c f2c.h
+exit_.o: exit_.c f2c.h
+f77vers.o: f77vers.c
+getarg_.o: getarg_.c f2c.h
+getenv_.o: getenv_.c f2c.h
+iargc_.o: iargc_.c f2c.h
+i77vers.o: i77vers.c
+sig_die.o: sig_die.c
+signal_.o: signal_.c f2c.h signal1.h
+s_paus.o: s_paus.c f2c.h signal1.h
+s_rnge.o: s_rnge.c f2c.h
+s_stop.o: s_stop.c f2c.h
+system_.o: system_.c f2c.h

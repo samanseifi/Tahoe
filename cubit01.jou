@@ -1,0 +1,33 @@
+## /home/saman/Applications/Cubit/bin/clarox
+## Cubit Version 13.2
+## Cubit Build 48449
+## Revised 2012-08-02 11:48:03 -0600 (Thu, 02 Aug 2012)
+## Running 03/17/2015 01:47:58 PM
+## Command Options:
+## -warning = On
+## -information = On
+brick x 1 y 1 z 1
+reset
+create surface rectangle width 1 height 1 zplane
+mesh surface 1
+undo on
+undo
+undo
+undo off
+reset
+create surface rectangle width 1 height 1 zplane
+mesh volume 1
+mesh volume 1
+mesh volume 1
+mesh volume 1
+mesh volume 1
+mesh volume 1
+reset
+create surface rectangle width 1 height 1 zplane
+surface 1 size auto factor 7
+surface 1 size auto factor 7
+mesh surface 1
+save as "/home/saman/Desktop/Ph.D./SurfaceElement/geometry1/rectangle.cub" overwrite
+open "/home/saman/Desktop/Ph.D./SurfaceElement/geometry1/rectangle.cub"
+set large exodus file off
+export mesh "/home/saman/Desktop/Ph.D./SurfaceElement/geometry1/1.geom" dimension 2 overwrite

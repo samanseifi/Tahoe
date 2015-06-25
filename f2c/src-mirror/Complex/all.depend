@@ -1,0 +1,7 @@
+c_abs.o: c_abs.c /home/saman/Tahoe/f2c/inc/f2c.h
+c_cos.o: c_cos.c /home/saman/Tahoe/f2c/inc/f2c.h
+c_div.o: c_div.c /home/saman/Tahoe/f2c/inc/f2c.h
+c_exp.o: c_exp.c /home/saman/Tahoe/f2c/inc/f2c.h
+c_log.o: c_log.c /home/saman/Tahoe/f2c/inc/f2c.h
+c_sin.o: c_sin.c /home/saman/Tahoe/f2c/inc/f2c.h
+c_sqrt.o: c_sqrt.c /home/saman/Tahoe/f2c/inc/f2c.h

@@ -1,0 +1,214 @@
+A2.basics.o: A2.basics.c A2.h /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/DV.h
+A2.copyEntriesToVector.o: A2.copyEntriesToVector.c A2.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h
+A2.init.o: A2.init.c A2.h /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/DV.h
+A2.instance.o: A2.instance.c A2.h /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/DV.h
+A2.IO.o: A2.IO.c A2.h /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/DV.h
+A2.makeStaircase.o: A2.makeStaircase.c A2.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/DV.h
+A2.norms.o: A2.norms.c A2.h /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/DV.h
+A2.QRreduce.o: A2.QRreduce.c A2.h /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/DV.h
+A2.sort.o: A2.sort.c A2.h /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/DV.h
+A2.util.o: A2.util.c A2.h /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h

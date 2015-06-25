@@ -1,0 +1,23 @@
+/ABAQUS_BCJ.cpp/1.4/Sun Aug  1 20:42:35 2004//
+/ABAQUS_BCJ.h/1.4/Sun Aug  1 20:42:35 2004//
+/ABAQUS_BCJ_ISO.cpp/1.3/Sun Aug  1 20:42:35 2004//
+/ABAQUS_BCJ_ISO.h/1.3/Sun Aug  1 20:42:35 2004//
+/ABAQUS_SS_BCJ_ISO.cpp/1.3/Sun Aug  1 20:42:35 2004//
+/ABAQUS_SS_BCJ_ISO.h/1.3/Sun Aug  1 20:42:35 2004//
+/ABAQUS_VUMAT_BCJ.cpp/1.3/Sun Aug  1 20:42:35 2004//
+/ABAQUS_VUMAT_BCJ.h/1.4/Sun Aug  1 20:42:35 2004//
+/aba_param.inc_/1.1/Sat Sep  6 07:09:42 2003//
+/aset.c/1.3/Sun Aug  1 20:42:35 2004//
+/bcj_iso.c/1.3/Sun Aug  1 20:42:35 2004//
+/bcj_iso.f/1.2/Mon Jan  5 07:39:36 2004//
+/bcjumat.c/1.2/Sun Aug  1 20:42:35 2004//
+/cycdmg7.P_/1.1/Sat Sep  6 07:09:42 2003//
+/cycdmg7.c_/1.1/Sat Sep  6 07:09:42 2003//
+/cycdmg7.f_/1.1/Sat Sep  6 07:09:42 2003//
+/makefile/1.3/Fri Aug 12 05:39:35 2005//
+/rotsig.c/1.3/Sun Aug  1 20:42:35 2004//
+/sinv.c/1.3/Sun Aug  1 20:42:35 2004//
+/vaba_param.inc_/1.1/Sat Sep  6 07:09:42 2003//
+/vumatadiab.c/1.2/Sun Aug  1 20:42:35 2004//
+/vumatadiab.f_/1.1/Sat Sep  6 07:09:42 2003//
+D

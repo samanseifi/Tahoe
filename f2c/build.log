@@ -1,0 +1,330 @@
+cd /home/saman/Tahoe/f2c/src-mirror
+cd /home/saman/Tahoe/f2c/src-mirror; \
+	make  objects \
+	"ARCH = GNU-GCC4.6" \
+	"MACRO_DIR = /home/saman/Tahoe/f2c/../macros" \
+	"INC_DIR = /home/saman/Tahoe/f2c/inc" \
+	"SRC_DIR = /home/saman/Tahoe/f2c/src-mirror" \
+	"BLD_DIR = /home/saman/Tahoe/f2c" \
+	"OBJ_DIR = /home/saman/Tahoe/f2c/obj" \
+	"LIB_DIR = /home/saman/Tahoe/f2c/lib" \
+	"PCH = f2c_Prefix.h" \
+	"OPT_CFLAGS =                        " \
+	"MOD_CFLAGS_C = " \
+	"MOD_CFLAGS_CC = " \
+	"MOD_CFLAGS_F = " \
+	"MOD_LFLAGS = " \
+	"OPT_MAKEDEPENDFLAGS =                                                " \
+	"MOD_MAKEDEPENDFLAGS = " \
+	"DEPEND = all.depend" \
+	"CURR_DIR = /home/saman/Tahoe/f2c/src-mirror"
+make[1]: Entering directory `/home/saman/Tahoe/f2c/src-mirror'
+make[2]: Entering directory `/home/saman/Tahoe/f2c/src-mirror'
+make[2]: Nothing to be done for `update_objects'.
+make[2]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror'
+make[2]: Entering directory `/home/saman/Tahoe/f2c/src-mirror'
+ cd Char
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+ cd Complex
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+ cd custom_Misc
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+ cd Double
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+ cd Double_Complex
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+ cd ELF
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+ cd Half_Integer
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+ cd Integer
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+ cd IO
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+ cd Logical
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+ cd Misc
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+ cd Power
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+ cd Quad_Integer
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+ cd Real
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+ cd Time
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[2]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror'
+make[1]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror'
+make archive "OBJECT_LIST = /home/saman/Tahoe/f2c/object_list" "ARCH = GNU-GCC4.6" "MACRO_DIR = /home/saman/Tahoe/f2c/../macros" "HOME_DIR = /home/saman/Tahoe/f2c"
+make[1]: Entering directory `/home/saman/Tahoe/f2c'
+cd /home/saman/Tahoe/f2c/obj; \
+	printf " building archive /home/saman/Tahoe/f2c/lib/libf2c_.a\n"; \
+	ar -cruv /home/saman/Tahoe/f2c/lib/libf2c_.a f77_aloc.o s_cat.o s_cmp.o s_copy.o  c_abs.o c_cos.o c_div.o c_exp.o c_log.o c_sin.o c_sqrt.o  lsame.o Mac_f2c_access.o xerbla.o  d_abs.o d_acos.o d_asin.o d_atan.o d_atn2.o d_cnjg.o d_cos.o d_cosh.o d_dim.o d_exp.o d_imag.o d_int.o d_lg10.o d_log.o d_mod.o d_nint.o d_prod.o d_sign.o d_sin.o d_sinh.o d_sqrt.o d_tan.o d_tanh.o  z_abs.o z_cos.o z_div.o z_exp.o z_log.o z_sin.o z_sqrt.o  ef1asc_.o ef1cmc_.o  h_abs.o h_dim.o h_dnnt.o h_indx.o h_len.o h_mod.o h_nint.o h_sign.o  i_abs.o i_dim.o i_dnnt.o i_indx.o i_len.o i_mod.o i_nint.o i_sign.o lbitbits.o lbitshft.o  backspace.o close.o dfe.o dolio.o due.o endfile.o err.o fmt.o fmtlib.o ftell_.o iio.o ilnw.o inquire.o lread.o lwrite.o open.o rdfmt.o rewind.o rsfe.o rsli.o rsne.o sfe.o sue.o typesize.o uio.o util.o wref.o wrtfmt.o wsfe.o wsle.o wsne.o xwsne.o  hl_ge.o hl_gt.o hl_le.o hl_lt.o l_ge.o l_gt.o l_le.o l_lt.o  abort_.o cabs.o derf_.o derfc_.o erf_.o erfc_.o exit_.o f77vers.o getarg_.o getenv_.o iargc_.o i77vers.o sig_die.o signal_.o s_paus.o s_rnge.o s_stop.o system_.o  pow_ci.o pow_dd.o pow_di.o pow_hh.o pow_ii.o pow_ri.o pow_zi.o pow_zz.o  pow_qq.o qbitbits.o qbitshft.o  r_abs.o r_acos.o r_asin.o r_atan.o r_atn2.o r_cnjg.o r_cos.o r_cosh.o r_dim.o r_exp.o r_imag.o r_int.o r_lg10.o r_log.o r_mod.o r_nint.o r_sign.o r_sin.o r_sinh.o r_sqrt.o r_tan.o r_tanh.o  dtime_.o etime_.o ; \
+	printf " running ranlib /home/saman/Tahoe/f2c/lib/libf2c_.a\n"; \
+	echo  /home/saman/Tahoe/f2c/lib/libf2c_.a
+ building archive /home/saman/Tahoe/f2c/lib/libf2c_.a
+a - f77_aloc.o
+a - s_cat.o
+a - s_cmp.o
+a - s_copy.o
+a - c_abs.o
+a - c_cos.o
+a - c_div.o
+a - c_exp.o
+a - c_log.o
+a - c_sin.o
+a - c_sqrt.o
+a - lsame.o
+a - Mac_f2c_access.o
+a - xerbla.o
+a - d_abs.o
+a - d_acos.o
+a - d_asin.o
+a - d_atan.o
+a - d_atn2.o
+a - d_cnjg.o
+a - d_cos.o
+a - d_cosh.o
+a - d_dim.o
+a - d_exp.o
+a - d_imag.o
+a - d_int.o
+a - d_lg10.o
+a - d_log.o
+a - d_mod.o
+a - d_nint.o
+a - d_prod.o
+a - d_sign.o
+a - d_sin.o
+a - d_sinh.o
+a - d_sqrt.o
+a - d_tan.o
+a - d_tanh.o
+a - z_abs.o
+a - z_cos.o
+a - z_div.o
+a - z_exp.o
+a - z_log.o
+a - z_sin.o
+a - z_sqrt.o
+a - ef1asc_.o
+a - ef1cmc_.o
+a - h_abs.o
+a - h_dim.o
+a - h_dnnt.o
+a - h_indx.o
+a - h_len.o
+a - h_mod.o
+a - h_nint.o
+a - h_sign.o
+a - i_abs.o
+a - i_dim.o
+a - i_dnnt.o
+a - i_indx.o
+a - i_len.o
+a - i_mod.o
+a - i_nint.o
+a - i_sign.o
+a - lbitbits.o
+a - lbitshft.o
+a - backspace.o
+a - close.o
+a - dfe.o
+a - dolio.o
+a - due.o
+a - endfile.o
+a - err.o
+a - fmt.o
+a - fmtlib.o
+a - ftell_.o
+a - iio.o
+a - ilnw.o
+a - inquire.o
+a - lread.o
+a - lwrite.o
+a - open.o
+a - rdfmt.o
+a - rewind.o
+a - rsfe.o
+a - rsli.o
+a - rsne.o
+a - sfe.o
+a - sue.o
+a - typesize.o
+a - uio.o
+a - util.o
+a - wref.o
+a - wrtfmt.o
+a - wsfe.o
+a - wsle.o
+a - wsne.o
+a - xwsne.o
+a - hl_ge.o
+a - hl_gt.o
+a - hl_le.o
+a - hl_lt.o
+a - l_ge.o
+a - l_gt.o
+a - l_le.o
+a - l_lt.o
+a - abort_.o
+a - cabs.o
+a - derf_.o
+a - derfc_.o
+a - erf_.o
+a - erfc_.o
+a - exit_.o
+a - f77vers.o
+a - getarg_.o
+a - getenv_.o
+a - iargc_.o
+a - i77vers.o
+a - sig_die.o
+a - signal_.o
+a - s_paus.o
+a - s_rnge.o
+a - s_stop.o
+a - system_.o
+a - pow_ci.o
+a - pow_dd.o
+a - pow_di.o
+a - pow_hh.o
+a - pow_ii.o
+a - pow_ri.o
+a - pow_zi.o
+a - pow_zz.o
+a - pow_qq.o
+a - qbitbits.o
+a - qbitshft.o
+a - r_abs.o
+a - r_acos.o
+a - r_asin.o
+a - r_atan.o
+a - r_atn2.o
+a - r_cnjg.o
+a - r_cos.o
+a - r_cosh.o
+a - r_dim.o
+a - r_exp.o
+a - r_imag.o
+a - r_int.o
+a - r_lg10.o
+a - r_log.o
+a - r_mod.o
+a - r_nint.o
+a - r_sign.o
+a - r_sin.o
+a - r_sinh.o
+a - r_sqrt.o
+a - r_tan.o
+a - r_tanh.o
+a - dtime_.o
+a - etime_.o
+ running ranlib /home/saman/Tahoe/f2c/lib/libf2c_.a
+/home/saman/Tahoe/f2c/lib/libf2c_.a
+make[1]: Leaving directory `/home/saman/Tahoe/f2c'

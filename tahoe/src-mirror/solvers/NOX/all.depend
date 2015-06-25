@@ -1,0 +1,3 @@
+NOX_Tahoe_Vector.o: NOX_Tahoe_Vector.cpp NOX_Tahoe_Vector.h
+NOX_Tahoe_Group.o: NOX_Tahoe_Group.cpp NOX_Tahoe_Group.h
+NOXSolverT.o: NOXSolverT.cpp NOXSolverT.h

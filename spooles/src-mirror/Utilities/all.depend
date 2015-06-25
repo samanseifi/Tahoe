@@ -1,0 +1,51 @@
+Utilities.axpy.o: Utilities.axpy.c Utilities.h MM_.h DLIST_.h CV_.h DV_.h \
+ FV_.h IV_.h PCV_.h PDV_.h PFV_.h PIV_.h IP_.h I2OP_.h newsort_.h mdot_.h \
+ util_.h ZV_.h iohb_.h axpy_.h
+Utilities.CV.o: Utilities.CV.c Utilities.h MM_.h DLIST_.h CV_.h DV_.h \
+ FV_.h IV_.h PCV_.h PDV_.h PFV_.h PIV_.h IP_.h I2OP_.h newsort_.h mdot_.h \
+ util_.h ZV_.h iohb_.h axpy_.h
+Utilities.DV.o: Utilities.DV.c Utilities.h MM_.h DLIST_.h CV_.h DV_.h \
+ FV_.h IV_.h PCV_.h PDV_.h PFV_.h PIV_.h IP_.h I2OP_.h newsort_.h mdot_.h \
+ util_.h ZV_.h iohb_.h axpy_.h /home/saman/Tahoe/spooles/inc/Drand.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h
+Utilities.FV.o: Utilities.FV.c Utilities.h MM_.h DLIST_.h CV_.h DV_.h \
+ FV_.h IV_.h PCV_.h PDV_.h PFV_.h PIV_.h IP_.h I2OP_.h newsort_.h mdot_.h \
+ util_.h ZV_.h iohb_.h axpy_.h /home/saman/Tahoe/spooles/inc/Drand.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h
+Utilities.iohb.o: Utilities.iohb.c Utilities.h MM_.h DLIST_.h CV_.h DV_.h \
+ FV_.h IV_.h PCV_.h PDV_.h PFV_.h PIV_.h IP_.h I2OP_.h newsort_.h mdot_.h \
+ util_.h ZV_.h iohb_.h axpy_.h
+Utilities.IP.o: Utilities.IP.c Utilities.h MM_.h DLIST_.h CV_.h DV_.h \
+ FV_.h IV_.h PCV_.h PDV_.h PFV_.h PIV_.h IP_.h I2OP_.h newsort_.h mdot_.h \
+ util_.h ZV_.h iohb_.h axpy_.h
+Utilities.IV.o: Utilities.IV.c Utilities.h MM_.h DLIST_.h CV_.h DV_.h \
+ FV_.h IV_.h PCV_.h PDV_.h PFV_.h PIV_.h IP_.h I2OP_.h newsort_.h mdot_.h \
+ util_.h ZV_.h iohb_.h axpy_.h /home/saman/Tahoe/spooles/inc/Drand.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h
+Utilities.I2OP.o: Utilities.I2OP.c Utilities.h MM_.h DLIST_.h CV_.h DV_.h \
+ FV_.h IV_.h PCV_.h PDV_.h PFV_.h PIV_.h IP_.h I2OP_.h newsort_.h mdot_.h \
+ util_.h ZV_.h iohb_.h axpy_.h
+Utilities.newsort.o: Utilities.newsort.c Utilities.h MM_.h DLIST_.h CV_.h \
+ DV_.h FV_.h IV_.h PCV_.h PDV_.h PFV_.h PIV_.h IP_.h I2OP_.h newsort_.h \
+ mdot_.h util_.h ZV_.h iohb_.h axpy_.h
+Utilities.PCV.o: Utilities.PCV.c Utilities.h MM_.h DLIST_.h CV_.h DV_.h \
+ FV_.h IV_.h PCV_.h PDV_.h PFV_.h PIV_.h IP_.h I2OP_.h newsort_.h mdot_.h \
+ util_.h ZV_.h iohb_.h axpy_.h
+Utilities.PDV.o: Utilities.PDV.c Utilities.h MM_.h DLIST_.h CV_.h DV_.h \
+ FV_.h IV_.h PCV_.h PDV_.h PFV_.h PIV_.h IP_.h I2OP_.h newsort_.h mdot_.h \
+ util_.h ZV_.h iohb_.h axpy_.h
+Utilities.PFV.o: Utilities.PFV.c Utilities.h MM_.h DLIST_.h CV_.h DV_.h \
+ FV_.h IV_.h PCV_.h PDV_.h PFV_.h PIV_.h IP_.h I2OP_.h newsort_.h mdot_.h \
+ util_.h ZV_.h iohb_.h axpy_.h
+Utilities.PIV.o: Utilities.PIV.c Utilities.h MM_.h DLIST_.h CV_.h DV_.h \
+ FV_.h IV_.h PCV_.h PDV_.h PFV_.h PIV_.h IP_.h I2OP_.h newsort_.h mdot_.h \
+ util_.h ZV_.h iohb_.h axpy_.h
+Utilities.sortAndCompress.o: Utilities.sortAndCompress.c Utilities.h \
+ MM_.h DLIST_.h CV_.h DV_.h FV_.h IV_.h PCV_.h PDV_.h PFV_.h PIV_.h IP_.h \
+ I2OP_.h newsort_.h mdot_.h util_.h ZV_.h iohb_.h axpy_.h
+Utilities.ZV.o: Utilities.ZV.c Utilities.h MM_.h DLIST_.h CV_.h DV_.h \
+ FV_.h IV_.h PCV_.h PDV_.h PFV_.h PIV_.h IP_.h I2OP_.h newsort_.h mdot_.h \
+ util_.h ZV_.h iohb_.h axpy_.h

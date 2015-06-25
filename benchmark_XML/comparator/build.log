@@ -1,0 +1,141 @@
+cd /home/saman/Tahoe/benchmark_XML/comparator/src-mirror
+cd /home/saman/Tahoe/benchmark_XML/comparator/src-mirror; \
+	make  objects \
+	"ARCH = GNU-GCC4.6" \
+	"MACRO_DIR = /home/saman/Tahoe/benchmark_XML/comparator/../../macros" \
+	"INC_DIR = /home/saman/Tahoe/benchmark_XML/comparator/inc" \
+	"SRC_DIR = /home/saman/Tahoe/benchmark_XML/comparator/src-mirror" \
+	"BLD_DIR = /home/saman/Tahoe/benchmark_XML/comparator" \
+	"OBJ_DIR = /home/saman/Tahoe/benchmark_XML/comparator/obj" \
+	"LIB_DIR = /home/saman/Tahoe/benchmark_XML/comparator/lib" \
+	"PCH = comparePrefix.h" \
+	"OPT_CFLAGS =    -I/home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc -I/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include -D__EXPAT__                -I/usr/local/ACCESS/inc -D__ACCESS__   " \
+	"MOD_CFLAGS_C = " \
+	"MOD_CFLAGS_CC = " \
+	"MOD_CFLAGS_F = " \
+	"MOD_LFLAGS = " \
+	"OPT_MAKEDEPENDFLAGS =      -I/home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc -I/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include                -I/usr/local/ACCESS/inc      -D__EXPAT__                -D__ACCESS__   " \
+	"MOD_MAKEDEPENDFLAGS = " \
+	"DEPEND = all.depend" \
+	"CURR_DIR = /home/saman/Tahoe/benchmark_XML/comparator/src-mirror"
+make[1]: Entering directory `/home/saman/Tahoe/benchmark_XML/comparator/src-mirror'
+make[2]: Entering directory `/home/saman/Tahoe/benchmark_XML/comparator/src-mirror'
+    /usr/bin/g++: ComparatorT.cpp
+/usr/bin/g++ -c -I/home/saman/Tahoe/benchmark_XML/comparator/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc -I/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include -D__EXPAT__                -I/usr/local/ACCESS/inc -D__ACCESS__     ComparatorT.cpp
+In file included from /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/expat_ParseT.h:8:0,
+                 from ComparatorT.cpp:21:
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:216:67: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:220:56: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:236:64: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:240:57: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:253:71: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:257:49: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:261:42: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:262:54: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:263:37: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:270:42: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:284:73: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:299:55: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:311:60: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:318:71: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:321:68: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:327:58: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:333:69: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:337:65: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:339:69: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:340:67: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:357:52: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:367:68: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:373:65: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:402:59: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:406:55: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:423:65: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:434:61: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:445:56: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:449:59: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:460:64: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:501:61: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:516:60: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:573:51: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:574:37: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:595:55: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:600:48: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:603:63: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:606:59: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:610:61: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:614:77: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:617:49: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:622:58: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:626:67: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:630:61: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:638:49: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:646:55: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:651:56: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:655:65: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:659:59: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:663:71: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:667:59: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:672:60: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:676:69: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:680:63: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:684:61: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:688:69: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:695:57: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:699:61: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:704:56: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:711:37: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:728:53: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:732:50: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:744:60: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:751:44: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:769:53: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:781:52: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:784:30: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:793:49: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:801:42: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:813:65: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:816:41: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:819:56: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:840:56: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:873:62: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:879:35: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:897:60: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:898:62: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:899:60: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:905:42: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:920:30: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:929:59: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:933:45: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:936:57: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:939:41: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:943:33: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:947:36: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:951:22: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:963:26: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include/expat.h:985:24: warning: ‘cdecl’ attribute ignored [-Wattributes]
+ComparatorT.cpp: In member function ‘bool Tahoe::ComparatorT::PassOrFail(Tahoe::ifstreamT&)’:
+ComparatorT.cpp:347:30: note: #pragma message: restore me
+ComparatorT.cpp: In member function ‘bool Tahoe::ComparatorT::PassOrFail(const Tahoe::StringT&, const Tahoe::StringT&, bool, bool)’:
+ComparatorT.cpp:541:7: warning: unused variable ‘changing’ [-Wunused-variable]
+ln -sf /home/saman/Tahoe/benchmark_XML/comparator/src-mirror/ComparatorT.o /home/saman/Tahoe/benchmark_XML/comparator/obj/ComparatorT.o
+make[2]: Leaving directory `/home/saman/Tahoe/benchmark_XML/comparator/src-mirror'
+make[2]: Entering directory `/home/saman/Tahoe/benchmark_XML/comparator/src-mirror'
+make[2]: Nothing to be done for `subdir_driver'.
+make[2]: Leaving directory `/home/saman/Tahoe/benchmark_XML/comparator/src-mirror'
+make[1]: Leaving directory `/home/saman/Tahoe/benchmark_XML/comparator/src-mirror'
+make archive "OBJECT_LIST = /home/saman/Tahoe/benchmark_XML/comparator/object_list" "ARCH = GNU-GCC4.6" "MACRO_DIR = /home/saman/Tahoe/benchmark_XML/comparator/../../macros" "HOME_DIR = /home/saman/Tahoe/benchmark_XML/comparator"
+make[1]: Entering directory `/home/saman/Tahoe/benchmark_XML/comparator'
+cd /home/saman/Tahoe/benchmark_XML/comparator/obj; \
+	printf " building archive /home/saman/Tahoe/benchmark_XML/comparator/lib/libcompare.a\n"; \
+	ar -cruv /home/saman/Tahoe/benchmark_XML/comparator/lib/libcompare.a ComparatorT.o main.o ; \
+	printf " running ranlib /home/saman/Tahoe/benchmark_XML/comparator/lib/libcompare.a\n"; \
+	echo  /home/saman/Tahoe/benchmark_XML/comparator/lib/libcompare.a
+ building archive /home/saman/Tahoe/benchmark_XML/comparator/lib/libcompare.a
+a - ComparatorT.o
+a - main.o
+ running ranlib /home/saman/Tahoe/benchmark_XML/comparator/lib/libcompare.a
+/home/saman/Tahoe/benchmark_XML/comparator/lib/libcompare.a
+make[1]: Leaving directory `/home/saman/Tahoe/benchmark_XML/comparator'
+ linking...
+/usr/bin/g++ /home/saman/Tahoe/benchmark_XML/comparator/src-mirror/main.o -o compare -L/home/saman/Tahoe/benchmark_XML/comparator/lib -lcompare     -L/home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/lib -ltoolbox -L/home/saman/Tahoe/benchmark_XML/comparator/../../expat/lib -lexpat                -L/usr/local/ACCESS/lib -lexoIIv2c -lnetcdf     -lpthread
+    ...wrote compare

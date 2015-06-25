@@ -1,0 +1,17 @@
+/SubMtx.IO.c/1.1.1.1/Wed Jan 31 21:32:06 2001//
+/SubMtx.basics.c/1.1.1.1/Wed Jan 31 21:32:06 2001//
+/SubMtx.h/1.1.1.1/Wed Jan 31 21:32:09 2001//
+/SubMtx.init.c/1.1.1.1/Wed Jan 31 21:32:06 2001//
+/SubMtx.initRandom.c/1.1.1.1/Wed Jan 31 21:32:09 2001//
+/SubMtx.instance.c/1.1.1.1/Wed Jan 31 21:32:07 2001//
+/SubMtx.scalevec.c/1.1.1.1/Wed Jan 31 21:32:10 2001//
+/SubMtx.solve.c/1.1.1.1/Wed Jan 31 21:32:06 2001//
+/SubMtx.solveH.c/1.1.1.1/Wed Jan 31 21:32:10 2001//
+/SubMtx.solveT.c/1.1.1.1/Wed Jan 31 21:32:10 2001//
+/SubMtx.solveupd.c/1.1.1.1/Wed Jan 31 21:32:10 2001//
+/SubMtx.solveupdH.c/1.1.1.1/Wed Jan 31 21:32:09 2001//
+/SubMtx.solveupdT.c/1.1.1.1/Wed Jan 31 21:32:08 2001//
+/SubMtx.sort.c/1.1.1.1/Wed Jan 31 21:32:06 2001//
+/SubMtx.util.c/1.1.1.1/Wed Jan 31 21:32:09 2001//
+/makefile/1.4/Fri Aug 12 05:27:13 2005//
+D

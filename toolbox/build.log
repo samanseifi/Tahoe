@@ -1,0 +1,521 @@
+cd /home/saman/Tahoe/toolbox/src-mirror
+cd /home/saman/Tahoe/toolbox/src-mirror; \
+	make  objects \
+	"ARCH = GNU-GCC4.6" \
+	"MACRO_DIR = /home/saman/Tahoe/toolbox/../macros" \
+	"INC_DIR = /home/saman/Tahoe/toolbox/inc" \
+	"SRC_DIR = /home/saman/Tahoe/toolbox/src-mirror" \
+	"BLD_DIR = /home/saman/Tahoe/toolbox" \
+	"OBJ_DIR = /home/saman/Tahoe/toolbox/obj" \
+	"LIB_DIR = /home/saman/Tahoe/toolbox/lib" \
+	"PCH = toolboxPrefix.h" \
+	"OPT_CFLAGS =     -I/home/saman/Tahoe/toolbox/../expat/include -D__EXPAT__                -I/usr/local/ACCESS/inc -D__ACCESS__   -I/home/saman/Tahoe/toolbox/../f2c/inc -D__F2C__" \
+	"MOD_CFLAGS_C = " \
+	"MOD_CFLAGS_CC = " \
+	"MOD_CFLAGS_F = " \
+	"MOD_LFLAGS = " \
+	"OPT_MAKEDEPENDFLAGS =       -I/home/saman/Tahoe/toolbox/../expat/include  -I/home/saman/Tahoe/toolbox/../f2c/inc              -I/usr/local/ACCESS/inc      -D__EXPAT__                -D__ACCESS__   -D__F2C__" \
+	"MOD_MAKEDEPENDFLAGS = " \
+	"DEPEND = all.depend" \
+	"CURR_DIR = /home/saman/Tahoe/toolbox/src-mirror"
+make[1]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror'
+make[2]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror'
+make[2]: Nothing to be done for `update_objects'.
+make[2]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror'
+make[2]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror'
+ cd common
+make[3]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/common'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/common'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/common'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/common'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/common'
+make[3]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/common'
+ cd linkedlist
+make[3]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/linkedlist'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/linkedlist'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/linkedlist'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/linkedlist'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/linkedlist'
+make[3]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/linkedlist'
+ cd abc
+make[3]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc'
+ cd array
+make[5]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/array'
+make[6]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/array'
+make[6]: Nothing to be done for `update_objects'.
+make[6]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/array'
+make[6]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/array'
+make[6]: Nothing to be done for `subdir_driver'.
+make[6]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/array'
+make[5]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/array'
+ cd complex
+make[5]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/complex'
+make[6]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/complex'
+make[6]: Nothing to be done for `update_objects'.
+make[6]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/complex'
+make[6]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/complex'
+make[6]: Nothing to be done for `subdir_driver'.
+make[6]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/complex'
+make[5]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/complex'
+ cd managers
+make[5]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/managers'
+make[6]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/managers'
+make[6]: Nothing to be done for `update_objects'.
+make[6]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/managers'
+make[6]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/managers'
+make[6]: Nothing to be done for `subdir_driver'.
+make[6]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/managers'
+make[5]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/managers'
+ cd matrix
+make[5]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/matrix'
+make[6]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/matrix'
+make[6]: Nothing to be done for `update_objects'.
+make[6]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/matrix'
+make[6]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/matrix'
+make[6]: Nothing to be done for `subdir_driver'.
+make[6]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/matrix'
+make[5]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/matrix'
+ cd other
+make[5]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/other'
+make[6]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/other'
+make[6]: Nothing to be done for `update_objects'.
+make[6]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/other'
+make[6]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/other'
+make[6]: Nothing to be done for `subdir_driver'.
+make[6]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/other'
+make[5]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/other'
+ cd tensor
+make[5]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/tensor'
+make[6]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/tensor'
+make[6]: Nothing to be done for `update_objects'.
+make[6]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/tensor'
+make[6]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/tensor'
+make[6]: Nothing to be done for `subdir_driver'.
+make[6]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/tensor'
+make[5]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/tensor'
+ cd wrappers
+make[5]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/wrappers'
+make[6]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/wrappers'
+make[6]: Nothing to be done for `update_objects'.
+make[6]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/wrappers'
+make[6]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/abc/wrappers'
+make[6]: Nothing to be done for `subdir_driver'.
+make[6]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/wrappers'
+make[5]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc/wrappers'
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc'
+make[3]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/abc'
+ cd bessel
+make[3]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/bessel'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/bessel'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/bessel'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/bessel'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/bessel'
+make[3]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/bessel'
+ cd geometry
+make[3]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/geometry'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/geometry'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/geometry'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/geometry'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/geometry'
+make[3]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/geometry'
+ cd fstreamT
+make[3]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/fstreamT'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/fstreamT'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/fstreamT'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/fstreamT'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/fstreamT'
+make[3]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/fstreamT'
+ cd console
+make[3]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/console'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/console'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/console'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/console'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/console'
+make[3]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/console'
+ cd C1functions
+make[3]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/C1functions'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/C1functions'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/C1functions'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/C1functions'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/C1functions'
+make[3]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/C1functions'
+ cd front
+make[3]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/front'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/front'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/front'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/front'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/front'
+make[3]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/front'
+ cd graph
+make[3]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/graph'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/graph'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/graph'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/graph'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/graph'
+make[3]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/graph'
+ cd misc
+make[3]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/misc'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/misc'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/misc'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/misc'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/misc'
+make[3]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/misc'
+ cd neighbors
+make[3]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/neighbors'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/neighbors'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/neighbors'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/neighbors'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/neighbors'
+make[3]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/neighbors'
+ cd search
+make[3]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/search'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/search'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/search'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/search'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/search'
+make[3]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/search'
+ cd dataio
+make[3]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/dataio'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/dataio'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/dataio'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/dataio'
+ cd database
+make[5]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/dataio/database'
+make[6]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/dataio/database'
+make[6]: Nothing to be done for `update_objects'.
+make[6]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/dataio/database'
+make[6]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/dataio/database'
+make[6]: Nothing to be done for `subdir_driver'.
+make[6]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/dataio/database'
+make[5]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/dataio/database'
+ cd input
+make[5]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/dataio/input'
+make[6]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/dataio/input'
+make[6]: Nothing to be done for `update_objects'.
+make[6]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/dataio/input'
+make[6]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/dataio/input'
+make[6]: Nothing to be done for `subdir_driver'.
+make[6]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/dataio/input'
+make[5]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/dataio/input'
+ cd output
+make[5]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/dataio/output'
+make[6]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/dataio/output'
+make[6]: Nothing to be done for `update_objects'.
+make[6]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/dataio/output'
+make[6]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/dataio/output'
+make[6]: Nothing to be done for `subdir_driver'.
+make[6]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/dataio/output'
+make[5]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/dataio/output'
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/dataio'
+make[3]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/dataio'
+ cd parallel
+make[3]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/parallel'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/parallel'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/parallel'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/parallel'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/parallel'
+make[3]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/parallel'
+ cd param_tree
+make[3]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/param_tree'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/param_tree'
+    /usr/bin/g++: expat_ParseT.cpp
+/usr/bin/g++ -c -I/home/saman/Tahoe/toolbox/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/toolbox/../expat/include -D__EXPAT__                -I/usr/local/ACCESS/inc -D__ACCESS__   -I/home/saman/Tahoe/toolbox/../f2c/inc -D__F2C__  expat_ParseT.cpp
+In file included from expat_ParseT.h:8:0,
+                 from expat_ParseT.cpp:2:
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:216:67: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:220:56: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:236:64: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:240:57: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:253:71: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:257:49: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:261:42: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:262:54: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:263:37: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:270:42: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:284:73: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:299:55: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:311:60: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:318:71: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:321:68: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:327:58: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:333:69: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:337:65: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:339:69: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:340:67: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:357:52: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:367:68: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:373:65: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:402:59: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:406:55: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:423:65: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:434:61: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:445:56: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:449:59: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:460:64: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:501:61: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:516:60: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:573:51: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:574:37: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:595:55: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:600:48: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:603:63: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:606:59: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:610:61: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:614:77: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:617:49: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:622:58: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:626:67: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:630:61: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:638:49: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:646:55: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:651:56: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:655:65: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:659:59: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:663:71: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:667:59: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:672:60: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:676:69: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:680:63: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:684:61: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:688:69: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:695:57: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:699:61: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:704:56: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:711:37: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:728:53: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:732:50: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:744:60: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:751:44: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:769:53: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:781:52: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:784:30: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:793:49: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:801:42: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:813:65: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:816:41: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:819:56: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:840:56: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:873:62: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:879:35: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:897:60: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:898:62: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:899:60: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:905:42: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:920:30: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:929:59: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:933:45: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:936:57: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:939:41: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:943:33: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:947:36: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:951:22: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:963:26: warning: ‘cdecl’ attribute ignored [-Wattributes]
+/home/saman/Tahoe/toolbox/../expat/include/expat.h:985:24: warning: ‘cdecl’ attribute ignored [-Wattributes]
+ln -sf /home/saman/Tahoe/toolbox/src-mirror/param_tree/expat_ParseT.o /home/saman/Tahoe/toolbox/obj/expat_ParseT.o
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/param_tree'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/param_tree'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/param_tree'
+make[3]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/param_tree'
+ cd FloatingPoint
+make[3]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/FloatingPoint'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/FloatingPoint'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/FloatingPoint'
+make[4]: Entering directory `/home/saman/Tahoe/toolbox/src-mirror/FloatingPoint'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/FloatingPoint'
+make[3]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror/FloatingPoint'
+make[2]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror'
+make[1]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror'
+make archive "OBJECT_LIST = /home/saman/Tahoe/toolbox/object_list" "ARCH = GNU-GCC4.6" "MACRO_DIR = /home/saman/Tahoe/toolbox/../macros" "HOME_DIR = /home/saman/Tahoe/toolbox"
+make[1]: Entering directory `/home/saman/Tahoe/toolbox'
+cd /home/saman/Tahoe/toolbox/obj; \
+	printf " building archive /home/saman/Tahoe/toolbox/lib/libtoolbox.a\n"; \
+	ar -cruv /home/saman/Tahoe/toolbox/lib/libtoolbox.a ExceptionT.o      ArraySettings.o dArrayT.o dArray2DT.o iArrayT.o iArray2DT.o iAutoArrayT.o sArrayT.o  ComplexT.o zArrayT.o zMatrixT.o zTensor3DT.o  LocalArrayGroupT.o  BandedLAdMatrixT.o dMatrixEXT.o dMatrixT.o dSymMatrixT.o LAdMatrixT.o TriDiagdMatrixT.o dSPMatrixT.o  dRangeArrayT.o LocalArrayT.o StringT.o RandomNumberT.o  dTensor3DT.o dTensor4DT.o  VariLocalArrayT.o  bessel.o   ParentDomainT.o GeometryT.o GeometryBaseT.o HexahedronT.o LineT.o PentahedronT.o QuadT.o TetrahedronT.o TriT.o  ifstreamT.o ofstreamT.o fstreamT.o  ArgSpecT.o CommandSpecT.o iConsoleBaseT.o iConsoleObjectT.o iConsoleT.o  CubicSplineT.o C1FunctionT.o C1FunctionT_factory.o ErrorFunc.o GaoKlein.o Gamma.o LennardJones612.o ModBessel.o ParabolaT.o PhiSplineT.o SmithFerrante.o ModSmithFerrante.o LinearExponentialT.o Triantafyllidis.o LinearT.o GaoVicky.o GaoJi.o GaoJi2.o SF2.o PiecewiseLinearT.o PowerLawT.o CosineT.o CosinePlusT.o InvLangevin.o  FrontNodeT.o FrontSegmentT.o FrontT.o Front2DT.o Front3DT.o  CMReLabellerT.o GraphBaseT.o GraphT.o MSRBuilderT.o PartitionT.o PriorityQueueT.o ReLabellerT.o RootedLevelT.o  FileCrawlerT.o GroupAverageT.o LocalParabolaT.o MonitorT.o Rotate2DT.o Rotate3DT.o SecantMethodT.o SpectralDecompT.o InverseMapT.o  EdgeFinderT.o FindNeighborT.o FindNeighbor23T.o  CartesianGridT.o iGridManagerT.o iGridManager1DT.o iGridManager2DT.o iGridManager3DT.o iNodeT.o iPeriodicGrid3DT.o  IOBaseT.o JoinOutputT.o ModelManagerT.o  AVST.o AbaqusResultsT.o AbaqusINPT.o EnSightT.o ExodusT.o ModelFileT.o TecPlotT.o PatranT.o ParaDynT.o  TahoeInputT.o PatranInputT.o ExodusInputT.o EnSightInputT.o AbaqusInputT.o AbaqusINPInputT.o TextInputT.o  AVSOutputT.o AbaqusOutputT.o EnSightOutputT.o ExodusOutputT.o TextOutputT.o OutputBaseT.o OutputSetT.o TecPlotOutputT.o PatranOutputT.o ParaDynOutputT.o  CommunicatorT.o MessageT.o AllGatherT.o PointToPointT.o CartesianShiftT.o  ValueT.o ParameterT.o LimitT.o ParameterListT.o expat_ParseT.o FormatterT.o XML_Attribute_FormatterT.o XML_Atomic_FormatterT.o DotLine_FormatterT.o ParameterInterfaceT.o ParameterTreeT.o ParameterUtils.o ParameterContainerT.o  FloatingPointT.o ; \
+	printf " running ranlib /home/saman/Tahoe/toolbox/lib/libtoolbox.a\n"; \
+	echo  /home/saman/Tahoe/toolbox/lib/libtoolbox.a
+ building archive /home/saman/Tahoe/toolbox/lib/libtoolbox.a
+a - ExceptionT.o
+a - ArraySettings.o
+a - dArrayT.o
+a - dArray2DT.o
+a - iArrayT.o
+a - iArray2DT.o
+a - iAutoArrayT.o
+a - sArrayT.o
+a - ComplexT.o
+a - zArrayT.o
+a - zMatrixT.o
+a - zTensor3DT.o
+a - LocalArrayGroupT.o
+a - BandedLAdMatrixT.o
+a - dMatrixEXT.o
+a - dMatrixT.o
+a - dSymMatrixT.o
+a - LAdMatrixT.o
+a - TriDiagdMatrixT.o
+a - dSPMatrixT.o
+a - dRangeArrayT.o
+a - LocalArrayT.o
+a - StringT.o
+a - RandomNumberT.o
+a - dTensor3DT.o
+a - dTensor4DT.o
+a - VariLocalArrayT.o
+a - bessel.o
+a - ParentDomainT.o
+a - GeometryT.o
+a - GeometryBaseT.o
+a - HexahedronT.o
+a - LineT.o
+a - PentahedronT.o
+a - QuadT.o
+a - TetrahedronT.o
+a - TriT.o
+a - ifstreamT.o
+a - ofstreamT.o
+a - fstreamT.o
+a - ArgSpecT.o
+a - CommandSpecT.o
+a - iConsoleBaseT.o
+a - iConsoleObjectT.o
+a - iConsoleT.o
+a - CubicSplineT.o
+a - C1FunctionT.o
+a - C1FunctionT_factory.o
+a - ErrorFunc.o
+a - GaoKlein.o
+a - Gamma.o
+a - LennardJones612.o
+a - ModBessel.o
+a - ParabolaT.o
+a - PhiSplineT.o
+a - SmithFerrante.o
+a - ModSmithFerrante.o
+a - LinearExponentialT.o
+a - Triantafyllidis.o
+a - LinearT.o
+a - GaoVicky.o
+a - GaoJi.o
+a - GaoJi2.o
+a - SF2.o
+a - PiecewiseLinearT.o
+a - PowerLawT.o
+a - CosineT.o
+a - CosinePlusT.o
+a - InvLangevin.o
+a - FrontNodeT.o
+a - FrontSegmentT.o
+a - FrontT.o
+a - Front2DT.o
+a - Front3DT.o
+a - CMReLabellerT.o
+a - GraphBaseT.o
+a - GraphT.o
+a - MSRBuilderT.o
+a - PartitionT.o
+a - PriorityQueueT.o
+a - ReLabellerT.o
+a - RootedLevelT.o
+a - FileCrawlerT.o
+a - GroupAverageT.o
+a - LocalParabolaT.o
+a - MonitorT.o
+a - Rotate2DT.o
+a - Rotate3DT.o
+a - SecantMethodT.o
+a - SpectralDecompT.o
+a - InverseMapT.o
+a - EdgeFinderT.o
+a - FindNeighborT.o
+a - FindNeighbor23T.o
+a - CartesianGridT.o
+a - iGridManagerT.o
+a - iGridManager1DT.o
+a - iGridManager2DT.o
+a - iGridManager3DT.o
+a - iNodeT.o
+a - iPeriodicGrid3DT.o
+a - IOBaseT.o
+a - JoinOutputT.o
+a - ModelManagerT.o
+a - AVST.o
+a - AbaqusResultsT.o
+a - AbaqusINPT.o
+a - EnSightT.o
+a - ExodusT.o
+a - ModelFileT.o
+a - TecPlotT.o
+a - PatranT.o
+a - ParaDynT.o
+a - TahoeInputT.o
+a - PatranInputT.o
+a - ExodusInputT.o
+a - EnSightInputT.o
+a - AbaqusInputT.o
+a - AbaqusINPInputT.o
+a - TextInputT.o
+a - AVSOutputT.o
+a - AbaqusOutputT.o
+a - EnSightOutputT.o
+a - ExodusOutputT.o
+a - TextOutputT.o
+a - OutputBaseT.o
+a - OutputSetT.o
+a - TecPlotOutputT.o
+a - PatranOutputT.o
+a - ParaDynOutputT.o
+a - CommunicatorT.o
+a - MessageT.o
+a - AllGatherT.o
+a - PointToPointT.o
+a - CartesianShiftT.o
+a - ValueT.o
+a - ParameterT.o
+a - LimitT.o
+a - ParameterListT.o
+a - expat_ParseT.o
+a - FormatterT.o
+a - XML_Attribute_FormatterT.o
+a - XML_Atomic_FormatterT.o
+a - DotLine_FormatterT.o
+a - ParameterInterfaceT.o
+a - ParameterTreeT.o
+a - ParameterUtils.o
+a - ParameterContainerT.o
+a - FloatingPointT.o
+ running ranlib /home/saman/Tahoe/toolbox/lib/libtoolbox.a
+/home/saman/Tahoe/toolbox/lib/libtoolbox.a
+make[1]: Leaving directory `/home/saman/Tahoe/toolbox'

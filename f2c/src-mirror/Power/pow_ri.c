@@ -1,0 +1,1 @@
+/home/saman/Tahoe/f2c/src/Power/pow_ri.c

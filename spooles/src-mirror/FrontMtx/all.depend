@@ -1,0 +1,842 @@
+FrontMtx.basics.o: FrontMtx.basics.c FrontMtx.h \
+ /home/saman/Tahoe/spooles/inc/Pencil.h \
+ /home/saman/Tahoe/spooles/inc/InpMtx.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h /home/saman/Tahoe/spooles/inc/A2.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/ETree.h \
+ /home/saman/Tahoe/spooles/inc/Graph.h \
+ /home/saman/Tahoe/spooles/inc/Tree.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/ChvManager.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/ChvList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxManager.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/Ideq.h \
+ /home/saman/Tahoe/spooles/inc/SolveMap.h \
+ /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/I2Ohash.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h
+FrontMtx.factor.o: FrontMtx.factor.c FrontMtx.h \
+ /home/saman/Tahoe/spooles/inc/Pencil.h \
+ /home/saman/Tahoe/spooles/inc/InpMtx.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h /home/saman/Tahoe/spooles/inc/A2.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/ETree.h \
+ /home/saman/Tahoe/spooles/inc/Graph.h \
+ /home/saman/Tahoe/spooles/inc/Tree.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/ChvManager.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/ChvList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxManager.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/Ideq.h \
+ /home/saman/Tahoe/spooles/inc/SolveMap.h \
+ /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/I2Ohash.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/timings.h
+FrontMtx.factorUtil.o: FrontMtx.factorUtil.c FrontMtx.h \
+ /home/saman/Tahoe/spooles/inc/Pencil.h \
+ /home/saman/Tahoe/spooles/inc/InpMtx.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h /home/saman/Tahoe/spooles/inc/A2.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/ETree.h \
+ /home/saman/Tahoe/spooles/inc/Graph.h \
+ /home/saman/Tahoe/spooles/inc/Tree.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/ChvManager.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/ChvList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxManager.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/Ideq.h \
+ /home/saman/Tahoe/spooles/inc/SolveMap.h \
+ /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/I2Ohash.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/timings.h
+FrontMtx.init.o: FrontMtx.init.c FrontMtx.h \
+ /home/saman/Tahoe/spooles/inc/Pencil.h \
+ /home/saman/Tahoe/spooles/inc/InpMtx.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h /home/saman/Tahoe/spooles/inc/A2.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/ETree.h \
+ /home/saman/Tahoe/spooles/inc/Graph.h \
+ /home/saman/Tahoe/spooles/inc/Tree.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/ChvManager.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/ChvList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxManager.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/Ideq.h \
+ /home/saman/Tahoe/spooles/inc/SolveMap.h \
+ /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/I2Ohash.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h
+FrontMtx.instance.o: FrontMtx.instance.c FrontMtx.h \
+ /home/saman/Tahoe/spooles/inc/Pencil.h \
+ /home/saman/Tahoe/spooles/inc/InpMtx.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h /home/saman/Tahoe/spooles/inc/A2.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/ETree.h \
+ /home/saman/Tahoe/spooles/inc/Graph.h \
+ /home/saman/Tahoe/spooles/inc/Tree.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/ChvManager.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/ChvList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxManager.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/Ideq.h \
+ /home/saman/Tahoe/spooles/inc/SolveMap.h \
+ /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/I2Ohash.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h
+FrontMtx.IO.o: FrontMtx.IO.c FrontMtx.h \
+ /home/saman/Tahoe/spooles/inc/Pencil.h \
+ /home/saman/Tahoe/spooles/inc/InpMtx.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h /home/saman/Tahoe/spooles/inc/A2.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/ETree.h \
+ /home/saman/Tahoe/spooles/inc/Graph.h \
+ /home/saman/Tahoe/spooles/inc/Tree.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/ChvManager.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/ChvList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxManager.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/Ideq.h \
+ /home/saman/Tahoe/spooles/inc/SolveMap.h \
+ /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/I2Ohash.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h
+FrontMtx.loadEntries.o: FrontMtx.loadEntries.c FrontMtx.h \
+ /home/saman/Tahoe/spooles/inc/Pencil.h \
+ /home/saman/Tahoe/spooles/inc/InpMtx.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h /home/saman/Tahoe/spooles/inc/A2.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/ETree.h \
+ /home/saman/Tahoe/spooles/inc/Graph.h \
+ /home/saman/Tahoe/spooles/inc/Tree.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/ChvManager.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/ChvList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxManager.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/Ideq.h \
+ /home/saman/Tahoe/spooles/inc/SolveMap.h \
+ /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/I2Ohash.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h
+FrontMtx.permute.o: FrontMtx.permute.c FrontMtx.h \
+ /home/saman/Tahoe/spooles/inc/Pencil.h \
+ /home/saman/Tahoe/spooles/inc/InpMtx.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h /home/saman/Tahoe/spooles/inc/A2.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/ETree.h \
+ /home/saman/Tahoe/spooles/inc/Graph.h \
+ /home/saman/Tahoe/spooles/inc/Tree.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/ChvManager.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/ChvList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxManager.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/Ideq.h \
+ /home/saman/Tahoe/spooles/inc/SolveMap.h \
+ /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/I2Ohash.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h
+FrontMtx.postponed.o: FrontMtx.postponed.c FrontMtx.h \
+ /home/saman/Tahoe/spooles/inc/Pencil.h \
+ /home/saman/Tahoe/spooles/inc/InpMtx.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h /home/saman/Tahoe/spooles/inc/A2.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/ETree.h \
+ /home/saman/Tahoe/spooles/inc/Graph.h \
+ /home/saman/Tahoe/spooles/inc/Tree.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/ChvManager.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/ChvList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxManager.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/Ideq.h \
+ /home/saman/Tahoe/spooles/inc/SolveMap.h \
+ /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/I2Ohash.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h
+FrontMtx.postProcess.o: FrontMtx.postProcess.c FrontMtx.h \
+ /home/saman/Tahoe/spooles/inc/Pencil.h \
+ /home/saman/Tahoe/spooles/inc/InpMtx.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h /home/saman/Tahoe/spooles/inc/A2.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/ETree.h \
+ /home/saman/Tahoe/spooles/inc/Graph.h \
+ /home/saman/Tahoe/spooles/inc/Tree.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/ChvManager.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/ChvList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxManager.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/Ideq.h \
+ /home/saman/Tahoe/spooles/inc/SolveMap.h \
+ /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/I2Ohash.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h
+FrontMtx.QRfactor.o: FrontMtx.QRfactor.c FrontMtx.h \
+ /home/saman/Tahoe/spooles/inc/Pencil.h \
+ /home/saman/Tahoe/spooles/inc/InpMtx.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h /home/saman/Tahoe/spooles/inc/A2.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/ETree.h \
+ /home/saman/Tahoe/spooles/inc/Graph.h \
+ /home/saman/Tahoe/spooles/inc/Tree.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/ChvManager.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/ChvList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxManager.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/Ideq.h \
+ /home/saman/Tahoe/spooles/inc/SolveMap.h \
+ /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/I2Ohash.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/timings.h
+FrontMtx.QRsolve.o: FrontMtx.QRsolve.c FrontMtx.h \
+ /home/saman/Tahoe/spooles/inc/Pencil.h \
+ /home/saman/Tahoe/spooles/inc/InpMtx.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h /home/saman/Tahoe/spooles/inc/A2.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/ETree.h \
+ /home/saman/Tahoe/spooles/inc/Graph.h \
+ /home/saman/Tahoe/spooles/inc/Tree.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/ChvManager.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/ChvList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxManager.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/Ideq.h \
+ /home/saman/Tahoe/spooles/inc/SolveMap.h \
+ /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/I2Ohash.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/timings.h
+FrontMtx.QRutil.o: FrontMtx.QRutil.c FrontMtx.h \
+ /home/saman/Tahoe/spooles/inc/Pencil.h \
+ /home/saman/Tahoe/spooles/inc/InpMtx.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h /home/saman/Tahoe/spooles/inc/A2.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/ETree.h \
+ /home/saman/Tahoe/spooles/inc/Graph.h \
+ /home/saman/Tahoe/spooles/inc/Tree.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/ChvManager.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/ChvList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxManager.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/Ideq.h \
+ /home/saman/Tahoe/spooles/inc/SolveMap.h \
+ /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/I2Ohash.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/timings.h
+FrontMtx.solve.o: FrontMtx.solve.c FrontMtx.h \
+ /home/saman/Tahoe/spooles/inc/Pencil.h \
+ /home/saman/Tahoe/spooles/inc/InpMtx.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h /home/saman/Tahoe/spooles/inc/A2.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/ETree.h \
+ /home/saman/Tahoe/spooles/inc/Graph.h \
+ /home/saman/Tahoe/spooles/inc/Tree.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/ChvManager.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/ChvList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxManager.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/Ideq.h \
+ /home/saman/Tahoe/spooles/inc/SolveMap.h \
+ /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/I2Ohash.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/timings.h
+FrontMtx.solveUtil.o: FrontMtx.solveUtil.c FrontMtx.h \
+ /home/saman/Tahoe/spooles/inc/Pencil.h \
+ /home/saman/Tahoe/spooles/inc/InpMtx.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h /home/saman/Tahoe/spooles/inc/A2.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/ETree.h \
+ /home/saman/Tahoe/spooles/inc/Graph.h \
+ /home/saman/Tahoe/spooles/inc/Tree.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/ChvManager.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/ChvList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxManager.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/Ideq.h \
+ /home/saman/Tahoe/spooles/inc/SolveMap.h \
+ /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/I2Ohash.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h
+FrontMtx.split.o: FrontMtx.split.c FrontMtx.h \
+ /home/saman/Tahoe/spooles/inc/Pencil.h \
+ /home/saman/Tahoe/spooles/inc/InpMtx.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h /home/saman/Tahoe/spooles/inc/A2.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/ETree.h \
+ /home/saman/Tahoe/spooles/inc/Graph.h \
+ /home/saman/Tahoe/spooles/inc/Tree.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/ChvManager.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/ChvList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxManager.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/Ideq.h \
+ /home/saman/Tahoe/spooles/inc/SolveMap.h \
+ /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/I2Ohash.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h
+FrontMtx.storeFront.o: FrontMtx.storeFront.c FrontMtx.h \
+ /home/saman/Tahoe/spooles/inc/Pencil.h \
+ /home/saman/Tahoe/spooles/inc/InpMtx.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h /home/saman/Tahoe/spooles/inc/A2.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/ETree.h \
+ /home/saman/Tahoe/spooles/inc/Graph.h \
+ /home/saman/Tahoe/spooles/inc/Tree.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/ChvManager.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/ChvList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxManager.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/Ideq.h \
+ /home/saman/Tahoe/spooles/inc/SolveMap.h \
+ /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/I2Ohash.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h
+FrontMtx.update.o: FrontMtx.update.c FrontMtx.h \
+ /home/saman/Tahoe/spooles/inc/Pencil.h \
+ /home/saman/Tahoe/spooles/inc/InpMtx.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h /home/saman/Tahoe/spooles/inc/A2.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/ETree.h \
+ /home/saman/Tahoe/spooles/inc/Graph.h \
+ /home/saman/Tahoe/spooles/inc/Tree.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/ChvManager.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/ChvList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxManager.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/Ideq.h \
+ /home/saman/Tahoe/spooles/inc/SolveMap.h \
+ /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/I2Ohash.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h
+FrontMtx.util.o: FrontMtx.util.c FrontMtx.h \
+ /home/saman/Tahoe/spooles/inc/Pencil.h \
+ /home/saman/Tahoe/spooles/inc/InpMtx.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/cfiles.h \
+ /home/saman/Tahoe/spooles/inc/Utilities.h \
+ /home/saman/Tahoe/spooles/inc/MM_.h \
+ /home/saman/Tahoe/spooles/inc/DLIST_.h \
+ /home/saman/Tahoe/spooles/inc/CV_.h /home/saman/Tahoe/spooles/inc/DV_.h \
+ /home/saman/Tahoe/spooles/inc/FV_.h /home/saman/Tahoe/spooles/inc/IV_.h \
+ /home/saman/Tahoe/spooles/inc/PCV_.h \
+ /home/saman/Tahoe/spooles/inc/PDV_.h \
+ /home/saman/Tahoe/spooles/inc/PFV_.h \
+ /home/saman/Tahoe/spooles/inc/PIV_.h /home/saman/Tahoe/spooles/inc/IP_.h \
+ /home/saman/Tahoe/spooles/inc/I2OP_.h \
+ /home/saman/Tahoe/spooles/inc/newsort_.h \
+ /home/saman/Tahoe/spooles/inc/mdot_.h \
+ /home/saman/Tahoe/spooles/inc/util_.h \
+ /home/saman/Tahoe/spooles/inc/ZV_.h \
+ /home/saman/Tahoe/spooles/inc/iohb_.h \
+ /home/saman/Tahoe/spooles/inc/axpy_.h \
+ /home/saman/Tahoe/spooles/inc/Drand.h /home/saman/Tahoe/spooles/inc/A2.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h \
+ /home/saman/Tahoe/spooles/inc/ZV.h /home/saman/Tahoe/spooles/inc/DV.h \
+ /home/saman/Tahoe/spooles/inc/IV.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/ETree.h \
+ /home/saman/Tahoe/spooles/inc/Graph.h \
+ /home/saman/Tahoe/spooles/inc/Tree.h /home/saman/Tahoe/spooles/inc/IVL.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h \
+ /home/saman/Tahoe/spooles/inc/ChvManager.h \
+ /home/saman/Tahoe/spooles/inc/Chv.h /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/ChvList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtx.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxList.h \
+ /home/saman/Tahoe/spooles/inc/SubMtxManager.h \
+ /home/saman/Tahoe/spooles/inc/DenseMtx.h \
+ /home/saman/Tahoe/spooles/inc/Ideq.h \
+ /home/saman/Tahoe/spooles/inc/SolveMap.h \
+ /home/saman/Tahoe/spooles/inc/Lock.h \
+ /home/saman/Tahoe/spooles/inc/I2Ohash.h \
+ /home/saman/Tahoe/spooles/inc/SPOOLES.h

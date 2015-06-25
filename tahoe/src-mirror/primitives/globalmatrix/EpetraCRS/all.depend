@@ -1,0 +1,2 @@
+TrilinosAztecT.o: TrilinosAztecT.cpp TrilinosAztecT.h
+EpetraCRSMatrixT.o: EpetraCRSMatrixT.cpp EpetraCRSMatrixT.h
