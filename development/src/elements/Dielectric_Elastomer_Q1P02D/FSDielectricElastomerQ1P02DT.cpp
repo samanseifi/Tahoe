@@ -20,6 +20,11 @@
 3.  Integration factor for K terms multiplied by beta*dt^2 - correct!
 */
 
+/* TO-DO:
+1.  Confirming calculation of F_0 according to Neto paper.
+2.  Needed to modify the FormStiffness and FormKd accordingly.
+*/
+
 // materials lists (3D only)
 #include "FSSolidMatList2DT.h"
 using namespace std;
