@@ -361,7 +361,7 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 			/* "replace" dilatation */
 			dMatrixT& F = fF_List[i];
 			double J = F.Det();
-			F *= pow((v*J_0)/(H*J), 1.0/3.0);
+			F *= pow((v*J_0)/(H*J), 1.0/2.0);
 			
 			/* store Jacobian */
 			fJacobian[i] = J;
@@ -374,7 +374,7 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 			dMatrixT& F = fF_last_List[i];
 
 			double J = F.Det();
-			F *= pow((v_last*J_0)/(H*J), 1.0/3.0);
+			F *= pow((v_last*J_0)/(H*J), 1.0/2.0);
 		}
 	}	
   }
