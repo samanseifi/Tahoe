@@ -340,21 +340,31 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 	bool needs_F = Needs_F(material_number);
 	bool needs_F_last = Needs_F_last(material_number);
 
+	/* Getting ready for calculating F_0 */
 	fNa_0.Dimension(ElementSupport().NumNodes());
 	fDNa_0.Dimension(NumSD(), ElementSupport().NumNodes());
-	fJ.Dimension(NumSD());
-	fJ_0_inv.Dimension(NumSD());
-	fGrad_U.Dimension(2, 2);
+	fGrad_U.Dimension(2, NumSD());
 
-
+	/* Calculating F_0 (deformation gradient at centroid) Neto et al. formulation */
 	double px[2] = {0.0, 0.0};
 	dArrayT coords_0(NumSD(), px);
 	fShapes->GradU(fLocDisp, fGrad_U, coords_0, fNa_0, fDNa_0);
-	//cout << fGrad_U[0] << fGrad_U[1] << fGrad_U[2] << fGrad_U[3] << endl;
-	fGrad_U.PlusIdentity(); // Computing F_0
+	fGrad_U.PlusIdentity(); // Computing F_0 = I + Grad_U
+	//cout << fGrad_U << endl;
 	double J_0 = fGrad_U.Det();
 
+	// What is the F at NumIP = 1?
 
+	//A.Dimension(2);
+
+	//fShapes->IPCoords(A, 1);
+	//cout << A[0] << " " << A[1] << endl;
+	//fShapes->GradU(fLocDisp, fGrad_U, 1);
+	//fGrad_U.PlusIdentity();
+	//cout << fGrad_U << endl;
+
+	//dMatrixT& F_1 = fF_List[1];
+	//cout << F_1 << endl;
 
 	/* loop over integration points */
 	for (int i = 0; i < NumIP(); i++)
