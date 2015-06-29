@@ -180,8 +180,10 @@ namespace Tahoe {
 
 	dArrayT   fNa_0;
 	dArray2DT fDNa_0;
-	dMatrixT  fJ, fJ_0_inv;
-	dMatrixT fGrad_U;
+	dMatrixT  fGrad_U;
+	dMatrixT  fGrad_UU;
+
+	dArrayT A;
 
 	/** \name work space - from UpdatedLagrangianT.h */
 	/*@{*/
