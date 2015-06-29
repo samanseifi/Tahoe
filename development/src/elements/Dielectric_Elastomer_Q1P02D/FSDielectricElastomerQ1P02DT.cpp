@@ -24,13 +24,11 @@
 /* TO-DO:
 1   Forming [q] in order to calculte stifness matrix according to Neto et al. paper.
 2.  Needed to modify the FormStiffness and FormKd accordingly.
-
 */
 
 /* New Stiffness:
 K_e := K_e + w_i [G]^T[a][G]
 K_e := K_e + w_i [G]^T[q][G_0 - G]
-
 */
 
 /* Tensor [q]:
@@ -360,7 +358,7 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 	/* Calculating F_0 HOPEFULLY, deformation gradient at centroid, (Neto et al. formulation) */
 	double px[2] = {0.0, 0.0}; // origin coordinate = centroid origin
 	dArrayT coords_0(NumSD(), px);
-	fShapes->GradU(fLocDisp, fGrad_U, coords_0, fNa_0, fDNa_0); // coords_0 is the physical coordinates!!
+	fShapes->GradU(fLocDisp, fGrad_U, coords_0, fNa_0, fDNa_0); // coords_0 is in the physical element!!
 	fGrad_U.PlusIdentity(); // Computing F_0 = I + Grad_U
 	double J_0 = fGrad_U.Det();
 
@@ -385,7 +383,7 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 			/* "replace" dilatation */
 			dMatrixT& F = fF_List[i];
 			double J = F.Det();
-			F *= pow((v*J_0)/(H*J), 1.0/2.0);
+			F *= pow((v*J_0)/(H*J), 1.0/2.0); // v and H should be omitted?
 			
 			/* store Jacobian */
 			fJacobian[i] = J;
