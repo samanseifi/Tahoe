@@ -18,21 +18,11 @@
 	Could be a problem for reaction force output accuracy
 2.  ComputeOutput - all based on TL (reference shape functions), not ULagrangian
 3.  Integration factor for K terms multiplied by beta*dt^2 - correct!
-4.  Confirming calculation of F_0 according to Neto paper.
 */
 
 /* TO-DO:
-1   Forming [q] in order to calculte stifness matrix according to Neto et al. paper.
+1.  Confirming calculation of F_0 according to Neto paper.
 2.  Needed to modify the FormStiffness and FormKd accordingly.
-*/
-
-/* New Stiffness:
-K_e := K_e + w_i [G]^T[a][G]
-K_e := K_e + w_i [G]^T[q][G_0 - G]
-*/
-
-/* Tensor [q]:
-[q] = 0.5[a]:([I]\dyad[I]) - 0.5([cauchy]\dyad[I])
 */
 
 // materials lists (3D only)
@@ -354,21 +344,26 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 	fNa_0.Dimension(ElementSupport().NumNodes());
 	fDNa_0.Dimension(NumSD(), ElementSupport().NumNodes());
 	fGrad_U.Dimension(2, NumSD());
-
-	/* Calculating F_0 HOPEFULLY, deformation gradient at centroid, (Neto et al. formulation) */
-	double px[2] = {0.0, 0.0}; // origin coordinate = centroid origin
+	fGrad_U = 0.0;
+	/* Calculating F_0 (deformation gradient at centroid) Neto et al. formulation */
+	double px[2] = {0.2886751, -0.2886751};
 	dArrayT coords_0(NumSD(), px);
-	fShapes->GradU(fLocDisp, fGrad_U, coords_0, fNa_0, fDNa_0); // coords_0 is in the physical element!!
+	fShapes->GradU(fLocDisp, fGrad_U, coords_0, fNa_0, fDNa_0);
 	fGrad_U.PlusIdentity(); // Computing F_0 = I + Grad_U
+	cout << fGrad_U << endl;
 	double J_0 = fGrad_U.Det();
 
 	// What is the F at NumIP = 1?
-	//A.Dimension(2);
-	//fShapes->IPCoords(A, 1);
-	//cout << A[0] << " " << A[1] << endl;
-	//fShapes->GradU(fLocDisp, fGrad_U, 1);
-	//fGrad_U.PlusIdentity();
-	//cout << fGrad_U << endl;
+
+	A.Dimension(2);
+
+	fShapes->IPCoords(A, 1);
+	cout << A[0] << " " << A[1] << endl;
+	fGrad_UU.Dimension(2);
+	fGrad_UU = 0.0;
+	fShapes->GradU(fLocDisp, fGrad_UU, 1);
+	fGrad_UU.PlusIdentity();
+	cout << fGrad_UU << endl;
 
 	//dMatrixT& F_1 = fF_List[1];
 	//cout << F_1 << endl;
@@ -383,7 +378,7 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 			/* "replace" dilatation */
 			dMatrixT& F = fF_List[i];
 			double J = F.Det();
-			F *= pow((v*J_0)/(H*J), 1.0/2.0); // v and H should be omitted?
+			F *= pow((v*J_0)/(H*J), 1.0/2.0);
 			
 			/* store Jacobian */
 			fJacobian[i] = J;
