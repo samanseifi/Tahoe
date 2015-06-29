@@ -22,7 +22,9 @@
 
 /* TO-DO:
 1.  Confirming calculation of F_0 according to Neto paper.
-2.  Needed to modify the FormStiffness and FormKd accordingly.
+2   Forming [q] in order to calculte stifness matrix according to Neto et al. paper.
+3.  Needed to modify the FormStiffness and FormKd accordingly.
+
 */
 
 // materials lists (3D only)
