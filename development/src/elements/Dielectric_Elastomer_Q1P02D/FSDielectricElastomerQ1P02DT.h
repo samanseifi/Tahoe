@@ -180,16 +180,18 @@ namespace Tahoe {
 
 	dArrayT   fNa_0;
 	dArray2DT fDNa_0;
-	dMatrixT  fGrad_U;
-	dMatrixT  fGrad_UU;
+	dMatrixT  fGrad_U_0;
+	dMatrixT  fGrad_UU_0;
 
-	dArrayT A;
+	//dArrayT A;
 
 	/** \name work space - from UpdatedLagrangianT.h */
 	/*@{*/
 	dMatrixT fCauchyStress;	/**< matrix for Cauchy stress tensor: [nsd] x [nsd] */
 	dMatrixT fStressStiff;	/**< "compact" stress stiffness contribution: [nen] x [nen] */
 	dMatrixT fGradNa;       /**< shape function gradients matrix: [nsd] x [nen] */
+
+	dMatrixT fG;
 	/*@}*/
 
   private:
