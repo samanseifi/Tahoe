@@ -5,14 +5,14 @@
 #include <cassert>
 
 /* base class */
-#include "FSDielectricElastomer2DT.h"
+#include "FSDielectricElastomerQ1P02DT.h"
 
 namespace Tahoe {
   
   // interface for finite deformation dielectric elastomers 
   // based on 2008 JMPS paper of Suo et al.
   
-  class FSDielectricElastomerQ1P0SurfaceT: public FSDielectricElastomer2DT {
+  class FSDielectricElastomerQ1P0SurfaceT: public FSDielectricElastomerQ1P02DT {
 
   public:
 
@@ -92,8 +92,8 @@ namespace Tahoe {
     dMatrixT fAmm_mat2;	// mechanical material part of Hessian matrix
     dMatrixT fAmm_geo2;	// mechanical geometric part of Hessian matrix
     dMatrixT fB2, fD2, fLHS2;
-    double fSurfTension, fNewSurfTension, fT_0;
-    //const FieldT* fSurfTension;
+    double fSurfTension, fNewSurfTension;
+    double fT_0;
 
 	dMatrixT tempstiff;
   };
