@@ -1,6 +1,6 @@
 #include "FSDielectricElastomerQ1P0SurfaceT.h"
-#include "FSDEMat2DT.h"
-#include "FSDEMatSupport2DT.h"
+#include "FSDEMatQ1P02DT.h"
+#include "FSDEMatSupportQ1P02DT.h"
 #include "ShapeFunctionT.h"
 
 /* From TLCBSurfaceT */
@@ -23,9 +23,37 @@ using namespace std;
 
 namespace Tahoe {
 
+/* vector functions */
+inline static void CrossProduct(const double* A, const double* B, double* AxB) {
+      AxB[0] = A[1]*B[2] - A[2]*B[1];
+      AxB[1] = A[2]*B[0] - A[0]*B[2];
+	AxB[2] = A[0]*B[1] - A[1]*B[0];
+};
+
+inline static double Dot(const double* A, const double* B){
+      return A[0]*B[0] + A[1]*B[1] + A[2]*B[2];
+};
+
+inline static void Vector(const double* start, const double* end, double* v) {
+      v[0] = end[0] - start[0];
+      v[1] = end[1] - start[1];
+      v[2] = end[2] - start[2];
+};
+
+inline static void Scale(double* v, double scale) {
+      v[0] *= scale;
+      v[1] *= scale;
+      v[2] *= scale;
+};
+
+inline static void Sum(const double* A, const double* B, double* AB) {
+      AB[0] = A[0] + B[0];
+	AB[1] = A[1] + B[1];
+	AB[2] = A[2] + B[2];
+};
 
 FSDielectricElastomerQ1P0SurfaceT::FSDielectricElastomerQ1P0SurfaceT(const ElementSupportT& support) :
-    FSDielectricElastomer2DT(support),
+    FSDielectricElastomerQ1P02DT(support),
     fLocCurrCoords(LocalArrayT::kCurrCoords), fSurfTension(0), fSurfaceCBSupport(NULL)
 {
       SetName("dielectric_elastomer_Q1P0Elastocapillary");
@@ -48,7 +76,7 @@ FSDielectricElastomerQ1P0SurfaceT::~FSDielectricElastomerQ1P0SurfaceT()
 void FSDielectricElastomerQ1P0SurfaceT::DefineParameters(ParameterListT& list) const
 {
       /* Inherited from the most similar element */
-      FSDielectricElastomer2DT::DefineParameters(list);
+      FSDielectricElastomerQ1P02DT::DefineParameters(list);
 
       /* Taking the output_surface */
       ParameterT output_surface(ParameterT::Boolean, "output_surface");
@@ -61,7 +89,7 @@ void FSDielectricElastomerQ1P0SurfaceT::DefineSubs(SubListT& sub_list) const
 {
 
       /* inherited from the most similar element */
-      FSDielectricElastomer2DT::DefineSubs(sub_list);
+      FSDielectricElastomerQ1P02DT::DefineSubs(sub_list);
 
       /* list of passivated surfaces - side set list */
       sub_list.AddSub("passivated_surface_ID_list", ParameterListT::ZeroOrOnce);
@@ -75,7 +103,7 @@ void FSDielectricElastomerQ1P0SurfaceT::TakeParameterList(const ParameterListT& 
 	const char caller[] = "FSDielectricElastomerQ1P0SurfaceT::TakeParameterList";
 
       /* inherited from the most similar element for bulk element */
-      FSDielectricElastomer2DT::TakeParameterList(list);
+      FSDielectricElastomerQ1P02DT::TakeParameterList(list);
 
       /* Shape Functions and related values */
       const ShapeFunctionT& shape = ShapeFunction();
@@ -178,8 +206,6 @@ void FSDielectricElastomerQ1P0SurfaceT::TakeParameterList(const ParameterListT& 
                         surf_shape.DomainJacobian(face_coords, 0, jacobian);
                         surf_shape.SurfaceJacobian(jacobian, Q);  // Last column of Q is normal vector to surface face
 
-                        cout << Q << endl;
-
                         /* match to face normal types, i.e. normals_dat */
                         int normal_type = -1;
                         for (int k = 0; normal_type == -1 && k < fNormal.Length(); k++)
@@ -276,7 +302,7 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
 	const char caller[] = "FSDielectricElastomerQ1P0SurfaceT::FormStiffness";
 
 	/* Inherited */
-	FSDielectricElastomer2DT::FormStiffness(constK);
+	FSDielectricElastomerQ1P02DT::FormStiffness(constK);
 	dMatrixT::SymmetryFlagT format = (fLHS.Format()
 			== ElementMatrixT::kNonSymmetric)
             ? dMatrixT::kWhole
@@ -354,8 +380,6 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
  					 face_nodes.Collect(face_nodes_index, element_card.NodesX());
  					 face_coords.SetLocal(face_nodes);
 
-
-
  					 K1 = 0.0; K2 = 0.0; fB = 0.0;
 
  					 K1(0,0) = 1.0; K1(1,1) = 1.0;
@@ -398,6 +422,8 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
  					 K_Total += K1;
  					 K_Total += K2;
 
+
+
  					 /* Constructing fAmm_mat */
  					 int normaltype = fSurfaceElementFacesType(i, j);
  					 counter = CanonicalNodes(normaltype);
@@ -408,7 +434,7 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
  					 	 fAmm_mat2(counter[n], counter[2]) = fAmm_mat2(counter[n], counter[2]) + K_Total(n ,2);
  					 	 fAmm_mat2(counter[n], counter[3]) = fAmm_mat2(counter[n], counter[3]) + K_Total(n ,3);
  					 }
-  	            	//cout << "Till here is fine" << endl;
+
 
 
  					 /*if (normaltype == 3) {
@@ -444,21 +470,21 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
  			 fLHS.AddBlock(0, 0, fAmm_mat2);
 
  			 // Saving the fLHS matrix
- 			 /* ofstream myLHS;
-            	myLHS.open("fLHS_with_surface.txt");
-            	for (int i = 0; i < fLHS.Rows(); i++)
+ 			  /*ofstream myLHS;
+            	myLHS.open("fAmm_mat2.txt");
+            	for (int i = 0; i < fAmm_mat2.Rows(); i++)
             	{
-            		for (int j = 0; j < fLHS.Cols(); j++)
+            		for (int j = 0; j < fAmm_mat2.Cols(); j++)
             		{
             			// myLHS << "fLHS(" << i << "," << j << ")= " << fLHS(i, j); // List the values of fLHS(i,j)
-            			if (fLHS(i, j) == 0)
+            			if (fAmm_mat2(i, j) == 0)
             				myLHS << "0.00000" << " ";
             			else
-            				myLHS << fLHS(i, j) << " "; // See the matrix form of fLHS for a quick look
+            				myLHS << fAmm_mat2(i, j) << " "; // See the matrix form of fLHS for a quick look
             		}
             	myLHS << endl;
             	}
-            	myLHS.close(); */
+            	myLHS.close()*/
  		 }
  	 } /* End of element loop */
 
@@ -472,7 +498,7 @@ void FSDielectricElastomerQ1P0SurfaceT::FormKd(double constK)
       const char caller[] = "FSDielectricElastomerQ1P0SurfaceT::FormKd";
 
       /* Inherited */
-      FSDielectricElastomer2DT::FormKd(constK);
+      FSDielectricElastomerQ1P02DT::FormKd(constK);
 
       /* dimensions */
       const ShapeFunctionT& shape = ShapeFunction();
@@ -647,7 +673,7 @@ void FSDielectricElastomerQ1P0SurfaceT::ComputeOutput(const iArrayT& n_codes,
 {
       // cout << "\033[1;31mCan you see this?\033[0m" << endl;
       /* inherited - bulk contribution */
-      FSDielectricElastomer2DT::ComputeOutput(n_codes, n_values, e_codes, e_values);
+      FSDielectricElastomerQ1P02DT::ComputeOutput(n_codes, n_values, e_codes, e_values);
 
 }
 
