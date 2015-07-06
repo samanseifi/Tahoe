@@ -343,16 +343,16 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 	/* Getting ready for calculating F_0 */
 	fNa_0.Dimension(ElementSupport().NumNodes());
 	fDNa_0.Dimension(NumSD(), ElementSupport().NumNodes());
-	fGrad_U.Dimension(2, NumSD());
-	fGrad_U = 0.0;
+	fGrad_U_0.Dimension(2, NumSD());
+	fGrad_U_0 = 0.0;
 
 	/* Calculating F_0 HOPEFULLY, deformation gradient at centroid Neto et al. formulation */
 	double px[2] = {0.0, 0.0};
 	dArrayT coords_0(NumSD(), px);
-	fShapes->GradU(fLocDisp, fGrad_U, coords_0, fNa_0, fDNa_0);
-	fGrad_U.PlusIdentity(); // Computing F_0 = I + Grad_U
+	fShapes->GradU(fLocDisp, fGrad_U_0, coords_0, fNa_0, fDNa_0);
+	fGrad_U_0.PlusIdentity(); // Computing F_0 = I + Grad_U
 	//cout << fGrad_U << endl;
-	double J_0 = fGrad_U.Det();
+	double J_0 = fGrad_U_0.Det();
 
 	// What is the F at NumIP = 1?
 
@@ -632,6 +632,9 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
     fAme = 0.0;
     fAem = 0.0;
     fAee = 0.0;
+    fG.Dimension(2, 2);
+    fG = 0.0;
+
 
 	/* integration */
 	const double* Det    = fCurrShapes->IPDets();
@@ -652,26 +655,32 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 	
 	/* S T R E S S   S T I F F N E S S */			
 		/* compute Cauchy stress */
-		const dSymMatrixT& cauchy = fCurrMaterial->s_ij();
-		cauchy.ToMatrix(fCauchyStress);
+		//const dSymMatrixT& cauchy = fCurrMaterial->s_ij();
+ 		//cauchy.ToMatrix(fCauchyStress);
+ 		// Modified according to Neto formulation
+
+		const dMatrixT& a = fCurrMaterial->a_ijkl();
+		fCauchyStress = a; // fCauchyStress is not the cauchy stress is tensor a in Neto's formulation
 		
 		/* determinant of modified deformation gradient */
 		double J_bar = DeformationGradient().Det();
 		
 		/* detF correction */
 		double J_correction = J_bar/fJacobian[CurrIP()];
-		double p = J_correction*cauchy.Trace()/2.0;
+		double p = J_correction*a.Trace()/2.0;
 
 		/* get shape function gradients matrix */
 		fCurrShapes->GradNa(fGradNa);
 		fb_sig.MultAB(fCauchyStress, fGradNa);
 
+		fCurrShapes->GradU(fLocDisp, fG, CurrIP());
+
 		/* integration constants */		
 		fCauchyStress *= scale*J_correction;
 	
 		/* using the stress symmetry */
-		fAmm_geo.MultQTBQ(fGradNa, fCauchyStress, format, dMatrixT::kAccumulate);
- 
+		fAmm_geo.MultQTBQ(fG, fCauchyStress, format, dMatrixT::kAccumulate);
+
 	/* M A T E R I A L   S T I F F N E S S */									
 		/* strain displacement matrix */
 		Set_B_bar(fCurrShapes->Derivatives_U(), fMeanGradient, fB);
