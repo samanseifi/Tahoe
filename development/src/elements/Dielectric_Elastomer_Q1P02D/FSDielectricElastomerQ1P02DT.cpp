@@ -379,7 +379,7 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 			/* "replace" dilatation */
 			dMatrixT& F = fF_List[i];
 			double J = F.Det();
-			F *= pow((v*J_0)/(H*J), 1.0/2.0);
+			F *= pow((v)/(H*J), 1.0/3.0);
 			
 			/* store Jacobian */
 			fJacobian[i] = J;
@@ -392,7 +392,7 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 			dMatrixT& F = fF_last_List[i];
 
 			double J = F.Det();
-			F *= pow((v_last*J_0)/(H*J), 1.0/2.0);
+			F *= pow((v_last)/(H*J), 1.0/3.0);
 		}
 	}	
   }
@@ -655,31 +655,31 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 	
 	/* S T R E S S   S T I F F N E S S */			
 		/* compute Cauchy stress */
-		//const dSymMatrixT& cauchy = fCurrMaterial->s_ij();
- 		//cauchy.ToMatrix(fCauchyStress);
+		const dSymMatrixT& cauchy = fCurrMaterial->s_ij();
+ 		cauchy.ToMatrix(fCauchyStress);
  		// Modified according to Neto formulation
 
-		const dMatrixT& a = fCurrMaterial->a_ijkl();
-		fCauchyStress = a; // fCauchyStress is not the cauchy stress is tensor a in Neto's formulation
-		
+		//const dMatrixT& a = fCurrMaterial->a_ijkl();
+		//fCauchyStress = a; // fCauchyStress is not the cauchy stress is tensor a in Neto's formulation
+
 		/* determinant of modified deformation gradient */
 		double J_bar = DeformationGradient().Det();
 		
 		/* detF correction */
 		double J_correction = J_bar/fJacobian[CurrIP()];
-		double p = J_correction*a.Trace()/2.0;
+		double p = J_correction*fCauchyStress.Trace()/2.0;
 
 		/* get shape function gradients matrix */
 		fCurrShapes->GradNa(fGradNa);
 		fb_sig.MultAB(fCauchyStress, fGradNa);
 
-		fCurrShapes->GradU(fLocDisp, fG, CurrIP());
+		//fCurrShapes->GradU(fLocDisp, fG, CurrIP());
 
 		/* integration constants */		
 		fCauchyStress *= scale*J_correction;
 	
 		/* using the stress symmetry */
-		fAmm_geo.MultQTBQ(fG, fCauchyStress, format, dMatrixT::kAccumulate);
+		fAmm_geo.MultQTBQ(fGradNa, fCauchyStress, format, dMatrixT::kAccumulate);
 
 	/* M A T E R I A L   S T I F F N E S S */									
 		/* strain displacement matrix */
