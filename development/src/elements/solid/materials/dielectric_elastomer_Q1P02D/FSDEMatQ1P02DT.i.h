@@ -388,8 +388,6 @@ namespace Tahoe {
 	fTangentElectromechanicalSpatial(2,1) = tangentEM3Ds(5,1);
  
 
- 	fTangentElectromechanicalSpatial /= J;
-
  	/* -------------- Writing into a file -------------
  	ofstream myeijk;
  	myeijk.open("e_ijk_2.txt");
@@ -716,18 +714,13 @@ namespace Tahoe {
 	  const dSymMatrixT& sigma = s_ij();
 	  const dMatrixT& cijkl = C_IJKL();
 
-	  //cout << sigma << endl;
-
-	  fa(0, 0) = cijkl(0, 0) + 4*sigma(0, 0);
-	  fa(0, 1) = cijkl(0, 1);
-	  fa(0, 2) = cijkl(0, 2);
-	  fa(1, 0) = cijkl(1, 0);
-	  fa(1, 1) = cijkl(1, 1) + 4*sigma(1, 1);
-	  fa(1, 2) = cijkl(1, 2) + 4*sigma(0, 1);
-	  fa(2, 0) = cijkl(2, 0);
-	  fa(2, 1) = cijkl(2, 1) + 4*sigma(1, 0);
-	  fa(2, 2) = cijkl(2, 2) + 4*sigma(0, 0);
-	  //cout << "hello" <<endl;
+	  fa = cijkl;
+	  
+	  fa(0, 0) += 4*sigma(0, 0);
+	  fa(1, 1) += 4*sigma(1, 1);
+	  fa(1, 2) += 4*sigma(0, 1);
+	  fa(2, 1) += 4*sigma(1, 0);
+	  fa(2, 2) += 4*sigma(0, 0);
 
 	  return fa;
   }
