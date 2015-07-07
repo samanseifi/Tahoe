@@ -128,6 +128,8 @@ namespace Tahoe {
     void Workspace();
 	void MassMatrix();
 
+    //void Set_G(const dArray2DT& DNaX, dMatrixT& B_C);
+
 	/** compute mean shape function gradient, H (reference volume), and
 	 * current element volume, equation (2.20) */
 	void SetMeanGradient(dArray2DT& mean_gradient, double& H, double& v) const;
@@ -191,7 +193,7 @@ namespace Tahoe {
 	dMatrixT fStressStiff;	/**< "compact" stress stiffness contribution: [nen] x [nen] */
 	dMatrixT fGradNa;       /**< shape function gradients matrix: [nsd] x [nen] */
 
-	dMatrixT fG;
+	//dMatrixT fG;
 	/*@}*/
 
   private:
@@ -202,6 +204,7 @@ namespace Tahoe {
     // Stiffness storage
     dMatrixT fAmm_mat;	// mechanical material part of Hessian matrix
     dMatrixT fAmm_geo;	// mechanical geometric part of Hessian matrix
+    dMatrixT fAmm_neto; // mechanical part according to Neto et. al formulation
     dMatrixT fAme;	// mechanical-electrical coupling part of Hessian matrix
     dMatrixT fAem;	// electrical-mechanical coupling part of Hessian matrix
     dMatrixT fAee;	// electrical-electrical coupling part of Hessian matrix
