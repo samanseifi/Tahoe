@@ -101,6 +101,7 @@ namespace Tahoe {
 	/* Tangent moduli for LHS */
     fAmm_mat.Dimension(nme, nme);
     fAmm_geo.Dimension(nen, nen);	// dimensions changed for Q1P0!
+    fAmm_neto.Dimension(nme, nme);  // 8x8 for Q1 element!
     fAme.Dimension(nme, nel);
     fAem.Dimension(nel, nme);
     fAee.Dimension(nel, nel);
@@ -351,7 +352,7 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 	dArrayT coords_0(NumSD(), px);
 	fShapes->GradU(fLocDisp, fGrad_U_0, coords_0, fNa_0, fDNa_0);
 	fGrad_U_0.PlusIdentity(); // Computing F_0 = I + Grad_U
-	//cout << fGrad_U << endl;
+	//cout << fDNa_0 << endl;
 	double J_0 = fGrad_U_0.Det();
 
 	// What is the F at NumIP = 1?
@@ -610,6 +611,10 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 	}
 }
 
+ // void FSDielectricElastomerQ1P02DT::Set_G(const dArray2DT& DNaX, dMatrixT& G)
+ // {
+
+ // }
 /* calculate the LHS of residual, or element stiffness matrix */
   void FSDielectricElastomerQ1P02DT::FormStiffness(double constK)
   {
@@ -629,11 +634,12 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 
     fAmm_mat = 0.0;
     fAmm_geo = 0.0;
+    fAmm_neto = 0.0;
     fAme = 0.0;
     fAem = 0.0;
     fAee = 0.0;
-    fG.Dimension(2, 2);
-    fG = 0.0;
+    //fG.Dimension(2, 2);
+    //fG = 0.0;
 
 
 	/* integration */
@@ -669,11 +675,11 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 		double J_correction = J_bar/fJacobian[CurrIP()];
 		double p = J_correction*fCauchyStress.Trace()/2.0;
 
+
 		/* get shape function gradients matrix */
 		fCurrShapes->GradNa(fGradNa);
 		fb_sig.MultAB(fCauchyStress, fGradNa);
 
-		//fCurrShapes->GradU(fLocDisp, fG, CurrIP());
 
 		/* integration constants */		
 		fCauchyStress *= scale*J_correction;
@@ -681,17 +687,29 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 		/* using the stress symmetry */
 		fAmm_geo.MultQTBQ(fGradNa, fCauchyStress, format, dMatrixT::kAccumulate);
 
-	/* M A T E R I A L   S T I F F N E S S */									
+	/* M A T E R I A L   S T I F F N E S S */
 		/* strain displacement matrix */
 		Set_B_bar(fCurrShapes->Derivatives_U(), fMeanGradient, fB);
 
 		/* get D matrix */
 		fD.SetToScaled(scale*J_correction, fCurrMaterial->c_ijkl());
-						
+
+
+
 		/* accumulate */
 		fAmm_mat.MultQTBQ(fB, fD, format, dMatrixT::kAccumulate);
-		
-	/* Electromechanical Coupling Stiffnesses in current configuration */
+
+	/* N E T O    S T I F F N E S S */
+    	const dArray2DT& DNa = fCurrShapes->Derivatives_U();
+    	//cout << DNa << endl;
+		//Set_B(DNa, fB);
+		//cout << fB << endl;
+		//cout << endl;
+    	Set_G(DNa, fG);
+    	cout << fG << endl;
+    	cout << endl;
+
+		/* Electromechanical Coupling Stiffnesses in current configuration */
 	/* May need to modify integration constants (scale) for BIJ and EIJK as compared to CIJKL */
 	/* J_correction for eijk terms? */
 		dMatrixT bij = fCurrMaterial->b_ij();
@@ -713,6 +731,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 	
 	/* stress stiffness into fLHS (i.e. fAmm_mat) */
 	fAmm_mat.Expand(fAmm_geo, NumDOF(), dMatrixT::kAccumulate);
+	//cout << fAmm_mat << endl;
 	fAem.Transpose();
 	
 	/* Add mass matrix and non-symmetric electromechanical tangent if dynamic problem */
@@ -783,7 +802,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 		/* B^T * Cauchy stress */
 		const dSymMatrixT& cauchy = fCurrMaterial->s_ij();
 		fB.MultTx(cauchy, fNEEvec);
-		
+		//cout << fB.Rows() << fB.Cols() << endl;
 		/* determinant of modified deformation gradient */
 		double J_bar = DeformationGradient().Det();
 		
