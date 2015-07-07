@@ -137,7 +137,9 @@ protected:
 	 * \param p an existing MaterialSupportT to be initialized. If NULL, allocate
 	 *        a new MaterialSupportT and initialize it. */
 	virtual MaterialSupportT* NewMaterialSupport(MaterialSupportT* p = NULL) const;
-
+	
+	void Set_G(const dArray2DT& derivatives, dMatrixT& G) const;
+	
 	/** set the \e B matrix using the given shape function derivatives
 	 * Set strain displacement matrix as in Hughes (2.8.20)
 	 * \param derivatives of shape function derivatives: [nsd] x [nen]
@@ -244,6 +246,7 @@ protected:
 	dArrayT fElementHeat; /**< destination for heat generation. If not length nip, heat not needed */
 	dMatrixT fD; /**< constitutive matrix */
 	dMatrixT fB; /**< strain-displacement matrix */
+	dMatrixT fG;
 	dSymMatrixT fStress; /**< stress vector */
 	/*@}*/
 
