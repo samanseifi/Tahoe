@@ -456,6 +456,7 @@ void SolidElementT::TakeParameterList(const ParameterListT& list)
 	/* allocate work space */
 	fB.Dimension(dSymMatrixT::NumValues(NumSD()), NumSD()*NumElementNodes());
 	fD.Dimension(dSymMatrixT::NumValues(NumSD()));
+	fG.Dimension(2.0*NumSD(), NumSD()*NumElementNodes());  
 
 	/* nodal output codes */
 	fNodalOutputCodes.Dimension(NumNodalOutputCodes);
@@ -808,6 +809,45 @@ MaterialSupportT* SolidElementT::NewMaterialSupport(MaterialSupportT* p) const
 	}
 
 	return p;
+}
+void SolidElementT::Set_G(const dArray2DT& DNa, dMatrixT& G) const
+{
+#if __option(extended_errorcheck)
+	if (G.Rows() != dSymMatrixT::NumValues(DNa.MajorDim()) ||
+	    G.Cols() != DNa.Length())
+	    throw ExceptionT::kSizeMismatch;
+#endif
+
+	int nnd = DNa.MinorDim();
+	double* pG = G.Pointer();
+
+	/* 1D */
+	if (DNa.MajorDim() == 1)
+	{
+		const double* pNax = DNa(0);
+		for (int i = 0; i < nnd; i++)
+			*pG++ = *pNax++;
+	}
+	/* 2D */
+	else if (DNa.MajorDim() == 2)
+	{
+		const double* pNax = DNa(0);
+		const double* pNay = DNa(1);
+		for (int i = 0; i < nnd; i++)
+		{
+			/* see Hughes (2.8.20) */
+			*pG++ = *pNax;
+			*pG++ = 0.0;
+			*pG++ = *pNay;
+			*pG++ = 0.0;
+
+			*pG++ = 0.0;
+			*pG++ = *pNax++;
+			*pG++ = 0.0;
+			*pG++ = *pNay++;
+		}
+	}
+
 }
 
 /* set the \e B matrix using the given shape function derivatives */
