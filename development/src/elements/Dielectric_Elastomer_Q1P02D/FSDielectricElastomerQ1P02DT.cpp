@@ -377,7 +377,7 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 			dMatrixT& F = fF_last_List[i];
 
 			double J = F.Det();
-			F *= pow((v_last)/(H*J), 1.0/3.0);
+			F *= pow((v_last)/(J), 1.0/3.0);
 		}
 	}	
   }
@@ -625,6 +625,9 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
     fG_0.Dimension(2.0*NumSD(), NumSD()*NumElementNodes());  /* Initialization of G_0 */
     fG_0 = 0.0;
 
+    fQ.Dimension(4, 4); // for plane strain problem
+    fQ = 0.0;
+
 
 	/* integration */
 	const double* Det    = fCurrShapes->IPDets();
@@ -690,6 +693,35 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
     	fCurrShapes->EvaluateShapeFunctions(coords_0, Na_0, DNa_0);
     	Set_G(DNa_0, fG_0);
 
+    	dMatrixT a = fCurrMaterial->a_ijkl();
+    	dSymMatrixT sigma = fCurrMaterial->s_ij();
+
+    	fQ(0, 0) = 0.5*(a(0, 0) + a(1, 0)) - 0.5*sigma(0, 0);
+    	fQ(0, 1) = 0.0;
+    	fQ(0, 2) = 0.0;
+    	fQ(0, 3) = 0.5*(a(0, 0) + a(1, 0)) - 0.5*sigma(0, 0);
+
+    	fQ(1, 0) = 0.5*(a(2, 0) + a(2, 1)) - 0.5*sigma(0, 1);
+    	fQ(1, 1) = 0.0;
+    	fQ(1, 2) = 0.0;
+    	fQ(1, 3) = 0.5*(a(2, 0) + a(2, 1)) - 0.5*sigma(0, 1);
+
+    	fQ(2, 0) = 0.5*(a(2, 0) + a(2, 1)) - 0.5*sigma(0, 1);
+    	fQ(2, 1) = 0.0;
+    	fQ(2, 2) = 0.0;
+    	fQ(2, 3) = 0.5*(a(2, 0) + a(2, 1)) - 0.5*sigma(0, 1);
+
+    	fQ(3, 0) = 0.5*(a(1, 0) + a(1, 1)) - 0.5*sigma(0, 1);
+    	fQ(3, 1) = 0.0;
+    	fQ(3, 2) = 0.0;
+    	fQ(3, 3) = 0.5*(a(1, 0) + a(1, 1)) - 0.5*sigma(1, 1);
+
+    	fQ *= scale*J_correction;
+
+    	fG_0 -= fG; // G_0 - G
+
+    	/* fAmm_neto is the additional stiffness to the standard stiffness proposed by Neto. See Neto Box (15.2) */
+    	fAmm_neto.MultATBC(fG, fQ, fG_0, format, dMatrixT::kAccumulate); // K_neto = K_neto + w*J*G^T*[q]*(G_0 - G)
 
 
 		/* Electromechanical Coupling Stiffnesses in current configuration */
@@ -714,6 +746,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 	
 	/* stress stiffness into fLHS (i.e. fAmm_mat) */
 	fAmm_mat.Expand(fAmm_geo, NumDOF(), dMatrixT::kAccumulate);
+	//fAmm_mat.AddBlock(0, 0, fAmm_neto);
 	//cout << fAmm_mat << endl;
 	fAem.Transpose();
 	
