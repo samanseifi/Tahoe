@@ -342,33 +342,17 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 	bool needs_F_last = Needs_F_last(material_number);
 
 	/* Getting ready for calculating F_0 */
-	fNa_0.Dimension(ElementSupport().NumNodes());
-	fDNa_0.Dimension(NumSD(), ElementSupport().NumNodes());
+	Na_0.Dimension(ElementSupport().NumNodes());
+	DNa_0.Dimension(NumSD(), ElementSupport().NumNodes());
 	fGrad_U_0.Dimension(2, NumSD());
 	fGrad_U_0 = 0.0;
 
 	/* Calculating F_0 HOPEFULLY, deformation gradient at centroid Neto et al. formulation */
 	double px[2] = {0.0, 0.0};
 	dArrayT coords_0(NumSD(), px);
-	fShapes->GradU(fLocDisp, fGrad_U_0, coords_0, fNa_0, fDNa_0);
+	fShapes->GradU(fLocDisp, fGrad_U_0, coords_0, Na_0, DNa_0);
 	fGrad_U_0.PlusIdentity(); // Computing F_0 = I + Grad_U
-	//cout << fDNa_0 << endl;
 	double J_0 = fGrad_U_0.Det();
-
-	// What is the F at NumIP = 1?
-
-	//A.Dimension(2);
-
-	//fShapes->IPCoords(A, 1);
-	//cout << A[0] << " " << A[1] << endl;
-	//fGrad_UU.Dimension(2);
-	//fGrad_UU = 0.0;
-	//fShapes->GradU(fLocDisp, fGrad_UU, 1);
-	//fGrad_UU.PlusIdentity();
-	//cout << fGrad_UU << endl;
-
-	//dMatrixT& F_1 = fF_List[1];
-	//cout << F_1 << endl;
 
 	/* loop over integration points */
 	for (int i = 0; i < NumIP(); i++)
@@ -638,8 +622,8 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
     fAme = 0.0;
     fAem = 0.0;
     fAee = 0.0;
-    //fG.Dimension(2, 2);
-    //fG = 0.0;
+    fG_0.Dimension(2.0*NumSD(), NumSD()*NumElementNodes());  /* Initialization of G_0 */
+    fG_0 = 0.0;
 
 
 	/* integration */
@@ -694,20 +678,19 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 		/* get D matrix */
 		fD.SetToScaled(scale*J_correction, fCurrMaterial->c_ijkl());
 
-
-
 		/* accumulate */
 		fAmm_mat.MultQTBQ(fB, fD, format, dMatrixT::kAccumulate);
 
-	/* N E T O    S T I F F N E S S */
+	/* A D D I T I O N A L    S T I F F N E S S (Neto eq. 15.10 second integral) */
     	const dArray2DT& DNa = fCurrShapes->Derivatives_U();
-    	//cout << DNa << endl;
-		//Set_B(DNa, fB);
-		//cout << fB << endl;
-		//cout << endl;
     	Set_G(DNa, fG);
-    	cout << fG << endl;
-    	cout << endl;
+
+    	double px[2] = {0.0, 0.0};
+    	dArrayT coords_0(NumSD(), px);
+    	fCurrShapes->EvaluateShapeFunctions(coords_0, Na_0, DNa_0);
+    	Set_G(DNa_0, fG_0);
+
+
 
 		/* Electromechanical Coupling Stiffnesses in current configuration */
 	/* May need to modify integration constants (scale) for BIJ and EIJK as compared to CIJKL */
