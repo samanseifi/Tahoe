@@ -194,6 +194,7 @@ namespace Tahoe {
 	dMatrixT fGradNa;       /**< shape function gradients matrix: [nsd] x [nen] */
 
 	dMatrixT fG_0; /* discrete spatial gradient operator at centroid */
+	dMatrixT fQ;
 	/*@}*/
 
   private:
