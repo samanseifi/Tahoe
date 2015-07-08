@@ -180,8 +180,8 @@ namespace Tahoe {
 	dMatrixT fb_sig;
 	/*@}*/
 
-	dArrayT   fNa_0;
-	dArray2DT fDNa_0;
+	dArrayT   Na_0;
+	dArray2DT DNa_0;
 	dMatrixT  fGrad_U_0;
 	dMatrixT  fGrad_UU_0;
 
@@ -193,7 +193,7 @@ namespace Tahoe {
 	dMatrixT fStressStiff;	/**< "compact" stress stiffness contribution: [nen] x [nen] */
 	dMatrixT fGradNa;       /**< shape function gradients matrix: [nsd] x [nen] */
 
-	//dMatrixT fG;
+	dMatrixT fG_0; /* discrete spatial gradient operator at centroid */
 	/*@}*/
 
   private:
