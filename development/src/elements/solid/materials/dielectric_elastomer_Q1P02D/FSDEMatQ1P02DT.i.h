@@ -48,7 +48,7 @@ namespace Tahoe {
   //
   inline const dArrayT FSDEMatQ1P02DT::ElectricField(int ip)
   {
-    //fElectricField = fFSDEMatSupportQ1P02D->ElectricField(ip);
+    fElectricField = fFSDEMatSupportQ1P02D->ElectricField(ip);
 	/*---------- Prescribing Electric Field ----------*/
  	//fElectricField[0] = 0.0;
     //fElectricField[1] = -0.1;
