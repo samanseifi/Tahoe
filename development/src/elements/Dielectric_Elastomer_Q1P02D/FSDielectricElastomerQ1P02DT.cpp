@@ -696,7 +696,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
     	dMatrixT a = fCurrMaterial->a_ijkl();
     	dSymMatrixT sigma = fCurrMaterial->s_ij();
 
-    	fQ(0, 0) = 0.5*(a(0, 0) + a(1, 0)) - 0.5*sigma(0, 0);
+    	fQ(0, 0) = 0.5*(a(0, 0) + a(0, 1)) - 0.5*sigma(0, 0);
     	fQ(0, 1) = 0.0;
     	fQ(0, 2) = 0.0;
     	fQ(0, 3) = 0.5*(a(0, 0) + a(1, 0)) - 0.5*sigma(0, 0);
