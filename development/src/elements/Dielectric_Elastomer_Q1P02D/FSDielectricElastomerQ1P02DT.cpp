@@ -375,7 +375,6 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 		{
 			/* "replace" dilatation */
 			dMatrixT& F = fF_last_List[i];
-
 			double J = F.Det();
 			F *= pow((v_last)/(H*J), 1.0/3.0);
 		}
@@ -623,10 +622,10 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
     fAem = 0.0;
     fAee = 0.0;
     fG_0.Dimension(2.0*NumSD(), NumSD()*NumElementNodes());  /* Initialization of G_0 */
-    fG_0 = 0.0;
+    //fG_0 = 0.0;
 
     fQ.Dimension(4, 4); // for plane strain problem
-    fQ = 0.0;
+    //fQ = 0.0;
 
 
 	/* integration */
@@ -645,15 +644,14 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 		double scale = constK*(*Det++)*(*Weight++);
 		/* scale factor for K matrix terms without beta * dt^2 factor */
  		double scale1 = scale/constK;
-	
+
+
 	/* S T R E S S   S T I F F N E S S */			
 		/* compute Cauchy stress */
 		const dSymMatrixT& cauchy = fCurrMaterial->s_ij();
  		cauchy.ToMatrix(fCauchyStress);
  		// Modified according to Neto formulation
 
-		//const dMatrixT& a = fCurrMaterial->a_ijkl();
-		//fCauchyStress = a; // fCauchyStress is not the cauchy stress is tensor a in Neto's formulation
 
 		/* determinant of modified deformation gradient */
 		double J_bar = DeformationGradient().Det();
@@ -661,7 +659,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 		/* detF correction */
 		double J_correction = J_bar/fJacobian[CurrIP()];
 		double p = J_correction*fCauchyStress.Trace()/2.0;
-
+		//cout << J_correction << endl;
 
 		/* get shape function gradients matrix */
 		fCurrShapes->GradNa(fGradNa);
@@ -677,7 +675,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 	/* M A T E R I A L   S T I F F N E S S */
 		/* strain displacement matrix */
 		Set_B_bar(fCurrShapes->Derivatives_U(), fMeanGradient, fB);
-
+		//Set_B(fCurrShapes->Derivatives_U(), fB);
 		/* get D matrix */
 		fD.SetToScaled(scale*J_correction, fCurrMaterial->c_ijkl());
 
@@ -696,10 +694,11 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
     	dMatrixT a = fCurrMaterial->a_ijkl();
     	dSymMatrixT sigma = fCurrMaterial->s_ij();
 
+
     	fQ(0, 0) = 0.5*(a(0, 0) + a(0, 1)) - 0.5*sigma(0, 0);
     	fQ(0, 1) = 0.0;
     	fQ(0, 2) = 0.0;
-    	fQ(0, 3) = 0.5*(a(0, 0) + a(1, 0)) - 0.5*sigma(0, 0);
+    	fQ(0, 3) = 0.5*(a(0, 0) + a(0, 1)) - 0.5*sigma(0, 0);
 
     	fQ(1, 0) = 0.5*(a(2, 0) + a(2, 1)) - 0.5*sigma(0, 1);
     	fQ(1, 1) = 0.0;
@@ -711,7 +710,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
     	fQ(2, 2) = 0.0;
     	fQ(2, 3) = 0.5*(a(2, 0) + a(2, 1)) - 0.5*sigma(0, 1);
 
-    	fQ(3, 0) = 0.5*(a(1, 0) + a(1, 1)) - 0.5*sigma(0, 1);
+    	fQ(3, 0) = 0.5*(a(1, 0) + a(1, 1)) - 0.5*sigma(1, 1);
     	fQ(3, 1) = 0.0;
     	fQ(3, 2) = 0.0;
     	fQ(3, 3) = 0.5*(a(1, 0) + a(1, 1)) - 0.5*sigma(1, 1);
@@ -812,6 +811,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
     {
 		/* strain displacement matrix */
 		Set_B_bar(fCurrShapes->Derivatives_U(), fMeanGradient, fB);
+		//Set_B(fCurrShapes->Derivatives_U(), fB);
 
 		/* B^T * Cauchy stress */
 		const dSymMatrixT& cauchy = fCurrMaterial->s_ij();
