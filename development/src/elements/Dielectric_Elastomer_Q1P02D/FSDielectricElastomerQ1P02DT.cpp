@@ -377,7 +377,7 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 			dMatrixT& F = fF_last_List[i];
 
 			double J = F.Det();
-			F *= pow((v_last)/(J), 1.0/3.0);
+			F *= pow((v_last)/(H*J), 1.0/3.0);
 		}
 	}	
   }
@@ -644,7 +644,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 		/* NOTE:  constK = beta * dt^2 */
 		double scale = constK*(*Det++)*(*Weight++);
 		/* scale factor for K matrix terms without beta * dt^2 factor */
- 		double scale1 = scale/constK;	
+ 		double scale1 = scale/constK;
 	
 	/* S T R E S S   S T I F F N E S S */			
 		/* compute Cauchy stress */
@@ -657,10 +657,10 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 
 		/* determinant of modified deformation gradient */
 		double J_bar = DeformationGradient().Det();
-		
+
 		/* detF correction */
 		double J_correction = J_bar/fJacobian[CurrIP()];
-		double p = J_correction*fCauchyStress.Trace()/3.0;
+		double p = J_correction*fCauchyStress.Trace()/2.0;
 
 
 		/* get shape function gradients matrix */
@@ -668,7 +668,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 		fb_sig.MultAB(fCauchyStress, fGradNa);
 
 
-		/* integration constants */		
+		/* integration constants */
 		fCauchyStress *= scale*J_correction;
 	
 		/* using the stress symmetry */
@@ -745,8 +745,6 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 	
 	/* stress stiffness into fLHS (i.e. fAmm_mat) */
 	fAmm_mat.Expand(fAmm_geo, NumDOF(), dMatrixT::kAccumulate);
-	//fAmm_mat.AddBlock(0, 0, fAmm_neto);
-	//cout << fAmm_mat << endl;
 	fAem.Transpose();
 	
 	/* Add mass matrix and non-symmetric electromechanical tangent if dynamic problem */
@@ -762,6 +760,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 
 	/* Assemble into fLHS, or element stiffness matrix */
 	fLHS.AddBlock(0, 0, fAmm_mat);
+	//fLHS.AddBlock(0, 0, fAmm_neto);
 	fLHS.AddBlock(fAmm_mat.Rows(), fAmm_mat.Cols(), fAee);
 	fLHS.AddBlock(0, fAmm_mat.Cols(), fAme);
 			// Saving the fLHS matrix
@@ -825,7 +824,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 		double J_correction = J_bar/fJacobian[CurrIP()];
 		
 		/* integrate pressure */
-		p_bar += (*Weight)*(*Det)*J_correction*cauchy.Trace()/3.0;
+		p_bar += (*Weight)*(*Det)*J_correction*cauchy.Trace()/2.0;
 
 		/* double scale factor */
 		double scale = constK*(*Det++)*(*Weight++);   
