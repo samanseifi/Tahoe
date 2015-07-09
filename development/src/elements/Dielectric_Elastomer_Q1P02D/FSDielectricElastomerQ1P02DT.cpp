@@ -660,7 +660,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 		
 		/* detF correction */
 		double J_correction = J_bar/fJacobian[CurrIP()];
-		double p = J_correction*fCauchyStress.Trace()/2.0;
+		double p = J_correction*fCauchyStress.Trace()/3.0;
 
 
 		/* get shape function gradients matrix */
@@ -722,7 +722,6 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 
     	/* fAmm_neto is the additional stiffness to the standard stiffness proposed by Neto. See Neto Box (15.2) */
     	fAmm_neto.MultATBC(fG, fQ, fG_0, format, dMatrixT::kAccumulate); // K_neto = K_neto + w*J*G^T*[q]*(G_0 - G)
-
 
 		/* Electromechanical Coupling Stiffnesses in current configuration */
 	/* May need to modify integration constants (scale) for BIJ and EIJK as compared to CIJKL */
@@ -826,7 +825,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 		double J_correction = J_bar/fJacobian[CurrIP()];
 		
 		/* integrate pressure */
-		p_bar += (*Weight)*(*Det)*J_correction*cauchy.Trace()/2.0;
+		p_bar += (*Weight)*(*Det)*J_correction*cauchy.Trace()/3.0;
 
 		/* double scale factor */
 		double scale = constK*(*Det++)*(*Weight++);   
