@@ -365,7 +365,8 @@ namespace Tahoe {
  	}
  	myeijk.close();
  	------------------------------------------------- */
-
+	//  cout << F2D << endl;
+	//  cout << "from matrial" << endl;
     return fTangentElectromechanicalSpatial;
   }
 
@@ -543,8 +544,8 @@ namespace Tahoe {
   inline const dMatrixT&
   FSDEMatQ1P02DT::c_ijkl()
   {
-//     const dMatrixT& F = F_mechanical();
-//     const double J = F.Det();
+     const dMatrixT& F = F_mechanical();
+     const double J = F.Det();
 // 
 //     // prevent aliasing
 //     const dMatrixT CIJKL = C_IJKL();
@@ -581,6 +582,7 @@ namespace Tahoe {
 	  fa(1, 2) += 4*sigma(0, 1);
 	  fa(2, 1) += 4*sigma(1, 0);
 	  fa(2, 2) += 4*sigma(0, 0);
+
 
 	  return fa;
   }
