@@ -6,7 +6,7 @@ This is a pre-built version of Tahoe configurated for developing the dielectric 
 
 <code>~$: ./tahoe-manager init build</code>
 
-For first timers preparing Tahoe for a specific application is not as simple as it sounds. There are some libraries need to be installed first. You can follow the forum <a href="http://tahoe.sourceforge.net/bb/"> here </a>.
+For the first timers preparing Tahoe for a specific application is not as simple as it seems. There are some libraries that need to be installed first. You can read the forum <a href="http://tahoe.sourceforge.net/bb/"> here </a> and learn how to set your own version of Tahoe.
 
 <B>Pre Built Tahoe (This repository)</B>
 
