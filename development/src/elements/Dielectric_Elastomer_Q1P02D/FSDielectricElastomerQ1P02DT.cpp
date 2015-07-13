@@ -364,7 +364,7 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 			/* "replace" dilatation */
 			dMatrixT& F = fF_List[i];
 			double J = F.Det();
-			F *= pow((v)/(H*J), 1.0/3.0);
+			F *= pow((J_0)/(J), 1.0/2.0);
 			
 			/* store Jacobian */
 			fJacobian[i] = J;
@@ -376,7 +376,7 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 			/* "replace" dilatation */
 			dMatrixT& F = fF_last_List[i];
 			double J = F.Det();
-			F *= pow((v_last)/(H*J), 1.0/3.0);
+			F *= pow((J_0)/(J), 1.0/2.0);
 		}
 	}	
   }
@@ -657,8 +657,9 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 		double J_bar = DeformationGradient().Det();
 
 		/* detF correction */
-		double J_correction = J_bar/fJacobian[CurrIP()];
-		double p = J_correction*fCauchyStress.Trace()/2.0;
+		//J_correction = 1.0;
+		//double J_correction = J_bar/fJacobian[CurrIP()];
+		//double p = fCauchyStress.Trace()/2.0;
 		//cout << J_correction << endl;
 
 		/* get shape function gradients matrix */
@@ -667,17 +668,17 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 
 
 		/* integration constants */
-		fCauchyStress *= scale*J_correction;
+		fCauchyStress *= scale;
 	
 		/* using the stress symmetry */
 		fAmm_geo.MultQTBQ(fGradNa, fCauchyStress, format, dMatrixT::kAccumulate);
 
 	/* M A T E R I A L   S T I F F N E S S */
 		/* strain displacement matrix */
-		Set_B_bar(fCurrShapes->Derivatives_U(), fMeanGradient, fB);
-		//Set_B(fCurrShapes->Derivatives_U(), fB);
+		//Set_B_bar(fCurrShapes->Derivatives_U(), fMeanGradient, fB);
+		Set_B(fCurrShapes->Derivatives_U(), fB);
 		/* get D matrix */
-		fD.SetToScaled(scale*J_correction, fCurrMaterial->c_ijkl());
+		fD.SetToScaled(scale, fCurrMaterial->c_ijkl());
 
 		/* accumulate */
 		fAmm_mat.MultQTBQ(fB, fD, format, dMatrixT::kAccumulate);
@@ -715,7 +716,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
     	fQ(3, 2) = 0.0;
     	fQ(3, 3) = 0.5*(a(1, 0) + a(1, 1)) - 0.5*sigma(1, 1);
 
-    	fQ *= scale*J_correction;
+    	fQ *= scale;
 
     	fG_0 -= fG; // G_0 - G
 
@@ -727,8 +728,8 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 	/* J_correction for eijk terms? */
 		dMatrixT bij = fCurrMaterial->b_ij();
 		dMatrixT eijk = fCurrMaterial->e_ijk();
-		eijk *= scale*J_correction;
-		bij *= scale1*J_correction;	// integration constant
+		eijk *= scale;
+		bij *= scale1;	// integration constant
 		
 		/* mechanical-electrical stiffness (24 x 8 matrix for 8-node 3D element) */
 		/* Need similar for EIJK1 though with different integration constant */
@@ -759,7 +760,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 
 	/* Assemble into fLHS, or element stiffness matrix */
 	fLHS.AddBlock(0, 0, fAmm_mat);
-	//fLHS.AddBlock(0, 0, fAmm_neto);
+	fLHS.AddBlock(0, 0, fAmm_neto);
 	fLHS.AddBlock(fAmm_mat.Rows(), fAmm_mat.Cols(), fAee);
 	fLHS.AddBlock(0, fAmm_mat.Cols(), fAme);
 			// Saving the fLHS matrix
@@ -810,8 +811,8 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
     while (fCurrShapes->NextIP() )
     {
 		/* strain displacement matrix */
-		Set_B_bar(fCurrShapes->Derivatives_U(), fMeanGradient, fB);
-		//Set_B(fCurrShapes->Derivatives_U(), fB);
+		//Set_B_bar(fCurrShapes->Derivatives_U(), fMeanGradient, fB);
+		Set_B(fCurrShapes->Derivatives_U(), fB);
 
 		/* B^T * Cauchy stress */
 		const dSymMatrixT& cauchy = fCurrMaterial->s_ij();
@@ -821,16 +822,16 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 		double J_bar = DeformationGradient().Det();
 		
 		/* detF correction */
-		double J_correction = J_bar/fJacobian[CurrIP()];
+		//double J_correction = J_bar/fJacobian[CurrIP()];
 		
 		/* integrate pressure */
-		p_bar += (*Weight)*(*Det)*J_correction*cauchy.Trace()/2.0;
+		p_bar += (*Weight)*(*Det)*cauchy.Trace()/2.0;
 
 		/* double scale factor */
 		double scale = constK*(*Det++)*(*Weight++);   
 		
 		/* accumulate - use Rmech instead of fRHS */
-		Rmech.AddScaled(scale*J_correction, fNEEvec);
+		Rmech.AddScaled(scale, fNEEvec);
     
  	  	/* electrical stress in current configuration */
  	  	dArrayT di = fCurrMaterial->d_i();
@@ -838,7 +839,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
  	  	// 	  		cout << di[i] << endl;
  	  	//cout << scale << endl;
  	  	//cout << J_correction << endl;
- 	  	di *= scale*J_correction;
+ 	  	di *= scale;
  	  	//for (int i = 0; i < di.Length(); i++)
  	  	//  		cout << di[i] << endl;
  	  	/* get shape function gradients matrix */
