@@ -544,14 +544,15 @@ namespace Tahoe {
   inline const dMatrixT&
   FSDEMatQ1P02DT::c_ijkl()
   {
+
      const dMatrixT& F = F_mechanical();
      const double J = F.Det();
-// 
-//     // prevent aliasing
-//     const dMatrixT CIJKL = C_IJKL();
-//     fTangentMechanical.SetToScaled(1.0 / J, PushForward(F, CIJKL));
+ 
+     // prevent aliasing
+     const dMatrixT CIJKL = C_IJKL();
+     fTangentMechanical.SetToScaled(1.0 / J, PushForward(F, CIJKL)); // finite difference c_ijkl
     
-	fTangentMechanical = FSSolidMatT::c_ijkl();
+//	fTangentMechanical = FSSolidMatT::c_ijkl(); // Analytic c_ijkl
 
  	/* -------------- Writing into a file -------------
  	ofstream mycijkl;
