@@ -173,13 +173,12 @@ void FSDielectricElastomerQ1P0SurfaceT::TakeParameterList(const ParameterListT& 
       ModelManagerT& model_manager = ElementSupport().ModelManager();
       model_manager.BoundingElements(block_ID, fSurfaceElements, fSurfaceElementNeighbors);
 
-<<<<<<< HEAD
-=======
+
+
       ArrayT<const iArray2DT*> connects;
       model_manager.ElementGroupPointers(block_ID, connects);
       //cout << fSurfaceElementNeighbors << endl;
       //cout << fSurfaceElements << endl;
->>>>>>> 8372e8fafca73a7239facc5b0baa304095534cbf
 
       /* determine normal type of each face */
       dMatrixT Q(nsd);
@@ -344,8 +343,6 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
 
      //cout << fSurfaceElementNeighbors << endl;
 
-     ModelManagerT& model_manager = ElementSupport().ModelManager();
-     const iArrayT node_set_1 = model_manager.NodeSet("1");
 
 
  	 // Should be loop over number of elements on surface!! //

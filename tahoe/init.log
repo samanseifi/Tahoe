@@ -312,7 +312,7 @@ executing "make setup headers" in /home/saman/Tahoe/tahoe/../development
 make[3]: Entering directory `/home/saman/Tahoe/development'
  mirroring /home/saman/Tahoe/tahoe/../development/src to /home/saman/Tahoe/tahoe/../development/src-mirror
 perl -w /home/saman/Tahoe/tahoe/../macros/MirrorTree.pl /home/saman/Tahoe/tahoe/../development/src /home/saman/Tahoe/tahoe/../development/src-mirror "ln -sf" > /home/saman/Tahoe/tahoe/../development/mirror.log
-Wed Jul 22 15:51:37 EDT 2015
+Tue Jul 28 14:52:30 EDT 2015
 removed 84 files matching regex ".*[.]h"
 cd /home/saman/Tahoe/tahoe/../development/src-mirror
 cd /home/saman/Tahoe/tahoe/../development/src-mirror; \
@@ -2033,7 +2033,7 @@ make[1]: Entering directory `/home/saman/Tahoe/tahoe'
 make[2]: Entering directory `/home/saman/Tahoe/tahoe'
 executing "make depend_init object_list" in /home/saman/Tahoe/tahoe/../development
 make[3]: Entering directory `/home/saman/Tahoe/development'
-Wed Jul 22 15:51:40 EDT 2015
+Tue Jul 28 14:52:33 EDT 2015
 cd /home/saman/Tahoe/tahoe/../development/src-mirror
 cd /home/saman/Tahoe/tahoe/../development/src-mirror; \
 	make  depend_init \
