@@ -63,12 +63,10 @@ FSDielectricElastomerQ1P0SurfaceT::FSDielectricElastomerQ1P0SurfaceT(const Eleme
 /* Destructor */
 FSDielectricElastomerQ1P0SurfaceT::~FSDielectricElastomerQ1P0SurfaceT()
 {
-      //cout << "jhf" << endl;
       /* TLCBSurface Stuff */
 	/* free surface models */
 	delete fSurfaceCBSupport;
 
-      //cout << "dffgd" << endl;
 }
 
 
@@ -175,6 +173,13 @@ void FSDielectricElastomerQ1P0SurfaceT::TakeParameterList(const ParameterListT& 
       ModelManagerT& model_manager = ElementSupport().ModelManager();
       model_manager.BoundingElements(block_ID, fSurfaceElements, fSurfaceElementNeighbors);
 
+<<<<<<< HEAD
+=======
+      ArrayT<const iArray2DT*> connects;
+      model_manager.ElementGroupPointers(block_ID, connects);
+      //cout << fSurfaceElementNeighbors << endl;
+      //cout << fSurfaceElements << endl;
+>>>>>>> 8372e8fafca73a7239facc5b0baa304095534cbf
 
       /* determine normal type of each face */
       dMatrixT Q(nsd);
@@ -283,7 +288,6 @@ void FSDielectricElastomerQ1P0SurfaceT::TakeParameterList(const ParameterListT& 
             }
       }
 
-      // cout << "\033[1;31mTakeParameterList looks ok\033[0m\n";
 }
 
 /***********************************************************************
@@ -293,13 +297,6 @@ void FSDielectricElastomerQ1P0SurfaceT::TakeParameterList(const ParameterListT& 
 /* ------------------------------------------------ calculate the LHS of residual, or element stiffness matrix ------------------------------------------------*/
 void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
 {
-	//cout.setf(ios::fixed,ios::floatfield);
-	//cout.precision(2);
-	//cout << fTimeInit << endl;
-
-
-
-	//cout << "Can you see this?" << endl;
 	const char caller[] = "FSDielectricElastomerQ1P0SurfaceT::FormStiffness";
 
 	/* Inherited */
@@ -340,9 +337,12 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
 
  	 double fNewSurfTension = min(fSurfTension, (CurrTime*fSurfTension)/fT_0); // Ramping up the surface tension
 
- 	 //fNewSurfTension = fSurfTension;
- 	 //cout << fNewSurfTension << endl;
- 	 //cout << fSurfTension << endl;
+     ModelManagerT& model_manager = ElementSupport().ModelManager();
+     const iArrayT node_set_1 = model_manager.NodeSet("1");
+     const iArrayT node_set_2 = model_manager.NodeSet("2");
+     const iArrayT node_set_3 = model_manager.NodeSet("3");
+
+     //cout << fSurfaceElementNeighbors << endl;
 
      ModelManagerT& model_manager = ElementSupport().ModelManager();
      const iArrayT node_set_1 = model_manager.NodeSet("1");
@@ -361,9 +361,6 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
  			 fLocInitCoords.SetLocal(element_card.NodesX()); /* reference coordinates over bulk element (collects first x coords and then y coords) i.e.  [x1 x2 x3 x4 y1 y2 y3 y4] */
  			 fLocDisp.SetLocal(element_card.NodesU()); /* displacements over bulk element */
 
- 			 //for (int k = 0; k < fLocInitCoords.Length(); k ++){
- 			 //	cout << fLocInitCoords[k] << endl;
- 			 //}
  			 fB = 0.0;
  			 K1 = 0.0;
  			 K2 = 0.0;
@@ -376,6 +373,7 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
  			 {
  				 if (fSurfaceElementNeighbors(i,j) == -1) /* no neighbor => surface */
  				 {
+
  					 /* face parent domain */
  					 const ParentDomainT& surf_shape = shape.FacetShapeFunction(j);
 
@@ -384,6 +382,8 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
  					 shape.NodesOnFacet(j, face_nodes_index);  // fni = 4 nodes of surface face
  					 face_nodes.Collect(face_nodes_index, element_card.NodesX());
  					 face_coords.SetLocal(face_nodes);
+
+
 
  					 K1 = 0.0; K2 = 0.0; fB = 0.0;
 
@@ -396,15 +396,6 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
  					 double x_2 = face_coords[1];
  					 double y_1 = face_coords[2];
  					 double y_2 = face_coords[3];
-
- 					 /* cout << nfn;
-                  	cout << "i = " << i << " , j = " << j << endl;
-                  	cout << "fSurfaceElementFacesType("<< i << ", " << j << ") = " << fSurfaceElementFacesType(i,j) << endl;
-                   	cout << "fSurfaceElements = " << fSurfaceElements[i] << endl;
-                   	cout << "Coordinates:" << endl;
-                  	cout << "(x1, y1) = " << "(" << x_1 << ", " << y_1 << ")" << endl;
-                   	cout << "(x2, y2) = " << "(" << x_2 << ", " << y_2 << ")" << endl;
-                   	cout << endl; */
 
  					 /* For 2D cubic element: nen = 4 */
  					 fB[0] = (x_1 - x_2);
@@ -427,8 +418,6 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
  					 K_Total += K1;
  					 K_Total += K2;
 
-
-
  					 /* Constructing fAmm_mat */
  					 int normaltype = fSurfaceElementFacesType(i, j);
  					 counter = CanonicalNodes(normaltype);
@@ -440,28 +429,8 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
  					 	 fAmm_mat2(counter[n], counter[3]) = fAmm_mat2(counter[n], counter[3]) + K_Total(n ,3);
  					 }
 
-
-
- 					 /*if (normaltype == 3) {
- 						 for (int n = 0; n < nen; n++)
- 							 for (int m = 0; m < nen; m++)
- 								 fAmm_mat2(counter[n], counter[m]) = fAmm_mat2(counter[n], counter[m]) + K_Total(n ,m);
- 					 } else if (normaltype == 0) {
- 						 for (int n = 0; n < nen; n++)
- 							 for (int m = 0; m < nen; m++)
- 								 fAmm_mat2(counter[n], counter[m]) = fAmm_mat2(counter[n], counter[m]) + K_Total(n ,m);
- 					 } else if (normaltype == 2) {
- 						 for (int n = 0; n < nen; n++)
- 							 for (int m = 0; m < nen; m++)
- 								 fAmm_mat2(counter[n], counter[m]) = fAmm_mat2(counter[n], counter[m]) + K_Total(n ,m);
- 					 } else {
- 						 for (int n = 0; n < nen; n++)
- 							 for (int m = 0; m < nen; m++)
- 								 fAmm_mat2(counter[n], counter[m]) = fAmm_mat2(counter[n], counter[m]) + K_Total(n ,m);
- 					 } */
-
- 					 int order = fIntegrator->Order();
- 					 //cout << constK << endl;
+ 					 /* Dynamic formulation */
+ 					 int order = fIntegrator->Order();;
  					 if (order == 2)
  						 fAmm_mat2 *= constK;
 
@@ -474,28 +443,10 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
 
  			 fLHS.AddBlock(0, 0, fAmm_mat2);
 
- 			 // Saving the fLHS matrix
- 			  /*ofstream myLHS;
-            	myLHS.open("fAmm_mat2.txt");
-            	for (int i = 0; i < fAmm_mat2.Rows(); i++)
-            	{
-            		for (int j = 0; j < fAmm_mat2.Cols(); j++)
-            		{
-            			// myLHS << "fLHS(" << i << "," << j << ")= " << fLHS(i, j); // List the values of fLHS(i,j)
-            			if (fAmm_mat2(i, j) == 0)
-            				myLHS << "0.00000" << " ";
-            			else
-            				myLHS << fAmm_mat2(i, j) << " "; // See the matrix form of fLHS for a quick look
-            		}
-            	myLHS << endl;
-            	}
-            	myLHS.close()*/
  		 }
  	 } /* End of element loop */
 
- 	 // cout << "\033[1;31mFormStiffness looks good!\033[0m" << endl;
-
-} /* End of Fucntion FormStiffness */
+} /* End of Function FormStiffness */
 
 /* ------------------------------------------------ Compute RHS, or residual of element equations ------------------------------------------------*/
 void FSDielectricElastomerQ1P0SurfaceT::FormKd(double constK)
@@ -597,42 +548,14 @@ void FSDielectricElastomerQ1P0SurfaceT::FormKd(double constK)
                         	R_Total[counter[2]] = R_Total[counter[2]] + fD[2];
                         	R_Total[counter[3]] = R_Total[counter[3]] + fD[3];
 
-
-
-                        	/*if (normaltype == 3)
-                        		for (int m = 0; m < nen; m++)
-                        			R_Total[counter[m]] = R_Total[counter[m]] + fD[m];
-                        	else if (normaltype == 0)
-                        		for (int m = 0; m < nen; m++)
-                        			R_Total[counter[m]] = R_Total[counter[m]] + fD[m];
-                        	else if (normaltype == 2)
-                        		for (int m = 0; m < nen; m++)
-                        			R_Total[counter[m]] = R_Total[counter[m]] + fD[m];
-                        	else
-                        		for (int m = 0; m < nen; m++)
-                        			R_Total[counter[m]] = R_Total[counter[m]] + fD[m];*/
-
-
             		} /* End of if */
 
             	}  /* End of surface edge loop */
 
             	R.CopyIn(0, R_Total);
             	fRHS += R;
-
-
-            	/* Saving RHS to a file */
-            	/* ofstream myRHS;
-            	myRHS.open("fRHS_with_surface.txt");
-            	for (int i = 0; i < fRHS.Length(); i++)
-            	{
-                  	  myRHS << "fRHS(" << i << ") = " << fRHS[i] << endl;
-            	}
-            	myRHS.close(); */
             	}
       	  } /* End of element loop */
-      	  // cout << "\033[1;31mFormKd looks good\033[0m" << endl;
-
 }
 /***********************************************************************
  * Protected
@@ -664,9 +587,9 @@ iArrayT FSDielectricElastomerQ1P0SurfaceT::CanonicalNodes(const int normaltype)
 		counter[3] = 1;
 	}
 
-
 	return counter;
 }
+
 
 /***********************************************************************
  * Private
