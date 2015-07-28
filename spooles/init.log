@@ -1,10 +1,10 @@
-Mon Jun 22 10:23:55 EDT 2015
+Wed Jul 22 15:51:19 EDT 2015
 make[1]: Entering directory `/home/saman/Tahoe/spooles'
  mirroring /home/saman/Tahoe/spooles/src to /home/saman/Tahoe/spooles/src-mirror
 perl -w /home/saman/Tahoe/spooles/../macros/MirrorTree.pl /home/saman/Tahoe/spooles/src /home/saman/Tahoe/spooles/src-mirror "ln -sf" > /home/saman/Tahoe/spooles/mirror.log
 make[1]: Leaving directory `/home/saman/Tahoe/spooles'
 make[1]: Entering directory `/home/saman/Tahoe/spooles'
-Mon Jun 22 10:23:56 EDT 2015
+Wed Jul 22 15:51:19 EDT 2015
 removed 69 files matching regex ".*[.]h"
 cd /home/saman/Tahoe/spooles/src-mirror
 cd /home/saman/Tahoe/spooles/src-mirror; \
@@ -404,7 +404,7 @@ make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror'
 make[2]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror'
 make[1]: Leaving directory `/home/saman/Tahoe/spooles'
 make[1]: Entering directory `/home/saman/Tahoe/spooles'
-Mon Jun 22 10:23:56 EDT 2015
+Wed Jul 22 15:51:20 EDT 2015
 cd /home/saman/Tahoe/spooles/src-mirror
 cd /home/saman/Tahoe/spooles/src-mirror; \
 	make  depend_init \
@@ -429,26 +429,26 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/A2'
 removed 10 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/A2'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/A2'
-    /usr/bin/gcc -MM: A2.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.basics.d A2.basics.c
-    /usr/bin/gcc -MM: A2.copyEntriesToVector.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.copyEntriesToVector.d A2.copyEntriesToVector.c
-    /usr/bin/gcc -MM: A2.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.init.d A2.init.c
-    /usr/bin/gcc -MM: A2.instance.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.instance.d A2.instance.c
-    /usr/bin/gcc -MM: A2.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.IO.d A2.IO.c
-    /usr/bin/gcc -MM: A2.makeStaircase.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.makeStaircase.d A2.makeStaircase.c
-    /usr/bin/gcc -MM: A2.norms.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.norms.d A2.norms.c
-    /usr/bin/gcc -MM: A2.QRreduce.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.QRreduce.d A2.QRreduce.c
-    /usr/bin/gcc -MM: A2.sort.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.sort.d A2.sort.c
-    /usr/bin/gcc -MM: A2.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.util.d A2.util.c
+    /usr/bin/gcc-4.6 -MM: A2.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.basics.d A2.basics.c
+    /usr/bin/gcc-4.6 -MM: A2.copyEntriesToVector.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.copyEntriesToVector.d A2.copyEntriesToVector.c
+    /usr/bin/gcc-4.6 -MM: A2.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.init.d A2.init.c
+    /usr/bin/gcc-4.6 -MM: A2.instance.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.instance.d A2.instance.c
+    /usr/bin/gcc-4.6 -MM: A2.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.IO.d A2.IO.c
+    /usr/bin/gcc-4.6 -MM: A2.makeStaircase.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.makeStaircase.d A2.makeStaircase.c
+    /usr/bin/gcc-4.6 -MM: A2.norms.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.norms.d A2.norms.c
+    /usr/bin/gcc-4.6 -MM: A2.QRreduce.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.QRreduce.d A2.QRreduce.c
+    /usr/bin/gcc-4.6 -MM: A2.sort.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.sort.d A2.sort.c
+    /usr/bin/gcc-4.6 -MM: A2.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.util.d A2.util.c
     cat: A2.basics.d A2.copyEntriesToVector.d A2.init.d A2.instance.d A2.IO.d A2.makeStaircase.d A2.norms.d A2.QRreduce.d A2.sort.d A2.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/A2'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/A2'
@@ -461,18 +461,18 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
 removed 6 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
-    /usr/bin/gcc -MM: BKL.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBKL.basics.d BKL.basics.c
-    /usr/bin/gcc -MM: BKL.evalfcn.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBKL.evalfcn.d BKL.evalfcn.c
-    /usr/bin/gcc -MM: BKL.exhSearch.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBKL.exhSearch.d BKL.exhSearch.c
-    /usr/bin/gcc -MM: BKL.fidmat.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBKL.fidmat.d BKL.fidmat.c
-    /usr/bin/gcc -MM: BKL.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBKL.init.d BKL.init.c
-    /usr/bin/gcc -MM: BKL.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBKL.util.d BKL.util.c
+    /usr/bin/gcc-4.6 -MM: BKL.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBKL.basics.d BKL.basics.c
+    /usr/bin/gcc-4.6 -MM: BKL.evalfcn.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBKL.evalfcn.d BKL.evalfcn.c
+    /usr/bin/gcc-4.6 -MM: BKL.exhSearch.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBKL.exhSearch.d BKL.exhSearch.c
+    /usr/bin/gcc-4.6 -MM: BKL.fidmat.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBKL.fidmat.d BKL.fidmat.c
+    /usr/bin/gcc-4.6 -MM: BKL.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBKL.init.d BKL.init.c
+    /usr/bin/gcc-4.6 -MM: BKL.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBKL.util.d BKL.util.c
     cat: BKL.basics.d BKL.evalfcn.d BKL.exhSearch.d BKL.fidmat.d BKL.init.d BKL.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
@@ -485,20 +485,20 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
 removed 7 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
-    /usr/bin/gcc -MM: BPG.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBPG.basics.d BPG.basics.c
-    /usr/bin/gcc -MM: BPG.DM.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBPG.DM.d BPG.DM.c
-    /usr/bin/gcc -MM: BPG.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBPG.init.d BPG.init.c
-    /usr/bin/gcc -MM: BPG.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBPG.IO.d BPG.IO.c
-    /usr/bin/gcc -MM: BPG.makeGraphs.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBPG.makeGraphs.d BPG.makeGraphs.c
-    /usr/bin/gcc -MM: BPG.maxFlow.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBPG.maxFlow.d BPG.maxFlow.c
-    /usr/bin/gcc -MM: BPG.pseudo.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBPG.pseudo.d BPG.pseudo.c
+    /usr/bin/gcc-4.6 -MM: BPG.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBPG.basics.d BPG.basics.c
+    /usr/bin/gcc-4.6 -MM: BPG.DM.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBPG.DM.d BPG.DM.c
+    /usr/bin/gcc-4.6 -MM: BPG.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBPG.init.d BPG.init.c
+    /usr/bin/gcc-4.6 -MM: BPG.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBPG.IO.d BPG.IO.c
+    /usr/bin/gcc-4.6 -MM: BPG.makeGraphs.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBPG.makeGraphs.d BPG.makeGraphs.c
+    /usr/bin/gcc-4.6 -MM: BPG.maxFlow.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBPG.maxFlow.d BPG.maxFlow.c
+    /usr/bin/gcc-4.6 -MM: BPG.pseudo.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBPG.pseudo.d BPG.pseudo.c
     cat: BPG.basics.d BPG.DM.d BPG.init.d BPG.IO.d BPG.makeGraphs.d BPG.maxFlow.d BPG.pseudo.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
@@ -511,30 +511,30 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
 removed 12 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
-    /usr/bin/gcc -MM: Chv.assemble.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.assemble.d Chv.assemble.c
-    /usr/bin/gcc -MM: Chv.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.basics.d Chv.basics.c
-    /usr/bin/gcc -MM: Chv.copy.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.copy.d Chv.copy.c
-    /usr/bin/gcc -MM: Chv.factor.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.factor.d Chv.factor.c
-    /usr/bin/gcc -MM: Chv.findPivot.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.findPivot.d Chv.findPivot.c
-    /usr/bin/gcc -MM: Chv.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.init.d Chv.init.c
-    /usr/bin/gcc -MM: Chv.instance.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.instance.d Chv.instance.c
-    /usr/bin/gcc -MM: Chv.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.IO.d Chv.IO.c
-    /usr/bin/gcc -MM: Chv.search.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.search.d Chv.search.c
-    /usr/bin/gcc -MM: Chv.swap.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.swap.d Chv.swap.c
-    /usr/bin/gcc -MM: Chv.update.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.update.d Chv.update.c
-    /usr/bin/gcc -MM: Chv.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.util.d Chv.util.c
+    /usr/bin/gcc-4.6 -MM: Chv.assemble.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.assemble.d Chv.assemble.c
+    /usr/bin/gcc-4.6 -MM: Chv.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.basics.d Chv.basics.c
+    /usr/bin/gcc-4.6 -MM: Chv.copy.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.copy.d Chv.copy.c
+    /usr/bin/gcc-4.6 -MM: Chv.factor.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.factor.d Chv.factor.c
+    /usr/bin/gcc-4.6 -MM: Chv.findPivot.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.findPivot.d Chv.findPivot.c
+    /usr/bin/gcc-4.6 -MM: Chv.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.init.d Chv.init.c
+    /usr/bin/gcc-4.6 -MM: Chv.instance.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.instance.d Chv.instance.c
+    /usr/bin/gcc-4.6 -MM: Chv.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.IO.d Chv.IO.c
+    /usr/bin/gcc-4.6 -MM: Chv.search.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.search.d Chv.search.c
+    /usr/bin/gcc-4.6 -MM: Chv.swap.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.swap.d Chv.swap.c
+    /usr/bin/gcc-4.6 -MM: Chv.update.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.update.d Chv.update.c
+    /usr/bin/gcc-4.6 -MM: Chv.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.util.d Chv.util.c
     cat: Chv.assemble.d Chv.basics.d Chv.copy.d Chv.factor.d Chv.findPivot.d Chv.init.d Chv.instance.d Chv.IO.d Chv.search.d Chv.swap.d Chv.update.d Chv.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
@@ -547,14 +547,14 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
 removed 4 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
-    /usr/bin/gcc -MM: ChvList.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChvList.basics.d ChvList.basics.c
-    /usr/bin/gcc -MM: ChvList.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChvList.init.d ChvList.init.c
-    /usr/bin/gcc -MM: ChvList.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChvList.IO.d ChvList.IO.c
-    /usr/bin/gcc -MM: ChvList.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChvList.util.d ChvList.util.c
+    /usr/bin/gcc-4.6 -MM: ChvList.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChvList.basics.d ChvList.basics.c
+    /usr/bin/gcc-4.6 -MM: ChvList.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChvList.init.d ChvList.init.c
+    /usr/bin/gcc-4.6 -MM: ChvList.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChvList.IO.d ChvList.IO.c
+    /usr/bin/gcc-4.6 -MM: ChvList.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChvList.util.d ChvList.util.c
     cat: ChvList.basics.d ChvList.init.d ChvList.IO.d ChvList.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
@@ -567,14 +567,14 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
 removed 4 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
-    /usr/bin/gcc -MM: ChvManager.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChvManager.basics.d ChvManager.basics.c
-    /usr/bin/gcc -MM: ChvManager.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChvManager.init.d ChvManager.init.c
-    /usr/bin/gcc -MM: ChvManager.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChvManager.IO.d ChvManager.IO.c
-    /usr/bin/gcc -MM: ChvManager.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChvManager.util.d ChvManager.util.c
+    /usr/bin/gcc-4.6 -MM: ChvManager.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChvManager.basics.d ChvManager.basics.c
+    /usr/bin/gcc-4.6 -MM: ChvManager.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChvManager.init.d ChvManager.init.c
+    /usr/bin/gcc-4.6 -MM: ChvManager.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChvManager.IO.d ChvManager.IO.c
+    /usr/bin/gcc-4.6 -MM: ChvManager.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChvManager.util.d ChvManager.util.c
     cat: ChvManager.basics.d ChvManager.init.d ChvManager.IO.d ChvManager.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
@@ -587,14 +587,14 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
 removed 4 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
-    /usr/bin/gcc -MM: Coords.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFCoords.basics.d Coords.basics.c
-    /usr/bin/gcc -MM: Coords.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFCoords.init.d Coords.init.c
-    /usr/bin/gcc -MM: Coords.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFCoords.IO.d Coords.IO.c
-    /usr/bin/gcc -MM: Coords.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFCoords.util.d Coords.util.c
+    /usr/bin/gcc-4.6 -MM: Coords.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFCoords.basics.d Coords.basics.c
+    /usr/bin/gcc-4.6 -MM: Coords.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFCoords.init.d Coords.init.c
+    /usr/bin/gcc-4.6 -MM: Coords.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFCoords.IO.d Coords.IO.c
+    /usr/bin/gcc-4.6 -MM: Coords.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFCoords.util.d Coords.util.c
     cat: Coords.basics.d Coords.init.d Coords.IO.d Coords.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
@@ -607,22 +607,22 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
 removed 8 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
-    /usr/bin/gcc -MM: DenseMtx.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDenseMtx.basics.d DenseMtx.basics.c
-    /usr/bin/gcc -MM: DenseMtx.initAsSubmtx.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDenseMtx.initAsSubmtx.d DenseMtx.initAsSubmtx.c
-    /usr/bin/gcc -MM: DenseMtx.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDenseMtx.init.d DenseMtx.init.c
-    /usr/bin/gcc -MM: DenseMtx.instance.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDenseMtx.instance.d DenseMtx.instance.c
-    /usr/bin/gcc -MM: DenseMtx.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDenseMtx.IO.d DenseMtx.IO.c
-    /usr/bin/gcc -MM: DenseMtx.permute.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDenseMtx.permute.d DenseMtx.permute.c
-    /usr/bin/gcc -MM: DenseMtx.scale.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDenseMtx.scale.d DenseMtx.scale.c
-    /usr/bin/gcc -MM: DenseMtx.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDenseMtx.util.d DenseMtx.util.c
+    /usr/bin/gcc-4.6 -MM: DenseMtx.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDenseMtx.basics.d DenseMtx.basics.c
+    /usr/bin/gcc-4.6 -MM: DenseMtx.initAsSubmtx.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDenseMtx.initAsSubmtx.d DenseMtx.initAsSubmtx.c
+    /usr/bin/gcc-4.6 -MM: DenseMtx.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDenseMtx.init.d DenseMtx.init.c
+    /usr/bin/gcc-4.6 -MM: DenseMtx.instance.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDenseMtx.instance.d DenseMtx.instance.c
+    /usr/bin/gcc-4.6 -MM: DenseMtx.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDenseMtx.IO.d DenseMtx.IO.c
+    /usr/bin/gcc-4.6 -MM: DenseMtx.permute.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDenseMtx.permute.d DenseMtx.permute.c
+    /usr/bin/gcc-4.6 -MM: DenseMtx.scale.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDenseMtx.scale.d DenseMtx.scale.c
+    /usr/bin/gcc-4.6 -MM: DenseMtx.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDenseMtx.util.d DenseMtx.util.c
     cat: DenseMtx.basics.d DenseMtx.initAsSubmtx.d DenseMtx.init.d DenseMtx.instance.d DenseMtx.IO.d DenseMtx.permute.d DenseMtx.scale.d DenseMtx.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
@@ -635,12 +635,12 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
 removed 3 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
-    /usr/bin/gcc -MM: Drand.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDrand.basics.d Drand.basics.c
-    /usr/bin/gcc -MM: Drand.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDrand.init.d Drand.init.c
-    /usr/bin/gcc -MM: Drand.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDrand.util.d Drand.util.c
+    /usr/bin/gcc-4.6 -MM: Drand.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDrand.basics.d Drand.basics.c
+    /usr/bin/gcc-4.6 -MM: Drand.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDrand.init.d Drand.init.c
+    /usr/bin/gcc-4.6 -MM: Drand.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDrand.util.d Drand.util.c
     cat: Drand.basics.d Drand.init.d Drand.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
@@ -653,16 +653,16 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
 removed 5 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
-    /usr/bin/gcc -MM: LU_serial_driver.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFLU_serial_driver.d LU_serial_driver.c
-    /usr/bin/gcc -MM: LU_serial_driver_init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFLU_serial_driver_init.d LU_serial_driver_init.c
-    /usr/bin/gcc -MM: LU_serial_driver_factorize.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFLU_serial_driver_factorize.d LU_serial_driver_factorize.c
-    /usr/bin/gcc -MM: LU_serial_driver_solve.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFLU_serial_driver_solve.d LU_serial_driver_solve.c
-    /usr/bin/gcc -MM: LU_serial_driver_free.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFLU_serial_driver_free.d LU_serial_driver_free.c
+    /usr/bin/gcc-4.6 -MM: LU_serial_driver.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFLU_serial_driver.d LU_serial_driver.c
+    /usr/bin/gcc-4.6 -MM: LU_serial_driver_init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFLU_serial_driver_init.d LU_serial_driver_init.c
+    /usr/bin/gcc-4.6 -MM: LU_serial_driver_factorize.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFLU_serial_driver_factorize.d LU_serial_driver_factorize.c
+    /usr/bin/gcc-4.6 -MM: LU_serial_driver_solve.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFLU_serial_driver_solve.d LU_serial_driver_solve.c
+    /usr/bin/gcc-4.6 -MM: LU_serial_driver_free.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFLU_serial_driver_free.d LU_serial_driver_free.c
     cat: LU_serial_driver.d LU_serial_driver_init.d LU_serial_driver_factorize.d LU_serial_driver_solve.d LU_serial_driver_free.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
@@ -675,18 +675,18 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
 removed 6 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
-    /usr/bin/gcc -MM: DSTree.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDSTree.basics.d DSTree.basics.c
-    /usr/bin/gcc -MM: DSTree.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDSTree.init.d DSTree.init.c
-    /usr/bin/gcc -MM: DSTree.instance.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDSTree.instance.d DSTree.instance.c
-    /usr/bin/gcc -MM: DSTree.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDSTree.IO.d DSTree.IO.c
-    /usr/bin/gcc -MM: DSTree.stages.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDSTree.stages.d DSTree.stages.c
-    /usr/bin/gcc -MM: DSTree.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDSTree.util.d DSTree.util.c
+    /usr/bin/gcc-4.6 -MM: DSTree.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDSTree.basics.d DSTree.basics.c
+    /usr/bin/gcc-4.6 -MM: DSTree.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDSTree.init.d DSTree.init.c
+    /usr/bin/gcc-4.6 -MM: DSTree.instance.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDSTree.instance.d DSTree.instance.c
+    /usr/bin/gcc-4.6 -MM: DSTree.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDSTree.IO.d DSTree.IO.c
+    /usr/bin/gcc-4.6 -MM: DSTree.stages.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDSTree.stages.d DSTree.stages.c
+    /usr/bin/gcc-4.6 -MM: DSTree.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDSTree.util.d DSTree.util.c
     cat: DSTree.basics.d DSTree.init.d DSTree.instance.d DSTree.IO.d DSTree.stages.d DSTree.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
@@ -699,18 +699,18 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DV'
 removed 6 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DV'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DV'
-    /usr/bin/gcc -MM: DV.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDV.basics.d DV.basics.c
-    /usr/bin/gcc -MM: DV.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDV.init.d DV.init.c
-    /usr/bin/gcc -MM: DV.instance.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDV.instance.d DV.instance.c
-    /usr/bin/gcc -MM: DV.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDV.IO.d DV.IO.c
-    /usr/bin/gcc -MM: DV.profile.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDV.profile.d DV.profile.c
-    /usr/bin/gcc -MM: DV.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDV.util.d DV.util.c
+    /usr/bin/gcc-4.6 -MM: DV.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDV.basics.d DV.basics.c
+    /usr/bin/gcc-4.6 -MM: DV.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDV.init.d DV.init.c
+    /usr/bin/gcc-4.6 -MM: DV.instance.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDV.instance.d DV.instance.c
+    /usr/bin/gcc-4.6 -MM: DV.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDV.IO.d DV.IO.c
+    /usr/bin/gcc-4.6 -MM: DV.profile.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDV.profile.d DV.profile.c
+    /usr/bin/gcc-4.6 -MM: DV.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDV.util.d DV.util.c
     cat: DV.basics.d DV.init.d DV.instance.d DV.IO.d DV.profile.d DV.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DV'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DV'
@@ -723,16 +723,16 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
 removed 5 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
-    /usr/bin/gcc -MM: EGraph.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFEGraph.basics.d EGraph.basics.c
-    /usr/bin/gcc -MM: EGraph.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFEGraph.init.d EGraph.init.c
-    /usr/bin/gcc -MM: EGraph.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFEGraph.IO.d EGraph.IO.c
-    /usr/bin/gcc -MM: EGraph.misc.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFEGraph.misc.d EGraph.misc.c
-    /usr/bin/gcc -MM: EGraph.mkAdjGraph.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFEGraph.mkAdjGraph.d EGraph.mkAdjGraph.c
+    /usr/bin/gcc-4.6 -MM: EGraph.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFEGraph.basics.d EGraph.basics.c
+    /usr/bin/gcc-4.6 -MM: EGraph.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFEGraph.init.d EGraph.init.c
+    /usr/bin/gcc-4.6 -MM: EGraph.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFEGraph.IO.d EGraph.IO.c
+    /usr/bin/gcc-4.6 -MM: EGraph.misc.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFEGraph.misc.d EGraph.misc.c
+    /usr/bin/gcc-4.6 -MM: EGraph.mkAdjGraph.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFEGraph.mkAdjGraph.d EGraph.mkAdjGraph.c
     cat: EGraph.basics.d EGraph.init.d EGraph.IO.d EGraph.misc.d EGraph.mkAdjGraph.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
@@ -745,36 +745,36 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
 removed 15 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
-    /usr/bin/gcc -MM: ETree.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.basics.d ETree.basics.c
-    /usr/bin/gcc -MM: ETree.compress.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.compress.d ETree.compress.c
-    /usr/bin/gcc -MM: ETree.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.init.d ETree.init.c
-    /usr/bin/gcc -MM: ETree.initFromSubtree.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.initFromSubtree.d ETree.initFromSubtree.c
-    /usr/bin/gcc -MM: ETree.instance.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.instance.d ETree.instance.c
-    /usr/bin/gcc -MM: ETree.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.IO.d ETree.IO.c
-    /usr/bin/gcc -MM: ETree.justify.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.justify.d ETree.justify.c
-    /usr/bin/gcc -MM: ETree.maps.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.maps.d ETree.maps.c
-    /usr/bin/gcc -MM: ETree.metrics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.metrics.d ETree.metrics.c
-    /usr/bin/gcc -MM: ETree.ms.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.ms.d ETree.ms.c
-    /usr/bin/gcc -MM: ETree.permute.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.permute.d ETree.permute.c
-    /usr/bin/gcc -MM: ETree.semi.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.semi.d ETree.semi.c
-    /usr/bin/gcc -MM: ETree.storage.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.storage.d ETree.storage.c
-    /usr/bin/gcc -MM: ETree.transform.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.transform.d ETree.transform.c
-    /usr/bin/gcc -MM: ETree.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.util.d ETree.util.c
+    /usr/bin/gcc-4.6 -MM: ETree.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.basics.d ETree.basics.c
+    /usr/bin/gcc-4.6 -MM: ETree.compress.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.compress.d ETree.compress.c
+    /usr/bin/gcc-4.6 -MM: ETree.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.init.d ETree.init.c
+    /usr/bin/gcc-4.6 -MM: ETree.initFromSubtree.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.initFromSubtree.d ETree.initFromSubtree.c
+    /usr/bin/gcc-4.6 -MM: ETree.instance.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.instance.d ETree.instance.c
+    /usr/bin/gcc-4.6 -MM: ETree.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.IO.d ETree.IO.c
+    /usr/bin/gcc-4.6 -MM: ETree.justify.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.justify.d ETree.justify.c
+    /usr/bin/gcc-4.6 -MM: ETree.maps.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.maps.d ETree.maps.c
+    /usr/bin/gcc-4.6 -MM: ETree.metrics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.metrics.d ETree.metrics.c
+    /usr/bin/gcc-4.6 -MM: ETree.ms.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.ms.d ETree.ms.c
+    /usr/bin/gcc-4.6 -MM: ETree.permute.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.permute.d ETree.permute.c
+    /usr/bin/gcc-4.6 -MM: ETree.semi.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.semi.d ETree.semi.c
+    /usr/bin/gcc-4.6 -MM: ETree.storage.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.storage.d ETree.storage.c
+    /usr/bin/gcc-4.6 -MM: ETree.transform.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.transform.d ETree.transform.c
+    /usr/bin/gcc-4.6 -MM: ETree.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.util.d ETree.util.c
     cat: ETree.basics.d ETree.compress.d ETree.init.d ETree.initFromSubtree.d ETree.instance.d ETree.IO.d ETree.justify.d ETree.maps.d ETree.metrics.d ETree.ms.d ETree.permute.d ETree.semi.d ETree.storage.d ETree.transform.d ETree.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
@@ -787,44 +787,44 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
 removed 19 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
-    /usr/bin/gcc -MM: FrontMtx.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.basics.d FrontMtx.basics.c
-    /usr/bin/gcc -MM: FrontMtx.factor.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.factor.d FrontMtx.factor.c
-    /usr/bin/gcc -MM: FrontMtx.factorUtil.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.factorUtil.d FrontMtx.factorUtil.c
-    /usr/bin/gcc -MM: FrontMtx.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.init.d FrontMtx.init.c
-    /usr/bin/gcc -MM: FrontMtx.instance.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.instance.d FrontMtx.instance.c
-    /usr/bin/gcc -MM: FrontMtx.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.IO.d FrontMtx.IO.c
-    /usr/bin/gcc -MM: FrontMtx.loadEntries.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.loadEntries.d FrontMtx.loadEntries.c
-    /usr/bin/gcc -MM: FrontMtx.permute.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.permute.d FrontMtx.permute.c
-    /usr/bin/gcc -MM: FrontMtx.postponed.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.postponed.d FrontMtx.postponed.c
-    /usr/bin/gcc -MM: FrontMtx.postProcess.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.postProcess.d FrontMtx.postProcess.c
-    /usr/bin/gcc -MM: FrontMtx.QRfactor.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.QRfactor.d FrontMtx.QRfactor.c
-    /usr/bin/gcc -MM: FrontMtx.QRsolve.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.QRsolve.d FrontMtx.QRsolve.c
-    /usr/bin/gcc -MM: FrontMtx.QRutil.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.QRutil.d FrontMtx.QRutil.c
-    /usr/bin/gcc -MM: FrontMtx.solve.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.solve.d FrontMtx.solve.c
-    /usr/bin/gcc -MM: FrontMtx.solveUtil.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.solveUtil.d FrontMtx.solveUtil.c
-    /usr/bin/gcc -MM: FrontMtx.split.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.split.d FrontMtx.split.c
-    /usr/bin/gcc -MM: FrontMtx.storeFront.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.storeFront.d FrontMtx.storeFront.c
-    /usr/bin/gcc -MM: FrontMtx.update.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.update.d FrontMtx.update.c
-    /usr/bin/gcc -MM: FrontMtx.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.util.d FrontMtx.util.c
+    /usr/bin/gcc-4.6 -MM: FrontMtx.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.basics.d FrontMtx.basics.c
+    /usr/bin/gcc-4.6 -MM: FrontMtx.factor.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.factor.d FrontMtx.factor.c
+    /usr/bin/gcc-4.6 -MM: FrontMtx.factorUtil.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.factorUtil.d FrontMtx.factorUtil.c
+    /usr/bin/gcc-4.6 -MM: FrontMtx.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.init.d FrontMtx.init.c
+    /usr/bin/gcc-4.6 -MM: FrontMtx.instance.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.instance.d FrontMtx.instance.c
+    /usr/bin/gcc-4.6 -MM: FrontMtx.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.IO.d FrontMtx.IO.c
+    /usr/bin/gcc-4.6 -MM: FrontMtx.loadEntries.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.loadEntries.d FrontMtx.loadEntries.c
+    /usr/bin/gcc-4.6 -MM: FrontMtx.permute.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.permute.d FrontMtx.permute.c
+    /usr/bin/gcc-4.6 -MM: FrontMtx.postponed.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.postponed.d FrontMtx.postponed.c
+    /usr/bin/gcc-4.6 -MM: FrontMtx.postProcess.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.postProcess.d FrontMtx.postProcess.c
+    /usr/bin/gcc-4.6 -MM: FrontMtx.QRfactor.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.QRfactor.d FrontMtx.QRfactor.c
+    /usr/bin/gcc-4.6 -MM: FrontMtx.QRsolve.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.QRsolve.d FrontMtx.QRsolve.c
+    /usr/bin/gcc-4.6 -MM: FrontMtx.QRutil.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.QRutil.d FrontMtx.QRutil.c
+    /usr/bin/gcc-4.6 -MM: FrontMtx.solve.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.solve.d FrontMtx.solve.c
+    /usr/bin/gcc-4.6 -MM: FrontMtx.solveUtil.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.solveUtil.d FrontMtx.solveUtil.c
+    /usr/bin/gcc-4.6 -MM: FrontMtx.split.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.split.d FrontMtx.split.c
+    /usr/bin/gcc-4.6 -MM: FrontMtx.storeFront.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.storeFront.d FrontMtx.storeFront.c
+    /usr/bin/gcc-4.6 -MM: FrontMtx.update.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.update.d FrontMtx.update.c
+    /usr/bin/gcc-4.6 -MM: FrontMtx.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.util.d FrontMtx.util.c
     cat: FrontMtx.basics.d FrontMtx.factor.d FrontMtx.factorUtil.d FrontMtx.init.d FrontMtx.instance.d FrontMtx.IO.d FrontMtx.loadEntries.d FrontMtx.permute.d FrontMtx.postponed.d FrontMtx.postProcess.d FrontMtx.QRfactor.d FrontMtx.QRsolve.d FrontMtx.QRutil.d FrontMtx.solve.d FrontMtx.solveUtil.d FrontMtx.split.d FrontMtx.storeFront.d FrontMtx.update.d FrontMtx.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
@@ -837,36 +837,36 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
 removed 15 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
-    /usr/bin/gcc -MM: GPart.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.basics.d GPart.basics.c
-    /usr/bin/gcc -MM: GPart.DDsepInfo.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.DDsepInfo.d GPart.DDsepInfo.c
-    /usr/bin/gcc -MM: GPart.DDviaFishnet.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.DDviaFishnet.d GPart.DDviaFishnet.c
-    /usr/bin/gcc -MM: GPart.DDviaProjection.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.DDviaProjection.d GPart.DDviaProjection.c
-    /usr/bin/gcc -MM: GPart.domSegMap.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.domSegMap.d GPart.domSegMap.c
-    /usr/bin/gcc -MM: GPart.identifyWideSep.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.identifyWideSep.d GPart.identifyWideSep.c
-    /usr/bin/gcc -MM: GPart.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.init.d GPart.init.c
-    /usr/bin/gcc -MM: GPart.makeYCmap.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.makeYCmap.d GPart.makeYCmap.c
-    /usr/bin/gcc -MM: GPart.RBviaDDsep.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.RBviaDDsep.d GPart.RBviaDDsep.c
-    /usr/bin/gcc -MM: GPart.smoothBisector.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.smoothBisector.d GPart.smoothBisector.c
-    /usr/bin/gcc -MM: GPart.smoothBy2layers.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.smoothBy2layers.d GPart.smoothBy2layers.c
-    /usr/bin/gcc -MM: GPart.smoothYSep.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.smoothYSep.d GPart.smoothYSep.c
-    /usr/bin/gcc -MM: GPart.split.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.split.d GPart.split.c
-    /usr/bin/gcc -MM: GPart.TwoSetViaBKL.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.TwoSetViaBKL.d GPart.TwoSetViaBKL.c
-    /usr/bin/gcc -MM: GPart.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.util.d GPart.util.c
+    /usr/bin/gcc-4.6 -MM: GPart.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.basics.d GPart.basics.c
+    /usr/bin/gcc-4.6 -MM: GPart.DDsepInfo.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.DDsepInfo.d GPart.DDsepInfo.c
+    /usr/bin/gcc-4.6 -MM: GPart.DDviaFishnet.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.DDviaFishnet.d GPart.DDviaFishnet.c
+    /usr/bin/gcc-4.6 -MM: GPart.DDviaProjection.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.DDviaProjection.d GPart.DDviaProjection.c
+    /usr/bin/gcc-4.6 -MM: GPart.domSegMap.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.domSegMap.d GPart.domSegMap.c
+    /usr/bin/gcc-4.6 -MM: GPart.identifyWideSep.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.identifyWideSep.d GPart.identifyWideSep.c
+    /usr/bin/gcc-4.6 -MM: GPart.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.init.d GPart.init.c
+    /usr/bin/gcc-4.6 -MM: GPart.makeYCmap.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.makeYCmap.d GPart.makeYCmap.c
+    /usr/bin/gcc-4.6 -MM: GPart.RBviaDDsep.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.RBviaDDsep.d GPart.RBviaDDsep.c
+    /usr/bin/gcc-4.6 -MM: GPart.smoothBisector.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.smoothBisector.d GPart.smoothBisector.c
+    /usr/bin/gcc-4.6 -MM: GPart.smoothBy2layers.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.smoothBy2layers.d GPart.smoothBy2layers.c
+    /usr/bin/gcc-4.6 -MM: GPart.smoothYSep.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.smoothYSep.d GPart.smoothYSep.c
+    /usr/bin/gcc-4.6 -MM: GPart.split.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.split.d GPart.split.c
+    /usr/bin/gcc-4.6 -MM: GPart.TwoSetViaBKL.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.TwoSetViaBKL.d GPart.TwoSetViaBKL.c
+    /usr/bin/gcc-4.6 -MM: GPart.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.util.d GPart.util.c
     cat: GPart.basics.d GPart.DDsepInfo.d GPart.DDviaFishnet.d GPart.DDviaProjection.d GPart.domSegMap.d GPart.identifyWideSep.d GPart.init.d GPart.makeYCmap.d GPart.RBviaDDsep.d GPart.smoothBisector.d GPart.smoothBy2layers.d GPart.smoothYSep.d GPart.split.d GPart.TwoSetViaBKL.d GPart.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
@@ -879,26 +879,26 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
 removed 10 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
-    /usr/bin/gcc -MM: Graph.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.basics.d Graph.basics.c
-    /usr/bin/gcc -MM: Graph.compress.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.compress.d Graph.compress.c
-    /usr/bin/gcc -MM: Graph.equivMap.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.equivMap.d Graph.equivMap.c
-    /usr/bin/gcc -MM: Graph.expand.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.expand.d Graph.expand.c
-    /usr/bin/gcc -MM: Graph.fillFromOffsets.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.fillFromOffsets.d Graph.fillFromOffsets.c
-    /usr/bin/gcc -MM: Graph.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.init.d Graph.init.c
-    /usr/bin/gcc -MM: Graph.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.IO.d Graph.IO.c
-    /usr/bin/gcc -MM: Graph.setListsFromOffsets.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.setListsFromOffsets.d Graph.setListsFromOffsets.c
-    /usr/bin/gcc -MM: Graph.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.util.d Graph.util.c
-    /usr/bin/gcc -MM: Graph.wirebasket.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.wirebasket.d Graph.wirebasket.c
+    /usr/bin/gcc-4.6 -MM: Graph.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.basics.d Graph.basics.c
+    /usr/bin/gcc-4.6 -MM: Graph.compress.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.compress.d Graph.compress.c
+    /usr/bin/gcc-4.6 -MM: Graph.equivMap.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.equivMap.d Graph.equivMap.c
+    /usr/bin/gcc-4.6 -MM: Graph.expand.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.expand.d Graph.expand.c
+    /usr/bin/gcc-4.6 -MM: Graph.fillFromOffsets.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.fillFromOffsets.d Graph.fillFromOffsets.c
+    /usr/bin/gcc-4.6 -MM: Graph.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.init.d Graph.init.c
+    /usr/bin/gcc-4.6 -MM: Graph.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.IO.d Graph.IO.c
+    /usr/bin/gcc-4.6 -MM: Graph.setListsFromOffsets.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.setListsFromOffsets.d Graph.setListsFromOffsets.c
+    /usr/bin/gcc-4.6 -MM: Graph.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.util.d Graph.util.c
+    /usr/bin/gcc-4.6 -MM: Graph.wirebasket.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.wirebasket.d Graph.wirebasket.c
     cat: Graph.basics.d Graph.compress.d Graph.equivMap.d Graph.expand.d Graph.fillFromOffsets.d Graph.init.d Graph.IO.d Graph.setListsFromOffsets.d Graph.util.d Graph.wirebasket.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
@@ -911,14 +911,14 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
 removed 4 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
-    /usr/bin/gcc -MM: Ideq.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIdeq.basics.d Ideq.basics.c
-    /usr/bin/gcc -MM: Ideq.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIdeq.IO.d Ideq.IO.c
-    /usr/bin/gcc -MM: Ideq.resize.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIdeq.resize.d Ideq.resize.c
-    /usr/bin/gcc -MM: Ideq.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIdeq.util.d Ideq.util.c
+    /usr/bin/gcc-4.6 -MM: Ideq.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIdeq.basics.d Ideq.basics.c
+    /usr/bin/gcc-4.6 -MM: Ideq.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIdeq.IO.d Ideq.IO.c
+    /usr/bin/gcc-4.6 -MM: Ideq.resize.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIdeq.resize.d Ideq.resize.c
+    /usr/bin/gcc-4.6 -MM: Ideq.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIdeq.util.d Ideq.util.c
     cat: Ideq.basics.d Ideq.IO.d Ideq.resize.d Ideq.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
@@ -931,8 +931,8 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
 removed 1 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
-    /usr/bin/gcc -MM: IIheap.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIIheap.basics.d IIheap.basics.c
+    /usr/bin/gcc-4.6 -MM: IIheap.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIIheap.basics.d IIheap.basics.c
     cat: IIheap.basics.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
@@ -945,18 +945,18 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
 removed 6 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
-    /usr/bin/gcc -MM: ILUMtx.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFILUMtx.basics.d ILUMtx.basics.c
-    /usr/bin/gcc -MM: ILUMtx.factor.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFILUMtx.factor.d ILUMtx.factor.c
-    /usr/bin/gcc -MM: ILUMtx.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFILUMtx.init.d ILUMtx.init.c
-    /usr/bin/gcc -MM: ILUMtx.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFILUMtx.IO.d ILUMtx.IO.c
-    /usr/bin/gcc -MM: ILUMtx.misc.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFILUMtx.misc.d ILUMtx.misc.c
-    /usr/bin/gcc -MM: ILUMtx.solve.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFILUMtx.solve.d ILUMtx.solve.c
+    /usr/bin/gcc-4.6 -MM: ILUMtx.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFILUMtx.basics.d ILUMtx.basics.c
+    /usr/bin/gcc-4.6 -MM: ILUMtx.factor.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFILUMtx.factor.d ILUMtx.factor.c
+    /usr/bin/gcc-4.6 -MM: ILUMtx.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFILUMtx.init.d ILUMtx.init.c
+    /usr/bin/gcc-4.6 -MM: ILUMtx.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFILUMtx.IO.d ILUMtx.IO.c
+    /usr/bin/gcc-4.6 -MM: ILUMtx.misc.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFILUMtx.misc.d ILUMtx.misc.c
+    /usr/bin/gcc-4.6 -MM: ILUMtx.solve.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFILUMtx.solve.d ILUMtx.solve.c
     cat: ILUMtx.basics.d ILUMtx.factor.d ILUMtx.init.d ILUMtx.IO.d ILUMtx.misc.d ILUMtx.solve.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
@@ -969,40 +969,40 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
 removed 17 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
-    /usr/bin/gcc -MM: InpMtx.adjForATA.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.adjForATA.d InpMtx.adjForATA.c
-    /usr/bin/gcc -MM: InpMtx.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.basics.d InpMtx.basics.c
-    /usr/bin/gcc -MM: InpMtx.extract.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.extract.d InpMtx.extract.c
-    /usr/bin/gcc -MM: InpMtx.fullAdj.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.fullAdj.d InpMtx.fullAdj.c
-    /usr/bin/gcc -MM: InpMtx.gmmm.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.gmmm.d InpMtx.gmmm.c
-    /usr/bin/gcc -MM: InpMtx.gmvm.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.gmvm.d InpMtx.gmvm.c
-    /usr/bin/gcc -MM: InpMtx.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.init.d InpMtx.init.c
-    /usr/bin/gcc -MM: InpMtx.input.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.input.d InpMtx.input.c
-    /usr/bin/gcc -MM: InpMtx.instance.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.instance.d InpMtx.instance.c
-    /usr/bin/gcc -MM: InpMtx.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.IO.d InpMtx.IO.c
-    /usr/bin/gcc -MM: InpMtx.map.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.map.d InpMtx.map.c
-    /usr/bin/gcc -MM: InpMtx.mvm.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.mvm.d InpMtx.mvm.c
-    /usr/bin/gcc -MM: InpMtx.mvmVector.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.mvmVector.d InpMtx.mvmVector.c
-    /usr/bin/gcc -MM: InpMtx.permute.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.permute.d InpMtx.permute.c
-    /usr/bin/gcc -MM: InpMtx.profile.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.profile.d InpMtx.profile.c
-    /usr/bin/gcc -MM: InpMtx.support.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.support.d InpMtx.support.c
-    /usr/bin/gcc -MM: InpMtx.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.util.d InpMtx.util.c
+    /usr/bin/gcc-4.6 -MM: InpMtx.adjForATA.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.adjForATA.d InpMtx.adjForATA.c
+    /usr/bin/gcc-4.6 -MM: InpMtx.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.basics.d InpMtx.basics.c
+    /usr/bin/gcc-4.6 -MM: InpMtx.extract.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.extract.d InpMtx.extract.c
+    /usr/bin/gcc-4.6 -MM: InpMtx.fullAdj.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.fullAdj.d InpMtx.fullAdj.c
+    /usr/bin/gcc-4.6 -MM: InpMtx.gmmm.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.gmmm.d InpMtx.gmmm.c
+    /usr/bin/gcc-4.6 -MM: InpMtx.gmvm.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.gmvm.d InpMtx.gmvm.c
+    /usr/bin/gcc-4.6 -MM: InpMtx.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.init.d InpMtx.init.c
+    /usr/bin/gcc-4.6 -MM: InpMtx.input.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.input.d InpMtx.input.c
+    /usr/bin/gcc-4.6 -MM: InpMtx.instance.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.instance.d InpMtx.instance.c
+    /usr/bin/gcc-4.6 -MM: InpMtx.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.IO.d InpMtx.IO.c
+    /usr/bin/gcc-4.6 -MM: InpMtx.map.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.map.d InpMtx.map.c
+    /usr/bin/gcc-4.6 -MM: InpMtx.mvm.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.mvm.d InpMtx.mvm.c
+    /usr/bin/gcc-4.6 -MM: InpMtx.mvmVector.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.mvmVector.d InpMtx.mvmVector.c
+    /usr/bin/gcc-4.6 -MM: InpMtx.permute.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.permute.d InpMtx.permute.c
+    /usr/bin/gcc-4.6 -MM: InpMtx.profile.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.profile.d InpMtx.profile.c
+    /usr/bin/gcc-4.6 -MM: InpMtx.support.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.support.d InpMtx.support.c
+    /usr/bin/gcc-4.6 -MM: InpMtx.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.util.d InpMtx.util.c
     cat: InpMtx.adjForATA.d InpMtx.basics.d InpMtx.extract.d InpMtx.fullAdj.d InpMtx.gmmm.d InpMtx.gmvm.d InpMtx.init.d InpMtx.input.d InpMtx.instance.d InpMtx.IO.d InpMtx.map.d InpMtx.mvm.d InpMtx.mvmVector.d InpMtx.permute.d InpMtx.profile.d InpMtx.support.d InpMtx.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
@@ -1015,46 +1015,46 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
 removed 20 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
-    /usr/bin/gcc -MM: Iter.bgmresl.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.bgmresl.d Iter.bgmresl.c
-    /usr/bin/gcc -MM: Iter.bgmresr.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.bgmresr.d Iter.bgmresr.c
-    /usr/bin/gcc -MM: Iter.bicgstabl.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.bicgstabl.d Iter.bicgstabl.c
-    /usr/bin/gcc -MM: Iter.bicgstabr.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.bicgstabr.d Iter.bicgstabr.c
-    /usr/bin/gcc -MM: Iter.DenseMtx_mmm.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.DenseMtx_mmm.d Iter.DenseMtx_mmm.c
-    /usr/bin/gcc -MM: Iter.mlbicgstabl.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.mlbicgstabl.d Iter.mlbicgstabl.c
-    /usr/bin/gcc -MM: Iter.mlbicgstabr.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.mlbicgstabr.d Iter.mlbicgstabr.c
-    /usr/bin/gcc -MM: Iter.pcgl.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.pcgl.d Iter.pcgl.c
-    /usr/bin/gcc -MM: Iter.pcgr.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.pcgr.d Iter.pcgr.c
-    /usr/bin/gcc -MM: Iter.tfqmrl.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.tfqmrl.d Iter.tfqmrl.c
-    /usr/bin/gcc -MM: Iter.tfqmrr.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.tfqmrr.d Iter.tfqmrr.c
-    /usr/bin/gcc -MM: Iter.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.util.d Iter.util.c
-    /usr/bin/gcc -MM: Iter.zbicgstabl.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.zbicgstabl.d Iter.zbicgstabl.c
-    /usr/bin/gcc -MM: Iter.zbicgstabr.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.zbicgstabr.d Iter.zbicgstabr.c
-    /usr/bin/gcc -MM: Iter.zmlbicgstabl.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.zmlbicgstabl.d Iter.zmlbicgstabl.c
-    /usr/bin/gcc -MM: Iter.zmlbicgstabr.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.zmlbicgstabr.d Iter.zmlbicgstabr.c
-    /usr/bin/gcc -MM: Iter.zpcgl.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.zpcgl.d Iter.zpcgl.c
-    /usr/bin/gcc -MM: Iter.zpcgr.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.zpcgr.d Iter.zpcgr.c
-    /usr/bin/gcc -MM: Iter.ztfqmrl.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.ztfqmrl.d Iter.ztfqmrl.c
-    /usr/bin/gcc -MM: Iter.ztfqmrr.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.ztfqmrr.d Iter.ztfqmrr.c
+    /usr/bin/gcc-4.6 -MM: Iter.bgmresl.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.bgmresl.d Iter.bgmresl.c
+    /usr/bin/gcc-4.6 -MM: Iter.bgmresr.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.bgmresr.d Iter.bgmresr.c
+    /usr/bin/gcc-4.6 -MM: Iter.bicgstabl.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.bicgstabl.d Iter.bicgstabl.c
+    /usr/bin/gcc-4.6 -MM: Iter.bicgstabr.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.bicgstabr.d Iter.bicgstabr.c
+    /usr/bin/gcc-4.6 -MM: Iter.DenseMtx_mmm.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.DenseMtx_mmm.d Iter.DenseMtx_mmm.c
+    /usr/bin/gcc-4.6 -MM: Iter.mlbicgstabl.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.mlbicgstabl.d Iter.mlbicgstabl.c
+    /usr/bin/gcc-4.6 -MM: Iter.mlbicgstabr.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.mlbicgstabr.d Iter.mlbicgstabr.c
+    /usr/bin/gcc-4.6 -MM: Iter.pcgl.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.pcgl.d Iter.pcgl.c
+    /usr/bin/gcc-4.6 -MM: Iter.pcgr.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.pcgr.d Iter.pcgr.c
+    /usr/bin/gcc-4.6 -MM: Iter.tfqmrl.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.tfqmrl.d Iter.tfqmrl.c
+    /usr/bin/gcc-4.6 -MM: Iter.tfqmrr.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.tfqmrr.d Iter.tfqmrr.c
+    /usr/bin/gcc-4.6 -MM: Iter.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.util.d Iter.util.c
+    /usr/bin/gcc-4.6 -MM: Iter.zbicgstabl.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.zbicgstabl.d Iter.zbicgstabl.c
+    /usr/bin/gcc-4.6 -MM: Iter.zbicgstabr.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.zbicgstabr.d Iter.zbicgstabr.c
+    /usr/bin/gcc-4.6 -MM: Iter.zmlbicgstabl.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.zmlbicgstabl.d Iter.zmlbicgstabl.c
+    /usr/bin/gcc-4.6 -MM: Iter.zmlbicgstabr.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.zmlbicgstabr.d Iter.zmlbicgstabr.c
+    /usr/bin/gcc-4.6 -MM: Iter.zpcgl.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.zpcgl.d Iter.zpcgl.c
+    /usr/bin/gcc-4.6 -MM: Iter.zpcgr.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.zpcgr.d Iter.zpcgr.c
+    /usr/bin/gcc-4.6 -MM: Iter.ztfqmrl.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.ztfqmrl.d Iter.ztfqmrl.c
+    /usr/bin/gcc-4.6 -MM: Iter.ztfqmrr.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.ztfqmrr.d Iter.ztfqmrr.c
     cat: Iter.bgmresl.d Iter.bgmresr.d Iter.bicgstabl.d Iter.bicgstabr.d Iter.DenseMtx_mmm.d Iter.mlbicgstabl.d Iter.mlbicgstabr.d Iter.pcgl.d Iter.pcgr.d Iter.tfqmrl.d Iter.tfqmrr.d Iter.util.d Iter.zbicgstabl.d Iter.zbicgstabr.d Iter.zmlbicgstabl.d Iter.zmlbicgstabr.d Iter.zpcgl.d Iter.zpcgr.d Iter.ztfqmrl.d Iter.ztfqmrr.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
@@ -1067,16 +1067,16 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IV'
 removed 5 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IV'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IV'
-    /usr/bin/gcc -MM: IV.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIV.basics.d IV.basics.c
-    /usr/bin/gcc -MM: IV.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIV.init.d IV.init.c
-    /usr/bin/gcc -MM: IV.instance.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIV.instance.d IV.instance.c
-    /usr/bin/gcc -MM: IV.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIV.IO.d IV.IO.c
-    /usr/bin/gcc -MM: IV.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIV.util.d IV.util.c
+    /usr/bin/gcc-4.6 -MM: IV.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIV.basics.d IV.basics.c
+    /usr/bin/gcc-4.6 -MM: IV.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIV.init.d IV.init.c
+    /usr/bin/gcc-4.6 -MM: IV.instance.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIV.instance.d IV.instance.c
+    /usr/bin/gcc-4.6 -MM: IV.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIV.IO.d IV.IO.c
+    /usr/bin/gcc-4.6 -MM: IV.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIV.util.d IV.util.c
     cat: IV.basics.d IV.init.d IV.instance.d IV.IO.d IV.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IV'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IV'
@@ -1089,22 +1089,22 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
 removed 8 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
-    /usr/bin/gcc -MM: IVL.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIVL.basics.d IVL.basics.c
-    /usr/bin/gcc -MM: IVL.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIVL.init.d IVL.init.c
-    /usr/bin/gcc -MM: IVL.instance.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIVL.instance.d IVL.instance.c
-    /usr/bin/gcc -MM: IVL.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIVL.IO.d IVL.IO.c
-    /usr/bin/gcc -MM: IVL.listmanip.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIVL.listmanip.d IVL.listmanip.c
-    /usr/bin/gcc -MM: IVL.misc.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIVL.misc.d IVL.misc.c
-    /usr/bin/gcc -MM: IVL.subIVL.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIVL.subIVL.d IVL.subIVL.c
-    /usr/bin/gcc -MM: IVL.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIVL.util.d IVL.util.c
+    /usr/bin/gcc-4.6 -MM: IVL.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIVL.basics.d IVL.basics.c
+    /usr/bin/gcc-4.6 -MM: IVL.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIVL.init.d IVL.init.c
+    /usr/bin/gcc-4.6 -MM: IVL.instance.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIVL.instance.d IVL.instance.c
+    /usr/bin/gcc-4.6 -MM: IVL.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIVL.IO.d IVL.IO.c
+    /usr/bin/gcc-4.6 -MM: IVL.listmanip.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIVL.listmanip.d IVL.listmanip.c
+    /usr/bin/gcc-4.6 -MM: IVL.misc.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIVL.misc.d IVL.misc.c
+    /usr/bin/gcc-4.6 -MM: IVL.subIVL.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIVL.subIVL.d IVL.subIVL.c
+    /usr/bin/gcc-4.6 -MM: IVL.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIVL.util.d IVL.util.c
     cat: IVL.basics.d IVL.init.d IVL.instance.d IVL.IO.d IVL.listmanip.d IVL.misc.d IVL.subIVL.d IVL.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
@@ -1117,14 +1117,14 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
 removed 4 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
-    /usr/bin/gcc -MM: I2Ohash.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFI2Ohash.basics.d I2Ohash.basics.c
-    /usr/bin/gcc -MM: I2Ohash.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFI2Ohash.init.d I2Ohash.init.c
-    /usr/bin/gcc -MM: I2Ohash.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFI2Ohash.IO.d I2Ohash.IO.c
-    /usr/bin/gcc -MM: I2Ohash.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFI2Ohash.util.d I2Ohash.util.c
+    /usr/bin/gcc-4.6 -MM: I2Ohash.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFI2Ohash.basics.d I2Ohash.basics.c
+    /usr/bin/gcc-4.6 -MM: I2Ohash.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFI2Ohash.init.d I2Ohash.init.c
+    /usr/bin/gcc-4.6 -MM: I2Ohash.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFI2Ohash.IO.d I2Ohash.IO.c
+    /usr/bin/gcc-4.6 -MM: I2Ohash.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFI2Ohash.util.d I2Ohash.util.c
     cat: I2Ohash.basics.d I2Ohash.init.d I2Ohash.IO.d I2Ohash.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
@@ -1137,12 +1137,12 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
 removed 3 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
-    /usr/bin/gcc -MM: Lock.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFLock.basics.d Lock.basics.c
-    /usr/bin/gcc -MM: Lock.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFLock.init.d Lock.init.c
-    /usr/bin/gcc -MM: Lock.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFLock.util.d Lock.util.c
+    /usr/bin/gcc-4.6 -MM: Lock.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFLock.basics.d Lock.basics.c
+    /usr/bin/gcc-4.6 -MM: Lock.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFLock.init.d Lock.init.c
+    /usr/bin/gcc-4.6 -MM: Lock.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFLock.util.d Lock.util.c
     cat: Lock.basics.d Lock.init.d Lock.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
@@ -1155,28 +1155,28 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/misc'
 removed 11 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/misc'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/misc'
-    /usr/bin/gcc -MM: misc.drawGraphEPS.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.drawGraphEPS.d misc.drawGraphEPS.c
-    /usr/bin/gcc -MM: misc.fpgrids.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.fpgrids.d misc.fpgrids.c
-    /usr/bin/gcc -MM: misc.localND.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.localND.d misc.localND.c
-    /usr/bin/gcc -MM: misc.mkNDlinsys.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.mkNDlinsys.d misc.mkNDlinsys.c
-    /usr/bin/gcc -MM: misc.mkNDlinsysQR.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.mkNDlinsysQR.d misc.mkNDlinsysQR.c
-    /usr/bin/gcc -MM: misc.ND.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.ND.d misc.ND.c
-    /usr/bin/gcc -MM: misc.ND2.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.ND2.d misc.ND2.c
-    /usr/bin/gcc -MM: misc.orderViaBestOfNDandMS.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.orderViaBestOfNDandMS.d misc.orderViaBestOfNDandMS.c
-    /usr/bin/gcc -MM: misc.orderViaMMD.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.orderViaMMD.d misc.orderViaMMD.c
-    /usr/bin/gcc -MM: misc.orderViaMS.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.orderViaMS.d misc.orderViaMS.c
-    /usr/bin/gcc -MM: misc.orderViaND.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.orderViaND.d misc.orderViaND.c
+    /usr/bin/gcc-4.6 -MM: misc.drawGraphEPS.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.drawGraphEPS.d misc.drawGraphEPS.c
+    /usr/bin/gcc-4.6 -MM: misc.fpgrids.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.fpgrids.d misc.fpgrids.c
+    /usr/bin/gcc-4.6 -MM: misc.localND.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.localND.d misc.localND.c
+    /usr/bin/gcc-4.6 -MM: misc.mkNDlinsys.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.mkNDlinsys.d misc.mkNDlinsys.c
+    /usr/bin/gcc-4.6 -MM: misc.mkNDlinsysQR.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.mkNDlinsysQR.d misc.mkNDlinsysQR.c
+    /usr/bin/gcc-4.6 -MM: misc.ND.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.ND.d misc.ND.c
+    /usr/bin/gcc-4.6 -MM: misc.ND2.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.ND2.d misc.ND2.c
+    /usr/bin/gcc-4.6 -MM: misc.orderViaBestOfNDandMS.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.orderViaBestOfNDandMS.d misc.orderViaBestOfNDandMS.c
+    /usr/bin/gcc-4.6 -MM: misc.orderViaMMD.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.orderViaMMD.d misc.orderViaMMD.c
+    /usr/bin/gcc-4.6 -MM: misc.orderViaMS.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.orderViaMS.d misc.orderViaMS.c
+    /usr/bin/gcc-4.6 -MM: misc.orderViaND.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.orderViaND.d misc.orderViaND.c
     cat: misc.drawGraphEPS.d misc.fpgrids.d misc.localND.d misc.mkNDlinsys.d misc.mkNDlinsysQR.d misc.ND.d misc.ND2.d misc.orderViaBestOfNDandMS.d misc.orderViaMMD.d misc.orderViaMS.d misc.orderViaND.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/misc'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/misc'
@@ -1189,30 +1189,30 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
 removed 12 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
-    /usr/bin/gcc -MM: MSMD.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.basics.d MSMD.basics.c
-    /usr/bin/gcc -MM: MSMD.cleanReachSet.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.cleanReachSet.d MSMD.cleanReachSet.c
-    /usr/bin/gcc -MM: MSMD.eliminate.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.eliminate.d MSMD.eliminate.c
-    /usr/bin/gcc -MM: MSMD.fillPerms.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.fillPerms.d MSMD.fillPerms.c
-    /usr/bin/gcc -MM: MSMD.findInodes.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.findInodes.d MSMD.findInodes.c
-    /usr/bin/gcc -MM: MSMD.frontETree.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.frontETree.d MSMD.frontETree.c
-    /usr/bin/gcc -MM: MSMD.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.init.d MSMD.init.c
-    /usr/bin/gcc -MM: MSMD.makeSchurComplement.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.makeSchurComplement.d MSMD.makeSchurComplement.c
-    /usr/bin/gcc -MM: MSMD.MSMDinfo.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.MSMDinfo.d MSMD.MSMDinfo.c
-    /usr/bin/gcc -MM: MSMD.MSMDvtx.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.MSMDvtx.d MSMD.MSMDvtx.c
-    /usr/bin/gcc -MM: MSMD.order.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.order.d MSMD.order.c
-    /usr/bin/gcc -MM: MSMD.update.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.update.d MSMD.update.c
+    /usr/bin/gcc-4.6 -MM: MSMD.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.basics.d MSMD.basics.c
+    /usr/bin/gcc-4.6 -MM: MSMD.cleanReachSet.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.cleanReachSet.d MSMD.cleanReachSet.c
+    /usr/bin/gcc-4.6 -MM: MSMD.eliminate.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.eliminate.d MSMD.eliminate.c
+    /usr/bin/gcc-4.6 -MM: MSMD.fillPerms.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.fillPerms.d MSMD.fillPerms.c
+    /usr/bin/gcc-4.6 -MM: MSMD.findInodes.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.findInodes.d MSMD.findInodes.c
+    /usr/bin/gcc-4.6 -MM: MSMD.frontETree.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.frontETree.d MSMD.frontETree.c
+    /usr/bin/gcc-4.6 -MM: MSMD.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.init.d MSMD.init.c
+    /usr/bin/gcc-4.6 -MM: MSMD.makeSchurComplement.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.makeSchurComplement.d MSMD.makeSchurComplement.c
+    /usr/bin/gcc-4.6 -MM: MSMD.MSMDinfo.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.MSMDinfo.d MSMD.MSMDinfo.c
+    /usr/bin/gcc-4.6 -MM: MSMD.MSMDvtx.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.MSMDvtx.d MSMD.MSMDvtx.c
+    /usr/bin/gcc-4.6 -MM: MSMD.order.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.order.d MSMD.order.c
+    /usr/bin/gcc-4.6 -MM: MSMD.update.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.update.d MSMD.update.c
     cat: MSMD.basics.d MSMD.cleanReachSet.d MSMD.eliminate.d MSMD.fillPerms.d MSMD.findInodes.d MSMD.frontETree.d MSMD.init.d MSMD.makeSchurComplement.d MSMD.MSMDinfo.d MSMD.MSMDvtx.d MSMD.order.d MSMD.update.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
@@ -1225,22 +1225,22 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Network'
 removed 8 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Network'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Network'
-    /usr/bin/gcc -MM: Network.addArc.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFNetwork.addArc.d Network.addArc.c
-    /usr/bin/gcc -MM: Network.augmentPath.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFNetwork.augmentPath.d Network.augmentPath.c
-    /usr/bin/gcc -MM: Network.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFNetwork.basics.d Network.basics.c
-    /usr/bin/gcc -MM: Network.findAugmentingPath.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFNetwork.findAugmentingPath.d Network.findAugmentingPath.c
-    /usr/bin/gcc -MM: Network.findMaxFlow.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFNetwork.findMaxFlow.d Network.findMaxFlow.c
-    /usr/bin/gcc -MM: Network.findMincut.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFNetwork.findMincut.d Network.findMincut.c
-    /usr/bin/gcc -MM: Network.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFNetwork.init.d Network.init.c
-    /usr/bin/gcc -MM: Network.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFNetwork.IO.d Network.IO.c
+    /usr/bin/gcc-4.6 -MM: Network.addArc.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFNetwork.addArc.d Network.addArc.c
+    /usr/bin/gcc-4.6 -MM: Network.augmentPath.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFNetwork.augmentPath.d Network.augmentPath.c
+    /usr/bin/gcc-4.6 -MM: Network.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFNetwork.basics.d Network.basics.c
+    /usr/bin/gcc-4.6 -MM: Network.findAugmentingPath.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFNetwork.findAugmentingPath.d Network.findAugmentingPath.c
+    /usr/bin/gcc-4.6 -MM: Network.findMaxFlow.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFNetwork.findMaxFlow.d Network.findMaxFlow.c
+    /usr/bin/gcc-4.6 -MM: Network.findMincut.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFNetwork.findMincut.d Network.findMincut.c
+    /usr/bin/gcc-4.6 -MM: Network.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFNetwork.init.d Network.init.c
+    /usr/bin/gcc-4.6 -MM: Network.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFNetwork.IO.d Network.IO.c
     cat: Network.addArc.d Network.augmentPath.d Network.basics.d Network.findAugmentingPath.d Network.findMaxFlow.d Network.findMincut.d Network.init.d Network.IO.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Network'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Network'
@@ -1253,10 +1253,10 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo
 removed 2 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
-    /usr/bin/gcc -MM: PatchAndGoInfo.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPatchAndGoInfo.basics.d PatchAndGoInfo.basics.c
-    /usr/bin/gcc -MM: PatchAndGoInfo.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPatchAndGoInfo.init.d PatchAndGoInfo.init.c
+    /usr/bin/gcc-4.6 -MM: PatchAndGoInfo.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPatchAndGoInfo.basics.d PatchAndGoInfo.basics.c
+    /usr/bin/gcc-4.6 -MM: PatchAndGoInfo.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPatchAndGoInfo.init.d PatchAndGoInfo.init.c
     cat: PatchAndGoInfo.basics.d PatchAndGoInfo.init.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
@@ -1269,20 +1269,20 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
 removed 7 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
-    /usr/bin/gcc -MM: Pencil.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPencil.basics.d Pencil.basics.c
-    /usr/bin/gcc -MM: Pencil.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPencil.init.d Pencil.init.c
-    /usr/bin/gcc -MM: Pencil.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPencil.IO.d Pencil.IO.c
-    /usr/bin/gcc -MM: Pencil.mmm.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPencil.mmm.d Pencil.mmm.c
-    /usr/bin/gcc -MM: Pencil.permute.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPencil.permute.d Pencil.permute.c
-    /usr/bin/gcc -MM: Pencil.setup.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPencil.setup.d Pencil.setup.c
-    /usr/bin/gcc -MM: Pencil.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPencil.util.d Pencil.util.c
+    /usr/bin/gcc-4.6 -MM: Pencil.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPencil.basics.d Pencil.basics.c
+    /usr/bin/gcc-4.6 -MM: Pencil.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPencil.init.d Pencil.init.c
+    /usr/bin/gcc-4.6 -MM: Pencil.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPencil.IO.d Pencil.IO.c
+    /usr/bin/gcc-4.6 -MM: Pencil.mmm.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPencil.mmm.d Pencil.mmm.c
+    /usr/bin/gcc-4.6 -MM: Pencil.permute.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPencil.permute.d Pencil.permute.c
+    /usr/bin/gcc-4.6 -MM: Pencil.setup.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPencil.setup.d Pencil.setup.c
+    /usr/bin/gcc-4.6 -MM: Pencil.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPencil.util.d Pencil.util.c
     cat: Pencil.basics.d Pencil.init.d Pencil.IO.d Pencil.mmm.d Pencil.permute.d Pencil.setup.d Pencil.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
@@ -1295,16 +1295,16 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
 removed 5 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
-    /usr/bin/gcc -MM: Perm.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPerm.basics.d Perm.basics.c
-    /usr/bin/gcc -MM: Perm.compress.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPerm.compress.d Perm.compress.c
-    /usr/bin/gcc -MM: Perm.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPerm.init.d Perm.init.c
-    /usr/bin/gcc -MM: Perm.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPerm.IO.d Perm.IO.c
-    /usr/bin/gcc -MM: Perm.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPerm.util.d Perm.util.c
+    /usr/bin/gcc-4.6 -MM: Perm.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPerm.basics.d Perm.basics.c
+    /usr/bin/gcc-4.6 -MM: Perm.compress.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPerm.compress.d Perm.compress.c
+    /usr/bin/gcc-4.6 -MM: Perm.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPerm.init.d Perm.init.c
+    /usr/bin/gcc-4.6 -MM: Perm.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPerm.IO.d Perm.IO.c
+    /usr/bin/gcc-4.6 -MM: Perm.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPerm.util.d Perm.util.c
     cat: Perm.basics.d Perm.compress.d Perm.init.d Perm.IO.d Perm.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
@@ -1317,16 +1317,16 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
 removed 5 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
-    /usr/bin/gcc -MM: SemiImplMtx.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSemiImplMtx.basics.d SemiImplMtx.basics.c
-    /usr/bin/gcc -MM: SemiImplMtx.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSemiImplMtx.init.d SemiImplMtx.init.c
-    /usr/bin/gcc -MM: SemiImplMtx.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSemiImplMtx.IO.d SemiImplMtx.IO.c
-    /usr/bin/gcc -MM: SemiImplMtx.solve.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSemiImplMtx.solve.d SemiImplMtx.solve.c
-    /usr/bin/gcc -MM: SemiImplMtx.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSemiImplMtx.util.d SemiImplMtx.util.c
+    /usr/bin/gcc-4.6 -MM: SemiImplMtx.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSemiImplMtx.basics.d SemiImplMtx.basics.c
+    /usr/bin/gcc-4.6 -MM: SemiImplMtx.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSemiImplMtx.init.d SemiImplMtx.init.c
+    /usr/bin/gcc-4.6 -MM: SemiImplMtx.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSemiImplMtx.IO.d SemiImplMtx.IO.c
+    /usr/bin/gcc-4.6 -MM: SemiImplMtx.solve.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSemiImplMtx.solve.d SemiImplMtx.solve.c
+    /usr/bin/gcc-4.6 -MM: SemiImplMtx.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSemiImplMtx.util.d SemiImplMtx.util.c
     cat: SemiImplMtx.basics.d SemiImplMtx.init.d SemiImplMtx.IO.d SemiImplMtx.solve.d SemiImplMtx.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
@@ -1339,20 +1339,20 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
 removed 7 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
-    /usr/bin/gcc -MM: SolveMap.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSolveMap.basics.d SolveMap.basics.c
-    /usr/bin/gcc -MM: SolveMap.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSolveMap.init.d SolveMap.init.c
-    /usr/bin/gcc -MM: SolveMap.instance.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSolveMap.instance.d SolveMap.instance.c
-    /usr/bin/gcc -MM: SolveMap.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSolveMap.IO.d SolveMap.IO.c
-    /usr/bin/gcc -MM: SolveMap.maps.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSolveMap.maps.d SolveMap.maps.c
-    /usr/bin/gcc -MM: SolveMap.setup.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSolveMap.setup.d SolveMap.setup.c
-    /usr/bin/gcc -MM: SolveMap.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSolveMap.util.d SolveMap.util.c
+    /usr/bin/gcc-4.6 -MM: SolveMap.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSolveMap.basics.d SolveMap.basics.c
+    /usr/bin/gcc-4.6 -MM: SolveMap.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSolveMap.init.d SolveMap.init.c
+    /usr/bin/gcc-4.6 -MM: SolveMap.instance.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSolveMap.instance.d SolveMap.instance.c
+    /usr/bin/gcc-4.6 -MM: SolveMap.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSolveMap.IO.d SolveMap.IO.c
+    /usr/bin/gcc-4.6 -MM: SolveMap.maps.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSolveMap.maps.d SolveMap.maps.c
+    /usr/bin/gcc-4.6 -MM: SolveMap.setup.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSolveMap.setup.d SolveMap.setup.c
+    /usr/bin/gcc-4.6 -MM: SolveMap.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSolveMap.util.d SolveMap.util.c
     cat: SolveMap.basics.d SolveMap.init.d SolveMap.instance.d SolveMap.IO.d SolveMap.maps.d SolveMap.setup.d SolveMap.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
@@ -1365,34 +1365,34 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
 removed 14 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
-    /usr/bin/gcc -MM: SubMtx.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.basics.d SubMtx.basics.c
-    /usr/bin/gcc -MM: SubMtx.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.init.d SubMtx.init.c
-    /usr/bin/gcc -MM: SubMtx.initRandom.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.initRandom.d SubMtx.initRandom.c
-    /usr/bin/gcc -MM: SubMtx.instance.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.instance.d SubMtx.instance.c
-    /usr/bin/gcc -MM: SubMtx.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.IO.d SubMtx.IO.c
-    /usr/bin/gcc -MM: SubMtx.scalevec.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.scalevec.d SubMtx.scalevec.c
-    /usr/bin/gcc -MM: SubMtx.solve.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.solve.d SubMtx.solve.c
-    /usr/bin/gcc -MM: SubMtx.solveH.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.solveH.d SubMtx.solveH.c
-    /usr/bin/gcc -MM: SubMtx.solveT.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.solveT.d SubMtx.solveT.c
-    /usr/bin/gcc -MM: SubMtx.solveupd.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.solveupd.d SubMtx.solveupd.c
-    /usr/bin/gcc -MM: SubMtx.solveupdH.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.solveupdH.d SubMtx.solveupdH.c
-    /usr/bin/gcc -MM: SubMtx.solveupdT.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.solveupdT.d SubMtx.solveupdT.c
-    /usr/bin/gcc -MM: SubMtx.sort.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.sort.d SubMtx.sort.c
-    /usr/bin/gcc -MM: SubMtx.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.util.d SubMtx.util.c
+    /usr/bin/gcc-4.6 -MM: SubMtx.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.basics.d SubMtx.basics.c
+    /usr/bin/gcc-4.6 -MM: SubMtx.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.init.d SubMtx.init.c
+    /usr/bin/gcc-4.6 -MM: SubMtx.initRandom.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.initRandom.d SubMtx.initRandom.c
+    /usr/bin/gcc-4.6 -MM: SubMtx.instance.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.instance.d SubMtx.instance.c
+    /usr/bin/gcc-4.6 -MM: SubMtx.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.IO.d SubMtx.IO.c
+    /usr/bin/gcc-4.6 -MM: SubMtx.scalevec.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.scalevec.d SubMtx.scalevec.c
+    /usr/bin/gcc-4.6 -MM: SubMtx.solve.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.solve.d SubMtx.solve.c
+    /usr/bin/gcc-4.6 -MM: SubMtx.solveH.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.solveH.d SubMtx.solveH.c
+    /usr/bin/gcc-4.6 -MM: SubMtx.solveT.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.solveT.d SubMtx.solveT.c
+    /usr/bin/gcc-4.6 -MM: SubMtx.solveupd.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.solveupd.d SubMtx.solveupd.c
+    /usr/bin/gcc-4.6 -MM: SubMtx.solveupdH.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.solveupdH.d SubMtx.solveupdH.c
+    /usr/bin/gcc-4.6 -MM: SubMtx.solveupdT.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.solveupdT.d SubMtx.solveupdT.c
+    /usr/bin/gcc-4.6 -MM: SubMtx.sort.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.sort.d SubMtx.sort.c
+    /usr/bin/gcc-4.6 -MM: SubMtx.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.util.d SubMtx.util.c
     cat: SubMtx.basics.d SubMtx.init.d SubMtx.initRandom.d SubMtx.instance.d SubMtx.IO.d SubMtx.scalevec.d SubMtx.solve.d SubMtx.solveH.d SubMtx.solveT.d SubMtx.solveupd.d SubMtx.solveupdH.d SubMtx.solveupdT.d SubMtx.sort.d SubMtx.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
@@ -1405,14 +1405,14 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
 removed 4 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
-    /usr/bin/gcc -MM: SubMtxList.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtxList.basics.d SubMtxList.basics.c
-    /usr/bin/gcc -MM: SubMtxList.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtxList.init.d SubMtxList.init.c
-    /usr/bin/gcc -MM: SubMtxList.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtxList.IO.d SubMtxList.IO.c
-    /usr/bin/gcc -MM: SubMtxList.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtxList.util.d SubMtxList.util.c
+    /usr/bin/gcc-4.6 -MM: SubMtxList.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtxList.basics.d SubMtxList.basics.c
+    /usr/bin/gcc-4.6 -MM: SubMtxList.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtxList.init.d SubMtxList.init.c
+    /usr/bin/gcc-4.6 -MM: SubMtxList.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtxList.IO.d SubMtxList.IO.c
+    /usr/bin/gcc-4.6 -MM: SubMtxList.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtxList.util.d SubMtxList.util.c
     cat: SubMtxList.basics.d SubMtxList.init.d SubMtxList.IO.d SubMtxList.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
@@ -1425,14 +1425,14 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
 removed 4 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
-    /usr/bin/gcc -MM: SubMtxManager.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtxManager.basics.d SubMtxManager.basics.c
-    /usr/bin/gcc -MM: SubMtxManager.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtxManager.init.d SubMtxManager.init.c
-    /usr/bin/gcc -MM: SubMtxManager.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtxManager.IO.d SubMtxManager.IO.c
-    /usr/bin/gcc -MM: SubMtxManager.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtxManager.util.d SubMtxManager.util.c
+    /usr/bin/gcc-4.6 -MM: SubMtxManager.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtxManager.basics.d SubMtxManager.basics.c
+    /usr/bin/gcc-4.6 -MM: SubMtxManager.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtxManager.init.d SubMtxManager.init.c
+    /usr/bin/gcc-4.6 -MM: SubMtxManager.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtxManager.IO.d SubMtxManager.IO.c
+    /usr/bin/gcc-4.6 -MM: SubMtxManager.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtxManager.util.d SubMtxManager.util.c
     cat: SubMtxManager.basics.d SubMtxManager.init.d SubMtxManager.IO.d SubMtxManager.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
@@ -1445,8 +1445,8 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
 removed 1 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
-    /usr/bin/gcc -MM: SymbFac.symbfac.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSymbFac.symbfac.d SymbFac.symbfac.c
+    /usr/bin/gcc-4.6 -MM: SymbFac.symbfac.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSymbFac.symbfac.d SymbFac.symbfac.c
     cat: SymbFac.symbfac.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
@@ -1459,34 +1459,34 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
 removed 14 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
-    /usr/bin/gcc -MM: Tree.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.basics.d Tree.basics.c
-    /usr/bin/gcc -MM: Tree.compress.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.compress.d Tree.compress.c
-    /usr/bin/gcc -MM: Tree.draw.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.draw.d Tree.draw.c
-    /usr/bin/gcc -MM: Tree.getCoords.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.getCoords.d Tree.getCoords.c
-    /usr/bin/gcc -MM: Tree.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.init.d Tree.init.c
-    /usr/bin/gcc -MM: Tree.instance.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.instance.d Tree.instance.c
-    /usr/bin/gcc -MM: Tree.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.IO.d Tree.IO.c
-    /usr/bin/gcc -MM: Tree.justify.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.justify.d Tree.justify.c
-    /usr/bin/gcc -MM: Tree.maximizeGain.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.maximizeGain.d Tree.maximizeGain.c
-    /usr/bin/gcc -MM: Tree.metrics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.metrics.d Tree.metrics.c
-    /usr/bin/gcc -MM: Tree.perms.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.perms.d Tree.perms.c
-    /usr/bin/gcc -MM: Tree.permute.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.permute.d Tree.permute.c
-    /usr/bin/gcc -MM: Tree.subtree.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.subtree.d Tree.subtree.c
-    /usr/bin/gcc -MM: Tree.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.util.d Tree.util.c
+    /usr/bin/gcc-4.6 -MM: Tree.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.basics.d Tree.basics.c
+    /usr/bin/gcc-4.6 -MM: Tree.compress.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.compress.d Tree.compress.c
+    /usr/bin/gcc-4.6 -MM: Tree.draw.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.draw.d Tree.draw.c
+    /usr/bin/gcc-4.6 -MM: Tree.getCoords.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.getCoords.d Tree.getCoords.c
+    /usr/bin/gcc-4.6 -MM: Tree.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.init.d Tree.init.c
+    /usr/bin/gcc-4.6 -MM: Tree.instance.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.instance.d Tree.instance.c
+    /usr/bin/gcc-4.6 -MM: Tree.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.IO.d Tree.IO.c
+    /usr/bin/gcc-4.6 -MM: Tree.justify.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.justify.d Tree.justify.c
+    /usr/bin/gcc-4.6 -MM: Tree.maximizeGain.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.maximizeGain.d Tree.maximizeGain.c
+    /usr/bin/gcc-4.6 -MM: Tree.metrics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.metrics.d Tree.metrics.c
+    /usr/bin/gcc-4.6 -MM: Tree.perms.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.perms.d Tree.perms.c
+    /usr/bin/gcc-4.6 -MM: Tree.permute.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.permute.d Tree.permute.c
+    /usr/bin/gcc-4.6 -MM: Tree.subtree.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.subtree.d Tree.subtree.c
+    /usr/bin/gcc-4.6 -MM: Tree.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.util.d Tree.util.c
     cat: Tree.basics.d Tree.compress.d Tree.draw.d Tree.getCoords.d Tree.init.d Tree.instance.d Tree.IO.d Tree.justify.d Tree.maximizeGain.d Tree.metrics.d Tree.perms.d Tree.permute.d Tree.subtree.d Tree.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
@@ -1499,36 +1499,36 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
 removed 15 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
-    /usr/bin/gcc -MM: Utilities.axpy.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.axpy.d Utilities.axpy.c
-    /usr/bin/gcc -MM: Utilities.CV.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.CV.d Utilities.CV.c
-    /usr/bin/gcc -MM: Utilities.DV.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.DV.d Utilities.DV.c
-    /usr/bin/gcc -MM: Utilities.FV.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.FV.d Utilities.FV.c
-    /usr/bin/gcc -MM: Utilities.iohb.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.iohb.d Utilities.iohb.c
-    /usr/bin/gcc -MM: Utilities.IP.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.IP.d Utilities.IP.c
-    /usr/bin/gcc -MM: Utilities.IV.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.IV.d Utilities.IV.c
-    /usr/bin/gcc -MM: Utilities.I2OP.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.I2OP.d Utilities.I2OP.c
-    /usr/bin/gcc -MM: Utilities.newsort.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.newsort.d Utilities.newsort.c
-    /usr/bin/gcc -MM: Utilities.PCV.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.PCV.d Utilities.PCV.c
-    /usr/bin/gcc -MM: Utilities.PDV.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.PDV.d Utilities.PDV.c
-    /usr/bin/gcc -MM: Utilities.PFV.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.PFV.d Utilities.PFV.c
-    /usr/bin/gcc -MM: Utilities.PIV.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.PIV.d Utilities.PIV.c
-    /usr/bin/gcc -MM: Utilities.sortAndCompress.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.sortAndCompress.d Utilities.sortAndCompress.c
-    /usr/bin/gcc -MM: Utilities.ZV.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.ZV.d Utilities.ZV.c
+    /usr/bin/gcc-4.6 -MM: Utilities.axpy.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.axpy.d Utilities.axpy.c
+    /usr/bin/gcc-4.6 -MM: Utilities.CV.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.CV.d Utilities.CV.c
+    /usr/bin/gcc-4.6 -MM: Utilities.DV.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.DV.d Utilities.DV.c
+    /usr/bin/gcc-4.6 -MM: Utilities.FV.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.FV.d Utilities.FV.c
+    /usr/bin/gcc-4.6 -MM: Utilities.iohb.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.iohb.d Utilities.iohb.c
+    /usr/bin/gcc-4.6 -MM: Utilities.IP.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.IP.d Utilities.IP.c
+    /usr/bin/gcc-4.6 -MM: Utilities.IV.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.IV.d Utilities.IV.c
+    /usr/bin/gcc-4.6 -MM: Utilities.I2OP.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.I2OP.d Utilities.I2OP.c
+    /usr/bin/gcc-4.6 -MM: Utilities.newsort.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.newsort.d Utilities.newsort.c
+    /usr/bin/gcc-4.6 -MM: Utilities.PCV.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.PCV.d Utilities.PCV.c
+    /usr/bin/gcc-4.6 -MM: Utilities.PDV.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.PDV.d Utilities.PDV.c
+    /usr/bin/gcc-4.6 -MM: Utilities.PFV.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.PFV.d Utilities.PFV.c
+    /usr/bin/gcc-4.6 -MM: Utilities.PIV.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.PIV.d Utilities.PIV.c
+    /usr/bin/gcc-4.6 -MM: Utilities.sortAndCompress.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.sortAndCompress.d Utilities.sortAndCompress.c
+    /usr/bin/gcc-4.6 -MM: Utilities.ZV.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.ZV.d Utilities.ZV.c
     cat: Utilities.axpy.d Utilities.CV.d Utilities.DV.d Utilities.FV.d Utilities.iohb.d Utilities.IP.d Utilities.IV.d Utilities.I2OP.d Utilities.newsort.d Utilities.PCV.d Utilities.PDV.d Utilities.PFV.d Utilities.PIV.d Utilities.sortAndCompress.d Utilities.ZV.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
@@ -1541,18 +1541,18 @@ make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
 removed 6 files matching regex ".*[.]d"
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
-    /usr/bin/gcc -MM: ZV.basics.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFZV.basics.d ZV.basics.c
-    /usr/bin/gcc -MM: ZV.init.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFZV.init.d ZV.init.c
-    /usr/bin/gcc -MM: ZV.instance.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFZV.instance.d ZV.instance.c
-    /usr/bin/gcc -MM: ZV.IO.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFZV.IO.d ZV.IO.c
-    /usr/bin/gcc -MM: ZV.profile.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFZV.profile.d ZV.profile.c
-    /usr/bin/gcc -MM: ZV.util.c
-/usr/bin/gcc -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFZV.util.d ZV.util.c
+    /usr/bin/gcc-4.6 -MM: ZV.basics.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFZV.basics.d ZV.basics.c
+    /usr/bin/gcc-4.6 -MM: ZV.init.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFZV.init.d ZV.init.c
+    /usr/bin/gcc-4.6 -MM: ZV.instance.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFZV.instance.d ZV.instance.c
+    /usr/bin/gcc-4.6 -MM: ZV.IO.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFZV.IO.d ZV.IO.c
+    /usr/bin/gcc-4.6 -MM: ZV.profile.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFZV.profile.d ZV.profile.c
+    /usr/bin/gcc-4.6 -MM: ZV.util.c
+/usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFZV.util.d ZV.util.c
     cat: ZV.basics.d ZV.init.d ZV.instance.d ZV.IO.d ZV.profile.d ZV.util.d > all.depend
 make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
 make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ZV'

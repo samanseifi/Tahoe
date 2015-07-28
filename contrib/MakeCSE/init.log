@@ -1,10 +1,10 @@
-Mon Jun 22 10:24:40 EDT 2015
+Wed Jul 22 15:52:02 EDT 2015
 make[1]: Entering directory `/home/saman/Tahoe/contrib/MakeCSE'
  mirroring /home/saman/Tahoe/contrib/MakeCSE/src to /home/saman/Tahoe/contrib/MakeCSE/src-mirror
 perl -w /home/saman/Tahoe/contrib/MakeCSE/../../macros/MirrorTree.pl /home/saman/Tahoe/contrib/MakeCSE/src /home/saman/Tahoe/contrib/MakeCSE/src-mirror "ln -sf" > /home/saman/Tahoe/contrib/MakeCSE/mirror.log
 make[1]: Leaving directory `/home/saman/Tahoe/contrib/MakeCSE'
 make[1]: Entering directory `/home/saman/Tahoe/contrib/MakeCSE'
-Mon Jun 22 10:24:40 EDT 2015
+Wed Jul 22 15:52:02 EDT 2015
 removed 13 files matching regex ".*[.]h"
 cd /home/saman/Tahoe/contrib/MakeCSE/src-mirror
 cd /home/saman/Tahoe/contrib/MakeCSE/src-mirror; \
@@ -47,7 +47,7 @@ make[3]: Leaving directory `/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
 make[2]: Leaving directory `/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
 make[1]: Leaving directory `/home/saman/Tahoe/contrib/MakeCSE'
 make[1]: Entering directory `/home/saman/Tahoe/contrib/MakeCSE'
-Mon Jun 22 10:24:40 EDT 2015
+Wed Jul 22 15:52:02 EDT 2015
 cd /home/saman/Tahoe/contrib/MakeCSE/src-mirror
 cd /home/saman/Tahoe/contrib/MakeCSE/src-mirror; \
 	make  depend_init \
@@ -63,32 +63,32 @@ make[3]: Entering directory `/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
 removed 13 files matching regex ".*[.]d"
 make[3]: Leaving directory `/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
 make[3]: Entering directory `/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
-    /usr/bin/g++ -MM: MakeCSE_IOManager.cpp
-/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFMakeCSE_IOManager.d MakeCSE_IOManager.cpp
-    /usr/bin/g++ -MM: MakeCSE_FEManager.cpp
-/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFMakeCSE_FEManager.d MakeCSE_FEManager.cpp
-    /usr/bin/g++ -MM: MakeCSE_ElementBaseT.cpp
-/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFMakeCSE_ElementBaseT.d MakeCSE_ElementBaseT.cpp
-    /usr/bin/g++ -MM: Quad2Tri.cpp
-/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFQuad2Tri.d Quad2Tri.cpp
-    /usr/bin/g++ -MM: MakeCSE_CSEBaseT.cpp
-/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFMakeCSE_CSEBaseT.d MakeCSE_CSEBaseT.cpp
-    /usr/bin/g++ -MM: MakeCSE.cpp
-/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFMakeCSE.d MakeCSE.cpp
-    /usr/bin/g++ -MM: GlobalEdgeFinderT.cpp
-/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFGlobalEdgeFinderT.d GlobalEdgeFinderT.cpp
-    /usr/bin/g++ -MM: NodeManagerPrimitive.cpp
-/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFNodeManagerPrimitive.d NodeManagerPrimitive.cpp
-    /usr/bin/g++ -MM: CSEConstants.cpp
-/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFCSEConstants.d CSEConstants.cpp
-    /usr/bin/g++ -MM: InteractiveIOManagerT.cpp
-/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFInteractiveIOManagerT.d InteractiveIOManagerT.cpp
-    /usr/bin/g++ -MM: main.cpp
-/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFmain.d main.cpp
-    /usr/bin/g++ -MM: ParameterFileManagerT.cpp
-/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFParameterFileManagerT.d ParameterFileManagerT.cpp
-    /usr/bin/g++ -MM: MakeCSE_ExecutionT.cpp
-/usr/bin/g++ -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFMakeCSE_ExecutionT.d MakeCSE_ExecutionT.cpp
+    /usr/bin/g++-4.6 -MM: MakeCSE_IOManager.cpp
+/usr/bin/g++-4.6 -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFMakeCSE_IOManager.d MakeCSE_IOManager.cpp
+    /usr/bin/g++-4.6 -MM: MakeCSE_FEManager.cpp
+/usr/bin/g++-4.6 -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFMakeCSE_FEManager.d MakeCSE_FEManager.cpp
+    /usr/bin/g++-4.6 -MM: MakeCSE_ElementBaseT.cpp
+/usr/bin/g++-4.6 -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFMakeCSE_ElementBaseT.d MakeCSE_ElementBaseT.cpp
+    /usr/bin/g++-4.6 -MM: Quad2Tri.cpp
+/usr/bin/g++-4.6 -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFQuad2Tri.d Quad2Tri.cpp
+    /usr/bin/g++-4.6 -MM: MakeCSE_CSEBaseT.cpp
+/usr/bin/g++-4.6 -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFMakeCSE_CSEBaseT.d MakeCSE_CSEBaseT.cpp
+    /usr/bin/g++-4.6 -MM: MakeCSE.cpp
+/usr/bin/g++-4.6 -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFMakeCSE.d MakeCSE.cpp
+    /usr/bin/g++-4.6 -MM: GlobalEdgeFinderT.cpp
+/usr/bin/g++-4.6 -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFGlobalEdgeFinderT.d GlobalEdgeFinderT.cpp
+    /usr/bin/g++-4.6 -MM: NodeManagerPrimitive.cpp
+/usr/bin/g++-4.6 -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFNodeManagerPrimitive.d NodeManagerPrimitive.cpp
+    /usr/bin/g++-4.6 -MM: CSEConstants.cpp
+/usr/bin/g++-4.6 -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFCSEConstants.d CSEConstants.cpp
+    /usr/bin/g++-4.6 -MM: InteractiveIOManagerT.cpp
+/usr/bin/g++-4.6 -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFInteractiveIOManagerT.d InteractiveIOManagerT.cpp
+    /usr/bin/g++-4.6 -MM: main.cpp
+/usr/bin/g++-4.6 -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFmain.d main.cpp
+    /usr/bin/g++-4.6 -MM: ParameterFileManagerT.cpp
+/usr/bin/g++-4.6 -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFParameterFileManagerT.d ParameterFileManagerT.cpp
+    /usr/bin/g++-4.6 -MM: MakeCSE_ExecutionT.cpp
+/usr/bin/g++-4.6 -MM -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFMakeCSE_ExecutionT.d MakeCSE_ExecutionT.cpp
     cat: MakeCSE_IOManager.d MakeCSE_FEManager.d MakeCSE_ElementBaseT.d Quad2Tri.d MakeCSE_CSEBaseT.d MakeCSE.d GlobalEdgeFinderT.d NodeManagerPrimitive.d CSEConstants.d InteractiveIOManagerT.d main.d ParameterFileManagerT.d MakeCSE_ExecutionT.d > all.depend
 make[3]: Leaving directory `/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
 make[3]: Entering directory `/home/saman/Tahoe/contrib/MakeCSE/src-mirror'

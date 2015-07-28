@@ -4,6 +4,10 @@
 #include <fstream>
 using namespace std;
 
+/* Important notes:
+ * 	1. F() = F_mechanical()
+ */
+
 namespace Tahoe {
 
   inline FSDEMatQ1P02DT::FSDEMatQ1P02DT() :
@@ -584,6 +588,9 @@ namespace Tahoe {
 	  fa(2, 1) += 4*sigma(1, 0);
 	  fa(2, 2) += 4*sigma(0, 0);
 
+	  //cout << F_mechanical() << endl;
+	  //cout << endl;
+	  //cout << F() << endl;
 
 	  return fa;
   }

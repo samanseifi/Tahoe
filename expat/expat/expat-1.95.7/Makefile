@@ -96,7 +96,7 @@ mkdir-init:
 		(mkdir $$d 2> /dev/null || test 1) ; \
 	done
 
-CC = /usr/bin/gcc
+CC = /usr/bin/gcc-4.6
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 
 INCLUDES = -I$(srcdir)/lib -I.

@@ -4,7 +4,7 @@ destination directory: /home/saman/Tahoe/contrib/MakeCSE/src-mirror
 found source directory /home/saman/Tahoe/contrib/MakeCSE/src
 found destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror
 processing directory /home/saman/Tahoe/contrib/MakeCSE/src/ifstream_x
-found destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror/ifstream_x
+creating destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror/ifstream_x
      source directory: /home/saman/Tahoe/contrib/MakeCSE/src/ifstream_x
 destination directory: /home/saman/Tahoe/contrib/MakeCSE/src-mirror/ifstream_x
            ln command: ln -sf
@@ -14,7 +14,7 @@ ln -sf /home/saman/Tahoe/contrib/MakeCSE/src/MakeCSE_ElementBaseT.h /home/saman/
 ln -sf /home/saman/Tahoe/contrib/MakeCSE/src/Quad2Tri.cpp /home/saman/Tahoe/contrib/MakeCSE/src-mirror/Quad2Tri.cpp
 ln -sf /home/saman/Tahoe/contrib/MakeCSE/src/MakeCSE.h /home/saman/Tahoe/contrib/MakeCSE/src-mirror/MakeCSE.h
 processing directory /home/saman/Tahoe/contrib/MakeCSE/src/geometry
-found destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror/geometry
+creating destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror/geometry
      source directory: /home/saman/Tahoe/contrib/MakeCSE/src/geometry
 destination directory: /home/saman/Tahoe/contrib/MakeCSE/src-mirror/geometry
            ln command: ln -sf
@@ -26,7 +26,7 @@ ln -sf /home/saman/Tahoe/contrib/MakeCSE/src/MakeCSE_IOManager.cpp /home/saman/T
 ln -sf /home/saman/Tahoe/contrib/MakeCSE/src/MakeCSE_FEManager.h /home/saman/Tahoe/contrib/MakeCSE/src-mirror/MakeCSE_FEManager.h
 ln -sf /home/saman/Tahoe/contrib/MakeCSE/src/MakeCSE_CSEBaseT.cpp /home/saman/Tahoe/contrib/MakeCSE/src-mirror/MakeCSE_CSEBaseT.cpp
 processing directory /home/saman/Tahoe/contrib/MakeCSE/src/array
-found destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror/array
+creating destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror/array
      source directory: /home/saman/Tahoe/contrib/MakeCSE/src/array
 destination directory: /home/saman/Tahoe/contrib/MakeCSE/src-mirror/array
            ln command: ln -sf
@@ -35,7 +35,7 @@ found destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror/array
 ln -sf /home/saman/Tahoe/contrib/MakeCSE/src/NodeManagerPrimitive.cpp /home/saman/Tahoe/contrib/MakeCSE/src-mirror/NodeManagerPrimitive.cpp
 ln -sf /home/saman/Tahoe/contrib/MakeCSE/src/MakeCSE_ElementBaseT.cpp /home/saman/Tahoe/contrib/MakeCSE/src-mirror/MakeCSE_ElementBaseT.cpp
 processing directory /home/saman/Tahoe/contrib/MakeCSE/src/misc
-found destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror/misc
+creating destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror/misc
      source directory: /home/saman/Tahoe/contrib/MakeCSE/src/misc
 destination directory: /home/saman/Tahoe/contrib/MakeCSE/src-mirror/misc
            ln command: ln -sf
@@ -50,28 +50,28 @@ ln -sf /home/saman/Tahoe/contrib/MakeCSE/src/InteractiveIOManagerT.h /home/saman
 ln -sf /home/saman/Tahoe/contrib/MakeCSE/src/MakeCSE_IOManager.h /home/saman/Tahoe/contrib/MakeCSE/src-mirror/MakeCSE_IOManager.h
 ln -sf /home/saman/Tahoe/contrib/MakeCSE/src/CSEConstants.h /home/saman/Tahoe/contrib/MakeCSE/src-mirror/CSEConstants.h
 processing directory /home/saman/Tahoe/contrib/MakeCSE/src/dataio
-found destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror/dataio
+creating destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror/dataio
      source directory: /home/saman/Tahoe/contrib/MakeCSE/src/dataio
 destination directory: /home/saman/Tahoe/contrib/MakeCSE/src-mirror/dataio
            ln command: ln -sf
 found source directory /home/saman/Tahoe/contrib/MakeCSE/src/dataio
 found destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror/dataio
 processing directory /home/saman/Tahoe/contrib/MakeCSE/src/dataio/output
-found destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror/dataio/output
+creating destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror/dataio/output
      source directory: /home/saman/Tahoe/contrib/MakeCSE/src/dataio/output
 destination directory: /home/saman/Tahoe/contrib/MakeCSE/src-mirror/dataio/output
            ln command: ln -sf
 found source directory /home/saman/Tahoe/contrib/MakeCSE/src/dataio/output
 found destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror/dataio/output
 processing directory /home/saman/Tahoe/contrib/MakeCSE/src/dataio/database
-found destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror/dataio/database
+creating destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror/dataio/database
      source directory: /home/saman/Tahoe/contrib/MakeCSE/src/dataio/database
 destination directory: /home/saman/Tahoe/contrib/MakeCSE/src-mirror/dataio/database
            ln command: ln -sf
 found source directory /home/saman/Tahoe/contrib/MakeCSE/src/dataio/database
 found destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror/dataio/database
 processing directory /home/saman/Tahoe/contrib/MakeCSE/src/dataio/input
-found destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror/dataio/input
+creating destination directory /home/saman/Tahoe/contrib/MakeCSE/src-mirror/dataio/input
      source directory: /home/saman/Tahoe/contrib/MakeCSE/src/dataio/input
 destination directory: /home/saman/Tahoe/contrib/MakeCSE/src-mirror/dataio/input
            ln command: ln -sf

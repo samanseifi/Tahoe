@@ -101,17 +101,17 @@ expat-1.95.7/xmlwf/xmltchar.h
 expat-1.95.7/xmlwf/xmlurl.h
 expat-1.95.7/xmlwf/xmlwf.c
 expat-1.95.7/xmlwf/xmlwin32url.cxx
-cd expat/expat-1.95.7; ./configure --prefix=/home/saman/Tahoe/expat/local --disable-shared CC=/usr/bin/gcc CFLAGS="-O3 -DNDEBUG"
+cd expat/expat-1.95.7; ./configure --prefix=/home/saman/Tahoe/expat/local --disable-shared CC=/usr/bin/gcc-4.6 CFLAGS="-O3 -DNDEBUG"
 checking build system type... x86_64-unknown-linux-gnu
 checking host system type... x86_64-unknown-linux-gnu
-checking for gcc... /usr/bin/gcc
+checking for gcc... /usr/bin/gcc-4.6
 checking for C compiler default output... a.out
 checking whether the C compiler works... yes
 checking whether we are cross compiling... no
 checking for suffix of executables... 
 checking for suffix of object files... o
 checking whether we are using the GNU C compiler... yes
-checking whether /usr/bin/gcc accepts -g... yes
+checking whether /usr/bin/gcc-4.6 accepts -g... yes
 checking for ld used by GCC... /usr/bin/ld
 checking if the linker (/usr/bin/ld) is GNU ld... yes
 checking for /usr/bin/ld option to reload object files... -r
@@ -119,7 +119,7 @@ checking for BSD-compatible nm... /usr/bin/nm -B
 checking whether ln -s works... yes
 checking how to recognise dependant libraries... file_magic ELF [0-9][0-9]*-bit [LM]SB (shared object|dynamic lib )
 checking command to parse /usr/bin/nm -B output... ok
-checking how to run the C preprocessor... /usr/bin/gcc -E
+checking how to run the C preprocessor... /usr/bin/gcc-4.6 -E
 checking for ANSI C header files... yes
 checking for sys/types.h... yes
 checking for sys/stat.h... yes
@@ -137,12 +137,12 @@ checking for file... /usr/bin/file
 checking for ranlib... ranlib
 checking for strip... strip
 checking for objdir... .libs
-checking for /usr/bin/gcc option to produce PIC... -fPIC
-checking if /usr/bin/gcc PIC flag -fPIC works... yes
-checking if /usr/bin/gcc static flag -static works... yes
-checking if /usr/bin/gcc supports -c -o file.o... yes
-checking if /usr/bin/gcc supports -c -o file.lo... yes
-checking if /usr/bin/gcc supports -fno-rtti -fno-exceptions... yes
+checking for /usr/bin/gcc-4.6 option to produce PIC... -fPIC
+checking if /usr/bin/gcc-4.6 PIC flag -fPIC works... yes
+checking if /usr/bin/gcc-4.6 static flag -static works... yes
+checking if /usr/bin/gcc-4.6 supports -c -o file.o... yes
+checking if /usr/bin/gcc-4.6 supports -c -o file.lo... yes
+checking if /usr/bin/gcc-4.6 supports -fno-rtti -fno-exceptions... yes
 checking whether the linker (/usr/bin/ld) supports shared libraries... yes
 checking how to hardcode library paths into programs... immediate
 checking whether stripping libraries is possible... yes
@@ -151,14 +151,14 @@ checking if libtool supports shared libraries... yes
 checking whether to build shared libraries... no
 checking whether to build static libraries... yes
 creating libtool
-checking for gcc... (cached) /usr/bin/gcc
+checking for gcc... (cached) /usr/bin/gcc-4.6
 checking whether we are using the GNU C compiler... (cached) yes
-checking whether /usr/bin/gcc accepts -g... (cached) yes
+checking whether /usr/bin/gcc-4.6 accepts -g... (cached) yes
 checking for a BSD-compatible install... /usr/bin/install -c
 checking whether gcc accepts -fexceptions... yes
 checking for ANSI C header files... (cached) yes
 checking whether byte ordering is bigendian... no
-checking for /usr/bin/gcc option to accept ANSI C... none needed
+checking for /usr/bin/gcc-4.6 option to accept ANSI C... none needed
 checking for an ANSI C-conforming const... yes
 checking for size_t... yes
 checking for memmove... yes

@@ -381,7 +381,7 @@ destination directory: /home/saman/Tahoe/tahoe/src-mirror/elements/shape_functio
 found source directory /home/saman/Tahoe/tahoe/src/elements/shape_functions
 found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/shape_functions
 processing directory /home/saman/Tahoe/tahoe/src/elements/shape_functions/geometry
-found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/shape_functions/geometry
+creating destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/shape_functions/geometry
      source directory: /home/saman/Tahoe/tahoe/src/elements/shape_functions/geometry
 destination directory: /home/saman/Tahoe/tahoe/src-mirror/elements/shape_functions/geometry
            ln command: ln -sf
@@ -749,7 +749,7 @@ ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/ABAQUS_UMA
 ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/ABAQUS_UMAT/ABAQUS_UMAT_BaseT.cpp /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/ABAQUS_UMAT/ABAQUS_UMAT_BaseT.cpp
 ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/ABAQUS_UMAT/ABAQUS_UMAT_SS_BaseT.h /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/ABAQUS_UMAT/ABAQUS_UMAT_SS_BaseT.h
 processing directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/piezoelectricity
-found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/piezoelectricity
+creating destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/piezoelectricity
      source directory: /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/piezoelectricity
 destination directory: /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/piezoelectricity
            ln command: ln -sf
@@ -846,28 +846,28 @@ ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/primitives
 ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/primitives/NL_E_MatT.cpp /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/primitives/NL_E_MatT.cpp
 ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/primitives/FSIsotropicMatT.h /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/primitives/FSIsotropicMatT.h
 processing directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Reese-Govindjee
-found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Reese-Govindjee
+creating destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Reese-Govindjee
      source directory: /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Reese-Govindjee
 destination directory: /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Reese-Govindjee
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Reese-Govindjee
 found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Reese-Govindjee
 processing directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Reese-Govindjee/Mooney-Rivlin
-found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Reese-Govindjee/Mooney-Rivlin
+creating destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Reese-Govindjee/Mooney-Rivlin
      source directory: /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Reese-Govindjee/Mooney-Rivlin
 destination directory: /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Reese-Govindjee/Mooney-Rivlin
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Reese-Govindjee/Mooney-Rivlin
 found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Reese-Govindjee/Mooney-Rivlin
 processing directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Reese-Govindjee/VIB
-found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Reese-Govindjee/VIB
+creating destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Reese-Govindjee/VIB
      source directory: /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Reese-Govindjee/VIB
 destination directory: /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Reese-Govindjee/VIB
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Reese-Govindjee/VIB
 found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Reese-Govindjee/VIB
 processing directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Reese-Govindjee/VIB/ViscosityFunctions
-found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Reese-Govindjee/VIB/ViscosityFunctions
+creating destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Reese-Govindjee/VIB/ViscosityFunctions
      source directory: /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Reese-Govindjee/VIB/ViscosityFunctions
 destination directory: /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Reese-Govindjee/VIB/ViscosityFunctions
            ln command: ln -sf
@@ -1057,21 +1057,21 @@ ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Simo/SimoI
 ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Simo/QuadLog3D.cpp /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Simo/QuadLog3D.cpp
 ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Simo/SimoIso3D.h /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Simo/SimoIso3D.h
 processing directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/SimoVisco
-found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/SimoVisco
+creating destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/SimoVisco
      source directory: /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/SimoVisco
 destination directory: /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/SimoVisco
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/SimoVisco
 found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/SimoVisco
 processing directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/SimoVisco/Mooney-Rivlin
-found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/SimoVisco/Mooney-Rivlin
+creating destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/SimoVisco/Mooney-Rivlin
      source directory: /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/SimoVisco/Mooney-Rivlin
 destination directory: /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/SimoVisco/Mooney-Rivlin
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/SimoVisco/Mooney-Rivlin
 found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/SimoVisco/Mooney-Rivlin
 processing directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/SimoVisco/KStV
-found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/SimoVisco/KStV
+creating destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/SimoVisco/KStV
      source directory: /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/SimoVisco/KStV
 destination directory: /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/SimoVisco/KStV
            ln command: ln -sf
@@ -1164,21 +1164,21 @@ ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Hookean/KS
 ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Hookean/KStV/SSKStV.cpp /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Hookean/KStV/SSKStV.cpp
 ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Hookean/FDHookeanMatT.cpp /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Hookean/FDHookeanMatT.cpp
 processing directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Simo-Holzapfel
-found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Simo-Holzapfel
+creating destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Simo-Holzapfel
      source directory: /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Simo-Holzapfel
 destination directory: /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Simo-Holzapfel
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Simo-Holzapfel
 found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Simo-Holzapfel
 processing directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Simo-Holzapfel/Mooney-Rivlin
-found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Simo-Holzapfel/Mooney-Rivlin
+creating destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Simo-Holzapfel/Mooney-Rivlin
      source directory: /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Simo-Holzapfel/Mooney-Rivlin
 destination directory: /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Simo-Holzapfel/Mooney-Rivlin
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Simo-Holzapfel/Mooney-Rivlin
 found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Simo-Holzapfel/Mooney-Rivlin
 processing directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Simo-Holzapfel/KStV
-found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Simo-Holzapfel/KStV
+creating destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Simo-Holzapfel/KStV
      source directory: /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/Simo-Holzapfel/KStV
 destination directory: /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/Simo-Holzapfel/KStV
            ln command: ln -sf
@@ -1334,28 +1334,28 @@ ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/viscoelast
 ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/viscoelasticity/smallstrain/SSLinearVE2D.cpp /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/viscoelasticity/smallstrain/SSLinearVE2D.cpp
 ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/viscoelasticity/smallstrain/SSViscoelasticityT.h /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/viscoelasticity/smallstrain/SSViscoelasticityT.h
 processing directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/VISCVIB
-found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/VISCVIB
+creating destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/VISCVIB
      source directory: /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/VISCVIB
 destination directory: /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/VISCVIB
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/VISCVIB
 found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/VISCVIB
 processing directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/VISCVIB/Mooney-Rivlin
-found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/VISCVIB/Mooney-Rivlin
+creating destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/VISCVIB/Mooney-Rivlin
      source directory: /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/VISCVIB/Mooney-Rivlin
 destination directory: /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/VISCVIB/Mooney-Rivlin
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/VISCVIB/Mooney-Rivlin
 found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/VISCVIB/Mooney-Rivlin
 processing directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/VISCVIB/VIB
-found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/VISCVIB/VIB
+creating destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/VISCVIB/VIB
      source directory: /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/VISCVIB/VIB
 destination directory: /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/VISCVIB/VIB
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/VISCVIB/VIB
 found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/VISCVIB/VIB
 processing directory /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/VISCVIB/VIB/ViscosityFunctions
-found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/VISCVIB/VIB/ViscosityFunctions
+creating destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/VISCVIB/VIB/ViscosityFunctions
      source directory: /home/saman/Tahoe/tahoe/src/elements/continuum/solid/materials/VISCVIB/VIB/ViscosityFunctions
 destination directory: /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/materials/VISCVIB/VIB/ViscosityFunctions
            ln command: ln -sf
@@ -1769,7 +1769,7 @@ ln -sf /home/saman/Tahoe/tahoe/src/integrators/base/IntegratorT.h /home/saman/Ta
 ln -sf /home/saman/Tahoe/tahoe/src/integrators/base/IntegratorT.cpp /home/saman/Tahoe/tahoe/src-mirror/integrators/base/IntegratorT.cpp
 ln -sf /home/saman/Tahoe/tahoe/src/integrators/base/eIntegratorT.h /home/saman/Tahoe/tahoe/src-mirror/integrators/base/eIntegratorT.h
 processing directory /home/saman/Tahoe/tahoe/src/integrators/gear4
-found destination directory /home/saman/Tahoe/tahoe/src-mirror/integrators/gear4
+creating destination directory /home/saman/Tahoe/tahoe/src-mirror/integrators/gear4
      source directory: /home/saman/Tahoe/tahoe/src/integrators/gear4
 destination directory: /home/saman/Tahoe/tahoe/src-mirror/integrators/gear4
            ln command: ln -sf

@@ -175,6 +175,7 @@ void FSDielectricElastomerQ1P0SurfaceT::TakeParameterList(const ParameterListT& 
       ModelManagerT& model_manager = ElementSupport().ModelManager();
       model_manager.BoundingElements(block_ID, fSurfaceElements, fSurfaceElementNeighbors);
 
+
       /* determine normal type of each face */
       dMatrixT Q(nsd);
       dMatrixT jacobian(nsd, nsd-1);
@@ -342,6 +343,10 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
  	 //fNewSurfTension = fSurfTension;
  	 //cout << fNewSurfTension << endl;
  	 //cout << fSurfTension << endl;
+
+     ModelManagerT& model_manager = ElementSupport().ModelManager();
+     const iArrayT node_set_1 = model_manager.NodeSet("1");
+
 
  	 // Should be loop over number of elements on surface!! //
  	 for (int i = 0; i < fSurfaceElements.Length(); i++)

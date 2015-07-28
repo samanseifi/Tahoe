@@ -85,7 +85,7 @@ ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/solid/simple_solid/To
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/solid/simple_solid/TotalLagrangianFlatT.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/simple_solid/TotalLagrangianFlatT.h
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/solid/simple_solid/makefile /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/simple_solid/makefile
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/solid/hspark
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/hspark
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/hspark
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/solid/hspark
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/hspark
            ln command: ln -sf
@@ -172,7 +172,7 @@ ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/piezo
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/piezoelectricity/FSNeoHookePZLinT.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/piezoelectricity/FSNeoHookePZLinT.h
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/piezoelectricity/FSNeoHookePZLinT.i.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/piezoelectricity/FSNeoHookePZLinT.i.h
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/dielectric_elastomer_Q1P0Surface
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/dielectric_elastomer_Q1P0Surface
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/dielectric_elastomer_Q1P0Surface
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/dielectric_elastomer_Q1P0Surface
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/dielectric_elastomer_Q1P0Surface
            ln command: ln -sf
@@ -197,28 +197,28 @@ ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/plast
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/plasticity_DP_loc/SSEnhLocMatSupportT.cpp /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/plasticity_DP_loc/SSEnhLocMatSupportT.cpp
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/plasticity_DP_loc/DPSSKStVLoc2D.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/plasticity_DP_loc/DPSSKStVLoc2D.h
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Reese-Govindjee
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Reese-Govindjee
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Reese-Govindjee
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Reese-Govindjee
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Reese-Govindjee
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Reese-Govindjee
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Reese-Govindjee
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Reese-Govindjee/VIB
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Reese-Govindjee/VIB
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Reese-Govindjee/VIB
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Reese-Govindjee/VIB
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Reese-Govindjee/VIB
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Reese-Govindjee/VIB
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Reese-Govindjee/VIB
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Reese-Govindjee/VIB/ViscosityFunctions
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Reese-Govindjee/VIB/ViscosityFunctions
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Reese-Govindjee/VIB/ViscosityFunctions
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Reese-Govindjee/VIB/ViscosityFunctions
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Reese-Govindjee/VIB/ViscosityFunctions
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Reese-Govindjee/VIB/ViscosityFunctions
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Reese-Govindjee/VIB/ViscosityFunctions
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Reese-Govindjee/OgdenPotential
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Reese-Govindjee/OgdenPotential
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Reese-Govindjee/OgdenPotential
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Reese-Govindjee/OgdenPotential
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Reese-Govindjee/OgdenPotential
            ln command: ln -sf
@@ -440,21 +440,21 @@ ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/jrmay
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/makefile /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/makefile
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/materials.zip /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/materials.zip
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Simo-Holzapfel
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Simo-Holzapfel
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Simo-Holzapfel
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Simo-Holzapfel
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Simo-Holzapfel
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Simo-Holzapfel
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Simo-Holzapfel
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Simo-Holzapfel/OgdenPotential
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Simo-Holzapfel/OgdenPotential
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Simo-Holzapfel/OgdenPotential
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Simo-Holzapfel/OgdenPotential
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Simo-Holzapfel/OgdenPotential
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Simo-Holzapfel/OgdenPotential
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Simo-Holzapfel/OgdenPotential
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Simo-Holzapfel/KStV
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Simo-Holzapfel/KStV
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Simo-Holzapfel/KStV
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Simo-Holzapfel/KStV
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Simo-Holzapfel/KStV
            ln command: ln -sf
@@ -606,14 +606,14 @@ ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/aniso
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/anisotropy/makefile /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/anisotropy/makefile
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/anisotropy/WLC.cpp /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/anisotropy/WLC.cpp
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Ogden
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Ogden
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Ogden
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Ogden
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Ogden
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Ogden
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Ogden
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Ogden/VIB
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Ogden/VIB
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Ogden/VIB
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/Ogden/VIB
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/Ogden/VIB
            ln command: ln -sf
@@ -659,7 +659,7 @@ ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/grad_
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/grad_plasticity_MR/GRAD_MRSSKStV.cpp /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/grad_plasticity_MR/GRAD_MRSSKStV.cpp
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/grad_plasticity_MR/GRAD_MRSSNLHardT.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/grad_plasticity_MR/GRAD_MRSSNLHardT.h
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/cornea_models
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/cornea_models
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/cornea_models
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/solid/materials/cornea_models
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materials/cornea_models
            ln command: ln -sf
@@ -702,7 +702,7 @@ destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/element
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/solid/materialforce
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materialforce
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/solid/materialforce/ARCHIVE
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materialforce/ARCHIVE
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materialforce/ARCHIVE
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/solid/materialforce/ARCHIVE
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/solid/materialforce/ARCHIVE
            ln command: ln -sf
@@ -839,7 +839,6 @@ destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/element
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Q1P02D
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Q1P02D
-ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Q1P02D/FSDielectricElastomerQ1P02DT_old.cpp /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Q1P02D/FSDielectricElastomerQ1P02DT_old.cpp
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Q1P02D/FSDielectricElastomerQ1P02DT.cpp /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Q1P02D/FSDielectricElastomerQ1P02DT.cpp
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Q1P02D/makefile /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Q1P02D/makefile
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Q1P02D/FSDielectricElastomerQ1P02DT.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Q1P02D/FSDielectricElastomerQ1P02DT.h
@@ -1081,7 +1080,7 @@ ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/multiscale/FEA/shape_
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/multiscale/FEA/shape_functions/FEA_ShapeFunctionT.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/multiscale/FEA/shape_functions/FEA_ShapeFunctionT.h
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/multiscale/FEA/shape_functions/makefile /home/saman/Tahoe/tahoe/../development/src-mirror/elements/multiscale/FEA/shape_functions/makefile
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/multiscale/FEA/materials
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/multiscale/FEA/materials
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/multiscale/FEA/materials
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/multiscale/FEA/materials
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/multiscale/FEA/materials
            ln command: ln -sf
@@ -1208,7 +1207,7 @@ found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/el
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/surface_CB_EAM/EAMFCC3DMatT_edge.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/surface_CB_EAM/EAMFCC3DMatT_edge.h
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/surface_CB_EAM/EAMFCC3DSym_surf.cpp /home/saman/Tahoe/tahoe/../development/src-mirror/elements/surface_CB_EAM/EAMFCC3DSym_surf.cpp
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/surface_CB_EAM/EAM_glue
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/surface_CB_EAM/EAM_glue
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/surface_CB_EAM/EAM_glue
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/surface_CB_EAM/EAM_glue
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/surface_CB_EAM/EAM_glue
            ln command: ln -sf
@@ -1263,28 +1262,28 @@ ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/m
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/mfgp_mat_interfaces/MFGPSSSolidMatList3DT.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/mfgp_mat_interfaces/MFGPSSSolidMatList3DT.h
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFGPElementT.cpp /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFGPElementT.cpp
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/tmp_dir
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/tmp_dir
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/tmp_dir
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/tmp_dir
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/tmp_dir
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/tmp_dir
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/tmp_dir
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/tmp_dir/basis
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/tmp_dir/basis
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/tmp_dir/basis
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/tmp_dir/basis
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/tmp_dir/basis
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/tmp_dir/basis
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/tmp_dir/basis
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/tmp_dir/windows
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/tmp_dir/windows
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/tmp_dir/windows
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/tmp_dir/windows
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/tmp_dir/windows
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/tmp_dir/windows
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/tmp_dir/windows
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/tmp_dir/D3
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/tmp_dir/D3
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/tmp_dir/D3
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/tmp_dir/D3
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/tmp_dir/D3
            ln command: ln -sf
@@ -1292,7 +1291,7 @@ found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshf
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/tmp_dir/D3
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/makefile /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/makefile
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/coupled_equations
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/coupled_equations
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/coupled_equations
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/coupled_equations
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/coupled_equations
            ln command: ln -sf
@@ -1301,133 +1300,133 @@ found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/el
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFGPFractureSupportT.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFGPFractureSupportT.h
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFGPAssemblyT.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFGPAssemblyT.h
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/grad_plasticity_MR
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/grad_plasticity_MR
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/grad_plasticity_MR
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/grad_plasticity_MR
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/grad_plasticity_MR
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/grad_plasticity_MR
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/grad_plasticity_MR
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/data_processor
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/data_processor
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/data_processor
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/data_processor
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/data_processor
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/data_processor
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/data_processor
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/other
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/other
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/other
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/other
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/other
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/other
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/other
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/shape_functions
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/shape_functions
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/shape_functions
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/shape_functions/basis
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions/basis
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions/basis
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/shape_functions/basis
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions/basis
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/shape_functions/basis
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions/basis
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/shape_functions/windows
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions/windows
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions/windows
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/shape_functions/windows
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions/windows
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/shape_functions/windows
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions/windows
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/shape_functions/meshfree
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions/meshfree
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions/meshfree
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/shape_functions/meshfree
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions/meshfree
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/shape_functions/meshfree
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions/meshfree
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/shape_functions/meshfree/basis
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions/meshfree/basis
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions/meshfree/basis
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/shape_functions/meshfree/basis
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions/meshfree/basis
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/shape_functions/meshfree/basis
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions/meshfree/basis
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/shape_functions/meshfree/windows
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions/meshfree/windows
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions/meshfree/windows
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/shape_functions/meshfree/windows
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions/meshfree/windows
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/shape_functions/meshfree/windows
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/shape_functions/meshfree/windows
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/Solid_Meshfree
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/Solid_Meshfree
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/Solid_Meshfree
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/Solid_Meshfree
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/Solid_Meshfree
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/Solid_Meshfree
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/Solid_Meshfree
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/coupled_equs
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/coupled_equs
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/coupled_equs
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/coupled_equs
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/coupled_equs
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/coupled_equs
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/coupled_equs
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/coupled_equs/plast
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/coupled_equs/plast
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/coupled_equs/plast
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/coupled_equs/plast
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/coupled_equs/plast
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/coupled_equs/plast
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/coupled_equs/plast
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/coupled_equs/bal_lin
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/coupled_equs/bal_lin
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/coupled_equs/bal_lin
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/coupled_equs/bal_lin
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/coupled_equs/bal_lin
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/coupled_equs/bal_lin
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/coupled_equs/bal_lin
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/integration
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/integration
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/integration
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/integration
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/integration
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/integration
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/integration
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/material_lists
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/material_lists
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/material_lists
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/material_lists
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/material_lists
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/MFA/material_lists
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/MFA/material_lists
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/temp
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/temp
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/temp
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/temp
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/temp
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/temp
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/temp
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/temp/basis
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/temp/basis
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/temp/basis
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/temp/basis
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/temp/basis
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/temp/basis
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/temp/basis
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/temp/windows
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/temp/windows
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/temp/windows
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/meshfree_grad_plast/temp/windows
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/meshfree_grad_plast/temp/windows
            ln command: ln -sf
@@ -1457,7 +1456,7 @@ found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/el
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/dorgan/GradSSSolidMatT.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/dorgan/GradSSSolidMatT.h
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/dorgan/GradSSSolidMatList2DT.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/dorgan/GradSSSolidMatList2DT.h
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/dorgan/geometry
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/dorgan/geometry
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/dorgan/geometry
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/dorgan/geometry
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/dorgan/geometry
            ln command: ln -sf
@@ -1475,14 +1474,14 @@ ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/dorgan/GradJ2SSKStV.c
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/dorgan/GradJ2SSKStV1D.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/dorgan/GradJ2SSKStV1D.h
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/dorgan/GradSSSolidMatList1DT.cpp /home/saman/Tahoe/tahoe/../development/src-mirror/elements/dorgan/GradSSSolidMatList1DT.cpp
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/dorgan/shape_functions
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/dorgan/shape_functions
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/dorgan/shape_functions
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/dorgan/shape_functions
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/dorgan/shape_functions
            ln command: ln -sf
 found source directory /home/saman/Tahoe/tahoe/../development/src/elements/dorgan/shape_functions
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/dorgan/shape_functions
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/dorgan/shape_functions/primitives
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/dorgan/shape_functions/primitives
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/dorgan/shape_functions/primitives
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/dorgan/shape_functions/primitives
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/dorgan/shape_functions/primitives
            ln command: ln -sf
@@ -1782,7 +1781,7 @@ ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Visco/FSDielectricElastomerViscoT.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Visco/FSDielectricElastomerViscoT.h
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Visco/FSDielectricElastomerViscoT.i.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Visco/FSDielectricElastomerViscoT.i.h
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/surface_CB_Tersoff
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/surface_CB_Tersoff
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/surface_CB_Tersoff
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/surface_CB_Tersoff
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/surface_CB_Tersoff
            ln command: ln -sf
@@ -1832,7 +1831,7 @@ ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/HuWashizu/makefile /h
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/HuWashizu/FSHuWashizuUSCT.cpp /home/saman/Tahoe/tahoe/../development/src-mirror/elements/HuWashizu/FSHuWashizuUSCT.cpp
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/HuWashizu/FSHuWashizuUSCT.i.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/HuWashizu/FSHuWashizuUSCT.i.h
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/MaterialForce
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/MaterialForce
+creating destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/MaterialForce
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/MaterialForce
 destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/MaterialForce
            ln command: ln -sf
