@@ -588,6 +588,7 @@ namespace Tahoe {
 	  fa(2, 1) += 4*sigma(1, 0);
 	  fa(2, 2) += 4*sigma(0, 0);
 
+	  //cout << "This is from material" << endl;
 	  //cout << F_mechanical() << endl;
 	  //cout << endl;
 	  //cout << F() << endl;

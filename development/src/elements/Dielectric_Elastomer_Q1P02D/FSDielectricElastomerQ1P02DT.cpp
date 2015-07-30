@@ -366,7 +366,7 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 			double J = F.Det();
 			//F *= pow((J_0)/(J), 1.0/2.0); // Fbar (Neto) method
 			F *= pow((v)/(H*J), 1.0/2.0); // Q1P0 method
-			
+
 			/* store Jacobian */
 			fJacobian[i] = J;
 		}
@@ -381,6 +381,7 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 			F *= pow((v_last)/(H*J), 1.0/2.0); // Q1P0 method
 		}
 	}	
+
   }
 
   // write all current element information to the stream
