@@ -1,4 +1,18 @@
 <HTML>
+
+
+<head>
+<script type="text/javascript" src="http://latex.codecogs.com/latexit.js"></script>
+</head>
+
+<BODY>
+Here are my formulas
+<div lang="latex">1+sin(x)^2+3</div>
+<ul>
+<li lang="latex">x^2+y^2+z^2</li>
+<li>a^2+b^2</li>
+</ul>
+
 <B>Tahoe</B>
 
 For public use:
@@ -30,4 +44,5 @@ Now it's neccessary to make some changes in the macro files. Simply go to Tahoe/
 Now change all gcc, g++ and gfortran to gcc-4.6, g++-4.6 and gfortran-4.6. Now you are able to rebuild Tahoe by going to Tahoe subdirectory and build tahoe: 
 
 <code> ./tahoe-manager init build</code>
+</BODY>
 </HTML>
