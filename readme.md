@@ -1,3 +1,4 @@
+<HTML>
 <B>Tahoe</B>
 
 For public use:
@@ -29,3 +30,4 @@ Now it's neccessary to make some changes in the macro files. Simply go to Tahoe/
 Now change all gcc, g++ and gfortran to gcc-4.6, g++-4.6 and gfortran-4.6. Now you are able to rebuild Tahoe by going to Tahoe subdirectory and build tahoe: 
 
 <code> ./tahoe-manager init build</code>
+</HTML>
