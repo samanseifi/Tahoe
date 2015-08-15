@@ -15,7 +15,7 @@ This for my own private use:
 
 This is a pre-built version of Tahoe  configurated for developing dielectric elastomer models.
 
-<B>Rebuilding Linux Ubuntu 14.04</B>
+<B>Rebuilding in Linux Ubuntu 14.04</B>
 
 It seems that in Ubuntu 12.04 and 14.04 the best choice for compiler is GNU-GCC4.6. This version of Tahoe here, were built in ubuntu 12.04. You need to rebuild the Tahoe in your machine. First make sure you have GCC 4.6 installed in your unix operating system. If you're using linux with GCC 4.6 it should work. However, if there is another versions of GCC is installed probably more recent versions like, for exeample in ubuntu 14.04 the GCC 4.8 is pre-installed. Building Tahoe with GCC 4.8 is not working properly on linux machine. However, for mac OS X one can download GCC 4.8 or more recent versions from fink and it will work fine. For linux versions GCC 4.6 is needed (for now). You can install GCC 4.6 from "Synaptic Package Manager" or directly from ubuntu repositoroes. Following command:
 
@@ -30,3 +30,7 @@ Now it's neccessary to make some changes in the macro files. Simply go to Tahoe/
 Now change all gcc, g++ and gfortran to gcc-4.6, g++-4.6 and gfortran-4.6. Now you are able to rebuild Tahoe by going to Tahoe subdirectory and build tahoe: 
 
 <code> ./tahoe-manager init build</code>
+
+<B>Rebuilding in OS X</B>
+
+First you have to install GCC compilers. You can use fink in order to install the newest version of GCC. In order to make changes you need to edit the .tahoe_config file and address the proper compiler from the macro files.
