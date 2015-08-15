@@ -7,11 +7,11 @@ This is a pre-built version of Tahoe configurated for developing the dielectric 
 
 <code>~$: ./tahoe-manager init build</code>
 
-For the first timers preparing Tahoe for a specific application is not as simple as it seems. There are some libraries that need to be installed first. You can read the forum <a href="http://tahoe.sourceforge.net/bb/"> here </a> and learn how to set your own version of Tahoe.
+For the first timers preparing Tahoe for a specific application is not as simple as it seems. There are some libraries that need to be installed first. You can read the forum <a href="http://tahoe.sourceforge.net/bb/"> here </a> and learn how to set your own version of Tahoe. The development module needs an access to original repository in cloudeforge.
 
 <B>Pre Built Tahoe (This repository)</B>
 
-For my own private use:
+This for my own private use:
 
 This is a pre-built version of Tahoe  configurated for developing dielectric elastomer models.
 
