@@ -33,4 +33,4 @@ Now change all gcc, g++ and gfortran to gcc-4.6, g++-4.6 and gfortran-4.6. Now y
 
 <B>Rebuilding in OS X</B>
 
-First you have to install GCC compilers. You can use fink in order to install the newest version of GCC. In order to make changes you need to edit the .tahoe_config file and address the proper compiler from the macro files.
+First you need to install GCC compilers by installing Xcode and the command line extension which it contains the GCC compilers. However, probably you won't be able to build Tahoe (you can try), so it is needed to obtain new sets of GNU compilers from package managements such as Homebrew, MacPorts or fink. So far fink has shown promised in order to compile Tahoe successfully. You only need to change the macro settings to fink gcc in Tahoe configuration file (.tahoe_config)
