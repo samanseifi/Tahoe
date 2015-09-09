@@ -615,7 +615,48 @@ void FSDielectricElastomerQ1P0SurfaceT::FormKd(double constK)
                         	R_Total[counter[2]] = R_Total[counter[2]] + fD[2];
                         	R_Total[counter[3]] = R_Total[counter[3]] + fD[3];
 
-            		} /* End of if */
+            		} else if (fSurfaceElementNeighbors(i,j) == -2) {
+				                        	/* face parent domain */
+                        	const ParentDomainT& surf_shape = shape.FacetShapeFunction(j);
+
+                        	/* collect coordinates of face nodes */
+                        	ElementCardT& element_card = ElementCard(fSurfaceElements[i]);
+                        	shape.NodesOnFacet(j, face_nodes_index);  // fni = 4 nodes of surface face
+                        	face_nodes.Collect(face_nodes_index, element_card.NodesX());
+                        	face_coords.SetLocal(face_nodes);
+
+                        	double x_1 = face_coords[0];
+                        	double x_2 = face_coords[1];
+                        	double y_1 = face_coords[2];
+                        	double y_2 = face_coords[3];
+
+                        	fD = 0.0;
+                        	// Length of the surface
+                        	double L_e = sqrt((x_1 - x_2)*(x_1 - x_2) + (y_1 - y_2)*(y_1 - y_2));
+				double fNewSurfTension2 = 1.0; /* the second layer has the surface tension of gamma=1 */
+                        	double coeff3 = -fNewSurfTension2/(L_e);
+
+                        	// cout << "coeff3= " << coeff3 << endl;
+
+                        	fD[0] = coeff3*(x_1 - x_2);
+                        	fD[1] = coeff3*(y_1 - y_2);
+                        	fD[2] = coeff3*(x_2 - x_1);
+                        	fD[3] = coeff3*(y_2 - y_1);
+
+                        	//                        D *= coeff3;
+                        	//R_Total = 0.0;
+
+                        	// cout << D[0] << D[1] << D[2] << D[3] << endl;
+
+                        	int normaltype = fSurfaceElementFacesType(i,j);
+                        	counter = CanonicalNodes(normaltype);
+
+                        	R_Total[counter[0]] = R_Total[counter[0]] + fD[0];
+                        	R_Total[counter[1]] = R_Total[counter[1]] + fD[1];
+                        	R_Total[counter[2]] = R_Total[counter[2]] + fD[2];
+                        	R_Total[counter[3]] = R_Total[counter[3]] + fD[3];
+			}
+/* End of if */
 
             	}  /* End of surface edge loop */
 
