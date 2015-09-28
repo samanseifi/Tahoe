@@ -44,7 +44,7 @@ namespace Tahoe {
         const iArrayT& e_codes, dArray2DT& e_values);
 
 	// Return nodes for canonical element based on normal type
-	iArrayT CanonicalNodes(const int normaltype);
+	iArrayT CanonicalNodes(const int node_index0, const int node_index1);
 
   private:
 

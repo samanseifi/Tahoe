@@ -222,7 +222,7 @@ void FSDielectricElastomerQ1P0SurfaceT::TakeParameterList(const ParameterListT& 
                         }
                         /* no match */
                         if (normal_type == -1)
-                              ExceptionT::GeneralFail(caller, "could not classify normal on face %d of element %d", j+1, fSurfaceElements[i]+1);
+                              cout << "could not classify normal on face " << j+1 << " of element " <<  fSurfaceElements[i]+1 << ". But that's ok" << endl;
 
                         /* store */
                         fSurfaceElementFacesType(i,j) = normal_type;
@@ -394,6 +394,9 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
  					 double y_1 = face_coords[2];
  					 double y_2 = face_coords[3];
 
+ 					 //cout << face_nodes_index[0] << "=" << "(" << x_1 << "," << y_1 << ")" << endl;
+ 					 //cout << face_nodes_index[1] << "=" << "(" << x_2 << "," << y_2 << ")" << endl;
+
  					 /* For 2D cubic element: nen = 4 */
  					 fB[0] = (x_1 - x_2);
  					 fB[1] = (y_1 - y_2);
@@ -416,8 +419,8 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
  					 K_Total += K2;
 
  					 /* Constructing fAmm_mat */
- 					 int normaltype = fSurfaceElementFacesType(i, j);
- 					 counter = CanonicalNodes(normaltype);
+ 					 //int normaltype = fSurfaceElementFacesType(i, j);
+ 					 counter = CanonicalNodes(face_nodes_index[0], face_nodes_index[1]);
 
  					 for (int n = 0; n < nen; n++) {
  					 	 fAmm_mat2(counter[n], counter[0]) = fAmm_mat2(counter[n], counter[0]) + K_Total(n ,0);
@@ -505,45 +508,44 @@ void FSDielectricElastomerQ1P0SurfaceT::FormKd(double constK)
             	{
             		if (fSurfaceElementNeighbors(i,j) == -1) /* no neighbor => surface */
             		{
-                        	/* face parent domain */
-                        	const ParentDomainT& surf_shape = shape.FacetShapeFunction(j);
+            			/* face parent domain */
+            			const ParentDomainT& surf_shape = shape.FacetShapeFunction(j);
 
-                        	/* collect coordinates of face nodes */
-                        	ElementCardT& element_card = ElementCard(fSurfaceElements[i]);
-                        	shape.NodesOnFacet(j, face_nodes_index);  // fni = 4 nodes of surface face
-                        	face_nodes.Collect(face_nodes_index, element_card.NodesX());
-                        	face_coords.SetLocal(face_nodes);
+            			/* collect coordinates of face nodes */
+                        ElementCardT& element_card = ElementCard(fSurfaceElements[i]);
+                        shape.NodesOnFacet(j, face_nodes_index);  // fni = 4 nodes of surface face
+                        face_nodes.Collect(face_nodes_index, element_card.NodesX());
+                        face_coords.SetLocal(face_nodes);
 
-                        	double x_1 = face_coords[0];
-                        	double x_2 = face_coords[1];
-                        	double y_1 = face_coords[2];
-                        	double y_2 = face_coords[3];
+                        double x_1 = face_coords[0];
+                       	double x_2 = face_coords[1];
+                        double y_1 = face_coords[2];
+                        double y_2 = face_coords[3];
 
-                        	fD = 0.0;
-                        	// Length of the surface
-                        	double L_e = sqrt((x_1 - x_2)*(x_1 - x_2) + (y_1 - y_2)*(y_1 - y_2));
+                        fD = 0.0;
+                        // Length of the surface
+                        double L_e = sqrt((x_1 - x_2)*(x_1 - x_2) + (y_1 - y_2)*(y_1 - y_2));
 
-                        	double coeff3 = -fNewSurfTension/(L_e);
+                        double coeff3 = -fNewSurfTension/(L_e);
 
-                        	// cout << "coeff3= " << coeff3 << endl;
+                        // cout << "coeff3= " << coeff3 << endl;
 
-                        	fD[0] = coeff3*(x_1 - x_2);
-                        	fD[1] = coeff3*(y_1 - y_2);
-                        	fD[2] = coeff3*(x_2 - x_1);
-                        	fD[3] = coeff3*(y_2 - y_1);
+                        fD[0] = coeff3*(x_1 - x_2);
+                        fD[1] = coeff3*(y_1 - y_2);
+                        fD[2] = coeff3*(x_2 - x_1);
+                        fD[3] = coeff3*(y_2 - y_1);
 
-                        	//                        D *= coeff3;
-                        	//R_Total = 0.0;
+                        //                        D *= coeff3;
+                        //R_Total = 0.0;
+                       	// cout << D[0] << D[1] << D[2] << D[3] << endl;
 
-                        	// cout << D[0] << D[1] << D[2] << D[3] << endl;
+                       	//int normaltype = fSurfaceElementFacesType(i,j);
+                       	counter = CanonicalNodes(face_nodes_index[0], face_nodes_index[1]);
 
-                        	int normaltype = fSurfaceElementFacesType(i,j);
-                        	counter = CanonicalNodes(normaltype);
-
-                        	R_Total[counter[0]] = R_Total[counter[0]] + fD[0];
-                        	R_Total[counter[1]] = R_Total[counter[1]] + fD[1];
-                        	R_Total[counter[2]] = R_Total[counter[2]] + fD[2];
-                        	R_Total[counter[3]] = R_Total[counter[3]] + fD[3];
+                       	R_Total[counter[0]] = R_Total[counter[0]] + fD[0];
+                       	R_Total[counter[1]] = R_Total[counter[1]] + fD[1];
+                        R_Total[counter[2]] = R_Total[counter[2]] + fD[2];
+                        R_Total[counter[3]] = R_Total[counter[3]] + fD[3];
 
             		} /* End of if */
 
@@ -551,37 +553,42 @@ void FSDielectricElastomerQ1P0SurfaceT::FormKd(double constK)
 
             	R.CopyIn(0, R_Total);
             	fRHS += R;
-            	}
-      	  } /* End of element loop */
+            }
+      } /* End of element loop */
 }
 /***********************************************************************
  * Protected
  ***********************************************************************/
-iArrayT FSDielectricElastomerQ1P0SurfaceT::CanonicalNodes(const int normaltype)
+iArrayT FSDielectricElastomerQ1P0SurfaceT::CanonicalNodes(const int node_index0, const int node_index1)
 {
+	const char caller[] = "FSDielectricElastomerQ1P0SurfaceT::CanonicalNodes";
+
 	/* Return nodes for canonical (psi, eta) element based on normal type */
 	int nen = NumElementNodes();
 	iArrayT counter(nen);
-	if (normaltype == 3) {
+
+	if (node_index0 == 0 && node_index1 == 1) {
 		counter[0] = 0;
 		counter[1] = 1;
 		counter[2] = 2;
 		counter[3] = 3;
-	} else if (normaltype == 0) {
+	} else if (node_index0 == 1 && node_index1 == 2) {
 		counter[0] = 2;
 		counter[1] = 3;
 		counter[2] = 4;
 		counter[3] = 5;
-	} else if (normaltype == 2) {
+	} else if (node_index0 == 2 && node_index1 == 3) {
 		counter[0] = 4;
 		counter[1] = 5;
 		counter[2] = 6;
 		counter[3] = 7;
-	} else {
+	} else if (node_index0 == 3 && node_index1 == 0) {
 		counter[0] = 6;
 		counter[1] = 7;
 		counter[2] = 0;
 		counter[3] = 1;
+	} else {
+		ExceptionT::GeneralFail(caller, "could not classify face with node index %d and %d", node_index0, node_index1);
 	}
 
 	return counter;
