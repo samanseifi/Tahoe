@@ -21,6 +21,12 @@
 
 using namespace std;
 
+/* IMPORTANT NOTE: The behavior of the passivation node sets has changed. Now passivation sets given in input Tahoe perform as a faces with
+ * a given surface tension of 1. Has yo change this behavior in order to back to normal.
+ *
+ * TO-DO: More generalized implementation for boundaries with surface tension is needed. (something like SurfaceEnegry_BC)
+ */
+
 namespace Tahoe {
 
 /* vector functions */
@@ -369,7 +375,7 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
  			 for (int j = 0; j < fSurfaceElementNeighbors.MinorDim(); j++) /* loop over faces */
  			 {
  				 if (fSurfaceElementNeighbors(i,j) == -1) /* no neighbor => surface */
- 				 {
+ 				{
 
  					 /* face parent domain */
  					 const ParentDomainT& surf_shape = shape.FacetShapeFunction(j);
@@ -437,7 +443,71 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
 
  					 /* End of constructing fAmm_mat */
 
- 				 } /* End of if */
+ 					/* Temporarily for converting passivation node sets to a surface sets with a given gamma.
+ 					 * it has to be removed for other test cases other than the double layer simulation. */
+ 				 } else if (fSurfaceElementNeighbors(i,j) == -2) {  /* -2 is for passivated sides */
+ 					 /* face parent domain */
+ 					const ParentDomainT& surf_shape = shape.FacetShapeFunction(j);
+
+ 					/* collect coordinates of face nodes */
+ 					ElementCardT& element_card = ElementCard(fSurfaceElements[i]);
+ 					shape.NodesOnFacet(j, face_nodes_index);  // fni = 4 nodes of surface face
+ 					face_nodes.Collect(face_nodes_index, element_card.NodesX());
+ 					face_coords.SetLocal(face_nodes);
+
+ 					double fNewSurfTension2 = 1.0; /* the second layer has the surface tension of gamma=1 */
+
+ 					K1 = 0.0; K2 = 0.0; fB = 0.0;
+ 					K1(0,0) = 1.0; K1(1,1) = 1.0;
+ 					K1(2,2) = 1.0; K1(3,3) = 1.0;
+ 					K1(0,2) = -1.0; K1(2,0) = -1.0;
+ 					K1(3,1) = -1.0; K1(1,3) = -1.0;
+
+ 					double x_1 = face_coords[0];
+ 					double x_2 = face_coords[1];
+ 					double y_1 = face_coords[2];
+ 					double y_2 = face_coords[3];
+
+ 					/* For 2D cubic element: nen = 4 */
+ 					fB[0] = (x_1 - x_2);
+ 					fB[1] = (y_1 - y_2);
+ 					fB[2] = (x_2 - x_1);
+ 					fB[3] = (y_2 - y_1);
+
+ 					K2.Outer(fB, fB); /* Multiplying B to BT */
+
+ 					/* Length of the surface */
+ 					double L_e = sqrt((x_1 - x_2)*(x_1 - x_2) + (y_1 - y_2)*(y_1 - y_2));
+
+ 					double coeff1 =  fNewSurfTension2/L_e;
+ 					double coeff2 = -fNewSurfTension2/(L_e*L_e*L_e);
+
+ 					K_Total = 0.0;
+
+ 					K1 *= coeff1;
+ 					K2 *= coeff2;
+ 					K_Total += K1;
+ 					K_Total += K2;
+
+ 					/* Constructing fAmm_mat */
+ 					int normaltype = fSurfaceElementFacesType(i, j);
+ 					counter = CanonicalNodes(normaltype);
+
+ 					for (int n = 0; n < nen; n++) {
+ 					 	 fAmm_mat2(counter[n], counter[0]) = fAmm_mat2(counter[n], counter[0]) + K_Total(n ,0);
+ 					 	 fAmm_mat2(counter[n], counter[1]) = fAmm_mat2(counter[n], counter[1]) + K_Total(n ,1);
+ 						 fAmm_mat2(counter[n], counter[2]) = fAmm_mat2(counter[n], counter[2]) + K_Total(n ,2);
+ 						 fAmm_mat2(counter[n], counter[3]) = fAmm_mat2(counter[n], counter[3]) + K_Total(n ,3);
+ 					}
+
+ 					/* Dynamic formulation */
+ 					int order = fIntegrator->Order();;
+ 					if (order == 2)
+ 						 fAmm_mat2 *= constK;
+ 				 }
+
+ 					/* End of if */
+
 
  			 } /* End of surface edge loop */
 
@@ -547,7 +617,48 @@ void FSDielectricElastomerQ1P0SurfaceT::FormKd(double constK)
                         R_Total[counter[2]] = R_Total[counter[2]] + fD[2];
                         R_Total[counter[3]] = R_Total[counter[3]] + fD[3];
 
-            		} /* End of if */
+            		} else if (fSurfaceElementNeighbors(i,j) == -2) {
+				                        	/* face parent domain */
+                        	const ParentDomainT& surf_shape = shape.FacetShapeFunction(j);
+
+                        	/* collect coordinates of face nodes */
+                        	ElementCardT& element_card = ElementCard(fSurfaceElements[i]);
+                        	shape.NodesOnFacet(j, face_nodes_index);  // fni = 4 nodes of surface face
+                        	face_nodes.Collect(face_nodes_index, element_card.NodesX());
+                        	face_coords.SetLocal(face_nodes);
+
+                        	double x_1 = face_coords[0];
+                        	double x_2 = face_coords[1];
+                        	double y_1 = face_coords[2];
+                        	double y_2 = face_coords[3];
+
+                        	fD = 0.0;
+                        	// Length of the surface
+                        	double L_e = sqrt((x_1 - x_2)*(x_1 - x_2) + (y_1 - y_2)*(y_1 - y_2));
+				double fNewSurfTension2 = 1.0; /* the second layer has the surface tension of gamma=1 */
+                        	double coeff3 = -fNewSurfTension2/(L_e);
+
+                        	// cout << "coeff3= " << coeff3 << endl;
+
+                        	fD[0] = coeff3*(x_1 - x_2);
+                        	fD[1] = coeff3*(y_1 - y_2);
+                        	fD[2] = coeff3*(x_2 - x_1);
+                        	fD[3] = coeff3*(y_2 - y_1);
+
+                        	//                        D *= coeff3;
+                        	//R_Total = 0.0;
+
+                        	// cout << D[0] << D[1] << D[2] << D[3] << endl;
+
+                        	int normaltype = fSurfaceElementFacesType(i,j);
+                        	counter = CanonicalNodes(normaltype);
+
+                        	R_Total[counter[0]] = R_Total[counter[0]] + fD[0];
+                        	R_Total[counter[1]] = R_Total[counter[1]] + fD[1];
+                        	R_Total[counter[2]] = R_Total[counter[2]] + fD[2];
+                        	R_Total[counter[3]] = R_Total[counter[3]] + fD[3];
+			}
+/* End of if */
 
             	}  /* End of surface edge loop */
 
