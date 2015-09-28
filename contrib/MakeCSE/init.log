@@ -1,10 +1,10 @@
-Tue Jul 28 14:52:56 EDT 2015
+Sun Aug  2 01:21:54 EDT 2015
 make[1]: Entering directory `/home/saman/Tahoe/contrib/MakeCSE'
  mirroring /home/saman/Tahoe/contrib/MakeCSE/src to /home/saman/Tahoe/contrib/MakeCSE/src-mirror
 perl -w /home/saman/Tahoe/contrib/MakeCSE/../../macros/MirrorTree.pl /home/saman/Tahoe/contrib/MakeCSE/src /home/saman/Tahoe/contrib/MakeCSE/src-mirror "ln -sf" > /home/saman/Tahoe/contrib/MakeCSE/mirror.log
 make[1]: Leaving directory `/home/saman/Tahoe/contrib/MakeCSE'
 make[1]: Entering directory `/home/saman/Tahoe/contrib/MakeCSE'
-Tue Jul 28 14:52:56 EDT 2015
+Sun Aug  2 01:21:54 EDT 2015
 removed 13 files matching regex ".*[.]h"
 cd /home/saman/Tahoe/contrib/MakeCSE/src-mirror
 cd /home/saman/Tahoe/contrib/MakeCSE/src-mirror; \
@@ -47,7 +47,7 @@ make[3]: Leaving directory `/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
 make[2]: Leaving directory `/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
 make[1]: Leaving directory `/home/saman/Tahoe/contrib/MakeCSE'
 make[1]: Entering directory `/home/saman/Tahoe/contrib/MakeCSE'
-Tue Jul 28 14:52:56 EDT 2015
+Sun Aug  2 01:21:54 EDT 2015
 cd /home/saman/Tahoe/contrib/MakeCSE/src-mirror
 cd /home/saman/Tahoe/contrib/MakeCSE/src-mirror; \
 	make  depend_init \
@@ -60,7 +60,7 @@ cd /home/saman/Tahoe/contrib/MakeCSE/src-mirror; \
 	"CURR_DIR = /home/saman/Tahoe/contrib/MakeCSE/src-mirror"
 make[2]: Entering directory `/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
 make[3]: Entering directory `/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
-removed 13 files matching regex ".*[.]d"
+removed 1 files matching regex ".*[.]d"
 make[3]: Leaving directory `/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
 make[3]: Entering directory `/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
     /usr/bin/g++-4.6 -MM: MakeCSE_IOManager.cpp

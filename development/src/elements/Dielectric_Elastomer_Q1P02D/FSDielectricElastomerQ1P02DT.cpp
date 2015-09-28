@@ -331,8 +331,12 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 	/* compute mean of shape function gradients */
 	double H; /* reference volume */
 	double& v = fElementVolume[elem];
+
+
 	SetMeanGradient(fMeanGradient, H, v);
 	
+	//cout << H << endl;
+
 	/* last deformed volume */
 	double& v_last = fElementVolume_last[elem];
 

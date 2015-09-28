@@ -1,10 +1,10 @@
-Tue Jul 28 14:52:09 EDT 2015
+Sun Aug  2 01:21:16 EDT 2015
 make[1]: Entering directory `/home/saman/Tahoe/spooles'
  mirroring /home/saman/Tahoe/spooles/src to /home/saman/Tahoe/spooles/src-mirror
 perl -w /home/saman/Tahoe/spooles/../macros/MirrorTree.pl /home/saman/Tahoe/spooles/src /home/saman/Tahoe/spooles/src-mirror "ln -sf" > /home/saman/Tahoe/spooles/mirror.log
 make[1]: Leaving directory `/home/saman/Tahoe/spooles'
 make[1]: Entering directory `/home/saman/Tahoe/spooles'
-Tue Jul 28 14:52:10 EDT 2015
+Sun Aug  2 01:21:16 EDT 2015
 removed 69 files matching regex ".*[.]h"
 cd /home/saman/Tahoe/spooles/src-mirror
 cd /home/saman/Tahoe/spooles/src-mirror; \
@@ -404,7 +404,7 @@ make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror'
 make[2]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror'
 make[1]: Leaving directory `/home/saman/Tahoe/spooles'
 make[1]: Entering directory `/home/saman/Tahoe/spooles'
-Tue Jul 28 14:52:11 EDT 2015
+Sun Aug  2 01:21:17 EDT 2015
 cd /home/saman/Tahoe/spooles/src-mirror
 cd /home/saman/Tahoe/spooles/src-mirror; \
 	make  depend_init \
