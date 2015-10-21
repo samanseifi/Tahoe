@@ -86,6 +86,8 @@ namespace Tahoe {
 	ArrayT<iArrayT> fSurfaceNodes;
 	/*@}*/
 
+	dMatrixT fGrad_U;
+
   private:
    
     // Stiffness storage

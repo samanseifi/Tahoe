@@ -20,6 +20,7 @@
 #include <algorithm>
 
 using namespace std;
+std::ofstream outfile;
 
 namespace Tahoe {
 
@@ -343,7 +344,11 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
 
      //cout << fSurfaceElementNeighbors << endl;
 
+     ofstream myJ;
+     myJ.open("J.txt", std::ios_base::app);
 
+     fGrad_U.Dimension(2, NumSD());
+     fGrad_U = 0.0;
 
  	 // Should be loop over number of elements on surface!! //
  	 for (int i = 0; i < fSurfaceElements.Length(); i++)
@@ -354,6 +359,19 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
 
  		 if (element == CurrElementNumber()) // Is the current element a surface element?
  		 {
+
+ 			if (i == 20) // element number 20
+ 			{
+ 				for (int k = 0; k < NumIP(); k++)
+ 				{
+ 					fShapes->GradU(fLocDisp, fGrad_U, k);
+ 					fGrad_U.PlusIdentity(); // Computing F_0 = I + Grad_U
+ 					double J_0 = fGrad_U.Det();
+ 					myJ << k << "," << J_0 << endl;
+ 				}
+ 				myJ.close();
+ 			}
+
  			 const ElementCardT& element_card = ElementCard(element);
  			 fLocInitCoords.SetLocal(element_card.NodesX()); /* reference coordinates over bulk element (collects first x coords and then y coords) i.e.  [x1 x2 x3 x4 y1 y2 y3 y4] */
  			 fLocDisp.SetLocal(element_card.NodesU()); /* displacements over bulk element */
@@ -379,8 +397,6 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
  					 shape.NodesOnFacet(j, face_nodes_index);  // fni = 4 nodes of surface face
  					 face_nodes.Collect(face_nodes_index, element_card.NodesX());
  					 face_coords.SetLocal(face_nodes);
-
-
 
  					 K1 = 0.0; K2 = 0.0; fB = 0.0;
 
