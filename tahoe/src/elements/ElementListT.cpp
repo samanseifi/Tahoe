@@ -138,6 +138,14 @@
 #include "FSDielectricElastomer2DViscoT.h"
 #endif
 
+#ifdef DIELECTRIC_ELASTOMER_Q1P02D_Structural
+#include "FSDielectricElastomerQ1P0StructuralT.h"
+#endif
+
+#ifdef DIELECTRIC_ELASTOMER_Q1P02D_Electrical
+#include "FSDielectricElastomerQ1P0ElectricalT.h"
+#endif
+
 #ifdef HUWASHIZU
 #include "FSHuWashizuUSCT.h"
 #endif
@@ -477,6 +485,14 @@ void ElementListT::DefineInlineSub(const StringT& name, ParameterListT::ListOrde
     sub_lists.AddSub("dielectric_elastomer_2D_visco");
 #endif
 
+#ifdef DIELECTRIC_ELASTOMER_Q1P02D_STRUCTURAL
+	sub_lists.AddSub("dielectric_elastomer_Q1P02D_Structural");
+#endif
+
+#ifdef DIELECTRIC_ELASTOMER_Q1P02D_ELECTRICAL
+	sub_lists.AddSub("dielectric_elastomer_Q1P02D_Electrical");
+#endif
+
 #ifdef HUWASHIZU
     sub_lists.AddSub("Hu_Washizu_USC");
 #endif
@@ -801,6 +817,17 @@ ElementBaseT* ElementListT::NewElement(const StringT& name) const
     return new FSDielectricElastomer2DViscoT(fSupport);
 #endif
 
+#ifdef DIELECTRIC_ELASTOMER_Q1P02D_STRUCTURAL
+	else if(name == "dielectric_elastomer_Q1P02D_Structural")
+		return new FSDielectricElastomerQ1P0StructuralT(fSupport);
+#endif
+
+#ifdef DIELECTRIC_ELASTOMER_Q1P02D_ELECTRICAL
+	else if(name == "dielectric_elastomer_Q1P02D_Electrical")
+		return new FSDielectricElastomerQ1P0ElectricalT(fSupport);
+#endif
+
+
 #ifdef HUWASHIZU
   else if (name == "Hu_Washizu_USC")
     return new FSHuWashizuUSCT(fSupport);
@@ -926,7 +953,7 @@ ElementBaseT* ElementListT::NewElement(const StringT& name) const
 //	  return new SS_Optimize_Primal(fSupport);
 	else if (name == "small_strain_optimize_dual")
 	  return new SS_Optimize_Dual(fSupport);
-	  
+
 	else if (name == "uplag_fiber_optimize_dual")
 	  return new FSFiber_Optimize_Dual(fSupport);
 

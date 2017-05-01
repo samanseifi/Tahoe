@@ -21,7 +21,7 @@ void TotalLagrangianT::TakeParameterList(const ParameterListT& list)
 {
 	/* inherited */
 	FiniteStrainT::TakeParameterList(list);
-	
+
 	/* dimension workspace */
 	fStressMat.Dimension(NumSD());
 	fTempMat1.Dimension(NumSD());
@@ -38,10 +38,10 @@ void TotalLagrangianT::TakeParameterList(const ParameterListT& list)
 
 /* form the element stiffness matrix */
 void TotalLagrangianT::FormStiffness(double constK)
-{		
+{
 //NOTE: Because most materials have been optimized to calculate the
 //      Cauchy stress s_ij and the material tangent modulus c_ijkl,
-//      the derivatives with respect to the reference coordinates X 
+//      the derivatives with respect to the reference coordinates X
 //      are transformed to derivatives with respect to the current
 //      coordinates x using the inverse of the deformation gradient.
 //      Alternately, the stress and modulus could have been transferred
@@ -59,15 +59,15 @@ void TotalLagrangianT::FormStiffness(double constK)
 
 	/* initialize */
 	fStressStiff = 0.0;
-	
+
 	fShapes->TopIP();
 	while ( fShapes->NextIP() )
 	{
 	/* S T R E S S   S T I F F N E S S */
-				
+
 		/* Cauchy stress (and set deformation gradient) */
 		(fCurrMaterial->s_ij()).ToMatrix(fStressMat);
-	
+
 		/* chain rule shape function derivatives */
 		fTempMat1 = DeformationGradient();
 		double J = fTempMat1.Det();
@@ -80,25 +80,25 @@ void TotalLagrangianT::FormStiffness(double constK)
 		/* scale factor */
 		double scale = constK*(*Det++)*(*Weight++)*J;
 
-		/* integration constants */		
+		/* integration constants */
 		fStressMat *= scale;
-	
+
 		/* using the stress symmetry */
 		fStressStiff.MultQTBQ(fGradNa, fStressMat, format,
 			dMatrixT::kAccumulate);
 
-	/* M A T E R I A L   S T I F F N E S S */									
-	
+	/* M A T E R I A L   S T I F F N E S S */
+
 		/* strain displacement matrix */
 		Set_B(fDNa_x, fB);
 
 		/* get D matrix */
 		fD.SetToScaled(scale, fCurrMaterial->c_ijkl());
-						
+
 		/* accumulate */
-		fLHS.MultQTBQ(fB, fD, format, dMatrixT::kAccumulate);	
+		fLHS.MultQTBQ(fB, fD, format, dMatrixT::kAccumulate);
 	}
-						
+
 	/* stress stiffness into fLHS */
 	fLHS.Expand(fStressStiff, NumDOF(), dMatrixT::kAccumulate);
 }
@@ -107,7 +107,7 @@ void TotalLagrangianT::FormStiffness(double constK)
 void TotalLagrangianT::FormKd(double constK)
 {
 //NOTE: compute 1st P-K stress based on Cauchy stress since most materials
-//      have not been optimized to compute PK2 directly.	
+//      have not been optimized to compute PK2 directly.
 
 	/* matrix alias to fTemp */
 	dMatrixT fWP(NumSD(), fStressStiff.Rows(), fNEEvec.Pointer());
@@ -140,5 +140,5 @@ void TotalLagrangianT::FormKd(double constK)
 
 		/* accumulate */
 		fRHS.AddScaled(J*constK*(*Weight++)*(*Det++), fNEEvec);
-	}	
+	}
 }

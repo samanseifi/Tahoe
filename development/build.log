@@ -48,6 +48,8 @@ processing option: DIELECTRIC_ELASTOMER_2D: ACTIVE
 processing option: DIELECTRIC_ELASTOMER_Q1P02D: ACTIVE
 processing option: DIELECTRIC_ELASTOMER_VISCO: INACTIVE
 processing option: DIELECTRIC_ELASTOMER_2D_VISCO: INACTIVE
+processing option: DIELECTRIC_ELASTOMER_Q1P02D_Structural: INACTIVE
+processing option: DIELECTRIC_ELASTOMER_Q1P02D_Electrical: INACTIVE
 reading configuration file: DevelopmentMaterialsConfig.conf
 output file root: DevelopmentMaterialsConfig
 output file is up to date: /home/saman/Tahoe/development/src-mirror/config/DevelopmentMaterialsConfig.h
@@ -72,7 +74,7 @@ processing option: DIELECTRIC_ELASTOMER: ACTIVE
 processing option: DIELECTRIC_ELASTOMER_Q1P0: ACTIVE
 processing option: DIELECTRIC_ELASTOMER_Q1P0_ELASTOCAPILLARY: ACTIVE
 processing option: DIELECTRIC_ELASTOMER_Q1P0_VISCO: ACTIVE
-processing option: DIELECTRIC_ELASTOMER_2D: INACTIVE
+processing option: DIELECTRIC_ELASTOMER_2D: ACTIVE
 processing option: DIELECTRIC_ELASTOMER_Q1P02D: ACTIVE
 processing option: DIELECTRIC_ELASTOMER_VISCO: INACTIVE
 processing option: DIELECTRIC_ELASTOMER_2D_VISCO: INACTIVE

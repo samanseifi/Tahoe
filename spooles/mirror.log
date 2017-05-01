@@ -3,6 +3,90 @@ destination directory: /home/saman/Tahoe/spooles/src-mirror
            ln command: ln -sf
 found source directory /home/saman/Tahoe/spooles/src
 found destination directory /home/saman/Tahoe/spooles/src-mirror
+processing directory /home/saman/Tahoe/spooles/src/Perm
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Perm
+     source directory: /home/saman/Tahoe/spooles/src/Perm
+destination directory: /home/saman/Tahoe/spooles/src-mirror/Perm
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/Perm
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Perm
+ln -sf /home/saman/Tahoe/spooles/src/Perm/Perm.basics.c /home/saman/Tahoe/spooles/src-mirror/Perm/Perm.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/Perm/Perm.h /home/saman/Tahoe/spooles/src-mirror/Perm/Perm.h
+ln -sf /home/saman/Tahoe/spooles/src/Perm/Perm.init.c /home/saman/Tahoe/spooles/src-mirror/Perm/Perm.init.c
+ln -sf /home/saman/Tahoe/spooles/src/Perm/Perm.util.c /home/saman/Tahoe/spooles/src-mirror/Perm/Perm.util.c
+ln -sf /home/saman/Tahoe/spooles/src/Perm/Perm.compress.c /home/saman/Tahoe/spooles/src-mirror/Perm/Perm.compress.c
+ln -sf /home/saman/Tahoe/spooles/src/Perm/makefile /home/saman/Tahoe/spooles/src-mirror/Perm/makefile
+ln -sf /home/saman/Tahoe/spooles/src/Perm/Perm.IO.c /home/saman/Tahoe/spooles/src-mirror/Perm/Perm.IO.c
+processing directory /home/saman/Tahoe/spooles/src/Drand
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Drand
+     source directory: /home/saman/Tahoe/spooles/src/Drand
+destination directory: /home/saman/Tahoe/spooles/src-mirror/Drand
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/Drand
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Drand
+ln -sf /home/saman/Tahoe/spooles/src/Drand/Drand.util.c /home/saman/Tahoe/spooles/src-mirror/Drand/Drand.util.c
+ln -sf /home/saman/Tahoe/spooles/src/Drand/Drand.basics.c /home/saman/Tahoe/spooles/src-mirror/Drand/Drand.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/Drand/Drand.init.c /home/saman/Tahoe/spooles/src-mirror/Drand/Drand.init.c
+ln -sf /home/saman/Tahoe/spooles/src/Drand/Drand.h /home/saman/Tahoe/spooles/src-mirror/Drand/Drand.h
+ln -sf /home/saman/Tahoe/spooles/src/Drand/makefile /home/saman/Tahoe/spooles/src-mirror/Drand/makefile
+processing directory /home/saman/Tahoe/spooles/src/SubMtxList
+found destination directory /home/saman/Tahoe/spooles/src-mirror/SubMtxList
+     source directory: /home/saman/Tahoe/spooles/src/SubMtxList
+destination directory: /home/saman/Tahoe/spooles/src-mirror/SubMtxList
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/SubMtxList
+found destination directory /home/saman/Tahoe/spooles/src-mirror/SubMtxList
+ln -sf /home/saman/Tahoe/spooles/src/SubMtxList/SubMtxList.util.c /home/saman/Tahoe/spooles/src-mirror/SubMtxList/SubMtxList.util.c
+ln -sf /home/saman/Tahoe/spooles/src/SubMtxList/SubMtxList.init.c /home/saman/Tahoe/spooles/src-mirror/SubMtxList/SubMtxList.init.c
+ln -sf /home/saman/Tahoe/spooles/src/SubMtxList/SubMtxList.IO.c /home/saman/Tahoe/spooles/src-mirror/SubMtxList/SubMtxList.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/SubMtxList/SubMtxList.h /home/saman/Tahoe/spooles/src-mirror/SubMtxList/SubMtxList.h
+ln -sf /home/saman/Tahoe/spooles/src/SubMtxList/makefile /home/saman/Tahoe/spooles/src-mirror/SubMtxList/makefile
+ln -sf /home/saman/Tahoe/spooles/src/SubMtxList/SubMtxList.basics.c /home/saman/Tahoe/spooles/src-mirror/SubMtxList/SubMtxList.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/timings.h /home/saman/Tahoe/spooles/src-mirror/timings.h
+processing directory /home/saman/Tahoe/spooles/src/SubMtx
+found destination directory /home/saman/Tahoe/spooles/src-mirror/SubMtx
+     source directory: /home/saman/Tahoe/spooles/src/SubMtx
+destination directory: /home/saman/Tahoe/spooles/src-mirror/SubMtx
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/SubMtx
+found destination directory /home/saman/Tahoe/spooles/src-mirror/SubMtx
+ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.solveupd.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.solveupd.c
+ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.solve.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.solve.c
+ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.basics.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.solveupdH.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.solveupdH.c
+ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.solveT.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.solveT.c
+ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.IO.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.h /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.h
+ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.instance.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.instance.c
+ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.initRandom.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.initRandom.c
+ln -sf /home/saman/Tahoe/spooles/src/SubMtx/makefile /home/saman/Tahoe/spooles/src-mirror/SubMtx/makefile
+ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.sort.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.sort.c
+ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.util.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.util.c
+ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.init.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.init.c
+ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.scalevec.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.scalevec.c
+ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.solveH.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.solveH.c
+ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.solveupdT.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.solveupdT.c
+processing directory /home/saman/Tahoe/spooles/src/Chv
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Chv
+     source directory: /home/saman/Tahoe/spooles/src/Chv
+destination directory: /home/saman/Tahoe/spooles/src-mirror/Chv
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/Chv
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Chv
+ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.search.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.search.c
+ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.h /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.h
+ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.factor.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.factor.c
+ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.util.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.util.c
+ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.copy.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.copy.c
+ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.findPivot.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.findPivot.c
+ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.update.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.update.c
+ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.swap.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.swap.c
+ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.init.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.init.c
+ln -sf /home/saman/Tahoe/spooles/src/Chv/makefile /home/saman/Tahoe/spooles/src-mirror/Chv/makefile
+ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.instance.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.instance.c
+ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.basics.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.assemble.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.assemble.c
+ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.IO.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.IO.c
 processing directory /home/saman/Tahoe/spooles/src/ChvList
 found destination directory /home/saman/Tahoe/spooles/src-mirror/ChvList
      source directory: /home/saman/Tahoe/spooles/src/ChvList
@@ -11,381 +95,104 @@ destination directory: /home/saman/Tahoe/spooles/src-mirror/ChvList
 found source directory /home/saman/Tahoe/spooles/src/ChvList
 found destination directory /home/saman/Tahoe/spooles/src-mirror/ChvList
 ln -sf /home/saman/Tahoe/spooles/src/ChvList/ChvList.util.c /home/saman/Tahoe/spooles/src-mirror/ChvList/ChvList.util.c
-ln -sf /home/saman/Tahoe/spooles/src/ChvList/ChvList.basics.c /home/saman/Tahoe/spooles/src-mirror/ChvList/ChvList.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/ChvList/ChvList.IO.c /home/saman/Tahoe/spooles/src-mirror/ChvList/ChvList.IO.c
 ln -sf /home/saman/Tahoe/spooles/src/ChvList/ChvList.init.c /home/saman/Tahoe/spooles/src-mirror/ChvList/ChvList.init.c
 ln -sf /home/saman/Tahoe/spooles/src/ChvList/ChvList.h /home/saman/Tahoe/spooles/src-mirror/ChvList/ChvList.h
+ln -sf /home/saman/Tahoe/spooles/src/ChvList/ChvList.basics.c /home/saman/Tahoe/spooles/src-mirror/ChvList/ChvList.basics.c
 ln -sf /home/saman/Tahoe/spooles/src/ChvList/makefile /home/saman/Tahoe/spooles/src-mirror/ChvList/makefile
-processing directory /home/saman/Tahoe/spooles/src/DSTree
-found destination directory /home/saman/Tahoe/spooles/src-mirror/DSTree
-     source directory: /home/saman/Tahoe/spooles/src/DSTree
-destination directory: /home/saman/Tahoe/spooles/src-mirror/DSTree
+ln -sf /home/saman/Tahoe/spooles/src/ChvList/ChvList.IO.c /home/saman/Tahoe/spooles/src-mirror/ChvList/ChvList.IO.c
+processing directory /home/saman/Tahoe/spooles/src/FrontMtx
+found destination directory /home/saman/Tahoe/spooles/src-mirror/FrontMtx
+     source directory: /home/saman/Tahoe/spooles/src/FrontMtx
+destination directory: /home/saman/Tahoe/spooles/src-mirror/FrontMtx
            ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/DSTree
-found destination directory /home/saman/Tahoe/spooles/src-mirror/DSTree
-ln -sf /home/saman/Tahoe/spooles/src/DSTree/DSTree.instance.c /home/saman/Tahoe/spooles/src-mirror/DSTree/DSTree.instance.c
-ln -sf /home/saman/Tahoe/spooles/src/DSTree/DSTree.h /home/saman/Tahoe/spooles/src-mirror/DSTree/DSTree.h
-ln -sf /home/saman/Tahoe/spooles/src/DSTree/DSTree.IO.c /home/saman/Tahoe/spooles/src-mirror/DSTree/DSTree.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/DSTree/DSTree.stages.c /home/saman/Tahoe/spooles/src-mirror/DSTree/DSTree.stages.c
-ln -sf /home/saman/Tahoe/spooles/src/DSTree/makefile /home/saman/Tahoe/spooles/src-mirror/DSTree/makefile
-ln -sf /home/saman/Tahoe/spooles/src/DSTree/DSTree.util.c /home/saman/Tahoe/spooles/src-mirror/DSTree/DSTree.util.c
-ln -sf /home/saman/Tahoe/spooles/src/DSTree/DSTree.basics.c /home/saman/Tahoe/spooles/src-mirror/DSTree/DSTree.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/DSTree/DSTree.init.c /home/saman/Tahoe/spooles/src-mirror/DSTree/DSTree.init.c
-processing directory /home/saman/Tahoe/spooles/src/Network
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Network
-     source directory: /home/saman/Tahoe/spooles/src/Network
-destination directory: /home/saman/Tahoe/spooles/src-mirror/Network
+found source directory /home/saman/Tahoe/spooles/src/FrontMtx
+found destination directory /home/saman/Tahoe/spooles/src-mirror/FrontMtx
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.update.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.update.c
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.solveUtil.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.solveUtil.c
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.h /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.h
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.init.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.init.c
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.factorUtil.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.factorUtil.c
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.loadEntries.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.loadEntries.c
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.storeFront.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.storeFront.c
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.util.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.util.c
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.permute.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.permute.c
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.QRsolve.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.QRsolve.c
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.basics.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.factor.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.factor.c
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/makefile /home/saman/Tahoe/spooles/src-mirror/FrontMtx/makefile
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.IO.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.solve.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.solve.c
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.QRutil.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.QRutil.c
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.instance.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.instance.c
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.postProcess.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.postProcess.c
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.postponed.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.postponed.c
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.split.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.split.c
+ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.QRfactor.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.QRfactor.c
+processing directory /home/saman/Tahoe/spooles/src/A2
+found destination directory /home/saman/Tahoe/spooles/src-mirror/A2
+     source directory: /home/saman/Tahoe/spooles/src/A2
+destination directory: /home/saman/Tahoe/spooles/src-mirror/A2
            ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/Network
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Network
-ln -sf /home/saman/Tahoe/spooles/src/Network/Network.IO.c /home/saman/Tahoe/spooles/src-mirror/Network/Network.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/Network/Network.basics.c /home/saman/Tahoe/spooles/src-mirror/Network/Network.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/Network/Network.findAugmentingPath.c /home/saman/Tahoe/spooles/src-mirror/Network/Network.findAugmentingPath.c
-ln -sf /home/saman/Tahoe/spooles/src/Network/Network.addArc.c /home/saman/Tahoe/spooles/src-mirror/Network/Network.addArc.c
-ln -sf /home/saman/Tahoe/spooles/src/Network/Network.findMaxFlow.c /home/saman/Tahoe/spooles/src-mirror/Network/Network.findMaxFlow.c
-ln -sf /home/saman/Tahoe/spooles/src/Network/makefile /home/saman/Tahoe/spooles/src-mirror/Network/makefile
-ln -sf /home/saman/Tahoe/spooles/src/Network/Network.init.c /home/saman/Tahoe/spooles/src-mirror/Network/Network.init.c
-ln -sf /home/saman/Tahoe/spooles/src/Network/Network.findMincut.c /home/saman/Tahoe/spooles/src-mirror/Network/Network.findMincut.c
-ln -sf /home/saman/Tahoe/spooles/src/Network/Network.augmentPath.c /home/saman/Tahoe/spooles/src-mirror/Network/Network.augmentPath.c
-ln -sf /home/saman/Tahoe/spooles/src/Network/Network.h /home/saman/Tahoe/spooles/src-mirror/Network/Network.h
-processing directory /home/saman/Tahoe/spooles/src/I2Ohash
-found destination directory /home/saman/Tahoe/spooles/src-mirror/I2Ohash
-     source directory: /home/saman/Tahoe/spooles/src/I2Ohash
-destination directory: /home/saman/Tahoe/spooles/src-mirror/I2Ohash
+found source directory /home/saman/Tahoe/spooles/src/A2
+found destination directory /home/saman/Tahoe/spooles/src-mirror/A2
+ln -sf /home/saman/Tahoe/spooles/src/A2/A2.norms.c /home/saman/Tahoe/spooles/src-mirror/A2/A2.norms.c
+ln -sf /home/saman/Tahoe/spooles/src/A2/A2.init.c /home/saman/Tahoe/spooles/src-mirror/A2/A2.init.c
+ln -sf /home/saman/Tahoe/spooles/src/A2/A2.copyEntriesToVector.c /home/saman/Tahoe/spooles/src-mirror/A2/A2.copyEntriesToVector.c
+ln -sf /home/saman/Tahoe/spooles/src/A2/A2.sort.c /home/saman/Tahoe/spooles/src-mirror/A2/A2.sort.c
+ln -sf /home/saman/Tahoe/spooles/src/A2/A2.basics.c /home/saman/Tahoe/spooles/src-mirror/A2/A2.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/A2/A2.util.c /home/saman/Tahoe/spooles/src-mirror/A2/A2.util.c
+ln -sf /home/saman/Tahoe/spooles/src/A2/A2.IO.c /home/saman/Tahoe/spooles/src-mirror/A2/A2.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/A2/A2.makeStaircase.c /home/saman/Tahoe/spooles/src-mirror/A2/A2.makeStaircase.c
+ln -sf /home/saman/Tahoe/spooles/src/A2/A2.instance.c /home/saman/Tahoe/spooles/src-mirror/A2/A2.instance.c
+ln -sf /home/saman/Tahoe/spooles/src/A2/A2.QRreduce.c /home/saman/Tahoe/spooles/src-mirror/A2/A2.QRreduce.c
+ln -sf /home/saman/Tahoe/spooles/src/A2/makefile /home/saman/Tahoe/spooles/src-mirror/A2/makefile
+ln -sf /home/saman/Tahoe/spooles/src/A2/A2.h /home/saman/Tahoe/spooles/src-mirror/A2/A2.h
+processing directory /home/saman/Tahoe/spooles/src/Ideq
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Ideq
+     source directory: /home/saman/Tahoe/spooles/src/Ideq
+destination directory: /home/saman/Tahoe/spooles/src-mirror/Ideq
            ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/I2Ohash
-found destination directory /home/saman/Tahoe/spooles/src-mirror/I2Ohash
-ln -sf /home/saman/Tahoe/spooles/src/I2Ohash/I2Ohash.init.c /home/saman/Tahoe/spooles/src-mirror/I2Ohash/I2Ohash.init.c
-ln -sf /home/saman/Tahoe/spooles/src/I2Ohash/I2Ohash.h /home/saman/Tahoe/spooles/src-mirror/I2Ohash/I2Ohash.h
-ln -sf /home/saman/Tahoe/spooles/src/I2Ohash/I2Ohash.basics.c /home/saman/Tahoe/spooles/src-mirror/I2Ohash/I2Ohash.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/I2Ohash/I2Ohash.IO.c /home/saman/Tahoe/spooles/src-mirror/I2Ohash/I2Ohash.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/I2Ohash/makefile /home/saman/Tahoe/spooles/src-mirror/I2Ohash/makefile
-ln -sf /home/saman/Tahoe/spooles/src/I2Ohash/I2Ohash.util.c /home/saman/Tahoe/spooles/src-mirror/I2Ohash/I2Ohash.util.c
-processing directory /home/saman/Tahoe/spooles/src/BPG
-found destination directory /home/saman/Tahoe/spooles/src-mirror/BPG
-     source directory: /home/saman/Tahoe/spooles/src/BPG
-destination directory: /home/saman/Tahoe/spooles/src-mirror/BPG
+found source directory /home/saman/Tahoe/spooles/src/Ideq
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Ideq
+ln -sf /home/saman/Tahoe/spooles/src/Ideq/Ideq.h /home/saman/Tahoe/spooles/src-mirror/Ideq/Ideq.h
+ln -sf /home/saman/Tahoe/spooles/src/Ideq/Ideq.IO.c /home/saman/Tahoe/spooles/src-mirror/Ideq/Ideq.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/Ideq/Ideq.resize.c /home/saman/Tahoe/spooles/src-mirror/Ideq/Ideq.resize.c
+ln -sf /home/saman/Tahoe/spooles/src/Ideq/makefile /home/saman/Tahoe/spooles/src-mirror/Ideq/makefile
+ln -sf /home/saman/Tahoe/spooles/src/Ideq/Ideq.util.c /home/saman/Tahoe/spooles/src-mirror/Ideq/Ideq.util.c
+ln -sf /home/saman/Tahoe/spooles/src/Ideq/Ideq.basics.c /home/saman/Tahoe/spooles/src-mirror/Ideq/Ideq.basics.c
+processing directory /home/saman/Tahoe/spooles/src/SubMtxManager
+found destination directory /home/saman/Tahoe/spooles/src-mirror/SubMtxManager
+     source directory: /home/saman/Tahoe/spooles/src/SubMtxManager
+destination directory: /home/saman/Tahoe/spooles/src-mirror/SubMtxManager
            ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/BPG
-found destination directory /home/saman/Tahoe/spooles/src-mirror/BPG
-ln -sf /home/saman/Tahoe/spooles/src/BPG/BPG.maxFlow.c /home/saman/Tahoe/spooles/src-mirror/BPG/BPG.maxFlow.c
-ln -sf /home/saman/Tahoe/spooles/src/BPG/BPG.DM.c /home/saman/Tahoe/spooles/src-mirror/BPG/BPG.DM.c
-ln -sf /home/saman/Tahoe/spooles/src/BPG/BPG.pseudo.c /home/saman/Tahoe/spooles/src-mirror/BPG/BPG.pseudo.c
-ln -sf /home/saman/Tahoe/spooles/src/BPG/BPG.makeGraphs.c /home/saman/Tahoe/spooles/src-mirror/BPG/BPG.makeGraphs.c
-ln -sf /home/saman/Tahoe/spooles/src/BPG/BPG.basics.c /home/saman/Tahoe/spooles/src-mirror/BPG/BPG.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/BPG/makefile /home/saman/Tahoe/spooles/src-mirror/BPG/makefile
-ln -sf /home/saman/Tahoe/spooles/src/BPG/BPG.init.c /home/saman/Tahoe/spooles/src-mirror/BPG/BPG.init.c
-ln -sf /home/saman/Tahoe/spooles/src/BPG/BPG.IO.c /home/saman/Tahoe/spooles/src-mirror/BPG/BPG.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/BPG/BPG.h /home/saman/Tahoe/spooles/src-mirror/BPG/BPG.h
-ln -sf /home/saman/Tahoe/spooles/src/timings.h /home/saman/Tahoe/spooles/src-mirror/timings.h
-processing directory /home/saman/Tahoe/spooles/src/ETree
-found destination directory /home/saman/Tahoe/spooles/src-mirror/ETree
-     source directory: /home/saman/Tahoe/spooles/src/ETree
-destination directory: /home/saman/Tahoe/spooles/src-mirror/ETree
+found source directory /home/saman/Tahoe/spooles/src/SubMtxManager
+found destination directory /home/saman/Tahoe/spooles/src-mirror/SubMtxManager
+ln -sf /home/saman/Tahoe/spooles/src/SubMtxManager/SubMtxManager.util.c /home/saman/Tahoe/spooles/src-mirror/SubMtxManager/SubMtxManager.util.c
+ln -sf /home/saman/Tahoe/spooles/src/SubMtxManager/SubMtxManager.IO.c /home/saman/Tahoe/spooles/src-mirror/SubMtxManager/SubMtxManager.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/SubMtxManager/SubMtxManager.h /home/saman/Tahoe/spooles/src-mirror/SubMtxManager/SubMtxManager.h
+ln -sf /home/saman/Tahoe/spooles/src/SubMtxManager/SubMtxManager.basics.c /home/saman/Tahoe/spooles/src-mirror/SubMtxManager/SubMtxManager.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/SubMtxManager/makefile /home/saman/Tahoe/spooles/src-mirror/SubMtxManager/makefile
+ln -sf /home/saman/Tahoe/spooles/src/SubMtxManager/SubMtxManager.init.c /home/saman/Tahoe/spooles/src-mirror/SubMtxManager/SubMtxManager.init.c
+processing directory /home/saman/Tahoe/spooles/src/misc
+found destination directory /home/saman/Tahoe/spooles/src-mirror/misc
+     source directory: /home/saman/Tahoe/spooles/src/misc
+destination directory: /home/saman/Tahoe/spooles/src-mirror/misc
            ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/ETree
-found destination directory /home/saman/Tahoe/spooles/src-mirror/ETree
-ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.initFromSubtree.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.initFromSubtree.c
-ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.metrics.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.metrics.c
-ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.instance.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.instance.c
-ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.storage.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.storage.c
-ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.ms.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.ms.c
-ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.util.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.util.c
-ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.basics.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.compress.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.compress.c
-ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.maps.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.maps.c
-ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.h /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.h
-ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.init.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.init.c
-ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.transform.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.transform.c
-ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.justify.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.justify.c
-ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.semi.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.semi.c
-ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.IO.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/ETree/makefile /home/saman/Tahoe/spooles/src-mirror/ETree/makefile
-ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.permute.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.permute.c
-processing directory /home/saman/Tahoe/spooles/src/GPart
-found destination directory /home/saman/Tahoe/spooles/src-mirror/GPart
-     source directory: /home/saman/Tahoe/spooles/src/GPart
-destination directory: /home/saman/Tahoe/spooles/src-mirror/GPart
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/GPart
-found destination directory /home/saman/Tahoe/spooles/src-mirror/GPart
-ln -sf /home/saman/Tahoe/spooles/src/GPart/DDsepInfo.h /home/saman/Tahoe/spooles/src-mirror/GPart/DDsepInfo.h
-ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.basics.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.DDviaProjection.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.DDviaProjection.c
-ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.split.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.split.c
-ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.RBviaDDsep.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.RBviaDDsep.c
-ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.smoothBisector.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.smoothBisector.c
-ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.TwoSetViaBKL.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.TwoSetViaBKL.c
-ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.identifyWideSep.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.identifyWideSep.c
-ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.domSegMap.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.domSegMap.c
-ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.DDviaFishnet.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.DDviaFishnet.c
-ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.smoothBy2layers.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.smoothBy2layers.c
-ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.init.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.init.c
-ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.smoothYSep.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.smoothYSep.c
-ln -sf /home/saman/Tahoe/spooles/src/GPart/makefile /home/saman/Tahoe/spooles/src-mirror/GPart/makefile
-ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.DDsepInfo.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.DDsepInfo.c
-ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.util.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.util.c
-ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.makeYCmap.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.makeYCmap.c
-ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.h /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.h
-processing directory /home/saman/Tahoe/spooles/src/Drand
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Drand
-     source directory: /home/saman/Tahoe/spooles/src/Drand
-destination directory: /home/saman/Tahoe/spooles/src-mirror/Drand
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/Drand
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Drand
-ln -sf /home/saman/Tahoe/spooles/src/Drand/Drand.h /home/saman/Tahoe/spooles/src-mirror/Drand/Drand.h
-ln -sf /home/saman/Tahoe/spooles/src/Drand/Drand.util.c /home/saman/Tahoe/spooles/src-mirror/Drand/Drand.util.c
-ln -sf /home/saman/Tahoe/spooles/src/Drand/Drand.basics.c /home/saman/Tahoe/spooles/src-mirror/Drand/Drand.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/Drand/makefile /home/saman/Tahoe/spooles/src-mirror/Drand/makefile
-ln -sf /home/saman/Tahoe/spooles/src/Drand/Drand.init.c /home/saman/Tahoe/spooles/src-mirror/Drand/Drand.init.c
-processing directory /home/saman/Tahoe/spooles/src/SubMtx
-found destination directory /home/saman/Tahoe/spooles/src-mirror/SubMtx
-     source directory: /home/saman/Tahoe/spooles/src/SubMtx
-destination directory: /home/saman/Tahoe/spooles/src-mirror/SubMtx
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/SubMtx
-found destination directory /home/saman/Tahoe/spooles/src-mirror/SubMtx
-ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.h /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.h
-ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.solveH.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.solveH.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.instance.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.instance.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.init.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.init.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.scalevec.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.scalevec.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.initRandom.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.initRandom.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.solveT.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.solveT.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.solveupdT.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.solveupdT.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.solve.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.solve.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.basics.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.solveupdH.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.solveupdH.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtx/makefile /home/saman/Tahoe/spooles/src-mirror/SubMtx/makefile
-ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.sort.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.sort.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.util.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.util.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.solveupd.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.solveupd.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtx/SubMtx.IO.c /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.IO.c
-processing directory /home/saman/Tahoe/spooles/src/ILUMtx
-found destination directory /home/saman/Tahoe/spooles/src-mirror/ILUMtx
-     source directory: /home/saman/Tahoe/spooles/src/ILUMtx
-destination directory: /home/saman/Tahoe/spooles/src-mirror/ILUMtx
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/ILUMtx
-found destination directory /home/saman/Tahoe/spooles/src-mirror/ILUMtx
-ln -sf /home/saman/Tahoe/spooles/src/ILUMtx/ILUMtx.factor.c /home/saman/Tahoe/spooles/src-mirror/ILUMtx/ILUMtx.factor.c
-ln -sf /home/saman/Tahoe/spooles/src/ILUMtx/ILUMtx.h /home/saman/Tahoe/spooles/src-mirror/ILUMtx/ILUMtx.h
-ln -sf /home/saman/Tahoe/spooles/src/ILUMtx/ILUMtx.misc.c /home/saman/Tahoe/spooles/src-mirror/ILUMtx/ILUMtx.misc.c
-ln -sf /home/saman/Tahoe/spooles/src/ILUMtx/ILUMtx.init.c /home/saman/Tahoe/spooles/src-mirror/ILUMtx/ILUMtx.init.c
-ln -sf /home/saman/Tahoe/spooles/src/ILUMtx/makefile /home/saman/Tahoe/spooles/src-mirror/ILUMtx/makefile
-ln -sf /home/saman/Tahoe/spooles/src/ILUMtx/ILUMtx.solve.c /home/saman/Tahoe/spooles/src-mirror/ILUMtx/ILUMtx.solve.c
-ln -sf /home/saman/Tahoe/spooles/src/ILUMtx/ILUMtx.basics.c /home/saman/Tahoe/spooles/src-mirror/ILUMtx/ILUMtx.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/ILUMtx/ILUMtx.IO.c /home/saman/Tahoe/spooles/src-mirror/ILUMtx/ILUMtx.IO.c
-processing directory /home/saman/Tahoe/spooles/src/PatchAndGoInfo
-found destination directory /home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo
-     source directory: /home/saman/Tahoe/spooles/src/PatchAndGoInfo
-destination directory: /home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/PatchAndGoInfo
-found destination directory /home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo
-ln -sf /home/saman/Tahoe/spooles/src/PatchAndGoInfo/PatchAndGoInfo.basics.c /home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo/PatchAndGoInfo.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/PatchAndGoInfo/PatchAndGoInfo.init.c /home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo/PatchAndGoInfo.init.c
-ln -sf /home/saman/Tahoe/spooles/src/PatchAndGoInfo/PatchAndGoInfo.h /home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo/PatchAndGoInfo.h
-ln -sf /home/saman/Tahoe/spooles/src/PatchAndGoInfo/makefile /home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo/makefile
-processing directory /home/saman/Tahoe/spooles/src/SymbFac
-found destination directory /home/saman/Tahoe/spooles/src-mirror/SymbFac
-     source directory: /home/saman/Tahoe/spooles/src/SymbFac
-destination directory: /home/saman/Tahoe/spooles/src-mirror/SymbFac
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/SymbFac
-found destination directory /home/saman/Tahoe/spooles/src-mirror/SymbFac
-ln -sf /home/saman/Tahoe/spooles/src/SymbFac/SymbFac.h /home/saman/Tahoe/spooles/src-mirror/SymbFac/SymbFac.h
-ln -sf /home/saman/Tahoe/spooles/src/SymbFac/SymbFac.symbfac.c /home/saman/Tahoe/spooles/src-mirror/SymbFac/SymbFac.symbfac.c
-ln -sf /home/saman/Tahoe/spooles/src/SymbFac/makefile /home/saman/Tahoe/spooles/src-mirror/SymbFac/makefile
-processing directory /home/saman/Tahoe/spooles/src/IVL
-found destination directory /home/saman/Tahoe/spooles/src-mirror/IVL
-     source directory: /home/saman/Tahoe/spooles/src/IVL
-destination directory: /home/saman/Tahoe/spooles/src-mirror/IVL
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/IVL
-found destination directory /home/saman/Tahoe/spooles/src-mirror/IVL
-ln -sf /home/saman/Tahoe/spooles/src/IVL/IVL.init.c /home/saman/Tahoe/spooles/src-mirror/IVL/IVL.init.c
-ln -sf /home/saman/Tahoe/spooles/src/IVL/IVL.IO.c /home/saman/Tahoe/spooles/src-mirror/IVL/IVL.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/IVL/IVL.subIVL.c /home/saman/Tahoe/spooles/src-mirror/IVL/IVL.subIVL.c
-ln -sf /home/saman/Tahoe/spooles/src/IVL/IVL.misc.c /home/saman/Tahoe/spooles/src-mirror/IVL/IVL.misc.c
-ln -sf /home/saman/Tahoe/spooles/src/IVL/IVL.basics.c /home/saman/Tahoe/spooles/src-mirror/IVL/IVL.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/IVL/makefile /home/saman/Tahoe/spooles/src-mirror/IVL/makefile
-ln -sf /home/saman/Tahoe/spooles/src/IVL/IVL.util.c /home/saman/Tahoe/spooles/src-mirror/IVL/IVL.util.c
-ln -sf /home/saman/Tahoe/spooles/src/IVL/IVL.listmanip.c /home/saman/Tahoe/spooles/src-mirror/IVL/IVL.listmanip.c
-ln -sf /home/saman/Tahoe/spooles/src/IVL/IVL.instance.c /home/saman/Tahoe/spooles/src-mirror/IVL/IVL.instance.c
-ln -sf /home/saman/Tahoe/spooles/src/IVL/IVL.h /home/saman/Tahoe/spooles/src-mirror/IVL/IVL.h
-processing directory /home/saman/Tahoe/spooles/src/ChvManager
-found destination directory /home/saman/Tahoe/spooles/src-mirror/ChvManager
-     source directory: /home/saman/Tahoe/spooles/src/ChvManager
-destination directory: /home/saman/Tahoe/spooles/src-mirror/ChvManager
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/ChvManager
-found destination directory /home/saman/Tahoe/spooles/src-mirror/ChvManager
-ln -sf /home/saman/Tahoe/spooles/src/ChvManager/ChvManager.h /home/saman/Tahoe/spooles/src-mirror/ChvManager/ChvManager.h
-ln -sf /home/saman/Tahoe/spooles/src/ChvManager/ChvManager.util.c /home/saman/Tahoe/spooles/src-mirror/ChvManager/ChvManager.util.c
-ln -sf /home/saman/Tahoe/spooles/src/ChvManager/ChvManager.IO.c /home/saman/Tahoe/spooles/src-mirror/ChvManager/ChvManager.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/ChvManager/ChvManager.basics.c /home/saman/Tahoe/spooles/src-mirror/ChvManager/ChvManager.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/ChvManager/ChvManager.init.c /home/saman/Tahoe/spooles/src-mirror/ChvManager/ChvManager.init.c
-ln -sf /home/saman/Tahoe/spooles/src/ChvManager/makefile /home/saman/Tahoe/spooles/src-mirror/ChvManager/makefile
-processing directory /home/saman/Tahoe/spooles/src/Pencil
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Pencil
-     source directory: /home/saman/Tahoe/spooles/src/Pencil
-destination directory: /home/saman/Tahoe/spooles/src-mirror/Pencil
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/Pencil
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Pencil
-ln -sf /home/saman/Tahoe/spooles/src/Pencil/Pencil.h /home/saman/Tahoe/spooles/src-mirror/Pencil/Pencil.h
-ln -sf /home/saman/Tahoe/spooles/src/Pencil/Pencil.init.c /home/saman/Tahoe/spooles/src-mirror/Pencil/Pencil.init.c
-ln -sf /home/saman/Tahoe/spooles/src/Pencil/Pencil.permute.c /home/saman/Tahoe/spooles/src-mirror/Pencil/Pencil.permute.c
-ln -sf /home/saman/Tahoe/spooles/src/Pencil/Pencil.util.c /home/saman/Tahoe/spooles/src-mirror/Pencil/Pencil.util.c
-ln -sf /home/saman/Tahoe/spooles/src/Pencil/Pencil.mmm.c /home/saman/Tahoe/spooles/src-mirror/Pencil/Pencil.mmm.c
-ln -sf /home/saman/Tahoe/spooles/src/Pencil/Pencil.IO.c /home/saman/Tahoe/spooles/src-mirror/Pencil/Pencil.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/Pencil/Pencil.basics.c /home/saman/Tahoe/spooles/src-mirror/Pencil/Pencil.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/Pencil/Pencil.setup.c /home/saman/Tahoe/spooles/src-mirror/Pencil/Pencil.setup.c
-ln -sf /home/saman/Tahoe/spooles/src/Pencil/makefile /home/saman/Tahoe/spooles/src-mirror/Pencil/makefile
-processing directory /home/saman/Tahoe/spooles/src/Coords
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Coords
-     source directory: /home/saman/Tahoe/spooles/src/Coords
-destination directory: /home/saman/Tahoe/spooles/src-mirror/Coords
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/Coords
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Coords
-ln -sf /home/saman/Tahoe/spooles/src/Coords/Coords.h /home/saman/Tahoe/spooles/src-mirror/Coords/Coords.h
-ln -sf /home/saman/Tahoe/spooles/src/Coords/Coords.init.c /home/saman/Tahoe/spooles/src-mirror/Coords/Coords.init.c
-ln -sf /home/saman/Tahoe/spooles/src/Coords/Coords.IO.c /home/saman/Tahoe/spooles/src-mirror/Coords/Coords.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/Coords/makefile /home/saman/Tahoe/spooles/src-mirror/Coords/makefile
-ln -sf /home/saman/Tahoe/spooles/src/Coords/Coords.basics.c /home/saman/Tahoe/spooles/src-mirror/Coords/Coords.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/Coords/Coords.util.c /home/saman/Tahoe/spooles/src-mirror/Coords/Coords.util.c
-processing directory /home/saman/Tahoe/spooles/src/Graph
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Graph
-     source directory: /home/saman/Tahoe/spooles/src/Graph
-destination directory: /home/saman/Tahoe/spooles/src-mirror/Graph
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/Graph
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Graph
-ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.compress.c /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.compress.c
-ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.IO.c /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.h /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.h
-ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.basics.c /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.setListsFromOffsets.c /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.setListsFromOffsets.c
-ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.fillFromOffsets.c /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.fillFromOffsets.c
-ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.expand.c /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.expand.c
-ln -sf /home/saman/Tahoe/spooles/src/Graph/makefile /home/saman/Tahoe/spooles/src-mirror/Graph/makefile
-ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.equivMap.c /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.equivMap.c
-ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.init.c /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.init.c
-ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.wirebasket.c /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.wirebasket.c
-ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.util.c /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.util.c
-processing directory /home/saman/Tahoe/spooles/src/IIheap
-found destination directory /home/saman/Tahoe/spooles/src-mirror/IIheap
-     source directory: /home/saman/Tahoe/spooles/src/IIheap
-destination directory: /home/saman/Tahoe/spooles/src-mirror/IIheap
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/IIheap
-found destination directory /home/saman/Tahoe/spooles/src-mirror/IIheap
-ln -sf /home/saman/Tahoe/spooles/src/IIheap/IIheap.h /home/saman/Tahoe/spooles/src-mirror/IIheap/IIheap.h
-ln -sf /home/saman/Tahoe/spooles/src/IIheap/makefile /home/saman/Tahoe/spooles/src-mirror/IIheap/makefile
-ln -sf /home/saman/Tahoe/spooles/src/IIheap/IIheap.basics.c /home/saman/Tahoe/spooles/src-mirror/IIheap/IIheap.basics.c
-processing directory /home/saman/Tahoe/spooles/src/Tree
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Tree
-     source directory: /home/saman/Tahoe/spooles/src/Tree
-destination directory: /home/saman/Tahoe/spooles/src-mirror/Tree
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/Tree
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Tree
-ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.maximizeGain.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.maximizeGain.c
-ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.perms.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.perms.c
-ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.getCoords.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.getCoords.c
-ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.justify.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.justify.c
-ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.IO.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.metrics.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.metrics.c
-ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.instance.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.instance.c
-ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.basics.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.subtree.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.subtree.c
-ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.h /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.h
-ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.init.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.init.c
-ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.compress.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.compress.c
-ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.util.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.util.c
-ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.draw.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.draw.c
-ln -sf /home/saman/Tahoe/spooles/src/Tree/makefile /home/saman/Tahoe/spooles/src-mirror/Tree/makefile
-ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.permute.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.permute.c
-processing directory /home/saman/Tahoe/spooles/src/DenseMtx
-found destination directory /home/saman/Tahoe/spooles/src-mirror/DenseMtx
-     source directory: /home/saman/Tahoe/spooles/src/DenseMtx
-destination directory: /home/saman/Tahoe/spooles/src-mirror/DenseMtx
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/DenseMtx
-found destination directory /home/saman/Tahoe/spooles/src-mirror/DenseMtx
-ln -sf /home/saman/Tahoe/spooles/src/DenseMtx/DenseMtx.scale.c /home/saman/Tahoe/spooles/src-mirror/DenseMtx/DenseMtx.scale.c
-ln -sf /home/saman/Tahoe/spooles/src/DenseMtx/DenseMtx.instance.c /home/saman/Tahoe/spooles/src-mirror/DenseMtx/DenseMtx.instance.c
-ln -sf /home/saman/Tahoe/spooles/src/DenseMtx/DenseMtx.init.c /home/saman/Tahoe/spooles/src-mirror/DenseMtx/DenseMtx.init.c
-ln -sf /home/saman/Tahoe/spooles/src/DenseMtx/DenseMtx.basics.c /home/saman/Tahoe/spooles/src-mirror/DenseMtx/DenseMtx.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/DenseMtx/DenseMtx.util.c /home/saman/Tahoe/spooles/src-mirror/DenseMtx/DenseMtx.util.c
-ln -sf /home/saman/Tahoe/spooles/src/DenseMtx/DenseMtx.initAsSubmtx.c /home/saman/Tahoe/spooles/src-mirror/DenseMtx/DenseMtx.initAsSubmtx.c
-ln -sf /home/saman/Tahoe/spooles/src/DenseMtx/DenseMtx.IO.c /home/saman/Tahoe/spooles/src-mirror/DenseMtx/DenseMtx.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/DenseMtx/DenseMtx.permute.c /home/saman/Tahoe/spooles/src-mirror/DenseMtx/DenseMtx.permute.c
-ln -sf /home/saman/Tahoe/spooles/src/DenseMtx/makefile /home/saman/Tahoe/spooles/src-mirror/DenseMtx/makefile
-ln -sf /home/saman/Tahoe/spooles/src/DenseMtx/DenseMtx.h /home/saman/Tahoe/spooles/src-mirror/DenseMtx/DenseMtx.h
-ln -sf /home/saman/Tahoe/spooles/src/spooles.2.2.html /home/saman/Tahoe/spooles/src-mirror/spooles.2.2.html
-ln -sf /home/saman/Tahoe/spooles/src/cfiles.h /home/saman/Tahoe/spooles/src-mirror/cfiles.h
-processing directory /home/saman/Tahoe/spooles/src/Iter
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Iter
-     source directory: /home/saman/Tahoe/spooles/src/Iter
-destination directory: /home/saman/Tahoe/spooles/src-mirror/Iter
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/Iter
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Iter
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.zmlbicgstabr.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.zmlbicgstabr.c
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.bicgstabr.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.bicgstabr.c
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.zmlbicgstabl.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.zmlbicgstabl.c
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.zbicgstabr.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.zbicgstabr.c
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.DenseMtx_mmm.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.DenseMtx_mmm.c
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.ztfqmrl.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.ztfqmrl.c
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.h /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.h
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.zpcgl.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.zpcgl.c
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.util.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.util.c
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.bgmresl.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.bgmresl.c
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.tfqmrr.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.tfqmrr.c
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.bgmresr.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.bgmresr.c
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.mlbicgstabr.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.mlbicgstabr.c
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.mlbicgstabl.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.mlbicgstabl.c
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.bicgstabl.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.bicgstabl.c
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.pcgr.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.pcgr.c
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.ztfqmrr.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.ztfqmrr.c
-ln -sf /home/saman/Tahoe/spooles/src/Iter/makefile /home/saman/Tahoe/spooles/src-mirror/Iter/makefile
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.zbicgstabl.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.zbicgstabl.c
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.zpcgr.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.zpcgr.c
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.tfqmrl.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.tfqmrl.c
-ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.pcgl.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.pcgl.c
-processing directory /home/saman/Tahoe/spooles/src/ZV
-found destination directory /home/saman/Tahoe/spooles/src-mirror/ZV
-     source directory: /home/saman/Tahoe/spooles/src/ZV
-destination directory: /home/saman/Tahoe/spooles/src-mirror/ZV
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/ZV
-found destination directory /home/saman/Tahoe/spooles/src-mirror/ZV
-ln -sf /home/saman/Tahoe/spooles/src/ZV/ZV.init.c /home/saman/Tahoe/spooles/src-mirror/ZV/ZV.init.c
-ln -sf /home/saman/Tahoe/spooles/src/ZV/ZV.h /home/saman/Tahoe/spooles/src-mirror/ZV/ZV.h
-ln -sf /home/saman/Tahoe/spooles/src/ZV/ZV.IO.c /home/saman/Tahoe/spooles/src-mirror/ZV/ZV.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/ZV/ZV.instance.c /home/saman/Tahoe/spooles/src-mirror/ZV/ZV.instance.c
-ln -sf /home/saman/Tahoe/spooles/src/ZV/ZV.profile.c /home/saman/Tahoe/spooles/src-mirror/ZV/ZV.profile.c
-ln -sf /home/saman/Tahoe/spooles/src/ZV/ZV.util.c /home/saman/Tahoe/spooles/src-mirror/ZV/ZV.util.c
-ln -sf /home/saman/Tahoe/spooles/src/ZV/makefile /home/saman/Tahoe/spooles/src-mirror/ZV/makefile
-ln -sf /home/saman/Tahoe/spooles/src/ZV/ZV.basics.c /home/saman/Tahoe/spooles/src-mirror/ZV/ZV.basics.c
-processing directory /home/saman/Tahoe/spooles/src/IV
-found destination directory /home/saman/Tahoe/spooles/src-mirror/IV
-     source directory: /home/saman/Tahoe/spooles/src/IV
-destination directory: /home/saman/Tahoe/spooles/src-mirror/IV
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/IV
-found destination directory /home/saman/Tahoe/spooles/src-mirror/IV
-ln -sf /home/saman/Tahoe/spooles/src/IV/IV.instance.c /home/saman/Tahoe/spooles/src-mirror/IV/IV.instance.c
-ln -sf /home/saman/Tahoe/spooles/src/IV/IV.basics.c /home/saman/Tahoe/spooles/src-mirror/IV/IV.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/IV/IV.util.c /home/saman/Tahoe/spooles/src-mirror/IV/IV.util.c
-ln -sf /home/saman/Tahoe/spooles/src/IV/IV.IO.c /home/saman/Tahoe/spooles/src-mirror/IV/IV.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/IV/IV.h /home/saman/Tahoe/spooles/src-mirror/IV/IV.h
-ln -sf /home/saman/Tahoe/spooles/src/IV/makefile /home/saman/Tahoe/spooles/src-mirror/IV/makefile
-ln -sf /home/saman/Tahoe/spooles/src/IV/IV.init.c /home/saman/Tahoe/spooles/src-mirror/IV/IV.init.c
+found source directory /home/saman/Tahoe/spooles/src/misc
+found destination directory /home/saman/Tahoe/spooles/src-mirror/misc
+ln -sf /home/saman/Tahoe/spooles/src/misc/misc.drawGraphEPS.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.drawGraphEPS.c
+ln -sf /home/saman/Tahoe/spooles/src/misc/misc.h /home/saman/Tahoe/spooles/src-mirror/misc/misc.h
+ln -sf /home/saman/Tahoe/spooles/src/misc/misc.mkNDlinsysQR.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.mkNDlinsysQR.c
+ln -sf /home/saman/Tahoe/spooles/src/misc/misc.localND.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.localND.c
+ln -sf /home/saman/Tahoe/spooles/src/misc/misc.fpgrids.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.fpgrids.c
+ln -sf /home/saman/Tahoe/spooles/src/misc/misc.orderViaMS.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.orderViaMS.c
+ln -sf /home/saman/Tahoe/spooles/src/misc/misc.orderViaBestOfNDandMS.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.orderViaBestOfNDandMS.c
+ln -sf /home/saman/Tahoe/spooles/src/misc/misc.ND.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.ND.c
+ln -sf /home/saman/Tahoe/spooles/src/misc/makefile /home/saman/Tahoe/spooles/src-mirror/misc/makefile
+ln -sf /home/saman/Tahoe/spooles/src/misc/misc.orderViaND.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.orderViaND.c
+ln -sf /home/saman/Tahoe/spooles/src/misc/misc.orderViaMMD.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.orderViaMMD.c
+ln -sf /home/saman/Tahoe/spooles/src/misc/misc.mkNDlinsys.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.mkNDlinsys.c
+ln -sf /home/saman/Tahoe/spooles/src/misc/misc.ND2.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.ND2.c
 processing directory /home/saman/Tahoe/spooles/src/EGraph
 found destination directory /home/saman/Tahoe/spooles/src-mirror/EGraph
      source directory: /home/saman/Tahoe/spooles/src/EGraph
@@ -395,49 +202,47 @@ found source directory /home/saman/Tahoe/spooles/src/EGraph
 found destination directory /home/saman/Tahoe/spooles/src-mirror/EGraph
 ln -sf /home/saman/Tahoe/spooles/src/EGraph/EGraph.h /home/saman/Tahoe/spooles/src-mirror/EGraph/EGraph.h
 ln -sf /home/saman/Tahoe/spooles/src/EGraph/EGraph.init.c /home/saman/Tahoe/spooles/src-mirror/EGraph/EGraph.init.c
+ln -sf /home/saman/Tahoe/spooles/src/EGraph/EGraph.basics.c /home/saman/Tahoe/spooles/src-mirror/EGraph/EGraph.basics.c
 ln -sf /home/saman/Tahoe/spooles/src/EGraph/EGraph.mkAdjGraph.c /home/saman/Tahoe/spooles/src-mirror/EGraph/EGraph.mkAdjGraph.c
-ln -sf /home/saman/Tahoe/spooles/src/EGraph/EGraph.IO.c /home/saman/Tahoe/spooles/src-mirror/EGraph/EGraph.IO.c
 ln -sf /home/saman/Tahoe/spooles/src/EGraph/EGraph.misc.c /home/saman/Tahoe/spooles/src-mirror/EGraph/EGraph.misc.c
 ln -sf /home/saman/Tahoe/spooles/src/EGraph/makefile /home/saman/Tahoe/spooles/src-mirror/EGraph/makefile
-ln -sf /home/saman/Tahoe/spooles/src/EGraph/EGraph.basics.c /home/saman/Tahoe/spooles/src-mirror/EGraph/EGraph.basics.c
-processing directory /home/saman/Tahoe/spooles/src/SubMtxManager
-found destination directory /home/saman/Tahoe/spooles/src-mirror/SubMtxManager
-     source directory: /home/saman/Tahoe/spooles/src/SubMtxManager
-destination directory: /home/saman/Tahoe/spooles/src-mirror/SubMtxManager
+ln -sf /home/saman/Tahoe/spooles/src/EGraph/EGraph.IO.c /home/saman/Tahoe/spooles/src-mirror/EGraph/EGraph.IO.c
+processing directory /home/saman/Tahoe/spooles/src/Tree
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Tree
+     source directory: /home/saman/Tahoe/spooles/src/Tree
+destination directory: /home/saman/Tahoe/spooles/src-mirror/Tree
            ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/SubMtxManager
-found destination directory /home/saman/Tahoe/spooles/src-mirror/SubMtxManager
-ln -sf /home/saman/Tahoe/spooles/src/SubMtxManager/SubMtxManager.basics.c /home/saman/Tahoe/spooles/src-mirror/SubMtxManager/SubMtxManager.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtxManager/SubMtxManager.util.c /home/saman/Tahoe/spooles/src-mirror/SubMtxManager/SubMtxManager.util.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtxManager/SubMtxManager.h /home/saman/Tahoe/spooles/src-mirror/SubMtxManager/SubMtxManager.h
-ln -sf /home/saman/Tahoe/spooles/src/SubMtxManager/SubMtxManager.IO.c /home/saman/Tahoe/spooles/src-mirror/SubMtxManager/SubMtxManager.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtxManager/SubMtxManager.init.c /home/saman/Tahoe/spooles/src-mirror/SubMtxManager/SubMtxManager.init.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtxManager/makefile /home/saman/Tahoe/spooles/src-mirror/SubMtxManager/makefile
-processing directory /home/saman/Tahoe/spooles/src/Ideq
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Ideq
-     source directory: /home/saman/Tahoe/spooles/src/Ideq
-destination directory: /home/saman/Tahoe/spooles/src-mirror/Ideq
+found source directory /home/saman/Tahoe/spooles/src/Tree
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Tree
+ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.IO.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.util.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.util.c
+ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.h /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.h
+ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.permute.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.permute.c
+ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.maximizeGain.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.maximizeGain.c
+ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.instance.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.instance.c
+ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.basics.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.perms.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.perms.c
+ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.subtree.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.subtree.c
+ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.metrics.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.metrics.c
+ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.init.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.init.c
+ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.getCoords.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.getCoords.c
+ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.justify.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.justify.c
+ln -sf /home/saman/Tahoe/spooles/src/Tree/makefile /home/saman/Tahoe/spooles/src-mirror/Tree/makefile
+ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.draw.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.draw.c
+ln -sf /home/saman/Tahoe/spooles/src/Tree/Tree.compress.c /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.compress.c
+processing directory /home/saman/Tahoe/spooles/src/I2Ohash
+found destination directory /home/saman/Tahoe/spooles/src-mirror/I2Ohash
+     source directory: /home/saman/Tahoe/spooles/src/I2Ohash
+destination directory: /home/saman/Tahoe/spooles/src-mirror/I2Ohash
            ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/Ideq
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Ideq
-ln -sf /home/saman/Tahoe/spooles/src/Ideq/Ideq.IO.c /home/saman/Tahoe/spooles/src-mirror/Ideq/Ideq.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/Ideq/Ideq.basics.c /home/saman/Tahoe/spooles/src-mirror/Ideq/Ideq.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/Ideq/makefile /home/saman/Tahoe/spooles/src-mirror/Ideq/makefile
-ln -sf /home/saman/Tahoe/spooles/src/Ideq/Ideq.resize.c /home/saman/Tahoe/spooles/src-mirror/Ideq/Ideq.resize.c
-ln -sf /home/saman/Tahoe/spooles/src/Ideq/Ideq.h /home/saman/Tahoe/spooles/src-mirror/Ideq/Ideq.h
-ln -sf /home/saman/Tahoe/spooles/src/Ideq/Ideq.util.c /home/saman/Tahoe/spooles/src-mirror/Ideq/Ideq.util.c
-processing directory /home/saman/Tahoe/spooles/src/Lock
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Lock
-     source directory: /home/saman/Tahoe/spooles/src/Lock
-destination directory: /home/saman/Tahoe/spooles/src-mirror/Lock
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/Lock
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Lock
-ln -sf /home/saman/Tahoe/spooles/src/Lock/Lock.basics.c /home/saman/Tahoe/spooles/src-mirror/Lock/Lock.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/Lock/Lock.init.c /home/saman/Tahoe/spooles/src-mirror/Lock/Lock.init.c
-ln -sf /home/saman/Tahoe/spooles/src/Lock/Lock.h /home/saman/Tahoe/spooles/src-mirror/Lock/Lock.h
-ln -sf /home/saman/Tahoe/spooles/src/Lock/Lock.util.c /home/saman/Tahoe/spooles/src-mirror/Lock/Lock.util.c
-ln -sf /home/saman/Tahoe/spooles/src/Lock/makefile /home/saman/Tahoe/spooles/src-mirror/Lock/makefile
+found source directory /home/saman/Tahoe/spooles/src/I2Ohash
+found destination directory /home/saman/Tahoe/spooles/src-mirror/I2Ohash
+ln -sf /home/saman/Tahoe/spooles/src/I2Ohash/I2Ohash.init.c /home/saman/Tahoe/spooles/src-mirror/I2Ohash/I2Ohash.init.c
+ln -sf /home/saman/Tahoe/spooles/src/I2Ohash/I2Ohash.IO.c /home/saman/Tahoe/spooles/src-mirror/I2Ohash/I2Ohash.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/I2Ohash/I2Ohash.util.c /home/saman/Tahoe/spooles/src-mirror/I2Ohash/I2Ohash.util.c
+ln -sf /home/saman/Tahoe/spooles/src/I2Ohash/I2Ohash.basics.c /home/saman/Tahoe/spooles/src-mirror/I2Ohash/I2Ohash.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/I2Ohash/makefile /home/saman/Tahoe/spooles/src-mirror/I2Ohash/makefile
+ln -sf /home/saman/Tahoe/spooles/src/I2Ohash/I2Ohash.h /home/saman/Tahoe/spooles/src-mirror/I2Ohash/I2Ohash.h
 processing directory /home/saman/Tahoe/spooles/src/drivers
 found destination directory /home/saman/Tahoe/spooles/src-mirror/drivers
      source directory: /home/saman/Tahoe/spooles/src/drivers
@@ -445,251 +250,62 @@ destination directory: /home/saman/Tahoe/spooles/src-mirror/drivers
            ln command: ln -sf
 found source directory /home/saman/Tahoe/spooles/src/drivers
 found destination directory /home/saman/Tahoe/spooles/src-mirror/drivers
-ln -sf /home/saman/Tahoe/spooles/src/drivers/LU_serial_driver_factorize.c /home/saman/Tahoe/spooles/src-mirror/drivers/LU_serial_driver_factorize.c
-ln -sf /home/saman/Tahoe/spooles/src/drivers/LU_serial_driver.h /home/saman/Tahoe/spooles/src-mirror/drivers/LU_serial_driver.h
-ln -sf /home/saman/Tahoe/spooles/src/drivers/LU_serial_driver.c /home/saman/Tahoe/spooles/src-mirror/drivers/LU_serial_driver.c
-ln -sf /home/saman/Tahoe/spooles/src/drivers/LU_serial_driver_init.c /home/saman/Tahoe/spooles/src-mirror/drivers/LU_serial_driver_init.c
-ln -sf /home/saman/Tahoe/spooles/src/drivers/LU_serial_driver_solve.c /home/saman/Tahoe/spooles/src-mirror/drivers/LU_serial_driver_solve.c
-ln -sf /home/saman/Tahoe/spooles/src/drivers/LU_serial_driver_free.c /home/saman/Tahoe/spooles/src-mirror/drivers/LU_serial_driver_free.c
-ln -sf /home/saman/Tahoe/spooles/src/drivers/makefile /home/saman/Tahoe/spooles/src-mirror/drivers/makefile
 ln -sf /home/saman/Tahoe/spooles/src/drivers/LU_serial_driver_int.h /home/saman/Tahoe/spooles/src-mirror/drivers/LU_serial_driver_int.h
-processing directory /home/saman/Tahoe/spooles/src/FrontMtx
-found destination directory /home/saman/Tahoe/spooles/src-mirror/FrontMtx
-     source directory: /home/saman/Tahoe/spooles/src/FrontMtx
-destination directory: /home/saman/Tahoe/spooles/src-mirror/FrontMtx
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/FrontMtx
-found destination directory /home/saman/Tahoe/spooles/src-mirror/FrontMtx
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.storeFront.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.storeFront.c
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.h /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.h
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.QRfactor.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.QRfactor.c
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.postponed.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.postponed.c
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.util.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.util.c
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.loadEntries.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.loadEntries.c
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.instance.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.instance.c
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.permute.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.permute.c
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.factor.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.factor.c
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.QRutil.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.QRutil.c
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.solve.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.solve.c
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.update.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.update.c
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.QRsolve.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.QRsolve.c
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.postProcess.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.postProcess.c
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/makefile /home/saman/Tahoe/spooles/src-mirror/FrontMtx/makefile
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.solveUtil.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.solveUtil.c
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.init.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.init.c
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.IO.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.split.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.split.c
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.basics.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/FrontMtx/FrontMtx.factorUtil.c /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.factorUtil.c
-processing directory /home/saman/Tahoe/spooles/src/Utilities
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Utilities
-     source directory: /home/saman/Tahoe/spooles/src/Utilities
-destination directory: /home/saman/Tahoe/spooles/src-mirror/Utilities
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/Utilities
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Utilities
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/util_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/util_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/IV_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/IV_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/I2OP_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/I2OP_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.axpy.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.axpy.c
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.FV.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.FV.c
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.h /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/axpy_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/axpy_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.newsort.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.newsort.c
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/iohb_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/iohb_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/PCV_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/PCV_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.PCV.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.PCV.c
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.DV.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.DV.c
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.IP.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.IP.c
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.sortAndCompress.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.sortAndCompress.c
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.ZV.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.ZV.c
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/mdot_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/mdot_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.PIV.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.PIV.c
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/DLIST_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/DLIST_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/DVsort_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/DVsort_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.CV.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.CV.c
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/PDV_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/PDV_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/IP_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/IP_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/FileType_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/FileType_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.PFV.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.PFV.c
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/newsort_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/newsort_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/FV_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/FV_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/DV_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/DV_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/ND_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/ND_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/MM_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/MM_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/makefile /home/saman/Tahoe/spooles/src-mirror/Utilities/makefile
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/ZV_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/ZV_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.PDV.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.PDV.c
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/PFV_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/PFV_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/CV_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/CV_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.I2OP.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.I2OP.c
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/misc_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/misc_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/IVsort_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/IVsort_.h
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.IV.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.IV.c
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.iohb.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.iohb.c
-ln -sf /home/saman/Tahoe/spooles/src/Utilities/PIV_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/PIV_.h
-processing directory /home/saman/Tahoe/spooles/src/InpMtx
-found destination directory /home/saman/Tahoe/spooles/src-mirror/InpMtx
-     source directory: /home/saman/Tahoe/spooles/src/InpMtx
-destination directory: /home/saman/Tahoe/spooles/src-mirror/InpMtx
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/InpMtx
-found destination directory /home/saman/Tahoe/spooles/src-mirror/InpMtx
-ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.h /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.h
-ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.mvmVector.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.mvmVector.c
-ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.extract.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.extract.c
-ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.profile.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.profile.c
-ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.map.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.map.c
-ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.permute.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.permute.c
-ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.fullAdj.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.fullAdj.c
-ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.input.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.input.c
-ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.support.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.support.c
-ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.adjForATA.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.adjForATA.c
-ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.IO.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.mvm.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.mvm.c
-ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.basics.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.gmmm.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.gmmm.c
-ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.init.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.init.c
-ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.gmvm.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.gmvm.c
-ln -sf /home/saman/Tahoe/spooles/src/InpMtx/makefile /home/saman/Tahoe/spooles/src-mirror/InpMtx/makefile
-ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.util.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.util.c
-ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.instance.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.instance.c
-ln -sf /home/saman/Tahoe/spooles/src/Make.inc /home/saman/Tahoe/spooles/src-mirror/Make.inc
-processing directory /home/saman/Tahoe/spooles/src/SolveMap
-found destination directory /home/saman/Tahoe/spooles/src-mirror/SolveMap
-     source directory: /home/saman/Tahoe/spooles/src/SolveMap
-destination directory: /home/saman/Tahoe/spooles/src-mirror/SolveMap
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/SolveMap
-found destination directory /home/saman/Tahoe/spooles/src-mirror/SolveMap
-ln -sf /home/saman/Tahoe/spooles/src/SolveMap/SolveMap.basics.c /home/saman/Tahoe/spooles/src-mirror/SolveMap/SolveMap.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/SolveMap/SolveMap.IO.c /home/saman/Tahoe/spooles/src-mirror/SolveMap/SolveMap.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/SolveMap/SolveMap.instance.c /home/saman/Tahoe/spooles/src-mirror/SolveMap/SolveMap.instance.c
-ln -sf /home/saman/Tahoe/spooles/src/SolveMap/SolveMap.init.c /home/saman/Tahoe/spooles/src-mirror/SolveMap/SolveMap.init.c
-ln -sf /home/saman/Tahoe/spooles/src/SolveMap/SolveMap.maps.c /home/saman/Tahoe/spooles/src-mirror/SolveMap/SolveMap.maps.c
-ln -sf /home/saman/Tahoe/spooles/src/SolveMap/SolveMap.setup.c /home/saman/Tahoe/spooles/src-mirror/SolveMap/SolveMap.setup.c
-ln -sf /home/saman/Tahoe/spooles/src/SolveMap/SolveMap.util.c /home/saman/Tahoe/spooles/src-mirror/SolveMap/SolveMap.util.c
-ln -sf /home/saman/Tahoe/spooles/src/SolveMap/makefile /home/saman/Tahoe/spooles/src-mirror/SolveMap/makefile
-ln -sf /home/saman/Tahoe/spooles/src/SolveMap/SolveMap.h /home/saman/Tahoe/spooles/src-mirror/SolveMap/SolveMap.h
-ln -sf /home/saman/Tahoe/spooles/src/makefile /home/saman/Tahoe/spooles/src-mirror/makefile
-processing directory /home/saman/Tahoe/spooles/src/Chv
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Chv
-     source directory: /home/saman/Tahoe/spooles/src/Chv
-destination directory: /home/saman/Tahoe/spooles/src-mirror/Chv
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/Chv
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Chv
-ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.swap.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.swap.c
-ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.update.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.update.c
-ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.instance.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.instance.c
-ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.assemble.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.assemble.c
-ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.factor.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.factor.c
-ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.h /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.h
-ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.init.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.init.c
-ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.IO.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.copy.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.copy.c
-ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.basics.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/Chv/makefile /home/saman/Tahoe/spooles/src-mirror/Chv/makefile
-ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.findPivot.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.findPivot.c
-ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.search.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.search.c
-ln -sf /home/saman/Tahoe/spooles/src/Chv/Chv.util.c /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.util.c
+ln -sf /home/saman/Tahoe/spooles/src/drivers/LU_serial_driver_factorize.c /home/saman/Tahoe/spooles/src-mirror/drivers/LU_serial_driver_factorize.c
+ln -sf /home/saman/Tahoe/spooles/src/drivers/LU_serial_driver_init.c /home/saman/Tahoe/spooles/src-mirror/drivers/LU_serial_driver_init.c
+ln -sf /home/saman/Tahoe/spooles/src/drivers/LU_serial_driver.c /home/saman/Tahoe/spooles/src-mirror/drivers/LU_serial_driver.c
+ln -sf /home/saman/Tahoe/spooles/src/drivers/LU_serial_driver_solve.c /home/saman/Tahoe/spooles/src-mirror/drivers/LU_serial_driver_solve.c
+ln -sf /home/saman/Tahoe/spooles/src/drivers/makefile /home/saman/Tahoe/spooles/src-mirror/drivers/makefile
+ln -sf /home/saman/Tahoe/spooles/src/drivers/LU_serial_driver.h /home/saman/Tahoe/spooles/src-mirror/drivers/LU_serial_driver.h
+ln -sf /home/saman/Tahoe/spooles/src/drivers/LU_serial_driver_free.c /home/saman/Tahoe/spooles/src-mirror/drivers/LU_serial_driver_free.c
 ln -sf /home/saman/Tahoe/spooles/src/SPOOLES.h /home/saman/Tahoe/spooles/src-mirror/SPOOLES.h
-ln -sf /home/saman/Tahoe/spooles/src/makeLib /home/saman/Tahoe/spooles/src-mirror/makeLib
-processing directory /home/saman/Tahoe/spooles/src/A2
-found destination directory /home/saman/Tahoe/spooles/src-mirror/A2
-     source directory: /home/saman/Tahoe/spooles/src/A2
-destination directory: /home/saman/Tahoe/spooles/src-mirror/A2
+processing directory /home/saman/Tahoe/spooles/src/Pencil
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Pencil
+     source directory: /home/saman/Tahoe/spooles/src/Pencil
+destination directory: /home/saman/Tahoe/spooles/src-mirror/Pencil
            ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/A2
-found destination directory /home/saman/Tahoe/spooles/src-mirror/A2
-ln -sf /home/saman/Tahoe/spooles/src/A2/A2.h /home/saman/Tahoe/spooles/src-mirror/A2/A2.h
-ln -sf /home/saman/Tahoe/spooles/src/A2/A2.init.c /home/saman/Tahoe/spooles/src-mirror/A2/A2.init.c
-ln -sf /home/saman/Tahoe/spooles/src/A2/A2.sort.c /home/saman/Tahoe/spooles/src-mirror/A2/A2.sort.c
-ln -sf /home/saman/Tahoe/spooles/src/A2/A2.norms.c /home/saman/Tahoe/spooles/src-mirror/A2/A2.norms.c
-ln -sf /home/saman/Tahoe/spooles/src/A2/A2.copyEntriesToVector.c /home/saman/Tahoe/spooles/src-mirror/A2/A2.copyEntriesToVector.c
-ln -sf /home/saman/Tahoe/spooles/src/A2/A2.instance.c /home/saman/Tahoe/spooles/src-mirror/A2/A2.instance.c
-ln -sf /home/saman/Tahoe/spooles/src/A2/A2.QRreduce.c /home/saman/Tahoe/spooles/src-mirror/A2/A2.QRreduce.c
-ln -sf /home/saman/Tahoe/spooles/src/A2/A2.basics.c /home/saman/Tahoe/spooles/src-mirror/A2/A2.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/A2/A2.util.c /home/saman/Tahoe/spooles/src-mirror/A2/A2.util.c
-ln -sf /home/saman/Tahoe/spooles/src/A2/A2.IO.c /home/saman/Tahoe/spooles/src-mirror/A2/A2.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/A2/makefile /home/saman/Tahoe/spooles/src-mirror/A2/makefile
-ln -sf /home/saman/Tahoe/spooles/src/A2/A2.makeStaircase.c /home/saman/Tahoe/spooles/src-mirror/A2/A2.makeStaircase.c
-processing directory /home/saman/Tahoe/spooles/src/SemiImplMtx
-found destination directory /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx
-     source directory: /home/saman/Tahoe/spooles/src/SemiImplMtx
-destination directory: /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx
+found source directory /home/saman/Tahoe/spooles/src/Pencil
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Pencil
+ln -sf /home/saman/Tahoe/spooles/src/Pencil/Pencil.IO.c /home/saman/Tahoe/spooles/src-mirror/Pencil/Pencil.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/Pencil/Pencil.h /home/saman/Tahoe/spooles/src-mirror/Pencil/Pencil.h
+ln -sf /home/saman/Tahoe/spooles/src/Pencil/Pencil.util.c /home/saman/Tahoe/spooles/src-mirror/Pencil/Pencil.util.c
+ln -sf /home/saman/Tahoe/spooles/src/Pencil/Pencil.mmm.c /home/saman/Tahoe/spooles/src-mirror/Pencil/Pencil.mmm.c
+ln -sf /home/saman/Tahoe/spooles/src/Pencil/Pencil.init.c /home/saman/Tahoe/spooles/src-mirror/Pencil/Pencil.init.c
+ln -sf /home/saman/Tahoe/spooles/src/Pencil/Pencil.basics.c /home/saman/Tahoe/spooles/src-mirror/Pencil/Pencil.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/Pencil/Pencil.permute.c /home/saman/Tahoe/spooles/src-mirror/Pencil/Pencil.permute.c
+ln -sf /home/saman/Tahoe/spooles/src/Pencil/makefile /home/saman/Tahoe/spooles/src-mirror/Pencil/makefile
+ln -sf /home/saman/Tahoe/spooles/src/Pencil/Pencil.setup.c /home/saman/Tahoe/spooles/src-mirror/Pencil/Pencil.setup.c
+processing directory /home/saman/Tahoe/spooles/src/IV
+found destination directory /home/saman/Tahoe/spooles/src-mirror/IV
+     source directory: /home/saman/Tahoe/spooles/src/IV
+destination directory: /home/saman/Tahoe/spooles/src-mirror/IV
            ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/SemiImplMtx
-found destination directory /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx
-ln -sf /home/saman/Tahoe/spooles/src/SemiImplMtx/SemiImplMtx.init.c /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx/SemiImplMtx.init.c
-ln -sf /home/saman/Tahoe/spooles/src/SemiImplMtx/SemiImplMtx.util.c /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx/SemiImplMtx.util.c
-ln -sf /home/saman/Tahoe/spooles/src/SemiImplMtx/SemiImplMtx.IO.c /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx/SemiImplMtx.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/SemiImplMtx/SemiImplMtx.solve.c /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx/SemiImplMtx.solve.c
-ln -sf /home/saman/Tahoe/spooles/src/SemiImplMtx/SemiImplMtx.basics.c /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx/SemiImplMtx.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/SemiImplMtx/SemiImplMtx.h /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx/SemiImplMtx.h
-ln -sf /home/saman/Tahoe/spooles/src/SemiImplMtx/makefile /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx/makefile
-processing directory /home/saman/Tahoe/spooles/src/SubMtxList
-found destination directory /home/saman/Tahoe/spooles/src-mirror/SubMtxList
-     source directory: /home/saman/Tahoe/spooles/src/SubMtxList
-destination directory: /home/saman/Tahoe/spooles/src-mirror/SubMtxList
+found source directory /home/saman/Tahoe/spooles/src/IV
+found destination directory /home/saman/Tahoe/spooles/src-mirror/IV
+ln -sf /home/saman/Tahoe/spooles/src/IV/IV.h /home/saman/Tahoe/spooles/src-mirror/IV/IV.h
+ln -sf /home/saman/Tahoe/spooles/src/IV/IV.instance.c /home/saman/Tahoe/spooles/src-mirror/IV/IV.instance.c
+ln -sf /home/saman/Tahoe/spooles/src/IV/IV.basics.c /home/saman/Tahoe/spooles/src-mirror/IV/IV.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/IV/IV.IO.c /home/saman/Tahoe/spooles/src-mirror/IV/IV.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/IV/makefile /home/saman/Tahoe/spooles/src-mirror/IV/makefile
+ln -sf /home/saman/Tahoe/spooles/src/IV/IV.init.c /home/saman/Tahoe/spooles/src-mirror/IV/IV.init.c
+ln -sf /home/saman/Tahoe/spooles/src/IV/IV.util.c /home/saman/Tahoe/spooles/src-mirror/IV/IV.util.c
+processing directory /home/saman/Tahoe/spooles/src/Network
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Network
+     source directory: /home/saman/Tahoe/spooles/src/Network
+destination directory: /home/saman/Tahoe/spooles/src-mirror/Network
            ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/SubMtxList
-found destination directory /home/saman/Tahoe/spooles/src-mirror/SubMtxList
-ln -sf /home/saman/Tahoe/spooles/src/SubMtxList/SubMtxList.basics.c /home/saman/Tahoe/spooles/src-mirror/SubMtxList/SubMtxList.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtxList/SubMtxList.init.c /home/saman/Tahoe/spooles/src-mirror/SubMtxList/SubMtxList.init.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtxList/SubMtxList.IO.c /home/saman/Tahoe/spooles/src-mirror/SubMtxList/SubMtxList.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtxList/SubMtxList.h /home/saman/Tahoe/spooles/src-mirror/SubMtxList/SubMtxList.h
-ln -sf /home/saman/Tahoe/spooles/src/SubMtxList/SubMtxList.util.c /home/saman/Tahoe/spooles/src-mirror/SubMtxList/SubMtxList.util.c
-ln -sf /home/saman/Tahoe/spooles/src/SubMtxList/makefile /home/saman/Tahoe/spooles/src-mirror/SubMtxList/makefile
-processing directory /home/saman/Tahoe/spooles/src/BKL
-found destination directory /home/saman/Tahoe/spooles/src-mirror/BKL
-     source directory: /home/saman/Tahoe/spooles/src/BKL
-destination directory: /home/saman/Tahoe/spooles/src-mirror/BKL
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/BKL
-found destination directory /home/saman/Tahoe/spooles/src-mirror/BKL
-ln -sf /home/saman/Tahoe/spooles/src/BKL/BKL.util.c /home/saman/Tahoe/spooles/src-mirror/BKL/BKL.util.c
-ln -sf /home/saman/Tahoe/spooles/src/BKL/BKL.exhSearch.c /home/saman/Tahoe/spooles/src-mirror/BKL/BKL.exhSearch.c
-ln -sf /home/saman/Tahoe/spooles/src/BKL/BKL.init.c /home/saman/Tahoe/spooles/src-mirror/BKL/BKL.init.c
-ln -sf /home/saman/Tahoe/spooles/src/BKL/BKL.evalfcn.c /home/saman/Tahoe/spooles/src-mirror/BKL/BKL.evalfcn.c
-ln -sf /home/saman/Tahoe/spooles/src/BKL/BKL.basics.c /home/saman/Tahoe/spooles/src-mirror/BKL/BKL.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/BKL/BKL.h /home/saman/Tahoe/spooles/src-mirror/BKL/BKL.h
-ln -sf /home/saman/Tahoe/spooles/src/BKL/makefile /home/saman/Tahoe/spooles/src-mirror/BKL/makefile
-ln -sf /home/saman/Tahoe/spooles/src/BKL/BKL.fidmat.c /home/saman/Tahoe/spooles/src-mirror/BKL/BKL.fidmat.c
-processing directory /home/saman/Tahoe/spooles/src/misc
-found destination directory /home/saman/Tahoe/spooles/src-mirror/misc
-     source directory: /home/saman/Tahoe/spooles/src/misc
-destination directory: /home/saman/Tahoe/spooles/src-mirror/misc
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/misc
-found destination directory /home/saman/Tahoe/spooles/src-mirror/misc
-ln -sf /home/saman/Tahoe/spooles/src/misc/misc.localND.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.localND.c
-ln -sf /home/saman/Tahoe/spooles/src/misc/misc.orderViaMS.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.orderViaMS.c
-ln -sf /home/saman/Tahoe/spooles/src/misc/misc.orderViaND.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.orderViaND.c
-ln -sf /home/saman/Tahoe/spooles/src/misc/misc.fpgrids.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.fpgrids.c
-ln -sf /home/saman/Tahoe/spooles/src/misc/misc.ND.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.ND.c
-ln -sf /home/saman/Tahoe/spooles/src/misc/misc.orderViaMMD.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.orderViaMMD.c
-ln -sf /home/saman/Tahoe/spooles/src/misc/misc.mkNDlinsys.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.mkNDlinsys.c
-ln -sf /home/saman/Tahoe/spooles/src/misc/misc.mkNDlinsysQR.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.mkNDlinsysQR.c
-ln -sf /home/saman/Tahoe/spooles/src/misc/misc.h /home/saman/Tahoe/spooles/src-mirror/misc/misc.h
-ln -sf /home/saman/Tahoe/spooles/src/misc/misc.ND2.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.ND2.c
-ln -sf /home/saman/Tahoe/spooles/src/misc/misc.drawGraphEPS.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.drawGraphEPS.c
-ln -sf /home/saman/Tahoe/spooles/src/misc/misc.orderViaBestOfNDandMS.c /home/saman/Tahoe/spooles/src-mirror/misc/misc.orderViaBestOfNDandMS.c
-ln -sf /home/saman/Tahoe/spooles/src/misc/makefile /home/saman/Tahoe/spooles/src-mirror/misc/makefile
-processing directory /home/saman/Tahoe/spooles/src/Perm
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Perm
-     source directory: /home/saman/Tahoe/spooles/src/Perm
-destination directory: /home/saman/Tahoe/spooles/src-mirror/Perm
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/spooles/src/Perm
-found destination directory /home/saman/Tahoe/spooles/src-mirror/Perm
-ln -sf /home/saman/Tahoe/spooles/src/Perm/Perm.IO.c /home/saman/Tahoe/spooles/src-mirror/Perm/Perm.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/Perm/Perm.h /home/saman/Tahoe/spooles/src-mirror/Perm/Perm.h
-ln -sf /home/saman/Tahoe/spooles/src/Perm/Perm.basics.c /home/saman/Tahoe/spooles/src-mirror/Perm/Perm.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/Perm/Perm.compress.c /home/saman/Tahoe/spooles/src-mirror/Perm/Perm.compress.c
-ln -sf /home/saman/Tahoe/spooles/src/Perm/Perm.init.c /home/saman/Tahoe/spooles/src-mirror/Perm/Perm.init.c
-ln -sf /home/saman/Tahoe/spooles/src/Perm/makefile /home/saman/Tahoe/spooles/src-mirror/Perm/makefile
-ln -sf /home/saman/Tahoe/spooles/src/Perm/Perm.util.c /home/saman/Tahoe/spooles/src-mirror/Perm/Perm.util.c
+found source directory /home/saman/Tahoe/spooles/src/Network
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Network
+ln -sf /home/saman/Tahoe/spooles/src/Network/Network.findAugmentingPath.c /home/saman/Tahoe/spooles/src-mirror/Network/Network.findAugmentingPath.c
+ln -sf /home/saman/Tahoe/spooles/src/Network/Network.findMincut.c /home/saman/Tahoe/spooles/src-mirror/Network/Network.findMincut.c
+ln -sf /home/saman/Tahoe/spooles/src/Network/Network.h /home/saman/Tahoe/spooles/src-mirror/Network/Network.h
+ln -sf /home/saman/Tahoe/spooles/src/Network/Network.basics.c /home/saman/Tahoe/spooles/src-mirror/Network/Network.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/Network/Network.findMaxFlow.c /home/saman/Tahoe/spooles/src-mirror/Network/Network.findMaxFlow.c
+ln -sf /home/saman/Tahoe/spooles/src/Network/Network.IO.c /home/saman/Tahoe/spooles/src-mirror/Network/Network.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/Network/makefile /home/saman/Tahoe/spooles/src-mirror/Network/makefile
+ln -sf /home/saman/Tahoe/spooles/src/Network/Network.addArc.c /home/saman/Tahoe/spooles/src-mirror/Network/Network.addArc.c
+ln -sf /home/saman/Tahoe/spooles/src/Network/Network.init.c /home/saman/Tahoe/spooles/src-mirror/Network/Network.init.c
+ln -sf /home/saman/Tahoe/spooles/src/Network/Network.augmentPath.c /home/saman/Tahoe/spooles/src-mirror/Network/Network.augmentPath.c
 processing directory /home/saman/Tahoe/spooles/src/DV
 found destination directory /home/saman/Tahoe/spooles/src-mirror/DV
      source directory: /home/saman/Tahoe/spooles/src/DV
@@ -697,14 +313,95 @@ destination directory: /home/saman/Tahoe/spooles/src-mirror/DV
            ln command: ln -sf
 found source directory /home/saman/Tahoe/spooles/src/DV
 found destination directory /home/saman/Tahoe/spooles/src-mirror/DV
-ln -sf /home/saman/Tahoe/spooles/src/DV/DV.util.c /home/saman/Tahoe/spooles/src-mirror/DV/DV.util.c
-ln -sf /home/saman/Tahoe/spooles/src/DV/DV.basics.c /home/saman/Tahoe/spooles/src-mirror/DV/DV.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/DV/DV.init.c /home/saman/Tahoe/spooles/src-mirror/DV/DV.init.c
 ln -sf /home/saman/Tahoe/spooles/src/DV/DV.instance.c /home/saman/Tahoe/spooles/src-mirror/DV/DV.instance.c
-ln -sf /home/saman/Tahoe/spooles/src/DV/DV.IO.c /home/saman/Tahoe/spooles/src-mirror/DV/DV.IO.c
-ln -sf /home/saman/Tahoe/spooles/src/DV/DV.profile.c /home/saman/Tahoe/spooles/src-mirror/DV/DV.profile.c
+ln -sf /home/saman/Tahoe/spooles/src/DV/DV.util.c /home/saman/Tahoe/spooles/src-mirror/DV/DV.util.c
 ln -sf /home/saman/Tahoe/spooles/src/DV/makefile /home/saman/Tahoe/spooles/src-mirror/DV/makefile
+ln -sf /home/saman/Tahoe/spooles/src/DV/DV.basics.c /home/saman/Tahoe/spooles/src-mirror/DV/DV.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/DV/DV.IO.c /home/saman/Tahoe/spooles/src-mirror/DV/DV.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/DV/DV.init.c /home/saman/Tahoe/spooles/src-mirror/DV/DV.init.c
+ln -sf /home/saman/Tahoe/spooles/src/DV/DV.profile.c /home/saman/Tahoe/spooles/src-mirror/DV/DV.profile.c
 ln -sf /home/saman/Tahoe/spooles/src/DV/DV.h /home/saman/Tahoe/spooles/src-mirror/DV/DV.h
+processing directory /home/saman/Tahoe/spooles/src/SemiImplMtx
+found destination directory /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx
+     source directory: /home/saman/Tahoe/spooles/src/SemiImplMtx
+destination directory: /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/SemiImplMtx
+found destination directory /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx
+ln -sf /home/saman/Tahoe/spooles/src/SemiImplMtx/SemiImplMtx.h /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx/SemiImplMtx.h
+ln -sf /home/saman/Tahoe/spooles/src/SemiImplMtx/SemiImplMtx.util.c /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx/SemiImplMtx.util.c
+ln -sf /home/saman/Tahoe/spooles/src/SemiImplMtx/SemiImplMtx.IO.c /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx/SemiImplMtx.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/SemiImplMtx/SemiImplMtx.basics.c /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx/SemiImplMtx.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/SemiImplMtx/SemiImplMtx.init.c /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx/SemiImplMtx.init.c
+ln -sf /home/saman/Tahoe/spooles/src/SemiImplMtx/makefile /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx/makefile
+ln -sf /home/saman/Tahoe/spooles/src/SemiImplMtx/SemiImplMtx.solve.c /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx/SemiImplMtx.solve.c
+processing directory /home/saman/Tahoe/spooles/src/PatchAndGoInfo
+found destination directory /home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo
+     source directory: /home/saman/Tahoe/spooles/src/PatchAndGoInfo
+destination directory: /home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/PatchAndGoInfo
+found destination directory /home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo
+ln -sf /home/saman/Tahoe/spooles/src/PatchAndGoInfo/PatchAndGoInfo.basics.c /home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo/PatchAndGoInfo.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/PatchAndGoInfo/makefile /home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo/makefile
+ln -sf /home/saman/Tahoe/spooles/src/PatchAndGoInfo/PatchAndGoInfo.h /home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo/PatchAndGoInfo.h
+ln -sf /home/saman/Tahoe/spooles/src/PatchAndGoInfo/PatchAndGoInfo.init.c /home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo/PatchAndGoInfo.init.c
+ln -sf /home/saman/Tahoe/spooles/src/spooles.2.2.html /home/saman/Tahoe/spooles/src-mirror/spooles.2.2.html
+processing directory /home/saman/Tahoe/spooles/src/IIheap
+found destination directory /home/saman/Tahoe/spooles/src-mirror/IIheap
+     source directory: /home/saman/Tahoe/spooles/src/IIheap
+destination directory: /home/saman/Tahoe/spooles/src-mirror/IIheap
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/IIheap
+found destination directory /home/saman/Tahoe/spooles/src-mirror/IIheap
+ln -sf /home/saman/Tahoe/spooles/src/IIheap/IIheap.basics.c /home/saman/Tahoe/spooles/src-mirror/IIheap/IIheap.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/IIheap/IIheap.h /home/saman/Tahoe/spooles/src-mirror/IIheap/IIheap.h
+ln -sf /home/saman/Tahoe/spooles/src/IIheap/makefile /home/saman/Tahoe/spooles/src-mirror/IIheap/makefile
+processing directory /home/saman/Tahoe/spooles/src/BKL
+found destination directory /home/saman/Tahoe/spooles/src-mirror/BKL
+     source directory: /home/saman/Tahoe/spooles/src/BKL
+destination directory: /home/saman/Tahoe/spooles/src-mirror/BKL
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/BKL
+found destination directory /home/saman/Tahoe/spooles/src-mirror/BKL
+ln -sf /home/saman/Tahoe/spooles/src/BKL/BKL.basics.c /home/saman/Tahoe/spooles/src-mirror/BKL/BKL.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/BKL/BKL.fidmat.c /home/saman/Tahoe/spooles/src-mirror/BKL/BKL.fidmat.c
+ln -sf /home/saman/Tahoe/spooles/src/BKL/BKL.init.c /home/saman/Tahoe/spooles/src-mirror/BKL/BKL.init.c
+ln -sf /home/saman/Tahoe/spooles/src/BKL/BKL.evalfcn.c /home/saman/Tahoe/spooles/src-mirror/BKL/BKL.evalfcn.c
+ln -sf /home/saman/Tahoe/spooles/src/BKL/BKL.util.c /home/saman/Tahoe/spooles/src-mirror/BKL/BKL.util.c
+ln -sf /home/saman/Tahoe/spooles/src/BKL/BKL.h /home/saman/Tahoe/spooles/src-mirror/BKL/BKL.h
+ln -sf /home/saman/Tahoe/spooles/src/BKL/makefile /home/saman/Tahoe/spooles/src-mirror/BKL/makefile
+ln -sf /home/saman/Tahoe/spooles/src/BKL/BKL.exhSearch.c /home/saman/Tahoe/spooles/src-mirror/BKL/BKL.exhSearch.c
+processing directory /home/saman/Tahoe/spooles/src/ChvManager
+found destination directory /home/saman/Tahoe/spooles/src-mirror/ChvManager
+     source directory: /home/saman/Tahoe/spooles/src/ChvManager
+destination directory: /home/saman/Tahoe/spooles/src-mirror/ChvManager
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/ChvManager
+found destination directory /home/saman/Tahoe/spooles/src-mirror/ChvManager
+ln -sf /home/saman/Tahoe/spooles/src/ChvManager/ChvManager.IO.c /home/saman/Tahoe/spooles/src-mirror/ChvManager/ChvManager.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/ChvManager/ChvManager.h /home/saman/Tahoe/spooles/src-mirror/ChvManager/ChvManager.h
+ln -sf /home/saman/Tahoe/spooles/src/ChvManager/ChvManager.basics.c /home/saman/Tahoe/spooles/src-mirror/ChvManager/ChvManager.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/ChvManager/ChvManager.util.c /home/saman/Tahoe/spooles/src-mirror/ChvManager/ChvManager.util.c
+ln -sf /home/saman/Tahoe/spooles/src/ChvManager/ChvManager.init.c /home/saman/Tahoe/spooles/src-mirror/ChvManager/ChvManager.init.c
+ln -sf /home/saman/Tahoe/spooles/src/ChvManager/makefile /home/saman/Tahoe/spooles/src-mirror/ChvManager/makefile
+ln -sf /home/saman/Tahoe/spooles/src/makeLib /home/saman/Tahoe/spooles/src-mirror/makeLib
+processing directory /home/saman/Tahoe/spooles/src/BPG
+found destination directory /home/saman/Tahoe/spooles/src-mirror/BPG
+     source directory: /home/saman/Tahoe/spooles/src/BPG
+destination directory: /home/saman/Tahoe/spooles/src-mirror/BPG
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/BPG
+found destination directory /home/saman/Tahoe/spooles/src-mirror/BPG
+ln -sf /home/saman/Tahoe/spooles/src/BPG/BPG.maxFlow.c /home/saman/Tahoe/spooles/src-mirror/BPG/BPG.maxFlow.c
+ln -sf /home/saman/Tahoe/spooles/src/BPG/BPG.IO.c /home/saman/Tahoe/spooles/src-mirror/BPG/BPG.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/BPG/BPG.basics.c /home/saman/Tahoe/spooles/src-mirror/BPG/BPG.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/BPG/BPG.makeGraphs.c /home/saman/Tahoe/spooles/src-mirror/BPG/BPG.makeGraphs.c
+ln -sf /home/saman/Tahoe/spooles/src/BPG/BPG.h /home/saman/Tahoe/spooles/src-mirror/BPG/BPG.h
+ln -sf /home/saman/Tahoe/spooles/src/BPG/BPG.pseudo.c /home/saman/Tahoe/spooles/src-mirror/BPG/BPG.pseudo.c
+ln -sf /home/saman/Tahoe/spooles/src/BPG/BPG.DM.c /home/saman/Tahoe/spooles/src-mirror/BPG/BPG.DM.c
+ln -sf /home/saman/Tahoe/spooles/src/BPG/BPG.init.c /home/saman/Tahoe/spooles/src-mirror/BPG/BPG.init.c
+ln -sf /home/saman/Tahoe/spooles/src/BPG/makefile /home/saman/Tahoe/spooles/src-mirror/BPG/makefile
 processing directory /home/saman/Tahoe/spooles/src/MSMD
 found destination directory /home/saman/Tahoe/spooles/src-mirror/MSMD
      source directory: /home/saman/Tahoe/spooles/src/MSMD
@@ -712,17 +409,320 @@ destination directory: /home/saman/Tahoe/spooles/src-mirror/MSMD
            ln command: ln -sf
 found source directory /home/saman/Tahoe/spooles/src/MSMD
 found destination directory /home/saman/Tahoe/spooles/src-mirror/MSMD
-ln -sf /home/saman/Tahoe/spooles/src/MSMD/MSMD.order.c /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.order.c
-ln -sf /home/saman/Tahoe/spooles/src/MSMD/MSMD.eliminate.c /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.eliminate.c
-ln -sf /home/saman/Tahoe/spooles/src/MSMD/MSMD.cleanReachSet.c /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.cleanReachSet.c
+ln -sf /home/saman/Tahoe/spooles/src/MSMD/MSMD.makeSchurComplement.c /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.makeSchurComplement.c
 ln -sf /home/saman/Tahoe/spooles/src/MSMD/MSMD.findInodes.c /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.findInodes.c
 ln -sf /home/saman/Tahoe/spooles/src/MSMD/MSMD.update.c /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.update.c
-ln -sf /home/saman/Tahoe/spooles/src/MSMD/MSMD.init.c /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.init.c
 ln -sf /home/saman/Tahoe/spooles/src/MSMD/MSMD.frontETree.c /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.frontETree.c
 ln -sf /home/saman/Tahoe/spooles/src/MSMD/MSMD.MSMDinfo.c /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.MSMDinfo.c
 ln -sf /home/saman/Tahoe/spooles/src/MSMD/MSMD.fillPerms.c /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.fillPerms.c
-ln -sf /home/saman/Tahoe/spooles/src/MSMD/MSMD.basics.c /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.basics.c
-ln -sf /home/saman/Tahoe/spooles/src/MSMD/MSMD.makeSchurComplement.c /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.makeSchurComplement.c
 ln -sf /home/saman/Tahoe/spooles/src/MSMD/MSMD.h /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.h
-ln -sf /home/saman/Tahoe/spooles/src/MSMD/MSMD.MSMDvtx.c /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.MSMDvtx.c
+ln -sf /home/saman/Tahoe/spooles/src/MSMD/MSMD.order.c /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.order.c
+ln -sf /home/saman/Tahoe/spooles/src/MSMD/MSMD.eliminate.c /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.eliminate.c
+ln -sf /home/saman/Tahoe/spooles/src/MSMD/MSMD.basics.c /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.basics.c
 ln -sf /home/saman/Tahoe/spooles/src/MSMD/makefile /home/saman/Tahoe/spooles/src-mirror/MSMD/makefile
+ln -sf /home/saman/Tahoe/spooles/src/MSMD/MSMD.init.c /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.init.c
+ln -sf /home/saman/Tahoe/spooles/src/MSMD/MSMD.cleanReachSet.c /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.cleanReachSet.c
+ln -sf /home/saman/Tahoe/spooles/src/MSMD/MSMD.MSMDvtx.c /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.MSMDvtx.c
+processing directory /home/saman/Tahoe/spooles/src/Graph
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Graph
+     source directory: /home/saman/Tahoe/spooles/src/Graph
+destination directory: /home/saman/Tahoe/spooles/src-mirror/Graph
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/Graph
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Graph
+ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.init.c /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.init.c
+ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.setListsFromOffsets.c /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.setListsFromOffsets.c
+ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.IO.c /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.compress.c /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.compress.c
+ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.h /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.h
+ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.equivMap.c /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.equivMap.c
+ln -sf /home/saman/Tahoe/spooles/src/Graph/makefile /home/saman/Tahoe/spooles/src-mirror/Graph/makefile
+ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.expand.c /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.expand.c
+ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.wirebasket.c /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.wirebasket.c
+ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.fillFromOffsets.c /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.fillFromOffsets.c
+ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.util.c /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.util.c
+ln -sf /home/saman/Tahoe/spooles/src/Graph/Graph.basics.c /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.basics.c
+processing directory /home/saman/Tahoe/spooles/src/Utilities
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Utilities
+     source directory: /home/saman/Tahoe/spooles/src/Utilities
+destination directory: /home/saman/Tahoe/spooles/src-mirror/Utilities
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/Utilities
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Utilities
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.PIV.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.PIV.c
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/FV_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/FV_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/IV_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/IV_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.h /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/PFV_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/PFV_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.ZV.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.ZV.c
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/newsort_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/newsort_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/DVsort_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/DVsort_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.iohb.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.iohb.c
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.PCV.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.PCV.c
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.FV.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.FV.c
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/I2OP_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/I2OP_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/IVsort_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/IVsort_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/misc_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/misc_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.IV.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.IV.c
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.newsort.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.newsort.c
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.PDV.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.PDV.c
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/FileType_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/FileType_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/ZV_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/ZV_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/MM_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/MM_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/PDV_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/PDV_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/PIV_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/PIV_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.CV.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.CV.c
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/PCV_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/PCV_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/DLIST_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/DLIST_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.I2OP.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.I2OP.c
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/IP_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/IP_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.PFV.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.PFV.c
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/ND_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/ND_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/CV_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/CV_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/makefile /home/saman/Tahoe/spooles/src-mirror/Utilities/makefile
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/mdot_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/mdot_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/util_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/util_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/iohb_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/iohb_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.DV.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.DV.c
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.IP.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.IP.c
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.axpy.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.axpy.c
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/Utilities.sortAndCompress.c /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.sortAndCompress.c
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/axpy_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/axpy_.h
+ln -sf /home/saman/Tahoe/spooles/src/Utilities/DV_.h /home/saman/Tahoe/spooles/src-mirror/Utilities/DV_.h
+processing directory /home/saman/Tahoe/spooles/src/InpMtx
+found destination directory /home/saman/Tahoe/spooles/src-mirror/InpMtx
+     source directory: /home/saman/Tahoe/spooles/src/InpMtx
+destination directory: /home/saman/Tahoe/spooles/src-mirror/InpMtx
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/InpMtx
+found destination directory /home/saman/Tahoe/spooles/src-mirror/InpMtx
+ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.map.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.map.c
+ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.input.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.input.c
+ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.init.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.init.c
+ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.mvmVector.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.mvmVector.c
+ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.permute.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.permute.c
+ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.gmmm.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.gmmm.c
+ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.support.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.support.c
+ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.util.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.util.c
+ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.extract.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.extract.c
+ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.adjForATA.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.adjForATA.c
+ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.profile.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.profile.c
+ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.gmvm.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.gmvm.c
+ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.IO.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.fullAdj.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.fullAdj.c
+ln -sf /home/saman/Tahoe/spooles/src/InpMtx/makefile /home/saman/Tahoe/spooles/src-mirror/InpMtx/makefile
+ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.basics.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.h /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.h
+ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.instance.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.instance.c
+ln -sf /home/saman/Tahoe/spooles/src/InpMtx/InpMtx.mvm.c /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.mvm.c
+processing directory /home/saman/Tahoe/spooles/src/ILUMtx
+found destination directory /home/saman/Tahoe/spooles/src-mirror/ILUMtx
+     source directory: /home/saman/Tahoe/spooles/src/ILUMtx
+destination directory: /home/saman/Tahoe/spooles/src-mirror/ILUMtx
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/ILUMtx
+found destination directory /home/saman/Tahoe/spooles/src-mirror/ILUMtx
+ln -sf /home/saman/Tahoe/spooles/src/ILUMtx/ILUMtx.basics.c /home/saman/Tahoe/spooles/src-mirror/ILUMtx/ILUMtx.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/ILUMtx/ILUMtx.init.c /home/saman/Tahoe/spooles/src-mirror/ILUMtx/ILUMtx.init.c
+ln -sf /home/saman/Tahoe/spooles/src/ILUMtx/ILUMtx.solve.c /home/saman/Tahoe/spooles/src-mirror/ILUMtx/ILUMtx.solve.c
+ln -sf /home/saman/Tahoe/spooles/src/ILUMtx/ILUMtx.IO.c /home/saman/Tahoe/spooles/src-mirror/ILUMtx/ILUMtx.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/ILUMtx/makefile /home/saman/Tahoe/spooles/src-mirror/ILUMtx/makefile
+ln -sf /home/saman/Tahoe/spooles/src/ILUMtx/ILUMtx.h /home/saman/Tahoe/spooles/src-mirror/ILUMtx/ILUMtx.h
+ln -sf /home/saman/Tahoe/spooles/src/ILUMtx/ILUMtx.factor.c /home/saman/Tahoe/spooles/src-mirror/ILUMtx/ILUMtx.factor.c
+ln -sf /home/saman/Tahoe/spooles/src/ILUMtx/ILUMtx.misc.c /home/saman/Tahoe/spooles/src-mirror/ILUMtx/ILUMtx.misc.c
+ln -sf /home/saman/Tahoe/spooles/src/makefile /home/saman/Tahoe/spooles/src-mirror/makefile
+processing directory /home/saman/Tahoe/spooles/src/Coords
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Coords
+     source directory: /home/saman/Tahoe/spooles/src/Coords
+destination directory: /home/saman/Tahoe/spooles/src-mirror/Coords
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/Coords
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Coords
+ln -sf /home/saman/Tahoe/spooles/src/Coords/Coords.h /home/saman/Tahoe/spooles/src-mirror/Coords/Coords.h
+ln -sf /home/saman/Tahoe/spooles/src/Coords/Coords.IO.c /home/saman/Tahoe/spooles/src-mirror/Coords/Coords.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/Coords/Coords.basics.c /home/saman/Tahoe/spooles/src-mirror/Coords/Coords.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/Coords/makefile /home/saman/Tahoe/spooles/src-mirror/Coords/makefile
+ln -sf /home/saman/Tahoe/spooles/src/Coords/Coords.util.c /home/saman/Tahoe/spooles/src-mirror/Coords/Coords.util.c
+ln -sf /home/saman/Tahoe/spooles/src/Coords/Coords.init.c /home/saman/Tahoe/spooles/src-mirror/Coords/Coords.init.c
+processing directory /home/saman/Tahoe/spooles/src/IVL
+found destination directory /home/saman/Tahoe/spooles/src-mirror/IVL
+     source directory: /home/saman/Tahoe/spooles/src/IVL
+destination directory: /home/saman/Tahoe/spooles/src-mirror/IVL
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/IVL
+found destination directory /home/saman/Tahoe/spooles/src-mirror/IVL
+ln -sf /home/saman/Tahoe/spooles/src/IVL/IVL.listmanip.c /home/saman/Tahoe/spooles/src-mirror/IVL/IVL.listmanip.c
+ln -sf /home/saman/Tahoe/spooles/src/IVL/IVL.init.c /home/saman/Tahoe/spooles/src-mirror/IVL/IVL.init.c
+ln -sf /home/saman/Tahoe/spooles/src/IVL/IVL.IO.c /home/saman/Tahoe/spooles/src-mirror/IVL/IVL.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/IVL/IVL.util.c /home/saman/Tahoe/spooles/src-mirror/IVL/IVL.util.c
+ln -sf /home/saman/Tahoe/spooles/src/IVL/IVL.instance.c /home/saman/Tahoe/spooles/src-mirror/IVL/IVL.instance.c
+ln -sf /home/saman/Tahoe/spooles/src/IVL/IVL.basics.c /home/saman/Tahoe/spooles/src-mirror/IVL/IVL.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/IVL/IVL.subIVL.c /home/saman/Tahoe/spooles/src-mirror/IVL/IVL.subIVL.c
+ln -sf /home/saman/Tahoe/spooles/src/IVL/IVL.misc.c /home/saman/Tahoe/spooles/src-mirror/IVL/IVL.misc.c
+ln -sf /home/saman/Tahoe/spooles/src/IVL/makefile /home/saman/Tahoe/spooles/src-mirror/IVL/makefile
+ln -sf /home/saman/Tahoe/spooles/src/IVL/IVL.h /home/saman/Tahoe/spooles/src-mirror/IVL/IVL.h
+processing directory /home/saman/Tahoe/spooles/src/ZV
+found destination directory /home/saman/Tahoe/spooles/src-mirror/ZV
+     source directory: /home/saman/Tahoe/spooles/src/ZV
+destination directory: /home/saman/Tahoe/spooles/src-mirror/ZV
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/ZV
+found destination directory /home/saman/Tahoe/spooles/src-mirror/ZV
+ln -sf /home/saman/Tahoe/spooles/src/ZV/ZV.profile.c /home/saman/Tahoe/spooles/src-mirror/ZV/ZV.profile.c
+ln -sf /home/saman/Tahoe/spooles/src/ZV/ZV.h /home/saman/Tahoe/spooles/src-mirror/ZV/ZV.h
+ln -sf /home/saman/Tahoe/spooles/src/ZV/ZV.basics.c /home/saman/Tahoe/spooles/src-mirror/ZV/ZV.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/ZV/ZV.init.c /home/saman/Tahoe/spooles/src-mirror/ZV/ZV.init.c
+ln -sf /home/saman/Tahoe/spooles/src/ZV/ZV.IO.c /home/saman/Tahoe/spooles/src-mirror/ZV/ZV.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/ZV/ZV.util.c /home/saman/Tahoe/spooles/src-mirror/ZV/ZV.util.c
+ln -sf /home/saman/Tahoe/spooles/src/ZV/makefile /home/saman/Tahoe/spooles/src-mirror/ZV/makefile
+ln -sf /home/saman/Tahoe/spooles/src/ZV/ZV.instance.c /home/saman/Tahoe/spooles/src-mirror/ZV/ZV.instance.c
+ln -sf /home/saman/Tahoe/spooles/src/Make.inc /home/saman/Tahoe/spooles/src-mirror/Make.inc
+processing directory /home/saman/Tahoe/spooles/src/Iter
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Iter
+     source directory: /home/saman/Tahoe/spooles/src/Iter
+destination directory: /home/saman/Tahoe/spooles/src-mirror/Iter
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/Iter
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Iter
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.DenseMtx_mmm.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.DenseMtx_mmm.c
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.zmlbicgstabl.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.zmlbicgstabl.c
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.tfqmrr.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.tfqmrr.c
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.util.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.util.c
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.zpcgr.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.zpcgr.c
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.zbicgstabr.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.zbicgstabr.c
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.h /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.h
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.bgmresr.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.bgmresr.c
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.mlbicgstabr.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.mlbicgstabr.c
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.mlbicgstabl.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.mlbicgstabl.c
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.tfqmrl.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.tfqmrl.c
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.bicgstabl.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.bicgstabl.c
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.bgmresl.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.bgmresl.c
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.zpcgl.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.zpcgl.c
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.zmlbicgstabr.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.zmlbicgstabr.c
+ln -sf /home/saman/Tahoe/spooles/src/Iter/makefile /home/saman/Tahoe/spooles/src-mirror/Iter/makefile
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.pcgr.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.pcgr.c
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.zbicgstabl.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.zbicgstabl.c
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.ztfqmrr.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.ztfqmrr.c
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.bicgstabr.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.bicgstabr.c
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.pcgl.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.pcgl.c
+ln -sf /home/saman/Tahoe/spooles/src/Iter/Iter.ztfqmrl.c /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.ztfqmrl.c
+processing directory /home/saman/Tahoe/spooles/src/DenseMtx
+found destination directory /home/saman/Tahoe/spooles/src-mirror/DenseMtx
+     source directory: /home/saman/Tahoe/spooles/src/DenseMtx
+destination directory: /home/saman/Tahoe/spooles/src-mirror/DenseMtx
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/DenseMtx
+found destination directory /home/saman/Tahoe/spooles/src-mirror/DenseMtx
+ln -sf /home/saman/Tahoe/spooles/src/DenseMtx/DenseMtx.instance.c /home/saman/Tahoe/spooles/src-mirror/DenseMtx/DenseMtx.instance.c
+ln -sf /home/saman/Tahoe/spooles/src/DenseMtx/DenseMtx.initAsSubmtx.c /home/saman/Tahoe/spooles/src-mirror/DenseMtx/DenseMtx.initAsSubmtx.c
+ln -sf /home/saman/Tahoe/spooles/src/DenseMtx/DenseMtx.h /home/saman/Tahoe/spooles/src-mirror/DenseMtx/DenseMtx.h
+ln -sf /home/saman/Tahoe/spooles/src/DenseMtx/DenseMtx.scale.c /home/saman/Tahoe/spooles/src-mirror/DenseMtx/DenseMtx.scale.c
+ln -sf /home/saman/Tahoe/spooles/src/DenseMtx/DenseMtx.util.c /home/saman/Tahoe/spooles/src-mirror/DenseMtx/DenseMtx.util.c
+ln -sf /home/saman/Tahoe/spooles/src/DenseMtx/DenseMtx.basics.c /home/saman/Tahoe/spooles/src-mirror/DenseMtx/DenseMtx.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/DenseMtx/DenseMtx.init.c /home/saman/Tahoe/spooles/src-mirror/DenseMtx/DenseMtx.init.c
+ln -sf /home/saman/Tahoe/spooles/src/DenseMtx/makefile /home/saman/Tahoe/spooles/src-mirror/DenseMtx/makefile
+ln -sf /home/saman/Tahoe/spooles/src/DenseMtx/DenseMtx.IO.c /home/saman/Tahoe/spooles/src-mirror/DenseMtx/DenseMtx.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/DenseMtx/DenseMtx.permute.c /home/saman/Tahoe/spooles/src-mirror/DenseMtx/DenseMtx.permute.c
+processing directory /home/saman/Tahoe/spooles/src/ETree
+found destination directory /home/saman/Tahoe/spooles/src-mirror/ETree
+     source directory: /home/saman/Tahoe/spooles/src/ETree
+destination directory: /home/saman/Tahoe/spooles/src-mirror/ETree
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/ETree
+found destination directory /home/saman/Tahoe/spooles/src-mirror/ETree
+ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.maps.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.maps.c
+ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.instance.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.instance.c
+ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.basics.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.init.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.init.c
+ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.semi.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.semi.c
+ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.permute.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.permute.c
+ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.storage.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.storage.c
+ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.h /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.h
+ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.initFromSubtree.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.initFromSubtree.c
+ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.ms.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.ms.c
+ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.transform.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.transform.c
+ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.justify.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.justify.c
+ln -sf /home/saman/Tahoe/spooles/src/ETree/makefile /home/saman/Tahoe/spooles/src-mirror/ETree/makefile
+ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.metrics.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.metrics.c
+ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.compress.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.compress.c
+ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.util.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.util.c
+ln -sf /home/saman/Tahoe/spooles/src/ETree/ETree.IO.c /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.IO.c
+processing directory /home/saman/Tahoe/spooles/src/Lock
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Lock
+     source directory: /home/saman/Tahoe/spooles/src/Lock
+destination directory: /home/saman/Tahoe/spooles/src-mirror/Lock
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/Lock
+found destination directory /home/saman/Tahoe/spooles/src-mirror/Lock
+ln -sf /home/saman/Tahoe/spooles/src/Lock/Lock.h /home/saman/Tahoe/spooles/src-mirror/Lock/Lock.h
+ln -sf /home/saman/Tahoe/spooles/src/Lock/makefile /home/saman/Tahoe/spooles/src-mirror/Lock/makefile
+ln -sf /home/saman/Tahoe/spooles/src/Lock/Lock.basics.c /home/saman/Tahoe/spooles/src-mirror/Lock/Lock.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/Lock/Lock.init.c /home/saman/Tahoe/spooles/src-mirror/Lock/Lock.init.c
+ln -sf /home/saman/Tahoe/spooles/src/Lock/Lock.util.c /home/saman/Tahoe/spooles/src-mirror/Lock/Lock.util.c
+processing directory /home/saman/Tahoe/spooles/src/SolveMap
+found destination directory /home/saman/Tahoe/spooles/src-mirror/SolveMap
+     source directory: /home/saman/Tahoe/spooles/src/SolveMap
+destination directory: /home/saman/Tahoe/spooles/src-mirror/SolveMap
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/SolveMap
+found destination directory /home/saman/Tahoe/spooles/src-mirror/SolveMap
+ln -sf /home/saman/Tahoe/spooles/src/SolveMap/SolveMap.instance.c /home/saman/Tahoe/spooles/src-mirror/SolveMap/SolveMap.instance.c
+ln -sf /home/saman/Tahoe/spooles/src/SolveMap/SolveMap.IO.c /home/saman/Tahoe/spooles/src-mirror/SolveMap/SolveMap.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/SolveMap/SolveMap.basics.c /home/saman/Tahoe/spooles/src-mirror/SolveMap/SolveMap.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/SolveMap/SolveMap.setup.c /home/saman/Tahoe/spooles/src-mirror/SolveMap/SolveMap.setup.c
+ln -sf /home/saman/Tahoe/spooles/src/SolveMap/SolveMap.init.c /home/saman/Tahoe/spooles/src-mirror/SolveMap/SolveMap.init.c
+ln -sf /home/saman/Tahoe/spooles/src/SolveMap/SolveMap.maps.c /home/saman/Tahoe/spooles/src-mirror/SolveMap/SolveMap.maps.c
+ln -sf /home/saman/Tahoe/spooles/src/SolveMap/SolveMap.util.c /home/saman/Tahoe/spooles/src-mirror/SolveMap/SolveMap.util.c
+ln -sf /home/saman/Tahoe/spooles/src/SolveMap/makefile /home/saman/Tahoe/spooles/src-mirror/SolveMap/makefile
+ln -sf /home/saman/Tahoe/spooles/src/SolveMap/SolveMap.h /home/saman/Tahoe/spooles/src-mirror/SolveMap/SolveMap.h
+processing directory /home/saman/Tahoe/spooles/src/SymbFac
+found destination directory /home/saman/Tahoe/spooles/src-mirror/SymbFac
+     source directory: /home/saman/Tahoe/spooles/src/SymbFac
+destination directory: /home/saman/Tahoe/spooles/src-mirror/SymbFac
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/SymbFac
+found destination directory /home/saman/Tahoe/spooles/src-mirror/SymbFac
+ln -sf /home/saman/Tahoe/spooles/src/SymbFac/SymbFac.symbfac.c /home/saman/Tahoe/spooles/src-mirror/SymbFac/SymbFac.symbfac.c
+ln -sf /home/saman/Tahoe/spooles/src/SymbFac/SymbFac.h /home/saman/Tahoe/spooles/src-mirror/SymbFac/SymbFac.h
+ln -sf /home/saman/Tahoe/spooles/src/SymbFac/makefile /home/saman/Tahoe/spooles/src-mirror/SymbFac/makefile
+processing directory /home/saman/Tahoe/spooles/src/DSTree
+found destination directory /home/saman/Tahoe/spooles/src-mirror/DSTree
+     source directory: /home/saman/Tahoe/spooles/src/DSTree
+destination directory: /home/saman/Tahoe/spooles/src-mirror/DSTree
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/DSTree
+found destination directory /home/saman/Tahoe/spooles/src-mirror/DSTree
+ln -sf /home/saman/Tahoe/spooles/src/DSTree/DSTree.h /home/saman/Tahoe/spooles/src-mirror/DSTree/DSTree.h
+ln -sf /home/saman/Tahoe/spooles/src/DSTree/DSTree.init.c /home/saman/Tahoe/spooles/src-mirror/DSTree/DSTree.init.c
+ln -sf /home/saman/Tahoe/spooles/src/DSTree/DSTree.instance.c /home/saman/Tahoe/spooles/src-mirror/DSTree/DSTree.instance.c
+ln -sf /home/saman/Tahoe/spooles/src/DSTree/DSTree.stages.c /home/saman/Tahoe/spooles/src-mirror/DSTree/DSTree.stages.c
+ln -sf /home/saman/Tahoe/spooles/src/DSTree/DSTree.util.c /home/saman/Tahoe/spooles/src-mirror/DSTree/DSTree.util.c
+ln -sf /home/saman/Tahoe/spooles/src/DSTree/makefile /home/saman/Tahoe/spooles/src-mirror/DSTree/makefile
+ln -sf /home/saman/Tahoe/spooles/src/DSTree/DSTree.basics.c /home/saman/Tahoe/spooles/src-mirror/DSTree/DSTree.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/DSTree/DSTree.IO.c /home/saman/Tahoe/spooles/src-mirror/DSTree/DSTree.IO.c
+ln -sf /home/saman/Tahoe/spooles/src/cfiles.h /home/saman/Tahoe/spooles/src-mirror/cfiles.h
+processing directory /home/saman/Tahoe/spooles/src/GPart
+found destination directory /home/saman/Tahoe/spooles/src-mirror/GPart
+     source directory: /home/saman/Tahoe/spooles/src/GPart
+destination directory: /home/saman/Tahoe/spooles/src-mirror/GPart
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/spooles/src/GPart
+found destination directory /home/saman/Tahoe/spooles/src-mirror/GPart
+ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.DDviaFishnet.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.DDviaFishnet.c
+ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.smoothBy2layers.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.smoothBy2layers.c
+ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.identifyWideSep.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.identifyWideSep.c
+ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.DDsepInfo.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.DDsepInfo.c
+ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.init.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.init.c
+ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.DDviaProjection.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.DDviaProjection.c
+ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.makeYCmap.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.makeYCmap.c
+ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.TwoSetViaBKL.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.TwoSetViaBKL.c
+ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.smoothYSep.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.smoothYSep.c
+ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.domSegMap.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.domSegMap.c
+ln -sf /home/saman/Tahoe/spooles/src/GPart/DDsepInfo.h /home/saman/Tahoe/spooles/src-mirror/GPart/DDsepInfo.h
+ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.h /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.h
+ln -sf /home/saman/Tahoe/spooles/src/GPart/makefile /home/saman/Tahoe/spooles/src-mirror/GPart/makefile
+ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.util.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.util.c
+ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.smoothBisector.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.smoothBisector.c
+ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.RBviaDDsep.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.RBviaDDsep.c
+ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.basics.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.basics.c
+ln -sf /home/saman/Tahoe/spooles/src/GPart/GPart.split.c /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.split.c
