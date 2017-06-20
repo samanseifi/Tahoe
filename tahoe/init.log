@@ -41,97 +41,8 @@ executing "make update_config" in /home/saman/Tahoe/tahoe/../development
 make[2]: Entering directory `/home/saman/Tahoe/development'
 reading configuration file: DevelopmentElementsConfig.conf
 output file root: DevelopmentElementsConfig
-output file exists but is not up to date: /home/saman/Tahoe/tahoe/../development/src-mirror/config/DevelopmentElementsConfig.h
-option: _DEVELOPMENT_ELEMENTS_CONFIG_H_: ACTIVE
-option: definition: INACTIVE
-option: statement: INACTIVE
-option: BEM_ELEMENT_DEV: INACTIVE
-option: PML_ELEMENT_DEV: INACTIVE
-option: COHESIVE_SURFACE_ELEMENT_DEV: ACTIVE
-option: CONTACT_ELEMENT_DEV: INACTIVE
-option: MULTISCALE_ELEMENT_DEV: INACTIVE
-option: SOLID_ELEMENT_DEV: ACTIVE
-option: MATERIAL_FORCE_ELEMENT_DEV: INACTIVE
-option: GRAD_SMALL_STRAIN_DEV: INACTIVE
-option: MULTISCALE_APS_DEV: INACTIVE
-option: SPLIT_INTEGRATION_DEV: INACTIVE
-option: SIMPLE_SOLID_DEV: ACTIVE
-option: MULTISCALE_APS_V_DEV: INACTIVE
-option: MESHFREE_GRAD_PLAST_DEV: INACTIVE
-option: ENHANCED_STRAIN_LOC_DEV: INACTIVE
-option: ENHANCED_STRAIN_LOC_DEV_CRAIG: INACTIVE
-option: MIXTURE_THEORY_DEV: ACTIVE
-option: BRIDGING_ELEMENT_DEV: INACTIVE
-option: SURFACE_CB_DEV: INACTIVE
-option: SURFACE_CB_EAM_DEV: INACTIVE
-option: SURFACE_CB_SI_DEV: INACTIVE
-option: SURFACE_CB_SI_DIMER_DEV: INACTIVE
-option: SURFACE_CB_WURTZITE_DEV: INACTIVE
-option: SURFACE_CB_ZB_DEV: INACTIVE
-option: FLUID_ELEMENT_DEV: INACTIVE
-option: FIBER_COMP_DEV: INACTIVE
-option: SOLID_FLUID_MIX_DEV: INACTIVE
-option: SOLID_OPTIMIZATION_DEV: INACTIVE
-option: DEM_COUPLING_DEV: INACTIVE
-option: PIEZOELECTRIC: INACTIVE
-option: HUWASHIZU: INACTIVE
-option: MICROMORPHIC_DEV: INACTIVE
-option: MICROMORPHIC2_DEV: INACTIVE
-option: MICROMORPHIC_CURR_CONFIG_DEV: INACTIVE
-option: XFEM_DEV: INACTIVE
-option: DIELECTRIC_ELASTOMER: ACTIVE
-option: DIELECTRIC_ELASTOMER_Q1P0: ACTIVE
-option: DIELECTRIC_ELASTOMER_Q1P0_ELASTOCAPILLARY: ACTIVE
-option: DIELECTRIC_ELASTOMER_Q1P0_VISCO: ACTIVE
-option: DIELECTRIC_ELASTOMER_2D: ACTIVE
-option: DIELECTRIC_ELASTOMER_Q1P02D: ACTIVE
-option: DIELECTRIC_ELASTOMER_VISCO: INACTIVE
-option: DIELECTRIC_ELASTOMER_2D_VISCO: INACTIVE
-moving /home/saman/Tahoe/tahoe/../development/src-mirror/config/DevelopmentElementsConfig.h to /home/saman/Tahoe/tahoe/../development/src-mirror/config/DevelopmentElementsConfig.h.bak
-processing option: BEM_ELEMENT_DEV
-processing option: PML_ELEMENT_DEV
-processing option: COHESIVE_SURFACE_ELEMENT_DEV
-processing option: CONTACT_ELEMENT_DEV
-processing option: MULTISCALE_ELEMENT_DEV
-processing option: SOLID_ELEMENT_DEV
-processing option: MATERIAL_FORCE_ELEMENT_DEV
-processing option: GRAD_SMALL_STRAIN_DEV
-processing option: MULTISCALE_APS_DEV
-processing option: SPLIT_INTEGRATION_DEV
-processing option: SIMPLE_SOLID_DEV
-processing option: MULTISCALE_APS_V_DEV
-processing option: MESHFREE_GRAD_PLAST_DEV
-processing option: ENHANCED_STRAIN_LOC_DEV
-processing option: ENHANCED_STRAIN_LOC_DEV_CRAIG
-processing option: MIXTURE_THEORY_DEV
-processing option: BRIDGING_ELEMENT_DEV
-processing option: SURFACE_CB_DEV
-processing option: SURFACE_CB_EAM_DEV
-processing option: SURFACE_CB_SI_DEV
-processing option: SURFACE_CB_SI_DIMER_DEV
-processing option: SURFACE_CB_WURTZITE_DEV
-processing option: SURFACE_CB_ZB_DEV
-processing option: FLUID_ELEMENT_DEV
-processing option: FIBER_COMP_DEV
-processing option: SOLID_FLUID_MIX_DEV
-processing option: SOLID_OPTIMIZATION_DEV
-processing option: DEM_COUPLING_DEV
-processing option: PIEZOELECTRIC
-processing option: HUWASHIZU
-processing option: MICROMORPHIC_DEV
-processing option: MICROMORPHIC2_DEV
-processing option: MICROMORPHIC_CURR_CONFIG_DEV
-processing option: XFEM_DEV
-processing option: DIELECTRIC_ELASTOMER
-processing option: DIELECTRIC_ELASTOMER_Q1P0
-processing option: DIELECTRIC_ELASTOMER_Q1P0_ELASTOCAPILLARY
-processing option: DIELECTRIC_ELASTOMER_Q1P0_VISCO
-processing option: DIELECTRIC_ELASTOMER_2D
-processing option: DIELECTRIC_ELASTOMER_Q1P02D
-processing option: DIELECTRIC_ELASTOMER_VISCO
-processing option: DIELECTRIC_ELASTOMER_2D_VISCO
-processing option: DIELECTRIC_ELASTOMER_Q1P02D_Structural
-processing option: DIELECTRIC_ELASTOMER_Q1P02D_Electrical
+output file is up to date: /home/saman/Tahoe/tahoe/../development/src-mirror/config/DevelopmentElementsConfig.h
+stop.
 reading configuration file: DevelopmentElementsConfig.conf
 output file root: DevelopmentElementsConfig
 found header file: /home/saman/Tahoe/tahoe/../development/src-mirror/config/DevelopmentElementsConfig.h
@@ -178,59 +89,11 @@ processing option: DIELECTRIC_ELASTOMER_2D: ACTIVE
 processing option: DIELECTRIC_ELASTOMER_Q1P02D: ACTIVE
 processing option: DIELECTRIC_ELASTOMER_VISCO: INACTIVE
 processing option: DIELECTRIC_ELASTOMER_2D_VISCO: INACTIVE
-processing option: DIELECTRIC_ELASTOMER_Q1P02D_Structural: INACTIVE
-processing option: DIELECTRIC_ELASTOMER_Q1P02D_Electrical: INACTIVE
+processing option: DIELECTRIC_ELASTOMER_Q1P02D_MECHANICAL: ACTIVE
 reading configuration file: DevelopmentMaterialsConfig.conf
 output file root: DevelopmentMaterialsConfig
-output file exists but is not up to date: /home/saman/Tahoe/tahoe/../development/src-mirror/config/DevelopmentMaterialsConfig.h
-option: _DEVELOPMENT_MATERIALS_CONFIG_H_: ACTIVE
-option: definition: INACTIVE
-option: statement: INACTIVE
-option: FOSSUM_MATERIAL_DEV: INACTIVE
-option: PLASTICITY_MR_MATERIAL_DEV: INACTIVE
-option: PLASTICITY_SMR_MATERIAL_DEV: INACTIVE
-option: GRAD_PLASTICITY_MR_MATERIAL_DEV: INACTIVE
-option: PLASTICITY_DP_LOC_MATERIAL_DEV: INACTIVE
-option: VISCOELASTIC_MATERIALS_DEV: ACTIVE
-option: ABAQUS_DEV: INACTIVE
-option: ABAQUS_BCJ_MATERIAL_DEV: INACTIVE
-option: ABAQUS_XTAL_DEV: INACTIVE
-option: ABAQUS_TI_DEV: INACTIVE
-option: BIO_MODELS: ACTIVE
-option: PIEZOELECTRIC: INACTIVE
-option: DIELECTRIC_ELASTOMER: ACTIVE
-option: DIELECTRIC_ELASTOMER_Q1P0: ACTIVE
-option: DIELECTRIC_ELASTOMER_Q1P0_ELASTOCAPILLARY: ACTIVE
-option: DIELECTRIC_ELASTOMER_Q1P0_VISCO: ACTIVE
-option: DIELECTRIC_ELASTOMER_2D: ACTIVE
-option: DIELECTRIC_ELASTOMER_Q1P02D: ACTIVE
-option: DIELECTRIC_ELASTOMER_VISCO: INACTIVE
-option: DIELECTRIC_ELASTOMER_2D_VISCO: INACTIVE
-option: DIELECTRIC_ELASTOMER_Q1P02D_Structural: INACTIVE
-option: DIELECTRIC_ELASTOMER_Q1P02D_Electrical: INACTIVE
-option: NEOHOOKEDAMAGE: INACTIVE
-moving /home/saman/Tahoe/tahoe/../development/src-mirror/config/DevelopmentMaterialsConfig.h to /home/saman/Tahoe/tahoe/../development/src-mirror/config/DevelopmentMaterialsConfig.h.bak
-processing option: FOSSUM_MATERIAL_DEV
-processing option: PLASTICITY_MR_MATERIAL_DEV
-processing option: PLASTICITY_SMR_MATERIAL_DEV
-processing option: GRAD_PLASTICITY_MR_MATERIAL_DEV
-processing option: PLASTICITY_DP_LOC_MATERIAL_DEV
-processing option: VISCOELASTIC_MATERIALS_DEV
-processing option: ABAQUS_DEV
-processing option: ABAQUS_BCJ_MATERIAL_DEV
-processing option: ABAQUS_XTAL_DEV
-processing option: ABAQUS_TI_DEV
-processing option: BIO_MODELS
-processing option: PIEZOELECTRIC
-processing option: DIELECTRIC_ELASTOMER
-processing option: DIELECTRIC_ELASTOMER_Q1P0
-processing option: DIELECTRIC_ELASTOMER_Q1P0_ELASTOCAPILLARY
-processing option: DIELECTRIC_ELASTOMER_Q1P0_VISCO
-processing option: DIELECTRIC_ELASTOMER_2D
-processing option: DIELECTRIC_ELASTOMER_Q1P02D
-processing option: DIELECTRIC_ELASTOMER_VISCO
-processing option: DIELECTRIC_ELASTOMER_2D_VISCO
-processing option: NEOHOOKEDAMAGE
+output file is up to date: /home/saman/Tahoe/tahoe/../development/src-mirror/config/DevelopmentMaterialsConfig.h
+stop.
 reading configuration file: DevelopmentMaterialsConfig.conf
 output file root: DevelopmentMaterialsConfig
 found header file: /home/saman/Tahoe/tahoe/../development/src-mirror/config/DevelopmentMaterialsConfig.h
@@ -268,8 +131,8 @@ executing "make setup headers" in /home/saman/Tahoe/tahoe/../development
 make[3]: Entering directory `/home/saman/Tahoe/development'
  mirroring /home/saman/Tahoe/tahoe/../development/src to /home/saman/Tahoe/tahoe/../development/src-mirror
 perl -w /home/saman/Tahoe/tahoe/../macros/MirrorTree.pl /home/saman/Tahoe/tahoe/../development/src /home/saman/Tahoe/tahoe/../development/src-mirror "ln -sf" > /home/saman/Tahoe/tahoe/../development/mirror.log
-Mon May  1 14:13:30 EDT 2017
-removed 84 files matching regex ".*[.]h"
+Tue Jun 20 17:20:50 EDT 2017
+removed 85 files matching regex ".*[.]h"
 cd /home/saman/Tahoe/tahoe/../development/src-mirror
 cd /home/saman/Tahoe/tahoe/../development/src-mirror; \
 	make  headers \
@@ -570,6 +433,14 @@ make[9]: Entering directory `/home/saman/Tahoe/development/src-mirror/elements/D
 make[9]: Nothing to be done for `subdir_driver'.
 make[9]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D'
 make[8]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D'
+ cd Dielectric_Elastomer_Q1P02D_Mechanical
+make[8]: Entering directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Mechanical'
+    ln -sf: FSDielectricElastomerQ1P02DMechanicalT.h
+ln -sf /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Mechanical/FSDielectricElastomerQ1P02DMechanicalT.h /home/saman/Tahoe/tahoe/../development/inc/FSDielectricElastomerQ1P02DMechanicalT.h
+make[9]: Entering directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Mechanical'
+make[9]: Nothing to be done for `subdir_driver'.
+make[9]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Mechanical'
+make[8]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Mechanical'
 make[7]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements'
 make[6]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements'
  cd C1functions
@@ -1989,7 +1860,7 @@ make[1]: Entering directory `/home/saman/Tahoe/tahoe'
 make[2]: Entering directory `/home/saman/Tahoe/tahoe'
 executing "make depend_init object_list" in /home/saman/Tahoe/tahoe/../development
 make[3]: Entering directory `/home/saman/Tahoe/development'
-Mon May  1 14:13:33 EDT 2017
+Tue Jun 20 17:20:53 EDT 2017
 cd /home/saman/Tahoe/tahoe/../development/src-mirror
 cd /home/saman/Tahoe/tahoe/../development/src-mirror; \
 	make  depend_init \
@@ -2488,6 +2359,20 @@ make[9]: Entering directory `/home/saman/Tahoe/development/src-mirror/elements/D
 make[9]: Nothing to be done for `subdir_driver'.
 make[9]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D'
 make[8]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D'
+ cd Dielectric_Elastomer_Q1P02D_Mechanical
+make[8]: Entering directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Mechanical'
+make[9]: Entering directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Mechanical'
+removed 1 files matching regex ".*[.]d"
+make[9]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Mechanical'
+make[9]: Entering directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Mechanical'
+    /usr/bin/g++-4.6 -MM: FSDielectricElastomerQ1P02DMechanicalT.cpp
+/usr/bin/g++-4.6 -MM -I/home/saman/Tahoe/tahoe/../development/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/tahoe/../development/../development/inc     -I/home/saman/Tahoe/tahoe/../development/../toolbox/inc -I/home/saman/Tahoe/tahoe/../development/../tahoe/inc -I/home/saman/Tahoe/tahoe/../development/../expat/include  -I/home/saman/Tahoe/tahoe/../development/../f2c/inc                -D__DEVELOPMENT__    -D__EXPAT__                   -D__F2C__  -MFFSDielectricElastomerQ1P02DMechanicalT.d FSDielectricElastomerQ1P02DMechanicalT.cpp
+    cat: FSDielectricElastomerQ1P02DMechanicalT.d > all.depend
+make[9]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Mechanical'
+make[9]: Entering directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Mechanical'
+make[9]: Nothing to be done for `subdir_driver'.
+make[9]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Mechanical'
+make[8]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Mechanical'
 make[7]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements'
 make[6]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements'
  cd C1functions
@@ -2698,6 +2583,12 @@ make[9]: Entering directory `/home/saman/Tahoe/development/src-mirror/elements/D
 make[9]: Nothing to be done for `subdir_driver'.
 make[9]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D'
 make[8]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D'
+ cd Dielectric_Elastomer_Q1P02D_Mechanical
+make[8]: Entering directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Mechanical'
+make[9]: Entering directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Mechanical'
+make[9]: Nothing to be done for `subdir_driver'.
+make[9]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Mechanical'
+make[8]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Mechanical'
 make[7]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements'
 make[6]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements'
  cd C1functions

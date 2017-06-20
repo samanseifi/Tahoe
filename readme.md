@@ -31,14 +31,6 @@ Now change all gcc, g++ and gfortran to gcc-4.6, g++-4.6 and gfortran-4.6. Now y
 
 <code> ./tahoe-manager init build</code>
 
-<B>Rebuilding in Linux Ubuntu 16.04</B>
-
-The latest versions of almost all linux distributions now supports GCC-5.x by default, and does not support older versions. The oldest version in Ubuntu 16.04 that can be installed is GCC-4.7:
-
-<code>~$: sudo apt install gcc-4.7</code>
-
-The new macro file GNU-GCC4.7 is added to Tahoe's set of compilier configurations, the behavior is modified to work with no problem on Ubuntu 16.04 systems.
-
 <B>Rebuilding in OS X</B>
 
 First you need to install GCC compilers by installing Xcode and the command line extension which it contains the GCC compilers. However, probably you won't be able to build Tahoe (you can try), so it is needed to obtain new sets of GNU compilers from package managements such as Homebrew, MacPorts or fink. So far fink has shown promised in order to compile Tahoe successfully. You only need to change the macro settings to fink gcc in Tahoe configuration file (.tahoe_config)

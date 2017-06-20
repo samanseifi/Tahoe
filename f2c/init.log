@@ -1,10 +1,10 @@
-Mon May  1 14:13:09 EDT 2017
+Tue Jun 20 17:20:29 EDT 2017
 make[1]: Entering directory `/home/saman/Tahoe/f2c'
  mirroring /home/saman/Tahoe/f2c/src to /home/saman/Tahoe/f2c/src-mirror
 perl -w /home/saman/Tahoe/f2c/../macros/MirrorTree.pl /home/saman/Tahoe/f2c/src /home/saman/Tahoe/f2c/src-mirror "ln -sf" > /home/saman/Tahoe/f2c/mirror.log
 make[1]: Leaving directory `/home/saman/Tahoe/f2c'
 make[1]: Entering directory `/home/saman/Tahoe/f2c'
-Mon May  1 14:13:09 EDT 2017
+Tue Jun 20 17:20:29 EDT 2017
 removed 8 files matching regex ".*[.]h"
 cd /home/saman/Tahoe/f2c/src-mirror
 cd /home/saman/Tahoe/f2c/src-mirror; \
@@ -126,7 +126,7 @@ make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror'
 make[2]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror'
 make[1]: Leaving directory `/home/saman/Tahoe/f2c'
 make[1]: Entering directory `/home/saman/Tahoe/f2c'
-Mon May  1 14:13:10 EDT 2017
+Tue Jun 20 17:20:30 EDT 2017
 cd /home/saman/Tahoe/f2c/src-mirror
 cd /home/saman/Tahoe/f2c/src-mirror; \
 	make  depend_init \

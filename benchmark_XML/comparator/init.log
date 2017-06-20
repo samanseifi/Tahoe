@@ -1,10 +1,10 @@
-Mon May  1 14:13:54 EDT 2017
+Tue Jun 20 17:21:15 EDT 2017
 make[1]: Entering directory `/home/saman/Tahoe/benchmark_XML/comparator'
  mirroring /home/saman/Tahoe/benchmark_XML/comparator/src to /home/saman/Tahoe/benchmark_XML/comparator/src-mirror
 perl -w /home/saman/Tahoe/benchmark_XML/comparator/../../macros/MirrorTree.pl /home/saman/Tahoe/benchmark_XML/comparator/src /home/saman/Tahoe/benchmark_XML/comparator/src-mirror "ln -sf" > /home/saman/Tahoe/benchmark_XML/comparator/mirror.log
 make[1]: Leaving directory `/home/saman/Tahoe/benchmark_XML/comparator'
 make[1]: Entering directory `/home/saman/Tahoe/benchmark_XML/comparator'
-Mon May  1 14:13:55 EDT 2017
+Tue Jun 20 17:21:15 EDT 2017
 removed 1 files matching regex ".*[.]h"
 cd /home/saman/Tahoe/benchmark_XML/comparator/src-mirror
 cd /home/saman/Tahoe/benchmark_XML/comparator/src-mirror; \
@@ -23,7 +23,7 @@ make[3]: Leaving directory `/home/saman/Tahoe/benchmark_XML/comparator/src-mirro
 make[2]: Leaving directory `/home/saman/Tahoe/benchmark_XML/comparator/src-mirror'
 make[1]: Leaving directory `/home/saman/Tahoe/benchmark_XML/comparator'
 make[1]: Entering directory `/home/saman/Tahoe/benchmark_XML/comparator'
-Mon May  1 14:13:55 EDT 2017
+Tue Jun 20 17:21:15 EDT 2017
 cd /home/saman/Tahoe/benchmark_XML/comparator/src-mirror
 cd /home/saman/Tahoe/benchmark_XML/comparator/src-mirror; \
 	make  depend_init \

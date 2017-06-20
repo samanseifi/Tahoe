@@ -1482,7 +1482,9 @@
 			<xsd:element ref='dielectric_elastomer_Q1P0' />
 			<xsd:element ref='dielectric_elastomer_Q1P0Elastocapillary' />
 			<xsd:element ref='dielectric_elastomer_Q1P0_visco' />
+			<xsd:element ref='dielectric_elastomer_2D' />
 			<xsd:element ref='dielectric_elastomer_Q1P02D' />
+			<xsd:element ref='dielectric_elastomer_Q1P02DMechanical' />
 			<xsd:element ref='updated_lagrangian_adaptive_insertion' />
 			<xsd:element ref='spring_element' />
 			<xsd:element ref='updated_lagrangian_mixture' />
@@ -4685,7 +4687,7 @@
 		</xsd:simpleType>
 	</xsd:attribute>
 	<xsd:attribute name='CTE' default='0.000000e+00' type='xsd:double'/>
-	<xsd:attribute name='max_iteration' default='65' type='xsd:integer'/>
+	<xsd:attribute name='max_iteration' default='0' type='xsd:integer'/>
 </xsd:complexType>
 </xsd:element>
 
@@ -5409,6 +5411,7 @@
 			<xsd:element ref='SMP_multi' />
 			<xsd:element ref='ModBoyceVisco' />
 			<xsd:element ref='BergstromBoyce' />
+			<xsd:element ref='Dielectric_Elastomer_2D' />
 			<xsd:element ref='Dielectric_Elastomer_Q1P02D' />
 		</xsd:choice>
 	</xsd:sequence>
@@ -7024,6 +7027,37 @@
 </xsd:complexType>
 </xsd:element>
 
+<xsd:element name='Dielectric_Elastomer_2D'>
+<xsd:complexType>
+	<xsd:sequence>
+		<xsd:element ref='thermal_dilatation' minOccurs='0'/>
+	</xsd:sequence>
+	<xsd:attribute name='density' use='required'>
+		<xsd:simpleType>
+		<xsd:restriction base='xsd:double'>
+			<xsd:minInclusive value='0.000000e+00'/>
+		</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:attribute>
+	<xsd:attribute name='constraint_2D' default='none'>
+		<xsd:simpleType>
+		<xsd:restriction base='xsd:string'>
+			<xsd:enumeration value='none'/>
+			<xsd:enumeration value='plane_stress'/>
+			<xsd:enumeration value='plane_strain'/>
+		</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:attribute>
+	<xsd:attribute name='CTE' default='0.000000e+00' type='xsd:double'/>
+	<xsd:attribute name='mu' use='required' type='xsd:double'/>
+	<xsd:attribute name='epsilon' use='required' type='xsd:double'/>
+	<xsd:attribute name='Nrig' use='required' type='xsd:double'/>
+	<xsd:attribute name='lambda' use='required' type='xsd:double'/>
+	<xsd:attribute name='gamma' use='required' type='xsd:double'/>
+	<xsd:attribute name='t_0' use='required' type='xsd:double'/>
+</xsd:complexType>
+</xsd:element>
+
 <xsd:element name='Dielectric_Elastomer_Q1P02D'>
 <xsd:complexType>
 	<xsd:sequence>
@@ -7051,6 +7085,7 @@
 	<xsd:attribute name='Nrig' use='required' type='xsd:double'/>
 	<xsd:attribute name='lambda' use='required' type='xsd:double'/>
 	<xsd:attribute name='gamma' use='required' type='xsd:double'/>
+	<xsd:attribute name='t_0' use='required' type='xsd:double'/>
 </xsd:complexType>
 </xsd:element>
 
@@ -9139,6 +9174,45 @@
 </xsd:complexType>
 </xsd:element>
 
+<xsd:element name='dielectric_elastomer_2D'>
+<xsd:complexType>
+	<xsd:sequence>
+		<xsd:choice >
+			<xsd:element ref='quadrilateral' />
+			<xsd:element ref='triangle' />
+			<xsd:element ref='hexahedron' />
+			<xsd:element ref='tetrahedron' />
+			<xsd:element ref='line' />
+		</xsd:choice>
+		<xsd:element ref='body_force' minOccurs='0'/>
+		<xsd:element ref='natural_bc' minOccurs='0' maxOccurs='unbounded'/>
+		<xsd:element ref='solid_element_nodal_output' minOccurs='0'/>
+		<xsd:element ref='solid_element_element_output' minOccurs='0'/>
+		<xsd:element ref='large_strain_element_block' maxOccurs='unbounded'/>
+	</xsd:sequence>
+	<xsd:attribute name='field_name' use='required' type='word'/>
+	<xsd:attribute name='store_shapefunctions' default='false' type='xsd:boolean'/>
+	<xsd:attribute name='mass_type' default='automatic'>
+		<xsd:simpleType>
+		<xsd:restriction base='xsd:string'>
+			<xsd:enumeration value='automatic'/>
+			<xsd:enumeration value='no_mass'/>
+			<xsd:enumeration value='consistent_mass'/>
+			<xsd:enumeration value='lumped_mass'/>
+		</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:attribute>
+	<xsd:attribute name='eigenvalue_inc' default='0'>
+		<xsd:simpleType>
+		<xsd:restriction base='xsd:integer'>
+			<xsd:minInclusive value='0'/>
+		</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:attribute>
+	<xsd:attribute name='electric_field_name' use='required' type='word'/>
+</xsd:complexType>
+</xsd:element>
+
 <xsd:element name='dielectric_elastomer_Q1P02D'>
 <xsd:complexType>
 	<xsd:sequence>
@@ -9175,6 +9249,47 @@
 		</xsd:simpleType>
 	</xsd:attribute>
 	<xsd:attribute name='electric_field_name' use='required' type='word'/>
+</xsd:complexType>
+</xsd:element>
+
+<xsd:element name='dielectric_elastomer_Q1P02DMechanical'>
+<xsd:complexType>
+	<xsd:sequence>
+		<xsd:choice >
+			<xsd:element ref='quadrilateral' />
+			<xsd:element ref='triangle' />
+			<xsd:element ref='hexahedron' />
+			<xsd:element ref='tetrahedron' />
+			<xsd:element ref='line' />
+		</xsd:choice>
+		<xsd:element ref='body_force' minOccurs='0'/>
+		<xsd:element ref='natural_bc' minOccurs='0' maxOccurs='unbounded'/>
+		<xsd:element ref='solid_element_nodal_output' minOccurs='0'/>
+		<xsd:element ref='solid_element_element_output' minOccurs='0'/>
+		<xsd:element ref='large_strain_element_block' maxOccurs='unbounded'/>
+		<xsd:element ref='passivated_surface_ID_list' minOccurs='0'/>
+	</xsd:sequence>
+	<xsd:attribute name='field_name' use='required' type='word'/>
+	<xsd:attribute name='store_shapefunctions' default='false' type='xsd:boolean'/>
+	<xsd:attribute name='mass_type' default='automatic'>
+		<xsd:simpleType>
+		<xsd:restriction base='xsd:string'>
+			<xsd:enumeration value='automatic'/>
+			<xsd:enumeration value='no_mass'/>
+			<xsd:enumeration value='consistent_mass'/>
+			<xsd:enumeration value='lumped_mass'/>
+		</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:attribute>
+	<xsd:attribute name='eigenvalue_inc' default='0'>
+		<xsd:simpleType>
+		<xsd:restriction base='xsd:integer'>
+			<xsd:minInclusive value='0'/>
+		</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:attribute>
+	<xsd:attribute name='electric_field_name' use='required' type='word'/>
+	<xsd:attribute name='output_surface' default='false' type='xsd:boolean'/>
 </xsd:complexType>
 </xsd:element>
 

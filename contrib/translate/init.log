@@ -1,10 +1,10 @@
-Mon May  1 14:13:53 EDT 2017
+Tue Jun 20 17:21:14 EDT 2017
 make[1]: Entering directory `/home/saman/Tahoe/contrib/translate'
  mirroring /home/saman/Tahoe/contrib/translate/src to /home/saman/Tahoe/contrib/translate/src-mirror
 perl -w /home/saman/Tahoe/contrib/translate/../../macros/MirrorTree.pl /home/saman/Tahoe/contrib/translate/src /home/saman/Tahoe/contrib/translate/src-mirror "ln -sf" > /home/saman/Tahoe/contrib/translate/mirror.log
 make[1]: Leaving directory `/home/saman/Tahoe/contrib/translate'
 make[1]: Entering directory `/home/saman/Tahoe/contrib/translate'
-Mon May  1 14:13:53 EDT 2017
+Tue Jun 20 17:21:14 EDT 2017
 removed 9 files matching regex ".*[.]h"
 cd /home/saman/Tahoe/contrib/translate/src-mirror
 cd /home/saman/Tahoe/contrib/translate/src-mirror; \
@@ -39,7 +39,7 @@ make[3]: Leaving directory `/home/saman/Tahoe/contrib/translate/src-mirror'
 make[2]: Leaving directory `/home/saman/Tahoe/contrib/translate/src-mirror'
 make[1]: Leaving directory `/home/saman/Tahoe/contrib/translate'
 make[1]: Entering directory `/home/saman/Tahoe/contrib/translate'
-Mon May  1 14:13:53 EDT 2017
+Tue Jun 20 17:21:14 EDT 2017
 cd /home/saman/Tahoe/contrib/translate/src-mirror
 cd /home/saman/Tahoe/contrib/translate/src-mirror; \
 	make  depend_init \
