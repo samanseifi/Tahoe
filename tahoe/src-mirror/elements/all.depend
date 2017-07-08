@@ -328,6 +328,7 @@ ElementListT.o: ElementListT.cpp ElementListT.h \
  /home/saman/Tahoe/tahoe/../development/inc/FSDielectricElastomer2DT.i.h \
  /home/saman/Tahoe/tahoe/../development/inc/FSDielectricElastomerQ1P02DT.h \
  /home/saman/Tahoe/tahoe/../development/inc/FSDielectricElastomerQ1P02DMechanicalT.h \
+ /home/saman/Tahoe/tahoe/../development/inc/FSDielectricElastomerQ1P02DElectricalT.h \
  /home/saman/Tahoe/tahoe/../development/inc/TotalLagrangianFlatT.h \
  /home/saman/Tahoe/tahoe/../development/inc/UpLagAdaptiveT.h \
  /home/saman/Tahoe/tahoe/../development/inc/DevelopmentElementsConfig.h \

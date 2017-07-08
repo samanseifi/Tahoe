@@ -1,7 +1,7 @@
 make[1]: Entering directory `/home/saman/Tahoe/tahoe'
 executing "make build" in /home/saman/Tahoe/tahoe/../development
 make[2]: Entering directory `/home/saman/Tahoe/development'
-Tue Jun 20 17:21:17 EDT 2017
+Thu Jul  6 16:00:57 EDT 2017
 cd /home/saman/Tahoe/tahoe/../development/src-mirror
 cd /home/saman/Tahoe/tahoe/../development/src-mirror; \
 	make  objects \
@@ -269,6 +269,15 @@ make[8]: Entering directory `/home/saman/Tahoe/development/src-mirror/elements/D
 make[8]: Nothing to be done for `subdir_driver'.
 make[8]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Mechanical'
 make[7]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Mechanical'
+ cd Dielectric_Elastomer_Q1P02D_Electrical
+make[7]: Entering directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Electrical'
+make[8]: Entering directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Electrical'
+make[8]: Nothing to be done for `update_objects'.
+make[8]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Electrical'
+make[8]: Entering directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Electrical'
+make[8]: Nothing to be done for `subdir_driver'.
+make[8]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Electrical'
+make[7]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements/Dielectric_Elastomer_Q1P02D_Electrical'
 make[6]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements'
 make[5]: Leaving directory `/home/saman/Tahoe/development/src-mirror/elements'
  cd C1functions
@@ -1575,7 +1584,4 @@ a - NOXSolverT.o
 make[1]: Leaving directory `/home/saman/Tahoe/tahoe'
  linking...
 /usr/bin/g++-4.6 /home/saman/Tahoe/tahoe/src-mirror/main/main.o -o tahoe -L/home/saman/Tahoe/tahoe/lib -ltahoe  -L/home/saman/Tahoe/tahoe/../development/lib -ldevelopment -ltahoe   -L/home/saman/Tahoe/tahoe/../toolbox/lib -ltoolbox -L/home/saman/Tahoe/tahoe/../expat/lib -lexpat        -L/home/saman/Tahoe/tahoe/../spooles/lib -lspooles        -L/usr/local/ACCESS/lib -lexoIIv2c -lnetcdf   -L/home/saman/Tahoe/tahoe/../f2c/lib -lf2c_  -lpthread
-/home/saman/Tahoe/tahoe/../development/lib/libdevelopment.a(FSDielectricElastomerQ1P02DMechanicalT.o):(.bss+0x0): multiple definition of `outfile'
-/home/saman/Tahoe/tahoe/../development/lib/libdevelopment.a(FSDielectricElastomerQ1P0SurfaceT.o):(.bss+0x0): first defined here
-collect2: ld returned 1 exit status
-make: *** [tahoe] Error 1
+    ...wrote tahoe

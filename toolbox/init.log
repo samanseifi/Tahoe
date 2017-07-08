@@ -1,10 +1,10 @@
-Tue Jun 20 17:20:40 EDT 2017
+Thu Jul  6 16:00:23 EDT 2017
 make[1]: Entering directory `/home/saman/Tahoe/toolbox'
  mirroring /home/saman/Tahoe/toolbox/src to /home/saman/Tahoe/toolbox/src-mirror
 perl -w /home/saman/Tahoe/toolbox/../macros/MirrorTree.pl /home/saman/Tahoe/toolbox/src /home/saman/Tahoe/toolbox/src-mirror "ln -sf" > /home/saman/Tahoe/toolbox/mirror.log
 make[1]: Leaving directory `/home/saman/Tahoe/toolbox'
 make[1]: Entering directory `/home/saman/Tahoe/toolbox'
-Tue Jun 20 17:20:41 EDT 2017
+Thu Jul  6 16:00:24 EDT 2017
 removed 195 files matching regex ".*[.]h"
 cd /home/saman/Tahoe/toolbox/src-mirror
 cd /home/saman/Tahoe/toolbox/src-mirror; \
@@ -570,7 +570,7 @@ make[3]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror'
 make[2]: Leaving directory `/home/saman/Tahoe/toolbox/src-mirror'
 make[1]: Leaving directory `/home/saman/Tahoe/toolbox'
 make[1]: Entering directory `/home/saman/Tahoe/toolbox'
-Tue Jun 20 17:20:42 EDT 2017
+Thu Jul  6 16:00:25 EDT 2017
 cd /home/saman/Tahoe/toolbox/src-mirror
 cd /home/saman/Tahoe/toolbox/src-mirror; \
 	make  depend_init \
