@@ -8,23 +8,23 @@
 namespace Tahoe {
 
 /** finite strain, mixed element formulation.
- * The formulation is due to Simo, Taylor, and Pister, CMAME \b 51, 
+ * The formulation is due to Simo, Taylor, and Pister, CMAME \b 51,
  * 177-208, 1985. The basic idea behind the formulation is to
- * represent the pressure and dilatation \f$ \Theta \f$ as separate 
- * fields from the displacement. For the continuous case, the determinant 
- * of the deformation gradient 
-   \f[ 
-       J = \det \mathbf{F} 
-         = \mathbf{1} + \frac{\partial \mathbf{u}}{\partial \mathbf{X}} 
+ * represent the pressure and dilatation \f$ \Theta \f$ as separate
+ * fields from the displacement. For the continuous case, the determinant
+ * of the deformation gradient
+   \f[
+       J = \det \mathbf{F}
+         = \mathbf{1} + \frac{\partial \mathbf{u}}{\partial \mathbf{X}}
    \f]
  * is equal to the dilatation. However, when the displacement
  * field \f$ \mathbf{u} \f$ is restricted to a finite dimensional
  * representation, it may not contain enough degrees of freedom to
- * represent nearly incompressible deformations without making the 
+ * represent nearly incompressible deformations without making the
  * response overly stiff. Therefore, the dilatation and pressure are
  * represented as separate fields. The modified deformation gradient
  * is given by
-   \f[ 
+   \f[
        \bar{\mathbf{F}} = \left( \frac{\Theta}{J} \right)^{1/3} \mathbf{F}.
    \f]
  * The remainder of the formulation results as a consequence. For Q1P0,
@@ -37,7 +37,7 @@ namespace Tahoe {
  *
  * \note Several errors appear in the derivation
  * of the consistent tangent in the CMAME paper. Therefore,
- * the implementation of the tangent here does not match the 
+ * the implementation of the tangent here does not match the
  * published formulation. */
 class SimoQ1P0: public UpdatedLagrangianT
 {
@@ -48,7 +48,7 @@ public:
 
 	/** finalize current step - step is solved */
 	virtual void CloseStep(void);
-	
+
 	/** restore last converged state */
 	virtual GlobalT::RelaxCodeT ResetStep(void);
 
@@ -80,13 +80,15 @@ private:
 	/** compute mean shape function gradient, H (reference volume), and
 	 * current element volume, equation (2.20) */
 	void SetMeanGradient(dArray2DT& mean_gradient, double& H, double& v) const;
-	
+
 	/** special mixed index term in the tangent. Needed to compute
 	 * the term in the tangent resulting from
 	 * \f$ \nabla \mathbf{u} \textrm{:} \left( \nabla \boldsymbol{\eta} \right)^T \f$.
 	 */
 	void bSp_bRq_to_KSqRp(const dMatrixT& b, dMatrixT& K) const;
-	
+
+	void MassMatrix();
+
 protected:
 
 	/** \name element volume */
@@ -97,7 +99,7 @@ protected:
 	/** deformed element volume from the last time step */
 	dArrayT fElementVolume_last;
 	/*@}*/
-	
+
 	/** element pressure. Calculated during SimoQ1P0::FormKd. */
 	dArrayT fPressure;
 
@@ -112,8 +114,16 @@ protected:
 	dMatrixT fdiff_b;
 	dMatrixT fb_bar;
 	dMatrixT fb_sig;
+
+private:
+
+	dMatrixT fAmm_geo;
+	dMatrixT fAmm_mat;
+    dMatrixT fMassMatrix;	// mass matrix for LHS
+
+
 	/*@}*/
 };
 
-} // namespace Tahoe 
+} // namespace Tahoe
 #endif /* _SIMO_Q1_P0_H_ */
