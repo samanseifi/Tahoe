@@ -65,6 +65,9 @@ public:
 	/*@}*/
 
 protected:
+	virtual void SetShape();
+	//
+	virtual void SetLocalArrays();
 
 	/** form shape functions and derivatives */
 	virtual void SetGlobalShape(void);
@@ -91,6 +94,10 @@ private:
 
 protected:
 
+	// Electric field stuff
+	ArrayT<dArrayT> fE_List;
+	dArrayT fE_all;
+
 	/** \name element volume */
 	/*@{*/
 	/** deformed element volume */
@@ -116,10 +123,15 @@ protected:
 	dMatrixT fb_sig;
 
 private:
+	// For voltage field
+	LocalArrayT fLocScalarPotential;
 
 	dMatrixT fAmm_geo;
 	dMatrixT fAmm_mat;
-    dMatrixT fMassMatrix;	// mass matrix for LHS
+    	dMatrixT fMassMatrix;	// mass matrix for LHS
+
+	// For case of electric field coupling for DE
+    	const FieldT* fElectricScalarPotentialField;
 
 
 	/*@}*/

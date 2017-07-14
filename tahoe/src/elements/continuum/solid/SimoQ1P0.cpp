@@ -9,7 +9,7 @@ using namespace Tahoe;
 
 /* constructor */
 SimoQ1P0::SimoQ1P0(const ElementSupportT& support):
-	UpdatedLagrangianT(support)
+	UpdatedLagrangianT(support), fLocScalarPotential(LocalArrayT::kESP), fElectricScalarPotentialField(0)
 {
 	SetName("updated_lagrangian_Q1P0");
 }
@@ -64,6 +64,12 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 {
 	const char caller[] = "SimoQ1P0::TakeParameterList";
 
+	// Check if there is electric field coupling (For DE models)
+	fElectricScalarPotentialField = ElementSupport().Field("electric_scalar_potential");
+	if (!fElectricScalarPotentialField) {
+	  std::cout << "There is no electric field coupling. Perhaps it's not DE model" << std::endl;
+	}
+
 	/* inherited */
 	UpdatedLagrangianT::TakeParameterList(list);
 
@@ -88,6 +94,16 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
     int nen = NumElementNodes();
     int nsd = NumSD();
     int nme = nen * nsd;	// # of mechanical DOFs per element
+
+    const int nip = NumIP();
+    fE_all.Dimension(nip*nsd);
+    fE_all = 0.0;	// testing HSP
+    fE_List.Dimension(nip);
+
+	// Neccessary
+    for (int i = 0; i < nip; ++i) {
+	    fE_List[i].Alias(nsd, fE_all.Pointer(i * nsd));
+    }
 
     fAmm_mat.Dimension(nme, nme);
     fAmm_geo.Dimension(nen, nen);	// dimensions changed for Q1P0!
@@ -132,12 +148,27 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 /* form shape functions and derivatives */
 void SimoQ1P0::SetGlobalShape(void)
 {
+
 	/* current element number */
 	int elem = CurrElementNumber();
 
 	/* inherited - computes gradients and standard
 	 * deformation gradients */
 	UpdatedLagrangianT::SetGlobalShape();
+
+	SetLocalU(fLocScalarPotential);
+
+	for (int i = 0; i < NumIP(); i++) {
+        	// electric field
+   	 	dArrayT& E = fE_List[i];
+   	     	dMatrixT E1(1, NumSD());
+
+   	     	fShapes->GradU(fLocScalarPotential, E1, i);
+   	     	E1 *= -1.0;
+
+   	     	for (int j = 0; j < NumSD(); j++)
+   		     	E[i] = E1(0,j);			
+	}
 
 	/* compute mean of shape function gradients */
 	double H; /* reference volume */
@@ -178,6 +209,57 @@ void SimoQ1P0::SetGlobalShape(void)
 		}
 	}
 }
+
+/* initialization functions */
+void SimoQ1P0::SetShape(void)
+{
+	/* inherited */
+	FiniteStrainT::SetShape();
+
+	/* linked shape functions */
+	fCurrShapes = new ShapeFunctionT(*fShapes, fLocCurrCoords);
+	if (!fCurrShapes) throw ExceptionT::kOutOfMemory ;
+
+	fCurrShapes->Initialize();
+}
+
+void SimoQ1P0::SetLocalArrays()
+{
+
+	// look for an electric scalar potential field
+	const FieldT* esp = 0;
+
+	if (0 == fElectricScalarPotentialField) {
+	  	esp = ElementSupport().Field("electric_scalar_potential");
+	  	fElectricScalarPotentialField = esp;
+	} else {
+	  	esp = fElectricScalarPotentialField;
+	}
+
+	if (0 == esp) {
+
+	  	std::cout << std::endl;
+	  	std::cout << "SimoQ1P0::SetLocalArrays: ";
+	  	std::cout << "Voltage field not found.";
+	  	std::cout << std::endl;
+	  	throw ExceptionT::kGeneralFail;
+	}
+
+	/* inherited */
+	FiniteStrainT::SetLocalArrays();
+
+	const int nen = NumElementNodes();
+
+	fLocScalarPotential.Dimension(nen, 1);
+
+	// Register fields
+	esp->RegisterLocal(fLocScalarPotential);
+
+	/* allocate and set source */
+	fLocCurrCoords.Dimension(NumElementNodes(), NumSD());
+	ElementSupport().RegisterCoordinates(fLocCurrCoords);
+}
+
 
 /* form the element stiffness matrix */
 void SimoQ1P0::FormStiffness(double constK)
