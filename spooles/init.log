@@ -1,345 +1,345 @@
-Fri Jul  7 22:23:25 EDT 2017
-make[1]: Entering directory '/home/saman/Tahoe/spooles'
+Mon Jul 17 12:35:06 EDT 2017
+make[1]: Entering directory `/home/saman/Tahoe/spooles'
  mirroring /home/saman/Tahoe/spooles/src to /home/saman/Tahoe/spooles/src-mirror
 perl -w /home/saman/Tahoe/spooles/../macros/MirrorTree.pl /home/saman/Tahoe/spooles/src /home/saman/Tahoe/spooles/src-mirror "ln -sf" > /home/saman/Tahoe/spooles/mirror.log
-make[1]: Leaving directory '/home/saman/Tahoe/spooles'
-make[1]: Entering directory '/home/saman/Tahoe/spooles'
-Fri Jul  7 22:23:25 EDT 2017
+make[1]: Leaving directory `/home/saman/Tahoe/spooles'
+make[1]: Entering directory `/home/saman/Tahoe/spooles'
+Mon Jul 17 12:35:07 EDT 2017
 removed 69 files matching regex ".*[.]h"
 cd /home/saman/Tahoe/spooles/src-mirror
 cd /home/saman/Tahoe/spooles/src-mirror; \
-make  headers \
-"ARCH = GNU-GCC4.6" \
-"MACRO_DIR = /home/saman/Tahoe/spooles/../macros" \
-"INC_DIR = /home/saman/Tahoe/spooles/inc" \
-"SRC_DIR = /home/saman/Tahoe/spooles/src-mirror" \
-"CURR_DIR = /home/saman/Tahoe/spooles/src-mirror"
-make[2]: Entering directory '/home/saman/Tahoe/spooles/src-mirror'
+	make  headers \
+	"ARCH = GNU-GCC4.6" \
+	"MACRO_DIR = /home/saman/Tahoe/spooles/../macros" \
+	"INC_DIR = /home/saman/Tahoe/spooles/inc" \
+	"SRC_DIR = /home/saman/Tahoe/spooles/src-mirror" \
+	"CURR_DIR = /home/saman/Tahoe/spooles/src-mirror"
+make[2]: Entering directory `/home/saman/Tahoe/spooles/src-mirror'
     ln -sf: cfiles.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/cfiles.h /home/saman/Tahoe/spooles/inc/cfiles.h
     ln -sf: SPOOLES.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/SPOOLES.h /home/saman/Tahoe/spooles/inc/SPOOLES.h
     ln -sf: timings.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/timings.h /home/saman/Tahoe/spooles/inc/timings.h
-make[3]: Entering directory '/home/saman/Tahoe/spooles/src-mirror'
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror'
  cd A2
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/A2'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/A2'
     ln -sf: A2.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/A2/A2.h /home/saman/Tahoe/spooles/inc/A2.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/A2'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/A2'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/A2'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/A2'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/A2'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/A2'
  cd BKL
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
     ln -sf: BKL.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/BKL/BKL.h /home/saman/Tahoe/spooles/inc/BKL.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/BKL'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/BKL'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
  cd BPG
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
     ln -sf: BPG.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/BPG/BPG.h /home/saman/Tahoe/spooles/inc/BPG.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/BPG'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/BPG'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
  cd Chv
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
     ln -sf: Chv.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/Chv/Chv.h /home/saman/Tahoe/spooles/inc/Chv.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Chv'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Chv'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
  cd ChvList
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
     ln -sf: ChvList.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/ChvList/ChvList.h /home/saman/Tahoe/spooles/inc/ChvList.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ChvList'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ChvList'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
  cd ChvManager
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
     ln -sf: ChvManager.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/ChvManager/ChvManager.h /home/saman/Tahoe/spooles/inc/ChvManager.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ChvManager'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ChvManager'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
  cd Coords
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
     ln -sf: Coords.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/Coords/Coords.h /home/saman/Tahoe/spooles/inc/Coords.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Coords'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Coords'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
  cd DenseMtx
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
     ln -sf: DenseMtx.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/DenseMtx/DenseMtx.h /home/saman/Tahoe/spooles/inc/DenseMtx.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
  cd Drand
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
     ln -sf: Drand.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/Drand/Drand.h /home/saman/Tahoe/spooles/inc/Drand.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Drand'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Drand'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
  cd drivers
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
     ln -sf: LU_serial_driver.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/drivers/LU_serial_driver.h /home/saman/Tahoe/spooles/inc/LU_serial_driver.h
     ln -sf: LU_serial_driver_int.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/drivers/LU_serial_driver_int.h /home/saman/Tahoe/spooles/inc/LU_serial_driver_int.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/drivers'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/drivers'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
  cd DSTree
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
     ln -sf: DSTree.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/DSTree/DSTree.h /home/saman/Tahoe/spooles/inc/DSTree.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DSTree'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DSTree'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
  cd DV
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DV'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DV'
     ln -sf: DV.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/DV/DV.h /home/saman/Tahoe/spooles/inc/DV.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DV'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DV'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DV'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DV'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DV'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DV'
  cd EGraph
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
     ln -sf: EGraph.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/EGraph/EGraph.h /home/saman/Tahoe/spooles/inc/EGraph.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/EGraph'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/EGraph'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
  cd ETree
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
     ln -sf: ETree.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/ETree/ETree.h /home/saman/Tahoe/spooles/inc/ETree.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ETree'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ETree'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
  cd FrontMtx
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
     ln -sf: FrontMtx.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/FrontMtx/FrontMtx.h /home/saman/Tahoe/spooles/inc/FrontMtx.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
  cd GPart
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
     ln -sf: DDsepInfo.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/GPart/DDsepInfo.h /home/saman/Tahoe/spooles/inc/DDsepInfo.h
     ln -sf: GPart.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/GPart/GPart.h /home/saman/Tahoe/spooles/inc/GPart.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/GPart'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/GPart'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
  cd Graph
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
     ln -sf: Graph.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/Graph/Graph.h /home/saman/Tahoe/spooles/inc/Graph.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Graph'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Graph'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
  cd Ideq
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
     ln -sf: Ideq.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/Ideq/Ideq.h /home/saman/Tahoe/spooles/inc/Ideq.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Ideq'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Ideq'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
  cd IIheap
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
     ln -sf: IIheap.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/IIheap/IIheap.h /home/saman/Tahoe/spooles/inc/IIheap.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IIheap'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IIheap'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
  cd ILUMtx
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
     ln -sf: ILUMtx.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/ILUMtx/ILUMtx.h /home/saman/Tahoe/spooles/inc/ILUMtx.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
  cd InpMtx
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
     ln -sf: InpMtx.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/InpMtx/InpMtx.h /home/saman/Tahoe/spooles/inc/InpMtx.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/InpMtx'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/InpMtx'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
  cd Iter
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
     ln -sf: Iter.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/Iter/Iter.h /home/saman/Tahoe/spooles/inc/Iter.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Iter'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Iter'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
  cd IV
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IV'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IV'
     ln -sf: IV.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/IV/IV.h /home/saman/Tahoe/spooles/inc/IV.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IV'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IV'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IV'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IV'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IV'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IV'
  cd IVL
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
     ln -sf: IVL.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/IVL/IVL.h /home/saman/Tahoe/spooles/inc/IVL.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IVL'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IVL'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
  cd I2Ohash
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
     ln -sf: I2Ohash.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/I2Ohash/I2Ohash.h /home/saman/Tahoe/spooles/inc/I2Ohash.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
  cd Lock
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
     ln -sf: Lock.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/Lock/Lock.h /home/saman/Tahoe/spooles/inc/Lock.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Lock'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Lock'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
  cd misc
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/misc'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/misc'
     ln -sf: misc.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/misc/misc.h /home/saman/Tahoe/spooles/inc/misc.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/misc'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/misc'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/misc'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/misc'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/misc'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/misc'
  cd MSMD
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
     ln -sf: MSMD.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/MSMD/MSMD.h /home/saman/Tahoe/spooles/inc/MSMD.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/MSMD'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/MSMD'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
  cd Network
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Network'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Network'
     ln -sf: Network.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/Network/Network.h /home/saman/Tahoe/spooles/inc/Network.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Network'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Network'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Network'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Network'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Network'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Network'
  cd PatchAndGoInfo
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
     ln -sf: PatchAndGoInfo.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo/PatchAndGoInfo.h /home/saman/Tahoe/spooles/inc/PatchAndGoInfo.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
  cd Pencil
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
     ln -sf: Pencil.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/Pencil/Pencil.h /home/saman/Tahoe/spooles/inc/Pencil.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Pencil'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Pencil'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
  cd Perm
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
     ln -sf: Perm.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/Perm/Perm.h /home/saman/Tahoe/spooles/inc/Perm.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Perm'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Perm'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
  cd SemiImplMtx
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
     ln -sf: SemiImplMtx.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/SemiImplMtx/SemiImplMtx.h /home/saman/Tahoe/spooles/inc/SemiImplMtx.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
  cd SolveMap
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
     ln -sf: SolveMap.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/SolveMap/SolveMap.h /home/saman/Tahoe/spooles/inc/SolveMap.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SolveMap'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SolveMap'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
  cd SubMtx
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
     ln -sf: SubMtx.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/SubMtx/SubMtx.h /home/saman/Tahoe/spooles/inc/SubMtx.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtx'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtx'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
  cd SubMtxList
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
     ln -sf: SubMtxList.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/SubMtxList/SubMtxList.h /home/saman/Tahoe/spooles/inc/SubMtxList.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
  cd SubMtxManager
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
     ln -sf: SubMtxManager.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/SubMtxManager/SubMtxManager.h /home/saman/Tahoe/spooles/inc/SubMtxManager.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
  cd SymbFac
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
     ln -sf: SymbFac.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/SymbFac/SymbFac.h /home/saman/Tahoe/spooles/inc/SymbFac.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SymbFac'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SymbFac'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
  cd Tree
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
     ln -sf: Tree.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/Tree/Tree.h /home/saman/Tahoe/spooles/inc/Tree.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Tree'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Tree'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
  cd Utilities
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
     ln -sf: axpy_.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/Utilities/axpy_.h /home/saman/Tahoe/spooles/inc/axpy_.h
     ln -sf: CV_.h
@@ -388,47 +388,47 @@ ln -sf /home/saman/Tahoe/spooles/src-mirror/Utilities/util_.h /home/saman/Tahoe/
 ln -sf /home/saman/Tahoe/spooles/src-mirror/Utilities/Utilities.h /home/saman/Tahoe/spooles/inc/Utilities.h
     ln -sf: ZV_.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/Utilities/ZV_.h /home/saman/Tahoe/spooles/inc/ZV_.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Utilities'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Utilities'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
  cd ZV
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
     ln -sf: ZV.h
 ln -sf /home/saman/Tahoe/spooles/src-mirror/ZV/ZV.h /home/saman/Tahoe/spooles/inc/ZV.h
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ZV'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ZV'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ZV'
-make[3]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror'
-make[2]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror'
-make[1]: Leaving directory '/home/saman/Tahoe/spooles'
-make[1]: Entering directory '/home/saman/Tahoe/spooles'
-Fri Jul  7 22:23:26 EDT 2017
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror'
+make[2]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror'
+make[1]: Leaving directory `/home/saman/Tahoe/spooles'
+make[1]: Entering directory `/home/saman/Tahoe/spooles'
+Mon Jul 17 12:35:08 EDT 2017
 cd /home/saman/Tahoe/spooles/src-mirror
 cd /home/saman/Tahoe/spooles/src-mirror; \
-make  depend_init \
-"ARCH = GNU-GCC4.6" \
-"SRC_DIR = /home/saman/Tahoe/spooles/src-mirror" \
-"INC_DIR = /home/saman/Tahoe/spooles/inc" \
-"MACRO_DIR = /home/saman/Tahoe/spooles/../macros" \
-"OPT_MAKEDEPENDFLAGS =                                                " \
-"MOD_MAKEDEPENDFLAGS = " \
-"CURR_DIR = /home/saman/Tahoe/spooles/src-mirror"
-make[2]: Entering directory '/home/saman/Tahoe/spooles/src-mirror'
-make[3]: Entering directory '/home/saman/Tahoe/spooles/src-mirror'
+	make  depend_init \
+	"ARCH = GNU-GCC4.6" \
+	"SRC_DIR = /home/saman/Tahoe/spooles/src-mirror" \
+	"INC_DIR = /home/saman/Tahoe/spooles/inc" \
+	"MACRO_DIR = /home/saman/Tahoe/spooles/../macros" \
+	"OPT_MAKEDEPENDFLAGS =                                                " \
+	"MOD_MAKEDEPENDFLAGS = " \
+	"CURR_DIR = /home/saman/Tahoe/spooles/src-mirror"
+make[2]: Entering directory `/home/saman/Tahoe/spooles/src-mirror'
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror'
 removed 0 files matching regex ".*[.]d"
-make[3]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror'
-make[3]: Entering directory '/home/saman/Tahoe/spooles/src-mirror'
-make[3]: 'all.depend' is up to date.
-make[3]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror'
-make[3]: Entering directory '/home/saman/Tahoe/spooles/src-mirror'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror'
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror'
+make[3]: `all.depend' is up to date.
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror'
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror'
  cd A2
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/A2'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/A2'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/A2'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/A2'
 removed 10 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/A2'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/A2'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/A2'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/A2'
     /usr/bin/gcc-4.6 -MM: A2.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.basics.d A2.basics.c
     /usr/bin/gcc-4.6 -MM: A2.copyEntriesToVector.c
@@ -450,17 +450,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/A2'
     /usr/bin/gcc-4.6 -MM: A2.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFA2.util.d A2.util.c
     cat: A2.basics.d A2.copyEntriesToVector.d A2.init.d A2.instance.d A2.IO.d A2.makeStaircase.d A2.norms.d A2.QRreduce.d A2.sort.d A2.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/A2'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/A2'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/A2'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/A2'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/A2'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/A2'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/A2'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/A2'
  cd BKL
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/BKL'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
 removed 6 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/BKL'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
     /usr/bin/gcc-4.6 -MM: BKL.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBKL.basics.d BKL.basics.c
     /usr/bin/gcc-4.6 -MM: BKL.evalfcn.c
@@ -474,17 +474,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/BKL'
     /usr/bin/gcc-4.6 -MM: BKL.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBKL.util.d BKL.util.c
     cat: BKL.basics.d BKL.evalfcn.d BKL.exhSearch.d BKL.fidmat.d BKL.init.d BKL.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/BKL'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/BKL'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/BKL'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
  cd BPG
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/BPG'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
 removed 7 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/BPG'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
     /usr/bin/gcc-4.6 -MM: BPG.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBPG.basics.d BPG.basics.c
     /usr/bin/gcc-4.6 -MM: BPG.DM.c
@@ -500,17 +500,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/BPG'
     /usr/bin/gcc-4.6 -MM: BPG.pseudo.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFBPG.pseudo.d BPG.pseudo.c
     cat: BPG.basics.d BPG.DM.d BPG.init.d BPG.IO.d BPG.makeGraphs.d BPG.maxFlow.d BPG.pseudo.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/BPG'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/BPG'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/BPG'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
  cd Chv
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Chv'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
 removed 12 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Chv'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
     /usr/bin/gcc-4.6 -MM: Chv.assemble.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.assemble.d Chv.assemble.c
     /usr/bin/gcc-4.6 -MM: Chv.basics.c
@@ -536,17 +536,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Chv'
     /usr/bin/gcc-4.6 -MM: Chv.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChv.util.d Chv.util.c
     cat: Chv.assemble.d Chv.basics.d Chv.copy.d Chv.factor.d Chv.findPivot.d Chv.init.d Chv.instance.d Chv.IO.d Chv.search.d Chv.swap.d Chv.update.d Chv.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Chv'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Chv'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Chv'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
  cd ChvList
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ChvList'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
 removed 4 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ChvList'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
     /usr/bin/gcc-4.6 -MM: ChvList.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChvList.basics.d ChvList.basics.c
     /usr/bin/gcc-4.6 -MM: ChvList.init.c
@@ -556,17 +556,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ChvList'
     /usr/bin/gcc-4.6 -MM: ChvList.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChvList.util.d ChvList.util.c
     cat: ChvList.basics.d ChvList.init.d ChvList.IO.d ChvList.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ChvList'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ChvList'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ChvList'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
  cd ChvManager
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ChvManager'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
 removed 4 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ChvManager'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
     /usr/bin/gcc-4.6 -MM: ChvManager.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChvManager.basics.d ChvManager.basics.c
     /usr/bin/gcc-4.6 -MM: ChvManager.init.c
@@ -576,17 +576,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ChvManager'
     /usr/bin/gcc-4.6 -MM: ChvManager.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFChvManager.util.d ChvManager.util.c
     cat: ChvManager.basics.d ChvManager.init.d ChvManager.IO.d ChvManager.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ChvManager'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ChvManager'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ChvManager'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
  cd Coords
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Coords'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
 removed 4 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Coords'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
     /usr/bin/gcc-4.6 -MM: Coords.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFCoords.basics.d Coords.basics.c
     /usr/bin/gcc-4.6 -MM: Coords.init.c
@@ -596,17 +596,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Coords'
     /usr/bin/gcc-4.6 -MM: Coords.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFCoords.util.d Coords.util.c
     cat: Coords.basics.d Coords.init.d Coords.IO.d Coords.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Coords'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Coords'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Coords'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
  cd DenseMtx
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
 removed 8 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
     /usr/bin/gcc-4.6 -MM: DenseMtx.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDenseMtx.basics.d DenseMtx.basics.c
     /usr/bin/gcc-4.6 -MM: DenseMtx.initAsSubmtx.c
@@ -624,17 +624,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
     /usr/bin/gcc-4.6 -MM: DenseMtx.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDenseMtx.util.d DenseMtx.util.c
     cat: DenseMtx.basics.d DenseMtx.initAsSubmtx.d DenseMtx.init.d DenseMtx.instance.d DenseMtx.IO.d DenseMtx.permute.d DenseMtx.scale.d DenseMtx.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
  cd Drand
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Drand'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
 removed 3 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Drand'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
     /usr/bin/gcc-4.6 -MM: Drand.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDrand.basics.d Drand.basics.c
     /usr/bin/gcc-4.6 -MM: Drand.init.c
@@ -642,17 +642,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Drand'
     /usr/bin/gcc-4.6 -MM: Drand.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDrand.util.d Drand.util.c
     cat: Drand.basics.d Drand.init.d Drand.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Drand'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Drand'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Drand'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
  cd drivers
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/drivers'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
 removed 5 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/drivers'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
     /usr/bin/gcc-4.6 -MM: LU_serial_driver.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFLU_serial_driver.d LU_serial_driver.c
     /usr/bin/gcc-4.6 -MM: LU_serial_driver_init.c
@@ -664,17 +664,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/drivers'
     /usr/bin/gcc-4.6 -MM: LU_serial_driver_free.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFLU_serial_driver_free.d LU_serial_driver_free.c
     cat: LU_serial_driver.d LU_serial_driver_init.d LU_serial_driver_factorize.d LU_serial_driver_solve.d LU_serial_driver_free.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/drivers'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/drivers'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/drivers'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
  cd DSTree
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DSTree'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
 removed 6 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DSTree'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
     /usr/bin/gcc-4.6 -MM: DSTree.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDSTree.basics.d DSTree.basics.c
     /usr/bin/gcc-4.6 -MM: DSTree.init.c
@@ -688,17 +688,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DSTree'
     /usr/bin/gcc-4.6 -MM: DSTree.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDSTree.util.d DSTree.util.c
     cat: DSTree.basics.d DSTree.init.d DSTree.instance.d DSTree.IO.d DSTree.stages.d DSTree.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DSTree'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DSTree'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DSTree'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
  cd DV
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DV'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DV'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DV'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DV'
 removed 6 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DV'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DV'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DV'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DV'
     /usr/bin/gcc-4.6 -MM: DV.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDV.basics.d DV.basics.c
     /usr/bin/gcc-4.6 -MM: DV.init.c
@@ -712,17 +712,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DV'
     /usr/bin/gcc-4.6 -MM: DV.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFDV.util.d DV.util.c
     cat: DV.basics.d DV.init.d DV.instance.d DV.IO.d DV.profile.d DV.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DV'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DV'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DV'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DV'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DV'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DV'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DV'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DV'
  cd EGraph
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/EGraph'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
 removed 5 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/EGraph'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
     /usr/bin/gcc-4.6 -MM: EGraph.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFEGraph.basics.d EGraph.basics.c
     /usr/bin/gcc-4.6 -MM: EGraph.init.c
@@ -734,17 +734,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/EGraph'
     /usr/bin/gcc-4.6 -MM: EGraph.mkAdjGraph.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFEGraph.mkAdjGraph.d EGraph.mkAdjGraph.c
     cat: EGraph.basics.d EGraph.init.d EGraph.IO.d EGraph.misc.d EGraph.mkAdjGraph.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/EGraph'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/EGraph'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/EGraph'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
  cd ETree
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ETree'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
 removed 15 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ETree'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
     /usr/bin/gcc-4.6 -MM: ETree.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.basics.d ETree.basics.c
     /usr/bin/gcc-4.6 -MM: ETree.compress.c
@@ -776,17 +776,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ETree'
     /usr/bin/gcc-4.6 -MM: ETree.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFETree.util.d ETree.util.c
     cat: ETree.basics.d ETree.compress.d ETree.init.d ETree.initFromSubtree.d ETree.instance.d ETree.IO.d ETree.justify.d ETree.maps.d ETree.metrics.d ETree.ms.d ETree.permute.d ETree.semi.d ETree.storage.d ETree.transform.d ETree.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ETree'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ETree'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ETree'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
  cd FrontMtx
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
 removed 19 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
     /usr/bin/gcc-4.6 -MM: FrontMtx.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.basics.d FrontMtx.basics.c
     /usr/bin/gcc-4.6 -MM: FrontMtx.factor.c
@@ -826,17 +826,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
     /usr/bin/gcc-4.6 -MM: FrontMtx.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFFrontMtx.util.d FrontMtx.util.c
     cat: FrontMtx.basics.d FrontMtx.factor.d FrontMtx.factorUtil.d FrontMtx.init.d FrontMtx.instance.d FrontMtx.IO.d FrontMtx.loadEntries.d FrontMtx.permute.d FrontMtx.postponed.d FrontMtx.postProcess.d FrontMtx.QRfactor.d FrontMtx.QRsolve.d FrontMtx.QRutil.d FrontMtx.solve.d FrontMtx.solveUtil.d FrontMtx.split.d FrontMtx.storeFront.d FrontMtx.update.d FrontMtx.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
  cd GPart
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/GPart'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
 removed 15 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/GPart'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
     /usr/bin/gcc-4.6 -MM: GPart.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.basics.d GPart.basics.c
     /usr/bin/gcc-4.6 -MM: GPart.DDsepInfo.c
@@ -868,17 +868,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/GPart'
     /usr/bin/gcc-4.6 -MM: GPart.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGPart.util.d GPart.util.c
     cat: GPart.basics.d GPart.DDsepInfo.d GPart.DDviaFishnet.d GPart.DDviaProjection.d GPart.domSegMap.d GPart.identifyWideSep.d GPart.init.d GPart.makeYCmap.d GPart.RBviaDDsep.d GPart.smoothBisector.d GPart.smoothBy2layers.d GPart.smoothYSep.d GPart.split.d GPart.TwoSetViaBKL.d GPart.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/GPart'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/GPart'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/GPart'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
  cd Graph
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Graph'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
 removed 10 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Graph'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
     /usr/bin/gcc-4.6 -MM: Graph.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.basics.d Graph.basics.c
     /usr/bin/gcc-4.6 -MM: Graph.compress.c
@@ -900,17 +900,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Graph'
     /usr/bin/gcc-4.6 -MM: Graph.wirebasket.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFGraph.wirebasket.d Graph.wirebasket.c
     cat: Graph.basics.d Graph.compress.d Graph.equivMap.d Graph.expand.d Graph.fillFromOffsets.d Graph.init.d Graph.IO.d Graph.setListsFromOffsets.d Graph.util.d Graph.wirebasket.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Graph'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Graph'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Graph'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
  cd Ideq
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Ideq'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
 removed 4 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Ideq'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
     /usr/bin/gcc-4.6 -MM: Ideq.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIdeq.basics.d Ideq.basics.c
     /usr/bin/gcc-4.6 -MM: Ideq.IO.c
@@ -920,31 +920,31 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Ideq'
     /usr/bin/gcc-4.6 -MM: Ideq.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIdeq.util.d Ideq.util.c
     cat: Ideq.basics.d Ideq.IO.d Ideq.resize.d Ideq.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Ideq'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Ideq'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Ideq'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
  cd IIheap
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IIheap'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
 removed 1 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IIheap'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
     /usr/bin/gcc-4.6 -MM: IIheap.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIIheap.basics.d IIheap.basics.c
     cat: IIheap.basics.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IIheap'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IIheap'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IIheap'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
  cd ILUMtx
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
 removed 6 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
     /usr/bin/gcc-4.6 -MM: ILUMtx.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFILUMtx.basics.d ILUMtx.basics.c
     /usr/bin/gcc-4.6 -MM: ILUMtx.factor.c
@@ -958,17 +958,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
     /usr/bin/gcc-4.6 -MM: ILUMtx.solve.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFILUMtx.solve.d ILUMtx.solve.c
     cat: ILUMtx.basics.d ILUMtx.factor.d ILUMtx.init.d ILUMtx.IO.d ILUMtx.misc.d ILUMtx.solve.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
  cd InpMtx
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/InpMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
 removed 17 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/InpMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
     /usr/bin/gcc-4.6 -MM: InpMtx.adjForATA.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.adjForATA.d InpMtx.adjForATA.c
     /usr/bin/gcc-4.6 -MM: InpMtx.basics.c
@@ -1004,17 +1004,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/InpMtx'
     /usr/bin/gcc-4.6 -MM: InpMtx.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFInpMtx.util.d InpMtx.util.c
     cat: InpMtx.adjForATA.d InpMtx.basics.d InpMtx.extract.d InpMtx.fullAdj.d InpMtx.gmmm.d InpMtx.gmvm.d InpMtx.init.d InpMtx.input.d InpMtx.instance.d InpMtx.IO.d InpMtx.map.d InpMtx.mvm.d InpMtx.mvmVector.d InpMtx.permute.d InpMtx.profile.d InpMtx.support.d InpMtx.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/InpMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/InpMtx'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/InpMtx'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
  cd Iter
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Iter'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
 removed 20 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Iter'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
     /usr/bin/gcc-4.6 -MM: Iter.bgmresl.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.bgmresl.d Iter.bgmresl.c
     /usr/bin/gcc-4.6 -MM: Iter.bgmresr.c
@@ -1056,17 +1056,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Iter'
     /usr/bin/gcc-4.6 -MM: Iter.ztfqmrr.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIter.ztfqmrr.d Iter.ztfqmrr.c
     cat: Iter.bgmresl.d Iter.bgmresr.d Iter.bicgstabl.d Iter.bicgstabr.d Iter.DenseMtx_mmm.d Iter.mlbicgstabl.d Iter.mlbicgstabr.d Iter.pcgl.d Iter.pcgr.d Iter.tfqmrl.d Iter.tfqmrr.d Iter.util.d Iter.zbicgstabl.d Iter.zbicgstabr.d Iter.zmlbicgstabl.d Iter.zmlbicgstabr.d Iter.zpcgl.d Iter.zpcgr.d Iter.ztfqmrl.d Iter.ztfqmrr.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Iter'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Iter'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Iter'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
  cd IV
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IV'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IV'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IV'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IV'
 removed 5 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IV'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IV'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IV'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IV'
     /usr/bin/gcc-4.6 -MM: IV.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIV.basics.d IV.basics.c
     /usr/bin/gcc-4.6 -MM: IV.init.c
@@ -1078,17 +1078,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IV'
     /usr/bin/gcc-4.6 -MM: IV.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIV.util.d IV.util.c
     cat: IV.basics.d IV.init.d IV.instance.d IV.IO.d IV.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IV'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IV'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IV'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IV'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IV'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IV'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IV'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IV'
  cd IVL
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IVL'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
 removed 8 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IVL'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
     /usr/bin/gcc-4.6 -MM: IVL.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIVL.basics.d IVL.basics.c
     /usr/bin/gcc-4.6 -MM: IVL.init.c
@@ -1106,17 +1106,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IVL'
     /usr/bin/gcc-4.6 -MM: IVL.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFIVL.util.d IVL.util.c
     cat: IVL.basics.d IVL.init.d IVL.instance.d IVL.IO.d IVL.listmanip.d IVL.misc.d IVL.subIVL.d IVL.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IVL'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IVL'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IVL'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
  cd I2Ohash
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
 removed 4 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
     /usr/bin/gcc-4.6 -MM: I2Ohash.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFI2Ohash.basics.d I2Ohash.basics.c
     /usr/bin/gcc-4.6 -MM: I2Ohash.init.c
@@ -1126,17 +1126,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
     /usr/bin/gcc-4.6 -MM: I2Ohash.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFI2Ohash.util.d I2Ohash.util.c
     cat: I2Ohash.basics.d I2Ohash.init.d I2Ohash.IO.d I2Ohash.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
  cd Lock
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Lock'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
 removed 3 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Lock'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
     /usr/bin/gcc-4.6 -MM: Lock.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFLock.basics.d Lock.basics.c
     /usr/bin/gcc-4.6 -MM: Lock.init.c
@@ -1144,17 +1144,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Lock'
     /usr/bin/gcc-4.6 -MM: Lock.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFLock.util.d Lock.util.c
     cat: Lock.basics.d Lock.init.d Lock.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Lock'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Lock'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Lock'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
  cd misc
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/misc'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/misc'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/misc'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/misc'
 removed 11 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/misc'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/misc'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/misc'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/misc'
     /usr/bin/gcc-4.6 -MM: misc.drawGraphEPS.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.drawGraphEPS.d misc.drawGraphEPS.c
     /usr/bin/gcc-4.6 -MM: misc.fpgrids.c
@@ -1178,17 +1178,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/misc'
     /usr/bin/gcc-4.6 -MM: misc.orderViaND.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFmisc.orderViaND.d misc.orderViaND.c
     cat: misc.drawGraphEPS.d misc.fpgrids.d misc.localND.d misc.mkNDlinsys.d misc.mkNDlinsysQR.d misc.ND.d misc.ND2.d misc.orderViaBestOfNDandMS.d misc.orderViaMMD.d misc.orderViaMS.d misc.orderViaND.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/misc'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/misc'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/misc'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/misc'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/misc'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/misc'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/misc'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/misc'
  cd MSMD
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/MSMD'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
 removed 12 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/MSMD'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
     /usr/bin/gcc-4.6 -MM: MSMD.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.basics.d MSMD.basics.c
     /usr/bin/gcc-4.6 -MM: MSMD.cleanReachSet.c
@@ -1214,17 +1214,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/MSMD'
     /usr/bin/gcc-4.6 -MM: MSMD.update.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFMSMD.update.d MSMD.update.c
     cat: MSMD.basics.d MSMD.cleanReachSet.d MSMD.eliminate.d MSMD.fillPerms.d MSMD.findInodes.d MSMD.frontETree.d MSMD.init.d MSMD.makeSchurComplement.d MSMD.MSMDinfo.d MSMD.MSMDvtx.d MSMD.order.d MSMD.update.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/MSMD'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/MSMD'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/MSMD'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
  cd Network
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Network'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Network'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Network'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Network'
 removed 8 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Network'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Network'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Network'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Network'
     /usr/bin/gcc-4.6 -MM: Network.addArc.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFNetwork.addArc.d Network.addArc.c
     /usr/bin/gcc-4.6 -MM: Network.augmentPath.c
@@ -1242,33 +1242,33 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Network'
     /usr/bin/gcc-4.6 -MM: Network.IO.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFNetwork.IO.d Network.IO.c
     cat: Network.addArc.d Network.augmentPath.d Network.basics.d Network.findAugmentingPath.d Network.findMaxFlow.d Network.findMincut.d Network.init.d Network.IO.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Network'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Network'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Network'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Network'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Network'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Network'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Network'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Network'
  cd PatchAndGoInfo
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
 removed 2 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
     /usr/bin/gcc-4.6 -MM: PatchAndGoInfo.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPatchAndGoInfo.basics.d PatchAndGoInfo.basics.c
     /usr/bin/gcc-4.6 -MM: PatchAndGoInfo.init.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPatchAndGoInfo.init.d PatchAndGoInfo.init.c
     cat: PatchAndGoInfo.basics.d PatchAndGoInfo.init.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
  cd Pencil
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Pencil'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
 removed 7 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Pencil'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
     /usr/bin/gcc-4.6 -MM: Pencil.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPencil.basics.d Pencil.basics.c
     /usr/bin/gcc-4.6 -MM: Pencil.init.c
@@ -1284,17 +1284,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Pencil'
     /usr/bin/gcc-4.6 -MM: Pencil.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPencil.util.d Pencil.util.c
     cat: Pencil.basics.d Pencil.init.d Pencil.IO.d Pencil.mmm.d Pencil.permute.d Pencil.setup.d Pencil.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Pencil'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Pencil'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Pencil'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
  cd Perm
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Perm'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
 removed 5 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Perm'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
     /usr/bin/gcc-4.6 -MM: Perm.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPerm.basics.d Perm.basics.c
     /usr/bin/gcc-4.6 -MM: Perm.compress.c
@@ -1306,17 +1306,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Perm'
     /usr/bin/gcc-4.6 -MM: Perm.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFPerm.util.d Perm.util.c
     cat: Perm.basics.d Perm.compress.d Perm.init.d Perm.IO.d Perm.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Perm'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Perm'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Perm'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
  cd SemiImplMtx
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
 removed 5 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
     /usr/bin/gcc-4.6 -MM: SemiImplMtx.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSemiImplMtx.basics.d SemiImplMtx.basics.c
     /usr/bin/gcc-4.6 -MM: SemiImplMtx.init.c
@@ -1328,17 +1328,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
     /usr/bin/gcc-4.6 -MM: SemiImplMtx.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSemiImplMtx.util.d SemiImplMtx.util.c
     cat: SemiImplMtx.basics.d SemiImplMtx.init.d SemiImplMtx.IO.d SemiImplMtx.solve.d SemiImplMtx.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
  cd SolveMap
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SolveMap'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
 removed 7 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SolveMap'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
     /usr/bin/gcc-4.6 -MM: SolveMap.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSolveMap.basics.d SolveMap.basics.c
     /usr/bin/gcc-4.6 -MM: SolveMap.init.c
@@ -1354,17 +1354,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SolveMap'
     /usr/bin/gcc-4.6 -MM: SolveMap.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSolveMap.util.d SolveMap.util.c
     cat: SolveMap.basics.d SolveMap.init.d SolveMap.instance.d SolveMap.IO.d SolveMap.maps.d SolveMap.setup.d SolveMap.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SolveMap'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SolveMap'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SolveMap'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
  cd SubMtx
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
 removed 14 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
     /usr/bin/gcc-4.6 -MM: SubMtx.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.basics.d SubMtx.basics.c
     /usr/bin/gcc-4.6 -MM: SubMtx.init.c
@@ -1394,17 +1394,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtx'
     /usr/bin/gcc-4.6 -MM: SubMtx.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtx.util.d SubMtx.util.c
     cat: SubMtx.basics.d SubMtx.init.d SubMtx.initRandom.d SubMtx.instance.d SubMtx.IO.d SubMtx.scalevec.d SubMtx.solve.d SubMtx.solveH.d SubMtx.solveT.d SubMtx.solveupd.d SubMtx.solveupdH.d SubMtx.solveupdT.d SubMtx.sort.d SubMtx.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtx'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtx'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
  cd SubMtxList
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
 removed 4 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
     /usr/bin/gcc-4.6 -MM: SubMtxList.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtxList.basics.d SubMtxList.basics.c
     /usr/bin/gcc-4.6 -MM: SubMtxList.init.c
@@ -1414,17 +1414,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
     /usr/bin/gcc-4.6 -MM: SubMtxList.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtxList.util.d SubMtxList.util.c
     cat: SubMtxList.basics.d SubMtxList.init.d SubMtxList.IO.d SubMtxList.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
  cd SubMtxManager
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
 removed 4 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
     /usr/bin/gcc-4.6 -MM: SubMtxManager.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtxManager.basics.d SubMtxManager.basics.c
     /usr/bin/gcc-4.6 -MM: SubMtxManager.init.c
@@ -1434,31 +1434,31 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
     /usr/bin/gcc-4.6 -MM: SubMtxManager.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSubMtxManager.util.d SubMtxManager.util.c
     cat: SubMtxManager.basics.d SubMtxManager.init.d SubMtxManager.IO.d SubMtxManager.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
  cd SymbFac
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SymbFac'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
 removed 1 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SymbFac'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
     /usr/bin/gcc-4.6 -MM: SymbFac.symbfac.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFSymbFac.symbfac.d SymbFac.symbfac.c
     cat: SymbFac.symbfac.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SymbFac'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SymbFac'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SymbFac'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
  cd Tree
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Tree'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
 removed 14 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Tree'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
     /usr/bin/gcc-4.6 -MM: Tree.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.basics.d Tree.basics.c
     /usr/bin/gcc-4.6 -MM: Tree.compress.c
@@ -1488,17 +1488,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Tree'
     /usr/bin/gcc-4.6 -MM: Tree.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFTree.util.d Tree.util.c
     cat: Tree.basics.d Tree.compress.d Tree.draw.d Tree.getCoords.d Tree.init.d Tree.instance.d Tree.IO.d Tree.justify.d Tree.maximizeGain.d Tree.metrics.d Tree.perms.d Tree.permute.d Tree.subtree.d Tree.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Tree'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Tree'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Tree'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
  cd Utilities
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Utilities'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
 removed 15 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Utilities'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
     /usr/bin/gcc-4.6 -MM: Utilities.axpy.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.axpy.d Utilities.axpy.c
     /usr/bin/gcc-4.6 -MM: Utilities.CV.c
@@ -1530,17 +1530,17 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Utilities'
     /usr/bin/gcc-4.6 -MM: Utilities.ZV.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFUtilities.ZV.d Utilities.ZV.c
     cat: Utilities.axpy.d Utilities.CV.d Utilities.DV.d Utilities.FV.d Utilities.iohb.d Utilities.IP.d Utilities.IV.d Utilities.I2OP.d Utilities.newsort.d Utilities.PCV.d Utilities.PDV.d Utilities.PFV.d Utilities.PIV.d Utilities.sortAndCompress.d Utilities.ZV.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Utilities'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Utilities'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Utilities'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
  cd ZV
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ZV'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
 removed 6 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ZV'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
     /usr/bin/gcc-4.6 -MM: ZV.basics.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFZV.basics.d ZV.basics.c
     /usr/bin/gcc-4.6 -MM: ZV.init.c
@@ -1554,273 +1554,273 @@ make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ZV'
     /usr/bin/gcc-4.6 -MM: ZV.util.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/spooles/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFZV.util.d ZV.util.c
     cat: ZV.basics.d ZV.init.d ZV.instance.d ZV.IO.d ZV.profile.d ZV.util.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ZV'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ZV'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ZV'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ZV'
-make[3]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror'
-make[2]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror'
-make[1]: Leaving directory '/home/saman/Tahoe/spooles'
-make[1]: Entering directory '/home/saman/Tahoe/spooles'
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror'
+make[2]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror'
+make[1]: Leaving directory `/home/saman/Tahoe/spooles'
+make[1]: Entering directory `/home/saman/Tahoe/spooles'
 collecting list of object files
 cd /home/saman/Tahoe/spooles/src-mirror; \
-make library \
-"ARCH = GNU-GCC4.6" \
-"HOME_DIR = /home/saman/Tahoe/spooles" \
-"MACRO_DIR = /home/saman/Tahoe/spooles/../macros" \
-"LIBRARY = /home/saman/Tahoe/spooles/object_list" \
-"SRC_DIR = /home/saman/Tahoe/spooles/src-mirror" \
-"LIB_DIR = /home/saman/Tahoe/spooles/lib" \
-"CURR_DIR = /home/saman/Tahoe/spooles/src-mirror"
-make[2]: Entering directory '/home/saman/Tahoe/spooles/src-mirror'
-make[3]: Entering directory '/home/saman/Tahoe/spooles/src-mirror'
+	make library \
+	"ARCH = GNU-GCC4.6" \
+	"HOME_DIR = /home/saman/Tahoe/spooles" \
+	"MACRO_DIR = /home/saman/Tahoe/spooles/../macros" \
+	"LIBRARY = /home/saman/Tahoe/spooles/object_list" \
+	"SRC_DIR = /home/saman/Tahoe/spooles/src-mirror" \
+	"LIB_DIR = /home/saman/Tahoe/spooles/lib" \
+	"CURR_DIR = /home/saman/Tahoe/spooles/src-mirror"
+make[2]: Entering directory `/home/saman/Tahoe/spooles/src-mirror'
+make[3]: Entering directory `/home/saman/Tahoe/spooles/src-mirror'
  cd A2
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/A2'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/A2'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/A2'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/A2'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/A2'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/A2'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/A2'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/A2'
  cd BKL
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/BKL'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/BKL'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/BKL'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BKL'
  cd BPG
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/BPG'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/BPG'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/BPG'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/BPG'
  cd Chv
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Chv'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Chv'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Chv'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Chv'
  cd ChvList
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ChvList'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ChvList'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ChvList'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvList'
  cd ChvManager
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ChvManager'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ChvManager'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ChvManager'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ChvManager'
  cd Coords
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Coords'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Coords'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Coords'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Coords'
  cd DenseMtx
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DenseMtx'
  cd Drand
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Drand'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Drand'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Drand'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Drand'
  cd drivers
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/drivers'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/drivers'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/drivers'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/drivers'
  cd DSTree
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DSTree'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DSTree'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DSTree'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DSTree'
  cd DV
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DV'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/DV'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DV'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/DV'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DV'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/DV'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DV'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/DV'
  cd EGraph
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/EGraph'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/EGraph'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/EGraph'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/EGraph'
  cd ETree
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ETree'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ETree'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ETree'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ETree'
  cd FrontMtx
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/FrontMtx'
  cd GPart
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/GPart'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/GPart'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/GPart'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/GPart'
  cd Graph
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Graph'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Graph'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Graph'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Graph'
  cd Ideq
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Ideq'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Ideq'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Ideq'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Ideq'
  cd IIheap
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IIheap'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IIheap'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IIheap'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IIheap'
  cd ILUMtx
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ILUMtx'
  cd InpMtx
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/InpMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/InpMtx'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/InpMtx'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/InpMtx'
  cd Iter
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Iter'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Iter'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Iter'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Iter'
  cd IV
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IV'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IV'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IV'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IV'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IV'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IV'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IV'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IV'
  cd IVL
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IVL'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/IVL'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IVL'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/IVL'
  cd I2Ohash
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/I2Ohash'
  cd Lock
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Lock'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Lock'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Lock'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Lock'
  cd misc
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/misc'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/misc'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/misc'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/misc'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/misc'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/misc'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/misc'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/misc'
  cd MSMD
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/MSMD'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/MSMD'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/MSMD'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/MSMD'
  cd Network
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Network'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Network'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Network'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Network'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Network'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Network'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Network'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Network'
  cd PatchAndGoInfo
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/PatchAndGoInfo'
  cd Pencil
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Pencil'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Pencil'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Pencil'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Pencil'
  cd Perm
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Perm'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Perm'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Perm'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Perm'
  cd SemiImplMtx
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SemiImplMtx'
  cd SolveMap
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SolveMap'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SolveMap'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SolveMap'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SolveMap'
  cd SubMtx
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtx'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtx'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtx'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtx'
  cd SubMtxList
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxList'
  cd SubMtxManager
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SubMtxManager'
  cd SymbFac
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SymbFac'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/SymbFac'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SymbFac'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/SymbFac'
  cd Tree
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Tree'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Tree'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Tree'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Tree'
  cd Utilities
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Utilities'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/Utilities'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Utilities'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/Utilities'
  cd ZV
-make[4]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ZV'
-make[5]: Entering directory '/home/saman/Tahoe/spooles/src-mirror/ZV'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ZV'
-make[4]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror/ZV'
-make[3]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror'
-make[2]: Leaving directory '/home/saman/Tahoe/spooles/src-mirror'
-make[1]: Leaving directory '/home/saman/Tahoe/spooles'
+make[4]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[5]: Entering directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[4]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror/ZV'
+make[3]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror'
+make[2]: Leaving directory `/home/saman/Tahoe/spooles/src-mirror'
+make[1]: Leaving directory `/home/saman/Tahoe/spooles'

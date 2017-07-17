@@ -1,65 +1,65 @@
-Fri Jul  7 22:23:57 EDT 2017
-make[1]: Entering directory '/home/saman/Tahoe/contrib/wrap'
+Mon Jul 17 12:35:47 EDT 2017
+make[1]: Entering directory `/home/saman/Tahoe/contrib/wrap'
  mirroring /home/saman/Tahoe/contrib/wrap/src to /home/saman/Tahoe/contrib/wrap/src-mirror
 perl -w /home/saman/Tahoe/contrib/wrap/../../macros/MirrorTree.pl /home/saman/Tahoe/contrib/wrap/src /home/saman/Tahoe/contrib/wrap/src-mirror "ln -sf" > /home/saman/Tahoe/contrib/wrap/mirror.log
-make[1]: Leaving directory '/home/saman/Tahoe/contrib/wrap'
-make[1]: Entering directory '/home/saman/Tahoe/contrib/wrap'
-Fri Jul  7 22:23:57 EDT 2017
+make[1]: Leaving directory `/home/saman/Tahoe/contrib/wrap'
+make[1]: Entering directory `/home/saman/Tahoe/contrib/wrap'
+Mon Jul 17 12:35:47 EDT 2017
 removed 0 files matching regex ".*[.]h"
 cd /home/saman/Tahoe/contrib/wrap/src-mirror
 cd /home/saman/Tahoe/contrib/wrap/src-mirror; \
-make  headers \
-"ARCH = GNU-GCC4.6" \
-"MACRO_DIR = /home/saman/Tahoe/contrib/wrap/../../macros" \
-"INC_DIR = /home/saman/Tahoe/contrib/wrap/inc" \
-"SRC_DIR = /home/saman/Tahoe/contrib/wrap/src-mirror" \
-"CURR_DIR = /home/saman/Tahoe/contrib/wrap/src-mirror"
-make[2]: Entering directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
-make[3]: Entering directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
-make[3]: Nothing to be done for 'subdir_driver'.
-make[3]: Leaving directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
-make[2]: Leaving directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
-make[1]: Leaving directory '/home/saman/Tahoe/contrib/wrap'
-make[1]: Entering directory '/home/saman/Tahoe/contrib/wrap'
-Fri Jul  7 22:23:57 EDT 2017
+	make  headers \
+	"ARCH = GNU-GCC4.6" \
+	"MACRO_DIR = /home/saman/Tahoe/contrib/wrap/../../macros" \
+	"INC_DIR = /home/saman/Tahoe/contrib/wrap/inc" \
+	"SRC_DIR = /home/saman/Tahoe/contrib/wrap/src-mirror" \
+	"CURR_DIR = /home/saman/Tahoe/contrib/wrap/src-mirror"
+make[2]: Entering directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
+make[3]: Entering directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
+make[3]: Nothing to be done for `subdir_driver'.
+make[3]: Leaving directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
+make[2]: Leaving directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
+make[1]: Leaving directory `/home/saman/Tahoe/contrib/wrap'
+make[1]: Entering directory `/home/saman/Tahoe/contrib/wrap'
+Mon Jul 17 12:35:47 EDT 2017
 cd /home/saman/Tahoe/contrib/wrap/src-mirror
 cd /home/saman/Tahoe/contrib/wrap/src-mirror; \
-make  depend_init \
-"ARCH = GNU-GCC4.6" \
-"SRC_DIR = /home/saman/Tahoe/contrib/wrap/src-mirror" \
-"INC_DIR = /home/saman/Tahoe/contrib/wrap/inc" \
-"MACRO_DIR = /home/saman/Tahoe/contrib/wrap/../../macros" \
-"OPT_MAKEDEPENDFLAGS =      -I/home/saman/Tahoe/contrib/wrap/../../toolbox/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__   " \
-"MOD_MAKEDEPENDFLAGS = " \
-"CURR_DIR = /home/saman/Tahoe/contrib/wrap/src-mirror"
-make[2]: Entering directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
-make[3]: Entering directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
+	make  depend_init \
+	"ARCH = GNU-GCC4.6" \
+	"SRC_DIR = /home/saman/Tahoe/contrib/wrap/src-mirror" \
+	"INC_DIR = /home/saman/Tahoe/contrib/wrap/inc" \
+	"MACRO_DIR = /home/saman/Tahoe/contrib/wrap/../../macros" \
+	"OPT_MAKEDEPENDFLAGS =      -I/home/saman/Tahoe/contrib/wrap/../../toolbox/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__   " \
+	"MOD_MAKEDEPENDFLAGS = " \
+	"CURR_DIR = /home/saman/Tahoe/contrib/wrap/src-mirror"
+make[2]: Entering directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
+make[3]: Entering directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
 removed 1 files matching regex ".*[.]d"
-make[3]: Leaving directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
-make[3]: Entering directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
+make[3]: Leaving directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
+make[3]: Entering directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
     /usr/bin/g++-4.6 -MM: main.cpp
 /usr/bin/g++-4.6 -MM -I/home/saman/Tahoe/contrib/wrap/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -Wno-deprecated -I/home/saman/Tahoe/contrib/wrap/../../toolbox/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__     -MFmain.d main.cpp
     cat: main.d > all.depend
-make[3]: Leaving directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
-make[3]: Entering directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
-make[3]: Nothing to be done for 'subdir_driver'.
-make[3]: Leaving directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
-make[2]: Leaving directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
-make[1]: Leaving directory '/home/saman/Tahoe/contrib/wrap'
-make[1]: Entering directory '/home/saman/Tahoe/contrib/wrap'
+make[3]: Leaving directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
+make[3]: Entering directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
+make[3]: Nothing to be done for `subdir_driver'.
+make[3]: Leaving directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
+make[2]: Leaving directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
+make[1]: Leaving directory `/home/saman/Tahoe/contrib/wrap'
+make[1]: Entering directory `/home/saman/Tahoe/contrib/wrap'
 collecting list of object files
 cd /home/saman/Tahoe/contrib/wrap/src-mirror; \
-make library \
-"ARCH = GNU-GCC4.6" \
-"HOME_DIR = /home/saman/Tahoe/contrib/wrap" \
-"MACRO_DIR = /home/saman/Tahoe/contrib/wrap/../../macros" \
-"LIBRARY = /home/saman/Tahoe/contrib/wrap/object_list" \
-"SRC_DIR = /home/saman/Tahoe/contrib/wrap/src-mirror" \
-"LIB_DIR = /home/saman/Tahoe/contrib/wrap/lib" \
-"CURR_DIR = /home/saman/Tahoe/contrib/wrap/src-mirror"
-make[2]: Entering directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
-make[3]: Entering directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
-make[3]: Nothing to be done for 'subdir_driver'.
-make[3]: Leaving directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
-make[2]: Leaving directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
-make[1]: Leaving directory '/home/saman/Tahoe/contrib/wrap'
+	make library \
+	"ARCH = GNU-GCC4.6" \
+	"HOME_DIR = /home/saman/Tahoe/contrib/wrap" \
+	"MACRO_DIR = /home/saman/Tahoe/contrib/wrap/../../macros" \
+	"LIBRARY = /home/saman/Tahoe/contrib/wrap/object_list" \
+	"SRC_DIR = /home/saman/Tahoe/contrib/wrap/src-mirror" \
+	"LIB_DIR = /home/saman/Tahoe/contrib/wrap/lib" \
+	"CURR_DIR = /home/saman/Tahoe/contrib/wrap/src-mirror"
+make[2]: Entering directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
+make[3]: Entering directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
+make[3]: Nothing to be done for `subdir_driver'.
+make[3]: Leaving directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
+make[2]: Leaving directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
+make[1]: Leaving directory `/home/saman/Tahoe/contrib/wrap'

@@ -180,12 +180,12 @@ config.status: creating Makefile
 config.status: creating expat_config.h
 config.status: expat_config.h is unchanged
 make install
-make[1]: Entering directory '/home/saman/Tahoe/expat'
+make[1]: Entering directory `/home/saman/Tahoe/expat'
 cd expat/expat-1.95.7; make; make install
-make[2]: Entering directory '/home/saman/Tahoe/expat/expat/expat-1.95.7'
-make[2]: Nothing to be done for 'default'.
-make[2]: Leaving directory '/home/saman/Tahoe/expat/expat/expat-1.95.7'
-make[2]: Entering directory '/home/saman/Tahoe/expat/expat/expat-1.95.7'
+make[2]: Entering directory `/home/saman/Tahoe/expat/expat/expat-1.95.7'
+make[2]: Nothing to be done for `default'.
+make[2]: Leaving directory `/home/saman/Tahoe/expat/expat/expat-1.95.7'
+make[2]: Entering directory `/home/saman/Tahoe/expat/expat/expat-1.95.7'
 /bin/bash ./conftools/mkinstalldirs /home/saman/Tahoe/expat/local/lib /home/saman/Tahoe/expat/local/include
 /bin/bash ./libtool --mode=install /usr/bin/install -c libexpat.la /home/saman/Tahoe/expat/local/lib/libexpat.la
 /usr/bin/install -c .libs/libexpat.lai /home/saman/Tahoe/expat/local/lib/libexpat.la
@@ -216,15 +216,15 @@ more information, such as the ld(1) and ld.so(8) manual pages.
 /bin/bash ./libtool --mode=install /usr/bin/install -c xmlwf/xmlwf /home/saman/Tahoe/expat/local/bin/xmlwf
 /usr/bin/install -c xmlwf/xmlwf /home/saman/Tahoe/expat/local/bin/xmlwf
 /usr/bin/install -c -m 644 ./doc/xmlwf.1 /home/saman/Tahoe/expat/local/man/man1
-make[2]: Leaving directory '/home/saman/Tahoe/expat/expat/expat-1.95.7'
+make[2]: Leaving directory `/home/saman/Tahoe/expat/expat/expat-1.95.7'
 make include
-make[2]: Entering directory '/home/saman/Tahoe/expat'
+make[2]: Entering directory `/home/saman/Tahoe/expat'
 if [ ! -d include ]; then mkdir include; fi
 cp -f local/include/* include
-make[2]: Leaving directory '/home/saman/Tahoe/expat'
+make[2]: Leaving directory `/home/saman/Tahoe/expat'
 make lib
-make[2]: Entering directory '/home/saman/Tahoe/expat'
+make[2]: Entering directory `/home/saman/Tahoe/expat'
 if [ ! -d lib ]; then mkdir lib; fi
 cp -f local/lib/* lib
-make[2]: Leaving directory '/home/saman/Tahoe/expat'
-make[1]: Leaving directory '/home/saman/Tahoe/expat'
+make[2]: Leaving directory `/home/saman/Tahoe/expat'
+make[1]: Leaving directory `/home/saman/Tahoe/expat'

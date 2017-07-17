@@ -1,71 +1,71 @@
-Fri Jul  7 22:23:23 EDT 2017
-make[1]: Entering directory '/home/saman/Tahoe/f2c'
+Mon Jul 17 12:35:03 EDT 2017
+make[1]: Entering directory `/home/saman/Tahoe/f2c'
  mirroring /home/saman/Tahoe/f2c/src to /home/saman/Tahoe/f2c/src-mirror
 perl -w /home/saman/Tahoe/f2c/../macros/MirrorTree.pl /home/saman/Tahoe/f2c/src /home/saman/Tahoe/f2c/src-mirror "ln -sf" > /home/saman/Tahoe/f2c/mirror.log
-make[1]: Leaving directory '/home/saman/Tahoe/f2c'
-make[1]: Entering directory '/home/saman/Tahoe/f2c'
-Fri Jul  7 22:23:24 EDT 2017
+make[1]: Leaving directory `/home/saman/Tahoe/f2c'
+make[1]: Entering directory `/home/saman/Tahoe/f2c'
+Mon Jul 17 12:35:04 EDT 2017
 removed 8 files matching regex ".*[.]h"
 cd /home/saman/Tahoe/f2c/src-mirror
 cd /home/saman/Tahoe/f2c/src-mirror; \
-make  headers \
-"ARCH = GNU-GCC4.6" \
-"MACRO_DIR = /home/saman/Tahoe/f2c/../macros" \
-"INC_DIR = /home/saman/Tahoe/f2c/inc" \
-"SRC_DIR = /home/saman/Tahoe/f2c/src-mirror" \
-"CURR_DIR = /home/saman/Tahoe/f2c/src-mirror"
-make[2]: Entering directory '/home/saman/Tahoe/f2c/src-mirror'
-make[3]: Entering directory '/home/saman/Tahoe/f2c/src-mirror'
+	make  headers \
+	"ARCH = GNU-GCC4.6" \
+	"MACRO_DIR = /home/saman/Tahoe/f2c/../macros" \
+	"INC_DIR = /home/saman/Tahoe/f2c/inc" \
+	"SRC_DIR = /home/saman/Tahoe/f2c/src-mirror" \
+	"CURR_DIR = /home/saman/Tahoe/f2c/src-mirror"
+make[2]: Entering directory `/home/saman/Tahoe/f2c/src-mirror'
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror'
  cd Char
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Char'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Char'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Char'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Char'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Char'
  cd Complex
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
  cd custom_Misc
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
  cd Double
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double'
  cd Double_Complex
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
  cd ELF
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
  cd Half_Integer
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
  cd Integer
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
  cd IO
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/IO'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/IO'
     ln -sf: fio.h
 ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/fio.h /home/saman/Tahoe/f2c/inc/fio.h
     ln -sf: fmt.h
@@ -74,18 +74,18 @@ ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/fmt.h /home/saman/Tahoe/f2c/inc/fmt.h
 ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/lio.h /home/saman/Tahoe/f2c/inc/lio.h
     ln -sf: rawio.h
 ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/rawio.h /home/saman/Tahoe/f2c/inc/rawio.h
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/IO'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/IO'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/IO'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/IO'
  cd Logical
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
  cd Misc
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
     ln -sf: fp.h
 ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/fp.h /home/saman/Tahoe/f2c/inc/fp.h
     ln -sf: f2c.h
@@ -94,63 +94,63 @@ ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/f2c.h /home/saman/Tahoe/f2c/inc/f2c
 ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/libf2cCWPrefix.h /home/saman/Tahoe/f2c/inc/libf2cCWPrefix.h
     ln -sf: signal1.h
 ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/signal1.h /home/saman/Tahoe/f2c/inc/signal1.h
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
  cd Power
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Power'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Power'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Power'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Power'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Power'
  cd Quad_Integer
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
  cd Real
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Real'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Real'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Real'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Real'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Real'
  cd Time
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Time'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Time'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Time'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Time'
-make[3]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror'
-make[2]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror'
-make[1]: Leaving directory '/home/saman/Tahoe/f2c'
-make[1]: Entering directory '/home/saman/Tahoe/f2c'
-Fri Jul  7 22:23:24 EDT 2017
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror'
+make[2]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror'
+make[1]: Leaving directory `/home/saman/Tahoe/f2c'
+make[1]: Entering directory `/home/saman/Tahoe/f2c'
+Mon Jul 17 12:35:04 EDT 2017
 cd /home/saman/Tahoe/f2c/src-mirror
 cd /home/saman/Tahoe/f2c/src-mirror; \
-make  depend_init \
-"ARCH = GNU-GCC4.6" \
-"SRC_DIR = /home/saman/Tahoe/f2c/src-mirror" \
-"INC_DIR = /home/saman/Tahoe/f2c/inc" \
-"MACRO_DIR = /home/saman/Tahoe/f2c/../macros" \
-"OPT_MAKEDEPENDFLAGS =                                                " \
-"MOD_MAKEDEPENDFLAGS = " \
-"CURR_DIR = /home/saman/Tahoe/f2c/src-mirror"
-make[2]: Entering directory '/home/saman/Tahoe/f2c/src-mirror'
-make[3]: Entering directory '/home/saman/Tahoe/f2c/src-mirror'
+	make  depend_init \
+	"ARCH = GNU-GCC4.6" \
+	"SRC_DIR = /home/saman/Tahoe/f2c/src-mirror" \
+	"INC_DIR = /home/saman/Tahoe/f2c/inc" \
+	"MACRO_DIR = /home/saman/Tahoe/f2c/../macros" \
+	"OPT_MAKEDEPENDFLAGS =                                                " \
+	"MOD_MAKEDEPENDFLAGS = " \
+	"CURR_DIR = /home/saman/Tahoe/f2c/src-mirror"
+make[2]: Entering directory `/home/saman/Tahoe/f2c/src-mirror'
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror'
 removed 0 files matching regex ".*[.]d"
-make[3]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror'
-make[3]: Entering directory '/home/saman/Tahoe/f2c/src-mirror'
-    cat: /home/saman/Tahoe/f2c/../macros/empty > all.depend
-make[3]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror'
-make[3]: Entering directory '/home/saman/Tahoe/f2c/src-mirror'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror'
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror'
+make[3]: `all.depend' is up to date.
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror'
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror'
  cd Char
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Char'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Char'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Char'
 removed 4 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Char'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Char'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Char'
     /usr/bin/gcc-4.6 -MM: f77_aloc.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFf77_aloc.d f77_aloc.c
     /usr/bin/gcc-4.6 -MM: s_cat.c
@@ -160,17 +160,17 @@ make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Char'
     /usr/bin/gcc-4.6 -MM: s_copy.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFs_copy.d s_copy.c
     cat: f77_aloc.d s_cat.d s_cmp.d s_copy.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Char'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Char'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Char'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Char'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Char'
  cd Complex
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
 removed 7 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
     /usr/bin/gcc-4.6 -MM: c_abs.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFc_abs.d c_abs.c
     /usr/bin/gcc-4.6 -MM: c_cos.c
@@ -186,17 +186,17 @@ make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
     /usr/bin/gcc-4.6 -MM: c_sqrt.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFc_sqrt.d c_sqrt.c
     cat: c_abs.d c_cos.d c_div.d c_exp.d c_log.d c_sin.d c_sqrt.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
  cd custom_Misc
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
 removed 3 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
     /usr/bin/gcc-4.6 -MM: lsame.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFlsame.d lsame.c
     /usr/bin/gcc-4.6 -MM: Mac_f2c_access.c
@@ -204,17 +204,17 @@ make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
     /usr/bin/gcc-4.6 -MM: xerbla.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFxerbla.d xerbla.c
     cat: lsame.d Mac_f2c_access.d xerbla.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
  cd Double
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double'
 removed 23 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double'
     /usr/bin/gcc-4.6 -MM: d_abs.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFd_abs.d d_abs.c
     /usr/bin/gcc-4.6 -MM: d_acos.c
@@ -262,17 +262,17 @@ make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double'
     /usr/bin/gcc-4.6 -MM: d_tanh.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFd_tanh.d d_tanh.c
     cat: d_abs.d d_acos.d d_asin.d d_atan.d d_atn2.d d_cnjg.d d_cos.d d_cosh.d d_dim.d d_exp.d d_imag.d d_int.d d_lg10.d d_log.d d_mod.d d_nint.d d_prod.d d_sign.d d_sin.d d_sinh.d d_sqrt.d d_tan.d d_tanh.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double'
  cd Double_Complex
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
 removed 7 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
     /usr/bin/gcc-4.6 -MM: z_abs.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFz_abs.d z_abs.c
     /usr/bin/gcc-4.6 -MM: z_cos.c
@@ -288,33 +288,33 @@ make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
     /usr/bin/gcc-4.6 -MM: z_sqrt.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFz_sqrt.d z_sqrt.c
     cat: z_abs.d z_cos.d z_div.d z_exp.d z_log.d z_sin.d z_sqrt.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
  cd ELF
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
 removed 2 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
     /usr/bin/gcc-4.6 -MM: ef1asc_.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFef1asc_.d ef1asc_.c
     /usr/bin/gcc-4.6 -MM: ef1cmc_.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFef1cmc_.d ef1cmc_.c
     cat: ef1asc_.d ef1cmc_.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
  cd Half_Integer
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
 removed 8 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
     /usr/bin/gcc-4.6 -MM: h_abs.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFh_abs.d h_abs.c
     /usr/bin/gcc-4.6 -MM: h_dim.c
@@ -332,17 +332,17 @@ make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
     /usr/bin/gcc-4.6 -MM: h_sign.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFh_sign.d h_sign.c
     cat: h_abs.d h_dim.d h_dnnt.d h_indx.d h_len.d h_mod.d h_nint.d h_sign.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
  cd Integer
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
 removed 10 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
     /usr/bin/gcc-4.6 -MM: i_abs.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFi_abs.d i_abs.c
     /usr/bin/gcc-4.6 -MM: i_dim.c
@@ -364,17 +364,17 @@ make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
     /usr/bin/gcc-4.6 -MM: lbitshft.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFlbitshft.d lbitshft.c
     cat: i_abs.d i_dim.d i_dnnt.d i_indx.d i_len.d i_mod.d i_nint.d i_sign.d lbitbits.d lbitshft.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
  cd IO
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/IO'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/IO'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/IO'
 removed 32 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/IO'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/IO'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/IO'
     /usr/bin/gcc-4.6 -MM: backspace.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFbackspace.d backspace.c
     /usr/bin/gcc-4.6 -MM: close.c
@@ -440,17 +440,17 @@ make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/IO'
     /usr/bin/gcc-4.6 -MM: xwsne.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFxwsne.d xwsne.c
     cat: backspace.d close.d dfe.d dolio.d due.d endfile.d err.d fmt.d fmtlib.d ftell_.d iio.d ilnw.d inquire.d lread.d lwrite.d open.d rdfmt.d rewind.d rsfe.d rsli.d rsne.d sfe.d sue.d typesize.d uio.d util.d wref.d wrtfmt.d wsfe.d wsle.d wsne.d xwsne.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/IO'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/IO'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/IO'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/IO'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/IO'
  cd Logical
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
 removed 8 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
     /usr/bin/gcc-4.6 -MM: hl_ge.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFhl_ge.d hl_ge.c
     /usr/bin/gcc-4.6 -MM: hl_gt.c
@@ -468,17 +468,17 @@ make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
     /usr/bin/gcc-4.6 -MM: l_lt.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFl_lt.d l_lt.c
     cat: hl_ge.d hl_gt.d hl_le.d hl_lt.d l_ge.d l_gt.d l_le.d l_lt.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
  cd Misc
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
 removed 18 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
     /usr/bin/gcc-4.6 -MM: abort_.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFabort_.d abort_.c
     /usr/bin/gcc-4.6 -MM: cabs.c
@@ -516,17 +516,17 @@ make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
     /usr/bin/gcc-4.6 -MM: system_.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFsystem_.d system_.c
     cat: abort_.d cabs.d derf_.d derfc_.d erf_.d erfc_.d exit_.d f77vers.d getarg_.d getenv_.d iargc_.d i77vers.d sig_die.d signal_.d s_paus.d s_rnge.d s_stop.d system_.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
  cd Power
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Power'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Power'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Power'
 removed 8 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Power'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Power'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Power'
     /usr/bin/gcc-4.6 -MM: pow_ci.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFpow_ci.d pow_ci.c
     /usr/bin/gcc-4.6 -MM: pow_dd.c
@@ -544,17 +544,17 @@ make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Power'
     /usr/bin/gcc-4.6 -MM: pow_zz.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFpow_zz.d pow_zz.c
     cat: pow_ci.d pow_dd.d pow_di.d pow_hh.d pow_ii.d pow_ri.d pow_zi.d pow_zz.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Power'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Power'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Power'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Power'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Power'
  cd Quad_Integer
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
 removed 3 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
     /usr/bin/gcc-4.6 -MM: pow_qq.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFpow_qq.d pow_qq.c
     /usr/bin/gcc-4.6 -MM: qbitbits.c
@@ -562,17 +562,17 @@ make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
     /usr/bin/gcc-4.6 -MM: qbitshft.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFqbitshft.d qbitshft.c
     cat: pow_qq.d qbitbits.d qbitshft.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
  cd Real
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Real'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Real'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Real'
 removed 22 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Real'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Real'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Real'
     /usr/bin/gcc-4.6 -MM: r_abs.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFr_abs.d r_abs.c
     /usr/bin/gcc-4.6 -MM: r_acos.c
@@ -618,133 +618,133 @@ make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Real'
     /usr/bin/gcc-4.6 -MM: r_tanh.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFr_tanh.d r_tanh.c
     cat: r_abs.d r_acos.d r_asin.d r_atan.d r_atn2.d r_cnjg.d r_cos.d r_cosh.d r_dim.d r_exp.d r_imag.d r_int.d r_lg10.d r_log.d r_mod.d r_nint.d r_sign.d r_sin.d r_sinh.d r_sqrt.d r_tan.d r_tanh.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Real'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Real'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Real'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Real'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Real'
  cd Time
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Time'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Time'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Time'
 removed 2 files matching regex ".*[.]d"
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Time'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Time'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Time'
     /usr/bin/gcc-4.6 -MM: dtime_.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFdtime_.d dtime_.c
     /usr/bin/gcc-4.6 -MM: etime_.c
 /usr/bin/gcc-4.6 -MM -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL   -MFetime_.d etime_.c
     cat: dtime_.d etime_.d > all.depend
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Time'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Time'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Time'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Time'
-make[3]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror'
-make[2]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror'
-make[1]: Leaving directory '/home/saman/Tahoe/f2c'
-make[1]: Entering directory '/home/saman/Tahoe/f2c'
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror'
+make[2]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror'
+make[1]: Leaving directory `/home/saman/Tahoe/f2c'
+make[1]: Entering directory `/home/saman/Tahoe/f2c'
 collecting list of object files
 cd /home/saman/Tahoe/f2c/src-mirror; \
-make library \
-"ARCH = GNU-GCC4.6" \
-"HOME_DIR = /home/saman/Tahoe/f2c" \
-"MACRO_DIR = /home/saman/Tahoe/f2c/../macros" \
-"LIBRARY = /home/saman/Tahoe/f2c/object_list" \
-"SRC_DIR = /home/saman/Tahoe/f2c/src-mirror" \
-"LIB_DIR = /home/saman/Tahoe/f2c/lib" \
-"CURR_DIR = /home/saman/Tahoe/f2c/src-mirror"
-make[2]: Entering directory '/home/saman/Tahoe/f2c/src-mirror'
-make[3]: Entering directory '/home/saman/Tahoe/f2c/src-mirror'
+	make library \
+	"ARCH = GNU-GCC4.6" \
+	"HOME_DIR = /home/saman/Tahoe/f2c" \
+	"MACRO_DIR = /home/saman/Tahoe/f2c/../macros" \
+	"LIBRARY = /home/saman/Tahoe/f2c/object_list" \
+	"SRC_DIR = /home/saman/Tahoe/f2c/src-mirror" \
+	"LIB_DIR = /home/saman/Tahoe/f2c/lib" \
+	"CURR_DIR = /home/saman/Tahoe/f2c/src-mirror"
+make[2]: Entering directory `/home/saman/Tahoe/f2c/src-mirror'
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror'
  cd Char
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Char'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Char'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Char'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Char'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Char'
  cd Complex
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
  cd custom_Misc
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
  cd Double
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double'
  cd Double_Complex
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
  cd ELF
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
  cd Half_Integer
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
  cd Integer
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
  cd IO
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/IO'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/IO'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/IO'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/IO'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/IO'
  cd Logical
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
  cd Misc
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
  cd Power
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Power'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Power'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Power'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Power'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Power'
  cd Quad_Integer
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
  cd Real
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Real'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Real'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Real'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Real'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Real'
  cd Time
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Time'
-make[5]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Time'
-make[5]: Nothing to be done for 'subdir_driver'.
-make[5]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Time'
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Time'
-make[3]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror'
-make[2]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror'
-make[1]: Leaving directory '/home/saman/Tahoe/f2c'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[5]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[5]: Nothing to be done for `subdir_driver'.
+make[5]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror'
+make[2]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror'
+make[1]: Leaving directory `/home/saman/Tahoe/f2c'

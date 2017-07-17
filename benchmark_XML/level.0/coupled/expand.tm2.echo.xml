@@ -112,7 +112,7 @@
 				</block_ID_list>
 				<large_strain_material_2D>
 					<large_strain_StVenant_2D
-					     CTE='0.05'
+					     CTE='0.0'
 					 density='1.0'>
 						<E_and_nu
 						 Poisson_ratio='0.25'

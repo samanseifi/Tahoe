@@ -1,653 +1,173 @@
 cd /home/saman/Tahoe/f2c/src-mirror
 cd /home/saman/Tahoe/f2c/src-mirror; \
-make  objects \
-"ARCH = GNU-GCC4.6" \
-"MACRO_DIR = /home/saman/Tahoe/f2c/../macros" \
-"INC_DIR = /home/saman/Tahoe/f2c/inc" \
-"SRC_DIR = /home/saman/Tahoe/f2c/src-mirror" \
-"BLD_DIR = /home/saman/Tahoe/f2c" \
-"OBJ_DIR = /home/saman/Tahoe/f2c/obj" \
-"LIB_DIR = /home/saman/Tahoe/f2c/lib" \
-"PCH = f2c_Prefix.h" \
-"OPT_CFLAGS =                        " \
-"MOD_CFLAGS_C = " \
-"MOD_CFLAGS_CC = " \
-"MOD_CFLAGS_F = " \
-"MOD_LFLAGS = " \
-"OPT_MAKEDEPENDFLAGS =                                                " \
-"MOD_MAKEDEPENDFLAGS = " \
-"DEPEND = all.depend" \
-"CURR_DIR = /home/saman/Tahoe/f2c/src-mirror"
-make[1]: Entering directory '/home/saman/Tahoe/f2c/src-mirror'
-make[2]: Entering directory '/home/saman/Tahoe/f2c/src-mirror'
-make[2]: Nothing to be done for 'update_objects'.
-make[2]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror'
-make[2]: Entering directory '/home/saman/Tahoe/f2c/src-mirror'
+	make  objects \
+	"ARCH = GNU-GCC4.6" \
+	"MACRO_DIR = /home/saman/Tahoe/f2c/../macros" \
+	"INC_DIR = /home/saman/Tahoe/f2c/inc" \
+	"SRC_DIR = /home/saman/Tahoe/f2c/src-mirror" \
+	"BLD_DIR = /home/saman/Tahoe/f2c" \
+	"OBJ_DIR = /home/saman/Tahoe/f2c/obj" \
+	"LIB_DIR = /home/saman/Tahoe/f2c/lib" \
+	"PCH = f2c_Prefix.h" \
+	"OPT_CFLAGS =                        " \
+	"MOD_CFLAGS_C = " \
+	"MOD_CFLAGS_CC = " \
+	"MOD_CFLAGS_F = " \
+	"MOD_LFLAGS = " \
+	"OPT_MAKEDEPENDFLAGS =                                                " \
+	"MOD_MAKEDEPENDFLAGS = " \
+	"DEPEND = all.depend" \
+	"CURR_DIR = /home/saman/Tahoe/f2c/src-mirror"
+make[1]: Entering directory `/home/saman/Tahoe/f2c/src-mirror'
+make[2]: Entering directory `/home/saman/Tahoe/f2c/src-mirror'
+make[2]: Nothing to be done for `update_objects'.
+make[2]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror'
+make[2]: Entering directory `/home/saman/Tahoe/f2c/src-mirror'
  cd Char
-make[3]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Char'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Char'
-    /usr/bin/gcc-4.6: f77_aloc.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   f77_aloc.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Char/f77_aloc.o /home/saman/Tahoe/f2c/obj/f77_aloc.o
-    /usr/bin/gcc-4.6: s_cat.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   s_cat.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Char/s_cat.o /home/saman/Tahoe/f2c/obj/s_cat.o
-    /usr/bin/gcc-4.6: s_cmp.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   s_cmp.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Char/s_cmp.o /home/saman/Tahoe/f2c/obj/s_cmp.o
-    /usr/bin/gcc-4.6: s_copy.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   s_copy.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Char/s_copy.o /home/saman/Tahoe/f2c/obj/s_copy.o
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Char'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Char'
-make[4]: Nothing to be done for 'subdir_driver'.
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Char'
-make[3]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Char'
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Char'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Char'
  cd Complex
-make[3]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
-    /usr/bin/gcc-4.6: c_abs.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   c_abs.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Complex/c_abs.o /home/saman/Tahoe/f2c/obj/c_abs.o
-    /usr/bin/gcc-4.6: c_cos.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   c_cos.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Complex/c_cos.o /home/saman/Tahoe/f2c/obj/c_cos.o
-    /usr/bin/gcc-4.6: c_div.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   c_div.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Complex/c_div.o /home/saman/Tahoe/f2c/obj/c_div.o
-    /usr/bin/gcc-4.6: c_exp.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   c_exp.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Complex/c_exp.o /home/saman/Tahoe/f2c/obj/c_exp.o
-    /usr/bin/gcc-4.6: c_log.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   c_log.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Complex/c_log.o /home/saman/Tahoe/f2c/obj/c_log.o
-    /usr/bin/gcc-4.6: c_sin.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   c_sin.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Complex/c_sin.o /home/saman/Tahoe/f2c/obj/c_sin.o
-    /usr/bin/gcc-4.6: c_sqrt.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   c_sqrt.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Complex/c_sqrt.o /home/saman/Tahoe/f2c/obj/c_sqrt.o
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
-make[4]: Nothing to be done for 'subdir_driver'.
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
-make[3]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Complex'
  cd custom_Misc
-make[3]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
-    /usr/bin/gcc-4.6: lsame.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   lsame.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/custom_Misc/lsame.o /home/saman/Tahoe/f2c/obj/lsame.o
-    /usr/bin/gcc-4.6: Mac_f2c_access.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   Mac_f2c_access.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/custom_Misc/Mac_f2c_access.o /home/saman/Tahoe/f2c/obj/Mac_f2c_access.o
-    /usr/bin/gcc-4.6: xerbla.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   xerbla.c
-xerbla.c: In function ‘xerbla’:
-xerbla.c:21:3: warning: format ‘%i’ expects argument of type ‘int’, but argument 3 has type ‘integer *’ [-Wformat]
-ln -sf /home/saman/Tahoe/f2c/src-mirror/custom_Misc/xerbla.o /home/saman/Tahoe/f2c/obj/xerbla.o
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
-make[4]: Nothing to be done for 'subdir_driver'.
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
-make[3]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/custom_Misc'
  cd Double
-make[3]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double'
-    /usr/bin/gcc-4.6: d_abs.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_abs.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_abs.o /home/saman/Tahoe/f2c/obj/d_abs.o
-    /usr/bin/gcc-4.6: d_acos.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_acos.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_acos.o /home/saman/Tahoe/f2c/obj/d_acos.o
-    /usr/bin/gcc-4.6: d_asin.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_asin.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_asin.o /home/saman/Tahoe/f2c/obj/d_asin.o
-    /usr/bin/gcc-4.6: d_atan.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_atan.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_atan.o /home/saman/Tahoe/f2c/obj/d_atan.o
-    /usr/bin/gcc-4.6: d_atn2.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_atn2.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_atn2.o /home/saman/Tahoe/f2c/obj/d_atn2.o
-    /usr/bin/gcc-4.6: d_cnjg.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_cnjg.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_cnjg.o /home/saman/Tahoe/f2c/obj/d_cnjg.o
-    /usr/bin/gcc-4.6: d_cos.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_cos.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_cos.o /home/saman/Tahoe/f2c/obj/d_cos.o
-    /usr/bin/gcc-4.6: d_cosh.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_cosh.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_cosh.o /home/saman/Tahoe/f2c/obj/d_cosh.o
-    /usr/bin/gcc-4.6: d_dim.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_dim.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_dim.o /home/saman/Tahoe/f2c/obj/d_dim.o
-    /usr/bin/gcc-4.6: d_exp.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_exp.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_exp.o /home/saman/Tahoe/f2c/obj/d_exp.o
-    /usr/bin/gcc-4.6: d_imag.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_imag.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_imag.o /home/saman/Tahoe/f2c/obj/d_imag.o
-    /usr/bin/gcc-4.6: d_int.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_int.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_int.o /home/saman/Tahoe/f2c/obj/d_int.o
-    /usr/bin/gcc-4.6: d_lg10.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_lg10.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_lg10.o /home/saman/Tahoe/f2c/obj/d_lg10.o
-    /usr/bin/gcc-4.6: d_log.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_log.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_log.o /home/saman/Tahoe/f2c/obj/d_log.o
-    /usr/bin/gcc-4.6: d_mod.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_mod.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_mod.o /home/saman/Tahoe/f2c/obj/d_mod.o
-    /usr/bin/gcc-4.6: d_nint.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_nint.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_nint.o /home/saman/Tahoe/f2c/obj/d_nint.o
-    /usr/bin/gcc-4.6: d_prod.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_prod.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_prod.o /home/saman/Tahoe/f2c/obj/d_prod.o
-    /usr/bin/gcc-4.6: d_sign.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_sign.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_sign.o /home/saman/Tahoe/f2c/obj/d_sign.o
-    /usr/bin/gcc-4.6: d_sin.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_sin.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_sin.o /home/saman/Tahoe/f2c/obj/d_sin.o
-    /usr/bin/gcc-4.6: d_sinh.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_sinh.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_sinh.o /home/saman/Tahoe/f2c/obj/d_sinh.o
-    /usr/bin/gcc-4.6: d_sqrt.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_sqrt.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_sqrt.o /home/saman/Tahoe/f2c/obj/d_sqrt.o
-    /usr/bin/gcc-4.6: d_tan.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_tan.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_tan.o /home/saman/Tahoe/f2c/obj/d_tan.o
-    /usr/bin/gcc-4.6: d_tanh.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   d_tanh.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double/d_tanh.o /home/saman/Tahoe/f2c/obj/d_tanh.o
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double'
-make[4]: Nothing to be done for 'subdir_driver'.
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double'
-make[3]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double'
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double'
  cd Double_Complex
-make[3]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
-    /usr/bin/gcc-4.6: z_abs.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   z_abs.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_abs.o /home/saman/Tahoe/f2c/obj/z_abs.o
-    /usr/bin/gcc-4.6: z_cos.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   z_cos.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_cos.o /home/saman/Tahoe/f2c/obj/z_cos.o
-    /usr/bin/gcc-4.6: z_div.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   z_div.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_div.o /home/saman/Tahoe/f2c/obj/z_div.o
-    /usr/bin/gcc-4.6: z_exp.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   z_exp.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_exp.o /home/saman/Tahoe/f2c/obj/z_exp.o
-    /usr/bin/gcc-4.6: z_log.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   z_log.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_log.o /home/saman/Tahoe/f2c/obj/z_log.o
-    /usr/bin/gcc-4.6: z_sin.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   z_sin.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_sin.o /home/saman/Tahoe/f2c/obj/z_sin.o
-    /usr/bin/gcc-4.6: z_sqrt.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   z_sqrt.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_sqrt.o /home/saman/Tahoe/f2c/obj/z_sqrt.o
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
-make[4]: Nothing to be done for 'subdir_driver'.
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
-make[3]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Double_Complex'
  cd ELF
-make[3]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
-    /usr/bin/gcc-4.6: ef1asc_.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   ef1asc_.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/ELF/ef1asc_.o /home/saman/Tahoe/f2c/obj/ef1asc_.o
-    /usr/bin/gcc-4.6: ef1cmc_.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   ef1cmc_.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/ELF/ef1cmc_.o /home/saman/Tahoe/f2c/obj/ef1cmc_.o
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
-make[4]: Nothing to be done for 'subdir_driver'.
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
-make[3]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/ELF'
  cd Half_Integer
-make[3]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
-    /usr/bin/gcc-4.6: h_abs.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   h_abs.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_abs.o /home/saman/Tahoe/f2c/obj/h_abs.o
-    /usr/bin/gcc-4.6: h_dim.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   h_dim.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_dim.o /home/saman/Tahoe/f2c/obj/h_dim.o
-    /usr/bin/gcc-4.6: h_dnnt.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   h_dnnt.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_dnnt.o /home/saman/Tahoe/f2c/obj/h_dnnt.o
-    /usr/bin/gcc-4.6: h_indx.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   h_indx.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_indx.o /home/saman/Tahoe/f2c/obj/h_indx.o
-    /usr/bin/gcc-4.6: h_len.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   h_len.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_len.o /home/saman/Tahoe/f2c/obj/h_len.o
-    /usr/bin/gcc-4.6: h_mod.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   h_mod.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_mod.o /home/saman/Tahoe/f2c/obj/h_mod.o
-    /usr/bin/gcc-4.6: h_nint.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   h_nint.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_nint.o /home/saman/Tahoe/f2c/obj/h_nint.o
-    /usr/bin/gcc-4.6: h_sign.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   h_sign.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_sign.o /home/saman/Tahoe/f2c/obj/h_sign.o
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
-make[4]: Nothing to be done for 'subdir_driver'.
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
-make[3]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Half_Integer'
  cd Integer
-make[3]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
-    /usr/bin/gcc-4.6: i_abs.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   i_abs.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Integer/i_abs.o /home/saman/Tahoe/f2c/obj/i_abs.o
-    /usr/bin/gcc-4.6: i_dim.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   i_dim.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Integer/i_dim.o /home/saman/Tahoe/f2c/obj/i_dim.o
-    /usr/bin/gcc-4.6: i_dnnt.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   i_dnnt.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Integer/i_dnnt.o /home/saman/Tahoe/f2c/obj/i_dnnt.o
-    /usr/bin/gcc-4.6: i_indx.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   i_indx.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Integer/i_indx.o /home/saman/Tahoe/f2c/obj/i_indx.o
-    /usr/bin/gcc-4.6: i_len.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   i_len.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Integer/i_len.o /home/saman/Tahoe/f2c/obj/i_len.o
-    /usr/bin/gcc-4.6: i_mod.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   i_mod.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Integer/i_mod.o /home/saman/Tahoe/f2c/obj/i_mod.o
-    /usr/bin/gcc-4.6: i_nint.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   i_nint.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Integer/i_nint.o /home/saman/Tahoe/f2c/obj/i_nint.o
-    /usr/bin/gcc-4.6: i_sign.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   i_sign.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Integer/i_sign.o /home/saman/Tahoe/f2c/obj/i_sign.o
-    /usr/bin/gcc-4.6: lbitbits.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   lbitbits.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Integer/lbitbits.o /home/saman/Tahoe/f2c/obj/lbitbits.o
-    /usr/bin/gcc-4.6: lbitshft.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   lbitshft.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Integer/lbitshft.o /home/saman/Tahoe/f2c/obj/lbitshft.o
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
-make[4]: Nothing to be done for 'subdir_driver'.
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
-make[3]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Integer'
  cd IO
-make[3]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/IO'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/IO'
-    /usr/bin/gcc-4.6: backspace.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   backspace.c
-backspace.c: In function ‘f_back’:
-backspace.c:46:3: warning: ignoring return value of ‘fread’, declared with attribute warn_unused_result [-Wunused-result]
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/backspace.o /home/saman/Tahoe/f2c/obj/backspace.o
-    /usr/bin/gcc-4.6: close.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   close.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/close.o /home/saman/Tahoe/f2c/obj/close.o
-    /usr/bin/gcc-4.6: dfe.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   dfe.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/dfe.o /home/saman/Tahoe/f2c/obj/dfe.o
-    /usr/bin/gcc-4.6: dolio.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   dolio.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/dolio.o /home/saman/Tahoe/f2c/obj/dolio.o
-    /usr/bin/gcc-4.6: due.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   due.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/due.o /home/saman/Tahoe/f2c/obj/due.o
-    /usr/bin/gcc-4.6: endfile.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   endfile.c
-endfile.c: In function ‘copy’:
-endfile.c:66:6: warning: unused variable ‘k’ [-Wunused-variable]
-endfile.c: In function ‘t_runc’:
-endfile.c:153:8: warning: ignoring return value of ‘tmpnam’, declared with attribute warn_unused_result [-Wunused-result]
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/endfile.o /home/saman/Tahoe/f2c/obj/endfile.o
-    /usr/bin/gcc-4.6: err.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   err.c
-err.c: In function ‘f__fatal’:
-err.c:157:3: warning: format ‘%d’ expects argument of type ‘int’, but argument 3 has type ‘long int’ [-Wformat]
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/err.o /home/saman/Tahoe/f2c/obj/err.o
-    /usr/bin/gcc-4.6: fmt.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   fmt.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/fmt.o /home/saman/Tahoe/f2c/obj/fmt.o
-    /usr/bin/gcc-4.6: fmtlib.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   fmtlib.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/fmtlib.o /home/saman/Tahoe/f2c/obj/fmtlib.o
-    /usr/bin/gcc-4.6: ftell_.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   ftell_.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/ftell_.o /home/saman/Tahoe/f2c/obj/ftell_.o
-    /usr/bin/gcc-4.6: iio.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   iio.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/iio.o /home/saman/Tahoe/f2c/obj/iio.o
-    /usr/bin/gcc-4.6: ilnw.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   ilnw.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/ilnw.o /home/saman/Tahoe/f2c/obj/ilnw.o
-    /usr/bin/gcc-4.6: inquire.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   inquire.c
-inquire.c: In function ‘f_inqu’:
-inquire.c:16:9: warning: unused variable ‘n’ [-Wunused-variable]
-inquire.c:56:18: warning: ‘x’ may be used uninitialized in this function [-Wuninitialized]
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/inquire.o /home/saman/Tahoe/f2c/obj/inquire.o
-    /usr/bin/gcc-4.6: lread.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   lread.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/lread.o /home/saman/Tahoe/f2c/obj/lread.o
-    /usr/bin/gcc-4.6: lwrite.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   lwrite.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/lwrite.o /home/saman/Tahoe/f2c/obj/lwrite.o
-    /usr/bin/gcc-4.6: open.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   open.c
-open.c: In function ‘f_open’:
-open.c:157:9: warning: ignoring return value of ‘tmpnam’, declared with attribute warn_unused_result [-Wunused-result]
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/open.o /home/saman/Tahoe/f2c/obj/open.o
-    /usr/bin/gcc-4.6: rdfmt.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   rdfmt.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/rdfmt.o /home/saman/Tahoe/f2c/obj/rdfmt.o
-    /usr/bin/gcc-4.6: rewind.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   rewind.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/rewind.o /home/saman/Tahoe/f2c/obj/rewind.o
-    /usr/bin/gcc-4.6: rsfe.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   rsfe.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/rsfe.o /home/saman/Tahoe/f2c/obj/rsfe.o
-    /usr/bin/gcc-4.6: rsli.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   rsli.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/rsli.o /home/saman/Tahoe/f2c/obj/rsli.o
-    /usr/bin/gcc-4.6: rsne.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   rsne.c
-rsne.c: In function ‘mk_hashtab’:
-rsne.c:107:5: warning: ‘x0’ may be used uninitialized in this function [-Wuninitialized]
-rsne.c: In function ‘x_rsne’:
-rsne.c:574:8: warning: ‘dn0’ may be used uninitialized in this function [-Wuninitialized]
-rsne.c:573:33: warning: ‘dn1’ may be used uninitialized in this function [-Wuninitialized]
-rsne.c:573:4: warning: ‘dn’ may be used uninitialized in this function [-Wuninitialized]
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/rsne.o /home/saman/Tahoe/f2c/obj/rsne.o
-    /usr/bin/gcc-4.6: sfe.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   sfe.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/sfe.o /home/saman/Tahoe/f2c/obj/sfe.o
-    /usr/bin/gcc-4.6: sue.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   sue.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/sue.o /home/saman/Tahoe/f2c/obj/sue.o
-    /usr/bin/gcc-4.6: typesize.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   typesize.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/typesize.o /home/saman/Tahoe/f2c/obj/typesize.o
-    /usr/bin/gcc-4.6: uio.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   uio.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/uio.o /home/saman/Tahoe/f2c/obj/uio.o
-    /usr/bin/gcc-4.6: util.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   util.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/util.o /home/saman/Tahoe/f2c/obj/util.o
-    /usr/bin/gcc-4.6: wref.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   wref.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/wref.o /home/saman/Tahoe/f2c/obj/wref.o
-    /usr/bin/gcc-4.6: wrtfmt.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   wrtfmt.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/wrtfmt.o /home/saman/Tahoe/f2c/obj/wrtfmt.o
-    /usr/bin/gcc-4.6: wsfe.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   wsfe.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/wsfe.o /home/saman/Tahoe/f2c/obj/wsfe.o
-    /usr/bin/gcc-4.6: wsle.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   wsle.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/wsle.o /home/saman/Tahoe/f2c/obj/wsle.o
-    /usr/bin/gcc-4.6: wsne.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   wsne.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/wsne.o /home/saman/Tahoe/f2c/obj/wsne.o
-    /usr/bin/gcc-4.6: xwsne.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   xwsne.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/IO/xwsne.o /home/saman/Tahoe/f2c/obj/xwsne.o
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/IO'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/IO'
-make[4]: Nothing to be done for 'subdir_driver'.
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/IO'
-make[3]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/IO'
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/IO'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/IO'
  cd Logical
-make[3]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
-    /usr/bin/gcc-4.6: hl_ge.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   hl_ge.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Logical/hl_ge.o /home/saman/Tahoe/f2c/obj/hl_ge.o
-    /usr/bin/gcc-4.6: hl_gt.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   hl_gt.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Logical/hl_gt.o /home/saman/Tahoe/f2c/obj/hl_gt.o
-    /usr/bin/gcc-4.6: hl_le.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   hl_le.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Logical/hl_le.o /home/saman/Tahoe/f2c/obj/hl_le.o
-    /usr/bin/gcc-4.6: hl_lt.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   hl_lt.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Logical/hl_lt.o /home/saman/Tahoe/f2c/obj/hl_lt.o
-    /usr/bin/gcc-4.6: l_ge.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   l_ge.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Logical/l_ge.o /home/saman/Tahoe/f2c/obj/l_ge.o
-    /usr/bin/gcc-4.6: l_gt.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   l_gt.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Logical/l_gt.o /home/saman/Tahoe/f2c/obj/l_gt.o
-    /usr/bin/gcc-4.6: l_le.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   l_le.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Logical/l_le.o /home/saman/Tahoe/f2c/obj/l_le.o
-    /usr/bin/gcc-4.6: l_lt.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   l_lt.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Logical/l_lt.o /home/saman/Tahoe/f2c/obj/l_lt.o
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
-make[4]: Nothing to be done for 'subdir_driver'.
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
-make[3]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Logical'
  cd Misc
-make[3]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
-    /usr/bin/gcc-4.6: abort_.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   abort_.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/abort_.o /home/saman/Tahoe/f2c/obj/abort_.o
-    /usr/bin/gcc-4.6: cabs.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   cabs.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/cabs.o /home/saman/Tahoe/f2c/obj/cabs.o
-    /usr/bin/gcc-4.6: derf_.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   derf_.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/derf_.o /home/saman/Tahoe/f2c/obj/derf_.o
-    /usr/bin/gcc-4.6: derfc_.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   derfc_.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/derfc_.o /home/saman/Tahoe/f2c/obj/derfc_.o
-    /usr/bin/gcc-4.6: erf_.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   erf_.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/erf_.o /home/saman/Tahoe/f2c/obj/erf_.o
-    /usr/bin/gcc-4.6: erfc_.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   erfc_.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/erfc_.o /home/saman/Tahoe/f2c/obj/erfc_.o
-    /usr/bin/gcc-4.6: exit_.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   exit_.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/exit_.o /home/saman/Tahoe/f2c/obj/exit_.o
-    /usr/bin/gcc-4.6: f77vers.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   f77vers.c
-f77vers.c:1:13: warning: ‘junk’ defined but not used [-Wunused-variable]
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/f77vers.o /home/saman/Tahoe/f2c/obj/f77vers.o
-    /usr/bin/gcc-4.6: getarg_.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   getarg_.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/getarg_.o /home/saman/Tahoe/f2c/obj/getarg_.o
-    /usr/bin/gcc-4.6: getenv_.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   getenv_.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/getenv_.o /home/saman/Tahoe/f2c/obj/getenv_.o
-    /usr/bin/gcc-4.6: iargc_.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   iargc_.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/iargc_.o /home/saman/Tahoe/f2c/obj/iargc_.o
-    /usr/bin/gcc-4.6: i77vers.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   i77vers.c
-i77vers.c:1:13: warning: ‘junk’ defined but not used [-Wunused-variable]
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/i77vers.o /home/saman/Tahoe/f2c/obj/i77vers.o
-    /usr/bin/gcc-4.6: sig_die.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   sig_die.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/sig_die.o /home/saman/Tahoe/f2c/obj/sig_die.o
-    /usr/bin/gcc-4.6: signal_.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   signal_.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/signal_.o /home/saman/Tahoe/f2c/obj/signal_.o
-    /usr/bin/gcc-4.6: s_paus.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   s_paus.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/s_paus.o /home/saman/Tahoe/f2c/obj/s_paus.o
-    /usr/bin/gcc-4.6: s_rnge.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   s_rnge.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/s_rnge.o /home/saman/Tahoe/f2c/obj/s_rnge.o
-    /usr/bin/gcc-4.6: s_stop.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   s_stop.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/s_stop.o /home/saman/Tahoe/f2c/obj/s_stop.o
-    /usr/bin/gcc-4.6: system_.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   system_.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Misc/system_.o /home/saman/Tahoe/f2c/obj/system_.o
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
-make[4]: Nothing to be done for 'subdir_driver'.
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
-make[3]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Misc'
  cd Power
-make[3]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Power'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Power'
-    /usr/bin/gcc-4.6: pow_ci.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   pow_ci.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Power/pow_ci.o /home/saman/Tahoe/f2c/obj/pow_ci.o
-    /usr/bin/gcc-4.6: pow_dd.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   pow_dd.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Power/pow_dd.o /home/saman/Tahoe/f2c/obj/pow_dd.o
-    /usr/bin/gcc-4.6: pow_di.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   pow_di.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Power/pow_di.o /home/saman/Tahoe/f2c/obj/pow_di.o
-    /usr/bin/gcc-4.6: pow_hh.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   pow_hh.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Power/pow_hh.o /home/saman/Tahoe/f2c/obj/pow_hh.o
-    /usr/bin/gcc-4.6: pow_ii.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   pow_ii.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Power/pow_ii.o /home/saman/Tahoe/f2c/obj/pow_ii.o
-    /usr/bin/gcc-4.6: pow_ri.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   pow_ri.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Power/pow_ri.o /home/saman/Tahoe/f2c/obj/pow_ri.o
-    /usr/bin/gcc-4.6: pow_zi.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   pow_zi.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Power/pow_zi.o /home/saman/Tahoe/f2c/obj/pow_zi.o
-    /usr/bin/gcc-4.6: pow_zz.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   pow_zz.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Power/pow_zz.o /home/saman/Tahoe/f2c/obj/pow_zz.o
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Power'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Power'
-make[4]: Nothing to be done for 'subdir_driver'.
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Power'
-make[3]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Power'
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Power'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Power'
  cd Quad_Integer
-make[3]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
-    /usr/bin/gcc-4.6: pow_qq.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   pow_qq.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Quad_Integer/pow_qq.o /home/saman/Tahoe/f2c/obj/pow_qq.o
-    /usr/bin/gcc-4.6: qbitbits.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   qbitbits.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Quad_Integer/qbitbits.o /home/saman/Tahoe/f2c/obj/qbitbits.o
-    /usr/bin/gcc-4.6: qbitshft.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   qbitshft.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Quad_Integer/qbitshft.o /home/saman/Tahoe/f2c/obj/qbitshft.o
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
-make[4]: Nothing to be done for 'subdir_driver'.
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
-make[3]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Quad_Integer'
  cd Real
-make[3]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Real'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Real'
-    /usr/bin/gcc-4.6: r_abs.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_abs.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_abs.o /home/saman/Tahoe/f2c/obj/r_abs.o
-    /usr/bin/gcc-4.6: r_acos.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_acos.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_acos.o /home/saman/Tahoe/f2c/obj/r_acos.o
-    /usr/bin/gcc-4.6: r_asin.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_asin.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_asin.o /home/saman/Tahoe/f2c/obj/r_asin.o
-    /usr/bin/gcc-4.6: r_atan.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_atan.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_atan.o /home/saman/Tahoe/f2c/obj/r_atan.o
-    /usr/bin/gcc-4.6: r_atn2.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_atn2.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_atn2.o /home/saman/Tahoe/f2c/obj/r_atn2.o
-    /usr/bin/gcc-4.6: r_cnjg.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_cnjg.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_cnjg.o /home/saman/Tahoe/f2c/obj/r_cnjg.o
-    /usr/bin/gcc-4.6: r_cos.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_cos.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_cos.o /home/saman/Tahoe/f2c/obj/r_cos.o
-    /usr/bin/gcc-4.6: r_cosh.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_cosh.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_cosh.o /home/saman/Tahoe/f2c/obj/r_cosh.o
-    /usr/bin/gcc-4.6: r_dim.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_dim.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_dim.o /home/saman/Tahoe/f2c/obj/r_dim.o
-    /usr/bin/gcc-4.6: r_exp.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_exp.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_exp.o /home/saman/Tahoe/f2c/obj/r_exp.o
-    /usr/bin/gcc-4.6: r_imag.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_imag.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_imag.o /home/saman/Tahoe/f2c/obj/r_imag.o
-    /usr/bin/gcc-4.6: r_int.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_int.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_int.o /home/saman/Tahoe/f2c/obj/r_int.o
-    /usr/bin/gcc-4.6: r_lg10.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_lg10.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_lg10.o /home/saman/Tahoe/f2c/obj/r_lg10.o
-    /usr/bin/gcc-4.6: r_log.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_log.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_log.o /home/saman/Tahoe/f2c/obj/r_log.o
-    /usr/bin/gcc-4.6: r_mod.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_mod.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_mod.o /home/saman/Tahoe/f2c/obj/r_mod.o
-    /usr/bin/gcc-4.6: r_nint.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_nint.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_nint.o /home/saman/Tahoe/f2c/obj/r_nint.o
-    /usr/bin/gcc-4.6: r_sign.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_sign.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_sign.o /home/saman/Tahoe/f2c/obj/r_sign.o
-    /usr/bin/gcc-4.6: r_sin.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_sin.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_sin.o /home/saman/Tahoe/f2c/obj/r_sin.o
-    /usr/bin/gcc-4.6: r_sinh.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_sinh.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_sinh.o /home/saman/Tahoe/f2c/obj/r_sinh.o
-    /usr/bin/gcc-4.6: r_sqrt.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_sqrt.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_sqrt.o /home/saman/Tahoe/f2c/obj/r_sqrt.o
-    /usr/bin/gcc-4.6: r_tan.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_tan.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_tan.o /home/saman/Tahoe/f2c/obj/r_tan.o
-    /usr/bin/gcc-4.6: r_tanh.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   r_tanh.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Real/r_tanh.o /home/saman/Tahoe/f2c/obj/r_tanh.o
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Real'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Real'
-make[4]: Nothing to be done for 'subdir_driver'.
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Real'
-make[3]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Real'
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Real'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Real'
  cd Time
-make[3]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Time'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Time'
-    /usr/bin/gcc-4.6: dtime_.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   dtime_.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Time/dtime_.o /home/saman/Tahoe/f2c/obj/dtime_.o
-    /usr/bin/gcc-4.6: etime_.c
-/usr/bin/gcc-4.6 -c -I/home/saman/Tahoe/f2c/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated   etime_.c
-ln -sf /home/saman/Tahoe/f2c/src-mirror/Time/etime_.o /home/saman/Tahoe/f2c/obj/etime_.o
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Time'
-make[4]: Entering directory '/home/saman/Tahoe/f2c/src-mirror/Time'
-make[4]: Nothing to be done for 'subdir_driver'.
-make[4]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Time'
-make[3]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror/Time'
-make[2]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror'
-make[1]: Leaving directory '/home/saman/Tahoe/f2c/src-mirror'
+make[3]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[4]: Nothing to be done for `update_objects'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[4]: Entering directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[4]: Nothing to be done for `subdir_driver'.
+make[4]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[3]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror/Time'
+make[2]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror'
+make[1]: Leaving directory `/home/saman/Tahoe/f2c/src-mirror'
 make archive "OBJECT_LIST = /home/saman/Tahoe/f2c/object_list" "ARCH = GNU-GCC4.6" "MACRO_DIR = /home/saman/Tahoe/f2c/../macros" "HOME_DIR = /home/saman/Tahoe/f2c"
-make[1]: Entering directory '/home/saman/Tahoe/f2c'
+make[1]: Entering directory `/home/saman/Tahoe/f2c'
 cd /home/saman/Tahoe/f2c/obj; \
-printf " building archive /home/saman/Tahoe/f2c/lib/libf2c_.a\n"; \
-ar -cruv /home/saman/Tahoe/f2c/lib/libf2c_.a f77_aloc.o s_cat.o s_cmp.o s_copy.o  c_abs.o c_cos.o c_div.o c_exp.o c_log.o c_sin.o c_sqrt.o  lsame.o Mac_f2c_access.o xerbla.o  d_abs.o d_acos.o d_asin.o d_atan.o d_atn2.o d_cnjg.o d_cos.o d_cosh.o d_dim.o d_exp.o d_imag.o d_int.o d_lg10.o d_log.o d_mod.o d_nint.o d_prod.o d_sign.o d_sin.o d_sinh.o d_sqrt.o d_tan.o d_tanh.o  z_abs.o z_cos.o z_div.o z_exp.o z_log.o z_sin.o z_sqrt.o  ef1asc_.o ef1cmc_.o  h_abs.o h_dim.o h_dnnt.o h_indx.o h_len.o h_mod.o h_nint.o h_sign.o  i_abs.o i_dim.o i_dnnt.o i_indx.o i_len.o i_mod.o i_nint.o i_sign.o lbitbits.o lbitshft.o  backspace.o close.o dfe.o dolio.o due.o endfile.o err.o fmt.o fmtlib.o ftell_.o iio.o ilnw.o inquire.o lread.o lwrite.o open.o rdfmt.o rewind.o rsfe.o rsli.o rsne.o sfe.o sue.o typesize.o uio.o util.o wref.o wrtfmt.o wsfe.o wsle.o wsne.o xwsne.o  hl_ge.o hl_gt.o hl_le.o hl_lt.o l_ge.o l_gt.o l_le.o l_lt.o  abort_.o cabs.o derf_.o derfc_.o erf_.o erfc_.o exit_.o f77vers.o getarg_.o getenv_.o iargc_.o i77vers.o sig_die.o signal_.o s_paus.o s_rnge.o s_stop.o system_.o  pow_ci.o pow_dd.o pow_di.o pow_hh.o pow_ii.o pow_ri.o pow_zi.o pow_zz.o  pow_qq.o qbitbits.o qbitshft.o  r_abs.o r_acos.o r_asin.o r_atan.o r_atn2.o r_cnjg.o r_cos.o r_cosh.o r_dim.o r_exp.o r_imag.o r_int.o r_lg10.o r_log.o r_mod.o r_nint.o r_sign.o r_sin.o r_sinh.o r_sqrt.o r_tan.o r_tanh.o  dtime_.o etime_.o ; \
-printf " running ranlib /home/saman/Tahoe/f2c/lib/libf2c_.a\n"; \
-echo  /home/saman/Tahoe/f2c/lib/libf2c_.a
+	printf " building archive /home/saman/Tahoe/f2c/lib/libf2c_.a\n"; \
+	ar -cruv /home/saman/Tahoe/f2c/lib/libf2c_.a f77_aloc.o s_cat.o s_cmp.o s_copy.o  c_abs.o c_cos.o c_div.o c_exp.o c_log.o c_sin.o c_sqrt.o  lsame.o Mac_f2c_access.o xerbla.o  d_abs.o d_acos.o d_asin.o d_atan.o d_atn2.o d_cnjg.o d_cos.o d_cosh.o d_dim.o d_exp.o d_imag.o d_int.o d_lg10.o d_log.o d_mod.o d_nint.o d_prod.o d_sign.o d_sin.o d_sinh.o d_sqrt.o d_tan.o d_tanh.o  z_abs.o z_cos.o z_div.o z_exp.o z_log.o z_sin.o z_sqrt.o  ef1asc_.o ef1cmc_.o  h_abs.o h_dim.o h_dnnt.o h_indx.o h_len.o h_mod.o h_nint.o h_sign.o  i_abs.o i_dim.o i_dnnt.o i_indx.o i_len.o i_mod.o i_nint.o i_sign.o lbitbits.o lbitshft.o  backspace.o close.o dfe.o dolio.o due.o endfile.o err.o fmt.o fmtlib.o ftell_.o iio.o ilnw.o inquire.o lread.o lwrite.o open.o rdfmt.o rewind.o rsfe.o rsli.o rsne.o sfe.o sue.o typesize.o uio.o util.o wref.o wrtfmt.o wsfe.o wsle.o wsne.o xwsne.o  hl_ge.o hl_gt.o hl_le.o hl_lt.o l_ge.o l_gt.o l_le.o l_lt.o  abort_.o cabs.o derf_.o derfc_.o erf_.o erfc_.o exit_.o f77vers.o getarg_.o getenv_.o iargc_.o i77vers.o sig_die.o signal_.o s_paus.o s_rnge.o s_stop.o system_.o  pow_ci.o pow_dd.o pow_di.o pow_hh.o pow_ii.o pow_ri.o pow_zi.o pow_zz.o  pow_qq.o qbitbits.o qbitshft.o  r_abs.o r_acos.o r_asin.o r_atan.o r_atn2.o r_cnjg.o r_cos.o r_cosh.o r_dim.o r_exp.o r_imag.o r_int.o r_lg10.o r_log.o r_mod.o r_nint.o r_sign.o r_sin.o r_sinh.o r_sqrt.o r_tan.o r_tanh.o  dtime_.o etime_.o ; \
+	printf " running ranlib /home/saman/Tahoe/f2c/lib/libf2c_.a\n"; \
+	echo  /home/saman/Tahoe/f2c/lib/libf2c_.a
  building archive /home/saman/Tahoe/f2c/lib/libf2c_.a
-ar: `u' modifier ignored since `D' is the default (see `U')
 a - f77_aloc.o
 a - s_cat.o
 a - s_cmp.o
@@ -807,4 +327,4 @@ a - dtime_.o
 a - etime_.o
  running ranlib /home/saman/Tahoe/f2c/lib/libf2c_.a
 /home/saman/Tahoe/f2c/lib/libf2c_.a
-make[1]: Leaving directory '/home/saman/Tahoe/f2c'
+make[1]: Leaving directory `/home/saman/Tahoe/f2c'

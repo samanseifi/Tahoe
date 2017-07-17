@@ -14,6 +14,14 @@ SimoQ1P0::SimoQ1P0(const ElementSupportT& support):
 	SetName("updated_lagrangian_Q1P0");
 }
 
+SimoQ1P0::~SimoQ1P0()
+{
+		delete fCurrShapes;
+		fCurrShapes = NULL;
+
+}
+
+
 /* finalize current step - step is solved */
 void SimoQ1P0::CloseStep(void)
 {
@@ -64,14 +72,15 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 {
 	const char caller[] = "SimoQ1P0::TakeParameterList";
 
+
+	/* inherited */
+	UpdatedLagrangianT::TakeParameterList(list);
+
 	// Check if there is electric field coupling (For DE models)
 	fElectricScalarPotentialField = ElementSupport().Field("electric_scalar_potential");
 	if (!fElectricScalarPotentialField) {
 	  std::cout << "There is no electric field coupling. Perhaps it's not DE model" << std::endl;
 	}
-
-	/* inherited */
-	UpdatedLagrangianT::TakeParameterList(list);
 
 	/* check geometry code and number of element nodes -> Q1 */
 	if (GeometryCode() == GeometryT::kQuadrilateral) {
@@ -149,14 +158,17 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 void SimoQ1P0::SetGlobalShape(void)
 {
 
+
 	/* current element number */
 	int elem = CurrElementNumber();
 
+	SetLocalU(fLocScalarPotential);
+
+
 	/* inherited - computes gradients and standard
 	 * deformation gradients */
-	UpdatedLagrangianT::SetGlobalShape();
+	FiniteStrainT::SetGlobalShape();
 
-	SetLocalU(fLocScalarPotential);
 
 	for (int i = 0; i < NumIP(); i++) {
         	// electric field
@@ -167,8 +179,12 @@ void SimoQ1P0::SetGlobalShape(void)
    	     	E1 *= -1.0;
 
    	     	for (int j = 0; j < NumSD(); j++)
-   		     	E[i] = E1(0,j);			
+   		     	E[j] = E1(0,j);
 	}
+
+	/* shape function wrt current config */
+	SetLocalX(fLocCurrCoords);
+	fCurrShapes->SetDerivatives();
 
 	/* compute mean of shape function gradients */
 	double H; /* reference volume */
@@ -236,14 +252,16 @@ void SimoQ1P0::SetLocalArrays()
 	  	esp = fElectricScalarPotentialField;
 	}
 
-	if (0 == esp) {
+	std::cout << "where?" << std::endl;
 
-	  	std::cout << std::endl;
-	  	std::cout << "SimoQ1P0::SetLocalArrays: ";
-	  	std::cout << "Voltage field not found.";
-	  	std::cout << std::endl;
-	  	throw ExceptionT::kGeneralFail;
-	}
+	// if (0 == esp) {
+	//
+	//   	std::cout << std::endl;
+	//   	std::cout << "SimoQ1P0::SetLocalArrays: ";
+	//   	std::cout << "Voltage field not found.";
+	//   	std::cout << std::endl;
+	//   	throw ExceptionT::kGeneralFail;
+	// }
 
 	/* inherited */
 	FiniteStrainT::SetLocalArrays();

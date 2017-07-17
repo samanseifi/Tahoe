@@ -137,7 +137,7 @@
 					<large_strain_StVenant_2D
 					       density='1.000000e+00'
 					 constraint_2D='plane_stress'
-					           CTE='5.000000e-02'>
+					           CTE='0.000000e+00'>
 						<E_and_nu
 						 Young_modulus='1.000000e+02'
 						 Poisson_ratio='2.500000e-01'/>

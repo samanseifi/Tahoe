@@ -579,10 +579,10 @@ end: tahoe
  Time = 2.000000e+01
  Step 10 of 10
 
-   Start time: Fri Jul  7 10:14:02 2017
- Construction: 6.168000e-03 sec.
-     Solution: 2.443750e-01 sec.
-    Stop time: Fri Jul  7 10:14:03 2017
+   Start time: Mon Jul 17 13:29:07 2017
+ Construction: 1.227905e+00 sec.
+     Solution: 6.358570e+00 sec.
+    Stop time: Mon Jul 17 13:29:15 2017
 
  End Execution
 

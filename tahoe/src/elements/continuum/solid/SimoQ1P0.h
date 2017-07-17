@@ -46,6 +46,8 @@ public:
 	/** constructor */
 	SimoQ1P0(const ElementSupportT& support);
 
+	virtual ~SimoQ1P0();
+
 	/** finalize current step - step is solved */
 	virtual void CloseStep(void);
 
