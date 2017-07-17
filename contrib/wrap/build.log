@@ -1,43 +1,48 @@
 cd /home/saman/Tahoe/contrib/wrap/src-mirror
 cd /home/saman/Tahoe/contrib/wrap/src-mirror; \
-	make  objects \
-	"ARCH = GNU-GCC4.6" \
-	"MACRO_DIR = /home/saman/Tahoe/contrib/wrap/../../macros" \
-	"INC_DIR = /home/saman/Tahoe/contrib/wrap/inc" \
-	"SRC_DIR = /home/saman/Tahoe/contrib/wrap/src-mirror" \
-	"BLD_DIR = /home/saman/Tahoe/contrib/wrap" \
-	"OBJ_DIR = /home/saman/Tahoe/contrib/wrap/obj" \
-	"LIB_DIR = /home/saman/Tahoe/contrib/wrap/lib" \
-	"PCH = wrapPrefix.h" \
-	"OPT_CFLAGS =    -I/home/saman/Tahoe/contrib/wrap/../../toolbox/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__   " \
-	"MOD_CFLAGS_C = " \
-	"MOD_CFLAGS_CC = " \
-	"MOD_CFLAGS_F = " \
-	"MOD_LFLAGS = " \
-	"OPT_MAKEDEPENDFLAGS =      -I/home/saman/Tahoe/contrib/wrap/../../toolbox/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__   " \
-	"MOD_MAKEDEPENDFLAGS = " \
-	"DEPEND = all.depend" \
-	"CURR_DIR = /home/saman/Tahoe/contrib/wrap/src-mirror"
-make[1]: Entering directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
-make[2]: Entering directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
-make[2]: Nothing to be done for `update_objects'.
-make[2]: Leaving directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
-make[2]: Entering directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
-make[2]: Nothing to be done for `subdir_driver'.
-make[2]: Leaving directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
-make[1]: Leaving directory `/home/saman/Tahoe/contrib/wrap/src-mirror'
+make  objects \
+"ARCH = GNU-GCC4.6" \
+"MACRO_DIR = /home/saman/Tahoe/contrib/wrap/../../macros" \
+"INC_DIR = /home/saman/Tahoe/contrib/wrap/inc" \
+"SRC_DIR = /home/saman/Tahoe/contrib/wrap/src-mirror" \
+"BLD_DIR = /home/saman/Tahoe/contrib/wrap" \
+"OBJ_DIR = /home/saman/Tahoe/contrib/wrap/obj" \
+"LIB_DIR = /home/saman/Tahoe/contrib/wrap/lib" \
+"PCH = wrapPrefix.h" \
+"OPT_CFLAGS =    -I/home/saman/Tahoe/contrib/wrap/../../toolbox/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__   " \
+"MOD_CFLAGS_C = " \
+"MOD_CFLAGS_CC = " \
+"MOD_CFLAGS_F = " \
+"MOD_LFLAGS = " \
+"OPT_MAKEDEPENDFLAGS =      -I/home/saman/Tahoe/contrib/wrap/../../toolbox/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__   " \
+"MOD_MAKEDEPENDFLAGS = " \
+"DEPEND = all.depend" \
+"CURR_DIR = /home/saman/Tahoe/contrib/wrap/src-mirror"
+make[1]: Entering directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
+make[2]: Entering directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
+    /usr/bin/g++-4.6: main.cpp
+/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/wrap/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/wrap/../../toolbox/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     main.cpp
+main.cpp: In function ‘int main(int, char**)’:
+main.cpp:294:7: warning: unused variable ‘elem_index’ [-Wunused-variable]
+ln -sf /home/saman/Tahoe/contrib/wrap/src-mirror/main.o /home/saman/Tahoe/contrib/wrap/obj/main.o
+make[2]: Leaving directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
+make[2]: Entering directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
+make[2]: Nothing to be done for 'subdir_driver'.
+make[2]: Leaving directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
+make[1]: Leaving directory '/home/saman/Tahoe/contrib/wrap/src-mirror'
 make archive "OBJECT_LIST = /home/saman/Tahoe/contrib/wrap/object_list" "ARCH = GNU-GCC4.6" "MACRO_DIR = /home/saman/Tahoe/contrib/wrap/../../macros" "HOME_DIR = /home/saman/Tahoe/contrib/wrap"
-make[1]: Entering directory `/home/saman/Tahoe/contrib/wrap'
+make[1]: Entering directory '/home/saman/Tahoe/contrib/wrap'
 cd /home/saman/Tahoe/contrib/wrap/obj; \
-	printf " building archive /home/saman/Tahoe/contrib/wrap/lib/libwrap.a\n"; \
-	ar -cruv /home/saman/Tahoe/contrib/wrap/lib/libwrap.a main.o ; \
-	printf " running ranlib /home/saman/Tahoe/contrib/wrap/lib/libwrap.a\n"; \
-	echo  /home/saman/Tahoe/contrib/wrap/lib/libwrap.a
+printf " building archive /home/saman/Tahoe/contrib/wrap/lib/libwrap.a\n"; \
+ar -cruv /home/saman/Tahoe/contrib/wrap/lib/libwrap.a main.o ; \
+printf " running ranlib /home/saman/Tahoe/contrib/wrap/lib/libwrap.a\n"; \
+echo  /home/saman/Tahoe/contrib/wrap/lib/libwrap.a
  building archive /home/saman/Tahoe/contrib/wrap/lib/libwrap.a
+ar: `u' modifier ignored since `D' is the default (see `U')
 a - main.o
  running ranlib /home/saman/Tahoe/contrib/wrap/lib/libwrap.a
 /home/saman/Tahoe/contrib/wrap/lib/libwrap.a
-make[1]: Leaving directory `/home/saman/Tahoe/contrib/wrap'
+make[1]: Leaving directory '/home/saman/Tahoe/contrib/wrap'
  linking...
 /usr/bin/g++-4.6 /home/saman/Tahoe/contrib/wrap/src-mirror/main.o -o wrap -L/home/saman/Tahoe/contrib/wrap/lib -lwrap     -L/home/saman/Tahoe/contrib/wrap/../../toolbox/lib -ltoolbox                 -L/usr/local/ACCESS/lib -lexoIIv2c -lnetcdf     -lpthread
     ...wrote wrap

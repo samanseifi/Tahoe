@@ -13,7 +13,7 @@
 	<time
 	       scaling='linear'
 	     init_time='0.000000e+00'
-	     num_steps='10'
+	     num_steps='100'
 	    output_inc='1'
 	 max_step_cuts='0'
 	     time_step='1.000000e-01'>
@@ -32,7 +32,7 @@
 		<field
 		              field_name='displacement'
 		          solution_group='1'
-		              integrator='static'
+		              integrator='nonlinear_HHT'
 		 total_energy_output_inc='0'>
 			<dof_labels>
 				<String
@@ -47,91 +47,24 @@
 			 schedule='0'
 			    value='0.000000e+00'/>
 			<kinematic_BC
+			  node_ID='101'
+			      dof='2'
+			     type='fixed'
+			 schedule='0'
+			    value='0.000000e+00'/>
+			<kinematic_BC
 			  node_ID='102'
 			      dof='1'
 			     type='u'
 			 schedule='1'
 			    value='1.000000e-01'/>
 		</field>
-		<field
-		              field_name='electric_scalar_potential'
-		          solution_group='1'
-		              integrator='static'
-		 total_energy_output_inc='0'>
-			<dof_labels>
-				<String
-				 value='Psi'/>
-			</dof_labels>
-			<kinematic_BC
-			  node_ID='102'
-			      dof='1'
-			     type='fixed'
-			 schedule='0'
-			    value='0.000000e+00'/>
-			<kinematic_BC
-			  node_ID='100'
-			      dof='1'
-			     type='fixed'
-			 schedule='0'
-			    value='0.000000e+00'/>
-		</field>
-		<field
-		              field_name='voltage'
-		          solution_group='2'
-		              integrator='static'
-		 total_energy_output_inc='0'>
-			<dof_labels>
-				<String
-				 value='Vol'/>
-			</dof_labels>
-			<kinematic_BC
-			  node_ID='102'
-			      dof='1'
-			     type='u'
-			 schedule='0'
-			    value='1.000000e+00'/>
-			<kinematic_BC
-			  node_ID='100'
-			      dof='1'
-			     type='u'
-			 schedule='0'
-			    value='0.000000e+00'/>
-		</field>
 	</nodes>
 	<element_list>
-		<diffusion
-		 field_name='voltage'>
-			<quadrilateral
-			 num_ip='4'/>
-			<diffusion_element_nodal_output
-			    displacement='1'
-			 material_output='1'/>
-			<diffusion_element_block>
-				<block_ID_list>
-					<String
-					 value='14'/>
-					<String
-					 value='11'/>
-					<String
-					 value='10'/>
-					<String
-					 value='13'/>
-					<String
-					 value='12'/>
-				</block_ID_list>
-				<diffusion_material>
-					<linear_diffusion_material
-					       density='1.000000e+00'
-					 specific_heat='1.000000e+00'
-					  conductivity='1.000000e+00'/>
-				</diffusion_material>
-			</diffusion_element_block>
-		</diffusion>
-		<dielectric_elastomer_Q1P02D
-		          field_name='displacement'
-		           mass_type='lumped_mass'
-		      eigenvalue_inc='0'
-		 electric_field_name='electric_scalar_potential'>
+		<updated_lagrangian_Q1P0
+		     field_name='displacement'
+		      mass_type='automatic'
+		 eigenvalue_inc='0'>
 			<quadrilateral
 			 num_ip='4'/>
 			<solid_element_nodal_output
@@ -151,53 +84,24 @@
 					 value='12'/>
 				</block_ID_list>
 				<large_strain_material_2D>
-					<Dielectric_Elastomer_Q1P02D
+					<RG_split_general
 					       density='1.000000e+00'
 					 constraint_2D='none'
-					           CTE='0.000000e+00'
-					            mu='1.000000e+00'
-					       epsilon='1.000000e+00'
-					          Nrig='5.000000e+00'
-					        lambda='1.000000e+03'
-					         gamma='0.000000e+00'
-					           t_0='0.000000e+00'/>
+					           CTE='0.000000e+00'>
+						<rg_eq_potential>
+							<neo-hookean
+							 kappa='1.000000e+04'
+							    mu='1.000000e+01'/>
+						</rg_eq_potential>
+					</RG_split_general>
 				</large_strain_material_2D>
 			</large_strain_element_block>
-		</dielectric_elastomer_Q1P02D>
+		</updated_lagrangian_Q1P0>
 	</element_list>
-	<nonlinear_solver
-	               print_eqnos='false'
-	                check_code='no_check'
-	    check_LHS_perturbation='1.000000e-08'
-	            max_iterations='50'
-	            min_iterations='0'
-	 reform_tangent_iterations='1'
-	             abs_tolerance='1.000000e-07'
-	             rel_tolerance='1.000000e-09'
-	      divergence_tolerance='1.000000e+10'
-	          quick_solve_iter='6'
-	         quick_solve_count='3'
-	                output_inc='0'>
-		<SPOOLES_matrix
-		    message_level='silent'
-		  enable_pivoting='true'
-		 always_symmetric='false'/>
-	</nonlinear_solver>
 	<linear_solver
 	            print_eqnos='false'
 	             check_code='no_check'
-	 check_LHS_perturbation='1.000000e-08'>
-		<profile_matrix/>
+	 check_LHS_perturbation='1.000000e-04'>
+		<diagonal_matrix/>
 	</linear_solver>
-	<solver_phases
-	 max_loops='100'>
-		<solver_phase
-		          solver='1'
-		      iterations='2'
-		 pass_iterations='0'/>
-		<solver_phase
-		          solver='2'
-		      iterations='2'
-		 pass_iterations='0'/>
-	</solver_phases>
 </tahoe>

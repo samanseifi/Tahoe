@@ -47,6 +47,12 @@
 			 schedule='0'
 			    value='0.000000e+00'/>
 			<kinematic_BC
+			  node_ID='101'
+			      dof='2'
+			     type='fixed'
+			 schedule='0'
+			    value='0.000000e+00'/>
+			<kinematic_BC
 			  node_ID='102'
 			      dof='1'
 			     type='u'
@@ -54,7 +60,7 @@
 			    value='1.000000e+00'/>
 		</field>
 		<field
-		              field_name='voltage'
+		              field_name='electric_scalar_potential'
 		          solution_group='2'
 		              integrator='static'
 		 total_energy_output_inc='0'>
@@ -78,7 +84,7 @@
 	</nodes>
 	<element_list>
 		<diffusion
-		 field_name='voltage'>
+		 field_name='electric_scalar_potential'>
 			<quadrilateral
 			 num_ip='4'/>
 			<diffusion_element_nodal_output
@@ -105,7 +111,7 @@
 				</diffusion_material>
 			</diffusion_element_block>
 		</diffusion>
-		<updated_lagrangian
+		<updated_lagrangian_Q1P0
 		     field_name='displacement'
 		      mass_type='automatic'
 		 eigenvalue_inc='0'>
@@ -138,7 +144,7 @@
 					</large_strain_StVenant_2D>
 				</large_strain_material_2D>
 			</large_strain_element_block>
-		</updated_lagrangian>
+		</updated_lagrangian_Q1P0>
 	</element_list>
 	<nonlinear_solver
 	               print_eqnos='false'

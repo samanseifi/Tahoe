@@ -108,6 +108,22 @@ value(default) = 0.000000e+00
 end: tahoe::nodes::field::kinematic_BC
 
 begin: tahoe::nodes::field::kinematic_BC
+node_ID. . . . . . . . . . . . . . . . . . . . . . = 101
+dof. . . . . . . . . . . . . . . . . . . . . . . . = 2
+type . . . . . . . . . . . . . . . . . . . . . . . = fixed
+type = fixed (default)
+type = u
+type = D_u
+type = DD_u
+type = D3_u
+type = D4_u
+schedule . . . . . . . . . . . . . . . . . . . . . = 0
+schedule(default) = 0
+value. . . . . . . . . . . . . . . . . . . . . . . = 0.000000e+00
+value(default) = 0.000000e+00
+end: tahoe::nodes::field::kinematic_BC
+
+begin: tahoe::nodes::field::kinematic_BC
 node_ID. . . . . . . . . . . . . . . . . . . . . . = 102
 dof. . . . . . . . . . . . . . . . . . . . . . . . = 1
 type . . . . . . . . . . . . . . . . . . . . . . . = u
@@ -126,7 +142,7 @@ end: tahoe::nodes::field::kinematic_BC
 end: tahoe::nodes::field
 
 begin: tahoe::nodes::field
-field_name . . . . . . . . . . . . . . . . . . . . = voltage
+field_name . . . . . . . . . . . . . . . . . . . . = electric_scalar_potential
 solution_group . . . . . . . . . . . . . . . . . . = 2
 solution_group >= 1 (default)
 integrator . . . . . . . . . . . . . . . . . . . . = static
@@ -189,7 +205,7 @@ end: tahoe::nodes
 begin: tahoe::element_list
 
 begin: tahoe::element_list::diffusion
-field_name . . . . . . . . . . . . . . . . . . . . = voltage
+field_name . . . . . . . . . . . . . . . . . . . . = electric_scalar_potential
 
 begin: tahoe::element_list::diffusion::quadrilateral
 num_ip . . . . . . . . . . . . . . . . . . . . . . = 4
@@ -247,7 +263,7 @@ end: tahoe::element_list::diffusion::diffusion_element_block
 
 end: tahoe::element_list::diffusion
 
-begin: tahoe::element_list::updated_lagrangian
+begin: tahoe::element_list::updated_lagrangian_Q1P0
 field_name . . . . . . . . . . . . . . . . . . . . = displacement
 mass_type. . . . . . . . . . . . . . . . . . . . . = automatic
 mass_type = automatic (default)
@@ -257,51 +273,51 @@ mass_type = lumped_mass
 eigenvalue_inc . . . . . . . . . . . . . . . . . . = 0
 eigenvalue_inc >= 0 (default)
 
-begin: tahoe::element_list::updated_lagrangian::quadrilateral
+begin: tahoe::element_list::updated_lagrangian_Q1P0::quadrilateral
 num_ip . . . . . . . . . . . . . . . . . . . . . . = 4
 num_ip = 1
 num_ip = 4 (default)
 num_ip = 5
 num_ip = 9
 num_ip = 16
-end: tahoe::element_list::updated_lagrangian::quadrilateral
+end: tahoe::element_list::updated_lagrangian_Q1P0::quadrilateral
 
-begin: tahoe::element_list::updated_lagrangian::solid_element_nodal_output
+begin: tahoe::element_list::updated_lagrangian_Q1P0::solid_element_nodal_output
 displacements. . . . . . . . . . . . . . . . . . . = 1
 displacements(default) = 1
 stress . . . . . . . . . . . . . . . . . . . . . . = 1
 stress(default) = 1
-end: tahoe::element_list::updated_lagrangian::solid_element_nodal_output
+end: tahoe::element_list::updated_lagrangian_Q1P0::solid_element_nodal_output
 
-begin: tahoe::element_list::updated_lagrangian::large_strain_element_block
+begin: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block
 
-begin: tahoe::element_list::updated_lagrangian::large_strain_element_block::block_ID_list
+begin: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list
 
-begin: tahoe::element_list::updated_lagrangian::large_strain_element_block::block_ID_list::String
+begin: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list::String
 value. . . . . . . . . . . . . . . . . . . . . . . = 14
-end: tahoe::element_list::updated_lagrangian::large_strain_element_block::block_ID_list::String
+end: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list::String
 
-begin: tahoe::element_list::updated_lagrangian::large_strain_element_block::block_ID_list::String
+begin: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list::String
 value. . . . . . . . . . . . . . . . . . . . . . . = 11
-end: tahoe::element_list::updated_lagrangian::large_strain_element_block::block_ID_list::String
+end: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list::String
 
-begin: tahoe::element_list::updated_lagrangian::large_strain_element_block::block_ID_list::String
+begin: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list::String
 value. . . . . . . . . . . . . . . . . . . . . . . = 10
-end: tahoe::element_list::updated_lagrangian::large_strain_element_block::block_ID_list::String
+end: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list::String
 
-begin: tahoe::element_list::updated_lagrangian::large_strain_element_block::block_ID_list::String
+begin: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list::String
 value. . . . . . . . . . . . . . . . . . . . . . . = 13
-end: tahoe::element_list::updated_lagrangian::large_strain_element_block::block_ID_list::String
+end: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list::String
 
-begin: tahoe::element_list::updated_lagrangian::large_strain_element_block::block_ID_list::String
+begin: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list::String
 value. . . . . . . . . . . . . . . . . . . . . . . = 12
-end: tahoe::element_list::updated_lagrangian::large_strain_element_block::block_ID_list::String
+end: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list::String
 
-end: tahoe::element_list::updated_lagrangian::large_strain_element_block::block_ID_list
+end: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list
 
-begin: tahoe::element_list::updated_lagrangian::large_strain_element_block::large_strain_material_2D
+begin: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::large_strain_material_2D
 
-begin: tahoe::element_list::updated_lagrangian::large_strain_element_block::large_strain_material_2D::large_strain_StVenant_2D
+begin: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::large_strain_material_2D::large_strain_StVenant_2D
 density. . . . . . . . . . . . . . . . . . . . . . = 1.000000e+00
 density >= 0.000000e+00
 constraint_2D. . . . . . . . . . . . . . . . . . . = plane_stress
@@ -311,21 +327,21 @@ constraint_2D = plane_strain
 CTE. . . . . . . . . . . . . . . . . . . . . . . . = 5.000000e-02
 CTE(default) = 0.000000e+00
 
-begin: tahoe::element_list::updated_lagrangian::large_strain_element_block::large_strain_material_2D::large_strain_StVenant_2D::E_and_nu
+begin: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::large_strain_material_2D::large_strain_StVenant_2D::E_and_nu
 Young_modulus. . . . . . . . . . . . . . . . . . . = 1.000000e+02
 Young_modulus > 0.000000e+00
 Poisson_ratio. . . . . . . . . . . . . . . . . . . = 2.500000e-01
 Poisson_ratio > -1.000000e+00
 Poisson_ratio < 5.000000e-01
-end: tahoe::element_list::updated_lagrangian::large_strain_element_block::large_strain_material_2D::large_strain_StVenant_2D::E_and_nu
+end: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::large_strain_material_2D::large_strain_StVenant_2D::E_and_nu
 
-end: tahoe::element_list::updated_lagrangian::large_strain_element_block::large_strain_material_2D::large_strain_StVenant_2D
+end: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::large_strain_material_2D::large_strain_StVenant_2D
 
-end: tahoe::element_list::updated_lagrangian::large_strain_element_block::large_strain_material_2D
+end: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::large_strain_material_2D
 
-end: tahoe::element_list::updated_lagrangian::large_strain_element_block
+end: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block
 
-end: tahoe::element_list::updated_lagrangian
+end: tahoe::element_list::updated_lagrangian_Q1P0
 
 end: tahoe::element_list
 
@@ -410,11 +426,11 @@ end: tahoe
 
  E q u a t i o n    S y s t e m    D a t a :
 
- Local number of equations . . . . . . . . . . . = 760
- Total number of equations . . . . . . . . . . . = 760
- Number of terms in global matrix. . . . . . . . = 29978
- Mean half bandwidth . . . . . . . . . . . . . . = 40
- Bandwidth . . . . . . . . . . . . . . . . . . . = 76
+ Local number of equations . . . . . . . . . . . = 739
+ Total number of equations . . . . . . . . . . . = 739
+ Number of terms in global matrix. . . . . . . . = 28469
+ Mean half bandwidth . . . . . . . . . . . . . . = 39
+ Bandwidth . . . . . . . . . . . . . . . . . . . = 74
 
 
  E q u a t i o n    S y s t e m    D a t a :
@@ -496,10 +512,10 @@ end: tahoe
  Time = 1.000000e+00
  Step 10 of 10
 
-   Start time: Fri Jul  7 10:55:21 2017
- Construction: 8.884000e-03 sec.
-     Solution: 2.145070e-01 sec.
-    Stop time: Fri Jul  7 10:55:22 2017
+   Start time: Fri Jul 14 14:02:48 2017
+ Construction: 1.917000e-02 sec.
+     Solution: 5.377670e-01 sec.
+    Stop time: Fri Jul 14 14:02:49 2017
 
  End Execution
 

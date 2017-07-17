@@ -1,39 +1,83 @@
 cd /home/saman/Tahoe/contrib/translate/src-mirror
 cd /home/saman/Tahoe/contrib/translate/src-mirror; \
-	make  objects \
-	"ARCH = GNU-GCC4.6" \
-	"MACRO_DIR = /home/saman/Tahoe/contrib/translate/../../macros" \
-	"INC_DIR = /home/saman/Tahoe/contrib/translate/inc" \
-	"SRC_DIR = /home/saman/Tahoe/contrib/translate/src-mirror" \
-	"BLD_DIR = /home/saman/Tahoe/contrib/translate" \
-	"OBJ_DIR = /home/saman/Tahoe/contrib/translate/obj" \
-	"LIB_DIR = /home/saman/Tahoe/contrib/translate/lib" \
-	"PCH = translatePrefix.h" \
-	"OPT_CFLAGS =    -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__   " \
-	"MOD_CFLAGS_C = " \
-	"MOD_CFLAGS_CC = " \
-	"MOD_CFLAGS_F = " \
-	"MOD_LFLAGS = " \
-	"OPT_MAKEDEPENDFLAGS =      -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__   " \
-	"MOD_MAKEDEPENDFLAGS = " \
-	"DEPEND = all.depend" \
-	"CURR_DIR = /home/saman/Tahoe/contrib/translate/src-mirror"
-make[1]: Entering directory `/home/saman/Tahoe/contrib/translate/src-mirror'
-make[2]: Entering directory `/home/saman/Tahoe/contrib/translate/src-mirror'
-make[2]: Nothing to be done for `update_objects'.
-make[2]: Leaving directory `/home/saman/Tahoe/contrib/translate/src-mirror'
-make[2]: Entering directory `/home/saman/Tahoe/contrib/translate/src-mirror'
-make[2]: Nothing to be done for `subdir_driver'.
-make[2]: Leaving directory `/home/saman/Tahoe/contrib/translate/src-mirror'
-make[1]: Leaving directory `/home/saman/Tahoe/contrib/translate/src-mirror'
+make  objects \
+"ARCH = GNU-GCC4.6" \
+"MACRO_DIR = /home/saman/Tahoe/contrib/translate/../../macros" \
+"INC_DIR = /home/saman/Tahoe/contrib/translate/inc" \
+"SRC_DIR = /home/saman/Tahoe/contrib/translate/src-mirror" \
+"BLD_DIR = /home/saman/Tahoe/contrib/translate" \
+"OBJ_DIR = /home/saman/Tahoe/contrib/translate/obj" \
+"LIB_DIR = /home/saman/Tahoe/contrib/translate/lib" \
+"PCH = translatePrefix.h" \
+"OPT_CFLAGS =    -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__   " \
+"MOD_CFLAGS_C = " \
+"MOD_CFLAGS_CC = " \
+"MOD_CFLAGS_F = " \
+"MOD_LFLAGS = " \
+"OPT_MAKEDEPENDFLAGS =      -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc                      -D__ACCESS__   " \
+"MOD_MAKEDEPENDFLAGS = " \
+"DEPEND = all.depend" \
+"CURR_DIR = /home/saman/Tahoe/contrib/translate/src-mirror"
+make[1]: Entering directory '/home/saman/Tahoe/contrib/translate/src-mirror'
+make[2]: Entering directory '/home/saman/Tahoe/contrib/translate/src-mirror'
+    /usr/bin/g++-4.6: TranslateIOManager.cpp
+/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/translate/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     TranslateIOManager.cpp
+TranslateIOManager.cpp: In member function ‘void Tahoe::TranslateIOManager::InitializeNodeVariables()’:
+TranslateIOManager.cpp:175:11: warning: unused variable ‘numnodes’ [-Wunused-variable]
+TranslateIOManager.cpp: In member function ‘void Tahoe::TranslateIOManager::InitializeNodePoints(Tahoe::iArrayT&, Tahoe::iArrayT&)’:
+TranslateIOManager.cpp:245:7: warning: unused variable ‘numdims’ [-Wunused-variable]
+TranslateIOManager.cpp: In member function ‘virtual void Tahoe::TranslateIOManager::TranslateVariables()’:
+TranslateIOManager.cpp:579:7: warning: unused variable ‘num_node_values’ [-Wunused-variable]
+TranslateIOManager.cpp:581:7: warning: unused variable ‘num_elem_values’ [-Wunused-variable]
+ln -sf /home/saman/Tahoe/contrib/translate/src-mirror/TranslateIOManager.o /home/saman/Tahoe/contrib/translate/obj/TranslateIOManager.o
+    /usr/bin/g++-4.6: ExtractIOManager.cpp
+/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/translate/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     ExtractIOManager.cpp
+ln -sf /home/saman/Tahoe/contrib/translate/src-mirror/ExtractIOManager.o /home/saman/Tahoe/contrib/translate/obj/ExtractIOManager.o
+    /usr/bin/g++-4.6: ExtractNode.cpp
+/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/translate/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     ExtractNode.cpp
+ExtractNode.cpp: In member function ‘virtual void Tahoe::ExtractNode::TranslateVariables()’:
+ExtractNode.cpp:41:7: warning: unused variable ‘numdims’ [-Wunused-variable]
+ln -sf /home/saman/Tahoe/contrib/translate/src-mirror/ExtractNode.o /home/saman/Tahoe/contrib/translate/obj/ExtractNode.o
+    /usr/bin/g++-4.6: ExtractElement.cpp
+/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/translate/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     ExtractElement.cpp
+ln -sf /home/saman/Tahoe/contrib/translate/src-mirror/ExtractElement.o /home/saman/Tahoe/contrib/translate/obj/ExtractElement.o
+    /usr/bin/g++-4.6: ExtractQuad.cpp
+/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/translate/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     ExtractQuad.cpp
+ln -sf /home/saman/Tahoe/contrib/translate/src-mirror/ExtractQuad.o /home/saman/Tahoe/contrib/translate/obj/ExtractQuad.o
+    /usr/bin/g++-4.6: PointPlots.cpp
+/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/translate/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     PointPlots.cpp
+PointPlots.cpp: In member function ‘virtual void Tahoe::PointPlots::TranslateVariables()’:
+PointPlots.cpp:104:7: warning: unused variable ‘nume’ [-Wunused-variable]
+ln -sf /home/saman/Tahoe/contrib/translate/src-mirror/PointPlots.o /home/saman/Tahoe/contrib/translate/obj/PointPlots.o
+    /usr/bin/g++-4.6: MergeResults.cpp
+/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/translate/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     MergeResults.cpp
+ln -sf /home/saman/Tahoe/contrib/translate/src-mirror/MergeResults.o /home/saman/Tahoe/contrib/translate/obj/MergeResults.o
+    /usr/bin/g++-4.6: JoinResults.cpp
+/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/translate/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     JoinResults.cpp
+JoinResults.cpp: In member function ‘virtual void Tahoe::JoinResults::Translate(const Tahoe::StringT&, const Tahoe::StringT&, const Tahoe::StringT&)’:
+JoinResults.cpp:16:13: warning: unused variable ‘caller’ [-Wunused-variable]
+JoinResults.cpp:30:25: warning: unused variable ‘ids’ [-Wunused-variable]
+ln -sf /home/saman/Tahoe/contrib/translate/src-mirror/JoinResults.o /home/saman/Tahoe/contrib/translate/obj/JoinResults.o
+    /usr/bin/g++-4.6: Scroller.cpp
+/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/translate/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     Scroller.cpp
+ln -sf /home/saman/Tahoe/contrib/translate/src-mirror/Scroller.o /home/saman/Tahoe/contrib/translate/obj/Scroller.o
+    /usr/bin/g++-4.6: main.cpp
+/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/translate/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/translate/../../toolbox/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     main.cpp
+ln -sf /home/saman/Tahoe/contrib/translate/src-mirror/main.o /home/saman/Tahoe/contrib/translate/obj/main.o
+make[2]: Leaving directory '/home/saman/Tahoe/contrib/translate/src-mirror'
+make[2]: Entering directory '/home/saman/Tahoe/contrib/translate/src-mirror'
+make[2]: Nothing to be done for 'subdir_driver'.
+make[2]: Leaving directory '/home/saman/Tahoe/contrib/translate/src-mirror'
+make[1]: Leaving directory '/home/saman/Tahoe/contrib/translate/src-mirror'
 make archive "OBJECT_LIST = /home/saman/Tahoe/contrib/translate/object_list" "ARCH = GNU-GCC4.6" "MACRO_DIR = /home/saman/Tahoe/contrib/translate/../../macros" "HOME_DIR = /home/saman/Tahoe/contrib/translate"
-make[1]: Entering directory `/home/saman/Tahoe/contrib/translate'
+make[1]: Entering directory '/home/saman/Tahoe/contrib/translate'
 cd /home/saman/Tahoe/contrib/translate/obj; \
-	printf " building archive /home/saman/Tahoe/contrib/translate/lib/libtranslate.a\n"; \
-	ar -cruv /home/saman/Tahoe/contrib/translate/lib/libtranslate.a TranslateIOManager.o ExtractIOManager.o ExtractNode.o ExtractElement.o ExtractQuad.o PointPlots.o MergeResults.o JoinResults.o Scroller.o main.o ; \
-	printf " running ranlib /home/saman/Tahoe/contrib/translate/lib/libtranslate.a\n"; \
-	echo  /home/saman/Tahoe/contrib/translate/lib/libtranslate.a
+printf " building archive /home/saman/Tahoe/contrib/translate/lib/libtranslate.a\n"; \
+ar -cruv /home/saman/Tahoe/contrib/translate/lib/libtranslate.a TranslateIOManager.o ExtractIOManager.o ExtractNode.o ExtractElement.o ExtractQuad.o PointPlots.o MergeResults.o JoinResults.o Scroller.o main.o ; \
+printf " running ranlib /home/saman/Tahoe/contrib/translate/lib/libtranslate.a\n"; \
+echo  /home/saman/Tahoe/contrib/translate/lib/libtranslate.a
  building archive /home/saman/Tahoe/contrib/translate/lib/libtranslate.a
+ar: `u' modifier ignored since `D' is the default (see `U')
 a - TranslateIOManager.o
 a - ExtractIOManager.o
 a - ExtractNode.o
@@ -46,7 +90,7 @@ a - Scroller.o
 a - main.o
  running ranlib /home/saman/Tahoe/contrib/translate/lib/libtranslate.a
 /home/saman/Tahoe/contrib/translate/lib/libtranslate.a
-make[1]: Leaving directory `/home/saman/Tahoe/contrib/translate'
+make[1]: Leaving directory '/home/saman/Tahoe/contrib/translate'
  linking...
 /usr/bin/g++-4.6 /home/saman/Tahoe/contrib/translate/src-mirror/main.o -o translate -L/home/saman/Tahoe/contrib/translate/lib -ltranslate     -L/home/saman/Tahoe/contrib/translate/../../toolbox/lib -ltoolbox                 -L/usr/local/ACCESS/lib -lexoIIv2c -lnetcdf     -lpthread
     ...wrote translate

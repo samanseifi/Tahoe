@@ -11,24 +11,25 @@
         </schedule_function>
     </time>
     <nodes>
-        <field field_name="displacement" integration="nonlinear_HHT" solution_group="1">
+        <field field_name="displacement" solution_group="1">
             <dof_labels>
                 <String value="D_X"/>
                 <String value="D_Y"/>
             </dof_labels>
             <kinematic_BC dof="1" node_ID="100"/>
+            <kinematic_BC dof="2" node_ID="101"/>
             <kinematic_BC dof="1" node_ID="102" schedule="1" type="u" value="1"/>
         </field>
-        <field field_name="voltage" solution_group="2">
+        <field field_name="electric_scalar_potential" solution_group="2">
             <dof_labels>
                 <String value="Psi"/>
             </dof_labels>
-            <kinematic_BC dof="1" node_ID="102"  type="u" value="1.0"/>
-            <kinematic_BC dof="1" node_ID="100"  type="u" value="0.0"/>
+            <kinematic_BC dof="1" node_ID="102" type="u" value="1.0"/>
+            <kinematic_BC dof="1" node_ID="100" type="u" value="0.0"/>
         </field>
     </nodes>
     <element_list>
-        <diffusion field_name="voltage">
+        <diffusion field_name="electric_scalar_potential">
             <quadrilateral/>
             <diffusion_element_nodal_output displacement="1" material_output="1"/>
             <diffusion_element_block>
@@ -45,7 +46,7 @@
                 </diffusion_material>
             </diffusion_element_block>
         </diffusion>
-        <updated_lagrangian field_name="displacement">
+        <updated_lagrangian_Q1P0 field_name="displacement">
             <quadrilateral/>
             <solid_element_nodal_output displacements="1" stress="1"/>
             <large_strain_element_block>
@@ -62,7 +63,7 @@
                     </large_strain_StVenant_2D>
                 </large_strain_material_2D>
             </large_strain_element_block>
-        </updated_lagrangian>
+        </updated_lagrangian_Q1P0>
     </element_list>
     <nonlinear_solver abs_tolerance="1.0e-10"
         divergence_tolerance="10.0" max_iterations="10" rel_tolerance="1.0e-12">

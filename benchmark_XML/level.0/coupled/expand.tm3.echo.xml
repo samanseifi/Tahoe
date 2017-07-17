@@ -2,13 +2,12 @@
 
 <tahoe
         author='paklein'
-    compute_IC='true'
  geometry_file='./geometry/square.geom'
  output_format='ExodusII'
          title='square region with prescribed temperature in corner'
       xmlns:x0='http://www.w3.org/2001/XMLSchema'>
 	<time
-	  num_steps='10'
+	  num_steps='100'
 	 output_inc='1'
 	  time_step='0.1'>
 		<schedule_function>
@@ -24,9 +23,8 @@
 	</time>
 	<nodes>
 		<field
-		     field_name='displacement'
-		    integration='nonlinear_HHT'
-		 solution_group='1'>
+		 field_name='displacement'
+		 integrator='nonlinear_HHT'>
 			<dof_labels>
 				<String
 				 value='D_X'/>
@@ -37,80 +35,19 @@
 			     dof='1'
 			 node_ID='100'/>
 			<kinematic_BC
+			     dof='2'
+			 node_ID='101'/>
+			<kinematic_BC
 			      dof='1'
 			  node_ID='102'
 			 schedule='1'
 			     type='u'
 			    value='0.1'/>
 		</field>
-		<field
-		     field_name='electric_scalar_potential'
-		     integrator='static'
-		 solution_group='1'>
-			<dof_labels>
-				<String
-				 value='Psi'/>
-			</dof_labels>
-			<kinematic_BC
-			     dof='1'
-			 node_ID='102'
-			    type='fixed'/>
-			<kinematic_BC
-			     dof='1'
-			 node_ID='100'
-			    type='fixed'/>
-		</field>
-		<field
-		     field_name='voltage'
-		 solution_group='2'>
-			<dof_labels>
-				<String
-				 value='Vol'/>
-			</dof_labels>
-			<kinematic_BC
-			     dof='1'
-			 node_ID='102'
-			    type='u'
-			   value='1.0'/>
-			<kinematic_BC
-			     dof='1'
-			 node_ID='100'
-			    type='u'
-			   value='0.0'/>
-		</field>
 	</nodes>
 	<element_list>
-		<diffusion
-		 field_name='voltage'>
-			<quadrilateral/>
-			<diffusion_element_nodal_output
-			    displacement='1'
-			 material_output='1'/>
-			<diffusion_element_block>
-				<block_ID_list>
-					<String
-					 value='14'/>
-					<String
-					 value='11'/>
-					<String
-					 value='10'/>
-					<String
-					 value='13'/>
-					<String
-					 value='12'/>
-				</block_ID_list>
-				<diffusion_material>
-					<linear_diffusion_material
-					  conductivity='1.0'
-					       density='1.0'
-					 specific_heat='1.0'/>
-				</diffusion_material>
-			</diffusion_element_block>
-		</diffusion>
-		<dielectric_elastomer_Q1P02D
-		 electric_field_name='electric_scalar_potential'
-		          field_name='displacement'
-		           mass_type='lumped_mass'>
+		<updated_lagrangian_Q1P0
+		 field_name='displacement'>
 			<quadrilateral/>
 			<solid_element_nodal_output
 			 displacements='1'
@@ -129,39 +66,20 @@
 					 value='12'/>
 				</block_ID_list>
 				<large_strain_material_2D>
-					<Dielectric_Elastomer_Q1P02D
-					    Nrig='5.0'
-					 density='1.0'
-					 epsilon='1.0'
-					   gamma='0'
-					  lambda='1000'
-					      mu='1.0'
-					     t_0='0'/>
+					<RG_split_general
+					 density='1.0'>
+						<rg_eq_potential>
+							<neo-hookean
+							 kappa='10000'
+							    mu='10'/>
+						</rg_eq_potential>
+					</RG_split_general>
 				</large_strain_material_2D>
 			</large_strain_element_block>
-		</dielectric_elastomer_Q1P02D>
+		</updated_lagrangian_Q1P0>
 	</element_list>
-	<nonlinear_solver
-	          abs_tolerance='1.0e-7'
-	 check_LHS_perturbation='1.0E-8'
-	             check_code='no_check'
-	   divergence_tolerance='1.0e+10'
-	         max_iterations='50'
-	          rel_tolerance='1.0e-9'>
-		<SPOOLES_matrix/>
-	</nonlinear_solver>
-	<linear_solver>
-		<profile_matrix/>
+	<linear_solver
+	 check_LHS_perturbation='1.0E-4'>
+		<diagonal_matrix/>
 	</linear_solver>
-	<solver_phases
-	 max_loops='100'>
-		<solver_phase
-		      iterations='2'
-		 pass_iterations='0'
-		          solver='1'/>
-		<solver_phase
-		      iterations='2'
-		 pass_iterations='0'
-		          solver='2'/>
-	</solver_phases>
 </tahoe>

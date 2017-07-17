@@ -9268,7 +9268,6 @@
 		<xsd:element ref='solid_element_nodal_output' minOccurs='0'/>
 		<xsd:element ref='solid_element_element_output' minOccurs='0'/>
 		<xsd:element ref='large_strain_element_block' maxOccurs='unbounded'/>
-		<xsd:element ref='passivated_surface_ID_list' minOccurs='0'/>
 	</xsd:sequence>
 	<xsd:attribute name='field_name' use='required' type='word'/>
 	<xsd:attribute name='store_shapefunctions' default='false' type='xsd:boolean'/>
@@ -9290,7 +9289,6 @@
 		</xsd:simpleType>
 	</xsd:attribute>
 	<xsd:attribute name='electric_field_name' use='required' type='word'/>
-	<xsd:attribute name='output_surface' default='false' type='xsd:boolean'/>
 </xsd:complexType>
 </xsd:element>
 

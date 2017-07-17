@@ -92,7 +92,6 @@ namespace Tahoe {
 	fE_all.Dimension(nip*nsd);
 	fE_all = 0.0;	// testing HSP
 	fE_List.Dimension(nip);
-
 	/* what does this do? */
     for (int i = 0; i < nip; ++i) {
       fE_List[i].Alias(nsd, fE_all.Pointer(i * nsd));
@@ -176,6 +175,7 @@ namespace Tahoe {
 
 		SetMeanGradient(fMeanGradient, H, v);
 	}
+
   }
 
 /* form of tangent matrix */
@@ -253,7 +253,10 @@ void FSDielectricElastomerQ1P02DT::WriteRestart(ostream& out) const
       ps->SetElectricField(&fE_List);
     }
 
+
     return p;
+
+
   }
 
   // construct materials manager and read data
@@ -297,16 +300,24 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 	if (!fCurrShapes) throw ExceptionT::kOutOfMemory ;
 
 	fCurrShapes->Initialize();
+
+
+
 }
 
   // form shape functions and derivatives; for ComputeOutput
   void FSDielectricElastomerQ1P02DT::SetGlobalShape()
   {
+
     // inherited
     FiniteStrainT::SetGlobalShape();
 
+    //std::cout << "It's HERE!" << std::endl;
+    //std::cout << fE_List[2] << std::endl;
+
     // what needs to be computed
     SetLocalU(fLocScalarPotential);
+    //std::cout << fLocScalarPotential << std::endl;
 
     for (int i = 0; i < NumIP(); i++) {
 
@@ -318,6 +329,7 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 		E1 *= -1.0;
 		for (int i = 0; i < NumSD(); i++)
 			E[i] = E1(0,i);
+
       }
 
 	/* shape function wrt current config - Q1P0 */
@@ -386,6 +398,7 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 		}
 	}
 
+
   }
 
   // write all current element information to the stream
@@ -426,6 +439,7 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
   // Initialize local arrays
   void FSDielectricElastomerQ1P02DT::SetLocalArrays()
   {
+
     // look for an electric scalar potential field
     const FieldT* esp = 0;
 
@@ -460,6 +474,8 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 	/* allocate and set source - for Q1P0 */
 	fLocCurrCoords.Dimension(NumElementNodes(), NumSD());
 	ElementSupport().RegisterCoordinates(fLocCurrCoords);
+
+
   }
 
   //
@@ -491,6 +507,7 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
   const dArrayT&
   FSDielectricElastomerQ1P02DT::ElectricField() const
   {
+
     return fE_List[CurrIP()];
   }
 
@@ -599,6 +616,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 			}
 		}
 	}
+
 }
 
  // void FSDielectricElastomerQ1P02DT::Set_G(const dArray2DT& DNaX, dMatrixT& G)
@@ -688,7 +706,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 		/* accumulate */
 		fAmm_mat.MultQTBQ(fB, fD, format, dMatrixT::kAccumulate);
 
-	
+
 		/* Electromechanical Coupling Stiffnesses in current configuration */
 	/* May need to modify integration constants (scale) for BIJ and EIJK as compared to CIJKL */
 	/* J_correction for eijk terms? */

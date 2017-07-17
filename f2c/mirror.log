@@ -3,36 +3,170 @@ destination directory: /home/saman/Tahoe/f2c/src-mirror
            ln command: ln -sf
 found source directory /home/saman/Tahoe/f2c/src
 found destination directory /home/saman/Tahoe/f2c/src-mirror
-processing directory /home/saman/Tahoe/f2c/src/Real
-found destination directory /home/saman/Tahoe/f2c/src-mirror/Real
-     source directory: /home/saman/Tahoe/f2c/src/Real
-destination directory: /home/saman/Tahoe/f2c/src-mirror/Real
+processing directory /home/saman/Tahoe/f2c/src/custom_Misc
+found destination directory /home/saman/Tahoe/f2c/src-mirror/custom_Misc
+     source directory: /home/saman/Tahoe/f2c/src/custom_Misc
+destination directory: /home/saman/Tahoe/f2c/src-mirror/custom_Misc
            ln command: ln -sf
-found source directory /home/saman/Tahoe/f2c/src/Real
-found destination directory /home/saman/Tahoe/f2c/src-mirror/Real
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_atan.c /home/saman/Tahoe/f2c/src-mirror/Real/r_atan.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_log.c /home/saman/Tahoe/f2c/src-mirror/Real/r_log.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_cnjg.c /home/saman/Tahoe/f2c/src-mirror/Real/r_cnjg.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_mod.c /home/saman/Tahoe/f2c/src-mirror/Real/r_mod.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_acos.c /home/saman/Tahoe/f2c/src-mirror/Real/r_acos.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_sin.c /home/saman/Tahoe/f2c/src-mirror/Real/r_sin.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_tan.c /home/saman/Tahoe/f2c/src-mirror/Real/r_tan.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_cosh.c /home/saman/Tahoe/f2c/src-mirror/Real/r_cosh.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_dim.c /home/saman/Tahoe/f2c/src-mirror/Real/r_dim.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_asin.c /home/saman/Tahoe/f2c/src-mirror/Real/r_asin.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_nint.c /home/saman/Tahoe/f2c/src-mirror/Real/r_nint.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_abs.c /home/saman/Tahoe/f2c/src-mirror/Real/r_abs.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_lg10.c /home/saman/Tahoe/f2c/src-mirror/Real/r_lg10.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/makefile /home/saman/Tahoe/f2c/src-mirror/Real/makefile
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_sign.c /home/saman/Tahoe/f2c/src-mirror/Real/r_sign.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_tanh.c /home/saman/Tahoe/f2c/src-mirror/Real/r_tanh.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_exp.c /home/saman/Tahoe/f2c/src-mirror/Real/r_exp.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_sqrt.c /home/saman/Tahoe/f2c/src-mirror/Real/r_sqrt.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_cos.c /home/saman/Tahoe/f2c/src-mirror/Real/r_cos.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_atn2.c /home/saman/Tahoe/f2c/src-mirror/Real/r_atn2.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_imag.c /home/saman/Tahoe/f2c/src-mirror/Real/r_imag.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_sinh.c /home/saman/Tahoe/f2c/src-mirror/Real/r_sinh.c
-ln -sf /home/saman/Tahoe/f2c/src/Real/r_int.c /home/saman/Tahoe/f2c/src-mirror/Real/r_int.c
+found source directory /home/saman/Tahoe/f2c/src/custom_Misc
+found destination directory /home/saman/Tahoe/f2c/src-mirror/custom_Misc
+ln -sf /home/saman/Tahoe/f2c/src/custom_Misc/lsame.c /home/saman/Tahoe/f2c/src-mirror/custom_Misc/lsame.c
+ln -sf /home/saman/Tahoe/f2c/src/custom_Misc/Mac_f2c_access.c /home/saman/Tahoe/f2c/src-mirror/custom_Misc/Mac_f2c_access.c
+ln -sf /home/saman/Tahoe/f2c/src/custom_Misc/makefile /home/saman/Tahoe/f2c/src-mirror/custom_Misc/makefile
+ln -sf /home/saman/Tahoe/f2c/src/custom_Misc/xerbla.c /home/saman/Tahoe/f2c/src-mirror/custom_Misc/xerbla.c
+processing directory /home/saman/Tahoe/f2c/src/Double_Complex
+found destination directory /home/saman/Tahoe/f2c/src-mirror/Double_Complex
+     source directory: /home/saman/Tahoe/f2c/src/Double_Complex
+destination directory: /home/saman/Tahoe/f2c/src-mirror/Double_Complex
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/f2c/src/Double_Complex
+found destination directory /home/saman/Tahoe/f2c/src-mirror/Double_Complex
+ln -sf /home/saman/Tahoe/f2c/src/Double_Complex/z_cos.c /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_cos.c
+ln -sf /home/saman/Tahoe/f2c/src/Double_Complex/z_sqrt.c /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_sqrt.c
+ln -sf /home/saman/Tahoe/f2c/src/Double_Complex/makefile /home/saman/Tahoe/f2c/src-mirror/Double_Complex/makefile
+ln -sf /home/saman/Tahoe/f2c/src/Double_Complex/z_sin.c /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_sin.c
+ln -sf /home/saman/Tahoe/f2c/src/Double_Complex/z_div.c /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_div.c
+ln -sf /home/saman/Tahoe/f2c/src/Double_Complex/z_log.c /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_log.c
+ln -sf /home/saman/Tahoe/f2c/src/Double_Complex/z_exp.c /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_exp.c
+ln -sf /home/saman/Tahoe/f2c/src/Double_Complex/z_abs.c /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_abs.c
+processing directory /home/saman/Tahoe/f2c/src/Half_Integer
+found destination directory /home/saman/Tahoe/f2c/src-mirror/Half_Integer
+     source directory: /home/saman/Tahoe/f2c/src/Half_Integer
+destination directory: /home/saman/Tahoe/f2c/src-mirror/Half_Integer
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/f2c/src/Half_Integer
+found destination directory /home/saman/Tahoe/f2c/src-mirror/Half_Integer
+ln -sf /home/saman/Tahoe/f2c/src/Half_Integer/h_dim.c /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_dim.c
+ln -sf /home/saman/Tahoe/f2c/src/Half_Integer/h_mod.c /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_mod.c
+ln -sf /home/saman/Tahoe/f2c/src/Half_Integer/h_sign.c /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_sign.c
+ln -sf /home/saman/Tahoe/f2c/src/Half_Integer/h_len.c /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_len.c
+ln -sf /home/saman/Tahoe/f2c/src/Half_Integer/h_dnnt.c /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_dnnt.c
+ln -sf /home/saman/Tahoe/f2c/src/Half_Integer/h_abs.c /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_abs.c
+ln -sf /home/saman/Tahoe/f2c/src/Half_Integer/makefile /home/saman/Tahoe/f2c/src-mirror/Half_Integer/makefile
+ln -sf /home/saman/Tahoe/f2c/src/Half_Integer/h_indx.c /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_indx.c
+ln -sf /home/saman/Tahoe/f2c/src/Half_Integer/h_nint.c /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_nint.c
+processing directory /home/saman/Tahoe/f2c/src/Integer
+found destination directory /home/saman/Tahoe/f2c/src-mirror/Integer
+     source directory: /home/saman/Tahoe/f2c/src/Integer
+destination directory: /home/saman/Tahoe/f2c/src-mirror/Integer
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/f2c/src/Integer
+found destination directory /home/saman/Tahoe/f2c/src-mirror/Integer
+ln -sf /home/saman/Tahoe/f2c/src/Integer/lbitshft.c /home/saman/Tahoe/f2c/src-mirror/Integer/lbitshft.c
+ln -sf /home/saman/Tahoe/f2c/src/Integer/i_dim.c /home/saman/Tahoe/f2c/src-mirror/Integer/i_dim.c
+ln -sf /home/saman/Tahoe/f2c/src/Integer/i_len.c /home/saman/Tahoe/f2c/src-mirror/Integer/i_len.c
+ln -sf /home/saman/Tahoe/f2c/src/Integer/i_indx.c /home/saman/Tahoe/f2c/src-mirror/Integer/i_indx.c
+ln -sf /home/saman/Tahoe/f2c/src/Integer/lbitbits.c /home/saman/Tahoe/f2c/src-mirror/Integer/lbitbits.c
+ln -sf /home/saman/Tahoe/f2c/src/Integer/makefile /home/saman/Tahoe/f2c/src-mirror/Integer/makefile
+ln -sf /home/saman/Tahoe/f2c/src/Integer/i_sign.c /home/saman/Tahoe/f2c/src-mirror/Integer/i_sign.c
+ln -sf /home/saman/Tahoe/f2c/src/Integer/i_nint.c /home/saman/Tahoe/f2c/src-mirror/Integer/i_nint.c
+ln -sf /home/saman/Tahoe/f2c/src/Integer/i_abs.c /home/saman/Tahoe/f2c/src-mirror/Integer/i_abs.c
+ln -sf /home/saman/Tahoe/f2c/src/Integer/i_dnnt.c /home/saman/Tahoe/f2c/src-mirror/Integer/i_dnnt.c
+ln -sf /home/saman/Tahoe/f2c/src/Integer/i_mod.c /home/saman/Tahoe/f2c/src-mirror/Integer/i_mod.c
+processing directory /home/saman/Tahoe/f2c/src/Misc
+found destination directory /home/saman/Tahoe/f2c/src-mirror/Misc
+     source directory: /home/saman/Tahoe/f2c/src/Misc
+destination directory: /home/saman/Tahoe/f2c/src-mirror/Misc
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/f2c/src/Misc
+found destination directory /home/saman/Tahoe/f2c/src-mirror/Misc
+ln -sf /home/saman/Tahoe/f2c/src/Misc/cabs.c /home/saman/Tahoe/f2c/src-mirror/Misc/cabs.c
+ln -sf /home/saman/Tahoe/f2c/src/Misc/erf_.c /home/saman/Tahoe/f2c/src-mirror/Misc/erf_.c
+ln -sf /home/saman/Tahoe/f2c/src/Misc/getenv_.c /home/saman/Tahoe/f2c/src-mirror/Misc/getenv_.c
+ln -sf /home/saman/Tahoe/f2c/src/Misc/signal_.c /home/saman/Tahoe/f2c/src-mirror/Misc/signal_.c
+ln -sf /home/saman/Tahoe/f2c/src/Misc/exit_.c /home/saman/Tahoe/f2c/src-mirror/Misc/exit_.c
+ln -sf /home/saman/Tahoe/f2c/src/Misc/s_paus.c /home/saman/Tahoe/f2c/src-mirror/Misc/s_paus.c
+ln -sf /home/saman/Tahoe/f2c/src/Misc/f2c.h /home/saman/Tahoe/f2c/src-mirror/Misc/f2c.h
+ln -sf /home/saman/Tahoe/f2c/src/Misc/libf2cCWPrefix.h /home/saman/Tahoe/f2c/src-mirror/Misc/libf2cCWPrefix.h
+ln -sf /home/saman/Tahoe/f2c/src/Misc/fp.h /home/saman/Tahoe/f2c/src-mirror/Misc/fp.h
+ln -sf /home/saman/Tahoe/f2c/src/Misc/iargc_.c /home/saman/Tahoe/f2c/src-mirror/Misc/iargc_.c
+ln -sf /home/saman/Tahoe/f2c/src/Misc/makefile /home/saman/Tahoe/f2c/src-mirror/Misc/makefile
+ln -sf /home/saman/Tahoe/f2c/src/Misc/derfc_.c /home/saman/Tahoe/f2c/src-mirror/Misc/derfc_.c
+ln -sf /home/saman/Tahoe/f2c/src/Misc/sig_die.c /home/saman/Tahoe/f2c/src-mirror/Misc/sig_die.c
+ln -sf /home/saman/Tahoe/f2c/src/Misc/s_rnge.c /home/saman/Tahoe/f2c/src-mirror/Misc/s_rnge.c
+ln -sf /home/saman/Tahoe/f2c/src/Misc/system_.c /home/saman/Tahoe/f2c/src-mirror/Misc/system_.c
+ln -sf /home/saman/Tahoe/f2c/src/Misc/erfc_.c /home/saman/Tahoe/f2c/src-mirror/Misc/erfc_.c
+ln -sf /home/saman/Tahoe/f2c/src/Misc/getarg_.c /home/saman/Tahoe/f2c/src-mirror/Misc/getarg_.c
+ln -sf /home/saman/Tahoe/f2c/src/Misc/s_stop.c /home/saman/Tahoe/f2c/src-mirror/Misc/s_stop.c
+ln -sf /home/saman/Tahoe/f2c/src/Misc/derf_.c /home/saman/Tahoe/f2c/src-mirror/Misc/derf_.c
+ln -sf /home/saman/Tahoe/f2c/src/Misc/i77vers.c /home/saman/Tahoe/f2c/src-mirror/Misc/i77vers.c
+ln -sf /home/saman/Tahoe/f2c/src/Misc/abort_.c /home/saman/Tahoe/f2c/src-mirror/Misc/abort_.c
+ln -sf /home/saman/Tahoe/f2c/src/Misc/signal1.h /home/saman/Tahoe/f2c/src-mirror/Misc/signal1.h
+ln -sf /home/saman/Tahoe/f2c/src/Misc/f77vers.c /home/saman/Tahoe/f2c/src-mirror/Misc/f77vers.c
+processing directory /home/saman/Tahoe/f2c/src/Power
+found destination directory /home/saman/Tahoe/f2c/src-mirror/Power
+     source directory: /home/saman/Tahoe/f2c/src/Power
+destination directory: /home/saman/Tahoe/f2c/src-mirror/Power
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/f2c/src/Power
+found destination directory /home/saman/Tahoe/f2c/src-mirror/Power
+ln -sf /home/saman/Tahoe/f2c/src/Power/pow_dd.c /home/saman/Tahoe/f2c/src-mirror/Power/pow_dd.c
+ln -sf /home/saman/Tahoe/f2c/src/Power/pow_ii.c /home/saman/Tahoe/f2c/src-mirror/Power/pow_ii.c
+ln -sf /home/saman/Tahoe/f2c/src/Power/pow_ci.c /home/saman/Tahoe/f2c/src-mirror/Power/pow_ci.c
+ln -sf /home/saman/Tahoe/f2c/src/Power/makefile /home/saman/Tahoe/f2c/src-mirror/Power/makefile
+ln -sf /home/saman/Tahoe/f2c/src/Power/pow_zi.c /home/saman/Tahoe/f2c/src-mirror/Power/pow_zi.c
+ln -sf /home/saman/Tahoe/f2c/src/Power/pow_hh.c /home/saman/Tahoe/f2c/src-mirror/Power/pow_hh.c
+ln -sf /home/saman/Tahoe/f2c/src/Power/pow_di.c /home/saman/Tahoe/f2c/src-mirror/Power/pow_di.c
+ln -sf /home/saman/Tahoe/f2c/src/Power/pow_zz.c /home/saman/Tahoe/f2c/src-mirror/Power/pow_zz.c
+ln -sf /home/saman/Tahoe/f2c/src/Power/pow_ri.c /home/saman/Tahoe/f2c/src-mirror/Power/pow_ri.c
+processing directory /home/saman/Tahoe/f2c/src/Quad_Integer
+found destination directory /home/saman/Tahoe/f2c/src-mirror/Quad_Integer
+     source directory: /home/saman/Tahoe/f2c/src/Quad_Integer
+destination directory: /home/saman/Tahoe/f2c/src-mirror/Quad_Integer
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/f2c/src/Quad_Integer
+found destination directory /home/saman/Tahoe/f2c/src-mirror/Quad_Integer
+ln -sf /home/saman/Tahoe/f2c/src/Quad_Integer/qbitshft.c /home/saman/Tahoe/f2c/src-mirror/Quad_Integer/qbitshft.c
+ln -sf /home/saman/Tahoe/f2c/src/Quad_Integer/makefile /home/saman/Tahoe/f2c/src-mirror/Quad_Integer/makefile
+ln -sf /home/saman/Tahoe/f2c/src/Quad_Integer/qbitbits.c /home/saman/Tahoe/f2c/src-mirror/Quad_Integer/qbitbits.c
+ln -sf /home/saman/Tahoe/f2c/src/Quad_Integer/pow_qq.c /home/saman/Tahoe/f2c/src-mirror/Quad_Integer/pow_qq.c
+processing directory /home/saman/Tahoe/f2c/src/Double
+found destination directory /home/saman/Tahoe/f2c/src-mirror/Double
+     source directory: /home/saman/Tahoe/f2c/src/Double
+destination directory: /home/saman/Tahoe/f2c/src-mirror/Double
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/f2c/src/Double
+found destination directory /home/saman/Tahoe/f2c/src-mirror/Double
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_asin.c /home/saman/Tahoe/f2c/src-mirror/Double/d_asin.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_abs.c /home/saman/Tahoe/f2c/src-mirror/Double/d_abs.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_cosh.c /home/saman/Tahoe/f2c/src-mirror/Double/d_cosh.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_cnjg.c /home/saman/Tahoe/f2c/src-mirror/Double/d_cnjg.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_tanh.c /home/saman/Tahoe/f2c/src-mirror/Double/d_tanh.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_cos.c /home/saman/Tahoe/f2c/src-mirror/Double/d_cos.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_imag.c /home/saman/Tahoe/f2c/src-mirror/Double/d_imag.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_acos.c /home/saman/Tahoe/f2c/src-mirror/Double/d_acos.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_sqrt.c /home/saman/Tahoe/f2c/src-mirror/Double/d_sqrt.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/makefile /home/saman/Tahoe/f2c/src-mirror/Double/makefile
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_nint.c /home/saman/Tahoe/f2c/src-mirror/Double/d_nint.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_dim.c /home/saman/Tahoe/f2c/src-mirror/Double/d_dim.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_atan.c /home/saman/Tahoe/f2c/src-mirror/Double/d_atan.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_log.c /home/saman/Tahoe/f2c/src-mirror/Double/d_log.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_sinh.c /home/saman/Tahoe/f2c/src-mirror/Double/d_sinh.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_tan.c /home/saman/Tahoe/f2c/src-mirror/Double/d_tan.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_int.c /home/saman/Tahoe/f2c/src-mirror/Double/d_int.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_sign.c /home/saman/Tahoe/f2c/src-mirror/Double/d_sign.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_prod.c /home/saman/Tahoe/f2c/src-mirror/Double/d_prod.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_mod.c /home/saman/Tahoe/f2c/src-mirror/Double/d_mod.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_lg10.c /home/saman/Tahoe/f2c/src-mirror/Double/d_lg10.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_exp.c /home/saman/Tahoe/f2c/src-mirror/Double/d_exp.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_sin.c /home/saman/Tahoe/f2c/src-mirror/Double/d_sin.c
+ln -sf /home/saman/Tahoe/f2c/src/Double/d_atn2.c /home/saman/Tahoe/f2c/src-mirror/Double/d_atn2.c
+ln -sf /home/saman/Tahoe/f2c/src/makefile /home/saman/Tahoe/f2c/src-mirror/makefile
+processing directory /home/saman/Tahoe/f2c/src/Complex
+found destination directory /home/saman/Tahoe/f2c/src-mirror/Complex
+     source directory: /home/saman/Tahoe/f2c/src/Complex
+destination directory: /home/saman/Tahoe/f2c/src-mirror/Complex
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/f2c/src/Complex
+found destination directory /home/saman/Tahoe/f2c/src-mirror/Complex
+ln -sf /home/saman/Tahoe/f2c/src/Complex/c_abs.c /home/saman/Tahoe/f2c/src-mirror/Complex/c_abs.c
+ln -sf /home/saman/Tahoe/f2c/src/Complex/c_div.c /home/saman/Tahoe/f2c/src-mirror/Complex/c_div.c
+ln -sf /home/saman/Tahoe/f2c/src/Complex/c_sqrt.c /home/saman/Tahoe/f2c/src-mirror/Complex/c_sqrt.c
+ln -sf /home/saman/Tahoe/f2c/src/Complex/makefile /home/saman/Tahoe/f2c/src-mirror/Complex/makefile
+ln -sf /home/saman/Tahoe/f2c/src/Complex/c_cos.c /home/saman/Tahoe/f2c/src-mirror/Complex/c_cos.c
+ln -sf /home/saman/Tahoe/f2c/src/Complex/c_sin.c /home/saman/Tahoe/f2c/src-mirror/Complex/c_sin.c
+ln -sf /home/saman/Tahoe/f2c/src/Complex/c_exp.c /home/saman/Tahoe/f2c/src-mirror/Complex/c_exp.c
+ln -sf /home/saman/Tahoe/f2c/src/Complex/c_log.c /home/saman/Tahoe/f2c/src-mirror/Complex/c_log.c
 processing directory /home/saman/Tahoe/f2c/src/ELF
 found destination directory /home/saman/Tahoe/f2c/src-mirror/ELF
      source directory: /home/saman/Tahoe/f2c/src/ELF
@@ -43,21 +177,6 @@ found destination directory /home/saman/Tahoe/f2c/src-mirror/ELF
 ln -sf /home/saman/Tahoe/f2c/src/ELF/ef1cmc_.c /home/saman/Tahoe/f2c/src-mirror/ELF/ef1cmc_.c
 ln -sf /home/saman/Tahoe/f2c/src/ELF/makefile /home/saman/Tahoe/f2c/src-mirror/ELF/makefile
 ln -sf /home/saman/Tahoe/f2c/src/ELF/ef1asc_.c /home/saman/Tahoe/f2c/src-mirror/ELF/ef1asc_.c
-processing directory /home/saman/Tahoe/f2c/src/Complex
-found destination directory /home/saman/Tahoe/f2c/src-mirror/Complex
-     source directory: /home/saman/Tahoe/f2c/src/Complex
-destination directory: /home/saman/Tahoe/f2c/src-mirror/Complex
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/f2c/src/Complex
-found destination directory /home/saman/Tahoe/f2c/src-mirror/Complex
-ln -sf /home/saman/Tahoe/f2c/src/Complex/c_log.c /home/saman/Tahoe/f2c/src-mirror/Complex/c_log.c
-ln -sf /home/saman/Tahoe/f2c/src/Complex/c_exp.c /home/saman/Tahoe/f2c/src-mirror/Complex/c_exp.c
-ln -sf /home/saman/Tahoe/f2c/src/Complex/c_sqrt.c /home/saman/Tahoe/f2c/src-mirror/Complex/c_sqrt.c
-ln -sf /home/saman/Tahoe/f2c/src/Complex/c_div.c /home/saman/Tahoe/f2c/src-mirror/Complex/c_div.c
-ln -sf /home/saman/Tahoe/f2c/src/Complex/c_cos.c /home/saman/Tahoe/f2c/src-mirror/Complex/c_cos.c
-ln -sf /home/saman/Tahoe/f2c/src/Complex/makefile /home/saman/Tahoe/f2c/src-mirror/Complex/makefile
-ln -sf /home/saman/Tahoe/f2c/src/Complex/c_sin.c /home/saman/Tahoe/f2c/src-mirror/Complex/c_sin.c
-ln -sf /home/saman/Tahoe/f2c/src/Complex/c_abs.c /home/saman/Tahoe/f2c/src-mirror/Complex/c_abs.c
 processing directory /home/saman/Tahoe/f2c/src/Time
 found destination directory /home/saman/Tahoe/f2c/src-mirror/Time
      source directory: /home/saman/Tahoe/f2c/src/Time
@@ -68,51 +187,6 @@ found destination directory /home/saman/Tahoe/f2c/src-mirror/Time
 ln -sf /home/saman/Tahoe/f2c/src/Time/etime_.c /home/saman/Tahoe/f2c/src-mirror/Time/etime_.c
 ln -sf /home/saman/Tahoe/f2c/src/Time/makefile /home/saman/Tahoe/f2c/src-mirror/Time/makefile
 ln -sf /home/saman/Tahoe/f2c/src/Time/dtime_.c /home/saman/Tahoe/f2c/src-mirror/Time/dtime_.c
-processing directory /home/saman/Tahoe/f2c/src/Double_Complex
-found destination directory /home/saman/Tahoe/f2c/src-mirror/Double_Complex
-     source directory: /home/saman/Tahoe/f2c/src/Double_Complex
-destination directory: /home/saman/Tahoe/f2c/src-mirror/Double_Complex
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/f2c/src/Double_Complex
-found destination directory /home/saman/Tahoe/f2c/src-mirror/Double_Complex
-ln -sf /home/saman/Tahoe/f2c/src/Double_Complex/z_exp.c /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_exp.c
-ln -sf /home/saman/Tahoe/f2c/src/Double_Complex/z_abs.c /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_abs.c
-ln -sf /home/saman/Tahoe/f2c/src/Double_Complex/z_div.c /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_div.c
-ln -sf /home/saman/Tahoe/f2c/src/Double_Complex/z_log.c /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_log.c
-ln -sf /home/saman/Tahoe/f2c/src/Double_Complex/makefile /home/saman/Tahoe/f2c/src-mirror/Double_Complex/makefile
-ln -sf /home/saman/Tahoe/f2c/src/Double_Complex/z_sqrt.c /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_sqrt.c
-ln -sf /home/saman/Tahoe/f2c/src/Double_Complex/z_cos.c /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_cos.c
-ln -sf /home/saman/Tahoe/f2c/src/Double_Complex/z_sin.c /home/saman/Tahoe/f2c/src-mirror/Double_Complex/z_sin.c
-processing directory /home/saman/Tahoe/f2c/src/Misc
-found destination directory /home/saman/Tahoe/f2c/src-mirror/Misc
-     source directory: /home/saman/Tahoe/f2c/src/Misc
-destination directory: /home/saman/Tahoe/f2c/src-mirror/Misc
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/f2c/src/Misc
-found destination directory /home/saman/Tahoe/f2c/src-mirror/Misc
-ln -sf /home/saman/Tahoe/f2c/src/Misc/s_rnge.c /home/saman/Tahoe/f2c/src-mirror/Misc/s_rnge.c
-ln -sf /home/saman/Tahoe/f2c/src/Misc/f2c.h /home/saman/Tahoe/f2c/src-mirror/Misc/f2c.h
-ln -sf /home/saman/Tahoe/f2c/src/Misc/system_.c /home/saman/Tahoe/f2c/src-mirror/Misc/system_.c
-ln -sf /home/saman/Tahoe/f2c/src/Misc/i77vers.c /home/saman/Tahoe/f2c/src-mirror/Misc/i77vers.c
-ln -sf /home/saman/Tahoe/f2c/src/Misc/sig_die.c /home/saman/Tahoe/f2c/src-mirror/Misc/sig_die.c
-ln -sf /home/saman/Tahoe/f2c/src/Misc/derfc_.c /home/saman/Tahoe/f2c/src-mirror/Misc/derfc_.c
-ln -sf /home/saman/Tahoe/f2c/src/Misc/cabs.c /home/saman/Tahoe/f2c/src-mirror/Misc/cabs.c
-ln -sf /home/saman/Tahoe/f2c/src/Misc/getenv_.c /home/saman/Tahoe/f2c/src-mirror/Misc/getenv_.c
-ln -sf /home/saman/Tahoe/f2c/src/Misc/erfc_.c /home/saman/Tahoe/f2c/src-mirror/Misc/erfc_.c
-ln -sf /home/saman/Tahoe/f2c/src/Misc/getarg_.c /home/saman/Tahoe/f2c/src-mirror/Misc/getarg_.c
-ln -sf /home/saman/Tahoe/f2c/src/Misc/abort_.c /home/saman/Tahoe/f2c/src-mirror/Misc/abort_.c
-ln -sf /home/saman/Tahoe/f2c/src/Misc/f77vers.c /home/saman/Tahoe/f2c/src-mirror/Misc/f77vers.c
-ln -sf /home/saman/Tahoe/f2c/src/Misc/libf2cCWPrefix.h /home/saman/Tahoe/f2c/src-mirror/Misc/libf2cCWPrefix.h
-ln -sf /home/saman/Tahoe/f2c/src/Misc/erf_.c /home/saman/Tahoe/f2c/src-mirror/Misc/erf_.c
-ln -sf /home/saman/Tahoe/f2c/src/Misc/signal_.c /home/saman/Tahoe/f2c/src-mirror/Misc/signal_.c
-ln -sf /home/saman/Tahoe/f2c/src/Misc/derf_.c /home/saman/Tahoe/f2c/src-mirror/Misc/derf_.c
-ln -sf /home/saman/Tahoe/f2c/src/Misc/exit_.c /home/saman/Tahoe/f2c/src-mirror/Misc/exit_.c
-ln -sf /home/saman/Tahoe/f2c/src/Misc/s_paus.c /home/saman/Tahoe/f2c/src-mirror/Misc/s_paus.c
-ln -sf /home/saman/Tahoe/f2c/src/Misc/makefile /home/saman/Tahoe/f2c/src-mirror/Misc/makefile
-ln -sf /home/saman/Tahoe/f2c/src/Misc/signal1.h /home/saman/Tahoe/f2c/src-mirror/Misc/signal1.h
-ln -sf /home/saman/Tahoe/f2c/src/Misc/fp.h /home/saman/Tahoe/f2c/src-mirror/Misc/fp.h
-ln -sf /home/saman/Tahoe/f2c/src/Misc/iargc_.c /home/saman/Tahoe/f2c/src-mirror/Misc/iargc_.c
-ln -sf /home/saman/Tahoe/f2c/src/Misc/s_stop.c /home/saman/Tahoe/f2c/src-mirror/Misc/s_stop.c
 processing directory /home/saman/Tahoe/f2c/src/Logical
 found destination directory /home/saman/Tahoe/f2c/src-mirror/Logical
      source directory: /home/saman/Tahoe/f2c/src/Logical
@@ -121,138 +195,14 @@ destination directory: /home/saman/Tahoe/f2c/src-mirror/Logical
 found source directory /home/saman/Tahoe/f2c/src/Logical
 found destination directory /home/saman/Tahoe/f2c/src-mirror/Logical
 ln -sf /home/saman/Tahoe/f2c/src/Logical/hl_gt.c /home/saman/Tahoe/f2c/src-mirror/Logical/hl_gt.c
+ln -sf /home/saman/Tahoe/f2c/src/Logical/l_ge.c /home/saman/Tahoe/f2c/src-mirror/Logical/l_ge.c
+ln -sf /home/saman/Tahoe/f2c/src/Logical/hl_lt.c /home/saman/Tahoe/f2c/src-mirror/Logical/hl_lt.c
+ln -sf /home/saman/Tahoe/f2c/src/Logical/l_lt.c /home/saman/Tahoe/f2c/src-mirror/Logical/l_lt.c
+ln -sf /home/saman/Tahoe/f2c/src/Logical/makefile /home/saman/Tahoe/f2c/src-mirror/Logical/makefile
+ln -sf /home/saman/Tahoe/f2c/src/Logical/hl_ge.c /home/saman/Tahoe/f2c/src-mirror/Logical/hl_ge.c
+ln -sf /home/saman/Tahoe/f2c/src/Logical/hl_le.c /home/saman/Tahoe/f2c/src-mirror/Logical/hl_le.c
 ln -sf /home/saman/Tahoe/f2c/src/Logical/l_gt.c /home/saman/Tahoe/f2c/src-mirror/Logical/l_gt.c
 ln -sf /home/saman/Tahoe/f2c/src/Logical/l_le.c /home/saman/Tahoe/f2c/src-mirror/Logical/l_le.c
-ln -sf /home/saman/Tahoe/f2c/src/Logical/l_lt.c /home/saman/Tahoe/f2c/src-mirror/Logical/l_lt.c
-ln -sf /home/saman/Tahoe/f2c/src/Logical/hl_lt.c /home/saman/Tahoe/f2c/src-mirror/Logical/hl_lt.c
-ln -sf /home/saman/Tahoe/f2c/src/Logical/hl_ge.c /home/saman/Tahoe/f2c/src-mirror/Logical/hl_ge.c
-ln -sf /home/saman/Tahoe/f2c/src/Logical/l_ge.c /home/saman/Tahoe/f2c/src-mirror/Logical/l_ge.c
-ln -sf /home/saman/Tahoe/f2c/src/Logical/hl_le.c /home/saman/Tahoe/f2c/src-mirror/Logical/hl_le.c
-ln -sf /home/saman/Tahoe/f2c/src/Logical/makefile /home/saman/Tahoe/f2c/src-mirror/Logical/makefile
-processing directory /home/saman/Tahoe/f2c/src/custom_Misc
-found destination directory /home/saman/Tahoe/f2c/src-mirror/custom_Misc
-     source directory: /home/saman/Tahoe/f2c/src/custom_Misc
-destination directory: /home/saman/Tahoe/f2c/src-mirror/custom_Misc
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/f2c/src/custom_Misc
-found destination directory /home/saman/Tahoe/f2c/src-mirror/custom_Misc
-ln -sf /home/saman/Tahoe/f2c/src/custom_Misc/Mac_f2c_access.c /home/saman/Tahoe/f2c/src-mirror/custom_Misc/Mac_f2c_access.c
-ln -sf /home/saman/Tahoe/f2c/src/custom_Misc/lsame.c /home/saman/Tahoe/f2c/src-mirror/custom_Misc/lsame.c
-ln -sf /home/saman/Tahoe/f2c/src/custom_Misc/makefile /home/saman/Tahoe/f2c/src-mirror/custom_Misc/makefile
-ln -sf /home/saman/Tahoe/f2c/src/custom_Misc/xerbla.c /home/saman/Tahoe/f2c/src-mirror/custom_Misc/xerbla.c
-processing directory /home/saman/Tahoe/f2c/src/Double
-found destination directory /home/saman/Tahoe/f2c/src-mirror/Double
-     source directory: /home/saman/Tahoe/f2c/src/Double
-destination directory: /home/saman/Tahoe/f2c/src-mirror/Double
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/f2c/src/Double
-found destination directory /home/saman/Tahoe/f2c/src-mirror/Double
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_sinh.c /home/saman/Tahoe/f2c/src-mirror/Double/d_sinh.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_acos.c /home/saman/Tahoe/f2c/src-mirror/Double/d_acos.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_cos.c /home/saman/Tahoe/f2c/src-mirror/Double/d_cos.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_cnjg.c /home/saman/Tahoe/f2c/src-mirror/Double/d_cnjg.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_lg10.c /home/saman/Tahoe/f2c/src-mirror/Double/d_lg10.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_nint.c /home/saman/Tahoe/f2c/src-mirror/Double/d_nint.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_asin.c /home/saman/Tahoe/f2c/src-mirror/Double/d_asin.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_sin.c /home/saman/Tahoe/f2c/src-mirror/Double/d_sin.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_tanh.c /home/saman/Tahoe/f2c/src-mirror/Double/d_tanh.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_mod.c /home/saman/Tahoe/f2c/src-mirror/Double/d_mod.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_atn2.c /home/saman/Tahoe/f2c/src-mirror/Double/d_atn2.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_atan.c /home/saman/Tahoe/f2c/src-mirror/Double/d_atan.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_sqrt.c /home/saman/Tahoe/f2c/src-mirror/Double/d_sqrt.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_sign.c /home/saman/Tahoe/f2c/src-mirror/Double/d_sign.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_dim.c /home/saman/Tahoe/f2c/src-mirror/Double/d_dim.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_prod.c /home/saman/Tahoe/f2c/src-mirror/Double/d_prod.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_log.c /home/saman/Tahoe/f2c/src-mirror/Double/d_log.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/makefile /home/saman/Tahoe/f2c/src-mirror/Double/makefile
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_imag.c /home/saman/Tahoe/f2c/src-mirror/Double/d_imag.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_tan.c /home/saman/Tahoe/f2c/src-mirror/Double/d_tan.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_exp.c /home/saman/Tahoe/f2c/src-mirror/Double/d_exp.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_cosh.c /home/saman/Tahoe/f2c/src-mirror/Double/d_cosh.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_int.c /home/saman/Tahoe/f2c/src-mirror/Double/d_int.c
-ln -sf /home/saman/Tahoe/f2c/src/Double/d_abs.c /home/saman/Tahoe/f2c/src-mirror/Double/d_abs.c
-processing directory /home/saman/Tahoe/f2c/src/UNUSED
-found destination directory /home/saman/Tahoe/f2c/src-mirror/UNUSED
-     source directory: /home/saman/Tahoe/f2c/src/UNUSED
-destination directory: /home/saman/Tahoe/f2c/src-mirror/UNUSED
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/f2c/src/UNUSED
-found destination directory /home/saman/Tahoe/f2c/src-mirror/UNUSED
-ln -sf /home/saman/Tahoe/f2c/src/UNUSED/Notice /home/saman/Tahoe/f2c/src-mirror/UNUSED/Notice
-ln -sf /home/saman/Tahoe/f2c/src/UNUSED/f2ch.add /home/saman/Tahoe/f2c/src-mirror/UNUSED/f2ch.add
-ln -sf /home/saman/Tahoe/f2c/src/UNUSED/makefile.sy /home/saman/Tahoe/f2c/src-mirror/UNUSED/makefile.sy
-ln -sf /home/saman/Tahoe/f2c/src/UNUSED/erf_fctns.c /home/saman/Tahoe/f2c/src-mirror/UNUSED/erf_fctns.c
-ln -sf /home/saman/Tahoe/f2c/src/UNUSED/README /home/saman/Tahoe/f2c/src-mirror/UNUSED/README
-ln -sf /home/saman/Tahoe/f2c/src/UNUSED/f2c.h0 /home/saman/Tahoe/f2c/src-mirror/UNUSED/f2c.h0
-ln -sf /home/saman/Tahoe/f2c/src/UNUSED/DoMultiTask.c /home/saman/Tahoe/f2c/src-mirror/UNUSED/DoMultiTask.c
-ln -sf /home/saman/Tahoe/f2c/src/UNUSED/pause.c /home/saman/Tahoe/f2c/src-mirror/UNUSED/pause.c
-ln -sf /home/saman/Tahoe/f2c/src/UNUSED/makefile.wat /home/saman/Tahoe/f2c/src-mirror/UNUSED/makefile.wat
-ln -sf /home/saman/Tahoe/f2c/src/UNUSED/libf2c.lbc /home/saman/Tahoe/f2c/src-mirror/UNUSED/libf2c.lbc
-ln -sf /home/saman/Tahoe/f2c/src/UNUSED/makefile.vc /home/saman/Tahoe/f2c/src-mirror/UNUSED/makefile.vc
-ln -sf /home/saman/Tahoe/f2c/src/UNUSED/makefile.u /home/saman/Tahoe/f2c/src-mirror/UNUSED/makefile.u
-ln -sf /home/saman/Tahoe/f2c/src/UNUSED/local.h /home/saman/Tahoe/f2c/src-mirror/UNUSED/local.h
-ln -sf /home/saman/Tahoe/f2c/src/UNUSED/math.hvc /home/saman/Tahoe/f2c/src-mirror/UNUSED/math.hvc
-ln -sf /home/saman/Tahoe/f2c/src/UNUSED/DateFctns.c /home/saman/Tahoe/f2c/src-mirror/UNUSED/DateFctns.c
-ln -sf /home/saman/Tahoe/f2c/src/UNUSED/libf2c.sy /home/saman/Tahoe/f2c/src-mirror/UNUSED/libf2c.sy
-ln -sf /home/saman/Tahoe/f2c/src/UNUSED/xsum0.out /home/saman/Tahoe/f2c/src-mirror/UNUSED/xsum0.out
-processing directory /home/saman/Tahoe/f2c/src/Char
-found destination directory /home/saman/Tahoe/f2c/src-mirror/Char
-     source directory: /home/saman/Tahoe/f2c/src/Char
-destination directory: /home/saman/Tahoe/f2c/src-mirror/Char
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/f2c/src/Char
-found destination directory /home/saman/Tahoe/f2c/src-mirror/Char
-ln -sf /home/saman/Tahoe/f2c/src/Char/s_copy.c /home/saman/Tahoe/f2c/src-mirror/Char/s_copy.c
-ln -sf /home/saman/Tahoe/f2c/src/Char/f77_aloc.c /home/saman/Tahoe/f2c/src-mirror/Char/f77_aloc.c
-ln -sf /home/saman/Tahoe/f2c/src/Char/s_cmp.c /home/saman/Tahoe/f2c/src-mirror/Char/s_cmp.c
-ln -sf /home/saman/Tahoe/f2c/src/Char/s_cat.c /home/saman/Tahoe/f2c/src-mirror/Char/s_cat.c
-ln -sf /home/saman/Tahoe/f2c/src/Char/makefile /home/saman/Tahoe/f2c/src-mirror/Char/makefile
-ln -sf /home/saman/Tahoe/f2c/src/makefile /home/saman/Tahoe/f2c/src-mirror/makefile
-processing directory /home/saman/Tahoe/f2c/src/Integer
-found destination directory /home/saman/Tahoe/f2c/src-mirror/Integer
-     source directory: /home/saman/Tahoe/f2c/src/Integer
-destination directory: /home/saman/Tahoe/f2c/src-mirror/Integer
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/f2c/src/Integer
-found destination directory /home/saman/Tahoe/f2c/src-mirror/Integer
-ln -sf /home/saman/Tahoe/f2c/src/Integer/i_nint.c /home/saman/Tahoe/f2c/src-mirror/Integer/i_nint.c
-ln -sf /home/saman/Tahoe/f2c/src/Integer/i_abs.c /home/saman/Tahoe/f2c/src-mirror/Integer/i_abs.c
-ln -sf /home/saman/Tahoe/f2c/src/Integer/i_mod.c /home/saman/Tahoe/f2c/src-mirror/Integer/i_mod.c
-ln -sf /home/saman/Tahoe/f2c/src/Integer/i_indx.c /home/saman/Tahoe/f2c/src-mirror/Integer/i_indx.c
-ln -sf /home/saman/Tahoe/f2c/src/Integer/i_sign.c /home/saman/Tahoe/f2c/src-mirror/Integer/i_sign.c
-ln -sf /home/saman/Tahoe/f2c/src/Integer/i_dim.c /home/saman/Tahoe/f2c/src-mirror/Integer/i_dim.c
-ln -sf /home/saman/Tahoe/f2c/src/Integer/i_len.c /home/saman/Tahoe/f2c/src-mirror/Integer/i_len.c
-ln -sf /home/saman/Tahoe/f2c/src/Integer/makefile /home/saman/Tahoe/f2c/src-mirror/Integer/makefile
-ln -sf /home/saman/Tahoe/f2c/src/Integer/lbitbits.c /home/saman/Tahoe/f2c/src-mirror/Integer/lbitbits.c
-ln -sf /home/saman/Tahoe/f2c/src/Integer/lbitshft.c /home/saman/Tahoe/f2c/src-mirror/Integer/lbitshft.c
-ln -sf /home/saman/Tahoe/f2c/src/Integer/i_dnnt.c /home/saman/Tahoe/f2c/src-mirror/Integer/i_dnnt.c
-processing directory /home/saman/Tahoe/f2c/src/Quad_Integer
-found destination directory /home/saman/Tahoe/f2c/src-mirror/Quad_Integer
-     source directory: /home/saman/Tahoe/f2c/src/Quad_Integer
-destination directory: /home/saman/Tahoe/f2c/src-mirror/Quad_Integer
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/f2c/src/Quad_Integer
-found destination directory /home/saman/Tahoe/f2c/src-mirror/Quad_Integer
-ln -sf /home/saman/Tahoe/f2c/src/Quad_Integer/pow_qq.c /home/saman/Tahoe/f2c/src-mirror/Quad_Integer/pow_qq.c
-ln -sf /home/saman/Tahoe/f2c/src/Quad_Integer/qbitbits.c /home/saman/Tahoe/f2c/src-mirror/Quad_Integer/qbitbits.c
-ln -sf /home/saman/Tahoe/f2c/src/Quad_Integer/makefile /home/saman/Tahoe/f2c/src-mirror/Quad_Integer/makefile
-ln -sf /home/saman/Tahoe/f2c/src/Quad_Integer/qbitshft.c /home/saman/Tahoe/f2c/src-mirror/Quad_Integer/qbitshft.c
-processing directory /home/saman/Tahoe/f2c/src/Power
-found destination directory /home/saman/Tahoe/f2c/src-mirror/Power
-     source directory: /home/saman/Tahoe/f2c/src/Power
-destination directory: /home/saman/Tahoe/f2c/src-mirror/Power
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/f2c/src/Power
-found destination directory /home/saman/Tahoe/f2c/src-mirror/Power
-ln -sf /home/saman/Tahoe/f2c/src/Power/pow_di.c /home/saman/Tahoe/f2c/src-mirror/Power/pow_di.c
-ln -sf /home/saman/Tahoe/f2c/src/Power/pow_dd.c /home/saman/Tahoe/f2c/src-mirror/Power/pow_dd.c
-ln -sf /home/saman/Tahoe/f2c/src/Power/pow_hh.c /home/saman/Tahoe/f2c/src-mirror/Power/pow_hh.c
-ln -sf /home/saman/Tahoe/f2c/src/Power/makefile /home/saman/Tahoe/f2c/src-mirror/Power/makefile
-ln -sf /home/saman/Tahoe/f2c/src/Power/pow_zz.c /home/saman/Tahoe/f2c/src-mirror/Power/pow_zz.c
-ln -sf /home/saman/Tahoe/f2c/src/Power/pow_ii.c /home/saman/Tahoe/f2c/src-mirror/Power/pow_ii.c
-ln -sf /home/saman/Tahoe/f2c/src/Power/pow_ri.c /home/saman/Tahoe/f2c/src-mirror/Power/pow_ri.c
-ln -sf /home/saman/Tahoe/f2c/src/Power/pow_zi.c /home/saman/Tahoe/f2c/src-mirror/Power/pow_zi.c
-ln -sf /home/saman/Tahoe/f2c/src/Power/pow_ci.c /home/saman/Tahoe/f2c/src-mirror/Power/pow_ci.c
 processing directory /home/saman/Tahoe/f2c/src/IO
 found destination directory /home/saman/Tahoe/f2c/src-mirror/IO
      source directory: /home/saman/Tahoe/f2c/src/IO
@@ -260,56 +210,106 @@ destination directory: /home/saman/Tahoe/f2c/src-mirror/IO
            ln command: ln -sf
 found source directory /home/saman/Tahoe/f2c/src/IO
 found destination directory /home/saman/Tahoe/f2c/src-mirror/IO
-ln -sf /home/saman/Tahoe/f2c/src/IO/rsne.c /home/saman/Tahoe/f2c/src-mirror/IO/rsne.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/err.c /home/saman/Tahoe/f2c/src-mirror/IO/err.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/dolio.c /home/saman/Tahoe/f2c/src-mirror/IO/dolio.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/uio.c /home/saman/Tahoe/f2c/src-mirror/IO/uio.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/fmt.c /home/saman/Tahoe/f2c/src-mirror/IO/fmt.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/iio.c /home/saman/Tahoe/f2c/src-mirror/IO/iio.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/ilnw.c /home/saman/Tahoe/f2c/src-mirror/IO/ilnw.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/due.c /home/saman/Tahoe/f2c/src-mirror/IO/due.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/fmt.h /home/saman/Tahoe/f2c/src-mirror/IO/fmt.h
-ln -sf /home/saman/Tahoe/f2c/src/IO/wsne.c /home/saman/Tahoe/f2c/src-mirror/IO/wsne.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/rewind.c /home/saman/Tahoe/f2c/src-mirror/IO/rewind.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/util.c /home/saman/Tahoe/f2c/src-mirror/IO/util.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/backspace.c /home/saman/Tahoe/f2c/src-mirror/IO/backspace.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/rdfmt.c /home/saman/Tahoe/f2c/src-mirror/IO/rdfmt.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/lwrite.c /home/saman/Tahoe/f2c/src-mirror/IO/lwrite.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/ftell_.c /home/saman/Tahoe/f2c/src-mirror/IO/ftell_.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/wref.c /home/saman/Tahoe/f2c/src-mirror/IO/wref.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/rawio.h /home/saman/Tahoe/f2c/src-mirror/IO/rawio.h
-ln -sf /home/saman/Tahoe/f2c/src/IO/rsli.c /home/saman/Tahoe/f2c/src-mirror/IO/rsli.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/wrtfmt.c /home/saman/Tahoe/f2c/src-mirror/IO/wrtfmt.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/close.c /home/saman/Tahoe/f2c/src-mirror/IO/close.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/open.c /home/saman/Tahoe/f2c/src-mirror/IO/open.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/lio.h /home/saman/Tahoe/f2c/src-mirror/IO/lio.h
-ln -sf /home/saman/Tahoe/f2c/src/IO/wsfe.c /home/saman/Tahoe/f2c/src-mirror/IO/wsfe.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/wsle.c /home/saman/Tahoe/f2c/src-mirror/IO/wsle.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/xwsne.c /home/saman/Tahoe/f2c/src-mirror/IO/xwsne.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/endfile.c /home/saman/Tahoe/f2c/src-mirror/IO/endfile.c
 ln -sf /home/saman/Tahoe/f2c/src/IO/rsfe.c /home/saman/Tahoe/f2c/src-mirror/IO/rsfe.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/makefile /home/saman/Tahoe/f2c/src-mirror/IO/makefile
-ln -sf /home/saman/Tahoe/f2c/src/IO/sue.c /home/saman/Tahoe/f2c/src-mirror/IO/sue.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/sfe.c /home/saman/Tahoe/f2c/src-mirror/IO/sfe.c
-ln -sf /home/saman/Tahoe/f2c/src/IO/fio.h /home/saman/Tahoe/f2c/src-mirror/IO/fio.h
-ln -sf /home/saman/Tahoe/f2c/src/IO/fmtlib.c /home/saman/Tahoe/f2c/src-mirror/IO/fmtlib.c
 ln -sf /home/saman/Tahoe/f2c/src/IO/dfe.c /home/saman/Tahoe/f2c/src-mirror/IO/dfe.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/close.c /home/saman/Tahoe/f2c/src-mirror/IO/close.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/lwrite.c /home/saman/Tahoe/f2c/src-mirror/IO/lwrite.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/xwsne.c /home/saman/Tahoe/f2c/src-mirror/IO/xwsne.c
 ln -sf /home/saman/Tahoe/f2c/src/IO/lread.c /home/saman/Tahoe/f2c/src-mirror/IO/lread.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/iio.c /home/saman/Tahoe/f2c/src-mirror/IO/iio.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/wsle.c /home/saman/Tahoe/f2c/src-mirror/IO/wsle.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/rdfmt.c /home/saman/Tahoe/f2c/src-mirror/IO/rdfmt.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/rsli.c /home/saman/Tahoe/f2c/src-mirror/IO/rsli.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/fmt.c /home/saman/Tahoe/f2c/src-mirror/IO/fmt.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/uio.c /home/saman/Tahoe/f2c/src-mirror/IO/uio.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/open.c /home/saman/Tahoe/f2c/src-mirror/IO/open.c
 ln -sf /home/saman/Tahoe/f2c/src/IO/typesize.c /home/saman/Tahoe/f2c/src-mirror/IO/typesize.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/ilnw.c /home/saman/Tahoe/f2c/src-mirror/IO/ilnw.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/makefile /home/saman/Tahoe/f2c/src-mirror/IO/makefile
+ln -sf /home/saman/Tahoe/f2c/src/IO/fmt.h /home/saman/Tahoe/f2c/src-mirror/IO/fmt.h
+ln -sf /home/saman/Tahoe/f2c/src/IO/wrtfmt.c /home/saman/Tahoe/f2c/src-mirror/IO/wrtfmt.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/wsne.c /home/saman/Tahoe/f2c/src-mirror/IO/wsne.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/due.c /home/saman/Tahoe/f2c/src-mirror/IO/due.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/ftell_.c /home/saman/Tahoe/f2c/src-mirror/IO/ftell_.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/err.c /home/saman/Tahoe/f2c/src-mirror/IO/err.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/backspace.c /home/saman/Tahoe/f2c/src-mirror/IO/backspace.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/fio.h /home/saman/Tahoe/f2c/src-mirror/IO/fio.h
+ln -sf /home/saman/Tahoe/f2c/src/IO/dolio.c /home/saman/Tahoe/f2c/src-mirror/IO/dolio.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/lio.h /home/saman/Tahoe/f2c/src-mirror/IO/lio.h
+ln -sf /home/saman/Tahoe/f2c/src/IO/sue.c /home/saman/Tahoe/f2c/src-mirror/IO/sue.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/endfile.c /home/saman/Tahoe/f2c/src-mirror/IO/endfile.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/rsne.c /home/saman/Tahoe/f2c/src-mirror/IO/rsne.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/wref.c /home/saman/Tahoe/f2c/src-mirror/IO/wref.c
 ln -sf /home/saman/Tahoe/f2c/src/IO/inquire.c /home/saman/Tahoe/f2c/src-mirror/IO/inquire.c
-processing directory /home/saman/Tahoe/f2c/src/Half_Integer
-found destination directory /home/saman/Tahoe/f2c/src-mirror/Half_Integer
-     source directory: /home/saman/Tahoe/f2c/src/Half_Integer
-destination directory: /home/saman/Tahoe/f2c/src-mirror/Half_Integer
+ln -sf /home/saman/Tahoe/f2c/src/IO/rewind.c /home/saman/Tahoe/f2c/src-mirror/IO/rewind.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/sfe.c /home/saman/Tahoe/f2c/src-mirror/IO/sfe.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/fmtlib.c /home/saman/Tahoe/f2c/src-mirror/IO/fmtlib.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/wsfe.c /home/saman/Tahoe/f2c/src-mirror/IO/wsfe.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/util.c /home/saman/Tahoe/f2c/src-mirror/IO/util.c
+ln -sf /home/saman/Tahoe/f2c/src/IO/rawio.h /home/saman/Tahoe/f2c/src-mirror/IO/rawio.h
+processing directory /home/saman/Tahoe/f2c/src/UNUSED
+found destination directory /home/saman/Tahoe/f2c/src-mirror/UNUSED
+     source directory: /home/saman/Tahoe/f2c/src/UNUSED
+destination directory: /home/saman/Tahoe/f2c/src-mirror/UNUSED
            ln command: ln -sf
-found source directory /home/saman/Tahoe/f2c/src/Half_Integer
-found destination directory /home/saman/Tahoe/f2c/src-mirror/Half_Integer
-ln -sf /home/saman/Tahoe/f2c/src/Half_Integer/h_len.c /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_len.c
-ln -sf /home/saman/Tahoe/f2c/src/Half_Integer/h_sign.c /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_sign.c
-ln -sf /home/saman/Tahoe/f2c/src/Half_Integer/h_abs.c /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_abs.c
-ln -sf /home/saman/Tahoe/f2c/src/Half_Integer/h_dnnt.c /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_dnnt.c
-ln -sf /home/saman/Tahoe/f2c/src/Half_Integer/h_mod.c /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_mod.c
-ln -sf /home/saman/Tahoe/f2c/src/Half_Integer/h_indx.c /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_indx.c
-ln -sf /home/saman/Tahoe/f2c/src/Half_Integer/makefile /home/saman/Tahoe/f2c/src-mirror/Half_Integer/makefile
-ln -sf /home/saman/Tahoe/f2c/src/Half_Integer/h_nint.c /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_nint.c
-ln -sf /home/saman/Tahoe/f2c/src/Half_Integer/h_dim.c /home/saman/Tahoe/f2c/src-mirror/Half_Integer/h_dim.c
+found source directory /home/saman/Tahoe/f2c/src/UNUSED
+found destination directory /home/saman/Tahoe/f2c/src-mirror/UNUSED
+ln -sf /home/saman/Tahoe/f2c/src/UNUSED/makefile.u /home/saman/Tahoe/f2c/src-mirror/UNUSED/makefile.u
+ln -sf /home/saman/Tahoe/f2c/src/UNUSED/f2ch.add /home/saman/Tahoe/f2c/src-mirror/UNUSED/f2ch.add
+ln -sf /home/saman/Tahoe/f2c/src/UNUSED/xsum0.out /home/saman/Tahoe/f2c/src-mirror/UNUSED/xsum0.out
+ln -sf /home/saman/Tahoe/f2c/src/UNUSED/libf2c.lbc /home/saman/Tahoe/f2c/src-mirror/UNUSED/libf2c.lbc
+ln -sf /home/saman/Tahoe/f2c/src/UNUSED/pause.c /home/saman/Tahoe/f2c/src-mirror/UNUSED/pause.c
+ln -sf /home/saman/Tahoe/f2c/src/UNUSED/Notice /home/saman/Tahoe/f2c/src-mirror/UNUSED/Notice
+ln -sf /home/saman/Tahoe/f2c/src/UNUSED/makefile.sy /home/saman/Tahoe/f2c/src-mirror/UNUSED/makefile.sy
+ln -sf /home/saman/Tahoe/f2c/src/UNUSED/f2c.h0 /home/saman/Tahoe/f2c/src-mirror/UNUSED/f2c.h0
+ln -sf /home/saman/Tahoe/f2c/src/UNUSED/makefile.vc /home/saman/Tahoe/f2c/src-mirror/UNUSED/makefile.vc
+ln -sf /home/saman/Tahoe/f2c/src/UNUSED/DateFctns.c /home/saman/Tahoe/f2c/src-mirror/UNUSED/DateFctns.c
+ln -sf /home/saman/Tahoe/f2c/src/UNUSED/DoMultiTask.c /home/saman/Tahoe/f2c/src-mirror/UNUSED/DoMultiTask.c
+ln -sf /home/saman/Tahoe/f2c/src/UNUSED/README /home/saman/Tahoe/f2c/src-mirror/UNUSED/README
+ln -sf /home/saman/Tahoe/f2c/src/UNUSED/libf2c.sy /home/saman/Tahoe/f2c/src-mirror/UNUSED/libf2c.sy
+ln -sf /home/saman/Tahoe/f2c/src/UNUSED/math.hvc /home/saman/Tahoe/f2c/src-mirror/UNUSED/math.hvc
+ln -sf /home/saman/Tahoe/f2c/src/UNUSED/makefile.wat /home/saman/Tahoe/f2c/src-mirror/UNUSED/makefile.wat
+ln -sf /home/saman/Tahoe/f2c/src/UNUSED/erf_fctns.c /home/saman/Tahoe/f2c/src-mirror/UNUSED/erf_fctns.c
+ln -sf /home/saman/Tahoe/f2c/src/UNUSED/local.h /home/saman/Tahoe/f2c/src-mirror/UNUSED/local.h
+processing directory /home/saman/Tahoe/f2c/src/Char
+found destination directory /home/saman/Tahoe/f2c/src-mirror/Char
+     source directory: /home/saman/Tahoe/f2c/src/Char
+destination directory: /home/saman/Tahoe/f2c/src-mirror/Char
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/f2c/src/Char
+found destination directory /home/saman/Tahoe/f2c/src-mirror/Char
+ln -sf /home/saman/Tahoe/f2c/src/Char/s_cat.c /home/saman/Tahoe/f2c/src-mirror/Char/s_cat.c
+ln -sf /home/saman/Tahoe/f2c/src/Char/s_copy.c /home/saman/Tahoe/f2c/src-mirror/Char/s_copy.c
+ln -sf /home/saman/Tahoe/f2c/src/Char/s_cmp.c /home/saman/Tahoe/f2c/src-mirror/Char/s_cmp.c
+ln -sf /home/saman/Tahoe/f2c/src/Char/makefile /home/saman/Tahoe/f2c/src-mirror/Char/makefile
+ln -sf /home/saman/Tahoe/f2c/src/Char/f77_aloc.c /home/saman/Tahoe/f2c/src-mirror/Char/f77_aloc.c
+processing directory /home/saman/Tahoe/f2c/src/Real
+found destination directory /home/saman/Tahoe/f2c/src-mirror/Real
+     source directory: /home/saman/Tahoe/f2c/src/Real
+destination directory: /home/saman/Tahoe/f2c/src-mirror/Real
+           ln command: ln -sf
+found source directory /home/saman/Tahoe/f2c/src/Real
+found destination directory /home/saman/Tahoe/f2c/src-mirror/Real
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_imag.c /home/saman/Tahoe/f2c/src-mirror/Real/r_imag.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_cos.c /home/saman/Tahoe/f2c/src-mirror/Real/r_cos.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_cnjg.c /home/saman/Tahoe/f2c/src-mirror/Real/r_cnjg.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_cosh.c /home/saman/Tahoe/f2c/src-mirror/Real/r_cosh.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_nint.c /home/saman/Tahoe/f2c/src-mirror/Real/r_nint.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_atan.c /home/saman/Tahoe/f2c/src-mirror/Real/r_atan.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_log.c /home/saman/Tahoe/f2c/src-mirror/Real/r_log.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_mod.c /home/saman/Tahoe/f2c/src-mirror/Real/r_mod.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_acos.c /home/saman/Tahoe/f2c/src-mirror/Real/r_acos.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_atn2.c /home/saman/Tahoe/f2c/src-mirror/Real/r_atn2.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_exp.c /home/saman/Tahoe/f2c/src-mirror/Real/r_exp.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_dim.c /home/saman/Tahoe/f2c/src-mirror/Real/r_dim.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/makefile /home/saman/Tahoe/f2c/src-mirror/Real/makefile
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_asin.c /home/saman/Tahoe/f2c/src-mirror/Real/r_asin.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_tanh.c /home/saman/Tahoe/f2c/src-mirror/Real/r_tanh.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_sinh.c /home/saman/Tahoe/f2c/src-mirror/Real/r_sinh.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_abs.c /home/saman/Tahoe/f2c/src-mirror/Real/r_abs.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_lg10.c /home/saman/Tahoe/f2c/src-mirror/Real/r_lg10.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_tan.c /home/saman/Tahoe/f2c/src-mirror/Real/r_tan.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_int.c /home/saman/Tahoe/f2c/src-mirror/Real/r_int.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_sqrt.c /home/saman/Tahoe/f2c/src-mirror/Real/r_sqrt.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_sign.c /home/saman/Tahoe/f2c/src-mirror/Real/r_sign.c
+ln -sf /home/saman/Tahoe/f2c/src/Real/r_sin.c /home/saman/Tahoe/f2c/src-mirror/Real/r_sin.c
