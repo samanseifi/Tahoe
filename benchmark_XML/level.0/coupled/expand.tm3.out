@@ -31,7 +31,7 @@ scaling = linear (default)
 scaling = logarithmic
 init_time. . . . . . . . . . . . . . . . . . . . . = 0.000000e+00
 init_time >= 0 (default)
-num_steps. . . . . . . . . . . . . . . . . . . . . = 10
+num_steps. . . . . . . . . . . . . . . . . . . . . = 100
 num_steps >= 0
 output_inc . . . . . . . . . . . . . . . . . . . . = 1
 output_inc(default) = 0
@@ -265,7 +265,7 @@ end: tahoe::element_list::diffusion
 
 begin: tahoe::element_list::updated_lagrangian_Q1P0
 field_name . . . . . . . . . . . . . . . . . . . . = displacement
-mass_type. . . . . . . . . . . . . . . . . . . . . = automatic
+mass_type. . . . . . . . . . . . . . . . . . . . . = lumped_mass
 mass_type = automatic (default)
 mass_type = no_mass
 mass_type = consistent_mass
@@ -429,39 +429,309 @@ end: tahoe
 
 
  Time = 1.000000e-02
- Step 1 of 10
+ Step 1 of 100
 
  Time = 2.000000e-02
- Step 2 of 10
+ Step 2 of 100
 
  Time = 3.000000e-02
- Step 3 of 10
+ Step 3 of 100
 
  Time = 4.000000e-02
- Step 4 of 10
+ Step 4 of 100
 
  Time = 5.000000e-02
- Step 5 of 10
+ Step 5 of 100
 
  Time = 6.000000e-02
- Step 6 of 10
+ Step 6 of 100
 
  Time = 7.000000e-02
- Step 7 of 10
+ Step 7 of 100
 
  Time = 8.000000e-02
- Step 8 of 10
+ Step 8 of 100
 
  Time = 9.000000e-02
- Step 9 of 10
+ Step 9 of 100
 
  Time = 1.000000e-01
- Step 10 of 10
+ Step 10 of 100
 
-   Start time: Mon Jul 17 13:31:07 2017
- Construction: 8.404000e-03 sec.
-     Solution: 5.686500e-02 sec.
-    Stop time: Mon Jul 17 13:31:07 2017
+ Time = 1.100000e-01
+ Step 11 of 100
+
+ Time = 1.200000e-01
+ Step 12 of 100
+
+ Time = 1.300000e-01
+ Step 13 of 100
+
+ Time = 1.400000e-01
+ Step 14 of 100
+
+ Time = 1.500000e-01
+ Step 15 of 100
+
+ Time = 1.600000e-01
+ Step 16 of 100
+
+ Time = 1.700000e-01
+ Step 17 of 100
+
+ Time = 1.800000e-01
+ Step 18 of 100
+
+ Time = 1.900000e-01
+ Step 19 of 100
+
+ Time = 2.000000e-01
+ Step 20 of 100
+
+ Time = 2.100000e-01
+ Step 21 of 100
+
+ Time = 2.200000e-01
+ Step 22 of 100
+
+ Time = 2.300000e-01
+ Step 23 of 100
+
+ Time = 2.400000e-01
+ Step 24 of 100
+
+ Time = 2.500000e-01
+ Step 25 of 100
+
+ Time = 2.600000e-01
+ Step 26 of 100
+
+ Time = 2.700000e-01
+ Step 27 of 100
+
+ Time = 2.800000e-01
+ Step 28 of 100
+
+ Time = 2.900000e-01
+ Step 29 of 100
+
+ Time = 3.000000e-01
+ Step 30 of 100
+
+ Time = 3.100000e-01
+ Step 31 of 100
+
+ Time = 3.200000e-01
+ Step 32 of 100
+
+ Time = 3.300000e-01
+ Step 33 of 100
+
+ Time = 3.400000e-01
+ Step 34 of 100
+
+ Time = 3.500000e-01
+ Step 35 of 100
+
+ Time = 3.600000e-01
+ Step 36 of 100
+
+ Time = 3.700000e-01
+ Step 37 of 100
+
+ Time = 3.800000e-01
+ Step 38 of 100
+
+ Time = 3.900000e-01
+ Step 39 of 100
+
+ Time = 4.000000e-01
+ Step 40 of 100
+
+ Time = 4.100000e-01
+ Step 41 of 100
+
+ Time = 4.200000e-01
+ Step 42 of 100
+
+ Time = 4.300000e-01
+ Step 43 of 100
+
+ Time = 4.400000e-01
+ Step 44 of 100
+
+ Time = 4.500000e-01
+ Step 45 of 100
+
+ Time = 4.600000e-01
+ Step 46 of 100
+
+ Time = 4.700000e-01
+ Step 47 of 100
+
+ Time = 4.800000e-01
+ Step 48 of 100
+
+ Time = 4.900000e-01
+ Step 49 of 100
+
+ Time = 5.000000e-01
+ Step 50 of 100
+
+ Time = 5.100000e-01
+ Step 51 of 100
+
+ Time = 5.200000e-01
+ Step 52 of 100
+
+ Time = 5.300000e-01
+ Step 53 of 100
+
+ Time = 5.400000e-01
+ Step 54 of 100
+
+ Time = 5.500000e-01
+ Step 55 of 100
+
+ Time = 5.600000e-01
+ Step 56 of 100
+
+ Time = 5.700000e-01
+ Step 57 of 100
+
+ Time = 5.800000e-01
+ Step 58 of 100
+
+ Time = 5.900000e-01
+ Step 59 of 100
+
+ Time = 6.000000e-01
+ Step 60 of 100
+
+ Time = 6.100000e-01
+ Step 61 of 100
+
+ Time = 6.200000e-01
+ Step 62 of 100
+
+ Time = 6.300000e-01
+ Step 63 of 100
+
+ Time = 6.400000e-01
+ Step 64 of 100
+
+ Time = 6.500000e-01
+ Step 65 of 100
+
+ Time = 6.600000e-01
+ Step 66 of 100
+
+ Time = 6.700000e-01
+ Step 67 of 100
+
+ Time = 6.800000e-01
+ Step 68 of 100
+
+ Time = 6.900000e-01
+ Step 69 of 100
+
+ Time = 7.000000e-01
+ Step 70 of 100
+
+ Time = 7.100000e-01
+ Step 71 of 100
+
+ Time = 7.200000e-01
+ Step 72 of 100
+
+ Time = 7.300000e-01
+ Step 73 of 100
+
+ Time = 7.400000e-01
+ Step 74 of 100
+
+ Time = 7.500000e-01
+ Step 75 of 100
+
+ Time = 7.600000e-01
+ Step 76 of 100
+
+ Time = 7.700000e-01
+ Step 77 of 100
+
+ Time = 7.800000e-01
+ Step 78 of 100
+
+ Time = 7.900000e-01
+ Step 79 of 100
+
+ Time = 8.000000e-01
+ Step 80 of 100
+
+ Time = 8.100000e-01
+ Step 81 of 100
+
+ Time = 8.200000e-01
+ Step 82 of 100
+
+ Time = 8.300000e-01
+ Step 83 of 100
+
+ Time = 8.400000e-01
+ Step 84 of 100
+
+ Time = 8.500000e-01
+ Step 85 of 100
+
+ Time = 8.600000e-01
+ Step 86 of 100
+
+ Time = 8.700000e-01
+ Step 87 of 100
+
+ Time = 8.800000e-01
+ Step 88 of 100
+
+ Time = 8.900000e-01
+ Step 89 of 100
+
+ Time = 9.000000e-01
+ Step 90 of 100
+
+ Time = 9.100000e-01
+ Step 91 of 100
+
+ Time = 9.200000e-01
+ Step 92 of 100
+
+ Time = 9.300000e-01
+ Step 93 of 100
+
+ Time = 9.400000e-01
+ Step 94 of 100
+
+ Time = 9.500000e-01
+ Step 95 of 100
+
+ Time = 9.600000e-01
+ Step 96 of 100
+
+ Time = 9.700000e-01
+ Step 97 of 100
+
+ Time = 9.800000e-01
+ Step 98 of 100
+
+ Time = 9.900000e-01
+ Step 99 of 100
+
+ Time = 1.000000e+00
+ Step 100 of 100
+
+   Start time: Mon Jul 17 13:56:48 2017
+ Construction: 1.345900e-02 sec.
+     Solution: 5.458130e-01 sec.
+    Stop time: Mon Jul 17 13:56:53 2017
 
  End Execution
 

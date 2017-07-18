@@ -312,12 +312,8 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
     // inherited
     FiniteStrainT::SetGlobalShape();
 
-    //std::cout << "It's HERE!" << std::endl;
-    //std::cout << fE_List[2] << std::endl;
-
     // what needs to be computed
     SetLocalU(fLocScalarPotential);
-    //std::cout << fLocScalarPotential << std::endl;
 
     for (int i = 0; i < NumIP(); i++) {
 

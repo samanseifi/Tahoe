@@ -13,7 +13,7 @@
 	<time
 	       scaling='linear'
 	     init_time='0.000000e+00'
-	     num_steps='10'
+	     num_steps='100'
 	    output_inc='1'
 	 max_step_cuts='0'
 	     time_step='1.000000e-02'>
@@ -113,7 +113,7 @@
 		</diffusion>
 		<updated_lagrangian_Q1P0
 		     field_name='displacement'
-		      mass_type='automatic'
+		      mass_type='lumped_mass'
 		 eigenvalue_inc='0'>
 			<quadrilateral
 			 num_ip='4'/>

@@ -41,11 +41,7 @@ namespace Tahoe {
   inline const dArrayT FSDEMatQ1P02DT::ElectricField()
   {
     fElectricField = fFSDEMatSupportQ1P02D->ElectricField();
-	/*---------- Prescribing Electric Field ---------- */
-	//fElectricField[0] = 0.0;
-    //fElectricField[1] = -0.1;
-    //fElectricField[2] = 0.0;
-     /*-----------------------------------------------*/
+
     return fElectricField;
   }
 
@@ -53,11 +49,7 @@ namespace Tahoe {
   inline const dArrayT FSDEMatQ1P02DT::ElectricField(int ip)
   {
     fElectricField = fFSDEMatSupportQ1P02D->ElectricField(ip);
-	/*---------- Prescribing Electric Field ----------*/
- 	//fElectricField[0] = 0.0;
-    //fElectricField[1] = -0.1;
-    //fElectricField[2] = 0.0;
-    /*-----------------------------------------------*/
+
     return fElectricField;
   }
 
@@ -65,10 +57,7 @@ namespace Tahoe {
   inline const dMatrixT FSDEMatQ1P02DT::DeformationMatrix()
   {
 	  dMatrixT F = F_mechanical();
-	  //dMatrixT F(3);
-	  //F(0,0) = 1.05; F(1,0) = 0.0;  F(2,0) = 0.0;
-	  //F(0,1) = 0.0;  F(1,1) = 0.95; F(2,1) = 0.0;
-	  //F(0,2) = 0.0;  F(1,2) = 0.0;  F(2,2) = 1.0;
+
 	  return F;
   }
   /* -----------------------------------------------------*/
@@ -149,17 +138,6 @@ namespace Tahoe {
 	fTangentMechanical(2,1) = mechtan3D(5,1);
 	fTangentMechanical(2,2) = mechtan3D(5,5);
 
- 	/* -------------- Writing into a file -------------
- 	ofstream myCIJKL;
- 	myCIJKL.open("C_IJKL.txt");
- 	for (int i = 0; i < fTangentMechanical.Rows(); i++) {
- 		for (int j = 0; j < fTangentMechanical.Cols(); j++) {
- 			myCIJKL << fTangentMechanical(i,j) << " ";
- 		}
- 		myCIJKL << endl;
- 	}
- 	myCIJKL.close();
- 	 ------------------------------------------------- */
 
     return fTangentMechanical;
   }
@@ -288,18 +266,6 @@ namespace Tahoe {
 	fTangentElectromechanical(1,1) = tangentEM3D(1,1);
 	fTangentElectromechanical(2,1) = tangentEM3D(5,1);
 
- 	/* -------------- Writing into a file -------------
- 	ofstream myEIJK;
- 	myEIJK.open("E_IJK.txt");
- 	for (int i = 0; i < fTangentElectromechanical.Rows(); i++) {
- 		for (int j = 0; j < fTangentElectromechanical.Cols(); j++) {
- 			myEIJK << fTangentElectromechanical(i,j) << " ";
- 		}
- 		myEIJK << endl;
- 	}
- 	myEIJK.close();
- 	------------------------------------------------- */
-
     return fTangentElectromechanical;
   }
 
@@ -358,19 +324,6 @@ namespace Tahoe {
  
  	fTangentElectromechanicalSpatial /= J;
 
- 	/* -------------- Writing into a file -------------
- 	ofstream myeijk;
- 	myeijk.open("e_ijk_2.txt");
- 	for (int i = 0; i < fTangentElectromechanicalSpatial.Rows(); i++) {
- 		for (int j = 0; j < fTangentElectromechanicalSpatial.Cols(); j++) {
- 			myeijk << fTangentElectromechanicalSpatial(i,j) << " ";
- 		}
- 		myeijk << endl;
- 	}
- 	myeijk.close();
- 	------------------------------------------------- */
-	//  cout << F2D << endl;
-	//  cout << "from matrial" << endl;
     return fTangentElectromechanicalSpatial;
   }
 
@@ -408,18 +361,7 @@ namespace Tahoe {
 	fTangentElectrical(1,0) = ElecTan3D(1,0);
 	fTangentElectrical(0,1) = ElecTan3D(0,1);
 	fTangentElectrical(1,1) = ElecTan3D(1,1);
-	
- 	/* -------------- Writing into a file -------------
- 	ofstream myBIJ;
- 	myBIJ.open("B_IJ.txt");
- 	for (int i = 0; i < fTangentElectrical.Rows(); i++) {
- 		for (int j = 0; j < fTangentElectrical.Cols(); j++) {
- 			myBIJ << fTangentElectrical(i,j) << " ";
- 		}
- 		myBIJ << endl;
- 	}
- 	myBIJ.close();
- 	------------------------------------------------- */
+
 
     return fTangentElectrical;
   }
@@ -501,14 +443,6 @@ namespace Tahoe {
  	fElectricDisplacement[0] = ED[0];
  	fElectricDisplacement[1] = ED[1];
 
- 	/* -------------- Writing into a file -------------
- 	ofstream myDI;
- 	myDI.open("D_I.txt");
- 	for (int i = 0; i < fElectricDisplacement.Length(); i++) {
- 		myDI << fElectricDisplacement[i] << " ";
- 	}
- 	myDI.close();
- 	------------------------------------------------- */
 
   	return fElectricDisplacement;
   }
@@ -525,14 +459,6 @@ namespace Tahoe {
 	F.Multx(D, fElectricDisplacement);
 	fElectricDisplacement /= J;
 
- 	/* -------------- Writing into a file -------------
- 	ofstream mydi;
- 	mydi.open("D_I_2.txt");
- 	for (int i = 0; i < fElectricDisplacement.Length(); i++) {
- 		mydi << fElectricDisplacement[i] << " ";
- 	}
- 	mydi.close();
- 	------------------------------------------------- */
 
     return fElectricDisplacement;		// need to divide by J
   }
@@ -558,17 +484,6 @@ namespace Tahoe {
     
 //	fTangentMechanical = FSSolidMatT::c_ijkl(); // Analytic c_ijkl
 
- 	/* -------------- Writing into a file -------------
- 	ofstream mycijkl;
- 	mycijkl.open("c_ijkl_2.txt");
- 	for (int i = 0; i < fTangentMechanical.Rows(); i++) {
- 		for (int j = 0; j < fTangentMechanical.Cols(); j++) {
- 			mycijkl << fTangentMechanical(i,j) << " ";
- 		}
- 		mycijkl << endl;
- 	}
- 	mycijkl.close();
- 	------------------------------------------------- */
 
     return fTangentMechanical;
 
@@ -588,11 +503,6 @@ namespace Tahoe {
 	  fa(2, 1) += 4*sigma(1, 0);
 	  fa(2, 2) += 4*sigma(0, 0);
 
-	  //cout << "This is from material" << endl;
-	  //cout << F_mechanical() << endl;
-	  //cout << endl;
-	  //cout << F() << endl;
-
 	  return fa;
   }
 
@@ -606,18 +516,6 @@ namespace Tahoe {
     // prevent aliasing
     const dSymMatrixT S = S_IJ();
     fStress.SetToScaled(1.0 / J, PushForward(F, S));
-
- 	/* -------------- Writing into a file -------------
- 	ofstream mysij;
- 	mysij.open("s_ij_2.txt");
- 	for (int i = 0; i < fStress.Rows(); i++) {
- 		for (int j = 0; j < fStress.Cols(); j++) {
- 			mysij << fStress(i,j) << " ";
- 		}
- 		mysij << endl;
- 	}
- 	mysij.close();
- 	------------------------------------------------- */
 
     return fStress;
   }

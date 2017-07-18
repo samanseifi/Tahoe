@@ -7,9 +7,9 @@
          title='square region with prescribed temperature in corner'
       xmlns:x0='http://www.w3.org/2001/XMLSchema'>
 	<time
-	  num_steps='10'
-	 output_inc='1'
-	  time_step='0.01'>
+	  num_steps='1000'
+	 output_inc='100'
+	  time_step='0.001'>
 		<schedule_function>
 			<piecewise_linear>
 				<OrderedPair
@@ -112,12 +112,14 @@
 					 value='12'/>
 				</block_ID_list>
 				<large_strain_material_2D>
-					<large_strain_StVenant_2D
+					<RG_split_general
 					 density='1.0'>
-						<E_and_nu
-						 Poisson_ratio='0.25'
-						 Young_modulus='100.0'/>
-					</large_strain_StVenant_2D>
+						<rg_eq_potential>
+							<neo-hookean
+							 kappa='200000'
+							    mu='1000'/>
+						</rg_eq_potential>
+					</RG_split_general>
 				</large_strain_material_2D>
 			</large_strain_element_block>
 		</updated_lagrangian_Q1P0>
