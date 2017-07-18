@@ -1,26 +1,31 @@
 /* $Id: SimoQ1P0.cpp,v 1.14 2009/05/21 22:30:27 tdnguye Exp $ */
+/* $Id: SimoQ1P0.cpp,v 1.15 2017/06/18 14:40:12 samanseifi Exp $ */
 #include "SimoQ1P0.h"
 
 #include "ShapeFunctionT.h"
 #include "SolidMaterialT.h"
 #include "SolidMatListT.h"
 
+#include <iostream>
+
 using namespace Tahoe;
 
 /* constructor */
 SimoQ1P0::SimoQ1P0(const ElementSupportT& support):
-	UpdatedLagrangianT(support), fLocScalarPotential(LocalArrayT::kESP), fElectricScalarPotentialField(0)
+	UpdatedLagrangianT(support),
+	fLocScalarPotential(LocalArrayT::kESP),
+	fElectricScalarPotentialField(0)
 {
 	SetName("updated_lagrangian_Q1P0");
 }
 
+/* destructor */
 SimoQ1P0::~SimoQ1P0()
 {
 		delete fCurrShapes;
 		fCurrShapes = NULL;
 
 }
-
 
 /* finalize current step - step is solved */
 void SimoQ1P0::CloseStep(void)
@@ -100,24 +105,23 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 	fElementVolume_last.Dimension(NumElements());
 	fElementVolume_last = 0.0;
 
-    int nen = NumElementNodes();
-    int nsd = NumSD();
-    int nme = nen * nsd;	// # of mechanical DOFs per element
+  int nen = NumElementNodes();
+  int nsd = NumSD();
+  int nme = nen * nsd;	// # of mechanical DOFs per element
 
-    const int nip = NumIP();
-    fE_all.Dimension(nip*nsd);
-    fE_all = 0.0;	// testing HSP
-    fE_List.Dimension(nip);
+	/* getting ready for electric field calculations */
+  const int nip = NumIP();
+  fE_all.Dimension(nip*nsd);
+  fE_all = 0.0;	// testing HSP
+  fE_List.Dimension(nip);
+	// Neccessary:
+	for (int i = 0; i < nip; ++i) {
+		fE_List[i].Alias(nsd, fE_all.Pointer(i * nsd));
+	}
 
-	// Neccessary
-    for (int i = 0; i < nip; ++i) {
-	    fE_List[i].Alias(nsd, fE_all.Pointer(i * nsd));
-    }
-
-    fAmm_mat.Dimension(nme, nme);
-    fAmm_geo.Dimension(nen, nen);	// dimensions changed for Q1P0!
-
-    fMassMatrix.Dimension(nme, nme);
+  fAmm_mat.Dimension(nme, nme);
+  fAmm_geo.Dimension(nen, nen);	// dimensions changed for Q1P0!
+  fMassMatrix.Dimension(nme, nme);
 
 	/* element pressure */
 	fPressure.Dimension(NumElements());
@@ -157,30 +161,28 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 /* form shape functions and derivatives */
 void SimoQ1P0::SetGlobalShape(void)
 {
-
-
 	/* current element number */
 	int elem = CurrElementNumber();
-
-	SetLocalU(fLocScalarPotential);
-
 
 	/* inherited - computes gradients and standard
 	 * deformation gradients */
 	FiniteStrainT::SetGlobalShape();
 
+	/* calculating electric field */
+	SetLocalU(fLocScalarPotential);	// Getting the electric potential values
 
 	for (int i = 0; i < NumIP(); i++) {
-        	// electric field
-   	 	dArrayT& E = fE_List[i];
-   	     	dMatrixT E1(1, NumSD());
+		// electric field
+		dArrayT& E = fE_List[i];
+		dMatrixT E1(1, NumSD());
 
-   	     	fShapes->GradU(fLocScalarPotential, E1, i);
-   	     	E1 *= -1.0;
+		fShapes->GradU(fLocScalarPotential, E1, i);
+		E1 *= -1.0;
 
-   	     	for (int j = 0; j < NumSD(); j++)
-   		     	E[j] = E1(0,j);
+   	for (int j = 0; j < NumSD(); j++)
+			E[j] = E1(0,j);
 	}
+
 
 	/* shape function wrt current config */
 	SetLocalX(fLocCurrCoords);
@@ -239,6 +241,7 @@ void SimoQ1P0::SetShape(void)
 	fCurrShapes->Initialize();
 }
 
+/* bringing electrical model here */
 void SimoQ1P0::SetLocalArrays()
 {
 
@@ -246,22 +249,18 @@ void SimoQ1P0::SetLocalArrays()
 	const FieldT* esp = 0;
 
 	if (0 == fElectricScalarPotentialField) {
-	  	esp = ElementSupport().Field("electric_scalar_potential");
-	  	fElectricScalarPotentialField = esp;
+		esp = ElementSupport().Field("electric_scalar_potential");
+		fElectricScalarPotentialField = esp;
 	} else {
-	  	esp = fElectricScalarPotentialField;
+		esp = fElectricScalarPotentialField;
 	}
-
-	std::cout << "where?" << std::endl;
-
-	// if (0 == esp) {
-	//
-	//   	std::cout << std::endl;
-	//   	std::cout << "SimoQ1P0::SetLocalArrays: ";
-	//   	std::cout << "Voltage field not found.";
-	//   	std::cout << std::endl;
-	//   	throw ExceptionT::kGeneralFail;
-	// }
+	if (0 == esp) {
+		std::cout << std::endl;
+		std::cout << "SimoQ1P0::SetLocalArrays: ";
+		std::cout << "Voltage field not found.";
+		std::cout << std::endl;
+		throw ExceptionT::kGeneralFail;
+	}
 
 	/* inherited */
 	FiniteStrainT::SetLocalArrays();

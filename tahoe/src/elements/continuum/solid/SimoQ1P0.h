@@ -46,6 +46,7 @@ public:
 	/** constructor */
 	SimoQ1P0(const ElementSupportT& support);
 
+	/** destructor */
 	virtual ~SimoQ1P0();
 
 	/** finalize current step - step is solved */
@@ -130,10 +131,10 @@ private:
 
 	dMatrixT fAmm_geo;
 	dMatrixT fAmm_mat;
-    	dMatrixT fMassMatrix;	// mass matrix for LHS
+  dMatrixT fMassMatrix;	// mass matrix for LHS
 
 	// For case of electric field coupling for DE
-    	const FieldT* fElectricScalarPotentialField;
+  const FieldT* fElectricScalarPotentialField;
 
 
 	/*@}*/
