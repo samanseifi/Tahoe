@@ -7,7 +7,7 @@ using namespace Tahoe;
 /* constructor */
 FDHookeanMatT::FDHookeanMatT(void):
 	ParameterInterfaceT("large_strain_Hookean"),
-	fLastCall(kNone)	
+	fLastCall(kNone)
 {
 
 }
@@ -17,7 +17,7 @@ void FDHookeanMatT::SetFSMatSupport(const FSMatSupportT* support)
 {
 	/* inherited */
 	FSSolidMatT::SetFSMatSupport(support);
-	
+
 	/* dimension */
 	int nsd = NumSD();
 	HookeanMatT::Dimension(nsd);
@@ -73,7 +73,7 @@ const dMatrixT& FDHookeanMatT::C_IJKL(void)
 	{
 		/* inverse thermal strain */
 		const dMatrixT& F_t_inv = F_thermal_inverse();
-	
+
 		/* pull back */
 		fModulus = PushForward(F_t_inv, Modulus());
 		fModulus /= F_t_inv.Det();
@@ -99,12 +99,12 @@ const dSymMatrixT& FDHookeanMatT::S_IJ(void)
 	{
 		/* inverse thermal strain */
 		const dMatrixT& F_t_inv = F_thermal_inverse();
-	
+
 		/* pull back */
 		fStress = PushForward(F_t_inv, fStress);
 		fStress /= F_t_inv.Det();
 	}
-	
+
 	fLastCall = kMaterial;
 	return fStress;
 }
@@ -117,7 +117,7 @@ double FDHookeanMatT::StrainEnergyDensity(void)
 
 	/* strain */
 	Compute_E(F_mech, fE);
-	
+
 	/* compute strain energy density */
 	return HookeanEnergy(fE);
 }

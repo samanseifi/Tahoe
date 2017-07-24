@@ -4,6 +4,7 @@
 
 /* base classes */
 #include "UpdatedLagrangianT.h"
+#include "FSSolidMatT.h"
 
 namespace Tahoe {
 
@@ -95,11 +96,16 @@ private:
 
 	void MassMatrix();
 
+	dSymMatrixT MaxwellStress(dArrayT E, const double epsilon);
+
+
 protected:
 
 	// Electric field stuff
 	ArrayT<dArrayT> fE_List;
 	dArrayT fE_all;
+
+	dMatrixT fMaxwell;
 
 	/** \name element volume */
 	/*@{*/
@@ -131,10 +137,12 @@ private:
 
 	dMatrixT fAmm_geo;
 	dMatrixT fAmm_mat;
-  dMatrixT fMassMatrix;	// mass matrix for LHS
+  	dMatrixT fMassMatrix;	// mass matrix for LHS
 
+	dMatrixT fF_mech;
+	dSymMatrixT D;
 	// For case of electric field coupling for DE
-  const FieldT* fElectricScalarPotentialField;
+  	const FieldT* fElectricScalarPotentialField;
 
 
 	/*@}*/

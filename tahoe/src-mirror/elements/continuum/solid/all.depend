@@ -381,6 +381,15 @@ SimoQ1P0.o: SimoQ1P0.cpp SimoQ1P0.h UpdatedLagrangianT.h FiniteStrainT.h \
  /home/saman/Tahoe/tahoe/../toolbox/inc/LocalArrayT.h \
  /home/saman/Tahoe/tahoe/../toolbox/inc/dArrayT.h \
  /home/saman/Tahoe/tahoe/../toolbox/inc/dSymMatrixT.h \
+ /home/saman/Tahoe/tahoe/inc/FSSolidMatT.h \
+ /home/saman/Tahoe/tahoe/inc/SolidMaterialT.h \
+ /home/saman/Tahoe/tahoe/inc/ContinuumMaterialT.h \
+ /home/saman/Tahoe/tahoe/inc/MaterialSupportT.h \
+ /home/saman/Tahoe/tahoe/inc/ThermalDilatationT.h \
+ /home/saman/Tahoe/tahoe/inc/TensorTransformT.h \
+ /home/saman/Tahoe/tahoe/inc/FSMatSupportT.h \
+ /home/saman/Tahoe/tahoe/inc/SolidMatSupportT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/ArrayT.h \
  /home/saman/Tahoe/tahoe/inc/ShapeFunctionT.h \
  /home/saman/Tahoe/tahoe/inc/DomainIntegrationT.h \
  /home/saman/Tahoe/tahoe/../toolbox/inc/ParentDomainT.h \
@@ -391,12 +400,15 @@ SimoQ1P0.o: SimoQ1P0.cpp SimoQ1P0.h UpdatedLagrangianT.h FiniteStrainT.h \
  /home/saman/Tahoe/tahoe/../toolbox/inc/GeometryT.h \
  /home/saman/Tahoe/tahoe/../toolbox/inc/LocalArrayT.h \
  /home/saman/Tahoe/tahoe/inc/SolidMaterialT.h \
- /home/saman/Tahoe/tahoe/inc/ContinuumMaterialT.h \
- /home/saman/Tahoe/tahoe/inc/MaterialSupportT.h \
- /home/saman/Tahoe/tahoe/inc/ThermalDilatationT.h \
  /home/saman/Tahoe/tahoe/inc/SolidMatListT.h \
  /home/saman/Tahoe/tahoe/inc/MaterialListT.h \
- /home/saman/Tahoe/tahoe/../toolbox/inc/pArrayT.h
+ /home/saman/Tahoe/tahoe/../toolbox/inc/pArrayT.h \
+ /home/saman/Tahoe/tahoe/../development/inc/FSDEMatQ1P0T.h \
+ /home/saman/Tahoe/tahoe/../development/inc/FSDEMatSupportQ1P0T.h \
+ /home/saman/Tahoe/tahoe/inc/FSMatSupportT.h \
+ /home/saman/Tahoe/tahoe/../development/inc/FSDEMatSupportQ1P0T.i.h \
+ /home/saman/Tahoe/tahoe/../development/inc/FSDEMatQ1P0T.i.h \
+ /home/saman/Tahoe/tahoe/../development/inc/FSDE_incQ1P0.h
 SmallStrainT.o: SmallStrainT.cpp SmallStrainT.h SolidElementT.h \
  /home/saman/Tahoe/tahoe/inc/ContinuumElementT.h \
  /home/saman/Tahoe/tahoe/inc/ElementBaseT.h \

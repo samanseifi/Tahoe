@@ -51,7 +51,7 @@ void Chain1D::DefineParameters(ParameterListT& list) const
 {
 	/* inherited */
 	NL_E_MatT::DefineParameters(list);
-	
+
 	/* number of neighbor shells */
 	ParameterT n_shells(ParameterT::Integer, "shells");
 	n_shells.AddLimit(1, LimitT::LowerInclusive);
@@ -69,7 +69,7 @@ void Chain1D::DefineSubs(SubListT& sub_list) const
 }
 
 /* return the description of the given inline subordinate parameter list */
-void Chain1D::DefineInlineSub(const StringT& name, ParameterListT::ListOrderT& order, 
+void Chain1D::DefineInlineSub(const StringT& name, ParameterListT::ListOrderT& order,
 	SubListT& sub_lists) const
 {
 	if (name == "chain_1D_potential_choice")
@@ -144,7 +144,7 @@ void Chain1D::TakeParameterList(const ParameterListT& list)
  *************************************************************************/
 
 void Chain1D::ComputeModuli(const dSymMatrixT& E, dMatrixT& moduli)
-{	
+{
 	fLattice1D->ComputeDeformedLengths(E);
 	const dArrayT& bond_length = fLattice1D->DeformedLengths();
 
@@ -161,8 +161,8 @@ void Chain1D::ComputeModuli(const dSymMatrixT& E, dMatrixT& moduli)
 		density = d_array.Pointer(CurrIP()*nb);
 	}
 
-	/* sum over bonds */	
-	moduli = 0.0; 
+	/* sum over bonds */
+	moduli = 0.0;
 	double R4byV = fNearestNeighbor*fNearestNeighbor*fNearestNeighbor*fNearestNeighbor/fAtomicVolume;
 	for (int i = 0; i < nb; i++)
 	{
@@ -171,7 +171,7 @@ void Chain1D::ComputeModuli(const dSymMatrixT& E, dMatrixT& moduli)
 		fLattice1D->BondComponentTensor4(i, fBondTensor4);
 		moduli.AddScaled(R4byV*coeff, fBondTensor4);
 	}
-	
+
 	/* symmetric */
 	moduli.CopySymmetric();
 }
@@ -194,7 +194,7 @@ void Chain1D::ComputePK2(const dSymMatrixT& E, dSymMatrixT& PK2)
 		const dArrayT& d_array = element->DoubleData();
 		density = d_array.Pointer(CurrIP()*nb);
 	}
-	
+
 	/* sum over bonds */
 	PK2 = 0.0;
 	double R2byV = fNearestNeighbor*fNearestNeighbor/fAtomicVolume;
@@ -226,14 +226,14 @@ double Chain1D::ComputeEnergyDensity(const dSymMatrixT& E)
 	}
 
 	/* sum over bonds */
-	double tmpSum  = 0.;	
+	double tmpSum  = 0.;
 	for (int i = 0; i < nb; i++)
 	{
 		double r = bond_length[i]*fNearestNeighbor;
 		tmpSum += (*density++)*energy(r, NULL, NULL);
 	}
 	tmpSum /= fAtomicVolume;
-	
+
 	return tmpSum;
 }
 
@@ -248,7 +248,7 @@ double Chain1D::ZeroStressStretch(void)
 
 	E = 0.0;
 	ComputePK2(E, PK2);
-	
+
 	/* Newton iteration */
 	int count = 0;
 	double error, error0;
@@ -258,11 +258,11 @@ double Chain1D::ZeroStressStretch(void)
 		ComputeModuli(E, C);
 		double dE = -PK2(0,0)/C(0,0);
 		E.PlusIdentity(dE);
-		
+
 		/* E > -1/2 - go half way to limit */
 		if (E[0] < -0.5)
 			E[0] = ((E[0]-dE) - 0.5)*0.5;
-		
+
 		ComputePK2(E, PK2);
 		error = fabs(PK2(0,0));
 	}
@@ -274,6 +274,6 @@ double Chain1D::ZeroStressStretch(void)
 		cout << " PK2 =\n" << PK2 << endl;
 		ExceptionT::GeneralFail(caller, "failed to find stress-free state");
 	}
-	
+
 	return sqrt(2.0*E(0,0) + 1.0);
 }

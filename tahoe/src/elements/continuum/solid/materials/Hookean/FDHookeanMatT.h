@@ -27,7 +27,7 @@ public:
 	/** Cauchy stress */
 	virtual const dSymMatrixT& s_ij(void);
 
-	/** return the pressure associated with the last call to 
+	/** return the pressure associated with the last call to
 	 * SolidMaterialT::s_ij. See SolidMaterialT::Pressure
 	 * for more information. */
 	virtual double Pressure(void) const;
@@ -43,7 +43,7 @@ public:
 	/** \name implementation of the ParameterInterfaceT interface */
 	/*@{*/
 	/** information about subordinate parameter lists */
-	virtual void DefineSubs(SubListT& sub_list) const;	
+	virtual void DefineSubs(SubListT& sub_list) const;
 
 	/** a pointer to the ParameterInterfaceT of the given subordinate */
 	virtual ParameterInterfaceT* NewSub(const StringT& name) const;
@@ -58,7 +58,7 @@ private:
 	 * strains. This material does support multiplicative thermal
 	 * strains. */
 	virtual bool SupportsThermalStrain(void) const { return true; };
-	
+
 private:
 
 	/** Green-Lagrangian strain */
@@ -66,11 +66,11 @@ private:
 
 	/** \name return values */
 	/*@{*/
-	dSymMatrixT fStress;	
+	dSymMatrixT fStress;
 	dMatrixT    fModulus;
 	FrameT      fLastCall;
 	/*@}*/
 };
 
-} // namespace Tahoe 
+} // namespace Tahoe
 #endif /* _FD_HOOKEAN_MAT_H_ */

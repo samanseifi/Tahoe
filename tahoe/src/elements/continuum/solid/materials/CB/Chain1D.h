@@ -19,7 +19,7 @@ public:
 
 	/** constructor */
 	Chain1D(void);
-	
+
 	/** destructor */
 	~Chain1D(void);
 
@@ -44,7 +44,7 @@ public:
 	virtual void DefineSubs(SubListT& sub_list) const;
 
 	/** return the description of the given inline subordinate parameter list */
-	virtual void DefineInlineSub(const StringT& name, ParameterListT::ListOrderT& order, 
+	virtual void DefineInlineSub(const StringT& name, ParameterListT::ListOrderT& order,
 		SubListT& sub_lists) const;
 
 	/** a pointer to the ParameterInterfaceT of the given subordinate */
@@ -57,11 +57,11 @@ public:
 protected:
 
 	/** compute the symetric Cij reduced index matrix */
-	virtual void ComputeModuli(const dSymMatrixT& E, dMatrixT& moduli);	
-	
+	virtual void ComputeModuli(const dSymMatrixT& E, dMatrixT& moduli);
+
 	/** symmetric 2nd Piola-Kirchhoff stress */
 	virtual void ComputePK2(const dSymMatrixT& E, dSymMatrixT& PK2);
-					                 					
+
 	/** strain energy density */
 	virtual double ComputeEnergyDensity(const dSymMatrixT& E);
 

@@ -16,7 +16,7 @@
 	     num_steps='100'
 	    output_inc='1'
 	 max_step_cuts='0'
-	     time_step='1.000000e-02'>
+	     time_step='1.000000e-03'>
 		<schedule_function>
 			<piecewise_linear>
 				<OrderedPair
@@ -150,13 +150,19 @@
 	            print_eqnos='false'
 	             check_code='no_check'
 	 check_LHS_perturbation='1.000000e-08'>
-		<profile_matrix/>
+		<SPOOLES_matrix
+		    message_level='silent'
+		  enable_pivoting='true'
+		 always_symmetric='false'/>
 	</linear_solver>
 	<linear_solver
 	            print_eqnos='false'
 	             check_code='no_check'
 	 check_LHS_perturbation='1.000000e-08'>
-		<profile_matrix/>
+		<SPOOLES_matrix
+		    message_level='silent'
+		  enable_pivoting='true'
+		 always_symmetric='false'/>
 	</linear_solver>
 	<solver_phases
 	 max_loops='10'>

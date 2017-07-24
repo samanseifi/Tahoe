@@ -1,10 +1,14 @@
-/* $Id: SimoQ1P0.cpp,v 1.14 2009/05/21 22:30:27 tdnguye Exp $ */
 /* $Id: SimoQ1P0.cpp,v 1.15 2017/06/18 14:40:12 samanseifi Exp $ */
+/* $Id: SimoQ1P0.cpp,v 1.14 2009/05/21 22:30:27 tdnguye Exp $ */
 #include "SimoQ1P0.h"
 
 #include "ShapeFunctionT.h"
 #include "SolidMaterialT.h"
 #include "SolidMatListT.h"
+
+#include "FSDEMatQ1P0T.h"
+#include "FSSolidMatT.h"
+
 
 #include <iostream>
 
@@ -105,23 +109,27 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 	fElementVolume_last.Dimension(NumElements());
 	fElementVolume_last = 0.0;
 
-  int nen = NumElementNodes();
-  int nsd = NumSD();
-  int nme = nen * nsd;	// # of mechanical DOFs per element
+  	int nen = NumElementNodes();
+  	int nsd = NumSD();
+  	int nme = nen * nsd;	// # of mechanical DOFs per element
 
 	/* getting ready for electric field calculations */
-  const int nip = NumIP();
-  fE_all.Dimension(nip*nsd);
-  fE_all = 0.0;	// testing HSP
-  fE_List.Dimension(nip);
+  	const int nip = NumIP();
+  	fE_all.Dimension(nip*nsd);
+  	fE_all = 0.0;	// testing HSP
+  	fE_List.Dimension(nip);
 	// Neccessary:
 	for (int i = 0; i < nip; ++i) {
 		fE_List[i].Alias(nsd, fE_all.Pointer(i * nsd));
 	}
+	fF_mech.Dimension(nsd);
+	fF_mech.Identity();
 
-  fAmm_mat.Dimension(nme, nme);
-  fAmm_geo.Dimension(nen, nen);	// dimensions changed for Q1P0!
-  fMassMatrix.Dimension(nme, nme);
+	D.Dimension(2);
+
+  	fAmm_mat.Dimension(nme, nme);
+  	fAmm_geo.Dimension(nen, nen);	// dimensions changed for Q1P0!
+  	fMassMatrix.Dimension(nme, nme);
 
 	/* element pressure */
 	fPressure.Dimension(NumElements());
@@ -175,11 +183,9 @@ void SimoQ1P0::SetGlobalShape(void)
 		// electric field
 		dArrayT& E = fE_List[i];
 		dMatrixT E1(1, NumSD());
-
 		fShapes->GradU(fLocScalarPotential, E1, i);
 		E1 *= -1.0;
-
-   	for (int j = 0; j < NumSD(); j++)
+   		for (int j = 0; j < NumSD(); j++)
 			E[j] = E1(0,j);
 	}
 
@@ -283,7 +289,9 @@ void SimoQ1P0::FormStiffness(double constK)
 {
 //	int order = fIntegrator->Order();
 
-	/* matrix format */
+
+
+	 /* matrix format */
 	dMatrixT::SymmetryFlagT format =
 		(fLHS.Format() == ElementMatrixT::kNonSymmetric) ?
 		dMatrixT::kWhole :
@@ -296,7 +304,7 @@ void SimoQ1P0::FormStiffness(double constK)
 
 	fAmm_mat = 0.0;
 	fAmm_geo = 0.0;
-
+	D = 0.0;
 	/* integration */
 	const double* Det    = fCurrShapes->IPDets();
 	const double* Weight = fCurrShapes->IPWeights();
@@ -306,6 +314,7 @@ void SimoQ1P0::FormStiffness(double constK)
 
 	fCurrShapes->GradNa(fMeanGradient, fb_bar);
 	fShapes->TopIP();
+
 	while ( fShapes->NextIP() )
 	{
 		/* double scale factor */
@@ -313,8 +322,26 @@ void SimoQ1P0::FormStiffness(double constK)
 
 	/* S T R E S S   S T I F F N E S S */
 		/* compute Cauchy stress */
-		const dSymMatrixT& cauchy = fCurrMaterial->s_ij();
+
+		dSymMatrixT cauchy1 = fCurrMaterial->s_ij();
+		dSymMatrixT maxwell = MaxwellStress(fE_List[CurrIP()], 1.0);
+		cauchy1 += maxwell;
+		const dSymMatrixT& cauchy = cauchy1;
 		cauchy.ToMatrix(fCauchyStress);
+
+
+		//std::cout << cauchy.Cols() << cauchy.Rows() << std::endl;
+
+		// dSymMatrixT D;
+		// D.Dimension(2);
+		// D.Identity();
+		// D.ToMatrix(fCauchyStress);
+		// //dArrayT E = fE_List[CurrIP()];
+
+		//dSymMatrixT maxwell = MaxwellStress(E, 0.01);
+
+
+		//maxwell.ToMatrix(fCauchyStress);
 
 		/* determinant of modified deformation gradient */
 		double J_bar = DeformationGradient().Det();
@@ -400,7 +427,16 @@ void SimoQ1P0::FormKd(double constK)
 		Set_B_bar(fCurrShapes->Derivatives_U(), fMeanGradient, fB);
 
 		/* B^T * Cauchy stress */
-		const dSymMatrixT& cauchy = fCurrMaterial->s_ij();
+
+
+
+		dSymMatrixT cauchy1 = fCurrMaterial->s_ij();
+		dSymMatrixT maxwell = MaxwellStress(fE_List[CurrIP()], 1.0);
+		cauchy1 += maxwell;
+		const dSymMatrixT& cauchy = cauchy1;
+
+		//const dSymMatrixT& cauchy = fCurrMaterial->s_ij();
+
 		fB.MultTx(cauchy, fNEEvec);
 
 		/* determinant of modified deformation gradient */
@@ -423,6 +459,11 @@ void SimoQ1P0::FormKd(double constK)
 	/* volume averaged */
 	p_bar /= fElementVolume[CurrElementNumber()];
 }
+
+
+/***********************************************************************
+ * Private
+ ***********************************************************************/
 
 void SimoQ1P0::MassMatrix()
 {
@@ -473,10 +514,6 @@ void SimoQ1P0::MassMatrix()
 	}
 
 }
-
-/***********************************************************************
- * Private
- ***********************************************************************/
 
 /* compute mean shape function gradient, Hughes (4.5.23) */
 void SimoQ1P0::SetMeanGradient(dArray2DT& mean_gradient, double& H, double& v) const
@@ -538,4 +575,27 @@ void SimoQ1P0::bSp_bRq_to_KSqRp(const dMatrixT& b, dMatrixT& K) const
 			p = 0;
 		}
 	}
+}
+
+/* Calculating Maxwell Stress */
+dSymMatrixT SimoQ1P0::MaxwellStress(const dArrayT E, const double epsilon) {
+
+
+	int nsd = NumSD();
+	dSymMatrixT fMaxwellStress(nsd);
+	dMatrixT term1(nsd);
+	dMatrixT term2(nsd);
+
+	term1.Outer(E, E);
+	term2.Identity();
+
+	double Emag = pow(E.Magnitude(), 2.0);
+	term2 *= -0.5*Emag;
+	fMaxwellStress += term1;
+	fMaxwellStress += term2;
+	fMaxwellStress *= epsilon;
+
+
+
+	return fMaxwellStress;
 }

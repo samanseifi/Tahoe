@@ -8,7 +8,7 @@ using namespace Tahoe;
 /* constructor */
 SimoIso3D::SimoIso3D(void):
 	ParameterInterfaceT("Simo_isotropic")
-{	
+{
 
 }
 
@@ -28,10 +28,10 @@ const dMatrixT& SimoIso3D::c_ijkl(void)
 	fb_bar.SetToScaled(pow(J,-2.0/3.0), fb);
 
 	ComputeModuli(J, fb_bar, fModulus);
-	
+
 	return fModulus;
 }
-	
+
 /* stress */
 const dSymMatrixT& SimoIso3D::s_ij(void)
 {
@@ -48,7 +48,7 @@ const dSymMatrixT& SimoIso3D::s_ij(void)
 	fb_bar.SetToScaled(pow(J,-2.0/3.0), fb);
 
 	ComputeCauchy(J, fb_bar, fStress);
-	
+
 	return fStress;
 }
 
@@ -75,7 +75,7 @@ void SimoIso3D::TakeParameterList(const ParameterListT& list)
 {
 	/* inherited */
 	FSIsotropicMatT::TakeParameterList(list);
-	
+
 	/* dimension work space */
 	fStress.Dimension(3);
 	fModulus.Dimension(dSymMatrixT::NumValues(3));
@@ -90,7 +90,7 @@ void SimoIso3D::TakeParameterList(const ParameterListT& list)
 	/* initialize work matricies */
 	fIdentity.Identity();
 	fIcrossI.Outer(fIdentity, fIdentity);
-	fIdentity4.ReducedIndexI();	
+	fIdentity4.ReducedIndexI();
 	fDevOp4.ReducedIndexDeviatoric();
 }
 
@@ -108,17 +108,17 @@ void SimoIso3D::ComputeModuli(double J, const dSymMatrixT& b_bar,
 	/* volumetric */
 	double du  = dU(J);
 	double ddu = ddU(J);
-	
+
 	moduli.AddScaled(du + J*ddu, fIcrossI);
 	moduli.AddScaled(-2.0*du,fIdentity4);
-	
+
 	/* deviatoric */
 	double mu_bar = Mu()*b_bar.Trace()/(J*3.0);
 	moduli.AddScaled(2.0*mu_bar, fDevOp4);
 
 	fStress.SetToScaled(Mu(), b_bar);
 	fStress.Deviatoric();
-	
+
 	frank4.Outer(fStress,fIdentity);
 	frank4.Symmetrize();
 	moduli.AddScaled(-4.0/(J*3.0), frank4);
@@ -130,7 +130,7 @@ void SimoIso3D::ComputeCauchy(double J, const dSymMatrixT& b_bar,
 	/* deviatoric */
 	cauchy.SetToScaled(Mu()/J,b_bar);
 	cauchy.Deviatoric();
-	
+
 	/* volumetric */
 	cauchy.PlusIdentity(dU(J));
 }

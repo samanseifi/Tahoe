@@ -7,7 +7,7 @@ geometry_format. . . . . . . . . . . . . . . . . . = automatic
 geometry_format = automatic (default)
 geometry_format = TahoeII
 geometry_format = ExodusII
-geometry_file. . . . . . . . . . . . . . . . . . . = ./geometry/square.geom
+geometry_file. . . . . . . . . . . . . . . . . . . = ./geometry/8x8.geom
 output_format. . . . . . . . . . . . . . . . . . . = ExodusII
 output_format = automatic (default)
 output_format = Tahoe
@@ -31,7 +31,7 @@ scaling = linear (default)
 scaling = logarithmic
 init_time. . . . . . . . . . . . . . . . . . . . . = 0.000000e+00
 init_time >= 0 (default)
-num_steps. . . . . . . . . . . . . . . . . . . . . = 1000
+num_steps. . . . . . . . . . . . . . . . . . . . . = 10000
 num_steps >= 0
 output_inc . . . . . . . . . . . . . . . . . . . . = 100
 output_inc(default) = 0
@@ -50,8 +50,8 @@ y. . . . . . . . . . . . . . . . . . . . . . . . . = 0.000000e+00
 end: tahoe::time::schedule_function::piecewise_linear::OrderedPair
 
 begin: tahoe::time::schedule_function::piecewise_linear::OrderedPair
-x. . . . . . . . . . . . . . . . . . . . . . . . . = 1.000000e+00
-y. . . . . . . . . . . . . . . . . . . . . . . . . = 1.000000e+00
+x. . . . . . . . . . . . . . . . . . . . . . . . . = 1.000000e+09
+y. . . . . . . . . . . . . . . . . . . . . . . . . = 1.000000e+09
 end: tahoe::time::schedule_function::piecewise_linear::OrderedPair
 
 end: tahoe::time::schedule_function::piecewise_linear
@@ -92,7 +92,7 @@ end: tahoe::nodes::field::dof_labels::String
 end: tahoe::nodes::field::dof_labels
 
 begin: tahoe::nodes::field::kinematic_BC
-node_ID. . . . . . . . . . . . . . . . . . . . . . = 100
+node_ID. . . . . . . . . . . . . . . . . . . . . . = 2
 dof. . . . . . . . . . . . . . . . . . . . . . . . = 1
 type . . . . . . . . . . . . . . . . . . . . . . . = fixed
 type = fixed (default)
@@ -108,7 +108,7 @@ value(default) = 0.000000e+00
 end: tahoe::nodes::field::kinematic_BC
 
 begin: tahoe::nodes::field::kinematic_BC
-node_ID. . . . . . . . . . . . . . . . . . . . . . = 101
+node_ID. . . . . . . . . . . . . . . . . . . . . . = 1
 dof. . . . . . . . . . . . . . . . . . . . . . . . = 2
 type . . . . . . . . . . . . . . . . . . . . . . . = fixed
 type = fixed (default)
@@ -120,22 +120,6 @@ type = D4_u
 schedule . . . . . . . . . . . . . . . . . . . . . = 0
 schedule(default) = 0
 value. . . . . . . . . . . . . . . . . . . . . . . = 0.000000e+00
-value(default) = 0.000000e+00
-end: tahoe::nodes::field::kinematic_BC
-
-begin: tahoe::nodes::field::kinematic_BC
-node_ID. . . . . . . . . . . . . . . . . . . . . . = 102
-dof. . . . . . . . . . . . . . . . . . . . . . . . = 1
-type . . . . . . . . . . . . . . . . . . . . . . . = u
-type = fixed (default)
-type = u
-type = D_u
-type = DD_u
-type = D3_u
-type = D4_u
-schedule . . . . . . . . . . . . . . . . . . . . . = 1
-schedule(default) = 0
-value. . . . . . . . . . . . . . . . . . . . . . . = 1.000000e+00
 value(default) = 0.000000e+00
 end: tahoe::nodes::field::kinematic_BC
 
@@ -167,7 +151,7 @@ end: tahoe::nodes::field::dof_labels::String
 end: tahoe::nodes::field::dof_labels
 
 begin: tahoe::nodes::field::kinematic_BC
-node_ID. . . . . . . . . . . . . . . . . . . . . . = 102
+node_ID. . . . . . . . . . . . . . . . . . . . . . = 1
 dof. . . . . . . . . . . . . . . . . . . . . . . . = 1
 type . . . . . . . . . . . . . . . . . . . . . . . = u
 type = fixed (default)
@@ -176,14 +160,14 @@ type = D_u
 type = DD_u
 type = D3_u
 type = D4_u
-schedule . . . . . . . . . . . . . . . . . . . . . = 0
+schedule . . . . . . . . . . . . . . . . . . . . . = 1
 schedule(default) = 0
-value. . . . . . . . . . . . . . . . . . . . . . . = 1.000000e+00
+value. . . . . . . . . . . . . . . . . . . . . . . = 1.000000e-01
 value(default) = 0.000000e+00
 end: tahoe::nodes::field::kinematic_BC
 
 begin: tahoe::nodes::field::kinematic_BC
-node_ID. . . . . . . . . . . . . . . . . . . . . . = 100
+node_ID. . . . . . . . . . . . . . . . . . . . . . = 3
 dof. . . . . . . . . . . . . . . . . . . . . . . . = 1
 type . . . . . . . . . . . . . . . . . . . . . . . = u
 type = fixed (default)
@@ -228,23 +212,7 @@ begin: tahoe::element_list::diffusion::diffusion_element_block
 begin: tahoe::element_list::diffusion::diffusion_element_block::block_ID_list
 
 begin: tahoe::element_list::diffusion::diffusion_element_block::block_ID_list::String
-value. . . . . . . . . . . . . . . . . . . . . . . = 14
-end: tahoe::element_list::diffusion::diffusion_element_block::block_ID_list::String
-
-begin: tahoe::element_list::diffusion::diffusion_element_block::block_ID_list::String
-value. . . . . . . . . . . . . . . . . . . . . . . = 11
-end: tahoe::element_list::diffusion::diffusion_element_block::block_ID_list::String
-
-begin: tahoe::element_list::diffusion::diffusion_element_block::block_ID_list::String
-value. . . . . . . . . . . . . . . . . . . . . . . = 10
-end: tahoe::element_list::diffusion::diffusion_element_block::block_ID_list::String
-
-begin: tahoe::element_list::diffusion::diffusion_element_block::block_ID_list::String
-value. . . . . . . . . . . . . . . . . . . . . . . = 13
-end: tahoe::element_list::diffusion::diffusion_element_block::block_ID_list::String
-
-begin: tahoe::element_list::diffusion::diffusion_element_block::block_ID_list::String
-value. . . . . . . . . . . . . . . . . . . . . . . = 12
+value. . . . . . . . . . . . . . . . . . . . . . . = 1
 end: tahoe::element_list::diffusion::diffusion_element_block::block_ID_list::String
 
 end: tahoe::element_list::diffusion::diffusion_element_block::block_ID_list
@@ -294,23 +262,7 @@ begin: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block
 begin: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list
 
 begin: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list::String
-value. . . . . . . . . . . . . . . . . . . . . . . = 14
-end: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list::String
-
-begin: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list::String
-value. . . . . . . . . . . . . . . . . . . . . . . = 11
-end: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list::String
-
-begin: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list::String
-value. . . . . . . . . . . . . . . . . . . . . . . = 10
-end: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list::String
-
-begin: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list::String
-value. . . . . . . . . . . . . . . . . . . . . . . = 13
-end: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list::String
-
-begin: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list::String
-value. . . . . . . . . . . . . . . . . . . . . . . = 12
+value. . . . . . . . . . . . . . . . . . . . . . . = 1
 end: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list::String
 
 end: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::block_ID_list
@@ -330,8 +282,8 @@ CTE(default) = 0.000000e+00
 begin: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::large_strain_material_2D::RG_split_general::rg_eq_potential
 
 begin: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::large_strain_material_2D::RG_split_general::rg_eq_potential::neo-hookean
-kappa. . . . . . . . . . . . . . . . . . . . . . . = 2.000000e+05
-mu . . . . . . . . . . . . . . . . . . . . . . . . = 1.000000e+03
+kappa. . . . . . . . . . . . . . . . . . . . . . . = 1.000000e+03
+mu . . . . . . . . . . . . . . . . . . . . . . . . = 1.000000e+00
 end: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::large_strain_material_2D::RG_split_general::rg_eq_potential::neo-hookean
 
 end: tahoe::element_list::updated_lagrangian_Q1P0::large_strain_element_block::large_strain_material_2D::RG_split_general::rg_eq_potential
@@ -381,8 +333,16 @@ check_LHS_perturbation . . . . . . . . . . . . . . = 1.000000e-08
 check_LHS_perturbation >= 0.000000e+00
 check_LHS_perturbation(default) = 1.000000e-08
 
-begin: tahoe::linear_solver::profile_matrix
-end: tahoe::linear_solver::profile_matrix
+begin: tahoe::linear_solver::SPOOLES_matrix
+message_level. . . . . . . . . . . . . . . . . . . = silent
+message_level = silent (default)
+message_level = timing
+message_level = verbose
+enable_pivoting. . . . . . . . . . . . . . . . . . = true
+enable_pivoting(default) = true
+always_symmetric . . . . . . . . . . . . . . . . . = false
+always_symmetric(default) = false
+end: tahoe::linear_solver::SPOOLES_matrix
 
 end: tahoe::linear_solver
 
@@ -413,18 +373,322 @@ end: tahoe
 
  E q u a t i o n    S y s t e m    D a t a :
 
- Local number of equations . . . . . . . . . . . = 739
- Total number of equations . . . . . . . . . . . = 739
- Number of terms in global matrix. . . . . . . . = 28469
- Mean half bandwidth . . . . . . . . . . . . . . = 39
- Bandwidth . . . . . . . . . . . . . . . . . . . = 74
+ Local number of equations . . . . . . . . . . . = 144
+ Total number of equations . . . . . . . . . . . = 144
+ Number of terms in global matrix. . . . . . . . = 2579
+ Mean half bandwidth . . . . . . . . . . . . . . = 18
+ Bandwidth . . . . . . . . . . . . . . . . . . . = 37
 
 
  E q u a t i o n    S y s t e m    D a t a :
 
- Local number of equations . . . . . . . . . . . = 361
- Total number of equations . . . . . . . . . . . = 361
- Number of terms in global matrix. . . . . . . . = 7201
- Mean half bandwidth . . . . . . . . . . . . . . = 20
- Bandwidth . . . . . . . . . . . . . . . . . . . = 38
+ Local number of equations . . . . . . . . . . . = 63
+ Total number of equations . . . . . . . . . . . = 63
+
+ Time = 1.000000e-01
+ Step 100 of 10000
+
+ Time = 2.000000e-01
+ Step 200 of 10000
+
+ Time = 3.000000e-01
+ Step 300 of 10000
+
+ Time = 4.000000e-01
+ Step 400 of 10000
+
+ Time = 5.000000e-01
+ Step 500 of 10000
+
+ Time = 6.000000e-01
+ Step 600 of 10000
+
+ Time = 7.000000e-01
+ Step 700 of 10000
+
+ Time = 8.000000e-01
+ Step 800 of 10000
+
+ Time = 9.000000e-01
+ Step 900 of 10000
+
+ Time = 1.000000e+00
+ Step 1000 of 10000
+
+ Time = 1.100000e+00
+ Step 1100 of 10000
+
+ Time = 1.200000e+00
+ Step 1200 of 10000
+
+ Time = 1.300000e+00
+ Step 1300 of 10000
+
+ Time = 1.400000e+00
+ Step 1400 of 10000
+
+ Time = 1.500000e+00
+ Step 1500 of 10000
+
+ Time = 1.600000e+00
+ Step 1600 of 10000
+
+ Time = 1.700000e+00
+ Step 1700 of 10000
+
+ Time = 1.800000e+00
+ Step 1800 of 10000
+
+ Time = 1.900000e+00
+ Step 1900 of 10000
+
+ Time = 2.000000e+00
+ Step 2000 of 10000
+
+ Time = 2.100000e+00
+ Step 2100 of 10000
+
+ Time = 2.200000e+00
+ Step 2200 of 10000
+
+ Time = 2.300000e+00
+ Step 2300 of 10000
+
+ Time = 2.400000e+00
+ Step 2400 of 10000
+
+ Time = 2.500000e+00
+ Step 2500 of 10000
+
+ Time = 2.600000e+00
+ Step 2600 of 10000
+
+ Time = 2.700000e+00
+ Step 2700 of 10000
+
+ Time = 2.800000e+00
+ Step 2800 of 10000
+
+ Time = 2.900000e+00
+ Step 2900 of 10000
+
+ Time = 3.000000e+00
+ Step 3000 of 10000
+
+ Time = 3.100000e+00
+ Step 3100 of 10000
+
+ Time = 3.200000e+00
+ Step 3200 of 10000
+
+ Time = 3.300000e+00
+ Step 3300 of 10000
+
+ Time = 3.400000e+00
+ Step 3400 of 10000
+
+ Time = 3.500000e+00
+ Step 3500 of 10000
+
+ Time = 3.600000e+00
+ Step 3600 of 10000
+
+ Time = 3.700000e+00
+ Step 3700 of 10000
+
+ Time = 3.800000e+00
+ Step 3800 of 10000
+
+ Time = 3.900000e+00
+ Step 3900 of 10000
+
+ Time = 4.000000e+00
+ Step 4000 of 10000
+
+ Time = 4.100000e+00
+ Step 4100 of 10000
+
+ Time = 4.200000e+00
+ Step 4200 of 10000
+
+ Time = 4.300000e+00
+ Step 4300 of 10000
+
+ Time = 4.400000e+00
+ Step 4400 of 10000
+
+ Time = 4.500000e+00
+ Step 4500 of 10000
+
+ Time = 4.600000e+00
+ Step 4600 of 10000
+
+ Time = 4.700000e+00
+ Step 4700 of 10000
+
+ Time = 4.800000e+00
+ Step 4800 of 10000
+
+ Time = 4.900000e+00
+ Step 4900 of 10000
+
+ Time = 5.000000e+00
+ Step 5000 of 10000
+
+ Time = 5.100000e+00
+ Step 5100 of 10000
+
+ Time = 5.200000e+00
+ Step 5200 of 10000
+
+ Time = 5.300000e+00
+ Step 5300 of 10000
+
+ Time = 5.400000e+00
+ Step 5400 of 10000
+
+ Time = 5.500000e+00
+ Step 5500 of 10000
+
+ Time = 5.600000e+00
+ Step 5600 of 10000
+
+ Time = 5.700000e+00
+ Step 5700 of 10000
+
+ Time = 5.800000e+00
+ Step 5800 of 10000
+
+ Time = 5.900000e+00
+ Step 5900 of 10000
+
+ Time = 6.000000e+00
+ Step 6000 of 10000
+
+ Time = 6.100000e+00
+ Step 6100 of 10000
+
+ Time = 6.200000e+00
+ Step 6200 of 10000
+
+ Time = 6.300000e+00
+ Step 6300 of 10000
+
+ Time = 6.400000e+00
+ Step 6400 of 10000
+
+ Time = 6.500000e+00
+ Step 6500 of 10000
+
+ Time = 6.600000e+00
+ Step 6600 of 10000
+
+ Time = 6.700000e+00
+ Step 6700 of 10000
+
+ Time = 6.800000e+00
+ Step 6800 of 10000
+
+ Time = 6.900000e+00
+ Step 6900 of 10000
+
+ Time = 7.000000e+00
+ Step 7000 of 10000
+
+ Time = 7.100000e+00
+ Step 7100 of 10000
+
+ Time = 7.200000e+00
+ Step 7200 of 10000
+
+ Time = 7.300000e+00
+ Step 7300 of 10000
+
+ Time = 7.400000e+00
+ Step 7400 of 10000
+
+ Time = 7.500000e+00
+ Step 7500 of 10000
+
+ Time = 7.600000e+00
+ Step 7600 of 10000
+
+ Time = 7.700000e+00
+ Step 7700 of 10000
+
+ Time = 7.800000e+00
+ Step 7800 of 10000
+
+ Time = 7.900000e+00
+ Step 7900 of 10000
+
+ Time = 8.000000e+00
+ Step 8000 of 10000
+
+ Time = 8.100000e+00
+ Step 8100 of 10000
+
+ Time = 8.200000e+00
+ Step 8200 of 10000
+
+ Time = 8.300000e+00
+ Step 8300 of 10000
+
+ Time = 8.400000e+00
+ Step 8400 of 10000
+
+ Time = 8.500000e+00
+ Step 8500 of 10000
+
+ Time = 8.600000e+00
+ Step 8600 of 10000
+
+ Time = 8.700000e+00
+ Step 8700 of 10000
+
+ Time = 8.800000e+00
+ Step 8800 of 10000
+
+ Time = 8.900000e+00
+ Step 8900 of 10000
+
+ Time = 9.000000e+00
+ Step 9000 of 10000
+
+ Time = 9.100000e+00
+ Step 9100 of 10000
+
+ Time = 9.200000e+00
+ Step 9200 of 10000
+
+ Time = 9.300000e+00
+ Step 9300 of 10000
+
+ Time = 9.400000e+00
+ Step 9400 of 10000
+
+ Time = 9.500000e+00
+ Step 9500 of 10000
+
+ Time = 9.600000e+00
+ Step 9600 of 10000
+
+ Time = 9.700000e+00
+ Step 9700 of 10000
+
+ Time = 9.800000e+00
+ Step 9800 of 10000
+
+ Time = 9.900000e+00
+ Step 9900 of 10000
+
+ Time = 1.000000e+01
+ Step 10000 of 10000
+
+   Start time: Mon Jul 24 00:25:42 2017
+ Construction: 9.670000e-03 sec.
+     Solution: 4.765250e+00 sec.
+    Stop time: Mon Jul 24 00:25:48 2017
+
+ End Execution
 

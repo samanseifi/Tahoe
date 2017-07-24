@@ -46,14 +46,14 @@ public:
 	/*@{*/
 	/** spatial tangent modulus */
 	virtual const dMatrixT& c_ijkl(void) = 0;
-	
+
 	/** spatial elastic modulus */
 	virtual const dMatrixT& ce_ijkl(void) = 0;
 
 	/** Cauchy stress */
 	virtual const dSymMatrixT& s_ij(void) = 0;
 
-	/** return the pressure associated with the last call to 
+	/** return the pressure associated with the last call to
 	 * SolidMaterialT::s_ij. The value is not guaranteed to
 	 * persist during intervening calls to any other non-const
 	 * accessor. \return 1/3 of the trace of the three-dimensional
@@ -80,20 +80,20 @@ public:
 	/** return true if the material can produce localization */
 	virtual bool HasLocalization(void) const { return false; };
 
-	/** return true if the material generates heat. The returns false unless 
+	/** return true if the material generates heat. The returns false unless
 	 * overridden. */
 	virtual bool HasIncrementalHeat(void) const { return false; };
 
 	virtual bool NeedDisp(void) const     { return false; };
 	virtual bool NeedLastDisp(void) const { return false; };
 	virtual bool NeedVel(void) const      { return false; };
-	
+
 	/** return true if the density varies with position */
 	virtual bool HasChangingDensity(void) const { return false; };
 	/*@}*/
 
 	/** incremental heat generation (energy/volume). The value should be the amount of
-	 * heat associated with the updated stress calculated with the most recent call to 
+	 * heat associated with the updated stress calculated with the most recent call to
 	 * SolidMaterialT::s_ij or SolidMaterialT::S_IJ */
 	virtual double IncrementalHeat(void);
 
@@ -109,7 +109,7 @@ public:
 	 * \param normal wave propagation direction
 	 * \param speeds the computed acoustic wave speeds */
 	void WaveSpeeds(const dArrayT& normal, dArrayT& speeds);
-	
+
 	/** return the strain in the material. The definition of strain will be
 	 * dependent on the subclass */
 	virtual void Strain(dSymMatrixT& strain) = 0;
@@ -123,23 +123,23 @@ public:
 
 	/** set the schedule for the prescribed temperature */
 	void SetThermalSchedule(const ScheduleT* LTfPtr);
-	
+
 	/** return the thermal expansion rate as a percentage */
 	double ThermalElongation(void) const;
-	 	
+
 	/** \return mass density */
 	virtual double Density(void);
 
 	/** test for localization. check for bifurcation using current
 	 * Cauchy stress and the spatial tangent moduli.
 	 * \param normals orientation of the localization if localized
-	 * \return true if the determinant of the acoustical tensor A is 
+	 * \return true if the determinant of the acoustical tensor A is
 	 * negative or false if the determinant is positive. */
-	virtual bool IsLocalized(AutoArrayT <dArrayT> &normals, AutoArrayT <dArrayT> &slipdirs, 
+	virtual bool IsLocalized(AutoArrayT <dArrayT> &normals, AutoArrayT <dArrayT> &slipdirs,
 							AutoArrayT <double> &detAs, AutoArrayT <double> &dissipations_fact);
 	virtual bool IsLocalized(AutoArrayT <dArrayT> &normals, AutoArrayT <dArrayT> &slipdirs, double &detA);
 	virtual bool IsLocalized(AutoArrayT <dArrayT> &normals, AutoArrayT <dArrayT> &slipdirs);
-	virtual bool IsLocalized_DB(AutoArrayT <dArrayT> &normals, AutoArrayT <dArrayT> &slipdirs, 
+	virtual bool IsLocalized_DB(AutoArrayT <dArrayT> &normals, AutoArrayT <dArrayT> &slipdirs,
 							AutoArrayT <double> &detAs, AutoArrayT <double> &dissipations_fact);
 
 	/** \name implementation of the ParameterInterfaceT interface */
@@ -153,8 +153,8 @@ public:
 	/** a pointer to the ParameterInterfaceT of the given subordinate */
 	virtual ParameterInterfaceT* NewSub(const StringT& name) const;
 
-	/** accept parameter list. This function also checks if thermal strain are 
-	 * being imposed and if the material supports thermal strain, using 
+	/** accept parameter list. This function also checks if thermal strain are
+	 * being imposed and if the material supports thermal strain, using
 	 * SolidMaterialT::SupportsThermalStrain. */
 	virtual void TakeParameterList(const ParameterListT& list);
 	/*@}*/
@@ -165,7 +165,7 @@ public:
 	virtual const dArrayT& InternalStressVars(void);
 	virtual const dArrayT& InternalStrainVars(void);
 	/*@}*/
-	
+
 	/** return true if material implementation supports imposed thermal
 	 * strains. */
 	virtual bool SupportsThermalStrain(void) const { return false; };
@@ -198,5 +198,5 @@ inline void SolidMaterialT::SetThermalSchedule(const ScheduleT* LTfPtr) { fTherm
 inline double SolidMaterialT::ThermalElongation(void) const { return fThermal->PercentElongation(); }
 
 
-} // namespace Tahoe 
+} // namespace Tahoe
 #endif /* _STRUCTURAL_MATERIALT_H_ */

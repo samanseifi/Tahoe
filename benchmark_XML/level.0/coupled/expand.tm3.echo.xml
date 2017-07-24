@@ -9,7 +9,7 @@
 	<time
 	  num_steps='100'
 	 output_inc='1'
-	  time_step='0.01'>
+	  time_step='0.001'>
 		<schedule_function>
 			<piecewise_linear>
 				<OrderedPair
@@ -124,10 +124,10 @@
 		</updated_lagrangian_Q1P0>
 	</element_list>
 	<linear_solver>
-		<profile_matrix/>
+		<SPOOLES_matrix/>
 	</linear_solver>
 	<linear_solver>
-		<profile_matrix/>
+		<SPOOLES_matrix/>
 	</linear_solver>
 	<solver_phases
 	 max_loops='10'>

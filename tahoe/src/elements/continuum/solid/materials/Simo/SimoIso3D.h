@@ -18,7 +18,7 @@ public:
 
 	/* constructor */
 	SimoIso3D(void);
-	
+
 	/** \name spatial description */
 	/*@{*/
 	/** spatial tangent modulus */
@@ -41,9 +41,9 @@ public:
 	/** accept parameter list */
 	virtual void TakeParameterList(const ParameterListT& list);
 	/*@}*/
-	
+
 protected:
-	
+
 	/* computation routines - split volumetric/deviatoric */
 	void ComputeModuli(double J, const dSymMatrixT& b_bar, dMatrixT& moduli);
 	void ComputeCauchy(double J, const dSymMatrixT& b_bar, dSymMatrixT& cauchy);
@@ -64,7 +64,7 @@ private:
 protected:
 
 	/* work space */
-	dSymMatrixT	fb;	
+	dSymMatrixT	fb;
 	dSymMatrixT	fb_bar;
 
 	/** \name return values */
@@ -76,7 +76,7 @@ protected:
 private:
 
 	dMatrixT	frank4;
-	
+
 	/* fixed forms */
 	dSymMatrixT	fIdentity;
 	dMatrixT	fIcrossI;
@@ -100,5 +100,5 @@ inline double SimoIso3D::ddU(double J) const
 	return 0.5*Kappa()*(1.0 + 1.0/(J*J));
 }
 
-} // namespace Tahoe 
+} // namespace Tahoe
 #endif /* _SIMO_ISO_3D_H_ */
