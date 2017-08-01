@@ -104,7 +104,6 @@ ElementListT.o: ElementListT.cpp ElementListT.h \
  /home/saman/Tahoe/tahoe/inc/DOFElementT.h \
  /home/saman/Tahoe/tahoe/../toolbox/inc/LAdMatrixT.h \
  /home/saman/Tahoe/tahoe/inc/SimoQ1P0.h \
- /home/saman/Tahoe/tahoe/../development/inc/FSDEMatQ1P0T.h \
  /home/saman/Tahoe/tahoe/inc/FSSolidMatT.h \
  /home/saman/Tahoe/tahoe/inc/SolidMaterialT.h \
  /home/saman/Tahoe/tahoe/inc/ContinuumMaterialT.h \
@@ -116,11 +115,6 @@ ElementListT.o: ElementListT.cpp ElementListT.h \
  /home/saman/Tahoe/tahoe/inc/FSMatSupportT.h \
  /home/saman/Tahoe/tahoe/inc/SolidMatSupportT.h \
  /home/saman/Tahoe/tahoe/../toolbox/inc/ArrayT.h \
- /home/saman/Tahoe/tahoe/../development/inc/FSDEMatSupportQ1P0T.h \
- /home/saman/Tahoe/tahoe/inc/FSMatSupportT.h \
- /home/saman/Tahoe/tahoe/../development/inc/FSDEMatSupportQ1P0T.i.h \
- /home/saman/Tahoe/tahoe/../development/inc/FSDEMatQ1P0T.i.h \
- /home/saman/Tahoe/tahoe/../development/inc/FSDE_incQ1P0.h \
  /home/saman/Tahoe/tahoe/inc/SimoQ1P0_inv.h \
  /home/saman/Tahoe/tahoe/inc/SimoQ1P0Axi.h \
  /home/saman/Tahoe/tahoe/inc/UpdatedLagrangianAxiT.h \
@@ -158,10 +152,16 @@ ElementListT.o: ElementListT.cpp ElementListT.h \
  /home/saman/Tahoe/tahoe/../development/inc/FSDielectricElastomerT.h \
  /home/saman/Tahoe/tahoe/inc/FiniteStrainT.h \
  /home/saman/Tahoe/tahoe/../development/inc/FSDEMatT.h \
+ /home/saman/Tahoe/tahoe/inc/FSSolidMatT.h \
  /home/saman/Tahoe/tahoe/../development/inc/FSDEMatSupportT.h \
+ /home/saman/Tahoe/tahoe/inc/FSMatSupportT.h \
  /home/saman/Tahoe/tahoe/../development/inc/FSDEMatSupportT.i.h \
  /home/saman/Tahoe/tahoe/../development/inc/FSDielectricElastomerQ1P0T.h \
  /home/saman/Tahoe/tahoe/../development/inc/FSDEMatQ1P0T.h \
+ /home/saman/Tahoe/tahoe/../development/inc/FSDEMatSupportQ1P0T.h \
+ /home/saman/Tahoe/tahoe/../development/inc/FSDEMatSupportQ1P0T.i.h \
+ /home/saman/Tahoe/tahoe/../development/inc/FSDEMatQ1P0T.i.h \
+ /home/saman/Tahoe/tahoe/../development/inc/FSDE_incQ1P0.h \
  /home/saman/Tahoe/tahoe/../development/inc/FSDielectricElastomerQ1P0SurfaceT.h \
  /home/saman/Tahoe/tahoe/../development/inc/FSDielectricElastomerQ1P02DT.h \
  /home/saman/Tahoe/tahoe/../development/inc/FSDEMatQ1P02DT.h \

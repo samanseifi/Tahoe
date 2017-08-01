@@ -73,4 +73,4 @@ SimoQ1P0.o: SimoQ1P0.cpp SimoQ1P0.h UpdatedLagrangianT.h FiniteStrainT.h \
  /home/saman/Tahoe/tahoe/inc/FSMatSupportT.h \
  /home/saman/Tahoe/tahoe/../development/inc/FSDEMatSupportQ1P0T.i.h \
  /home/saman/Tahoe/tahoe/../development/inc/FSDEMatQ1P0T.i.h \
- /home/saman/Tahoe/tahoe/../development/inc/FSDE_incQ1P0.h
+ /home/saman/Tahoe/tahoe/../development/inc/FSDE_incQ1P0.h incQ1P02D.h

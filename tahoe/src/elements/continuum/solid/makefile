@@ -35,7 +35,10 @@ OBJ = \
 	UpdatedLagrangianAxiT.o \
 	SimoQ1P0Axi.o \
 	SimoQ1P0_inv.o \
-	SimoQ1P0Axi_inv.o
+	SimoQ1P0Axi_inv.o \
+	ME_PK2_Q1P02D.o \
+	Mech_PK2_Q1P02D.o 
+	
 
 OBJ_LINK = $(OBJ)
 DEP = $(OBJ:.o=.d)
@@ -70,7 +73,9 @@ SRC = \
 	UpdatedLagrangianAxiT.cpp \
 	SimoQ1P0Axi.cpp \
 	SimoQ1P0_inv.cpp \
-	SimoQ1P0Axi_inv.cpp
+	SimoQ1P0Axi_inv.cpp \
+	ME_PK2_Q1P02D.cpp \
+	Mech_PK2_Q1P02D.cpp
 
 ##################### (3) headers
 #
@@ -97,7 +102,9 @@ HDR = \
 	UpdatedLagrangianAxiT.h \
 	SimoQ1P0Axi.h \
 	SimoQ1P0_inv.h \
-	SimoQ1P0Axi_inv.h
+	SimoQ1P0Axi_inv.h \
+	Common_definesQ1P02D.h \
+	incQ1P02D.h
 
 HDR_LINK = $(HDR:.h=.h_link)
 

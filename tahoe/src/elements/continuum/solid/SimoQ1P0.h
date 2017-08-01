@@ -98,6 +98,8 @@ private:
 
 	dSymMatrixT MaxwellStress(dArrayT E, const double epsilon);
 
+	dSymMatrixT s_ij(const dArrayT E, const dMatrixT F, dArrayT fParams);
+
 
 protected:
 
@@ -141,6 +143,7 @@ private:
 
 	dMatrixT fF_mech;
 	dSymMatrixT D;
+
 	// For case of electric field coupling for DE
   	const FieldT* fElectricScalarPotentialField;
 

@@ -408,7 +408,7 @@ SimoQ1P0.o: SimoQ1P0.cpp SimoQ1P0.h UpdatedLagrangianT.h FiniteStrainT.h \
  /home/saman/Tahoe/tahoe/inc/FSMatSupportT.h \
  /home/saman/Tahoe/tahoe/../development/inc/FSDEMatSupportQ1P0T.i.h \
  /home/saman/Tahoe/tahoe/../development/inc/FSDEMatQ1P0T.i.h \
- /home/saman/Tahoe/tahoe/../development/inc/FSDE_incQ1P0.h
+ /home/saman/Tahoe/tahoe/../development/inc/FSDE_incQ1P0.h incQ1P02D.h
 SmallStrainT.o: SmallStrainT.cpp SmallStrainT.h SolidElementT.h \
  /home/saman/Tahoe/tahoe/inc/ContinuumElementT.h \
  /home/saman/Tahoe/tahoe/inc/ElementBaseT.h \
@@ -1141,3 +1141,5 @@ SimoQ1P0Axi_inv.o: SimoQ1P0Axi_inv.cpp SimoQ1P0Axi_inv.h \
  /home/saman/Tahoe/tahoe/../toolbox/inc/ofstreamT.h \
  /home/saman/Tahoe/tahoe/../toolbox/inc/fstreamT.h \
  /home/saman/Tahoe/tahoe/../toolbox/inc/ifstreamT.h
+ME_PK2_Q1P02D.o: ME_PK2_Q1P02D.cpp incQ1P02D.h Common_definesQ1P02D.h
+Mech_PK2_Q1P02D.o: Mech_PK2_Q1P02D.cpp incQ1P02D.h Common_definesQ1P02D.h
