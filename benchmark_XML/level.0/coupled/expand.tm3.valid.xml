@@ -4,7 +4,7 @@
               title='square region with prescribed temperature in corner'
              author='paklein'
     geometry_format='automatic'
-      geometry_file='./geometry/square.geom'
+      geometry_file='./geometry/8x8.geom'
       output_format='ExodusII'
  restart_output_inc='0'
          echo_input='false'
@@ -13,18 +13,18 @@
 	<time
 	       scaling='linear'
 	     init_time='0.000000e+00'
-	     num_steps='100'
-	    output_inc='1'
+	     num_steps='1000000'
+	    output_inc='10000'
 	 max_step_cuts='0'
-	     time_step='1.000000e-03'>
+	     time_step='1.000000e-04'>
 		<schedule_function>
 			<piecewise_linear>
 				<OrderedPair
 				 x='0.000000e+00'
 				 y='0.000000e+00'/>
 				<OrderedPair
-				 x='1.000000e+00'
-				 y='1.000000e+00'/>
+				 x='1.000000e+09'
+				 y='1.000000e+09'/>
 			</piecewise_linear>
 		</schedule_function>
 	</time>
@@ -41,23 +41,17 @@
 				 value='D_Y'/>
 			</dof_labels>
 			<kinematic_BC
-			  node_ID='100'
+			  node_ID='2'
 			      dof='1'
 			     type='fixed'
 			 schedule='0'
 			    value='0.000000e+00'/>
 			<kinematic_BC
-			  node_ID='101'
+			  node_ID='1'
 			      dof='2'
 			     type='fixed'
 			 schedule='0'
 			    value='0.000000e+00'/>
-			<kinematic_BC
-			  node_ID='102'
-			      dof='1'
-			     type='u'
-			 schedule='1'
-			    value='1.000000e+00'/>
 		</field>
 		<field
 		              field_name='electric_scalar_potential'
@@ -69,13 +63,13 @@
 				 value='Psi'/>
 			</dof_labels>
 			<kinematic_BC
-			  node_ID='102'
+			  node_ID='1'
 			      dof='1'
 			     type='u'
-			 schedule='0'
-			    value='1.000000e+00'/>
+			 schedule='1'
+			    value='1.000000e-02'/>
 			<kinematic_BC
-			  node_ID='100'
+			  node_ID='3'
 			      dof='1'
 			     type='u'
 			 schedule='0'
@@ -93,15 +87,7 @@
 			<diffusion_element_block>
 				<block_ID_list>
 					<String
-					 value='14'/>
-					<String
-					 value='11'/>
-					<String
-					 value='10'/>
-					<String
-					 value='13'/>
-					<String
-					 value='12'/>
+					 value='1'/>
 				</block_ID_list>
 				<diffusion_material>
 					<linear_diffusion_material
@@ -113,7 +99,7 @@
 		</diffusion>
 		<updated_lagrangian_Q1P0
 		     field_name='displacement'
-		      mass_type='lumped_mass'
+		      mass_type='automatic'
 		 eigenvalue_inc='0'>
 			<quadrilateral
 			 num_ip='4'/>
@@ -123,25 +109,19 @@
 			<large_strain_element_block>
 				<block_ID_list>
 					<String
-					 value='14'/>
-					<String
-					 value='11'/>
-					<String
-					 value='10'/>
-					<String
-					 value='13'/>
-					<String
-					 value='12'/>
+					 value='1'/>
 				</block_ID_list>
 				<large_strain_material_2D>
-					<large_strain_StVenant_2D
+					<RG_split_general
 					       density='1.000000e+00'
-					 constraint_2D='plane_stress'
+					 constraint_2D='none'
 					           CTE='0.000000e+00'>
-						<E_and_nu
-						 Young_modulus='1.000000e+02'
-						 Poisson_ratio='2.500000e-01'/>
-					</large_strain_StVenant_2D>
+						<rg_eq_potential>
+							<neo-hookean
+							 kappa='1.000000e+03'
+							    mu='1.000000e+00'/>
+						</rg_eq_potential>
+					</RG_split_general>
 				</large_strain_material_2D>
 			</large_strain_element_block>
 		</updated_lagrangian_Q1P0>

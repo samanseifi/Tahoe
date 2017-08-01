@@ -50,7 +50,6 @@ Q1P0MixtureT.o: Q1P0MixtureT.cpp Q1P0MixtureT.h \
  /home/saman/Tahoe/tahoe/../development/../toolbox/inc/LocalArrayT.h \
  /home/saman/Tahoe/tahoe/../development/../toolbox/inc/dArrayT.h \
  /home/saman/Tahoe/tahoe/../development/../toolbox/inc/dSymMatrixT.h \
- /home/saman/Tahoe/tahoe/../development/inc/FSDEMatQ1P0T.h \
  /home/saman/Tahoe/tahoe/../development/../tahoe/inc/FSSolidMatT.h \
  /home/saman/Tahoe/tahoe/../development/../tahoe/inc/SolidMaterialT.h \
  /home/saman/Tahoe/tahoe/../development/../tahoe/inc/ContinuumMaterialT.h \
@@ -60,11 +59,6 @@ Q1P0MixtureT.o: Q1P0MixtureT.cpp Q1P0MixtureT.h \
  /home/saman/Tahoe/tahoe/../development/../tahoe/inc/FSMatSupportT.h \
  /home/saman/Tahoe/tahoe/../development/../tahoe/inc/SolidMatSupportT.h \
  /home/saman/Tahoe/tahoe/../development/../toolbox/inc/ArrayT.h \
- /home/saman/Tahoe/tahoe/../development/inc/FSDEMatSupportQ1P0T.h \
- /home/saman/Tahoe/tahoe/../development/../tahoe/inc/FSMatSupportT.h \
- /home/saman/Tahoe/tahoe/../development/inc/FSDEMatSupportQ1P0T.i.h \
- /home/saman/Tahoe/tahoe/../development/inc/FSDEMatQ1P0T.i.h \
- /home/saman/Tahoe/tahoe/../development/inc/FSDE_incQ1P0.h \
  /home/saman/Tahoe/tahoe/../development/../tahoe/inc/ShapeFunctionT.h \
  /home/saman/Tahoe/tahoe/../development/../tahoe/inc/DomainIntegrationT.h \
  /home/saman/Tahoe/tahoe/../development/../toolbox/inc/ParentDomainT.h \
@@ -75,6 +69,7 @@ Q1P0MixtureT.o: Q1P0MixtureT.cpp Q1P0MixtureT.h \
  /home/saman/Tahoe/tahoe/../development/../toolbox/inc/GeometryT.h \
  /home/saman/Tahoe/tahoe/../development/../toolbox/inc/LocalArrayT.h \
  FSSolidMixtureT.h \
+ /home/saman/Tahoe/tahoe/../development/../tahoe/inc/FSSolidMatT.h \
  /home/saman/Tahoe/tahoe/../development/../tahoe/inc/SolidMatListT.h \
  /home/saman/Tahoe/tahoe/../development/../tahoe/inc/MaterialListT.h \
  /home/saman/Tahoe/tahoe/../development/../toolbox/inc/pArrayT.h \

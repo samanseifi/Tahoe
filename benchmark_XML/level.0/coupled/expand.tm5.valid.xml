@@ -16,7 +16,7 @@
 	     num_steps='10000'
 	    output_inc='100'
 	 max_step_cuts='0'
-	     time_step='1.000000e-03'>
+	     time_step='1.000000e-02'>
 		<schedule_function>
 			<piecewise_linear>
 				<OrderedPair
@@ -67,7 +67,7 @@
 			      dof='1'
 			     type='u'
 			 schedule='1'
-			    value='1.000000e-01'/>
+			    value='1.000000e-02'/>
 			<kinematic_BC
 			  node_ID='3'
 			      dof='1'
@@ -122,9 +122,6 @@
 	          quick_solve_iter='6'
 	         quick_solve_count='3'
 	                output_inc='0'>
-		<SPOOLES_matrix
-		    message_level='silent'
-		  enable_pivoting='true'
-		 always_symmetric='false'/>
+		<profile_matrix/>
 	</nonlinear_solver>
 </tahoe>

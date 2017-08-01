@@ -31,9 +31,9 @@ scaling = linear (default)
 scaling = logarithmic
 init_time. . . . . . . . . . . . . . . . . . . . . = 0.000000e+00
 init_time >= 0 (default)
-num_steps. . . . . . . . . . . . . . . . . . . . . = 10000
+num_steps. . . . . . . . . . . . . . . . . . . . . = 10000000
 num_steps >= 0
-output_inc . . . . . . . . . . . . . . . . . . . . = 100
+output_inc . . . . . . . . . . . . . . . . . . . . = 1000
 output_inc(default) = 0
 max_step_cuts. . . . . . . . . . . . . . . . . . . = 0
 max_step_cuts >= 0 (default)
@@ -162,7 +162,7 @@ type = D3_u
 type = D4_u
 schedule . . . . . . . . . . . . . . . . . . . . . = 1
 schedule(default) = 0
-value. . . . . . . . . . . . . . . . . . . . . . . = 1.000000e-01
+value. . . . . . . . . . . . . . . . . . . . . . . = 1.000000e-02
 value(default) = 0.000000e+00
 end: tahoe::nodes::field::kinematic_BC
 
@@ -313,8 +313,16 @@ check_LHS_perturbation . . . . . . . . . . . . . . = 1.000000e-08
 check_LHS_perturbation >= 0.000000e+00
 check_LHS_perturbation(default) = 1.000000e-08
 
-begin: tahoe::linear_solver::profile_matrix
-end: tahoe::linear_solver::profile_matrix
+begin: tahoe::linear_solver::SPOOLES_matrix
+message_level. . . . . . . . . . . . . . . . . . . = silent
+message_level = silent (default)
+message_level = timing
+message_level = verbose
+enable_pivoting. . . . . . . . . . . . . . . . . . = true
+enable_pivoting(default) = true
+always_symmetric . . . . . . . . . . . . . . . . . = false
+always_symmetric(default) = false
+end: tahoe::linear_solver::SPOOLES_matrix
 
 end: tahoe::linear_solver
 
@@ -375,320 +383,364 @@ end: tahoe
 
  Local number of equations . . . . . . . . . . . = 144
  Total number of equations . . . . . . . . . . . = 144
- Number of terms in global matrix. . . . . . . . = 2579
- Mean half bandwidth . . . . . . . . . . . . . . = 18
- Bandwidth . . . . . . . . . . . . . . . . . . . = 37
-
 
  E q u a t i o n    S y s t e m    D a t a :
 
  Local number of equations . . . . . . . . . . . = 63
  Total number of equations . . . . . . . . . . . = 63
 
- Time = 1.000000e-01
- Step 100 of 10000
-
- Time = 2.000000e-01
- Step 200 of 10000
-
- Time = 3.000000e-01
- Step 300 of 10000
-
- Time = 4.000000e-01
- Step 400 of 10000
-
- Time = 5.000000e-01
- Step 500 of 10000
-
- Time = 6.000000e-01
- Step 600 of 10000
-
- Time = 7.000000e-01
- Step 700 of 10000
-
- Time = 8.000000e-01
- Step 800 of 10000
-
- Time = 9.000000e-01
- Step 900 of 10000
-
  Time = 1.000000e+00
- Step 1000 of 10000
-
- Time = 1.100000e+00
- Step 1100 of 10000
-
- Time = 1.200000e+00
- Step 1200 of 10000
-
- Time = 1.300000e+00
- Step 1300 of 10000
-
- Time = 1.400000e+00
- Step 1400 of 10000
-
- Time = 1.500000e+00
- Step 1500 of 10000
-
- Time = 1.600000e+00
- Step 1600 of 10000
-
- Time = 1.700000e+00
- Step 1700 of 10000
-
- Time = 1.800000e+00
- Step 1800 of 10000
-
- Time = 1.900000e+00
- Step 1900 of 10000
+ Step 1000 of 10000000
 
  Time = 2.000000e+00
- Step 2000 of 10000
-
- Time = 2.100000e+00
- Step 2100 of 10000
-
- Time = 2.200000e+00
- Step 2200 of 10000
-
- Time = 2.300000e+00
- Step 2300 of 10000
-
- Time = 2.400000e+00
- Step 2400 of 10000
-
- Time = 2.500000e+00
- Step 2500 of 10000
-
- Time = 2.600000e+00
- Step 2600 of 10000
-
- Time = 2.700000e+00
- Step 2700 of 10000
-
- Time = 2.800000e+00
- Step 2800 of 10000
-
- Time = 2.900000e+00
- Step 2900 of 10000
+ Step 2000 of 10000000
 
  Time = 3.000000e+00
- Step 3000 of 10000
-
- Time = 3.100000e+00
- Step 3100 of 10000
-
- Time = 3.200000e+00
- Step 3200 of 10000
-
- Time = 3.300000e+00
- Step 3300 of 10000
-
- Time = 3.400000e+00
- Step 3400 of 10000
-
- Time = 3.500000e+00
- Step 3500 of 10000
-
- Time = 3.600000e+00
- Step 3600 of 10000
-
- Time = 3.700000e+00
- Step 3700 of 10000
-
- Time = 3.800000e+00
- Step 3800 of 10000
-
- Time = 3.900000e+00
- Step 3900 of 10000
+ Step 3000 of 10000000
 
  Time = 4.000000e+00
- Step 4000 of 10000
-
- Time = 4.100000e+00
- Step 4100 of 10000
-
- Time = 4.200000e+00
- Step 4200 of 10000
-
- Time = 4.300000e+00
- Step 4300 of 10000
-
- Time = 4.400000e+00
- Step 4400 of 10000
-
- Time = 4.500000e+00
- Step 4500 of 10000
-
- Time = 4.600000e+00
- Step 4600 of 10000
-
- Time = 4.700000e+00
- Step 4700 of 10000
-
- Time = 4.800000e+00
- Step 4800 of 10000
-
- Time = 4.900000e+00
- Step 4900 of 10000
+ Step 4000 of 10000000
 
  Time = 5.000000e+00
- Step 5000 of 10000
-
- Time = 5.100000e+00
- Step 5100 of 10000
-
- Time = 5.200000e+00
- Step 5200 of 10000
-
- Time = 5.300000e+00
- Step 5300 of 10000
-
- Time = 5.400000e+00
- Step 5400 of 10000
-
- Time = 5.500000e+00
- Step 5500 of 10000
-
- Time = 5.600000e+00
- Step 5600 of 10000
-
- Time = 5.700000e+00
- Step 5700 of 10000
-
- Time = 5.800000e+00
- Step 5800 of 10000
-
- Time = 5.900000e+00
- Step 5900 of 10000
+ Step 5000 of 10000000
 
  Time = 6.000000e+00
- Step 6000 of 10000
-
- Time = 6.100000e+00
- Step 6100 of 10000
-
- Time = 6.200000e+00
- Step 6200 of 10000
-
- Time = 6.300000e+00
- Step 6300 of 10000
-
- Time = 6.400000e+00
- Step 6400 of 10000
-
- Time = 6.500000e+00
- Step 6500 of 10000
-
- Time = 6.600000e+00
- Step 6600 of 10000
-
- Time = 6.700000e+00
- Step 6700 of 10000
-
- Time = 6.800000e+00
- Step 6800 of 10000
-
- Time = 6.900000e+00
- Step 6900 of 10000
+ Step 6000 of 10000000
 
  Time = 7.000000e+00
- Step 7000 of 10000
-
- Time = 7.100000e+00
- Step 7100 of 10000
-
- Time = 7.200000e+00
- Step 7200 of 10000
-
- Time = 7.300000e+00
- Step 7300 of 10000
-
- Time = 7.400000e+00
- Step 7400 of 10000
-
- Time = 7.500000e+00
- Step 7500 of 10000
-
- Time = 7.600000e+00
- Step 7600 of 10000
-
- Time = 7.700000e+00
- Step 7700 of 10000
-
- Time = 7.800000e+00
- Step 7800 of 10000
-
- Time = 7.900000e+00
- Step 7900 of 10000
+ Step 7000 of 10000000
 
  Time = 8.000000e+00
- Step 8000 of 10000
-
- Time = 8.100000e+00
- Step 8100 of 10000
-
- Time = 8.200000e+00
- Step 8200 of 10000
-
- Time = 8.300000e+00
- Step 8300 of 10000
-
- Time = 8.400000e+00
- Step 8400 of 10000
-
- Time = 8.500000e+00
- Step 8500 of 10000
-
- Time = 8.600000e+00
- Step 8600 of 10000
-
- Time = 8.700000e+00
- Step 8700 of 10000
-
- Time = 8.800000e+00
- Step 8800 of 10000
-
- Time = 8.900000e+00
- Step 8900 of 10000
+ Step 8000 of 10000000
 
  Time = 9.000000e+00
- Step 9000 of 10000
-
- Time = 9.100000e+00
- Step 9100 of 10000
-
- Time = 9.200000e+00
- Step 9200 of 10000
-
- Time = 9.300000e+00
- Step 9300 of 10000
-
- Time = 9.400000e+00
- Step 9400 of 10000
-
- Time = 9.500000e+00
- Step 9500 of 10000
-
- Time = 9.600000e+00
- Step 9600 of 10000
-
- Time = 9.700000e+00
- Step 9700 of 10000
-
- Time = 9.800000e+00
- Step 9800 of 10000
-
- Time = 9.900000e+00
- Step 9900 of 10000
+ Step 9000 of 10000000
 
  Time = 1.000000e+01
- Step 10000 of 10000
+ Step 10000 of 10000000
 
-   Start time: Mon Jul 24 00:25:42 2017
- Construction: 9.670000e-03 sec.
-     Solution: 4.765250e+00 sec.
-    Stop time: Mon Jul 24 00:25:48 2017
+ Time = 1.100000e+01
+ Step 11000 of 10000000
+
+ Time = 1.200000e+01
+ Step 12000 of 10000000
+
+ Time = 1.300000e+01
+ Step 13000 of 10000000
+
+ Time = 1.400000e+01
+ Step 14000 of 10000000
+
+ Time = 1.500000e+01
+ Step 15000 of 10000000
+
+ Time = 1.600000e+01
+ Step 16000 of 10000000
+
+ Time = 1.700000e+01
+ Step 17000 of 10000000
+
+ Time = 1.800000e+01
+ Step 18000 of 10000000
+
+ Time = 1.900000e+01
+ Step 19000 of 10000000
+
+ Time = 2.000000e+01
+ Step 20000 of 10000000
+
+ Time = 2.100000e+01
+ Step 21000 of 10000000
+
+ Time = 2.200000e+01
+ Step 22000 of 10000000
+
+ Time = 2.300000e+01
+ Step 23000 of 10000000
+
+ Time = 2.400000e+01
+ Step 24000 of 10000000
+
+ Time = 2.500000e+01
+ Step 25000 of 10000000
+
+ Time = 2.600000e+01
+ Step 26000 of 10000000
+
+ Time = 2.700000e+01
+ Step 27000 of 10000000
+
+ Time = 2.800000e+01
+ Step 28000 of 10000000
+
+ Time = 2.900000e+01
+ Step 29000 of 10000000
+
+ Time = 3.000000e+01
+ Step 30000 of 10000000
+
+ Time = 3.100000e+01
+ Step 31000 of 10000000
+
+ Time = 3.200000e+01
+ Step 32000 of 10000000
+
+ Time = 3.300000e+01
+ Step 33000 of 10000000
+
+ Time = 3.400000e+01
+ Step 34000 of 10000000
+
+ Time = 3.500000e+01
+ Step 35000 of 10000000
+
+ Time = 3.600000e+01
+ Step 36000 of 10000000
+
+ Time = 3.700000e+01
+ Step 37000 of 10000000
+
+ Time = 3.800000e+01
+ Step 38000 of 10000000
+
+ Time = 3.900000e+01
+ Step 39000 of 10000000
+
+ Time = 4.000000e+01
+ Step 40000 of 10000000
+
+ Time = 4.100000e+01
+ Step 41000 of 10000000
+
+ Time = 4.200000e+01
+ Step 42000 of 10000000
+
+ Time = 4.300000e+01
+ Step 43000 of 10000000
+
+ Time = 4.400000e+01
+ Step 44000 of 10000000
+
+ Time = 4.500000e+01
+ Step 45000 of 10000000
+
+ Time = 4.600000e+01
+ Step 46000 of 10000000
+
+ Time = 4.700000e+01
+ Step 47000 of 10000000
+
+ Time = 4.800000e+01
+ Step 48000 of 10000000
+
+ Time = 4.900000e+01
+ Step 49000 of 10000000
+
+ Time = 5.000000e+01
+ Step 50000 of 10000000
+
+ Time = 5.100000e+01
+ Step 51000 of 10000000
+
+ Time = 5.200000e+01
+ Step 52000 of 10000000
+
+ Time = 5.300000e+01
+ Step 53000 of 10000000
+
+ Time = 5.400000e+01
+ Step 54000 of 10000000
+
+ Time = 5.500000e+01
+ Step 55000 of 10000000
+
+ Time = 5.600000e+01
+ Step 56000 of 10000000
+
+ Time = 5.700000e+01
+ Step 57000 of 10000000
+
+ Time = 5.800000e+01
+ Step 58000 of 10000000
+
+ Time = 5.900000e+01
+ Step 59000 of 10000000
+
+ Time = 6.000000e+01
+ Step 60000 of 10000000
+
+ Time = 6.100000e+01
+ Step 61000 of 10000000
+
+ Time = 6.200000e+01
+ Step 62000 of 10000000
+
+ Time = 6.300000e+01
+ Step 63000 of 10000000
+
+ Time = 6.400000e+01
+ Step 64000 of 10000000
+
+ Time = 6.500000e+01
+ Step 65000 of 10000000
+
+ Time = 6.600000e+01
+ Step 66000 of 10000000
+
+ Time = 6.700000e+01
+ Step 67000 of 10000000
+
+ Time = 6.800000e+01
+ Step 68000 of 10000000
+
+ Time = 6.900000e+01
+ Step 69000 of 10000000
+
+ Time = 7.000000e+01
+ Step 70000 of 10000000
+
+ Time = 7.100000e+01
+ Step 71000 of 10000000
+
+ Time = 7.200000e+01
+ Step 72000 of 10000000
+
+ Time = 7.300000e+01
+ Step 73000 of 10000000
+
+ Time = 7.400000e+01
+ Step 74000 of 10000000
+
+ Time = 7.500000e+01
+ Step 75000 of 10000000
+
+ Time = 7.600000e+01
+ Step 76000 of 10000000
+
+ Time = 7.700000e+01
+ Step 77000 of 10000000
+
+ Time = 7.800000e+01
+ Step 78000 of 10000000
+
+ Time = 7.900000e+01
+ Step 79000 of 10000000
+
+ Time = 8.000000e+01
+ Step 80000 of 10000000
+
+ Time = 8.100000e+01
+ Step 81000 of 10000000
+
+ Time = 8.200000e+01
+ Step 82000 of 10000000
+
+ Time = 8.300000e+01
+ Step 83000 of 10000000
+
+ Time = 8.400000e+01
+ Step 84000 of 10000000
+
+ Time = 8.500000e+01
+ Step 85000 of 10000000
+
+ Time = 8.600000e+01
+ Step 86000 of 10000000
+
+ Time = 8.700000e+01
+ Step 87000 of 10000000
+
+ Time = 8.800000e+01
+ Step 88000 of 10000000
+
+ Time = 8.900000e+01
+ Step 89000 of 10000000
+
+ Time = 9.000000e+01
+ Step 90000 of 10000000
+
+ Time = 9.100000e+01
+ Step 91000 of 10000000
+
+ Time = 9.200000e+01
+ Step 92000 of 10000000
+
+ Time = 9.300000e+01
+ Step 93000 of 10000000
+
+ Time = 9.400000e+01
+ Step 94000 of 10000000
+
+ Time = 9.500000e+01
+ Step 95000 of 10000000
+
+ Time = 9.600000e+01
+ Step 96000 of 10000000
+
+ Time = 9.700000e+01
+ Step 97000 of 10000000
+
+ Time = 9.800000e+01
+ Step 98000 of 10000000
+
+ Time = 9.900000e+01
+ Step 99000 of 10000000
+
+ Time = 1.000000e+02
+ Step 100000 of 10000000
+
+ Time = 1.010000e+02
+ Step 101000 of 10000000
+
+ ElementBaseT::FormRHS: caught exception 7
+      Time: 1.013680e+02
+      Step: 101368
+ Time step: 1.000000e-03
+
+ element group: 2
+
+ element (in group): 25
+
+ element (in partition block): 24
+ element (in global block): 24
+
+ connectivity(x):
+       4      13      14       5
+ connectivity(u):
+       4      13      14       5
+ equations:
+       6       7      23      24
+      25      26       8       9
+ initial coords:
+       1  -5.000000e-01  -1.250000e-01
+       2  -3.750000e-01  -1.250000e-01
+       3  -3.750000e-01   0.000000e+00
+       4  -5.000000e-01   0.000000e+00
+ displacements:
+       1  -2.591756e+00  -2.823434e-01
+       2  -2.179967e+00  -2.814132e-01
+       3  -2.180518e+00  -4.032567e-01
+       4  -2.593018e+00  -4.157578e-01
+
+ i.p. deformation gradients:
+ ip: 1
+   4.295513e+00  -8.898645e-03
+   2.700339e-02  -4.775407e-02
+ ip: 2
+   4.295513e+00  -5.610517e-03
+   2.700339e-02   5.689638e-03
+ ip: 3
+   4.298802e+00  -5.610517e-03
+   8.044710e-02   5.689638e-03
+ ip: 4
+   4.298802e+00  -8.898645e-03
+   8.044710e-02  -4.775407e-02
+
+
+   Start time: Mon Jul 31 12:27:10 2017
+ Construction: 2.497000e-03 sec.
+     Solution: 1.603741e+02 sec.
+    Stop time: Mon Jul 31 12:29:56 2017
 
  End Execution
 

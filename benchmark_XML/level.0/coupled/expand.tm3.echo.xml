@@ -2,22 +2,22 @@
 
 <tahoe
         author='paklein'
- geometry_file='./geometry/square.geom'
+ geometry_file='./geometry/8x8.geom'
  output_format='ExodusII'
          title='square region with prescribed temperature in corner'
       xmlns:x0='http://www.w3.org/2001/XMLSchema'>
 	<time
-	  num_steps='100'
-	 output_inc='1'
-	  time_step='0.001'>
+	  num_steps='1000000'
+	 output_inc='10000'
+	  time_step='0.0001'>
 		<schedule_function>
 			<piecewise_linear>
 				<OrderedPair
 				 x='0.0'
 				 y='0.0'/>
 				<OrderedPair
-				 x='1.0'
-				 y='1.0'/>
+				 x='1000000000.0'
+				 y='1000000000.0'/>
 			</piecewise_linear>
 		</schedule_function>
 	</time>
@@ -34,16 +34,10 @@
 			</dof_labels>
 			<kinematic_BC
 			     dof='1'
-			 node_ID='100'/>
+			 node_ID='2'/>
 			<kinematic_BC
 			     dof='2'
-			 node_ID='101'/>
-			<kinematic_BC
-			      dof='1'
-			  node_ID='102'
-			 schedule='1'
-			     type='u'
-			    value='1'/>
+			 node_ID='1'/>
 		</field>
 		<field
 		     field_name='electric_scalar_potential'
@@ -53,13 +47,14 @@
 				 value='Psi'/>
 			</dof_labels>
 			<kinematic_BC
-			     dof='1'
-			 node_ID='102'
-			    type='u'
-			   value='1.0'/>
+			      dof='1'
+			  node_ID='1'
+			     type='u'
+			 schedule='1'
+			    value='0.01'/>
 			<kinematic_BC
 			     dof='1'
-			 node_ID='100'
+			 node_ID='3'
 			    type='u'
 			   value='0.0'/>
 		</field>
@@ -74,15 +69,7 @@
 			<diffusion_element_block>
 				<block_ID_list>
 					<String
-					 value='14'/>
-					<String
-					 value='11'/>
-					<String
-					 value='10'/>
-					<String
-					 value='13'/>
-					<String
-					 value='12'/>
+					 value='1'/>
 				</block_ID_list>
 				<diffusion_material>
 					<linear_diffusion_material
@@ -93,8 +80,7 @@
 			</diffusion_element_block>
 		</diffusion>
 		<updated_lagrangian_Q1P0
-		 field_name='displacement'
-		  mass_type='lumped_mass'>
+		 field_name='displacement'>
 			<quadrilateral/>
 			<solid_element_nodal_output
 			 displacements='1'
@@ -102,23 +88,17 @@
 			<large_strain_element_block>
 				<block_ID_list>
 					<String
-					 value='14'/>
-					<String
-					 value='11'/>
-					<String
-					 value='10'/>
-					<String
-					 value='13'/>
-					<String
-					 value='12'/>
+					 value='1'/>
 				</block_ID_list>
 				<large_strain_material_2D>
-					<large_strain_StVenant_2D
+					<RG_split_general
 					 density='1.0'>
-						<E_and_nu
-						 Poisson_ratio='0.25'
-						 Young_modulus='100.0'/>
-					</large_strain_StVenant_2D>
+						<rg_eq_potential>
+							<neo-hookean
+							 kappa='1000.0'
+							    mu='1.0'/>
+						</rg_eq_potential>
+					</RG_split_general>
 				</large_strain_material_2D>
 			</large_strain_element_block>
 		</updated_lagrangian_Q1P0>

@@ -9,7 +9,7 @@
 	<time
 	  num_steps='10000'
 	 output_inc='100'
-	  time_step='0.001'>
+	  time_step='0.01'>
 		<schedule_function>
 			<piecewise_linear>
 				<OrderedPair
@@ -41,7 +41,8 @@
 			    type='fixed'/>
 		</field>
 		<field
-		 field_name='electric_scalar_potential'>
+		 field_name='electric_scalar_potential'
+		 integrator='static'>
 			<dof_labels>
 				<String
 				 value='Psi'/>
@@ -51,7 +52,7 @@
 			  node_ID='1'
 			 schedule='1'
 			     type='u'
-			    value='0.1'/>
+			    value='0.01'/>
 			<kinematic_BC
 			     dof='1'
 			 node_ID='3'
@@ -94,6 +95,6 @@
 	   divergence_tolerance='1.0e+10'
 	         max_iterations='50'
 	          rel_tolerance='1.0e-9'>
-		<SPOOLES_matrix/>
+		<profile_matrix/>
 	</nonlinear_solver>
 </tahoe>
