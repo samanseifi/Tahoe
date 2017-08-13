@@ -1,0 +1,17 @@
+create surface rectangle width 20 height 20 zplane 
+create surface circle radius 2 zplane 
+
+subtract 2 from 1
+
+body 1 size 0.25
+surface 3 scheme pave
+mesh surface 3
+display
+
+nodeset 1 curve 1
+nodeset 2 curve 2
+nodeset 3 curve 3
+nodeset 4 curve 4
+nodeset 5 curve 6
+
+export abaqus "ah025.inp" dimension 2 overwrite
