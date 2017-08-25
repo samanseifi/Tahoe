@@ -22,7 +22,8 @@ include $(MACRO_DIR)/$(ARCH).macros
 OBJ = \
 	DiffusionElementT.o \
 	HyperbolicDiffusionElementT.o \
-	NLDiffusionElementT.o
+	NLDiffusionElementT.o \
+	Elec_PK2_Q1P02D.o
 
 OBJ_LINK = $(OBJ)
 DEP = $(OBJ:.o=.d)
@@ -44,7 +45,8 @@ DEP = $(OBJ:.o=.d)
 SRC = \
 	DiffusionElementT.cpp \
 	HyperbolicDiffusionElementT.cpp \
-	NLDiffusionElementT.cpp
+	NLDiffusionElementT.cpp \
+	Elec_PK2_Q1P02D.cpp
 
 ##################### (3) headers
 #
@@ -58,7 +60,9 @@ SRC = \
 HDR = \
 	DiffusionElementT.h \
 	HyperbolicDiffusionElementT.h \
-	NLDiffusionElementT.h
+	NLDiffusionElementT.h \
+	Common_definesQ1P02D.h \
+	incQ1P02D.h
 
 HDR_LINK = $(HDR:.h=.h_link)
 

@@ -69,4 +69,4 @@ DiffusionElementT.o: DiffusionElementT.cpp DiffusionElementT.h \
  /home/saman/Tahoe/tahoe/inc/DiffusionMatSupportT.h \
  /home/saman/Tahoe/tahoe/inc/DiffusionMatListT.h \
  /home/saman/Tahoe/tahoe/inc/MaterialListT.h \
- /home/saman/Tahoe/tahoe/../toolbox/inc/pArrayT.h
+ /home/saman/Tahoe/tahoe/../toolbox/inc/pArrayT.h incQ1P02D.h

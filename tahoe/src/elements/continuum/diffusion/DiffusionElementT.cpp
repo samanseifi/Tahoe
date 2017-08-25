@@ -18,6 +18,9 @@
 #include "DiffusionMatSupportT.h"
 #include "DiffusionMatListT.h"
 
+#include "incQ1P02D.h"
+
+
 using namespace Tahoe;
 
 /* initialize static data */
@@ -142,22 +145,7 @@ void DiffusionElementT::SetLocalArrays(void)
 	if (fIntegrator->Order() > 0)
 		Field().RegisterLocal(fLocVel);
 
-	/* look for a displacement field */
-	// const FieldT* disp = 0;
-	//
-	// if (0 == fDisplacementVectorField) {
-	// 	disp = ElementSupport().Field("displacement");
-	// 	fDisplacementVectorField = disp;
-	// } else {
-	// 	disp = fDisplacementVectorField;
-	// }
-	// if (0 == disp) {
-	// 	std::cout << std::endl;
-	// 	std::cout << "SimoQ1P0::SetLocalArrays: ";
-	// 	std::cout << "Displacement field not found.";
-	// 	std::cout << std::endl;
-	// 	throw ExceptionT::kGeneralFail;
-	// }
+/*------------------------------DE stuff--------------------------*/
 
 	const FieldT* fDisplacementVectorField = ElementSupport().Field("displacement");
 
@@ -172,8 +160,10 @@ void DiffusionElementT::SetLocalArrays(void)
 		fDisplacementVectorField->RegisterLocal(*fLocDisplacement);
 		//fDisplacementVectorField->RegisterLocal(*fLocDisplacement_last);
 	}
+/*------------------------------end of DE stuff--------------------------*/
 }
 
+/*------------------------------DE stuff--------------------------*/
 void DiffusionElementT::SetGlobalShape(void)
 {
 
@@ -195,7 +185,14 @@ void DiffusionElementT::SetGlobalShape(void)
 		/* add identity */
 		mat.PlusIdentity();
 
+		// dArrayT& E = fE_List[i]
+		// dMatrixT E1(1, NumSD());
+		// fShapes->GradU(fLocDisp, E1, CurrIP());
+		// E1 *= -1.0;
+		// for (int j = 0; j < NumSD; j++)
+		// 	E[j] = E1(0, j);
 	}
+/*------------------------------end of DE stuff--------------------------*/
 
 }
 
@@ -428,9 +425,11 @@ void DiffusionElementT::FormStiffness(double constK)
 
 		/* get D matrix */
 		//fD.SetToScaled(scale, fCurrMaterial->k_ij());
+/*------------------------------DE stuff--------------------------*/
 		const dMatrixT F = fF_List[CurrIP()];
-		//std::cout << b_ij(F) << std::endl;
+
 		fD.SetToScaled(scale, b_ij(F));
+/*------------------------------end of DE stuff--------------------------*/
 
 		/* multiply b(transpose) * db, taking account of symmetry, */
 		/* and accumulate in elstif */
@@ -456,9 +455,31 @@ void DiffusionElementT::FormKd(double constK)
 
 		/* get strain-displacement matrix */
 		B(fShapes->CurrIP(), fB);
-		//std::cout << fF_List[CurrIP()] << std::endl;
+
 		/* compute heat flow */
-		fB.MultTx(fCurrMaterial->q_i(), fNEEvec);
+		//fB.MultTx(fCurrMaterial->q_i(), fNEEvec);
+
+/*------------------------------Start of DE stuff--------------------------*/
+		int nip = NumIP();
+		dArrayT E(nip);
+		dMatrixT E1(1, NumSD());
+		fShapes->GradU(fLocDisp, E1, CurrIP());
+		E1 *= -1.0;
+		for (int j = 0; j < NumSD(); j++)
+			E[j] = E1(0, j);
+
+		dArrayT params(4);
+		params[0] = 1.0;		// 		\mu
+		params[1] = 1000.0;	//		\lambda
+		params[2] = 1.0;	  //		\epsilon
+		params[3] = 5.0;		//		\Nrig
+		const dArrayT  fParams 	= params;
+
+		dMatrixT F = fF_List[CurrIP()];
+		//D_I(F, E, fParams);
+
+		fB.MultTx(d_i(F, E, fParams), fNEEvec);
+/*------------------------------End of DE stuff--------------------------*/
 
 		/* accumulate */
 		fRHS.AddScaled(-constK*(*Weight++)*(*Det++), fNEEvec);
@@ -673,12 +694,15 @@ void DiffusionElementT::TakeParameterList(const ParameterListT& list)
 		if (!fDisplacementVectorField) {
 			std::cout << "There is no displacement field coupling. Perhaps it's not DE model" << std::endl;
 		}
+
+/*------------------------------DE stuff--------------------------*/
 		/* getting ready for deformation gradient */
 		fF_all.Dimension(nip*nsd*nsd);
 		fF_List.Dimension(nip);
 		fF_all = 0.0;
 		for (int i = 0; i < nip; i++)
 			fF_List[i].Alias(nsd, nsd, fF_all.Pointer(i*nsd*nsd));
+/*------------------------------end of DE stuff--------------------------*/
 }
 
 /* extract the list of material parameters */
@@ -752,6 +776,7 @@ void DiffusionElementT::GenerateOutputLabels(const iArrayT& n_codes,
 			"not expecting any element output codes");
 }
 
+/*------------------------------DE stuff--------------------------*/
 dMatrixT DiffusionElementT::b_ij(const dMatrixT F)
 {
 	int nsd = NumSD();
@@ -797,3 +822,62 @@ dMatrixT DiffusionElementT::b_ij(const dMatrixT F)
 
 	return fKD;   // K_D
 }
+
+dArrayT DiffusionElementT::d_i(const dMatrixT F, const dArrayT E, dArrayT fParams)
+{
+	int nsd = NumSD();
+	dMatrixT F2D(nsd);
+	dMatrixT C2D(nsd);
+
+	F2D = F;
+	C2D.MultATB(F, F);
+	double J = F2D.Det();
+
+	dArrayT fElectricDisplacement(nsd), fD(nsd);
+	dMatrixT C3D(3), F3D(3);
+	dArrayT E3D(3), ED(3);
+
+	ED = 0.0;
+
+	C3D[0] = C2D[0];
+	C3D[1] = C2D[1];
+	C3D[2] = 0.0;
+
+	C3D[3] = C2D[2];
+	C3D[4] = C2D[3];
+	C3D[5] = 0.0;
+
+	C3D[6] = 0.0;
+	C3D[7] = 0.0;
+	C3D[8] = 1.0;
+
+	F3D[0] = F2D[0];
+	F3D[1] = F2D[1];
+	F3D[2] = 0.0;
+
+	F3D[3] = F2D[2];
+	F3D[4] = F2D[3];
+	F3D[5] = 0.0;
+
+	F3D[6] = 0.0;
+	F3D[7] = 0.0;
+	F3D[8] = 1.0;
+
+	//const dArrayT E = ElectricField();
+	E3D[0] = E[0];
+	E3D[1] = E[1];
+	E3D[2] = 0.0;
+
+	/* call C function for electric stress (i.e. electric displacement D_{I}) */
+	elec_pk2_q1p02D(fParams.Pointer(), E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, ED.Pointer());
+
+	fD[0] = ED[0];
+	fD[1] = ED[1];
+
+	// prevent aliasing
+	F.Multx(fD, fElectricDisplacement);
+	fElectricDisplacement /= J;
+
+	return fElectricDisplacement;
+}
+/*------------------------------end of DE stuff--------------------------*/

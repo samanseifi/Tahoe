@@ -69,7 +69,7 @@ DiffusionElementT.o: DiffusionElementT.cpp DiffusionElementT.h \
  /home/saman/Tahoe/tahoe/inc/DiffusionMatSupportT.h \
  /home/saman/Tahoe/tahoe/inc/DiffusionMatListT.h \
  /home/saman/Tahoe/tahoe/inc/MaterialListT.h \
- /home/saman/Tahoe/tahoe/../toolbox/inc/pArrayT.h
+ /home/saman/Tahoe/tahoe/../toolbox/inc/pArrayT.h incQ1P02D.h
 HyperbolicDiffusionElementT.o: HyperbolicDiffusionElementT.cpp \
  HyperbolicDiffusionElementT.h DiffusionElementT.h \
  /home/saman/Tahoe/tahoe/inc/ContinuumElementT.h \
@@ -202,3 +202,6 @@ NLDiffusionElementT.o: NLDiffusionElementT.cpp NLDiffusionElementT.h \
  /home/saman/Tahoe/tahoe/inc/ContinuumMaterialT.h \
  /home/saman/Tahoe/tahoe/inc/MaterialSupportT.h \
  /home/saman/Tahoe/tahoe/inc/DiffusionMatSupportT.h
+Elec_PK2_Q1P02D.o: Elec_PK2_Q1P02D.cpp \
+ /home/saman/Tahoe/tahoe/../development/inc/FSDE_incQ1P02D.h \
+ /home/saman/Tahoe/tahoe/../development/inc/FSDE_common_definesQ1P02D.h
