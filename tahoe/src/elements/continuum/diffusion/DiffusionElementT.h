@@ -24,7 +24,7 @@ class StringT;
 class DiffusionElementT: public ContinuumElementT
 {
 public:
-	
+
 	/** list/index of nodal outputs */
 	enum OutputCodeT {iNodalCoord = 0,  /**< (reference) nodal coordinates */
                        iNodalDisp = 1,  /**< nodal "displacements" */
@@ -52,6 +52,7 @@ protected:
 	virtual void SetLocalArrays(void);
 	virtual void SetShape(void);
 	/*@}*/
+	virtual void SetGlobalShape(void);
 
 	/** construct the effective mass matrix */
 	virtual void LHSDriver(GlobalT::SystemTypeT sys_type);
@@ -63,7 +64,7 @@ protected:
 	void B(int ip, dMatrixT& B_matrix) const;
 
 	/** increment current element */
-	virtual bool NextElement(void);	
+	virtual bool NextElement(void);
 
 	/** form the element stiffness matrix */
 	virtual void FormStiffness(double constK);
@@ -77,8 +78,8 @@ protected:
 	 *        a new MaterialSupportT and initialize it. */
 	virtual MaterialSupportT* NewMaterialSupport(MaterialSupportT* p = NULL) const;
 
-	/** return a pointer to a new material list. Recipient is responsible for freeing 
-	 * the pointer. 
+	/** return a pointer to a new material list. Recipient is responsible for freeing
+	 * the pointer.
 	 * \param name list identifier
 	 * \param size length of the list */
 	virtual MaterialListT* NewMaterialList(const StringT& name, int size);
@@ -114,6 +115,8 @@ private:
 		ArrayT<StringT>& n_labels, const iArrayT& e_counts, ArrayT<StringT>& e_labels) const;
 	/*@}*/
 
+	dMatrixT b_ij(const dMatrixT F);
+
 protected:
 
 	/** run time */
@@ -121,7 +124,15 @@ protected:
 
 	/** "temperature rate" with local ordering */
 	LocalArrayT fLocVel;
-	
+
+	/** bringing mechanical deformation into diffusion element **/
+	LocalArrayT* fLocDisplacement;
+	LocalArrayT* fLocDisplacement_last;
+	ArrayT<dMatrixT> fF_List;      /**< deformation gradient */
+	dArrayT          fF_all;       /**< grouped memory for all deformation gradients */
+	ArrayT<dMatrixT> fF_last_List; /**< last deformation gradient */
+	dArrayT          fF_last_all;  /**< grouped memory for all last deformation gradients */
+
 	/** \name work space */
 	/*@{*/
 	dMatrixT fD; /**< constitutive matrix          */
@@ -137,6 +148,8 @@ protected:
 	static const int NumNodalOutputCodes;
 
 private:
+	//LocalArrayT fLocDisplacement;
+	//const FieldT* fDisplacementVectorField;
 
   	/** the material support used to construct materials lists. This pointer
   	 * is only set the first time DiffusionElementT::NewMaterialList is called. */

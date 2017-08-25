@@ -16,6 +16,8 @@ nExplicitCD.o: nExplicitCD.cpp nExplicitCD.h ExplicitCD.h \
  /home/saman/Tahoe/tahoe/../toolbox/inc/iArray2DT.h \
  /home/saman/Tahoe/tahoe/../toolbox/inc/nArray2DT.h \
  /home/saman/Tahoe/tahoe/../toolbox/inc/dArray2DT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/dMatrixT.h \
+ /home/saman/Tahoe/tahoe/../toolbox/inc/nMatrixT.h \
  /home/saman/Tahoe/tahoe/inc/KBC_CardT.h \
  /home/saman/Tahoe/tahoe/inc/BasicFieldT.h \
  /home/saman/Tahoe/tahoe/../toolbox/inc/StringT.h \

@@ -40,9 +40,9 @@ ExceptionT::GeneralFail("ExpCD_DRSolver::ExpCD_DRSolver", "out of date");
 		/* reset assembly mode */
 		diagonal_matrix->SetAssemblyMode(DiagonalMatrixT::kAbsRowSum);
 	}
-	
+
 	ifstreamT& in = fFEManager.Input();
-	
+
 	/* read parameters */
 	in >> fMaxIterations;
 	in >> fTolerance;
@@ -52,10 +52,10 @@ ExceptionT::GeneralFail("ExpCD_DRSolver::ExpCD_DRSolver", "out of date");
 	/* convergence history output stream */
 	int nodenum, dofnum;
 	in >> nodenum >> dofnum;
-	
+
 	/* correct offset */
 	nodenum--; dofnum--;
-	
+
 	if (nodenum > -1)
 	{
 //NOTE - not updated for generalized multi-field. Would need to know
@@ -67,7 +67,7 @@ throw ExceptionT::kGeneralFail;
 		StringT outname("dof");
 		outname.Append(".", fOutputDOF);
 		outname.Append(".out");
-		
+
 		/* open output stream */
 		fhist_out.open(outname);
 	}
@@ -75,7 +75,7 @@ throw ExceptionT::kGeneralFail;
 		fOutputDOF = 0;
 
 	/* print parameters */
-	ostream& out = fFEManager.Output();	
+	ostream& out = fFEManager.Output();
 	out << "\n O p t i m i z a t i o n   P a r a m e t e r s :\n\n";
 	out << " Maximum number of iterations. . . . . . . . . . = " << fMaxIterations << '\n';
 	out << " Convergence tolerance . . . . . . . . . . . . . = " << fTolerance     << '\n';
@@ -120,18 +120,18 @@ SolverT::SolutionStatusT ExpCD_DRSolver::Solve(int num_iterations)
 	fDis = 0.0;
 	fVel = 0.0;
 	fAcc = 0.0;
-	
+
 	/* generate pseudo-mass matrix */
 	if (fFEManager.StepNumber() == 0) SetMass();
-	
+
 	/* form the residual force vector */
 	fRHS = 0.0;
-	fFEManager.FormRHS(Group());	
+	fFEManager.FormRHS(Group());
 	double error = fRHS.Magnitude();
-			
+
 	/* loop on error */
 	SolutionStatusT solutionflag = ExitIteration(error);
-	while (solutionflag == kContinue && 
+	while (solutionflag == kContinue &&
 		(num_iterations == -1 || fNumIteration < num_iterations))
 	{
 		/* explicit central difference time stepping */
@@ -151,24 +151,24 @@ SolverT::SolutionStatusT ExpCD_DRSolver::Solve(int num_iterations)
 	{
 		/* relaxation */
 		GlobalT::RelaxCodeT relaxcode = fFEManager.RelaxSystem(Group());
-				
+
 		/* reset global equations */
 		if (relaxcode == GlobalT::kReEQ ||
 			relaxcode == GlobalT::kReEQRelax)
 			fFEManager.SetEquationSystem(Group());
-					
-		/* new equilibrium */					
+
+		/* new equilibrium */
 		if (relaxcode == GlobalT::kRelax ||
 			relaxcode == GlobalT::kReEQRelax)
 			ExceptionT::Stop();
 //			Relax();
-	} 
-			
+	}
+
 	return solutionflag;
 	} /* end try */
 
 	/* abnormal */
-	catch (ExceptionT::CodeT code) { 
+	catch (ExceptionT::CodeT code) {
 		return kFailed;
 	}
 }
@@ -195,7 +195,7 @@ SolverT::SolutionStatusT ExpCD_DRSolver::ExitIteration(double error)
 //		fFEManager.PrintKinematic(fOutput,fTime);
 
 	++fNumIteration;
-	
+
 	/* first pass */
 	if (fNumIteration == 0)
 	{
@@ -204,7 +204,7 @@ SolverT::SolutionStatusT ExpCD_DRSolver::ExitIteration(double error)
 		cout << setw(kIntWidth)    << fNumIteration;
 
 		fError0 = error;
-		
+
 		/* hit on first try */
 		if (fError0 < kSmall)
 		{
@@ -234,9 +234,9 @@ SolverT::SolutionStatusT ExpCD_DRSolver::ExitIteration(double error)
 		if (relerror < fTolerance || error < 10.0*kSmall)
 		{
 			cout << '\n';
-			
+
 			fFEManager.Output() << " Converged at time = " << fFEManager.Time() << '\n';
-					
+
 			return kConverged;
 		}
 		/* continue iterations */
@@ -248,7 +248,7 @@ SolverT::SolutionStatusT ExpCD_DRSolver::ExitIteration(double error)
 SolverT::SolutionStatusT ExpCD_DRSolver::ExitRelaxation(double error)
 {
 	++fNumIteration;
-	
+
 	/* first pass */
 	if (fNumIteration == 0)
 	{
@@ -286,7 +286,7 @@ SolverT::SolutionStatusT ExpCD_DRSolver::ExitRelaxation(double error)
 		{
 			cout << '\n';
 			fFEManager.Output() << " Converged at time = " << fFEManager.Time() << '\n';
-					
+
 			return kConverged;
 		}
 		/* continue iterations */
@@ -305,14 +305,14 @@ double ExpCD_DRSolver::SolveAndForm(void)
 	double* pres = fRHS.Pointer();
 	double* pvel = fVel.Pointer();
 	double* pmas = pMass->Pointer();
-	double* pacc = fAcc.Pointer();	
+	double* pacc = fAcc.Pointer();
 	int   numeqs = fRHS.Length();
 	for (int i = 0; i < numeqs; i++)
 	{
-		*pres += (-(*pacc)/(*pmas)) - c*(*pvel);	
+		*pres += (-(*pacc)/(*pmas)) - c*(*pvel);
 		pres++; pvel++; pmas++; pacc++;
 	}
-		
+
 	/* get a_n+1 */
 	if (!fLHS->Solve(fRHS)) throw ExceptionT::kBadJacobianDet;
 
@@ -329,36 +329,37 @@ double ExpCD_DRSolver::SolveAndForm(void)
 	fRHS = 0.0;
 	fFEManager.FormRHS(Group());
 
+
 	return fRHS.Magnitude();
 }
 
 #if 0
 /* relax system */
 void ExpCD_DRSolver::Relax(int newtancount)
-{	
+{
 	cout << " Relaxation:" << '\n';
 
 	/* reset iteration count */
 	fNumIteration = -1;
-		
+
 	/* residual loop */
 	try {
-	
+
 		int count = newtancount - 1;
-	
+
 		/* form the residual force vector */
 		fRHS = 0.0;
 		fFEManager.FormRHS(Group());
-		double error = fRHS.Magnitude();	
-		
+		double error = fRHS.Magnitude();
+
 		while ( !ExitRelaxation(error) )
 		{
 			if (++count == newtancount) count = 0;
-			
+
 			error = SolveAndForm();
-		}	
+		}
 	}
-			
+
 	catch (ExceptionT::CodeT ErrorCode)
 	{
 		cout << "\nExpCD_DRSolver::Run: encountered exception on relaxation:\n";
@@ -377,14 +378,14 @@ void ExpCD_DRSolver::SetMass(void)
 	/* get diagonal stiffness */
 	fLHS->Clear();
 	fFEManager.FormLHS(Group(), GlobalT::kDiagonal);
-	
+
 	/* get the matrix - should be safe */
 	DiagonalMatrixT* lhs = (DiagonalMatrixT*) fLHS;
 	dArrayT&  massmatrix = lhs->TheMatrix();
 
 	/* should all be positive */
 	if (massmatrix.Min() < kSmall) throw ExceptionT::kGeneralFail;
-	
+
 	/* store the diagonal stiffness matrix (for optimal damping calc) */
 	fK_0 = massmatrix;
 
@@ -406,20 +407,20 @@ double ExpCD_DRSolver::SetDamping(void)
 		double* pdisp = fDis.Pointer();
 		double* pmass = pMass->Pointer();
 		double* pK_0  = fK_0.Pointer();
-		
+
 		int length = fDis.Length();
 		double num = 0.0;
 		double den = 0.0;
 		for (int i = 0; i < length; i++)
 		{
 			double d_sqr = (*pdisp)*(*pdisp);
-		
+
 			num += d_sqr*(*pK_0);
 			den += d_sqr*(*pmass);
-			
+
 			pdisp++; pmass++; pK_0++;
 		}
-		
+
 		return fDamp_scaling*2.0*sqrt(num/den);
 	}
 }

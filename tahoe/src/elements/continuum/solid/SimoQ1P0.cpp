@@ -112,15 +112,15 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 	fElementVolume_last.Dimension(NumElements());
 	fElementVolume_last = 0.0;
 
-  	int nen = NumElementNodes();
-  	int nsd = NumSD();
-  	int nme = nen * nsd;	// # of mechanical DOFs per element
+	int nen = NumElementNodes();
+	int nsd = NumSD();
+	int nme = nen * nsd;	// # of mechanical DOFs per element
 
 	/* getting ready for electric field calculations */
-  	const int nip = NumIP();
-  	fE_all.Dimension(nip*nsd);
-  	fE_all = 0.0;	// testing HSP
-  	fE_List.Dimension(nip);
+	const int nip = NumIP();
+	fE_all.Dimension(nip*nsd);
+	fE_all = 0.0;	// testing HSP
+	fE_List.Dimension(nip);
 	// Neccessary:
 	for (int i = 0; i < nip; ++i) {
 		fE_List[i].Alias(nsd, fE_all.Pointer(i * nsd));
@@ -130,9 +130,9 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 
 	D.Dimension(2);
 
-  	fAmm_mat.Dimension(nme, nme);
-  	fAmm_geo.Dimension(nen, nen);	// dimensions changed for Q1P0!
-  	fMassMatrix.Dimension(nme, nme);
+	fAmm_mat.Dimension(nme, nme);
+	fAmm_geo.Dimension(nen, nen);	// dimensions changed for Q1P0!
+	fMassMatrix.Dimension(nme, nme);
 
 	/* element pressure */
 	fPressure.Dimension(NumElements());
@@ -330,10 +330,10 @@ void SimoQ1P0::FormStiffness(double constK)
 		//cauchy.ToMatrix(fCauchyStress);
 
 		dArrayT params(4);
-		params[0] = 1.0;
-		params[1] = 1000.0;
-		params[2] = 1.0;
-		params[3] = 5.0;
+		params[0] = 1.0;		// 		\mu
+		params[1] = 1000.0;	//		\lambda
+		params[2] = 1.0;	  //		\epsilon
+		params[3] = 5.0;		//		\Nrig
 		const dArrayT  fParams 	= params;
 		const dArrayT  E 		= fE_List[CurrIP()];
 		const dMatrixT F 		= DeformationGradient();
