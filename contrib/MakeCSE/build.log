@@ -20,76 +20,37 @@ make  objects \
 "CURR_DIR = /home/saman/Tahoe/contrib/MakeCSE/src-mirror"
 make[1]: Entering directory '/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
 make[2]: Entering directory '/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
-    /usr/bin/g++-4.6: MakeCSE_IOManager.cpp
-/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     MakeCSE_IOManager.cpp
-ln -sf /home/saman/Tahoe/contrib/MakeCSE/src-mirror/MakeCSE_IOManager.o /home/saman/Tahoe/contrib/MakeCSE/obj/MakeCSE_IOManager.o
-    /usr/bin/g++-4.6: MakeCSE_FEManager.cpp
-/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     MakeCSE_FEManager.cpp
-ln -sf /home/saman/Tahoe/contrib/MakeCSE/src-mirror/MakeCSE_FEManager.o /home/saman/Tahoe/contrib/MakeCSE/obj/MakeCSE_FEManager.o
-    /usr/bin/g++-4.6: MakeCSE_ElementBaseT.cpp
-/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     MakeCSE_ElementBaseT.cpp
-MakeCSE_ElementBaseT.cpp: In member function ‘void Tahoe::MakeCSE_ElementBaseT::RegisterOutput(Tahoe::OutputBaseT&)’:
-MakeCSE_ElementBaseT.cpp:275:7: warning: unused variable ‘outID’ [-Wunused-variable]
-MakeCSE_ElementBaseT.cpp: In member function ‘void Tahoe::MakeCSE_ElementBaseT::ReadSideSetData(Tahoe::ModelManagerT&, Tahoe::MakeCSE_IOManager&, Tahoe::ArrayT<Tahoe::iArray2DT>&)’:
-MakeCSE_ElementBaseT.cpp:365:12: warning: unused variable ‘local’ [-Wunused-variable]
-ln -sf /home/saman/Tahoe/contrib/MakeCSE/src-mirror/MakeCSE_ElementBaseT.o /home/saman/Tahoe/contrib/MakeCSE/obj/MakeCSE_ElementBaseT.o
-    /usr/bin/g++-4.6: Quad2Tri.cpp
-/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     Quad2Tri.cpp
-ln -sf /home/saman/Tahoe/contrib/MakeCSE/src-mirror/Quad2Tri.o /home/saman/Tahoe/contrib/MakeCSE/obj/Quad2Tri.o
-    /usr/bin/g++-4.6: MakeCSE_CSEBaseT.cpp
-/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     MakeCSE_CSEBaseT.cpp
-ln -sf /home/saman/Tahoe/contrib/MakeCSE/src-mirror/MakeCSE_CSEBaseT.o /home/saman/Tahoe/contrib/MakeCSE/obj/MakeCSE_CSEBaseT.o
-    /usr/bin/g++-4.6: MakeCSE.cpp
-/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     MakeCSE.cpp
-MakeCSE.cpp: In member function ‘void Tahoe::MakeCSE::CollectFacets(Tahoe::ModelManagerT&, const Tahoe::sArrayT&)’:
-MakeCSE.cpp:213:12: warning: unused variable ‘local’ [-Wunused-variable]
-MakeCSE.cpp: In member function ‘void Tahoe::MakeCSE::RenumberFaceNodes()’:
-MakeCSE.cpp:583:44: warning: variable ‘freq’ set but not used [-Wunused-but-set-variable]
-MakeCSE.cpp: In member function ‘void Tahoe::MakeCSE::CheckNeighbor(int, int, int, Tahoe::iAutoArrayT&, Tahoe::iAutoArrayT&)’:
-MakeCSE.cpp:698:18: warning: unused variable ‘g1’ [-Wunused-variable]
-MakeCSE.cpp: In member function ‘void Tahoe::MakeCSE::RemoveRepeats(Tahoe::ArrayT<int>&) const’:
-MakeCSE.cpp:894:54: warning: value computed is not used [-Wunused-value]
-ln -sf /home/saman/Tahoe/contrib/MakeCSE/src-mirror/MakeCSE.o /home/saman/Tahoe/contrib/MakeCSE/obj/MakeCSE.o
-    /usr/bin/g++-4.6: GlobalEdgeFinderT.cpp
-/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     GlobalEdgeFinderT.cpp
-GlobalEdgeFinderT.cpp: In member function ‘void Tahoe::GlobalEdgeFinderT::AddElements(int, int, int)’:
-GlobalEdgeFinderT.cpp:87:7: warning: unused variable ‘neighborlength’ [-Wunused-variable]
-GlobalEdgeFinderT.cpp: In member function ‘void Tahoe::GlobalEdgeFinderT::ZoneFacets(const Tahoe::StringT&, const Tahoe::sArrayT&, Tahoe::iArray2DT&, Tahoe::iAutoArrayT&)’:
-GlobalEdgeFinderT.cpp:268:60: warning: value computed is not used [-Wunused-value]
-GlobalEdgeFinderT.cpp: In member function ‘void Tahoe::GlobalEdgeFinderT::BoundaryFacets(const Tahoe::StringT&, const Tahoe::sArrayT&, Tahoe::iArray2DT&)’:
-GlobalEdgeFinderT.cpp:311:60: warning: value computed is not used [-Wunused-value]
-GlobalEdgeFinderT.cpp: In member function ‘bool Tahoe::GlobalEdgeFinderT::HasNode(int, const Tahoe::ArrayT<int>&)’:
-GlobalEdgeFinderT.cpp:339:7: warning: unused variable ‘edex’ [-Wunused-variable]
-GlobalEdgeFinderT.cpp: In member function ‘void Tahoe::GlobalEdgeFinderT::HitElements(int, Tahoe::AutoArrayT<int>&)’:
-GlobalEdgeFinderT.cpp:363:52: warning: value computed is not used [-Wunused-value]
-GlobalEdgeFinderT.cpp: In member function ‘void Tahoe::GlobalEdgeFinderT::HitElements(Tahoe::iArrayT&, Tahoe::AutoArrayT<int>&)’:
-GlobalEdgeFinderT.cpp:397:102: warning: value computed is not used [-Wunused-value]
-ln -sf /home/saman/Tahoe/contrib/MakeCSE/src-mirror/GlobalEdgeFinderT.o /home/saman/Tahoe/contrib/MakeCSE/obj/GlobalEdgeFinderT.o
-    /usr/bin/g++-4.6: NodeManagerPrimitive.cpp
-/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     NodeManagerPrimitive.cpp
-NodeManagerPrimitive.cpp: In member function ‘int Tahoe::NodeManagerPrimitive::AddDuplicateCoord(int)’:
-NodeManagerPrimitive.cpp:48:10: warning: unused variable ‘fill’ [-Wunused-variable]
-NodeManagerPrimitive.cpp: In member function ‘void Tahoe::NodeManagerPrimitive::RemoveRepeats(Tahoe::ArrayT<int>&) const’:
-NodeManagerPrimitive.cpp:424:54: warning: value computed is not used [-Wunused-value]
-ln -sf /home/saman/Tahoe/contrib/MakeCSE/src-mirror/NodeManagerPrimitive.o /home/saman/Tahoe/contrib/MakeCSE/obj/NodeManagerPrimitive.o
-    /usr/bin/g++-4.6: CSEConstants.cpp
-/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     CSEConstants.cpp
-ln -sf /home/saman/Tahoe/contrib/MakeCSE/src-mirror/CSEConstants.o /home/saman/Tahoe/contrib/MakeCSE/obj/CSEConstants.o
-    /usr/bin/g++-4.6: InteractiveIOManagerT.cpp
-/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     InteractiveIOManagerT.cpp
-ln -sf /home/saman/Tahoe/contrib/MakeCSE/src-mirror/InteractiveIOManagerT.o /home/saman/Tahoe/contrib/MakeCSE/obj/InteractiveIOManagerT.o
-    /usr/bin/g++-4.6: main.cpp
-/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     main.cpp
-ln -sf /home/saman/Tahoe/contrib/MakeCSE/src-mirror/main.o /home/saman/Tahoe/contrib/MakeCSE/obj/main.o
-    /usr/bin/g++-4.6: ParameterFileManagerT.cpp
-/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     ParameterFileManagerT.cpp
-ln -sf /home/saman/Tahoe/contrib/MakeCSE/src-mirror/ParameterFileManagerT.o /home/saman/Tahoe/contrib/MakeCSE/obj/ParameterFileManagerT.o
-    /usr/bin/g++-4.6: MakeCSE_ExecutionT.cpp
-/usr/bin/g++-4.6 -c -I/home/saman/Tahoe/contrib/MakeCSE/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/inc -I/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/inc                 -I/usr/local/ACCESS/inc -D__ACCESS__     MakeCSE_ExecutionT.cpp
-ln -sf /home/saman/Tahoe/contrib/MakeCSE/src-mirror/MakeCSE_ExecutionT.o /home/saman/Tahoe/contrib/MakeCSE/obj/MakeCSE_ExecutionT.o
+make[2]: Nothing to be done for 'update_objects'.
 make[2]: Leaving directory '/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
 make[2]: Entering directory '/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
 make[2]: Nothing to be done for 'subdir_driver'.
 make[2]: Leaving directory '/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
 make[1]: Leaving directory '/home/saman/Tahoe/contrib/MakeCSE/src-mirror'
-make: *** No rule to make target '/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/lib/libtahoe.a', needed by 'MakeCSE'.  Stop.
+make archive "OBJECT_LIST = /home/saman/Tahoe/contrib/MakeCSE/object_list" "ARCH = GNU-GCC4.6" "MACRO_DIR = /home/saman/Tahoe/contrib/MakeCSE/../../macros" "HOME_DIR = /home/saman/Tahoe/contrib/MakeCSE"
+make[1]: Entering directory '/home/saman/Tahoe/contrib/MakeCSE'
+cd /home/saman/Tahoe/contrib/MakeCSE/obj; \
+printf " building archive /home/saman/Tahoe/contrib/MakeCSE/lib/libMakeCSE.a\n"; \
+ar -cruv /home/saman/Tahoe/contrib/MakeCSE/lib/libMakeCSE.a MakeCSE_IOManager.o MakeCSE_FEManager.o MakeCSE_ElementBaseT.o Quad2Tri.o MakeCSE_CSEBaseT.o MakeCSE.o GlobalEdgeFinderT.o NodeManagerPrimitive.o CSEConstants.o InteractiveIOManagerT.o main.o ParameterFileManagerT.o MakeCSE_ExecutionT.o ; \
+printf " running ranlib /home/saman/Tahoe/contrib/MakeCSE/lib/libMakeCSE.a\n"; \
+echo  /home/saman/Tahoe/contrib/MakeCSE/lib/libMakeCSE.a
+ building archive /home/saman/Tahoe/contrib/MakeCSE/lib/libMakeCSE.a
+ar: `u' modifier ignored since `D' is the default (see `U')
+a - MakeCSE_IOManager.o
+a - MakeCSE_FEManager.o
+a - MakeCSE_ElementBaseT.o
+a - Quad2Tri.o
+a - MakeCSE_CSEBaseT.o
+a - MakeCSE.o
+a - GlobalEdgeFinderT.o
+a - NodeManagerPrimitive.o
+a - CSEConstants.o
+a - InteractiveIOManagerT.o
+a - main.o
+a - ParameterFileManagerT.o
+a - MakeCSE_ExecutionT.o
+ running ranlib /home/saman/Tahoe/contrib/MakeCSE/lib/libMakeCSE.a
+/home/saman/Tahoe/contrib/MakeCSE/lib/libMakeCSE.a
+make[1]: Leaving directory '/home/saman/Tahoe/contrib/MakeCSE'
+ linking...
+/usr/bin/g++-4.6 /home/saman/Tahoe/contrib/MakeCSE/src-mirror/main.o -o MakeCSE -L/home/saman/Tahoe/contrib/MakeCSE/lib -lMakeCSE     -L/home/saman/Tahoe/contrib/MakeCSE/../../tahoe/lib -ltahoe -L/home/saman/Tahoe/contrib/MakeCSE/../../toolbox/lib -ltoolbox                 -L/usr/local/ACCESS/lib -lexoIIv2c -lnetcdf     -lpthread
+    ...wrote MakeCSE

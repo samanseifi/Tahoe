@@ -194,16 +194,6 @@ found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/el
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/enhanced_strain_loc/SmallStrainEnhLocT.cpp /home/saman/Tahoe/tahoe/../development/src-mirror/elements/enhanced_strain_loc/SmallStrainEnhLocT.cpp
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/enhanced_strain_loc/makefile /home/saman/Tahoe/tahoe/../development/src-mirror/elements/enhanced_strain_loc/makefile
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/enhanced_strain_loc/SmallStrainEnhLocT.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/enhanced_strain_loc/SmallStrainEnhLocT.h
-processing directory /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Q1P0_Electrical
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Q1P0_Electrical
-     source directory: /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Q1P0_Electrical
-destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Q1P0_Electrical
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Q1P0_Electrical
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Q1P0_Electrical
-ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Q1P0_Electrical/makefile /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Q1P0_Electrical/makefile
-ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Q1P0_Electrical/FSDielectricElastomerQ1P0ElectricalT.cpp /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Q1P0_Electrical/FSDielectricElastomerQ1P0ElectricalT.cpp
-ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Q1P0_Electrical/FSDielectricElastomerQ1P0ElectricalT.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Q1P0_Electrical/FSDielectricElastomerQ1P0ElectricalT.h
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Q1P0_Visco
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Q1P0_Visco
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Q1P0_Visco
@@ -2323,16 +2313,6 @@ ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/fluid_element/materia
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/fluid_element/makefile /home/saman/Tahoe/tahoe/../development/src-mirror/elements/fluid_element/makefile
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/fluid_element/FluidElementT.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/fluid_element/FluidElementT.h
 ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/elements.zip /home/saman/Tahoe/tahoe/../development/src-mirror/elements/elements.zip
-processing directory /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Q1P0_Structural
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Q1P0_Structural
-     source directory: /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Q1P0_Structural
-destination directory: /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Q1P0_Structural
-           ln command: ln -sf
-found source directory /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Q1P0_Structural
-found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Q1P0_Structural
-ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Q1P0_Structural/FSDielectricElastomerQ1P0StructuralT.h /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Q1P0_Structural/FSDielectricElastomerQ1P0StructuralT.h
-ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Q1P0_Structural/makefile /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Q1P0_Structural/makefile
-ln -sf /home/saman/Tahoe/tahoe/../development/src/elements/Dielectric_Elastomer_Q1P0_Structural/FSDielectricElastomerQ1P0StructuralT.cpp /home/saman/Tahoe/tahoe/../development/src-mirror/elements/Dielectric_Elastomer_Q1P0_Structural/FSDielectricElastomerQ1P0StructuralT.cpp
 processing directory /home/saman/Tahoe/tahoe/../development/src/elements/surface_CB_EAM
 found destination directory /home/saman/Tahoe/tahoe/../development/src-mirror/elements/surface_CB_EAM
      source directory: /home/saman/Tahoe/tahoe/../development/src/elements/surface_CB_EAM
