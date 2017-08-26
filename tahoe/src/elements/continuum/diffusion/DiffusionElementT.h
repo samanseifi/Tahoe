@@ -150,6 +150,7 @@ protected:
 	static const int NumNodalOutputCodes;
 
 private:
+	bool mechanical_coupling;
 	//LocalArrayT fLocDisplacement;
 	//const FieldT* fDisplacementVectorField;
 
