@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tahoe author="paklein" geometry_file="./geometry/20x4.geom"
+    output_format="ExodusII"
+    title="square region with prescribed temperature in corner" xmlns:x0="http://www.w3.org/2001/XMLSchema">
+    <time num_steps="10" output_inc="1" time_step="0.001">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0.0" y="0.0"/>
+                <OrderedPair x="1000000000.0" y="1000000000.0"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+    <nodes>
+        <field field_name="displacement" integrator="central_difference" solution_group="1">
+            <dof_labels>
+                <String value="D_X"/>
+                <String value="D_Y"/>
+            </dof_labels>
+            <kinematic_BC dof="1" node_ID="2"/>
+            <kinematic_BC dof="1" node_ID="1"/>
+            <kinematic_BC dof="2" node_ID="1"/>
+            <kinematic_BC dof="1" node_ID="4"/>
+        </field>
+        <field field_name="electric_scalar_potential" solution_group="2">
+            <dof_labels>
+                <String value="Psi"/>
+            </dof_labels>
+            <kinematic_BC dof="1" node_ID="1" type="u" schedule="1" value="0.1"/>
+            <kinematic_BC dof="1" node_ID="3" type="u" value="0.0"/>
+        </field>
+    </nodes>
+    <element_list>
+        <diffusion field_name="electric_scalar_potential">
+            <quadrilateral/>
+            <diffusion_element_nodal_output displacement="1" material_output="1"/>
+            <diffusion_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <diffusion_material>
+                    <linear_diffusion_material conductivity="1.0"
+                        density="1.0" specific_heat="1.0"/>
+                </diffusion_material>
+            </diffusion_element_block>
+        </diffusion>
+        <updated_lagrangian_Q1P0 field_name="displacement">
+            <quadrilateral/>
+            <solid_element_nodal_output displacements="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <large_strain_material_2D>
+                    <RG_split_general density="1.0">
+                        <rg_eq_potential>
+                            <neo-hookean kappa="1000.0" mu="1.0"/>
+                        </rg_eq_potential>
+                    </RG_split_general>
+                </large_strain_material_2D>
+            </large_strain_element_block>
+        </updated_lagrangian_Q1P0>
+    </element_list>
+    <linear_solver>
+        <SPOOLES_matrix/>
+    </linear_solver>
+    <linear_solver>
+        <SPOOLES_matrix/>
+    </linear_solver>
+    <solver_phases max_loops="10">
+        <solver_phase iterations="2" pass_iterations="0" solver="1"/>
+        <solver_phase iterations="2" pass_iterations="0" solver="2"/>
+    </solver_phases>
+</tahoe>
