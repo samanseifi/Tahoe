@@ -18,7 +18,7 @@ void LinearSolver::Initialize(int tot_num_eq, int loc_num_eq, int start_eq)
 {
 	/* inherited */
 	SolverT::Initialize(tot_num_eq, loc_num_eq, start_eq);
-	
+
 	/* flag to reform LHS */
 	fFormLHS = 1;
 }
@@ -36,25 +36,26 @@ void LinearSolver::InitStep(void)
 /* solve the current step */
 SolverT::SolutionStatusT LinearSolver::Solve(int)
 {
+
 	try {
 	/* initialize */
 	fRHS = 0.0;
-			
+
 	/* form the residual force vector */
 	fFEManager.FormRHS(Group());
-					
+
 	/* solve equation system */
 	if (fFormLHS)
 	{
 		/* unlock */
 		fLHS_lock = kOpen;
-	
+
 		/* initialize */
 		fLHS->Clear();
-	
+
 		/* form the stiffness matrix */
 		fFEManager.FormLHS(Group(), GlobalT::kNonSymmetric);
-				
+
 		/* flag not to reform */
 		fFormLHS = 0;
 
@@ -62,22 +63,24 @@ SolverT::SolutionStatusT LinearSolver::Solve(int)
 		fLHS_lock = kLocked;
 	}
 
+	//cout << fRHS << endl;
+
 	/* determine update vector */
 	if (!fLHS->Solve(fRHS)) ExceptionT::BadJacobianDet("LinearSolver::Solve");
 
 	/* update displacements */
-	fFEManager.Update(Group(), fRHS);		
-			
+	fFEManager.Update(Group(), fRHS);
+
 	/* relaxation */
 	GlobalT::RelaxCodeT relaxcode = fFEManager.RelaxSystem(Group());
-				
+
 	/* relax for configuration change */
 	if (relaxcode == GlobalT::kRelax) fFormLHS = 1;
 			//NOTE: NLSolver calls "fFEManager.Reinitialize()". Should this happen
 			//      here, too? For statics, should also reset the structure of
 			//      global stiffness matrix, but since EFG only breaks connections
 			//      and doesn't make new ones, this should be OK for now. PAK (03/04/99)
-			
+
 	/* trigger set of new equations */
 	if (relaxcode == GlobalT::kReEQ ||
 	    relaxcode == GlobalT::kReEQRelax)
@@ -85,11 +88,11 @@ SolverT::SolutionStatusT LinearSolver::Solve(int)
 
 	return kConverged;
 	} /* end try */
-	
+
 	/* not OK */
 	catch (ExceptionT::CodeT exc)
 	{
-		cout << "\n LinearSolver::Solve: caught exception: " 
+		cout << "\n LinearSolver::Solve: caught exception: "
 		     << ExceptionT::ToString(exc) << endl;
 		return kFailed;
 	}
@@ -102,7 +105,7 @@ SolverT::SolutionStatusT LinearSolver::Solve(int any, FEDEManagerT& fFEDEManager
 	try {
 	// initialize
 	fRHS = 0.0;
-			
+
 	// form the residual force vector from ghost particles
 	fFEDEManager.FormRHS(Group(), fGhostFBC);
 
@@ -114,13 +117,13 @@ SolverT::SolutionStatusT LinearSolver::Solve(int any, FEDEManagerT& fFEDEManager
 	{
 		// unlock
 		fLHS_lock = kOpen;
-	
+
 		// initialize
 		fLHS->Clear();
-	
+
 		// form the stiffness matrix
 		fFEManager.FormLHS(Group(), GlobalT::kNonSymmetric);
-				
+
 		// flag not to reform
 		fFormLHS = 0;
 
@@ -132,18 +135,18 @@ SolverT::SolutionStatusT LinearSolver::Solve(int any, FEDEManagerT& fFEDEManager
 	if (!fLHS->Solve(fRHS)) ExceptionT::BadJacobianDet("LinearSolver::Solve");
 
 	// update displacements
-	fFEManager.Update(Group(), fRHS);		
-			
+	fFEManager.Update(Group(), fRHS);
+
 	// relaxation
 	GlobalT::RelaxCodeT relaxcode = fFEManager.RelaxSystem(Group());
-				
+
 	// relax for configuration change
 	if (relaxcode == GlobalT::kRelax) fFormLHS = 1;
 			//NOTE: NLSolver calls "fFEManager.Reinitialize()". Should this happen
 			//      here, too? For statics, should also reset the structure of
 			//      global stiffness matrix, but since EFG only breaks connections
 			//      and doesn't make new ones, this should be OK for now. PAK (03/04/99)
-			
+
 	// trigger set of new equations
 	if (relaxcode == GlobalT::kReEQ ||
 	    relaxcode == GlobalT::kReEQRelax)
@@ -151,11 +154,11 @@ SolverT::SolutionStatusT LinearSolver::Solve(int any, FEDEManagerT& fFEDEManager
 
 	return kConverged;
 	} // end try
-	
+
 	// not OK
 	catch (ExceptionT::CodeT exc)
 	{
-		cout << "\n LinearSolver::Solve: caught exception: " 
+		cout << "\n LinearSolver::Solve: caught exception: "
 		     << ExceptionT::ToString(exc) << endl;
 		return kFailed;
 	}
@@ -167,7 +170,7 @@ void LinearSolver::SetTimeStep(double dt)
 {
 	/* inherited */
 	SolverT::SetTimeStep(dt);
-	
+
 	/* reform LHS matrix */
 	fFormLHS = 1;
 }
