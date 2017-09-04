@@ -114,25 +114,25 @@ SolverT::~SolverT(void) {
 
 /* configure the global equation system */
 void SolverT::Initialize(int tot_num_eq, int loc_num_eq, int start_eq)
-{	
+{
 	try {
 // DEBUG
 //cout << "\n" << "Total # of equations: " << tot_num_eq << "\n" << "Local # of equations: " << loc_num_eq << "\n" << "First eq on this proc: " << start_eq << endl;
-		
+
 		/* allocate rhs vector */
 		fRHS.Dimension(loc_num_eq);
 		fRHS = 0.0;
-		
+
 		/* set global equation matrix type */
 		fLHS->Initialize(tot_num_eq, loc_num_eq, start_eq);
-		
+
 		/* write information */
 		if (fFEManager.Logging() != GlobalT::kSilent)
 			fLHS->Info(fFEManager.Output());
-	
+
 		/* output global equation number for each DOF */
 		if (fPrintEquationNumbers) fFEManager.WriteEquationNumbers(fGroup);
-	}	
+	}
 
 	catch (ExceptionT::CodeT error_code) {
 		ExceptionT::Throw(error_code, "SolverT::Initialize");
@@ -158,16 +158,16 @@ void SolverT::CloseStep(void)
 	EpetraCRSMatrixT epetra(fFEManager.Output(), GlobalMatrixT::kNoCheck, fLHS->Communicator());
 	GlobalMatrixT* p_lhs = fLHS;
 	fLHS = &epetra;
-	
+
 	/* set storage */
-	fFEManager.SendEqnsToSolver(fGroup);	
+	fFEManager.SendEqnsToSolver(fGroup);
 	epetra.Initialize(p_lhs->NumTotEquations(), p_lhs->NumEquations(), p_lhs->StartEquation());
-	
+
 	/* get time integrator */
 	const NodeManagerT* nodes = fFEManager.NodeManager();
 	ArrayT<FieldT*> fields;
 	nodes->CollectFields(fGroup, fields);
-	
+
 	/* calculate K only */
 	for (int i = 0; i < fields.Length(); i++) {
 		eIntegratorT& e_int = const_cast<eIntegratorT&>(fields[i]->nIntegrator().eIntegrator());
@@ -182,7 +182,7 @@ void SolverT::CloseStep(void)
 	fFEManager.FormLHS(Group(), fLHS->MatrixType());
 	fLHS_lock = kLocked;
 	Epetra_CrsMatrix* K = epetra.Translate();
-	
+
 	/* calculate M only */
 	for (int i = 0; i < fields.Length(); i++) {
 		eIntegratorT& e_int = const_cast<eIntegratorT&>(fields[i]->nIntegrator().eIntegrator());
@@ -190,7 +190,7 @@ void SolverT::CloseStep(void)
 		if (! e_static) ExceptionT::GeneralFail(caller, "Could not cast integrator to eStaticIntegrator for field \"%s\"", fields[i]->FieldName().Pointer());
 		e_static->SetLHSMode(eStaticIntegrator::kFormMOnly);
 	}
-	
+
 	/* calc M and store */
 	fLHS->Clear();
 	fLHS_lock = kOpen;
@@ -200,7 +200,7 @@ void SolverT::CloseStep(void)
 
 	/* restore LHS */
 	fLHS = p_lhs;
-	
+
 	/* restore integrators */
 	for (int i = 0; i < fields.Length(); i++) {
 		eIntegratorT& e_int = const_cast<eIntegratorT&>(fields[i]->nIntegrator().eIntegrator());
@@ -208,13 +208,13 @@ void SolverT::CloseStep(void)
 		if (! e_static) ExceptionT::GeneralFail(caller, "Could not cast integrator to eStaticIntegrator for field \"%s\"", fields[i]->FieldName().Pointer());
 		e_static->SetLHSMode(eStaticIntegrator::kNormal);
 	}
-	
+
 	/* set up eigensolver */
 	//Teuchos::RefCountPtr<Epetra_CrsMatrix> rcp_K = Teuchos::rcp(K);
 	//Teuchos::RefCountPtr<Epetra_CrsMatrix> rcp_M = Teuchos::rcp(M);
 	Teuchos::RCP<Epetra_CrsMatrix> rcp_K = Teuchos::rcp(K);
 	Teuchos::RCP<Epetra_CrsMatrix> rcp_M = Teuchos::rcp(M);
-	
+
 	/* write matricies to files */
 	bool output_matricies = fEigenSolverParameters->GetParameter("output_matricies");
 	if (output_matricies) {
@@ -230,7 +230,7 @@ void SolverT::CloseStep(void)
 		out.open(k_file);
 		K->Print(out);
 		out.close();
-		
+
 		StringT m_file = root;
 		m_file.Append(".M.", fFEManager.StepNumber(), 2);
 		m_file.Append(".dat");
@@ -289,7 +289,7 @@ void SolverT::CloseStep(void)
 	MyPL.set("Which", which);
 	MyPL.set( "Block Size", block_size);
 	Anasazi::SolverManager<double, MV, OP>* solver_man = NULL;
-	
+
 	/* construct solver */
 	if (fEigenSolverParameters->Name() == "LOBPCG_solver") {
 
@@ -315,7 +315,7 @@ void SolverT::CloseStep(void)
 
 		/* Create the solver manager */
 		solver_man = new LOBPCGSolMgr<double, MV, OP>(MyProblem, MyPL);
-	
+
 	} else if (fEigenSolverParameters->Name() == "Block_Davidson_solver") {
 
 		/* resolve parameters */
@@ -338,7 +338,7 @@ void SolverT::CloseStep(void)
 
 	/* Solve the problem */
 	try {
-	
+
 		/* check */
 		if (fields.Length() != 1) ExceptionT::GeneralFail(caller, "group contains more than 1 field");
 
@@ -364,7 +364,7 @@ void SolverT::CloseStep(void)
 		outfile.Append(".", fFEManager.StepNumber());
 		outfile.Append("of", fFEManager.NumberOfSteps());
 		io_man->DivertOutput(outfile);
-		
+
 		/* insert eigenvectors as displacement */
 		const ArrayT<StringT>& field_labels = fields[0]->Labels();
 		dArray2DT field_values(nodes->CurrentCoordinates().MajorDim(), fields[0]->NumDOF());
@@ -398,12 +398,12 @@ void SolverT::CloseStep(void)
 
 			/* insert eigenvector */
 			io_man->InsertNodalData(field_labels, field_values);
-			
+
 			/* 'time' is the mode number */
 			fFEManager.WriteOutput(i+1);
 		}
 		cout.flush();
-		
+
 		/* restore */
 		io_man->SetCoordinates(nodes->InitialCoordinates(), NULL);
 		io_man->RestoreOutput();
@@ -424,9 +424,9 @@ void SolverT::CloseStep(void)
 }
 
 /* error handler */
-void SolverT::ResetStep(void) 
+void SolverT::ResetStep(void)
 {
-	/* do nothing */ 
+	/* do nothing */
 }
 
 /* process element group equation data to configure GlobalMatrixT */
@@ -462,7 +462,7 @@ void SolverT::AssembleRHS(const nArrayT<double>& elRes, const nArrayT<int>& eqno
 	for (int i = 0; i < eqnos.Length(); i++)
 	{
 		int eq = eqnos[i] - start_eq;
-	
+
 		/* in range */
 		if (eq > -1 && eq < num_eq) fRHS[eq] += elRes[i];
 
@@ -470,7 +470,7 @@ void SolverT::AssembleRHS(const nArrayT<double>& elRes, const nArrayT<int>& eqno
 		else if (scope == GlobalT::kLocal && eq >= num_eq)
 			ExceptionT::OutOfRange(caller, "equation number is out of range: %d", eq + start_eq);
 #endif
-	}	
+	}
 }
 
 void SolverT::OverWriteRHS(const dArrayT& elRes, const nArrayT<int>& eqnos)
@@ -489,10 +489,10 @@ void SolverT::OverWriteRHS(const dArrayT& elRes, const nArrayT<int>& eqnos)
 	for (int i = 0; i < eqnos.Length(); i++)
 	{
 		int eq = eqnos[i] - start_eq;
-	
+
 		/* in range */
 		if (eq > -1 && eq < num_eq) fRHS[eq] = elRes[i];
-	}	
+	}
 }
 
 void SolverT::DisassembleRHS(dArrayT& elRes, const nArrayT<int>& eqnos) const
@@ -505,13 +505,13 @@ void SolverT::DisassembleRHS(dArrayT& elRes, const nArrayT<int>& eqnos) const
 	for (int i = 0; i < eqnos.Length(); i++)
 	{
 		int eq = eqnos[i] - start_eq;
-	
+
 		/* in range */
 		if (eq > 0 && eq < num_eq)
 			elRes[i] = fRHS[eq];
 		else
 			elRes[i] = 0.0;
-	}	
+	}
 }
 
 /* return the required equation numbering scope - local by default */
@@ -547,7 +547,7 @@ void SolverT::DefineParameters(ParameterListT& list) const
 	check_code.AddEnumeration("check_LHS", GlobalMatrixT::kCheckLHS);
 	check_code.SetDefault(GlobalMatrixT::kNoCheck);
 	list.AddParameter(check_code);
-	
+
 	/* perturbation used to compute LHS check */
 	ParameterT check_LHS_perturbation(fPerturbation, "check_LHS_perturbation");
 	check_LHS_perturbation.AddLimit(0.0, LimitT::LowerInclusive);
@@ -578,7 +578,7 @@ ParameterInterfaceT* SolverT::NewSub(const StringT& name) const
 		ParameterContainerT* choice = new ParameterContainerT(name);
 		choice->SetListOrder(ParameterListT::Choice);
 		choice->SetSubSource(this);
-	
+
 		choice->AddSub(ParameterContainerT("profile_matrix"));
 		choice->AddSub(ParameterContainerT("diagonal_matrix"));
 		choice->AddSub(ParameterContainerT("full_matrix"));
@@ -614,7 +614,7 @@ ParameterInterfaceT* SolverT::NewSub(const StringT& name) const
 
 #ifdef __SPOOLES_MT__
 		ParameterContainerT SPOOLES_MT(SPOOLES);
-		SPOOLES_MT.SetName("SPOOLES_MT_matrix");		
+		SPOOLES_MT.SetName("SPOOLES_MT_matrix");
 		ParameterT num_threads(ParameterT::Integer, "num_threads");
 		num_threads.AddLimit(2, LimitT::LowerInclusive);
 		SPOOLES_MT.AddParameter(num_threads);
@@ -624,13 +624,13 @@ ParameterInterfaceT* SolverT::NewSub(const StringT& name) const
 
 #ifdef __PSPASES__
 		choice->AddSub(ParameterContainerT("PSPASES_matrix"));
-#endif	
+#endif
 
 #if defined(__SUPERLU__) || defined(__SUPERLU_DIST__)
 		/* output timing statistics */
 		ParameterT print_stat(ParameterT::Boolean, "print_stat");
 		print_stat.SetDefault(false);
-		
+
 		/* solution refinement */
 		ParameterT refinement(ParameterT::Enumeration, "refinement");
 		refinement.AddEnumeration("NOREFINE", NOREFINE);
@@ -645,7 +645,7 @@ ParameterInterfaceT* SolverT::NewSub(const StringT& name) const
 
 		/* options */
 		SuperLU.AddParameter(print_stat);
-		SuperLU.AddParameter(refinement);		
+		SuperLU.AddParameter(refinement);
 
 		choice->AddSub(SuperLU);
 #endif /* __SUPERLU__ */
@@ -655,7 +655,7 @@ ParameterInterfaceT* SolverT::NewSub(const StringT& name) const
 
 		/* options */
 		SuperLU_DIST.AddParameter(print_stat);
-		SuperLU_DIST.AddParameter(refinement);		
+		SuperLU_DIST.AddParameter(refinement);
 
 		choice->AddSub(SuperLU_DIST);
 #endif /* __SUPERLU_DIST__ */
@@ -680,7 +680,7 @@ ParameterInterfaceT* SolverT::NewSub(const StringT& name) const
 		ParameterContainerT* choice = new ParameterContainerT(name);
 		choice->SetListOrder(ParameterListT::Choice);
 		choice->SetSubSource(this);
-		
+
 		/* number of eigenmodes */
 		ParameterT num_modes(ParameterT::Integer, "max_eigenmodes");
 		num_modes.AddLimit(0, LimitT::LowerInclusive);
@@ -712,7 +712,7 @@ ParameterInterfaceT* SolverT::NewSub(const StringT& name) const
 		verbosity.SetDefault(Anasazi::Errors);
 // from AnasaziTypes.hpp
 #if 0
-  enum MsgType 
+  enum MsgType
   {
     Errors = 0,                 /*!< Errors [ always printed ] */
     Warnings = 0x1,             /*!< Internal warnings */
@@ -742,7 +742,7 @@ ParameterInterfaceT* SolverT::NewSub(const StringT& name) const
 		max_iter.AddLimit(0, LimitT::LowerInclusive);
 		max_iter.SetDefault(500);
 		LOBPCG.AddParameter(max_iter);
-		
+
 		ParameterT use_locking(ParameterT::Boolean, "use_locking");
 		use_locking.SetDefault(false);
 		LOBPCG.AddParameter(use_locking);
@@ -763,7 +763,7 @@ ParameterInterfaceT* SolverT::NewSub(const StringT& name) const
 		ParameterT recover(ParameterT::Boolean, "recover");
 		recover.SetDefault(true);
 		LOBPCG.AddParameter(recover);
-		
+
 		choice->AddSub(LOBPCG);
 
 		/* Block Davidson Method */
@@ -771,7 +771,7 @@ ParameterInterfaceT* SolverT::NewSub(const StringT& name) const
 		BlockDavidson.AddParameter(num_modes);
 		BlockDavidson.AddParameter(block_size);
 		BlockDavidson.AddParameter(tol);
-		BlockDavidson.AddParameter(output);		
+		BlockDavidson.AddParameter(output);
 		BlockDavidson.AddParameter(verbosity);
 
 		ParameterT max_restart(ParameterT::Integer, "max_restart");
@@ -785,7 +785,7 @@ ParameterInterfaceT* SolverT::NewSub(const StringT& name) const
 		BlockDavidson.AddParameter(num_blocks);
 
 		choice->AddSub(BlockDavidson);
-		
+
 		return choice;
 	}
 #endif
@@ -799,7 +799,7 @@ void SolverT::TakeParameterList(const ParameterListT& list)
 {
 	/* inherited */
 	ParameterInterfaceT::TakeParameterList(list);
-	
+
 	/* construct matrix */
 	fPrintEquationNumbers = list.GetParameter("print_eqnos");
 	int check_code = list.GetParameter("check_code");
@@ -826,7 +826,7 @@ double SolverT::Residual(const dArrayT& force) const
 	return sqrt(InnerProduct(force,force));
 }
 
-/* (distributed) inner product */	
+/* (distributed) inner product */
 double SolverT::InnerProduct(const dArrayT& v1, const dArrayT& v2) const
 {
 	/* check heart beat */
@@ -848,12 +848,12 @@ GlobalMatrixT* SolverT::ApproximateLHS(const GlobalMatrixT& template_LHS)
 
 	/* get copy of residual */
 	fRHS = 0.0;
-	fFEManager.FormRHS(Group());	
+	fFEManager.FormRHS(Group());
 	dArrayT rhs = fRHS;
 	dArrayT update;
 	update.Dimension(rhs);
 	update = 0.0;
-	
+
 	/* perturb each degree of freedom and compute the new residual */
 	approx_LHS->Clear();
 	iArrayT col(1);
@@ -864,18 +864,18 @@ GlobalMatrixT* SolverT::ApproximateLHS(const GlobalMatrixT& template_LHS)
 	{
 		/* perturbation */
 		update[i] = fPerturbation;
-		
+
 		/* apply update to system */
 		fFEManager.Update(Group(), update);
 
 		/* compute residual */
 		fRHS = 0.0;
-		fFEManager.FormRHS(Group());	
-	
+		fFEManager.FormRHS(Group());
+
 		/* reset work space */
 		rows.Dimension(0);
 		K_col_tmp.Dimension(0);
-			
+
 		/* compute column of stiffness matrix */
 		for (int j = 0; j < fRHS.Length(); j++)
 		{
@@ -889,20 +889,21 @@ GlobalMatrixT* SolverT::ApproximateLHS(const GlobalMatrixT& template_LHS)
 				K_col_tmp.Append(K_ij);
 			}
 		}
-		
+
 		/* assemble */
 		K_col.Alias(rows.Length(), 1, K_col_tmp.Pointer());
 		approx_LHS->Assemble(K_col, rows, col);
-			
+
 		/* undo perturbation */
 		update[i] = -fPerturbation;
 		if (i > 0) update[i-1] = 0.0;
 	}
-		
+
 	/* restore configuration and residual */
+	cout << "When this happens? SolverT" << endl;
 	fFEManager.Update(Group(), update);
 	fRHS = 0.0;
-	fFEManager.FormRHS(Group());	
+	fFEManager.FormRHS(Group());
 
 	/* close locks */
 	fRHS_lock = kLocked;
@@ -921,7 +922,7 @@ void SolverT::CompareLHS(const GlobalMatrixT& ref_LHS, const GlobalMatrixT& test
 
 	out << "\ntest LHS (odd suffix):\n";
 	test_LHS.PrintLHS(true);
-	
+
 	out.flush();
 }
 
@@ -937,15 +938,15 @@ int SolverT::CheckMatrixType(int matrix_type, int analysis_code) const
 	switch (matrix_type)
 	{
 		case kDiagonalMatrix:
-		
+
 			OK = (analysis_code == GlobalT::kLinExpDynamic   ||
 			      analysis_code == GlobalT::kNLExpDynamic    ||
 			      analysis_code == GlobalT::kVarNodeNLExpDyn ||
 			      analysis_code == GlobalT::kNLExpDynKfield);
 			break;
-		
+
 		case kProfileSolver:
-		
+
 			OK = (analysis_code == GlobalT::kLinStatic       ||
 			      analysis_code == GlobalT::kLinDynamic      ||
 			      analysis_code == GlobalT::kNLStatic        ||
@@ -963,7 +964,7 @@ int SolverT::CheckMatrixType(int matrix_type, int analysis_code) const
 			      analysis_code != GlobalT::kNLExpDynamic  &&
 			      analysis_code != GlobalT::kVarNodeNLExpDyn);
 			break;
-					
+
 		case kAztec:
 
 			/* not for explicit dynamics */
@@ -971,9 +972,9 @@ int SolverT::CheckMatrixType(int matrix_type, int analysis_code) const
 			      analysis_code != GlobalT::kNLExpDynamic  &&
 			      analysis_code != GlobalT::kVarNodeNLExpDyn);
 			break;
-			
+
 		case kSuperLU:
-		
+
 			OK = (analysis_code == GlobalT::kLinStatic       ||
 			      analysis_code == GlobalT::kLinDynamic      ||
 			      analysis_code == GlobalT::kNLStatic        ||
@@ -985,7 +986,7 @@ int SolverT::CheckMatrixType(int matrix_type, int analysis_code) const
 			break;
 
 		case kSPOOLES:
-		
+
 			OK = (analysis_code == GlobalT::kLinStatic       ||
 			      analysis_code == GlobalT::kLinDynamic      ||
 			      analysis_code == GlobalT::kNLStatic        ||
@@ -993,14 +994,14 @@ int SolverT::CheckMatrixType(int matrix_type, int analysis_code) const
 			      analysis_code == GlobalT::kDR              ||
 			      analysis_code == GlobalT::kNLStaticKfield  ||
 			      analysis_code == GlobalT::kVarNodeNLStatic ||
-			      analysis_code == GlobalT::kAugLagStatic);		
+			      analysis_code == GlobalT::kAugLagStatic);
 			break;
 
 		default:
 
 			cout << "\n SolverT::CheckMatrixType: unknown matrix type ";
 			cout << matrix_type << '\n';
-			OK = 0;		
+			OK = 0;
 	}
 
 	/* compatibility */
@@ -1037,7 +1038,7 @@ void SolverT::SetGlobalMatrix(const ParameterListT& params, int check_code)
 
 	/* streams */
 	ofstreamT& out = fFEManager.Output();
-	
+
 	/* MP support */
 	const CommunicatorT& comm = fFEManager.Communicator();
 
@@ -1052,7 +1053,7 @@ void SolverT::SetGlobalMatrix(const ParameterListT& params, int check_code)
 	{
 		/* global system properties */
 		GlobalT::SystemTypeT type = fFEManager.GlobalSystemType(fGroup);
-		
+
 		if (type == GlobalT::kNonSymmetric)
 			fLHS = new CCNSMatrixT(out, check_code, comm);
 		else if (type == GlobalT::kSymmetric)
@@ -1081,7 +1082,7 @@ void SolverT::SetGlobalMatrix(const ParameterListT& params, int check_code)
 			symmetric = false;
 		else
 			ExceptionT::GeneralFail(caller, "unexpected system type: %d", type);
-		
+
 		/* check */
 		if (!symmetric && !pivoting)
 			ExceptionT::GeneralFail(caller, "pivoting required with non-symmetric matricies");
@@ -1093,7 +1094,7 @@ void SolverT::SetGlobalMatrix(const ParameterListT& params, int check_code)
 		{
 			/* number of solver threads */
 			int num_threads = params.GetParameter("num_threads");
-		
+
 #ifdef __SPOOLES_MT__
 				fLHS = new SPOOLESMatrixT_MT(out, check_code, symmetric, pivoting, message_level, num_threads, comm);
 #else /* __SPOOLES_MT__ */
@@ -1138,7 +1139,7 @@ void SolverT::SetGlobalMatrix(const ParameterListT& params, int check_code)
 
 		/* construct */
 		bool print_stat = params.GetParameter("print_stat");
-		int i_refine  = params.GetParameter("refinement");		
+		int i_refine  = params.GetParameter("refinement");
 		IterRefine_t refine = SuperLUMatrixT::int2IterRefine_t(i_refine);
 
 		fLHS = new SuperLUMatrixT(out, check_code, symmetric, print_stat, refine, comm);
@@ -1166,7 +1167,7 @@ void SolverT::SetGlobalMatrix(const ParameterListT& params, int check_code)
 		fLHS = new SuperLU_MTMatrixT(out, check_code, num_threads, comm);
 #else
 		ExceptionT::GeneralFail(caller, "SuperLU_MT not installed");
-#endif	
+#endif
 	}
 	else if (params.Name() == "PSPASES_matrix")
 	{

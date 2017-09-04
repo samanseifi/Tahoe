@@ -63,10 +63,12 @@ SolverT::SolutionStatusT LinearSolver::Solve(int)
 		fLHS_lock = kLocked;
 	}
 
-	//cout << "Where?" <<  endl;
+	cout << "When? LinearSolver::Solve" <<  endl;
 
-	/* determine update vector */
+		/* determine update vector */
 	if (!fLHS->Solve(fRHS)) ExceptionT::BadJacobianDet("LinearSolver::Solve");
+
+	//cout << fRHS << endl;
 
 	/* update displacements */
 	fFEManager.Update(Group(), fRHS);

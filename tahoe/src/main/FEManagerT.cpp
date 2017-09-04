@@ -151,12 +151,11 @@ void FEManagerT::Solve(void)
 		int group_number1 = 0; // in staggered 0 is the mechanical
 		fNodeManager->CollectFields(group_number1, fields1);
 
-		for (int i = 0; i < fields1.Length(); i++)
-		{
-			/* accelerations */
-			const dArray2DT& disp1 = (*fields1[i])[2];
-			cout << disp1 << endl;
-		}
+		/* accelerations */
+		const dArray2DT& acc_old = (*fields1[0])[2];
+
+
+		//cout << vec1 << endl;
 /* -------------------------------------------------------------------------*/
 		//int my_condition = 0;
 		//while (my_condition < 3)
@@ -174,13 +173,13 @@ void FEManagerT::Solve(void)
 		int group_number2 = 0; // in staggered 0 is the mechanical
 		fNodeManager->CollectFields(group_number2, fields2);
 
-		for (int i = 0; i < fields2.Length(); i++)
-		{
-			/* accelerations */
-			const dArray2DT& disp2 = (*fields2[i])[2];
-			cout << disp2 << endl;
-		}
+		/* accelerations */
+		const dArray2DT& acc_cur = (*fields2[0])[2];
+		//cout << acc_cur << endl;
+
 /* -------------------------------------------------------------------------*/
+
+
 
 		//std::cout << "The condition has not met yet: " << my_condition << std::endl;
 		//my_condition += 1;
@@ -466,9 +465,11 @@ ExceptionT::CodeT FEManagerT::SolveStep(void)
 				int iter = fSolverPhases(i,1);
 				int pass = fSolverPhases(i,2);
 
+				cout << "Calling SolveerT::Solve? FEManager" << endl;
 				/* call solver */
+				/* EVERYTHING HAPPENS HERE: UPDATES, COORDINATE UPDATES */
 				status = fSolvers[fCurrentGroup]->Solve(iter);
-
+				cout << "Is it done? FEManagerT" << endl;
 				/* check result */
 				fSolverPhasesStatus(i, kGroup) = fCurrentGroup;
 				int last_iter = fSolverPhasesStatus(i, kIteration);

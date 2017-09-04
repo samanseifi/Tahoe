@@ -530,6 +530,7 @@ void FieldT::CloseStep(void)
 /* overwrite the update values in the FieldT::Update array */
 void FieldT::AssembleUpdate(const dArrayT& update)
 {
+	cout << "AssembleUpdate FieldT" << endl;
 	int *peq = fEqnos.Pointer();
 	int len = fEqnos.Length();
 	double *p = fUpdate.Pointer();
@@ -1103,8 +1104,8 @@ void FieldT::DefineInlineSub(const StringT& name, ParameterListT::ListOrderT& or
 
 		/* choices - KBC_ControllerT::Code must translate names */
 #ifdef CONTINUUM_ELEMENT
-		sub_lists.AddSub("K-field");	
-		sub_lists.AddSub("bi-material_K-field");	
+		sub_lists.AddSub("K-field");
+		sub_lists.AddSub("bi-material_K-field");
 #endif
 		sub_lists.AddSub("torsion");
 		sub_lists.AddSub("mapped_nodes");

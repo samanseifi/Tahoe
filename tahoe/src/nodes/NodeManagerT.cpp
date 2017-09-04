@@ -433,7 +433,7 @@ void NodeManagerT::SetTimeStep(double dt) {
 /* update the active degrees of freedom */
 void NodeManagerT::Update(int group, const dArrayT& update)
 {
-	cout << "Getting updated?" << endl;
+	cout << "Getting updated? NodeManagerT" << endl;
 	/* update fields */
 	for (int i = 0; i < fFields.Length(); i++)
 	{
@@ -462,6 +462,7 @@ void NodeManagerT::Update(int group, const dArrayT& update)
 	 * and does not usually need to be called explicitly. */
 void NodeManagerT::UpdateCurrentCoordinates(void)
 {
+	cout << "NodeManagerT::UpdateCurrentCoordinates" << endl;
 	const char caller[] = "NodeManagerT::UpdateCurrentCoordinates";
 	if (fCoordUpdate)
 	{
