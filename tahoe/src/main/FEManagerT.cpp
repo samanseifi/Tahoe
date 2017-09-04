@@ -146,6 +146,18 @@ void FEManagerT::Solve(void)
 	while (error == ExceptionT::kNoError && fTimeManager->Step())
 	{
 
+/* ------------------ this collects old accelerations data -------------*/
+		ArrayT<FieldT*> fields1;
+		int group_number1 = 0; // in staggered 0 is the mechanical
+		fNodeManager->CollectFields(group_number1, fields1);
+
+		for (int i = 0; i < fields1.Length(); i++)
+		{
+			/* accelerations */
+			const dArray2DT& disp1 = (*fields1[i])[2];
+			cout << disp1 << endl;
+		}
+/* -------------------------------------------------------------------------*/
 		//int my_condition = 0;
 		//while (my_condition < 3)
 		//{
@@ -156,6 +168,19 @@ void FEManagerT::Solve(void)
 		/* solve the current time step */
 		if (error == ExceptionT::kNoError)
 			error = SolveStep();
+
+/* ------------------ this collects current accelerations data -------------*/
+		ArrayT<FieldT*> fields2;
+		int group_number2 = 0; // in staggered 0 is the mechanical
+		fNodeManager->CollectFields(group_number2, fields2);
+
+		for (int i = 0; i < fields2.Length(); i++)
+		{
+			/* accelerations */
+			const dArray2DT& disp2 = (*fields2[i])[2];
+			cout << disp2 << endl;
+		}
+/* -------------------------------------------------------------------------*/
 
 		//std::cout << "The condition has not met yet: " << my_condition << std::endl;
 		//my_condition += 1;
@@ -562,7 +587,7 @@ void FEManagerT::Update(int group, const dArrayT& update)
 		if (fComm.Sum(ExceptionT::kNoError) != 0)
 			ExceptionT::BadHeartBeat(caller); // must trigger try block in FEManagerT::SolveStep
 	}
-	
+
 	fNodeManager->Update(group, update);
 
 }

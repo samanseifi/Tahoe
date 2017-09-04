@@ -63,7 +63,7 @@ SolverT::SolutionStatusT LinearSolver::Solve(int)
 		fLHS_lock = kLocked;
 	}
 
-	//cout << fRHS << endl;
+	//cout << "Where?" <<  endl;
 
 	/* determine update vector */
 	if (!fLHS->Solve(fRHS)) ExceptionT::BadJacobianDet("LinearSolver::Solve");

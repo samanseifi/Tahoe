@@ -433,6 +433,7 @@ void NodeManagerT::SetTimeStep(double dt) {
 /* update the active degrees of freedom */
 void NodeManagerT::Update(int group, const dArrayT& update)
 {
+	cout << "Getting updated?" << endl;
 	/* update fields */
 	for (int i = 0; i < fFields.Length(); i++)
 	{
