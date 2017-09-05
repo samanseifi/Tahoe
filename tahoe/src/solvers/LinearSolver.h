@@ -15,19 +15,19 @@ public:
 
 	/** constructor */
 	LinearSolver(FEManagerT& fe_manager, int group);
-	
+
 	/** configure system */
 	virtual void Initialize(int tot_num_eq, int loc_num_eq, int start_eq);
 
 	/** start solution step */
 	virtual void InitStep(void);
-	
+
 	/** solve the system over the current time increment.
 	 * \param num_iterations maximum number of iterations to execute. Hitting this limit
 	 *        does not signal a SolverT::kFailed status, unless solver's internal parameters
 	 *        also indicate the solution procedure has failed.
 	 * \return one of SolverT::IterationsStatusT */
-	virtual SolutionStatusT Solve(int num_iterations);
+	virtual SolutionStatusT Solve(int);
 
 #ifdef DEM_COUPLING_DEV
 	virtual SolutionStatusT Solve(int num_iterations, FEDEManagerT& fFEDEManager, ArrayT<FBC_CardT>& fGhostFBC);
@@ -38,7 +38,7 @@ public:
 	 * matrix because some time integrators use an effective mass matrix that is a function
 	 * of the time increment. */
 	virtual void SetTimeStep(double dt);
-	
+
 private:
 
 	/* flag to form RHS */
@@ -49,5 +49,5 @@ private:
 		// (3) when the time step changes
 };
 
-} // namespace Tahoe 
+} // namespace Tahoe
 #endif /* _LINEAR_SOLVER_H_ */

@@ -24,6 +24,7 @@ OBJ = \
 	ExpCD_DRSolver.o \
 	iNLSolver_LS.o \
 	LinearSolver.o \
+	LinearSolver_RS.o \
 	NLSolver.o \
 	NLSolver_LS.o \
 	NLSolver_LSX.o \
@@ -31,6 +32,7 @@ OBJ = \
 	PCGSolver_LS.o \
 	SolverT.o \
 	SolverT_factory.o
+
 
 OBJ_LINK = $(OBJ)
 DEP = $(OBJ:.o=.d)
@@ -54,6 +56,7 @@ SRC = \
 	ExpCD_DRSolver.cpp \
 	iNLSolver_LS.cpp \
 	LinearSolver.cpp \
+	LinearSolver_RS.cpp \
 	NLSolver.cpp \
 	NLSolver_LS.cpp \
 	NLSolver_LSX.cpp \
@@ -62,14 +65,15 @@ SRC = \
 	SolverT.cpp \
 	SolverT_factory.cpp
 
+
 ##################### (3) headers
 #
 # (3) If there are header files in this directory:
 #    (1) list the header files in the HDR macro
 #    (2) uncomment the HDR_LINK
-# 
+#
 # If there are no header files in this directory comment both the
-# HDR and HDR_LINK macro   
+# HDR and HDR_LINK macro
 #
 HDR = \
 	SolverInterfaceT.h \
@@ -77,12 +81,14 @@ HDR = \
 	ExpCD_DRSolver.h \
 	iNLSolver_LS.h \
 	LinearSolver.h \
+	LinearSolver_RS.h \
 	NLSolver.h \
 	NLSolver_LS.h \
 	NLSolver_LSX.h \
 	NLSolverX.h \
 	PCGSolver_LS.h \
 	SolverT.h
+
 
 HDR_LINK = $(HDR:.h=.h_link)
 
@@ -104,7 +110,7 @@ subdir_driver: subdir_loop
 #    (2) uncomment the subdir_driver macro below
 #
 #SUB_DIR =
-#subdir_driver: 
+#subdir_driver:
 
 #####################
 

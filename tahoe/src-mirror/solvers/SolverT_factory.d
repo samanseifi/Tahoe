@@ -24,4 +24,5 @@ SolverT_factory.o: SolverT_factory.cpp SolverT.h \
  /home/saman/Tahoe/tahoe/../development/inc/DevelopmentElementsConfig.h \
  LinearSolver.h NLSolver.h PCGSolver_LS.h \
  /home/saman/Tahoe/tahoe/../toolbox/inc/dArray2DT.h \
- /home/saman/Tahoe/tahoe/../toolbox/inc/nArray2DT.h NLSolver_LS.h
+ /home/saman/Tahoe/tahoe/../toolbox/inc/nArray2DT.h NLSolver_LS.h \
+ LinearSolver_RS.h

@@ -7,6 +7,7 @@
 #include "NLSolver.h"
 #include "PCGSolver_LS.h"
 #include "NLSolver_LS.h"
+#include "LinearSolver_RS.h"
 
 using namespace Tahoe;
 
@@ -21,6 +22,8 @@ SolverT* SolverT::New(FEManagerT& fe_manager, const char* name, int group)
 		return new PCGSolver_LS(fe_manager, group);
 	else if (strcmp(name, "nonlinear_solver_LS") == 0)
 		return new NLSolver_LS(fe_manager, group);
+	else if (strcmp(name, "linear_solver_RS") == 0)
+		return new LinearSolver_RS(fe_manager, group);
 	else
 		return NULL;
 }

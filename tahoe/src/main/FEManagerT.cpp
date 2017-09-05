@@ -1793,6 +1793,9 @@ void FEManagerT::DefineInlineSub(const StringT& name, ParameterListT::ListOrderT
 
 		/* nonlinear solver with line search*/
 		sub_lists.AddSub("nonlinear_solver_LS");
+
+		/* linear solver with residual correction */
+		sub_lists.AddSub("linear_solver_RS");
 	}
 	else /* inherited */
 		ParameterInterfaceT::DefineInlineSub(name, order, sub_lists);

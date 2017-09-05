@@ -1664,9 +1664,11 @@ ln -sf /home/saman/Tahoe/tahoe/src/solvers/NOX/NOX_Tahoe_Vector.h /home/saman/Ta
 ln -sf /home/saman/Tahoe/tahoe/src/solvers/NOX/makefile /home/saman/Tahoe/tahoe/src-mirror/solvers/NOX/makefile
 ln -sf /home/saman/Tahoe/tahoe/src/solvers/NOX/NOXSolverT.cpp /home/saman/Tahoe/tahoe/src-mirror/solvers/NOX/NOXSolverT.cpp
 ln -sf /home/saman/Tahoe/tahoe/src/solvers/PCGSolver_LS.cpp /home/saman/Tahoe/tahoe/src-mirror/solvers/PCGSolver_LS.cpp
+ln -sf /home/saman/Tahoe/tahoe/src/solvers/LinearSolver_RS.cpp /home/saman/Tahoe/tahoe/src-mirror/solvers/LinearSolver_RS.cpp
 ln -sf /home/saman/Tahoe/tahoe/src/solvers/PCGSolver_LS.h /home/saman/Tahoe/tahoe/src-mirror/solvers/PCGSolver_LS.h
 ln -sf /home/saman/Tahoe/tahoe/src/solvers/SolverInterfaceT.h /home/saman/Tahoe/tahoe/src-mirror/solvers/SolverInterfaceT.h
 ln -sf /home/saman/Tahoe/tahoe/src/solvers/makefile /home/saman/Tahoe/tahoe/src-mirror/solvers/makefile
+ln -sf /home/saman/Tahoe/tahoe/src/solvers/LinearSolver_RS.h /home/saman/Tahoe/tahoe/src-mirror/solvers/LinearSolver_RS.h
 ln -sf /home/saman/Tahoe/tahoe/src/solvers/NLSolver.cpp /home/saman/Tahoe/tahoe/src-mirror/solvers/NLSolver.cpp
 processing directory /home/saman/Tahoe/tahoe/src/config
 found destination directory /home/saman/Tahoe/tahoe/src-mirror/config

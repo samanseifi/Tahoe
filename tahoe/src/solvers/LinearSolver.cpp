@@ -34,7 +34,7 @@ void LinearSolver::InitStep(void)
 }
 
 /* solve the current step */
-SolverT::SolutionStatusT LinearSolver::Solve(int)
+SolverT::SolutionStatusT LinearSolver::Solve(int num_iterations)
 {
 
 	try {
