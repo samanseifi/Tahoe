@@ -86,6 +86,7 @@
 #include "LocalizerT.h"
 #include "SimoFiniteStrainT.h"
 #include "SimoQ1P0.h"
+#include "SimoQ1P0_Surface.h"
 #include "SimoQ1P0_inv.h"
 #include "SimoQ1P0Axi.h"
 #include "SimoQ1P0Axi_inv.h"
@@ -434,6 +435,7 @@ void ElementListT::DefineInlineSub(const StringT& name, ParameterListT::ListOrde
 		sub_lists.AddSub("small_strain");
 		sub_lists.AddSub("updated_lagrangian");
 		sub_lists.AddSub("updated_lagrangian_Q1P0");
+		sub_lists.AddSub("updated_lagrangian_Q1P0_surface");
 		sub_lists.AddSub("updated_lagrangian_Q1P0_inv");
 		sub_lists.AddSub("total_lagrangian");
 		sub_lists.AddSub("small_strain_meshfree");
@@ -743,6 +745,8 @@ ElementBaseT* ElementListT::NewElement(const StringT& name) const
 		return new UpdatedLagrangianT(fSupport);
 	else if (name == "updated_lagrangian_Q1P0")
 		return new SimoQ1P0(fSupport);
+	else if (name == "updated_lagrangian_Q1P0_surface")
+		return new SimoQ1P0_Surface(fSupport);
 	else if (name == "updated_lagrangian_Q1P0_inv")
 		return new SimoQ1P0_inv(fSupport);
 	else if (name == "total_lagrangian")
@@ -952,7 +956,7 @@ ElementBaseT* ElementListT::NewElement(const StringT& name) const
 //	  return new SS_Optimize_Primal(fSupport);
 	else if (name == "small_strain_optimize_dual")
 	  return new SS_Optimize_Dual(fSupport);
-	  
+
 	else if (name == "uplag_fiber_optimize_dual")
 	  return new FSFiber_Optimize_Dual(fSupport);
 

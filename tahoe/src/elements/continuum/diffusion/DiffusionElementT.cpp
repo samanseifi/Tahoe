@@ -403,6 +403,7 @@ bool DiffusionElementT::NextElement(void)
 /* form the element stiffness matrix */
 void DiffusionElementT::FormStiffness(double constK)
 {
+	//std::cout << "Are you getting called?" << "\n";
 	/* matrix format */
 	dMatrixT::SymmetryFlagT format =
 		(fLHS.Format() == ElementMatrixT::kNonSymmetric) ?
@@ -480,9 +481,11 @@ void DiffusionElementT::FormKd(double constK)
 		const dArrayT  fParams 	= params;
 
 		dMatrixT F = fF_List[CurrIP()];
-		//D_I(F, E, fParams);
+		double J = F.Det();
+		dArrayT di = d_i(F, E, fParams);
+		di *=(1.0);
 
-		//fB.MultTx(d_i(F, E, fParams), fNEEvec);
+		fB.MultTx(di, fNEEvec);
 /*------------------------------End of DE stuff--------------------------*/
 
 		/* accumulate */
@@ -787,105 +790,136 @@ void DiffusionElementT::GenerateOutputLabels(const iArrayT& n_codes,
 dMatrixT DiffusionElementT::b_ij(const dMatrixT F)
 {
 	int nsd = NumSD();
-	dMatrixT F2D(nsd);
-	dMatrixT C2D(nsd);
-
 	dMatrixT fTangentElectrical(nsd);
-	dMatrixT fKD(nsd);
 
-	F2D = F;
-	C2D.MultATB(F, F);
-	double J = F2D.Det();
+	if (nsd == 3){
+		dMatrixT C(nsd), ElecTan3D(nsd);
+		C.MultATB(F, F);
 
-	dMatrixT C3D(3), ElecTan3D(3);
-	ElecTan3D = 0.0;	// initialize
+		double J = F.Det();
+		dMatrixT Cinv(nsd);
+		Cinv.Inverse(C);
+		ElecTan3D = Cinv;
+		ElecTan3D *= J;
 
-	C3D[0] = C2D[0];
-	C3D[1] = C2D[1];
-	C3D[2] = 0.0;
+		fTangentElectrical = ElecTan3D;
 
-	C3D[3] = C2D[2];
-	C3D[4] = C2D[3];
-	C3D[5] = 0.0;
+	}	else if (nsd == 2) {
+		dMatrixT F2D(nsd);
+		dMatrixT C2D(nsd);
 
-	C3D[6] = 0.0;
-	C3D[7] = 0.0;
-	C3D[8] = 1.0;
 
-	dMatrixT Cinv(3);
-	Cinv.Inverse(C3D);
-	ElecTan3D = Cinv;
-	//ElecTan3D *= fElectricPermittivity;
-	ElecTan3D *= J;
+		dMatrixT fKD(nsd);
 
-	fTangentElectrical(0,0) = ElecTan3D(0,0);
-	fTangentElectrical(1,0) = ElecTan3D(1,0);
-	fTangentElectrical(0,1) = ElecTan3D(0,1);
-	fTangentElectrical(1,1) = ElecTan3D(1,1);
+		F2D = F;
+		C2D.MultATB(F, F);
+		double J = F2D.Det();
+
+		dMatrixT C3D(3), ElecTan3D(3);
+		ElecTan3D = 0.0;	// initialize
+
+		C3D[0] = C2D[0];
+		C3D[1] = C2D[1];
+		C3D[2] = 0.0;
+
+		C3D[3] = C2D[2];
+		C3D[4] = C2D[3];
+		C3D[5] = 0.0;
+
+		C3D[6] = 0.0;
+		C3D[7] = 0.0;
+		C3D[8] = 1.0;
+
+		dMatrixT Cinv(3);
+		Cinv.Inverse(C3D);
+		ElecTan3D = Cinv;
+		//ElecTan3D *= fElectricPermittivity;
+		ElecTan3D *= J;
+
+		fTangentElectrical(0,0) = ElecTan3D(0,0);
+		fTangentElectrical(1,0) = ElecTan3D(1,0);
+		fTangentElectrical(0,1) = ElecTan3D(0,1);
+		fTangentElectrical(1,1) = ElecTan3D(1,1);
+	}
 
 	// Push Forward
-	fKD.MultABCT(F, fTangentElectrical, F);
-	fKD /= J;
-
-	return fKD;   // K_D
+	//fKD.MultABCT(F, fTangentElectrical, F);
+	//fKD /= J;
+	//fTangentElectrical *= 2.0;
+  return fTangentElectrical;
+	//return fKD;   // K_D
 }
 /* Not neccessary for weakly coupling */
 dArrayT DiffusionElementT::d_i(const dMatrixT F, const dArrayT E, dArrayT fParams)
 {
 	int nsd = NumSD();
-	dMatrixT F2D(nsd);
-	dMatrixT C2D(nsd);
+	dArrayT fElectricDisplacement(nsd), D(nsd), ED(nsd);
 
-	F2D = F;
-	C2D.MultATB(F, F);
-	double J = F2D.Det();
+	if (nsd == 3){
+		dMatrixT C(nsd);
 
-	dArrayT fElectricDisplacement(nsd), D(nsd);
-	dMatrixT C3D(3), F3D(3);
-	dArrayT E3D(3), ED(3);
+		C.MultATB(F, F);
+		double J = F.Det();
 
-	ED = 0.0;
+		elec_pk2_q1p02D(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, ED.Pointer());
 
-	C3D[0] = C2D[0];
-	C3D[1] = C2D[1];
-	C3D[2] = 0.0;
+		D = ED;
 
-	C3D[3] = C2D[2];
-	C3D[4] = C2D[3];
-	C3D[5] = 0.0;
+	}	else if (nsd == 2) {
+		dMatrixT F2D(nsd);
+		dMatrixT C2D(nsd);
 
-	C3D[6] = 0.0;
-	C3D[7] = 0.0;
-	C3D[8] = 1.0;
+		F2D = F;
+		C2D.MultATB(F, F);
+		double J = F2D.Det();
 
-	F3D[0] = F2D[0];
-	F3D[1] = F2D[1];
-	F3D[2] = 0.0;
 
-	F3D[3] = F2D[2];
-	F3D[4] = F2D[3];
-	F3D[5] = 0.0;
+		dMatrixT C3D(3), F3D(3);
+		dArrayT E3D(3), ED(3);
 
-	F3D[6] = 0.0;
-	F3D[7] = 0.0;
-	F3D[8] = 1.0;
+		ED = 0.0;
 
-	//const dArrayT E = ElectricField();
-	E3D[0] = E[0];
-	E3D[1] = E[1];
-	E3D[2] = 0.0;
+		C3D[0] = C2D[0];
+		C3D[1] = C2D[1];
+		C3D[2] = 0.0;
 
-	/* call C function for electric stress (i.e. electric displacement D_{I}) */
-	elec_pk2_q1p02D(fParams.Pointer(), E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, ED.Pointer());
+		C3D[3] = C2D[2];
+		C3D[4] = C2D[3];
+		C3D[5] = 0.0;
 
-	D[0] = ED[0];
-	D[1] = ED[1];
+		C3D[6] = 0.0;
+		C3D[7] = 0.0;
+		C3D[8] = 1.0;
 
-	// prevent aliasing
-	F.Multx(D, fElectricDisplacement);
-	fElectricDisplacement /= J;
+		F3D[0] = F2D[0];
+		F3D[1] = F2D[1];
+		F3D[2] = 0.0;
 
-	//return fElectricDisplacement;
+		F3D[3] = F2D[2];
+		F3D[4] = F2D[3];
+		F3D[5] = 0.0;
+
+		F3D[6] = 0.0;
+		F3D[7] = 0.0;
+		F3D[8] = 1.0;
+
+		//const dArrayT E = ElectricField();
+		E3D[0] = E[0];
+		E3D[1] = E[1];
+		E3D[2] = 0.0;
+
+		/* call C function for electric stress (i.e. electric displacement D_{I}) */
+		elec_pk2_q1p02D(fParams.Pointer(), E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, ED.Pointer());
+
+		D[0] = ED[0];
+		D[1] = ED[1];
+
+		// prevent aliasing
+		//F.Multx(D, fElectricDisplacement);
+		//fElectricDisplacement /= J;
+		//D *= 2.0;
+		//return fElectricDisplacement;
+	}
 	return D;
 }
 /*------------------------------end of DE stuff--------------------------*/

@@ -58,7 +58,7 @@ kPenaltyContactElement3D = 34,
 			 kFSMatForce = 60,    /*UpLag with material force calculation*/
 			kSSMatForceD = 61,
 			kSSMatForceS = 62,
-		kSmallStrainQ2P1 = 64, /*small strain with mat force calculation*/		     
+		kSmallStrainQ2P1 = 64, /*small strain with mat force calculation*/
 			   kSSQ2P1MF = 65,
 		kSmallStrainQ1P0 = 66,
 			   kSSQ1P0MF = 67,
@@ -77,7 +77,7 @@ kSS_EnhStrainLocDieterich = 92, /* small strain enhanced strain embedded discont
        kHyperElasticAxi = 103, /**<  updated Lagrangian, large strain axisymmetric solid */
  kTotLagHyperElasticAxi = 104, /**<  total Lagrangian, large strain axisymmetric solid */
            kSimoQ1P0Axi = 105, /**<  Q1P0 (mixed), large strain axisymmetric solid */
-  kMeshFreeFDElasticAxi = 106, /**<  total Lagragian, large strain axisymmetric meshfree solid */     
+  kMeshFreeFDElasticAxi = 106, /**<  total Lagragian, large strain axisymmetric meshfree solid */
    kHyperElasticInitCSE = 111, /**< large strain solid that triggers CSE */
 	kPenaltyContactDrag = 114, /**< contact with constant drag traction */
 kMeshfreePenaltyContact = 115, /**< contact with meshfree strikers */
@@ -86,7 +86,8 @@ kTotLagSplitIntegration = 117,
         kSimoQ1P0InvAxi = 137, /**< axisymmetric Q1P0, finite strain, mixed element with inverse dilation */
             kTotLagFlat = 217,  /**< simplified total Lagragian solid */
             	kTersoff = 138,	/**< Particles with Tersoff Potential */
-        kFSSolidFluidMix = 139	/**< 3D dynamic Total Lagrangian solid fluid mixture element */
+        kFSSolidFluidMix = 139,	/**< 3D dynamic Total Lagrangian solid fluid mixture element */
+				kSimoQ1P0Surface = 140
 	};
 
 	/** convert integer to ElementT::TypeT */

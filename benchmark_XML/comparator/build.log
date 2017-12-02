@@ -1,25 +1,25 @@
 cd /home/saman/Tahoe/benchmark_XML/comparator/src-mirror
 cd /home/saman/Tahoe/benchmark_XML/comparator/src-mirror; \
-make  objects \
-"ARCH = GNU-GCC4.6" \
-"MACRO_DIR = /home/saman/Tahoe/benchmark_XML/comparator/../../macros" \
-"INC_DIR = /home/saman/Tahoe/benchmark_XML/comparator/inc" \
-"SRC_DIR = /home/saman/Tahoe/benchmark_XML/comparator/src-mirror" \
-"BLD_DIR = /home/saman/Tahoe/benchmark_XML/comparator" \
-"OBJ_DIR = /home/saman/Tahoe/benchmark_XML/comparator/obj" \
-"LIB_DIR = /home/saman/Tahoe/benchmark_XML/comparator/lib" \
-"PCH = comparePrefix.h" \
-"OPT_CFLAGS =    -I/home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc -I/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include -D__EXPAT__                -I/usr/local/ACCESS/inc -D__ACCESS__   " \
-"MOD_CFLAGS_C = " \
-"MOD_CFLAGS_CC = " \
-"MOD_CFLAGS_F = " \
-"MOD_LFLAGS = " \
-"OPT_MAKEDEPENDFLAGS =      -I/home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc -I/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include                -I/usr/local/ACCESS/inc      -D__EXPAT__                -D__ACCESS__   " \
-"MOD_MAKEDEPENDFLAGS = " \
-"DEPEND = all.depend" \
-"CURR_DIR = /home/saman/Tahoe/benchmark_XML/comparator/src-mirror"
-make[1]: Entering directory '/home/saman/Tahoe/benchmark_XML/comparator/src-mirror'
-make[2]: Entering directory '/home/saman/Tahoe/benchmark_XML/comparator/src-mirror'
+	make  objects \
+	"ARCH = GNU-GCC4.6" \
+	"MACRO_DIR = /home/saman/Tahoe/benchmark_XML/comparator/../../macros" \
+	"INC_DIR = /home/saman/Tahoe/benchmark_XML/comparator/inc" \
+	"SRC_DIR = /home/saman/Tahoe/benchmark_XML/comparator/src-mirror" \
+	"BLD_DIR = /home/saman/Tahoe/benchmark_XML/comparator" \
+	"OBJ_DIR = /home/saman/Tahoe/benchmark_XML/comparator/obj" \
+	"LIB_DIR = /home/saman/Tahoe/benchmark_XML/comparator/lib" \
+	"PCH = comparePrefix.h" \
+	"OPT_CFLAGS =    -I/home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc -I/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include -D__EXPAT__                -I/usr/local/ACCESS/inc -D__ACCESS__   " \
+	"MOD_CFLAGS_C = " \
+	"MOD_CFLAGS_CC = " \
+	"MOD_CFLAGS_F = " \
+	"MOD_LFLAGS = " \
+	"OPT_MAKEDEPENDFLAGS =      -I/home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc -I/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include                -I/usr/local/ACCESS/inc      -D__EXPAT__                -D__ACCESS__   " \
+	"MOD_MAKEDEPENDFLAGS = " \
+	"DEPEND = all.depend" \
+	"CURR_DIR = /home/saman/Tahoe/benchmark_XML/comparator/src-mirror"
+make[1]: Entering directory `/home/saman/Tahoe/benchmark_XML/comparator/src-mirror'
+make[2]: Entering directory `/home/saman/Tahoe/benchmark_XML/comparator/src-mirror'
     /usr/bin/g++-4.6: ComparatorT.cpp
 /usr/bin/g++-4.6 -c -I/home/saman/Tahoe/benchmark_XML/comparator/inc -DNON_UNIX_STDIO -D__POSIX_THREADS__ -DEIGHT_BYTE_REAL -O3 -DNDEBUG  -Wunused -Wuninitialized -Wno-deprecated -I/home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc -I/home/saman/Tahoe/benchmark_XML/comparator/../../expat/include -D__EXPAT__                -I/usr/local/ACCESS/inc -D__ACCESS__     ComparatorT.cpp
 In file included from /home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/inc/expat_ParseT.h:8:0,
@@ -118,25 +118,24 @@ ComparatorT.cpp:347:30: note: #pragma message: restore me
 ComparatorT.cpp: In member function ‘bool Tahoe::ComparatorT::PassOrFail(const Tahoe::StringT&, const Tahoe::StringT&, bool, bool)’:
 ComparatorT.cpp:541:7: warning: unused variable ‘changing’ [-Wunused-variable]
 ln -sf /home/saman/Tahoe/benchmark_XML/comparator/src-mirror/ComparatorT.o /home/saman/Tahoe/benchmark_XML/comparator/obj/ComparatorT.o
-make[2]: Leaving directory '/home/saman/Tahoe/benchmark_XML/comparator/src-mirror'
-make[2]: Entering directory '/home/saman/Tahoe/benchmark_XML/comparator/src-mirror'
-make[2]: Nothing to be done for 'subdir_driver'.
-make[2]: Leaving directory '/home/saman/Tahoe/benchmark_XML/comparator/src-mirror'
-make[1]: Leaving directory '/home/saman/Tahoe/benchmark_XML/comparator/src-mirror'
+make[2]: Leaving directory `/home/saman/Tahoe/benchmark_XML/comparator/src-mirror'
+make[2]: Entering directory `/home/saman/Tahoe/benchmark_XML/comparator/src-mirror'
+make[2]: Nothing to be done for `subdir_driver'.
+make[2]: Leaving directory `/home/saman/Tahoe/benchmark_XML/comparator/src-mirror'
+make[1]: Leaving directory `/home/saman/Tahoe/benchmark_XML/comparator/src-mirror'
 make archive "OBJECT_LIST = /home/saman/Tahoe/benchmark_XML/comparator/object_list" "ARCH = GNU-GCC4.6" "MACRO_DIR = /home/saman/Tahoe/benchmark_XML/comparator/../../macros" "HOME_DIR = /home/saman/Tahoe/benchmark_XML/comparator"
-make[1]: Entering directory '/home/saman/Tahoe/benchmark_XML/comparator'
+make[1]: Entering directory `/home/saman/Tahoe/benchmark_XML/comparator'
 cd /home/saman/Tahoe/benchmark_XML/comparator/obj; \
-printf " building archive /home/saman/Tahoe/benchmark_XML/comparator/lib/libcompare.a\n"; \
-ar -cruv /home/saman/Tahoe/benchmark_XML/comparator/lib/libcompare.a ComparatorT.o main.o ; \
-printf " running ranlib /home/saman/Tahoe/benchmark_XML/comparator/lib/libcompare.a\n"; \
-echo  /home/saman/Tahoe/benchmark_XML/comparator/lib/libcompare.a
+	printf " building archive /home/saman/Tahoe/benchmark_XML/comparator/lib/libcompare.a\n"; \
+	ar -cruv /home/saman/Tahoe/benchmark_XML/comparator/lib/libcompare.a ComparatorT.o main.o ; \
+	printf " running ranlib /home/saman/Tahoe/benchmark_XML/comparator/lib/libcompare.a\n"; \
+	echo  /home/saman/Tahoe/benchmark_XML/comparator/lib/libcompare.a
  building archive /home/saman/Tahoe/benchmark_XML/comparator/lib/libcompare.a
-ar: `u' modifier ignored since `D' is the default (see `U')
 a - ComparatorT.o
 a - main.o
  running ranlib /home/saman/Tahoe/benchmark_XML/comparator/lib/libcompare.a
 /home/saman/Tahoe/benchmark_XML/comparator/lib/libcompare.a
-make[1]: Leaving directory '/home/saman/Tahoe/benchmark_XML/comparator'
+make[1]: Leaving directory `/home/saman/Tahoe/benchmark_XML/comparator'
  linking...
 /usr/bin/g++-4.6 /home/saman/Tahoe/benchmark_XML/comparator/src-mirror/main.o -o compare -L/home/saman/Tahoe/benchmark_XML/comparator/lib -lcompare     -L/home/saman/Tahoe/benchmark_XML/comparator/../../toolbox/lib -ltoolbox -L/home/saman/Tahoe/benchmark_XML/comparator/../../expat/lib -lexpat                -L/usr/local/ACCESS/lib -lexoIIv2c -lnetcdf     -lpthread
     ...wrote compare

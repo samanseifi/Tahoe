@@ -1133,6 +1133,7 @@ ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/SmallStrainAxiT.cpp 
 ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/SimoFiniteStrainT.h /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/SimoFiniteStrainT.h
 ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/UpdatedLagrangianT.cpp /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/UpdatedLagrangianT.cpp
 ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/FiniteStrainT.h /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/FiniteStrainT.h
+ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/SimoQ1P0_Surface.h /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/SimoQ1P0_Surface.h
 ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/UpdatedLagrangianAxiT.h /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/UpdatedLagrangianAxiT.h
 ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/UpLagr_ExternalFieldT.cpp /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/UpLagr_ExternalFieldT.cpp
 ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/FiniteStrainAxiT.cpp /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/FiniteStrainAxiT.cpp
@@ -1200,6 +1201,7 @@ ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/SolidElementT.h /hom
 ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/FiniteStrainT.cpp /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/FiniteStrainT.cpp
 ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/SmallStrainT.cpp /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/SmallStrainT.cpp
 ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/TotalLagrangianT.cpp /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/TotalLagrangianT.cpp
+ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/solid/SimoQ1P0_Surface.cpp /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/solid/SimoQ1P0_Surface.cpp
 ln -sf /home/saman/Tahoe/tahoe/src/elements/continuum/makefile /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/makefile
 processing directory /home/saman/Tahoe/tahoe/src/elements/continuum/diffusion
 found destination directory /home/saman/Tahoe/tahoe/src-mirror/elements/continuum/diffusion

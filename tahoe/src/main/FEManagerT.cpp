@@ -33,6 +33,8 @@
 #include "IOBaseT.h"
 #include "PartitionT.h"
 
+#include <fstream>
+
 using namespace Tahoe;
 
 /* File/Version Control */
@@ -135,60 +137,107 @@ FEManagerT::~FEManagerT(void)
 /* solve all the time sequences */
 void FEManagerT::Solve(void)
 {
-	std::cout << 1 << std::endl;
+	ofstream myfile;
+	myfile.open ("err.txt");
+
+	//std::cout << 1 << std::endl;
 	const char caller[] = "FEManagerT::Solve";
 
 	/* set to initial condition */
 	ExceptionT::CodeT error = InitialCondition();
 
-
+	dArray2DT delta_acc;
+	dArray2DT delta_u;
+	dArray2DT updated_coord;
 	/* loop over time increments */
 	while (error == ExceptionT::kNoError && fTimeManager->Step())
 	{
+		delta_acc = 0;
 
-/* ------------------ this collects old accelerations data -------------*/
-		ArrayT<FieldT*> fields1;
-		int group_number1 = 0; // in staggered 0 is the mechanical
-		fNodeManager->CollectFields(group_number1, fields1);
-
-		/* accelerations */
-		const dArray2DT& acc_old = (*fields1[0])[2];
+		int i = 0;
+		double err = 1.0;
+		double e_tol = 1.0e-10;
+		double dt = TimeStep();
 
 
-		//cout << vec1 << endl;
-/* -------------------------------------------------------------------------*/
-		//int my_condition = 0;
-		//while (my_condition < 3)
+		//ArrayT<FieldT*> fields1;
+		//int group_number1 = 1; // check which group is the mechanical
+		//fNodeManager->CollectFields(group_number1, fields1);
+		//dArray2DT acc_old  = (*fields1[0])[2]; // old acccelerations
+
+
+		//while (err > e_tol)
+		//for (int i = 0; i < 1; i++)
 		//{
-		/* initialize the current time step */
-		if (error == ExceptionT::kNoError)
-			error = InitStep();
-
-		/* solve the current time step */
-		if (error == ExceptionT::kNoError)
-			error = SolveStep();
-
-/* ------------------ this collects current accelerations data -------------*/
-		ArrayT<FieldT*> fields2;
-		int group_number2 = 0; // in staggered 0 is the mechanical
-		fNodeManager->CollectFields(group_number2, fields2);
-
-		/* accelerations */
-		const dArray2DT& acc_cur = (*fields2[0])[2];
-		//cout << acc_cur << endl;
-
-/* -------------------------------------------------------------------------*/
 
 
+			/* initialize the current time step */
+			if (error == ExceptionT::kNoError)
+				error = InitStep();
 
-		//std::cout << "The condition has not met yet: " << my_condition << std::endl;
-		//my_condition += 1;
+			/* solve the current time step */
+			if (error == ExceptionT::kNoError)
+				error = SolveStep();
+
+			//ArrayT<FieldT*> fields2;
+			//int group_number2 = 1; // check which group is the mechanical
+			//fNodeManager->CollectFields(group_number2, fields2);
+			//dArray2DT acc_cur = (*fields2[0])[2]; // current accelerations
+
+			//delta_acc = acc_cur;
+			//delta_acc -= acc_old;
+
+			//err = 0.25*dt*dt*sqrt(dArrayT::Dot(delta_acc, delta_acc));
+			//delta_u = delta_acc;
+			//delta_u *= 0.25*dt*dt;
+
+			//ArrayT<FieldT*> fields3;
+			//int group_number3 = 1; // check which group is the mechanical
+			//fNodeManager->CollectFields(group_number3, fields3);
+			//dArray2DT& disp_cur = (*fields3[0])[0]; // displacements
+
+
+			//myfile << err << "\n";
+			//cout << delta_u << endl;
+			//cout << "DISP" << endl;
+			//cout << disp_cur << endl;
+			//if (i > 1)
+			//			disp_cur += delta_u;
+			//i = i + 1;
+			//cout << disp_cur << endl;
+
 		//}
-
-		//std::cout << "SUCESS " << my_condition << std::endl;
 		/* close the current time step */
 		if (error == ExceptionT::kNoError)
 			error = CloseStep();
+
+			//
+			//
+			// cout << fNodeManager->CurrentCoordinates() << endl;
+			// cout <<  "DeltaU=" << "\n";
+			// cout << delta_u << endl;
+			//
+			// //fNodeManager->UpdateCurrentCoordinates(delta_u);
+			// cout << "Updated=" << "\n";
+			// cout << fNodeManager->CurrentCoordinates() << endl;
+			// updated_coord = fNodeManager->CurrentCoordinates();
+			// //fNodeManager->RegisterCoordinates(updated_coord);
+
+			// if (error == ExceptionT::kNoError)
+			// 	error = InitStep(delta_u);
+
+
+
+			// acc_cur(1,0) += 0.001;
+
+			// cout <<"CURRENT" << endl;
+			// cout << acc_cur << endl;
+
+
+
+			// cout << fNodeManager->CurrentCoordinates() << endl;
+
+		// }
 
 		/* handle errors */
 		switch (error)
@@ -215,12 +264,13 @@ void FEManagerT::Solve(void)
 				cout << '\n' << caller <<  ": no recovery for error: " << ExceptionT::ToString(error) << endl;
 		}
 	}
+	myfile.close();
 }
 
 /* manager messaging */
 const ScheduleT* FEManagerT::Schedule(int num) const
 {
-	std::cout << 2 << std::endl;
+	//std::cout << 2 << std::endl;
 	return fTimeManager->Schedule(num);
 }
 
@@ -228,21 +278,21 @@ bool FEManagerT::PrintInput(void) const { return fPrintInput; }
 
 IOBaseT::FileTypeT FEManagerT::ModelFormat(void) const
 {
-	std::cout << 3 << std::endl;
+	//std::cout << 3 << std::endl;
 	return fModelManager->DatabaseFormat();
 }
 
 
 void FEManagerT::WriteEquationNumbers(int group) const
 {
-	std::cout << 4 << std::endl;
+	//std::cout << 4 << std::endl;
 	fNodeManager->WriteEquationNumbers(group, fMainOut);
 	fMainOut.flush();
 }
 
 GlobalT::SystemTypeT FEManagerT::GlobalSystemType(int group) const
 {
-	std::cout << 5 << std::endl;
+	//std::cout << 5 << std::endl;
 	GlobalT::SystemTypeT type = fNodeManager->TangentType(group);
 	for (int i = 0 ; i < fElementGroups->Length(); i++)
 	{
@@ -261,7 +311,7 @@ bool FEManagerT::IncreaseLoadStep(void) { return fTimeManager->IncreaseLoadStep(
 
 ExceptionT::CodeT FEManagerT::ResetStep(void)
 {
-	std::cout << 6 << std::endl;
+	//std::cout << 6 << std::endl;
 	ExceptionT::CodeT error = ExceptionT::kNoError;
 	try{
 		/* state */
@@ -328,7 +378,7 @@ const int& FEManagerT::IterationNumber(int group) const
 /* solution messaging */
 void FEManagerT::FormLHS(int group, GlobalT::SystemTypeT sys_type) const
 {
-	std::cout << 7 << std::endl;
+	//std::cout << 7 << std::endl;
 	/* state */
 	SetStatus(GlobalT::kFormLHS);
 
@@ -346,7 +396,7 @@ void FEManagerT::FormLHS(int group, GlobalT::SystemTypeT sys_type) const
 
 void FEManagerT::FormRHS(int group) const
 {
-	std::cout << 8 << std::endl;
+	//std::cout << 8 << std::endl;
 	/* state */
 	SetStatus(GlobalT::kFormRHS);
 
@@ -375,21 +425,21 @@ void FEManagerT::FormRHS(int group) const
 /* the residual for the given group */
 const dArrayT& FEManagerT::RHS(int group) const
 {
-	std::cout << 9 << std::endl;
+	//std::cout << 9 << std::endl;
 	return fSolvers[group]->RHS();
 }
 
 /* the residual for the given group */
 const GlobalMatrixT& FEManagerT::LHS(int group) const
 {
-	std::cout << 10 << std::endl;
+	//std::cout << 10 << std::endl;
 	return fSolvers[group]->LHS();
 }
 
 /* collect the internal force on the specified node */
 void FEManagerT::InternalForceOnNode(const FieldT& field, int node, dArrayT& force) const
 {
-	std::cout << 11 << std::endl;
+	//std::cout << 11 << std::endl;
 	/* initialize */
 	force = 0.0;
 
@@ -400,7 +450,7 @@ void FEManagerT::InternalForceOnNode(const FieldT& field, int node, dArrayT& for
 
 ExceptionT::CodeT FEManagerT::InitStep(void)
 {
-	std::cout << 12 << std::endl;
+	//std::cout << 12 << std::endl;
 	try {
 	/* state */
 	SetStatus(GlobalT::kInitStep);
@@ -435,9 +485,46 @@ ExceptionT::CodeT FEManagerT::InitStep(void)
 	return ExceptionT::kNoError;
 }
 
+ExceptionT::CodeT FEManagerT::InitStep(const dArray2DT& update)
+{
+	//std::cout << 12 << std::endl;
+	try {
+	/* state */
+	SetStatus(GlobalT::kInitStep);
+
+	/* set the default value for the output time stamp */
+	fIOManager->SetOutputTime(Time());
+
+	/* loop over solver groups */
+	if (fCurrentGroup != -1) throw ExceptionT::kGeneralFail;
+	for (fCurrentGroup = 0; fCurrentGroup < NumGroups(); fCurrentGroup++)
+	{
+		/* solver */
+		fSolvers[fCurrentGroup]->InitStep();
+
+		/* nodes */
+		fNodeManager->InitStep(fCurrentGroup, update);
+	}
+	fCurrentGroup = -1;
+
+	/* elements */
+	for (int i = 0 ; i < fElementGroups->Length(); i++)
+		(*fElementGroups)[i]->InitStep();
+	}
+
+	catch (ExceptionT::CodeT exc) {
+		cout << "\n FEManagerT::InitStep: caught exception: "
+		     << ExceptionT::ToString(exc) << endl;
+		return exc;
+	}
+
+	/* OK */
+	return ExceptionT::kNoError;
+}
+
 ExceptionT::CodeT FEManagerT::SolveStep(void)
 {
-	std::cout << 13 << std::endl;
+	//std::cout << 13 << std::endl;
 	ExceptionT::CodeT error = ExceptionT::kNoError;
 	try {
 
@@ -450,6 +537,8 @@ ExceptionT::CodeT FEManagerT::SolveStep(void)
 
 		/* clear status */
 		fSolverPhasesStatus = 0;
+
+
 
 		while (!all_pass &&
 			(fMaxSolverLoops == -1 || loop_count < fMaxSolverLoops) &&
@@ -465,11 +554,14 @@ ExceptionT::CodeT FEManagerT::SolveStep(void)
 				int iter = fSolverPhases(i,1);
 				int pass = fSolverPhases(i,2);
 
-				cout << "Calling SolveerT::Solve? FEManager" << endl;
+
+
+				//cout << "Calling SolveerT::Solve? FEManager" << endl;
 				/* call solver */
 				/* EVERYTHING HAPPENS HERE: UPDATES, COORDINATE UPDATES */
 				status = fSolvers[fCurrentGroup]->Solve(iter);
-				cout << "Is it done? FEManagerT" << endl;
+
+				//cout << "Is it done? FEManagerT" << endl;
 				/* check result */
 				fSolverPhasesStatus(i, kGroup) = fCurrentGroup;
 				int last_iter = fSolverPhasesStatus(i, kIteration);
@@ -532,7 +624,7 @@ ExceptionT::CodeT FEManagerT::SolveStep(void)
 
 ExceptionT::CodeT FEManagerT::CloseStep(void)
 {
-	std::cout << 14 << std::endl;
+	//std::cout << 14 << std::endl;
 	try {
 	/* state */
 	SetStatus(GlobalT::kCloseStep);
@@ -572,7 +664,7 @@ ExceptionT::CodeT FEManagerT::CloseStep(void)
 
 void FEManagerT::Update(int group, const dArrayT& update)
 {
-	std::cout << 15 << std::endl;
+	//std::cout << 15 << std::endl;
 	/* below is some code which will check to see if the other process are still alive
 	 * The question is how best to check if one should do it. Is it even neccesary? looks
 	 * like it only outputs a time value, and does some error checking */
@@ -595,13 +687,13 @@ void FEManagerT::Update(int group, const dArrayT& update)
 
 void FEManagerT::GetUnknowns(int group, int order, dArrayT& unknowns) const
 {
-	std::cout << 16 << std::endl;
+	//std::cout << 16 << std::endl;
 	fNodeManager->GetUnknowns(group, order, unknowns);
 }
 
 GlobalT::RelaxCodeT FEManagerT::RelaxSystem(int group) const
 {
-	std::cout << 17 << std::endl;
+	//std::cout << 17 << std::endl;
 	/* state */
 	SetStatus(GlobalT::kRelaxSystem);
 
@@ -654,33 +746,33 @@ void FEManagerT::AssembleLHS(int group, const ElementMatrixT& elMat,
 void FEManagerT::AssembleLHS(int group, const ElementMatrixT& elMat,
 	const nArrayT<int>& row_eqnos, const nArrayT<int>& col_eqnos) const
 {
-	std::cout << 19 << std::endl;
+	//std::cout << 19 << std::endl;
 	fSolvers[group]->AssembleLHS(elMat, row_eqnos, col_eqnos);
 }
 
 void FEManagerT::AssembleLHS(int group, const nArrayT<double>& diagonal_elMat,
 	const nArrayT<int>& eqnos) const
 {
-	std::cout << 20 << std::endl;
+	//std::cout << 20 << std::endl;
 	fSolvers[group]->AssembleLHS(diagonal_elMat, eqnos);
 }
 
 void FEManagerT::OverWriteLHS(int group, const ElementMatrixT& elMat,
 	const nArrayT<int>& eqnos) const
 {
-	std::cout << 21 << std::endl;
+	//std::cout << 21 << std::endl;
 	fSolvers[group]->OverWriteLHS(elMat, eqnos);
 }
 
 void FEManagerT::DisassembleLHS(int group, dMatrixT& elMat, const nArrayT<int>& eqnos) const
 {
-	std::cout << 22 << std::endl;
+	//std::cout << 22 << std::endl;
 	fSolvers[group]->DisassembleLHS(elMat, eqnos);
 }
 
 void FEManagerT::DisassembleLHSDiagonal(int group, dArrayT& diagonals, const nArrayT<int>& eqnos) const
 {
-	std::cout << 23 << std::endl;
+	//std::cout << 23 << std::endl;
 	fSolvers[group]->DisassembleLHSDiagonal(diagonals, eqnos);
 }
 
@@ -693,20 +785,20 @@ void FEManagerT::AssembleRHS(int group, const nArrayT<double>& elRes,
 
 void FEManagerT::OverWriteRHS(int group, const dArrayT& elRes, const nArrayT<int>& eqnos) const
 {
-	std::cout << 25 << std::endl;
+	//std::cout << 25 << std::endl;
 	fSolvers[group]->OverWriteRHS(elRes, eqnos);
 }
 
 void FEManagerT::DisassembleRHS(int group, dArrayT& elRes, const nArrayT<int>& eqnos) const
 {
-	std::cout << 26 << std::endl;
+	//std::cout << 26 << std::endl;
 	fSolvers[group]->DisassembleRHS(elRes, eqnos);
 }
 
 /* writing results original*/
 void FEManagerT::WriteOutput(double time)
 {
-	std::cout << 27 << std::endl;
+	//std::cout << 27 << std::endl;
 	try
 	{
 		/* state */
@@ -819,7 +911,7 @@ void FEManagerT::WriteOutput(double time)
 void FEManagerT::WriteOutput(int ID, const dArray2DT& n_values,
 	const dArray2DT& e_values) const
 {
-	std::cout << 28 << std::endl;
+	//std::cout << 28 << std::endl;
 	/* output assembly mode */
 	if(fExternIOManager)
 	{
@@ -835,7 +927,7 @@ void FEManagerT::WriteOutput(int ID, const dArray2DT& n_values,
 /* initiate the process of writing output from all output sets */
 void FEManagerT::WriteOutput(int ID, const dArray2DT& n_values) const
 {
-	std::cout << 29 << std::endl;
+	//std::cout << 29 << std::endl;
 	/* output assembly mode */
 	if(fExternIOManager)
 		fExternIOManager->WriteOutput(ID, n_values); /* distribute/assemble/write */
@@ -847,13 +939,13 @@ void FEManagerT::WriteOutput(int ID, const dArray2DT& n_values) const
 void FEManagerT::WriteOutput(const StringT& file, const dArray2DT& coords, const iArrayT& node_map,
 	const dArray2DT& values, const ArrayT<StringT>& labels) const
 {
-	std::cout << 30 << std::endl;
+	//std::cout << 30 << std::endl;
 	fIOManager->WriteOutput(file, coords, node_map, values, labels);
 }
 
 int FEManagerT::RegisterOutput(const OutputSetT& output_set) const
 {
-	std::cout << 31 << std::endl;
+	//std::cout << 31 << std::endl;
 	/* check */
 	if (!fIOManager)
 		ExceptionT::GeneralFail("FEManagerT::RegisterOutput", "I/O manager not initialized");
@@ -929,13 +1021,13 @@ int FEManagerT::RegisterOutput(const OutputSetT& output_set) const
 void FEManagerT::WriteGeometryFile(const StringT& file_name,
 	IOBaseT::FileTypeT output_format) const
 {
-	std::cout << 32 << std::endl;
+	//std::cout << 32 << std::endl;
 	fIOManager->WriteGeometryFile(file_name, output_format);
 }
 
 const OutputSetT& FEManagerT::OutputSet(int ID) const
 {
-	std::cout << 33 << std::endl;
+	//std::cout << 33 << std::endl;
 	/* check */
 	if (!fIOManager) ExceptionT::GeneralFail("FEManagerT::OutputSet", "I/O manager not initialized");
 	return fIOManager->OutputSet(ID);
@@ -944,7 +1036,7 @@ const OutputSetT& FEManagerT::OutputSet(int ID) const
 /* (temporarily) direct output away from main out, formerly in FEManagerT_mpi.cpp DEF 28 July 04 */
 void FEManagerT::DivertOutput(const StringT& outfile)
 {
-	std::cout << 34 << std::endl;
+	//std::cout << 34 << std::endl;
 	if (fExternIOManager)
 	{
 		/* external I/O */
@@ -975,7 +1067,7 @@ void FEManagerT::DivertOutput(const StringT& outfile)
 // same story as divert
 void FEManagerT::RestoreOutput(void)
 {
-	std::cout << 35 << std::endl;
+	//std::cout << 35 << std::endl;
 	if (fExternIOManager)
 	{
 		/* external I/O */
@@ -1000,7 +1092,7 @@ void FEManagerT::RestoreOutput(void)
 /* cross-linking */
 ElementBaseT* FEManagerT::ElementGroup(int groupnumber) const
 {
-	std::cout << 36 << std::endl;
+	//std::cout << 36 << std::endl;
 	/* check range */
 	bool yes, yes2;
 	if (fElementGroups && groupnumber > -1 && groupnumber < fElementGroups->Length())
@@ -1013,7 +1105,7 @@ ElementBaseT* FEManagerT::ElementGroup(int groupnumber) const
 
 int FEManagerT::ElementGroupNumber(const ElementBaseT* pgroup) const
 {
-	std::cout << 37 << std::endl;
+	//std::cout << 37 << std::endl;
 	int groupnum = -1;
 	for (int i = 0; i < fElementGroups->Length() && groupnum == -1; i++)
 		if ((*fElementGroups)[i] == pgroup) groupnum = i;
@@ -1044,14 +1136,14 @@ void FEManagerT::Wait(void) { fComm.Barrier(); }
 /* global number of first local equation */
 GlobalT::EquationNumberScopeT FEManagerT::EquationNumberScope(int group) const
 {
-	std::cout << 38 << std::endl;
+	//std::cout << 38 << std::endl;
 	return fSolvers[group]->EquationNumberScope();
 }
 
 /* global number of first local equation */
 int FEManagerT::GetGlobalEquationStart(int group, int start_eq_shift) const
 {
-	std::cout << 39 << std::endl;
+	//std::cout << 39 << std::endl;
 	if (Size() == 1)
 	{
 		#pragma unused(group)
@@ -1081,7 +1173,7 @@ int FEManagerT::GetGlobalEquationStart(int group, int start_eq_shift) const
 
 int FEManagerT::GetGlobalNumEquations(int group) const
 {
-	std::cout << 40 << std::endl;
+	//std::cout << 40 << std::endl;
 	if (Size() == 1)
 	{
 		/* no other equations */
@@ -1098,7 +1190,7 @@ int FEManagerT::GetGlobalNumEquations(int group) const
 
 void FEManagerT::SetTimeStep(double dt) const
 {
-	std::cout << 41 << std::endl;
+	//std::cout << 41 << std::endl;
 	/* update the time manager */
 	fTimeManager->SetTimeStep(dt);
 
@@ -1113,14 +1205,14 @@ void FEManagerT::SetTimeStep(double dt) const
 /* returns 1 of ALL element groups have interpolant DOF's */
 int FEManagerT::InterpolantDOFs(void) const
 {
-	std::cout << 42 << std::endl;
+	//std::cout << 42 << std::endl;
 	return fElementGroups->InterpolantDOFs();
 }
 
 /* debugging */
 void FEManagerT::WriteSystemConfig(ostream& out, int group) const
 {
-	std::cout << 43 << std::endl;
+	//std::cout << 43 << std::endl;
 	int old_precision = out.precision();
 	out.precision(DBL_DIG);
 
@@ -1235,7 +1327,7 @@ void FEManagerT::WriteSystemConfig(ostream& out, int group) const
 
 void FEManagerT::RegisterSystemOutput(int group)
 {
-	std::cout << 44 << std::endl;
+	//std::cout << 44 << std::endl;
 #pragma unused(group)
 	const char caller[] = "FEManagerT::RegisterSystemOutput";
 
@@ -1248,7 +1340,7 @@ void FEManagerT::RegisterSystemOutput(int group)
 /* interactive */
 bool FEManagerT::iDoCommand(const CommandSpecT& command, StringT& line)
 {
-	std::cout << 45 << std::endl;
+	//std::cout << 45 << std::endl;
 	try
 	{
 		if (command.Name() == "ReadRestart")
@@ -1284,7 +1376,7 @@ bool FEManagerT::iDoCommand(const CommandSpecT& command, StringT& line)
 /* describe the parameters needed by the interface */
 void FEManagerT::DefineParameters(ParameterListT& list) const
 {
-	std::cout << 46 << std::endl;
+	//std::cout << 46 << std::endl;
 	/* inherited */
 	ParameterInterfaceT::DefineParameters(list);
 
@@ -1348,7 +1440,7 @@ void FEManagerT::DefineParameters(ParameterListT& list) const
 /* accept parameter list */
 void FEManagerT::TakeParameterList(const ParameterListT& list)
 {
-	std::cout << 47 << std::endl;
+	//std::cout << 47 << std::endl;
 	const char caller[] = "FEManagerT::TakeParameterList";
 
 	/* state */
@@ -1652,7 +1744,7 @@ if (fTask == kDecompose) return;
 void FEManagerT::ConnectsU( AutoArrayT<const iArray2DT*>& connects_1, AutoArrayT<const RaggedArray2DT<int>*>& connects_2,
 		AutoArrayT<const iArray2DT*>& equivalent_nodes) const
 	{
-		std::cout << 48 << std::endl;
+		//std::cout << 48 << std::endl;
 		/* collect connectivies from all solver groups */
 	for (int i = 0; i < NumGroups(); i++)
 		fNodeManager->ConnectsU(i,connects_1,connects_2, equivalent_nodes);
@@ -1665,7 +1757,7 @@ void FEManagerT::ConnectsU( AutoArrayT<const iArray2DT*>& connects_1, AutoArrayT
 
 void FEManagerT::ConnectsX( AutoArrayT<const iArray2DT*>& connects) const
 	{
-		std::cout << 49 << std::endl;
+		//std::cout << 49 << std::endl;
 		/* collect element groups */
 		for (int s = 0 ; s < fElementGroups->Length(); s++)
 			(*fElementGroups)[s]->ConnectsX(connects);
@@ -1674,7 +1766,7 @@ void FEManagerT::ConnectsX( AutoArrayT<const iArray2DT*>& connects) const
 /* information about subordinate parameter lists */
 void FEManagerT::DefineSubs(SubListT& sub_list) const
 {
-	std::cout << 50 << std::endl;
+	//std::cout << 50 << std::endl;
 	/* inherited */
 	ParameterInterfaceT::DefineSubs(sub_list);
 
@@ -1700,7 +1792,7 @@ void FEManagerT::DefineSubs(SubListT& sub_list) const
 /* a pointer to the ParameterInterfaceT of the given subordinate */
 ParameterInterfaceT* FEManagerT::NewSub(const StringT& name) const
 {
-	std::cout << 51 << std::endl;
+	//std::cout << 51 << std::endl;
 	FEManagerT* non_const_this = (FEManagerT*) this;
 
 	/* try to construct solver */
@@ -1777,7 +1869,7 @@ ParameterInterfaceT* FEManagerT::NewSub(const StringT& name) const
 void FEManagerT::DefineInlineSub(const StringT& name, ParameterListT::ListOrderT& order,
 	SubListT& sub_lists) const
 {
-	std::cout << 52 << std::endl;
+	//std::cout << 52 << std::endl;
 	if (name == "solvers")
 	{
 		order = ParameterListT::Choice;
@@ -1804,7 +1896,7 @@ void FEManagerT::DefineInlineSub(const StringT& name, ParameterListT::ListOrderT
 /* returns true if the option was passed on the command line */
 bool FEManagerT::CommandLineOption(const char* str, int& index) const
 {
-	std::cout << 53 << std::endl;
+	//std::cout << 53 << std::endl;
 	for (int i = 0; i < fArgv.Length(); i++)
 		if (fArgv[i] == str) {
 			index = i;
@@ -1818,7 +1910,7 @@ bool FEManagerT::CommandLineOption(const char* str, int& index) const
 
 void FEManagerT::SendEqnsToSolver(int group) const
 {
-	std::cout << 54 << std::endl;
+	//std::cout << 54 << std::endl;
 	/* dynamic arrays */
 	AutoArrayT<const iArray2DT*> eq_1;
 	AutoArrayT<const RaggedArray2DT<int>*> eq_2;
@@ -1844,7 +1936,7 @@ void FEManagerT::SendEqnsToSolver(int group) const
 /* "const" function that sets the status flag */
 void FEManagerT::SetStatus(GlobalT::StateT status) const
 {
-	std::cout << 55 << std::endl;
+	//std::cout << 55 << std::endl;
 	/* non-const this */
 	FEManagerT* non_const_this = (FEManagerT*) this;
 	non_const_this->fStatus = status;
@@ -1853,7 +1945,7 @@ void FEManagerT::SetStatus(GlobalT::StateT status) const
 /* set the correct fSolutionDriver type */
 void FEManagerT::SetSolver(void)
 {
-	std::cout << 56 << std::endl;
+	//std::cout << 56 << std::endl;
 	const char caller[] = "FEManagerT::SetSolver";
 
 	/* equation info */
@@ -1923,7 +2015,7 @@ void FEManagerT::SetSolver(void)
 /* construct output */
 void FEManagerT::SetOutput(void)
 {
-	std::cout << 57 << std::endl;
+	//std::cout << 57 << std::endl;
 	/* set global coordinates */
 	fIOManager->SetCoordinates(fNodeManager->InitialCoordinates(), NULL);
 
@@ -1938,7 +2030,7 @@ void FEManagerT::SetOutput(void)
 /* (re-)set system to initial conditions */
 ExceptionT::CodeT FEManagerT::InitialCondition(void)
 {
-	std::cout << 58 << std::endl;
+	//std::cout << 58 << std::endl;
 	const char caller[] = "FEManagerT::InitialCondition";
 
 	/* state */
@@ -1991,7 +2083,7 @@ ExceptionT::CodeT FEManagerT::InitialCondition(void)
 /* restart file functions */
 bool FEManagerT::ReadRestart(const StringT* file_name)
 {
-	std::cout << 59 << std::endl;
+	//std::cout << 59 << std::endl;
 	/* state */
 	fStatus = GlobalT::kReadRestart;
 
@@ -2054,7 +2146,7 @@ bool FEManagerT::ReadRestart(const StringT* file_name)
 
 bool FEManagerT::WriteRestart(const StringT* file_name) const
 {
-	std::cout << 60 << std::endl;
+	//std::cout << 60 << std::endl;
 	/* state */
 	SetStatus(GlobalT::kWriteRestart);
 
@@ -2152,7 +2244,7 @@ bool FEManagerT::WriteRestart(const StringT* file_name) const
 * (5) signal solver for final configuration */
 void FEManagerT::SetEquationSystem(int group, int start_eq_shift)
 {
-	std::cout << 61 << std::endl;
+	//std::cout << 61 << std::endl;
 //DEBUG
 //cout << "FEManagerT::SetEquationSystem: START" << endl;
 
@@ -2221,7 +2313,7 @@ void FEManagerT::SetEquationSystem(int group, int start_eq_shift)
 /* construct a new CommManagerT */
 CommManagerT* FEManagerT::New_CommManager(void) const
 {
-	std::cout << 62 << std::endl;
+	//std::cout << 62 << std::endl;
 	if (!fModelManager)
 		ExceptionT::GeneralFail("FEManagerT::New_CommManager", "need ModelManagerT");
 
@@ -2238,7 +2330,7 @@ CommManagerT* FEManagerT::New_CommManager(void) const
 /* collect computation effort for each node, was in FEManagerT 4 Aug 04 */
 void FEManagerT::WeightNodalCost(iArrayT& weight) const
 {
-	std::cout << 63 << std::endl;
+	//std::cout << 63 << std::endl;
 	weight.Dimension(fNodeManager->NumNodes());
 	weight = 1;
 	fNodeManager->WeightNodalCost(weight);
@@ -2249,7 +2341,7 @@ void FEManagerT::WeightNodalCost(iArrayT& weight) const
 /* write time stamp to log file */
 void FEManagerT::TimeStamp(const char* message) const
 {
-	std::cout << 64 << std::endl;
+	//std::cout << 64 << std::endl;
 	/* log */
 	fComm.Log(CommunicatorT::kUrgent, message);
 }

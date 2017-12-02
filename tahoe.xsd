@@ -25,6 +25,7 @@
 			<xsd:element ref='nonlinear_solver' />
 			<xsd:element ref='PCG_solver' />
 			<xsd:element ref='nonlinear_solver_LS' />
+			<xsd:element ref='linear_solver_RS' />
 		</xsd:choice>
 		<xsd:element ref='solver_phases' minOccurs='0'/>
 	</xsd:sequence>
@@ -1464,6 +1465,7 @@
 			<xsd:element ref='small_strain' />
 			<xsd:element ref='updated_lagrangian' />
 			<xsd:element ref='updated_lagrangian_Q1P0' />
+			<xsd:element ref='updated_lagrangian_Q1P0_surface' />
 			<xsd:element ref='updated_lagrangian_Q1P0_inv' />
 			<xsd:element ref='total_lagrangian' />
 			<xsd:element ref='small_strain_meshfree' />
@@ -4688,7 +4690,7 @@
 		</xsd:simpleType>
 	</xsd:attribute>
 	<xsd:attribute name='CTE' default='0.000000e+00' type='xsd:double'/>
-	<xsd:attribute name='max_iteration' default='20' type='xsd:integer'/>
+	<xsd:attribute name='max_iteration' default='0' type='xsd:integer'/>
 </xsd:complexType>
 </xsd:element>
 
@@ -8210,6 +8212,43 @@
 </xsd:complexType>
 </xsd:element>
 
+<xsd:element name='updated_lagrangian_Q1P0_surface'>
+<xsd:complexType>
+	<xsd:sequence>
+		<xsd:choice >
+			<xsd:element ref='quadrilateral' />
+			<xsd:element ref='triangle' />
+			<xsd:element ref='hexahedron' />
+			<xsd:element ref='tetrahedron' />
+			<xsd:element ref='line' />
+		</xsd:choice>
+		<xsd:element ref='body_force' minOccurs='0'/>
+		<xsd:element ref='natural_bc' minOccurs='0' maxOccurs='unbounded'/>
+		<xsd:element ref='solid_element_nodal_output' minOccurs='0'/>
+		<xsd:element ref='solid_element_element_output' minOccurs='0'/>
+		<xsd:element ref='large_strain_element_block' maxOccurs='unbounded'/>
+	</xsd:sequence>
+	<xsd:attribute name='field_name' use='required' type='word'/>
+	<xsd:attribute name='mass_type' default='automatic'>
+		<xsd:simpleType>
+		<xsd:restriction base='xsd:string'>
+			<xsd:enumeration value='automatic'/>
+			<xsd:enumeration value='no_mass'/>
+			<xsd:enumeration value='consistent_mass'/>
+			<xsd:enumeration value='lumped_mass'/>
+		</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:attribute>
+	<xsd:attribute name='eigenvalue_inc' default='0'>
+		<xsd:simpleType>
+		<xsd:restriction base='xsd:integer'>
+			<xsd:minInclusive value='0'/>
+		</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:attribute>
+</xsd:complexType>
+</xsd:element>
+
 <xsd:element name='updated_lagrangian_Q1P0_inv'>
 <xsd:complexType>
 	<xsd:sequence>
@@ -9852,6 +9891,40 @@
 	<xsd:attribute name='line_search_iterations' default='3' type='xsd:integer'/>
 	<xsd:attribute name='line_search_tolerance' default='2.500000e-01' type='xsd:double'/>
 	<xsd:attribute name='max_step' default='2.500000e+00' type='xsd:double'/>
+</xsd:complexType>
+</xsd:element>
+
+<xsd:element name='linear_solver_RS'>
+<xsd:complexType>
+	<xsd:sequence>
+		<xsd:choice >
+			<xsd:element ref='profile_matrix' />
+			<xsd:element ref='diagonal_matrix' />
+			<xsd:element ref='full_matrix' />
+			<xsd:element ref='SPOOLES_matrix' />
+		</xsd:choice>
+	</xsd:sequence>
+	<xsd:attribute name='print_eqnos' default='false' type='xsd:boolean'/>
+	<xsd:attribute name='check_code' default='no_check'>
+		<xsd:simpleType>
+		<xsd:restriction base='xsd:string'>
+			<xsd:enumeration value='no_check'/>
+			<xsd:enumeration value='small_pivots'/>
+			<xsd:enumeration value='all_pivots'/>
+			<xsd:enumeration value='print_LHS'/>
+			<xsd:enumeration value='print_RHS'/>
+			<xsd:enumeration value='print_solution'/>
+			<xsd:enumeration value='check_LHS'/>
+		</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:attribute>
+	<xsd:attribute name='check_LHS_perturbation' default='1.000000e-08'>
+		<xsd:simpleType>
+		<xsd:restriction base='xsd:double'>
+			<xsd:minInclusive value='0.000000e+00'/>
+		</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:attribute>
 </xsd:complexType>
 </xsd:element>
 

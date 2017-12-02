@@ -62,13 +62,13 @@ public:
 	enum TaskT {kDecompose = 0,
 	                  kRun = 1,
                kParameters = 2};
-	                  
+
 	/** factory method */
-	static FEManagerT* New(const StringT& name, const StringT& input_file, ofstreamT& output, 
+	static FEManagerT* New(const StringT& name, const StringT& input_file, ofstreamT& output,
 		CommunicatorT& comm, const ArrayT<StringT>& argv, TaskT task);
 
 	/** parse input file and valid */
-	static void ParseInput(const StringT& path, ParameterListT& params, bool validate, 
+	static void ParseInput(const StringT& path, ParameterListT& params, bool validate,
 		bool echo_input, bool echo_valid, const ArrayT<StringT>& argv);
 
 	/** constructor, does serial and parallel, has new argument task */
@@ -77,30 +77,30 @@ public:
 
 	/** destructor */
 	virtual ~FEManagerT(void);
-	
+
 	/* return reference to partition data, formerly in FEManagerT_mpi.h, DEF 28 July 04 */
 	const PartitionT* Partition(void) const;
-	
+
 	/* set the external IOManager, formerly in FEManagerT_mpi.h, DEF 28 July 04 (needed??) */
 	void SetExternalIO(IOManager_mpi* externIO);
-	
+
 	/** solve all the time sequences */
 	virtual void Solve(void);
-	
+
 	/** \name accessors */
 	/*@{*/
 	const StringT& InputFile(void) const;
 	ofstreamT& Output(void) const;
 	GlobalT::SystemTypeT GlobalSystemType(int group) const;
 	const GlobalT::StateT& RunState(void) const;
-	
+
 	/** get schedule function */
 	const ScheduleT* Schedule(int num) const;
 
 	/** return the number of equation groups */
 	int NumGroups(void) const { return fSolvers.Length(); };
 
-	/** the current group. When performing operations over a group, this 
+	/** the current group. When performing operations over a group, this
 	 * returns the group being operated on. At other times it will return -1. */
 	const int& CurrentGroup(void) const { return fCurrentGroup; }
 
@@ -149,7 +149,7 @@ public:
 
 	/** pointer to an element group */
 	SolverT* Solver(int group) { return fSolvers[group]; };
-	
+
 	/** the MP communicator */
 	CommunicatorT& Communicator(void) const { return fComm; };
 	/*@}*/
@@ -178,13 +178,13 @@ public:
 	/** total number of equations in the specified group */
 	int GlobalNumEquations(int group) const;
 	/*@}*/
-	
+
 	/** \name time */
 	/*@{*/
 	/* load control functions (returns true if successful) */
 	virtual bool DecreaseLoadStep(void);
 	virtual bool IncreaseLoadStep(void);
-	
+
 	/* solution accessors */
 	const double& Time(void) const;
 	const double& TimeStep(void) const;
@@ -193,14 +193,14 @@ public:
 	void SetTimeStep(double dt) const;
 	/*@}*/
 
-	/** \name solution messaging 
+	/** \name solution messaging
 	 * Methods called by the solver during the solution process. Either can be called
 	 * an arbitrary number of times per time increment. However, FEManagerT::FormRHS
 	 * must be called before the corresponding call to FEManagerT::FormLHS during a
 	 * given iteration. */
 	/*@{*/
 	/** iteration number for the solution of the given group over the
-	 * current time increment */	
+	 * current time increment */
 	const int& IterationNumber(int group) const;
 
 	/** return the iteration number of the current group. Returns -1
@@ -232,8 +232,8 @@ public:
 	/** system relaxation */
 	virtual GlobalT::RelaxCodeT RelaxSystem(int group) const;
 
-	/** return the current values of the unknowns 
-	 * \param group equation group 
+	/** return the current values of the unknowns
+	 * \param group equation group
 	 * \param order time derivative of the unknowns to collect. Must be
 	 *        in range
 	 * \param unknowns destination for the current values field values
@@ -241,7 +241,7 @@ public:
 	virtual void GetUnknowns(int group, int order, dArrayT& unknowns) const;
 	/*@}*/
 
-	/** \name assembly methods 
+	/** \name assembly methods
 	 * methods for assembling contributions to the global equations systems */
 	/*@{*/
 	void AssembleLHS(int group, const ElementMatrixT& elMat, const nArrayT<int>& eqnos) const;
@@ -256,7 +256,7 @@ public:
 	void OverWriteRHS(int group, const dArrayT& elRes, const nArrayT<int>& eqnos) const;
 	void DisassembleRHS(int group, dArrayT& elRes, const nArrayT<int>& eqnos) const;
 	/*@}*/
-	
+
 	/** \name output */
 	/*@{*/
 	/** register an output set to write output data. See OutputSetT for more information.
@@ -269,10 +269,10 @@ public:
 	 *        registered with FEManagerT::RegisterOutput */
 	const OutputSetT& OutputSet(int ID) const;
 
-	/** initiate the process of writing output from all output sets 
+	/** initiate the process of writing output from all output sets
 	 * \param time time label associated with the output data */
 	virtual void WriteOutput(double time);
-	
+
 	/** write results for a single output set
 	 * \param ID output set ID for the given data
 	 * \param n_values nodal output values
@@ -309,9 +309,9 @@ public:
 	/*@{*/
 	int Rank(void) const;
 	int Size(void) const;
-	
+
 	/** the local node to home processor map. Returns the home processor
-	 * for each local node. Returns NULL if there is no map, indicating 
+	 * for each local node. Returns NULL if there is no map, indicating
 	 * that the native processor for all nodes is this one. */
 	const ArrayT<int>* ProcessorMap(void) const;
 
@@ -332,7 +332,7 @@ public:
 	/** interactive */
 	virtual bool iDoCommand(const CommandSpecT& command, StringT& line);
 
-	/** \name solution steps 
+	/** \name solution steps
 	 * These methods are called during FEManagerT::Solve during the solution
 	 * process. These would only be called if the solution process is going to
 	 * be driven externally, i.e., without calling FEManagerT::Solve.
@@ -340,11 +340,14 @@ public:
 	/*@{*/
 	/** (re-)set system to initial conditions */
 	virtual ExceptionT::CodeT InitialCondition(void);
-	
+
 	void SetComputeInitialCondition(bool compute_IC) { fComputeInitialCondition = compute_IC; };
 
 	/** initialize the current time increment for all groups */
 	virtual ExceptionT::CodeT InitStep(void);
+
+
+	virtual ExceptionT::CodeT InitStep(const dArray2DT& update);
 
 	/** execute the solution procedure */
 	virtual ExceptionT::CodeT SolveStep(void);
@@ -354,7 +357,7 @@ public:
 
 	/** called for all groups if the solution procedure for any group fails */
 	virtual ExceptionT::CodeT ResetStep(void);
-	
+
 	/** solver phase information. Results of the last call to FEManagerT::SolveStep */
 	const iArray2DT& SolverPhasesStatus(void) const { return fSolverPhasesStatus; };
 
@@ -367,7 +370,7 @@ public:
 	};
 	/*@}*/
 
-	/** \name initialize/restart functions 
+	/** \name initialize/restart functions
 	 * Return true if a restart file was written/read; otherwise, return false. */
 	/*@{*/
 	bool ReadRestart(const StringT* file_name = NULL);
@@ -395,24 +398,24 @@ public:
 	virtual ParameterInterfaceT* NewSub(const StringT& name) const;
 
 	/** return the description of the given inline subordinate parameter list */
-	virtual void DefineInlineSub(const StringT& name, ParameterListT::ListOrderT& order, 
+	virtual void DefineInlineSub(const StringT& name, ParameterListT::ListOrderT& order,
 		SubListT& sub_lists) const;
 
 	/** accept parameter list */
 	virtual void TakeParameterList(const ParameterListT& list);
 	/*@}*/
-	
+
 	/** return any field connectivities generated by the node manager. Some
 	 * FBC_ControllerT and KBC_ControllerT do generate connectivities */
 	virtual void ConnectsU(
 		AutoArrayT<const iArray2DT*>& connects_1,
 		AutoArrayT<const RaggedArray2DT<int>*>& connects_2,
 		AutoArrayT<const iArray2DT*>& equivalent_nodes) const;
-		
+
 	/** return any field connectivities generated by the node manager. Some
 	 * FBC_ControllerT and KBC_ControllerT do generate connectivities  -- change to appropriate 4 Aug 04 */
-	virtual void ConnectsX(AutoArrayT<const iArray2DT*>& connects) const;	
-	
+	virtual void ConnectsX(AutoArrayT<const iArray2DT*>& connects) const;
+
 	/** collect computation effort for each node */
 	void WeightNodalCost(iArrayT& weight) const;
 
@@ -431,7 +434,7 @@ protected:
 	/*@}*/
 
 	/** (re-) set cached value of the first equation number for the given
-	 * group on this processor. This value is cached because communication 
+	 * group on this processor. This value is cached because communication
 	 * is required. */
 	virtual int GetGlobalEquationStart(int group, int start_eq_shift) const;
 
@@ -450,11 +453,11 @@ private:
 	FEManagerT(FEManagerT&);
 	FEManagerT& operator=(FEManagerT&) const;
 	/*@}*/
-	
+
 	// These last ones were formerly in FEManagerT_mpi.h
 	/** write time stamp to log file */
 	void TimeStamp(const char* message) const;
-		
+
 protected:
 
 	/** command line options */
@@ -472,7 +475,7 @@ protected:
 	StringT fInputFile;
 	ofstreamT& fMainOut;
 	/*@}*/
-	
+
 	/** MP environment */
 	CommunicatorT& fComm;
 
@@ -481,7 +484,7 @@ protected:
 	StringT fTitle;
 	StringT fRestartFile;
 	/*@}*/
-	
+
 	/** \name execution parameters */
 	/*@{*/
 	IOBaseT::FileTypeT  fOutputFormat;
@@ -491,7 +494,7 @@ protected:
 	GlobalT::LoggingT fLogging; /**< amount of runtim logging information */
 	bool fComputeInitialCondition;
 	/*@}*/
-	
+
 	/** \name the managers */
 	/*@{*/
 	TimeManagerT* fTimeManager;
@@ -502,7 +505,7 @@ protected:
 	ModelManagerT* fModelManager;
 	CommManagerT* fCommManager;
 	/*@}*/
-	
+
 	/** \name multi-solver phases */
 	/*@{*/
 	/** multi-solver phases. For cases with more than one solver, this
@@ -514,7 +517,7 @@ protected:
 	/** maximum number of loops through the solvers. This is either a number
 	 * greater than zero or -1, for no limit. */
 	int fMaxSolverLoops;
-	
+
 	/** status of solver phases. Updated during call to FEManagerT::SolveStep */
 	iArray2DT fSolverPhasesStatus;
 	/*@}*/
@@ -524,17 +527,17 @@ protected:
 	GlobalT::StateT fStatus; /**< state */
 	int fCurrentGroup;       /**< current group being operated on */
 	/*@}*/
-	
+
 	/** \name equation system
-	 * information by group is determined during the call to 
+	 * information by group is determined during the call to
 	 * FEManagerT::SetEquationSystem */
 	/*@{*/
 	iArrayT fGlobalEquationStart;
 	iArrayT fActiveEquationStart;
 	iArrayT fGlobalNumEquations;
 	/*@}*/
-	
-	/** \name system output (SO). Write nodal residuals for groups with check 
+
+	/** \name system output (SO). Write nodal residuals for groups with check
 	 * code 4. Move this to the NodeManagerT or within the FieldT's ? */
 	/*@{*/
 	/** true if output per group is currently being diverted */
@@ -542,7 +545,7 @@ protected:
 
 	/** output ID for the system output by group */
 	iArrayT fSO_OutputID;
-	
+
 	/** point connectivities used by all solver groups */
 	iArray2DT fSO_Connects;
 	/*@}*/
@@ -555,7 +558,7 @@ private:
 
 	/* partition information */
 	PartitionT* fPartition;
-	
+
 	/** log file */
 	ofstreamT flog;
 };
@@ -579,7 +582,7 @@ inline const iArrayT* FEManagerT::ElementMap(const StringT& block_ID) const
 			return NULL; // assume no map
 		else
 		{
-			if (!fPartition) throw ExceptionT::kGeneralFail;		
+			if (!fPartition) throw ExceptionT::kGeneralFail;
 			return &(fPartition->ElementMap(block_ID));
 		}
 	}
@@ -598,7 +601,7 @@ inline int FEManagerT::IterationNumber(void) const
 	if (curr_group >= 0)
 		return IterationNumber(curr_group);
 	else {
-		ExceptionT::GeneralFail("FEManagerT::IterationNumber", "no group is current"); 
+		ExceptionT::GeneralFail("FEManagerT::IterationNumber", "no group is current");
 		return -1;
 	}
 }
@@ -620,5 +623,5 @@ inline void FEManagerT::SetExternalIO(IOManager_mpi* externIO)
 	fExternIOManager = externIO;
 }
 
-} // namespace Tahoe 
+} // namespace Tahoe
 #endif /* _FE_MANAGER_H_ */

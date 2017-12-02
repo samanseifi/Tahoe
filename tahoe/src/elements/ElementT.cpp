@@ -118,13 +118,16 @@ ElementT::TypeT ElementT::int2TypeT(int i)
 
 		case ElementT::kSimoQ1P0:
 			return ElementT::kSimoQ1P0;
-	
+
+		case ElementT::kSimoQ1P0Surface:
+			return ElementT::kSimoQ1P0Surface;
+
 		case ElementT::kSimoQ1P0Inv:
 			return ElementT::kSimoQ1P0Inv;
 
 		case ElementT::kSimoQ1P0Axi:
 			return ElementT::kSimoQ1P0Axi;
-	
+
 		case ElementT::kSimoQ1P0InvAxi:
 			return ElementT::kSimoQ1P0InvAxi;
 
@@ -136,7 +139,7 @@ ElementT::TypeT ElementT::int2TypeT(int i)
 
 		case ElementT::kEAM:
 			return ElementT::kEAM;
-			
+
 		case ElementT::kParticleThreeBody:
 			return ElementT::kParticleThreeBody;
 
@@ -208,10 +211,10 @@ ElementT::TypeT ElementT::int2TypeT(int i)
 
 		case ElementT::kTotLagFlat:
 		    return ElementT::kTotLagFlat;
-		    
+
 		case ElementT::kTersoff:
 		    return ElementT::kTersoff;
-		    
+
 		case ElementT::kFSSolidFluidMix:
 		    return ElementT::kFSSolidFluidMix;
 

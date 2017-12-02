@@ -256,6 +256,8 @@ ElementListT.o: ElementListT.cpp ElementListT.h \
  /home/saman/Tahoe/tahoe/inc/FSMatSupportT.h \
  /home/saman/Tahoe/tahoe/inc/SolidMatSupportT.h \
  /home/saman/Tahoe/tahoe/../toolbox/inc/ArrayT.h \
+ /home/saman/Tahoe/tahoe/inc/SimoQ1P0_Surface.h \
+ /home/saman/Tahoe/tahoe/inc/SimoQ1P0.h \
  /home/saman/Tahoe/tahoe/inc/SimoQ1P0_inv.h \
  /home/saman/Tahoe/tahoe/inc/SimoQ1P0Axi.h \
  /home/saman/Tahoe/tahoe/inc/UpdatedLagrangianAxiT.h \

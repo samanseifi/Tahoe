@@ -530,7 +530,7 @@ void FieldT::CloseStep(void)
 /* overwrite the update values in the FieldT::Update array */
 void FieldT::AssembleUpdate(const dArrayT& update)
 {
-	cout << "AssembleUpdate FieldT" << endl;
+	//cout << "AssembleUpdate FieldT" << endl;
 	int *peq = fEqnos.Pointer();
 	int len = fEqnos.Length();
 	double *p = fUpdate.Pointer();

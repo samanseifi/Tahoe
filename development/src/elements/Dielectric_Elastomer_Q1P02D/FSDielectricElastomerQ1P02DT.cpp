@@ -377,7 +377,8 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 			dMatrixT& F = fF_List[i];
 			double J = F.Det();
 			//F *= pow((J_0)/(J), 1.0/2.0); // Fbar (Neto) method
-			F *= pow((pow((v/H),2.0/3.0)*(1.0/J)), 1.0/2.0); // Q1P0 method
+			//F *= pow((pow((v/H),2.0/3.0)*(1.0/J)), 1.0/2.0); // Q1P0 method
+      F *= pow(v/(H*J), 1.0/2.0);
 
 			/* store Jacobian */
 			fJacobian[i] = J;
@@ -390,7 +391,8 @@ void FSDielectricElastomerQ1P02DT::SetShape(void)
 			dMatrixT& F = fF_last_List[i];
 			double J = F.Det();
 			//F *= pow((J_0)/(J), 1.0/2.0); // Fbar (Neto) method
-			F *= pow((pow((v_last/H),2.0/3.0)*(1.0/J)), 1.0/2.0); // Q1P0 method
+			//F *= pow((pow((v_last/H),2.0/3.0)*(1.0/J)), 1.0/2.0); // Q1P0 method
+      F *= pow(v_last/(H*J), 1.0/2.0);
 		}
 	}
 
@@ -708,7 +710,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 	/* J_correction for eijk terms? */
 		dMatrixT bij = fCurrMaterial->b_ij();
 		dMatrixT eijk = fCurrMaterial->e_ijk();
-		eijk *= scale*J_correction;
+		eijk *= scale1*J_correction;
 		bij *= scale1*J_correction;	// integration constant
 
 		/* mechanical-electrical stiffness (24 x 8 matrix for 8-node 3D element) */
@@ -725,7 +727,8 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 
 	/* stress stiffness into fLHS (i.e. fAmm_mat) */
 	fAmm_mat.Expand(fAmm_geo, NumDOF(), dMatrixT::kAccumulate);
-	fAem.Transpose();
+	fAem.Transpose(fAme);
+	fAem *= constK;
 
 	/* Add mass matrix and non-symmetric electromechanical tangent if dynamic problem */
 	if (order == 2)

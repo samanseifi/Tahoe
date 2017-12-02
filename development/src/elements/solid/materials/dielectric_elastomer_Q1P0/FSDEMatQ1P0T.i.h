@@ -16,7 +16,7 @@ namespace Tahoe {
 
   // Set electrical permittivity
   inline void FSDEMatQ1P0T::SetElectricPermittivity(double epsilon)
-  {	
+  {
     fElectricPermittivity = epsilon;
   }
 
@@ -96,7 +96,7 @@ namespace Tahoe {
 	double J = F.Det();
 
 	/* call C function for mechanical part of tangent modulus */
- 	mech_tanmod_q1p0(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, I1, fTangentMechanical.Pointer()); 
+ 	mech_tanmod_q1p0(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, I1, fTangentMechanical.Pointer());
  	me_tanmod_q1p0(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, fTangentMechanicalElec.Pointer());
  	fTangentMechanical+=fTangentMechanicalElec;
 
@@ -123,18 +123,18 @@ namespace Tahoe {
     const dMatrixT& C = RightCauchyGreenDeformation();
 	const dArrayT& E = ElectricField();
     const dMatrixT& F = F_mechanical();
-	
+
 	dMatrixT stress_temp(3);
 	dMatrixT stress_temp2(3);
 	double I1 = C(0,0)+C(1,1)+C(2,2);
 	double J = C.Det();
 	J = sqrt(J);
-	
+
 	/* call C function for mechanical part of PK2 stress */
- 	mech_pk2_q1p0(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, I1, stress_temp.Pointer()); 
+ 	mech_pk2_q1p0(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, I1, stress_temp.Pointer());
 	me_pk2_q1p0(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, stress_temp2.Pointer());
 	stress_temp+=stress_temp2;
-	
+
 	fStress.FromMatrix(stress_temp);
 
  	/* -------------- Writing into a file -------------
@@ -158,13 +158,13 @@ namespace Tahoe {
   {
     const dMatrixT& C = RightCauchyGreenDeformation();
 	const dArrayT& E = ElectricField();
-    const dMatrixT& F = F_mechanical();	
+    const dMatrixT& F = F_mechanical();
 	double J = C.Det();
 	J = sqrt(J);
 
 	/* call C function for electromechanical tangent modulus */
  	me_mixedmodulus_q1p0(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, fTangentElectromechanical.Pointer());
- 
+
  	/* -------------- Writing into a file -------------
  	ofstream myEIJK;
  	myEIJK.open("E_IJK.txt");
@@ -188,12 +188,12 @@ namespace Tahoe {
     const dMatrixT& C = RightCauchyGreenDeformation();
 	const dArrayT& E = ElectricField();
 	double J = C.Det();
-	J = sqrt(J);  
+	J = sqrt(J);
     const dMatrixT& F = F_mechanical();
-	
+
 	/* call C function for (spatial) electromechanical tangent modulus */
  	me_mixedmodulus_q1p0spatial(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, fTangentElectromechanicalSpatial.Pointer());
- 	
+
  	fTangentElectromechanicalSpatial /= J;
 
  	/* -------------- Writing into a file -------------
@@ -245,16 +245,16 @@ namespace Tahoe {
   FSDEMatQ1P0T::b_ij()
   {
     const dMatrixT& F = F_mechanical();
-    const dMatrixT& C = RightCauchyGreenDeformation();    
+    const dMatrixT& C = RightCauchyGreenDeformation();
     const double J = F.Det();
-	
+
 	// repeat B_IJ first, then push forward
 	dMatrixT Cinv(3), bij(3);
 	Cinv.Inverse(C);
 	bij = Cinv;
 	bij *= fElectricPermittivity;
 	bij *= J;
-	
+
     // prevent aliasing
     const dMatrixT b = B_IJ();
     fTangentElectrical.MultABCT(F, b, F);
@@ -275,7 +275,7 @@ namespace Tahoe {
     return fTangentElectrical;
   }
 
-  // Electric displacement 
+  // Electric displacement
   inline const dArrayT&
   FSDEMatQ1P0T::D_I()
   {
@@ -290,13 +290,13 @@ namespace Tahoe {
 	}
 	myE.close();
  	 ------------------------------------------------- */
-  	
+
   	double J = C.Det();
   	J = sqrt(J);
-  
+
 	/* call C function for electric stress (i.e. electric displacement D_{I}) */
- 	elec_pk2_q1p0(fParams.Pointer(), E.Pointer(),  
- 		C.Pointer(), F.Pointer(), J, fElectricDisplacement.Pointer()); 
+ 	elec_pk2_q1p0(fParams.Pointer(), E.Pointer(),
+ 		C.Pointer(), F.Pointer(), J, fElectricDisplacement.Pointer());
 
  	/* -------------- Writing into a file -------------
  	ofstream myDI;
@@ -316,7 +316,7 @@ namespace Tahoe {
   {
     const dMatrixT& F = F_mechanical();
     const double J = F.Det();
-	
+
     // prevent aliasing
     const dArrayT D = D_I();
 	F.Multx(D, fElectricDisplacement);
@@ -356,7 +356,7 @@ namespace Tahoe {
   {
 //     const dMatrixT& F = F_mechanical();
 //     const double J = F.Det();
-// 
+//
 //     // prevent aliasing
 //     const dMatrixT CIJKL = C_IJKL();
 //     fTangentMechanical.SetToScaled(1.0 / J, PushForward(F, CIJKL));
@@ -383,10 +383,12 @@ namespace Tahoe {
   inline const dSymMatrixT&
   FSDEMatQ1P0T::s_ij()
   {
+    
     const dMatrixT& F = F_mechanical();
     const double J = F.Det();
-	
+
     // prevent aliasing
+
     const dSymMatrixT S = S_IJ();
 
     fStress.SetToScaled(1.0 / J, PushForward(F, S));

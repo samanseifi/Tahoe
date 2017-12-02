@@ -358,6 +358,50 @@ void NodeManagerT::InitStep(int group)
 	fXDOFRelaxCodes[group] = GlobalT::kNoRelax;
 }
 
+void NodeManagerT::InitStep(int group, const dArray2DT& update)
+{
+	const char caller[] = "NodeManagerT::InitStep";
+
+	/* decomposition information */
+	const PartitionT* partition = fFEManager.Partition();
+	PartitionT::DecompTypeT decomp = (partition) ? partition->DecompType() : PartitionT::kUndefined;
+	const ArrayT<int>* partition_nodes = fCommManager.PartitionNodes();
+	if (decomp == PartitionT::kIndex && !partition_nodes)
+		ExceptionT::GeneralFail(caller, "expecting non-NULL partition nodes");
+
+	/* apply to fields */
+	for (int i = 0; i < fFields.Length(); i++)
+	{
+		/* initialize for current group */
+		if (fFields[i]->Group() == group)
+		{
+			/* update bounds */
+			int& field_start = fFieldStart[i];
+			int& field_end = fFieldEnd[i];
+			if (false && decomp == PartitionT::kIndex) {
+
+				/* range of (real) nodes updated by this processor */
+				int beg = partition_nodes->First();
+				int end = partition_nodes->Last();
+
+				/* set limits */
+				int ndof = fFields[i]->NumDOF();
+				field_start = ndof*beg;
+				field_end = (ndof*end) + (ndof - 1);
+			}
+
+			/* initialize step */
+			fFields[i]->InitStep(field_start, field_end);
+		}
+	}
+
+	/* update current configurations */
+	if (fCoordUpdate && fCoordUpdate->Group() == group) UpdateCurrentCoordinates(update);
+
+	/* clear history of relaxation over tbe last step */
+	fXDOFRelaxCodes[group] = GlobalT::kNoRelax;
+}
+
 /* compute the nodal contribution to the tangent */
 void NodeManagerT::FormLHS(int group, GlobalT::SystemTypeT sys_type)
 {
@@ -433,7 +477,7 @@ void NodeManagerT::SetTimeStep(double dt) {
 /* update the active degrees of freedom */
 void NodeManagerT::Update(int group, const dArrayT& update)
 {
-	cout << "Getting updated? NodeManagerT" << endl;
+	//cout << "Getting updated? NodeManagerT" << endl;
 	/* update fields */
 	for (int i = 0; i < fFields.Length(); i++)
 	{
@@ -462,7 +506,7 @@ void NodeManagerT::Update(int group, const dArrayT& update)
 	 * and does not usually need to be called explicitly. */
 void NodeManagerT::UpdateCurrentCoordinates(void)
 {
-	cout << "NodeManagerT::UpdateCurrentCoordinates" << endl;
+	//cout << "NodeManagerT::UpdateCurrentCoordinates" << endl;
 	const char caller[] = "NodeManagerT::UpdateCurrentCoordinates";
 	if (fCoordUpdate)
 	{
@@ -503,6 +547,43 @@ void NodeManagerT::UpdateCurrentCoordinates(void)
 		else
 			ExceptionT::GeneralFail(caller, "field_end has unexpected value %d", field_end);
 	}
+}
+
+/** update the current configuration by given update field.
+	* Used in residual correction method for DE weakly coupling. */
+void NodeManagerT::UpdateCurrentCoordinates(const dArray2DT& update)
+{
+
+	const char caller[] = "NodeManagerT::UpdateCurrentCoordinates";
+		/* should be allocated */
+		if (!fCurrentCoords) ExceptionT::GeneralFail(caller, "current coords not initialized");
+
+		/* bounds */
+		int field_start = fFieldStart[fCoordUpdateIndex];
+		int field_end = fFieldEnd[fCoordUpdateIndex];
+
+		/* simple update assuming displacement degrees of freedom are the
+		 * nodal values */
+		if (field_end >= field_start)
+		{
+			/* update coordinates of owned nodes */
+			fCurrentCoords->SumOf(CurrentCoordinates(), update, field_start, field_end);
+
+			/* update coordinates of image nodes */
+			int first_ghost = fCommManager.NumRealNodes();
+			int offset = first_ghost*NumSD();
+			double* px = fCurrentCoords->Pointer(offset);
+			const double* pX = CurrentCoordinates().Pointer(offset);
+			const double* pu = update.Pointer(offset);
+			int len = fCurrentCoords->Length();
+			for (int i = offset; i < len; i++)
+				*px++ = (*pX++) + (*pu++);
+
+		}
+		else if (field_end == -1)
+			fCurrentCoords->SumOf(CurrentCoordinates(), update);
+		else
+			ExceptionT::GeneralFail(caller, "field_end has unexpected value %d", field_end);
 }
 
 /* update history */
@@ -689,7 +770,7 @@ void NodeManagerT::RenumberEquations(int group,
 	const ArrayT<const iArray2DT*>& connects_1,
 	const ArrayT<const RaggedArray2DT<int>*>& connects_2)
 {
-	cout << "\n NodeManagerT::RenumberEquations: start" << endl;
+	//cout << "\n NodeManagerT::RenumberEquations: start" << endl;
 
 	/* bandwidth reducer */
 	ReLabellerT relabel;

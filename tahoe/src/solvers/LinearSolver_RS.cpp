@@ -62,7 +62,7 @@ SolverT::SolutionStatusT LinearSolver_RS::Solve(int)
 		fLHS_lock = kLocked;
 	}
 
-	cout << "When? LinearSolver_RS::Solve" <<  endl;
+	//cout << "When? LinearSolver_RS::Solve" <<  endl;
 
 		/* determine update vector */
 	if (!fLHS->Solve(fRHS)) ExceptionT::BadJacobianDet("LinearSolver_RS::Solve");

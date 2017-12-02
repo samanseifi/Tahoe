@@ -25,6 +25,7 @@ OBJ = \
 	LocalizerT.o \
 	SimoFiniteStrainT.o \
 	SimoQ1P0.o \
+	SimoQ1P0_Surface.o \
 	SmallStrainT.o \
 	TotalLagrangianT.o \
 	UpdatedLagrangianT.o \
@@ -37,8 +38,8 @@ OBJ = \
 	SimoQ1P0_inv.o \
 	SimoQ1P0Axi_inv.o \
 	ME_PK2_Q1P02D.o \
-	Mech_PK2_Q1P02D.o 
-	
+	Mech_PK2_Q1P02D.o
+
 
 OBJ_LINK = $(OBJ)
 DEP = $(OBJ:.o=.d)
@@ -63,6 +64,7 @@ SRC = \
 	LocalizerT.cpp \
 	SimoFiniteStrainT.cpp \
 	SimoQ1P0.cpp \
+	SimoQ1P0_Surface.cpp \
 	SmallStrainT.cpp \
 	TotalLagrangianT.cpp \
 	UpdatedLagrangianT.cpp \
@@ -82,9 +84,9 @@ SRC = \
 # (3) If there are header files in this directory:
 #    (1) list the header files in the HDR macro
 #    (2) uncomment the HDR_LINK
-# 
+#
 # If there are no header files in this directory comment both the
-# HDR and HDR_LINK macro   
+# HDR and HDR_LINK macro
 #
 HDR = \
 	SolidElementT.h \
@@ -92,6 +94,7 @@ HDR = \
 	LocalizerT.h \
 	SimoFiniteStrainT.h \
 	SimoQ1P0.h \
+	SimoQ1P0_Surface.h \
 	SmallStrainT.h \
 	TotalLagrangianT.h \
 	UpdatedLagrangianT.h \
@@ -117,7 +120,7 @@ HDR_LINK = $(HDR:.h=.h_link)
 #
 SUB_DIR = \
 	materials \
-	meshfree 
+	meshfree
 
 subdir_driver: subdir_loop
 
@@ -127,7 +130,7 @@ subdir_driver: subdir_loop
 #    (2) uncomment the subdir_driver macro below
 #
 #SUB_DIR =
-#subdir_driver: 
+#subdir_driver:
 
 #####################
 

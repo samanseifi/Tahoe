@@ -219,7 +219,8 @@ void SimoQ1P0::SetGlobalShape(void)
 			/* "replace" dilatation */
 			dMatrixT& F = fF_List[i];
 			double J = F.Det();
-			F *= pow(v/(H*J), 1.0/3.0);
+			F *= pow(v/(H*J), 1.0/2.0);
+//			F *= pow((pow((v/H),2.0/3.0)*(1.0/J)), 1.0/2.0);
 
 			/* store Jacobian */
 			fJacobian[i] = J;
@@ -232,7 +233,8 @@ void SimoQ1P0::SetGlobalShape(void)
 			dMatrixT& F = fF_last_List[i];
 
 			double J = F.Det();
-			F *= pow(v_last/(H*J), 1.0/3.0);
+			F *= pow(v_last/(H*J), 1.0/2.0);
+//			F *= pow((pow((v_last/H),2.0/3.0)*(1.0/J)), 1.0/2.0);
 		}
 	}
 }
@@ -330,9 +332,9 @@ void SimoQ1P0::FormStiffness(double constK)
 		//cauchy.ToMatrix(fCauchyStress);
 
 		dArrayT params(4);
-		params[0] = 1.0;		// 		\mu
-		params[1] = 1000.0;	//		\lambda
-		params[2] = 1.0;	  //		\epsilon
+		params[0] = 10000.0;		// 		\mu
+		params[1] = 100000000.0;	//		\lambda
+		params[2] = 1.0e-11;	  //		\epsilon
 		params[3] = 5.0;		//		\Nrig
 		const dArrayT  fParams 	= params;
 		const dArrayT  E 		= fE_List[CurrIP()];
@@ -427,16 +429,16 @@ void SimoQ1P0::FormKd(double constK)
 
 
 
-		dSymMatrixT cauchy1 = fCurrMaterial->s_ij();
-		dSymMatrixT maxwell = MaxwellStress(fE_List[CurrIP()], 1.0);
-		cauchy1 += maxwell;
+		//dSymMatrixT cauchy1 = fCurrMaterial->s_ij();
+		//dSymMatrixT maxwell = MaxwellStress(fE_List[CurrIP()], 1.0);
+		//cauchy1 += maxwell;
 		//const dSymMatrixT& cauchy = cauchy1;
 
 		dArrayT params(4);
-		params[0] = 1.0;
-		params[1] = 1000.0;
-		params[2] = 1.0;
-		params[3] = 5.0;
+		params[0] = 10000.0;		// 	\mu = Shear modulus
+		params[1] = 100000000.0;	//	\kappa = Bulk modulus
+		params[2] = 1.0e-11;		//	\epsilon = Electrical Permittivity
+		params[3] = 5.0;		//  Nrig	= Arruda-Boyce model constant
 		const dArrayT  fParams 	= params;
 		const dArrayT  E 		= fE_List[CurrIP()];
 		const dMatrixT F 		= DeformationGradient();
@@ -609,69 +611,94 @@ dSymMatrixT SimoQ1P0::MaxwellStress(const dArrayT E, const double epsilon) {
 /* Calculating the total stress (elec+mech) in reference conf and then push it forward! */
 dSymMatrixT SimoQ1P0::s_ij(const dArrayT E, const dMatrixT F, dArrayT fParams)
 {
-	//double mu 		= fParams[0];
-	//double lambda 	= fParams[1];
-	//double epsilon	= fParams[2];
-	//double Nrig		= fParams[3];
 
 	int nsd = NumSD();
-	dMatrixT F2D(nsd);	// Deformation Gradient
-	dMatrixT C2D(nsd);	// Right Cauchy strain tensor
 
 	dSymMatrixT fStress(nsd);
 
-	F2D = F;
-	C2D.MultATB(F, F);
-	double J = F2D.Det();
+	dMatrixT stress_temp(nsd);
+	dMatrixT stress_temp2(nsd);
 
-	dMatrixT C3D(3), F3D(3), stress_temp(3), stress_temp2(3);
-      dArrayT E3D(3);
+	if (nsd == 3){
+		dMatrixT C(nsd); // Right Cauchy strain tensor
 
-	stress_temp = 0.0;
-	stress_temp2 = 0.0;
 
-	C3D[0] = C2D[0];
-	C3D[1] = C2D[1];
-	C3D[2] = 0.0;
+		C.MultATB(F, F);
+		double J = F.Det();
+		double I1 = C(0,0) + C(1,1) + C(2,2);
 
-	C3D[3] = C2D[2];
-	C3D[4] = C2D[3];
-	C3D[5] = 0.0;
+		stress_temp = 0.0;
+		stress_temp2 = 0.0;
 
-	C3D[6] = 0.0;
-	C3D[7] = 0.0;
-	C3D[8] = 1.0;
+		mech_pk2_q1p02D(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, I1, stress_temp.Pointer());
+		me_pk2_q1p02D(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, stress_temp2.Pointer());
+		stress_temp += stress_temp2;
 
-	F3D[0] = F2D[0];
-	F3D[1] = F2D[1];
-	F3D[2] = 0.0;
+		fStress.FromMatrix(stress_temp);
 
-	F3D[3] = F2D[2];
-	F3D[4] = F2D[3];
-	F3D[5] = 0.0;
 
-	F3D[6] = 0.0;
-	F3D[7] = 0.0;
-	F3D[8] = 1.0;
 
-	E3D[0] = E[0];
-	E3D[1] = E[1];
-	E3D[2] = 0.0;
+	}	else if (nsd == 2) {
 
-	double I1 = C2D(0, 0) + C2D(1, 1) + 1.0;
+		dMatrixT F2D(nsd);	// Deformation Gradient
+		dMatrixT C2D(nsd);	// Right Cauchy strain tensor
 
-	/* call C function for mechanical part of PK2 stress */
-	mech_pk2_q1p02D(fParams.Pointer(), E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, I1, stress_temp.Pointer());
-	me_pk2_q1p02D(fParams.Pointer(), E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, stress_temp2.Pointer());
-	stress_temp += stress_temp2;
+		F2D = F;
+		C2D.MultATB(F, F);
+		double J = F2D.Det();
+		double det_C = C2D.Det();
 
-	fStress(0,0) = stress_temp(0,0);
-      fStress(0,1) = stress_temp(0,1);
-	fStress(1,0) = stress_temp(1,0);
-    	fStress(1,1) = stress_temp(1,1);
+		dMatrixT C3D(3), F3D(3), stress_temp(3), stress_temp2(3);
+  	dArrayT E3D(3);
+
+		stress_temp = 0.0;
+		stress_temp2 = 0.0;
+
+		C3D[0] = C2D[0];
+		C3D[1] = C2D[1];
+		C3D[2] = 0.0;
+
+		C3D[3] = C2D[2];
+		C3D[4] = C2D[3];
+		C3D[5] = 0.0;
+
+		C3D[6] = 0.0;
+		C3D[7] = 0.0;
+		C3D[8] = 1.0;
+
+		F3D[0] = F2D[0];
+		F3D[1] = F2D[1];
+		F3D[2] = 0.0;
+
+		F3D[3] = F2D[2];
+		F3D[4] = F2D[3];
+		F3D[5] = 0.0;
+
+		F3D[6] = 0.0;
+		F3D[7] = 0.0;
+		F3D[8] = 1.0;
+
+		E3D[0] = E[0];
+		E3D[1] = E[1];
+		E3D[2] = 0.0;
+
+		double I1 = C2D(0, 0) + C2D(1, 1) + 1.0/det_C;
+
+		/* call C function for mechanical part of PK2 stress */
+		mech_pk2_q1p02D(fParams.Pointer(), E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, I1, stress_temp.Pointer());
+		me_pk2_q1p02D(fParams.Pointer(), E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, stress_temp2.Pointer());
+		stress_temp += stress_temp2;
+
+		fStress(0,0) = stress_temp(0,0);
+    fStress(0,1) = stress_temp(0,1);
+		fStress(1,0) = stress_temp(1,0);
+    fStress(1,1) = stress_temp(1,1);
+	}
+
 
 	/* Getting ready to push forward the PK2 stress to Cauchy */
 	dSymMatrixT S = fStress;
+	double J = F.Det();
 
 	fStress.MultQBQT(F, S);		// Push forward procedure
 	fStress *= 1.0 / J;
