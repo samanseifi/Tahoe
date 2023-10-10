@@ -457,36 +457,57 @@ void DiffusionElementT::FormKd(double constK)
 		/* get strain-displacement matrix */
 		B(fShapes->CurrIP(), fB);
 
-		/* compute heat flow */
-		fB.MultTx(fCurrMaterial->q_i(), fNEEvec);
+		if (CurrentElement().MaterialNumber() == 1) {
 
-		//if (CurrElementNumber() == 1)
-		//	cout << fF_List[0] << endl;
+			/* compute heat flow */
+			//fB.MultTx(fCurrMaterial->q_i(), fNEEvec);
 
+			int nip = NumIP();
+			dArrayT E(nip);
+			dMatrixT E1(1, NumSD());
+			fShapes->GradU(fLocDisp, E1, CurrIP());
+			E1 *= -1.0;
+			for (int j = 0; j < NumSD(); j++)
+				E[j] = E1(0, j);
 
+			dArrayT params(4);
+			params[0] = 0.001;		// 		\mu
+			params[1] = 1000.0;	//		\lambda
+			params[2] = 1.0;	  	//		\epsilon
+			params[3] = 5.0;		//		\Nrig
+			const dArrayT  fParams 	= params;
+
+			dMatrixT F = fF_List[CurrIP()];
+			double J = F.Det();
+			dArrayT di = d_i(F, E, fParams);
+			di *=(1.0);
+
+			fB.MultTx(di, fNEEvec);
+		} else if (CurrentElement().MaterialNumber() == 0 ) {
 /*------------------------------Start of DE stuff--------------------------*/
-		int nip = NumIP();
-		dArrayT E(nip);
-		dMatrixT E1(1, NumSD());
-		fShapes->GradU(fLocDisp, E1, CurrIP());
-		E1 *= -1.0;
-		for (int j = 0; j < NumSD(); j++)
-			E[j] = E1(0, j);
+			int nip = NumIP();
+			dArrayT E(nip);
+			dMatrixT E1(1, NumSD());
+			fShapes->GradU(fLocDisp, E1, CurrIP());
+			E1 *= -1.0;
+			for (int j = 0; j < NumSD(); j++)
+				E[j] = E1(0, j);
 
-		dArrayT params(4);
-		params[0] = 1.0;		// 		\mu
-		params[1] = 1000.0;	//		\lambda
-		params[2] = 1.0;	  	//		\epsilon
-		params[3] = 5.0;		//		\Nrig
-		const dArrayT  fParams 	= params;
+			dArrayT params(4);
+			params[0] = 100.0;		// 		\mu
+			params[1] = 1000.0;	//		\lambda
+			params[2] = 1.0;	  	//		\epsilon
+			params[3] = 5.0;		//		\Nrig
+			const dArrayT  fParams 	= params;
 
-		dMatrixT F = fF_List[CurrIP()];
-		double J = F.Det();
-		dArrayT di = d_i(F, E, fParams);
-		di *=(1.0);
+			dMatrixT F = fF_List[CurrIP()];
+			double J = F.Det();
+			dArrayT di = d_i(F, E, fParams);
+			di *=(1.0);
 
-		fB.MultTx(di, fNEEvec);
+			fB.MultTx(di, fNEEvec);
 /*------------------------------End of DE stuff--------------------------*/
+		}
 
 		/* accumulate */
 		fRHS.AddScaled(-constK*(*Weight++)*(*Det++), fNEEvec);

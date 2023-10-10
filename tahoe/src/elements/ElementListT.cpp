@@ -139,14 +139,6 @@
 #include "FSDielectricElastomer2DViscoT.h"
 #endif
 
-#ifdef DIELECTRIC_ELASTOMER_Q1P02D_MECHANICAL
-#include "FSDielectricElastomerQ1P02DMechanicalT.h"
-#endif
-
-#ifdef DIELECTRIC_ELASTOMER_Q1P02D_ELECTRICAL
-#include "FSDielectricElastomerQ1P02DElectricalT.h"
-#endif
-
 #ifdef HUWASHIZU
 #include "FSHuWashizuUSCT.h"
 #endif
@@ -487,14 +479,6 @@ void ElementListT::DefineInlineSub(const StringT& name, ParameterListT::ListOrde
     sub_lists.AddSub("dielectric_elastomer_2D_visco");
 #endif
 
-#ifdef DIELECTRIC_ELASTOMER_Q1P02D_MECHANICAL
-    sub_lists.AddSub("dielectric_elastomer_Q1P02DMechanical");
-#endif
-
-#ifdef DIELECTRIC_ELASTOMER_Q1P02D_ELECTRICAL
-    sub_lists.AddSub("dielectric_elastomer_Q1P02DElectrical");
-#endif
-
 #ifdef HUWASHIZU
     sub_lists.AddSub("Hu_Washizu_USC");
 #endif
@@ -819,16 +803,6 @@ ElementBaseT* ElementListT::NewElement(const StringT& name) const
 #ifdef DIELECTRIC_ELASTOMER_2D_VISCO
   else if (name == "dielectric_elastomer_2D_visco")
     return new FSDielectricElastomer2DViscoT(fSupport);
-#endif
-
-#ifdef DIELECTRIC_ELASTOMER_Q1P02D_MECHANICAL
-  else if (name == "dielectric_elastomer_Q1P02DMechanical")
-    return new FSDielectricElastomerQ1P02DMechanicalT(fSupport);
-#endif
-
-#ifdef DIELECTRIC_ELASTOMER_Q1P02D_ELECTRICAL
-  else if (name == "dielectric_elastomer_Q1P02DElectrical")
-    return new FSDielectricElastomerQ1P02DElectricalT(fSupport);
 #endif
 
 #ifdef HUWASHIZU

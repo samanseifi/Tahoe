@@ -31,7 +31,7 @@ public:
 	/** accept parameter list */
 	virtual void TakeParameterList(const ParameterListT& list);
 	/*@}*/
-		
+
 protected:
 
 	/* initialization functions */
@@ -55,10 +55,13 @@ protected:
 	dMatrixT fStressStiff;	/**< "compact" stress stiffness contribution: [nen] x [nen] */
 	dMatrixT fGradNa;       /**< shape function gradients matrix: [nsd] x [nen] */
 	/*@}*/
-	
+
+	dSymMatrixT fStress2D;
+
+
 	/** current coords with local ordering */
-	LocalArrayT fLocCurrCoords;	
+	LocalArrayT fLocCurrCoords;
 };
 
-} // namespace Tahoe 
+} // namespace Tahoe
 #endif /* _UPDATED_LAGRANGIAN_T_H_ */

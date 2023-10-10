@@ -298,23 +298,23 @@ void SolidElementT::SendOutput(int kincode)
       		break;
       	case ND_ELEC_POT_SCALAR:
       		flags[ND_ELEC_POT_SCALAR] = 1;
-      		break;      		
+      		break;
 		case iNodalStrain:
 			flags[iNodalStrain] = 1;
 			break;
 	    case iPrincipalStrain:
 			flags[iPrincipalStrain] = 1;
-			break;		      		
+			break;
 		default:
 			cout << "\n SolidElementT::SendOutput: invalid output code: "
 			     << kincode << endl;
 	}
 
-	
+
 	/* number of output values */
 	iArrayT n_counts;
 	SetNodalOutputCodes(IOBaseT::kAtInc, flags, n_counts);
-	
+
 	/* reset averaging workspace */
 	ElementSupport().ResetAverage(n_counts.Sum());
 
@@ -456,7 +456,7 @@ void SolidElementT::TakeParameterList(const ParameterListT& list)
 	/* allocate work space */
 	fB.Dimension(dSymMatrixT::NumValues(NumSD()), NumSD()*NumElementNodes());
 	fD.Dimension(dSymMatrixT::NumValues(NumSD()));
-	fG.Dimension(2.0*NumSD(), NumSD()*NumElementNodes());  
+	fG.Dimension(2.0*NumSD(), NumSD()*NumElementNodes());
 
 	/* nodal output codes */
 	fNodalOutputCodes.Dimension(NumNodalOutputCodes);
@@ -650,7 +650,7 @@ void SolidElementT::SetNodalOutputCodes(IOBaseT::OutputModeT mode, const iArrayT
 	/* initialize */
 	counts.Dimension(flags.Length());
 	counts = 0;
-	
+
 	/* set output flags */
 	if (flags[iNodalCoord] == mode)
 		counts[iNodalCoord] = NumSD();
@@ -672,15 +672,15 @@ void SolidElementT::SetNodalOutputCodes(IOBaseT::OutputModeT mode, const iArrayT
 		counts[iMaterialData] = (*fMaterialList)[0]->NumOutputVariables();
 	if (flags[iPoyntingVector] == mode)
 		counts[iPoyntingVector] = NumSD();
-	if (flags[ND_ELEC_POT] == mode) 
+	if (flags[ND_ELEC_POT] == mode)
 	    counts[ND_ELEC_POT] = NumSD();
-    if (flags[ND_DIV_POT] == mode) 
+    if (flags[ND_DIV_POT] == mode)
 	    counts[ND_DIV_POT] = 1;
-    if (flags[ND_ELEC_DISP] == mode) 
+    if (flags[ND_ELEC_DISP] == mode)
 	    counts[ND_ELEC_DISP] = NumSD();
-    if (flags[ND_ELEC_FLD] == mode) 
+    if (flags[ND_ELEC_FLD] == mode)
  	    counts[ND_ELEC_FLD] = NumSD()+1;
-	if (flags[ND_ELEC_POT_SCALAR] == mode) 
+	if (flags[ND_ELEC_POT_SCALAR] == mode)
 		counts[ND_ELEC_POT_SCALAR] = 1;	// HSP:  scalar electric potential field
 }
 
@@ -984,8 +984,8 @@ void SolidElementT::Set_B_bar(const dArray2DT& DNa, const dArray2DT& mean_gradie
 
 		for (int i = 0; i < nnd; i++)
 		{
-			double factx = ((*pBmx++) - (*pNax))/3.0;
-			double facty = ((*pBmy++) - (*pNay))/3.0;
+			double factx = ((*pBmx++) - (*pNax))/2.0;
+			double facty = ((*pBmy++) - (*pNay))/2.0;
 
 			/* Hughes (4.5.11-16) */
 			*pB++ = *pNax + factx;
@@ -995,6 +995,16 @@ void SolidElementT::Set_B_bar(const dArray2DT& DNa, const dArray2DT& mean_gradie
 			*pB++ = facty;
 			*pB++ = *pNay + facty;
 			*pB++ = *pNax;
+
+			// *pB++ = *pNax + factx;
+			// *pB++ = factx;
+			// *pB++ = *pNay; /* shear */
+			// *pB++ = *pNa/r + factx; /* about y-axis: u_r = u_x */
+			//
+			// *pB++ = facty;
+			// *pB++ = *pNay + facty;
+			// *pB++ = *pNax; /* shear */
+			// *pB++ = facty;
 
 			pNax++; pNay++;
 		}
@@ -1577,7 +1587,7 @@ void SolidElementT::ComputeOutput(const iArrayT& n_codes, dArray2DT& n_values,
 					nstr_tmp.Translate(stress);
 				}
 
-				
+
 				/* wave speeds */
 				if (n_codes[iWaveSpeeds])
 				{
@@ -1614,7 +1624,7 @@ void SolidElementT::ComputeOutput(const iArrayT& n_codes, dArray2DT& n_values,
 					else
 						fShapes->Extrapolate(strain, nodalstrain);
 				}
-				
+
 				if (n_codes[iPrincipalStrain])
 				{
 					/* compute eigenvalues */
@@ -1796,15 +1806,15 @@ void SolidElementT::ComputeOutput(const iArrayT& n_codes, dArray2DT& n_values,
 	/* get nodally averaged values */
 	const OutputSetT& output_set = ElementSupport().OutputSet(fOutputID);
 	const iArrayT& nodes_used = output_set.NodesUsed();
-	
+
 	dArray2DT extrap_values(nodes_used.Length(), n_extrap);
 	extrap_values.RowCollect(nodes_used, ElementSupport().OutputAverage());
-	
-		
+
+
 	int tmpDim = extrap_values.MajorDim();
 	n_values.Dimension(tmpDim,n_out);
 	n_values.BlockColumnCopyAt(extrap_values,0);
-	
+
 	if (qUseSimo)
 	{
 		int rowNum = 0;
@@ -1880,14 +1890,14 @@ void SolidElementT::GenerateOutputLabels(const iArrayT& n_codes, ArrayT<StringT>
 		for (int i = 0; i < nstrs; i++)
 			n_labels[count++] = slabels[i];
 	}
-	
+
 	if (n_codes[iPrincipal])
 	{
 		const char* plabels[] = {"s1", "s2", "s3"};
 		for (int i = 0; i < NumSD(); i++)
 			n_labels[count++] = plabels[i];
 	}
-	
+
 	if (n_codes[iEnergyDensity]) n_labels[count++] = "phi";
 	if (n_codes[iWaveSpeeds])
 	{
@@ -1959,15 +1969,15 @@ void SolidElementT::GenerateOutputLabels(const iArrayT& n_codes, ArrayT<StringT>
       n_labels[count++] = labels[i];
     }
   }
-	
+
   /* HSP:  scalar electric potential */
   if (n_codes[ND_ELEC_POT_SCALAR]) {
     const char* labels[] = {"Psi"};
     for (int i = 0; i < 1; i++) {
       n_labels[count++] = labels[i];
     }
-  }	
-	
+  }
+
 	if (n_codes[iNodalStrain])
 	{
 		const char* elabels1D[] = {"e11"};
@@ -1986,7 +1996,7 @@ void SolidElementT::GenerateOutputLabels(const iArrayT& n_codes, ArrayT<StringT>
 			elabels = elabels3D;
 		else
 			ExceptionT::GeneralFail(caller);
-		
+
 		for (int i = 0; i < nstrs; i++)
 			n_labels[count++] = elabels[i];
 	}
@@ -2083,15 +2093,15 @@ void SolidElementT::GenerateOutputLabels(const iArrayT& n_codes, ArrayT<StringT>
 			}
 		}
 	}
-	
+
 	if (e_codes[IP_ELEC_DISP]) {
-		
+
 		const char* labels[] = {"D1", "D2", "D3"};
-		
+
 		for (int j = 0; j < NumIP(); j++) {
 			StringT ip_label;
 			ip_label.Append("ip", j+1);
-			
+
 			for (int i = 0; i < NumSD(); i++) {
 				e_labels[count].Clear();
 				e_labels[count].Append(ip_label, ".", labels[i]);
@@ -2099,15 +2109,15 @@ void SolidElementT::GenerateOutputLabels(const iArrayT& n_codes, ArrayT<StringT>
 			}
 		}
 	}
-	
+
 	if (e_codes[IP_ELEC_FLD]) {
-		
+
 		const char* labels[] = {"E1", "E2", "E3", "Emag"};
-		
+
 		for (int j = 0; j < NumIP(); j++) {
 			StringT ip_label;
 			ip_label.Append("ip", j+1);
-			
+
 			for (int i = 0; i < NumSD() + 1; i++) {
 				e_labels[count].Clear();
 				e_labels[count].Append(ip_label, ".", labels[i]);
@@ -2115,5 +2125,5 @@ void SolidElementT::GenerateOutputLabels(const iArrayT& n_codes, ArrayT<StringT>
 			}
 		}
 	}
-	
+
 }

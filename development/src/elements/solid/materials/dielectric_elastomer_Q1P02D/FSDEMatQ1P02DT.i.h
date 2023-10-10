@@ -20,7 +20,7 @@ namespace Tahoe {
 
   // Set electrical permittivity
   inline void FSDEMatQ1P02DT::SetElectricPermittivity(double epsilon)
-  {	
+  {
     fElectricPermittivity = epsilon;
   }
 
@@ -87,7 +87,7 @@ namespace Tahoe {
 
 
     dMatrixT C3D(3), F3D(3), mechtan3D(6), metan3D(6);
-    dArrayT E3D(3); 
+    dArrayT E3D(3);
 
     metan3D = 0.0;
     mechtan3D = 0.0;
@@ -95,39 +95,39 @@ namespace Tahoe {
     C3D[0] = C2D[0];
     C3D[1] = C2D[1];
     C3D[2] = 0.0;
-    
+
     C3D[3] = C2D[2];
     C3D[4] = C2D[3];
     C3D[5] = 0.0;
-    
+
     C3D[6] = 0.0;
     C3D[7] = 0.0;
     C3D[8] = 1.0;
-    
+
     F3D[0] = F2D[0];
     F3D[1] = F2D[1];
     F3D[2] = 0.0;
-    
+
     F3D[3] = F2D[2];
     F3D[4] = F2D[3];
     F3D[5] = 0.0;
-    
+
     F3D[6] = 0.0;
     F3D[7] = 0.0;
     F3D[8] = 1.0;
-    
+
     const dArrayT& E = ElectricField();
     E3D[0] = E[0];
     E3D[1] = E[1];
     E3D[2] = 0.0;
-    
+
   	double I1 = C2D(0,0) + C2D(1,1) + 1.0;	// plane strain constraint
-	
+
 	/* call C function for mechanical part of tangent modulus */
  	mech_tanmod_q1p02D(fParams.Pointer(), E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, I1, mechtan3D.Pointer());
  	me_tanmod_q1p02D(fParams.Pointer(), E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, metan3D.Pointer());
  	mechtan3D+=metan3D;
- 
+
  	fTangentMechanical(0,0) = mechtan3D(0,0);
 	fTangentMechanical(0,1) = mechtan3D(0,1);
 	fTangentMechanical(0,2) = mechtan3D(0,5);
@@ -152,7 +152,7 @@ namespace Tahoe {
 
 
     dMatrixT C3D(3), F3D(3), stress_temp(3), stress_temp2(3);
-    dArrayT E3D(3); 
+    dArrayT E3D(3);
 
     stress_temp = 0.0;
     stress_temp2 = 0.0;
@@ -160,44 +160,44 @@ namespace Tahoe {
     C3D[0] = C2D[0];
     C3D[1] = C2D[1];
     C3D[2] = 0.0;
-    
+
     C3D[3] = C2D[2];
     C3D[4] = C2D[3];
     C3D[5] = 0.0;
-    
+
     C3D[6] = 0.0;
     C3D[7] = 0.0;
     C3D[8] = 1.0;
-    
+
     F3D[0] = F2D[0];
     F3D[1] = F2D[1];
     F3D[2] = 0.0;
-    
+
     F3D[3] = F2D[2];
     F3D[4] = F2D[3];
     F3D[5] = 0.0;
-    
+
     F3D[6] = 0.0;
     F3D[7] = 0.0;
     F3D[8] = 1.0;
-    
+
     const dArrayT& E = ElectricField();
     E3D[0] = E[0];
     E3D[1] = E[1];
     E3D[2] = 0.0;
-    
+
   	double I1 = C2D(0,0) + C2D(1,1) + 1.0;	// plane strain constraint
-	
+
 	/* call C function for mechanical part of PK2 stress */
- 	mech_pk2_q1p02D(fParams.Pointer(), E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, I1, stress_temp.Pointer()); 
+ 	mech_pk2_q1p02D(fParams.Pointer(), E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, I1, stress_temp.Pointer());
 	me_pk2_q1p02D(fParams.Pointer(), E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, stress_temp2.Pointer());
 	stress_temp+=stress_temp2;
-	
+
 	fStress(0,0) = stress_temp(0,0);
     fStress(0,1) = stress_temp(0,1);
     fStress(1,0) = stress_temp(1,0);
     fStress(1,1) = stress_temp(1,1);
-    
+
  	/* -------------- Writing into a file -------------
  	ofstream mySIJ;
  	mySIJ.open("S_IJ.txt");
@@ -223,34 +223,34 @@ namespace Tahoe {
 
 
     dMatrixT C3D(3), F3D(3), tangentEM3D(6,3);
-    dArrayT E3D(3); 
-    
+    dArrayT E3D(3);
+
     tangentEM3D = 0.0;
 
     C3D[0] = C2D[0];
     C3D[1] = C2D[1];
     C3D[2] = 0.0;
-    
+
     C3D[3] = C2D[2];
     C3D[4] = C2D[3];
     C3D[5] = 0.0;
-    
+
     C3D[6] = 0.0;
     C3D[7] = 0.0;
     C3D[8] = 1.0;
-    
+
     F3D[0] = F2D[0];
     F3D[1] = F2D[1];
     F3D[2] = 0.0;
-    
+
     F3D[3] = F2D[2];
     F3D[4] = F2D[3];
     F3D[5] = 0.0;
-    
+
     F3D[6] = 0.0;
     F3D[7] = 0.0;
     F3D[8] = 1.0;
-    
+
     const dArrayT& E = ElectricField();
     E3D[0] = E[0];
     E3D[1] = E[1];
@@ -286,42 +286,42 @@ namespace Tahoe {
     C3D[0] = C2D[0];
     C3D[1] = C2D[1];
     C3D[2] = 0.0;
-    
+
     C3D[3] = C2D[2];
     C3D[4] = C2D[3];
     C3D[5] = 0.0;
-    
+
     C3D[6] = 0.0;
     C3D[7] = 0.0;
     C3D[8] = 1.0;
-    
+
     F3D[0] = F2D[0];
     F3D[1] = F2D[1];
     F3D[2] = 0.0;
-    
+
     F3D[3] = F2D[2];
     F3D[4] = F2D[3];
     F3D[5] = 0.0;
-    
+
     F3D[6] = 0.0;
     F3D[7] = 0.0;
     F3D[8] = 1.0;
-    
+
     const dArrayT& E = ElectricField();
     E3D[0] = E[0];
     E3D[1] = E[1];
     E3D[2] = 0.0;
-	
+
 	/* call C function for (spatial) electromechanical tangent modulus */
  	me_mixedmodulus_q1p02Dspatial(fParams.Pointer(), E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, tangentEM3Ds.Pointer());
- 
+
  	fTangentElectromechanicalSpatial(0,0) = tangentEM3Ds(0,0);
 	fTangentElectromechanicalSpatial(1,0) = tangentEM3Ds(1,0);
 	fTangentElectromechanicalSpatial(2,0) = tangentEM3Ds(5,0);
 	fTangentElectromechanicalSpatial(0,1) = tangentEM3Ds(0,1);
 	fTangentElectromechanicalSpatial(1,1) = tangentEM3Ds(1,1);
 	fTangentElectromechanicalSpatial(2,1) = tangentEM3Ds(5,1);
- 
+
  	fTangentElectromechanicalSpatial /= J;
 
     return fTangentElectromechanicalSpatial;
@@ -338,15 +338,15 @@ namespace Tahoe {
 
     dMatrixT C3D(3), ElecTan3D(3);
     ElecTan3D = 0.0;	// initialize
-    
+
     C3D[0] = C2D[0];
     C3D[1] = C2D[1];
     C3D[2] = 0.0;
-    
+
     C3D[3] = C2D[2];
     C3D[4] = C2D[3];
     C3D[5] = 0.0;
-    
+
     C3D[6] = 0.0;
     C3D[7] = 0.0;
     C3D[8] = 1.0;
@@ -356,7 +356,7 @@ namespace Tahoe {
 	ElecTan3D = Cinv;
 	ElecTan3D *= fElectricPermittivity;
 	ElecTan3D *= J;
-	
+
 	fTangentElectrical(0,0) = ElecTan3D(0,0);
 	fTangentElectrical(1,0) = ElecTan3D(1,0);
 	fTangentElectrical(0,1) = ElecTan3D(0,1);
@@ -393,7 +393,7 @@ namespace Tahoe {
     return fTangentElectrical;
   }
 
-  // Electric displacement 
+  // Electric displacement
   inline const dArrayT&
   FSDEMatQ1P02DT::D_I()
   {
@@ -403,43 +403,43 @@ namespace Tahoe {
 
 
     dMatrixT C3D(3), F3D(3);
-    dArrayT E3D(3), ED(3); 
+    dArrayT E3D(3), ED(3);
 
     ED = 0.0;
 
     C3D[0] = C2D[0];
     C3D[1] = C2D[1];
     C3D[2] = 0.0;
-    
+
     C3D[3] = C2D[2];
     C3D[4] = C2D[3];
     C3D[5] = 0.0;
-    
+
     C3D[6] = 0.0;
     C3D[7] = 0.0;
     C3D[8] = 1.0;
-    
+
     F3D[0] = F2D[0];
     F3D[1] = F2D[1];
     F3D[2] = 0.0;
-    
+
     F3D[3] = F2D[2];
     F3D[4] = F2D[3];
     F3D[5] = 0.0;
-    
+
     F3D[6] = 0.0;
     F3D[7] = 0.0;
     F3D[8] = 1.0;
-    
+
     const dArrayT& E = ElectricField();
     E3D[0] = E[0];
     E3D[1] = E[1];
     E3D[2] = 0.0;
-  
+
 	/* call C function for electric stress (i.e. electric displacement D_{I}) */
- 	elec_pk2_q1p02D(fParams.Pointer(), E3D.Pointer(),  
- 		C3D.Pointer(), F3D.Pointer(), J, ED.Pointer()); 
- 		
+ 	elec_pk2_q1p02D(fParams.Pointer(), E3D.Pointer(),
+ 		C3D.Pointer(), F3D.Pointer(), J, ED.Pointer());
+
  	fElectricDisplacement[0] = ED[0];
  	fElectricDisplacement[1] = ED[1];
 
@@ -477,11 +477,11 @@ namespace Tahoe {
 
      const dMatrixT& F = F_mechanical();
      const double J = F.Det();
- 
+
      // prevent aliasing
      const dMatrixT CIJKL = C_IJKL();
      fTangentMechanical.SetToScaled(1.0 / J, PushForward(F, CIJKL)); // finite difference c_ijkl
-    
+
 //	fTangentMechanical = FSSolidMatT::c_ijkl(); // Analytic c_ijkl
 
 

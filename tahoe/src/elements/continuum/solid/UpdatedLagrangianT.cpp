@@ -15,6 +15,8 @@ using namespace Tahoe;
 /* constructor */
 UpdatedLagrangianT::UpdatedLagrangianT(const ElementSupportT& support):
 	FiniteStrainT(support),
+	fStress2D(dSymMatrixT::k3D_plane),
+
 	fLocCurrCoords(LocalArrayT::kCurrCoords)
 {
 	SetName("updated_lagrangian");
@@ -42,7 +44,7 @@ void UpdatedLagrangianT::TakeParameterList(const ParameterListT& list)
 {
 	/* inherited */
 	FiniteStrainT::TakeParameterList(list);
-	
+
 	/* allocate workspace */
 	int nsd = NumSD();
 	int nen = NumElementNodes();
@@ -92,7 +94,7 @@ void UpdatedLagrangianT::SetGlobalShape(void)
 
 /* form the element stiffness matrix */
 void UpdatedLagrangianT::FormStiffness(double constK)
-{		
+{
 	/* matrix format */
 	dMatrixT::SymmetryFlagT format =
 		(fLHS.Format() == ElementMatrixT::kNonSymmetric) ?
@@ -105,38 +107,38 @@ void UpdatedLagrangianT::FormStiffness(double constK)
 
 	/* initialize */
 	fStressStiff = 0.0;
-	
+
 	fShapes->TopIP();
 	while ( fShapes->NextIP() )
 	{
 		/* double scale factor */
 		double scale = constK*(*Det++)*(*Weight++);
-	
-	/* S T R E S S   S T I F F N E S S */			
+
+	/* S T R E S S   S T I F F N E S S */
 		/* compute Cauchy stress */
 		(fCurrMaterial->s_ij()).ToMatrix(fCauchyStress);
-	
-		/* integration constants */		
+
+		/* integration constants */
 		fCauchyStress *= scale;
 
 		/* get shape function gradients matrix */
 		fCurrShapes->GradNa(fGradNa);
-	
+
 		/* using the stress symmetry */
 		fStressStiff.MultQTBQ(fGradNa, fCauchyStress,
 			format, dMatrixT::kAccumulate);
 
-	/* M A T E R I A L   S T I F F N E S S */									
+	/* M A T E R I A L   S T I F F N E S S */
 		/* strain displacement matrix */
 		Set_B(fCurrShapes->Derivatives_U(), fB);
 
 		/* get D matrix */
 		fD.SetToScaled(scale, fCurrMaterial->c_ijkl());
-						
+
 		/* accumulate */
-		fLHS.MultQTBQ(fB, fD, format, dMatrixT::kAccumulate);	
+		fLHS.MultQTBQ(fB, fD, format, dMatrixT::kAccumulate);
 	}
-						
+
 	/* stress stiffness into fLHS */
 	fLHS.Expand(fStressStiff, NumDOF(), dMatrixT::kAccumulate);
 }
@@ -165,7 +167,7 @@ void UpdatedLagrangianT::FormKd(double constK)
 		fRHS.AddScaled(constK*(*Weight++)*(*Det++), fNEEvec);
 
 		/* incremental heat generation */
-		if (need_heat) 
+		if (need_heat)
 			fElementHeat[fShapes->CurrIP()] += fCurrMaterial->IncrementalHeat();
-	}	
+	}
 }

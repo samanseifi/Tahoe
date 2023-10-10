@@ -109,6 +109,9 @@ protected:
 
 	dMatrixT fMaxwell;
 
+	dMatrixT fMat2D;
+dSymMatrixT fStress2D;
+
 	/** \name element volume */
 	/*@{*/
 	/** deformed element volume */

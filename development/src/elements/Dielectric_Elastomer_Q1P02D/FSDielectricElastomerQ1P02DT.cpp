@@ -710,7 +710,7 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 	/* J_correction for eijk terms? */
 		dMatrixT bij = fCurrMaterial->b_ij();
 		dMatrixT eijk = fCurrMaterial->e_ijk();
-		eijk *= scale1*J_correction;
+		eijk *= scale*J_correction;
 		bij *= scale1*J_correction;	// integration constant
 
 		/* mechanical-electrical stiffness (24 x 8 matrix for 8-node 3D element) */
@@ -727,8 +727,8 @@ void FSDielectricElastomerQ1P02DT::AddNodalForce(const FieldT& field, int node, 
 
 	/* stress stiffness into fLHS (i.e. fAmm_mat) */
 	fAmm_mat.Expand(fAmm_geo, NumDOF(), dMatrixT::kAccumulate);
-	fAem.Transpose(fAme);
-	fAem *= constK;
+	fAem.Transpose();
+	//fAem *= constK;
 
 	/* Add mass matrix and non-symmetric electromechanical tangent if dynamic problem */
 	if (order == 2)

@@ -220,7 +220,7 @@ void SimoQ1P0::SetGlobalShape(void)
 			dMatrixT& F = fF_List[i];
 			double J = F.Det();
 			F *= pow(v/(H*J), 1.0/2.0);
-//			F *= pow((pow((v/H),2.0/3.0)*(1.0/J)), 1.0/2.0);
+			// F *= pow((pow((v/H),2.0/3.0)*(1.0/J)), 1.0/2.0);
 
 			/* store Jacobian */
 			fJacobian[i] = J;
@@ -234,7 +234,7 @@ void SimoQ1P0::SetGlobalShape(void)
 
 			double J = F.Det();
 			F *= pow(v_last/(H*J), 1.0/2.0);
-//			F *= pow((pow((v_last/H),2.0/3.0)*(1.0/J)), 1.0/2.0);
+			// F *= pow((pow((v_last/H),2.0/3.0)*(1.0/J)), 1.0/2.0);
 		}
 	}
 }
@@ -325,29 +325,41 @@ void SimoQ1P0::FormStiffness(double constK)
 	/* S T R E S S   S T I F F N E S S */
 		/* compute Cauchy stress */
 
-		dSymMatrixT cauchy1 = fCurrMaterial->s_ij();
-		dSymMatrixT maxwell = MaxwellStress(fE_List[CurrIP()], 1.0);
-		cauchy1 += maxwell;
-		//const dSymMatrixT& cauchy = cauchy1;
-		//cauchy.ToMatrix(fCauchyStress);
-
-		dArrayT params(4);
-		params[0] = 10000.0;		// 		\mu
-		params[1] = 100000000.0;	//		\lambda
-		params[2] = 1.0e-11;	  //		\epsilon
-		params[3] = 5.0;		//		\Nrig
-		const dArrayT  fParams 	= params;
-		const dArrayT  E 		= fE_List[CurrIP()];
-		const dMatrixT F 		= DeformationGradient();
-		const dSymMatrixT cauchy = s_ij(E, F, fParams);
-		cauchy.ToMatrix(fCauchyStress);
+		if (CurrentElement().MaterialNumber() == 0 ) {
+			// dSymMatrixT cauchy1 = fCurrMaterial->s_ij();
+			// //dSymMatrixT maxwell = MaxwellStress(fE_List[CurrIP()], 1.0);
+			// //cauchy1 += maxwell;
+			// const dSymMatrixT& cauchy = cauchy1;
+			// cauchy.ToMatrix(fCauchyStress);
+			dArrayT params(4);
+			params[0] = 0.001;		// 		\mu
+			params[1] = 1000.0;	//		\lambda
+			params[2] = 1.0;	  //		\epsilon
+			params[3] = 5.0;		//		\Nrig
+			const dArrayT  fParams 	= params;
+			const dArrayT  E 		= fE_List[CurrIP()];
+			const dMatrixT F 		= fF_List[CurrIP()];
+			const dSymMatrixT cauchy = s_ij(E, F, fParams);
+			cauchy.ToMatrix(fCauchyStress);
+		} else if (CurrentElement().MaterialNumber() ==1) {
+			dArrayT params(4);
+			params[0] = 100.0;		// 		\mu
+			params[1] = 1000.0;	//		\lambda
+			params[2] = 1.0;	  //		\epsilon
+			params[3] = 5.0;	//		\Nrig
+			const dArrayT  fParams 	= params;
+			const dArrayT  E 		= fE_List[CurrIP()];
+			const dMatrixT F 		= fF_List[CurrIP()];
+			const dSymMatrixT cauchy = s_ij(E, F, fParams);
+			cauchy.ToMatrix(fCauchyStress);
+		}
 
 		/* determinant of modified deformation gradient */
 		double J_bar = DeformationGradient().Det();
 
 		/* detF correction */
 		double J_correction = J_bar/fJacobian[CurrIP()];
-		double p = J_correction*cauchy.Trace()/3.0;
+		//double p = J_correction*cauchy.Trace()/3.0;
 
 		/* get shape function gradients matrix */
 		fCurrShapes->GradNa(fGradNa);
@@ -418,7 +430,7 @@ void SimoQ1P0::FormKd(double constK)
 	/* constant pressure */
 	double& p_bar = fPressure[elem];
 	p_bar = 0.0;
-
+	dArrayT Na;
 	fCurrShapes->TopIP();
 	while ( fCurrShapes->NextIP() )
 	{
@@ -428,25 +440,38 @@ void SimoQ1P0::FormKd(double constK)
 		/* B^T * Cauchy stress */
 
 
+		if (CurrentElement().MaterialNumber() == 0 ) {
+			// dSymMatrixT cauchy1 = fCurrMaterial->s_ij();
+			// //dSymMatrixT maxwell = MaxwellStress(fE_List[CurrIP()], 1.0);
+			// //cauchy1 += maxwell;
+			// const dSymMatrixT& cauchy = cauchy1;
+			// fB.MultTx(cauchy, fNEEvec);
+			dArrayT params(4);
+			params[0] = 0.001;		// 	\mu = Shear modulus
+			params[1] = 1000.0;	//	\kappa = Bulk modulus
+			params[2] = 1.0;		//	\epsilon = Electrical Permittivity
+			params[3] = 5.0;		//  Nrig	= Arruda-Boyce model constant
+			const dArrayT  fParams 	= params;
+			const dArrayT  E 		= fE_List[CurrIP()];
+			const dMatrixT F 		= fF_List[CurrIP()];
+			const dSymMatrixT cauchy = s_ij(E, F, fParams);
+			fB.MultTx(cauchy, fNEEvec);
 
-		//dSymMatrixT cauchy1 = fCurrMaterial->s_ij();
-		//dSymMatrixT maxwell = MaxwellStress(fE_List[CurrIP()], 1.0);
-		//cauchy1 += maxwell;
-		//const dSymMatrixT& cauchy = cauchy1;
-
-		dArrayT params(4);
-		params[0] = 10000.0;		// 	\mu = Shear modulus
-		params[1] = 100000000.0;	//	\kappa = Bulk modulus
-		params[2] = 1.0e-11;		//	\epsilon = Electrical Permittivity
-		params[3] = 5.0;		//  Nrig	= Arruda-Boyce model constant
-		const dArrayT  fParams 	= params;
-		const dArrayT  E 		= fE_List[CurrIP()];
-		const dMatrixT F 		= DeformationGradient();
-		const dSymMatrixT cauchy = s_ij(E, F, fParams);
-
+		} else if (CurrentElement().MaterialNumber() == 1) {
+			dArrayT params(4);
+			params[0] = 100.0;		// 	\mu = Shear modulus
+			params[1] = 1000.0;	//	\kappa = Bulk modulus
+			params[2] = 1.0;		//	\epsilon = Electrical Permittivity
+			params[3] = 5.0;		//  Nrig	= Arruda-Boyce model constant
+			const dArrayT  fParams 	= params;
+			const dArrayT  E 		= fE_List[CurrIP()];
+			const dMatrixT F 		= fF_List[CurrIP()];
+			const dSymMatrixT cauchy = s_ij(E, F, fParams);
+			fB.MultTx(cauchy, fNEEvec);
+		}
 		//const dSymMatrixT& cauchy = fCurrMaterial->s_ij();
 
-		fB.MultTx(cauchy, fNEEvec);
+
 
 		/* determinant of modified deformation gradient */
 		double J_bar = DeformationGradient().Det();
@@ -455,7 +480,21 @@ void SimoQ1P0::FormKd(double constK)
 		double J_correction = J_bar/fJacobian[CurrIP()];
 
 		/* integrate pressure */
-		p_bar += (*Weight)*(*Det)*J_correction*cauchy.Trace()/3.0;
+	//	p_bar += (*Weight)*(*Det)*J_correction*cauchy.Trace()/3.0;
+
+		Na.Alias(NumElementNodes(), fCurrShapes->IPShapeU(CurrIP()));
+
+		double CurrTime = ElementSupport().Time();
+		double b_x = 0.0;
+		double b_y = 0.0; //*CurrTime;
+		fNEEvec[0] += Na[0] * b_x;
+		fNEEvec[1] += Na[0] * b_y;
+		fNEEvec[2] += Na[1] * b_x;
+		fNEEvec[3] += Na[1] * b_y;
+		fNEEvec[4] += Na[2] * b_x;
+		fNEEvec[5] += Na[2] * b_y;
+		fNEEvec[6] += Na[3] * b_x;
+		fNEEvec[7] += Na[3] * b_y;
 
 		/* accumulate */
 		fRHS.AddScaled(constK*(*Weight++)*(*Det++)*J_correction, fNEEvec);

@@ -154,8 +154,8 @@ void SimoQ1P0_Surface::TakeParameterList(const ParameterListT& list)
 
       /* find parameter list for the bulk material */
       int num_blocks = list.NumLists("large_strain_element_block");
-      if (num_blocks > 1)
-      ExceptionT::GeneralFail(caller, "expecting only 1 not %d element blocks", num_blocks);
+      //if (num_blocks > 1)
+      //ExceptionT::GeneralFail(caller, "expecting only 1 not %d element blocks", num_blocks);
       const ParameterListT& block = list.GetList("large_strain_element_block");
       const ParameterListT& mat_list = block.GetListChoice(*this, "large_strain_material_choice");
       const ArrayT<ParameterListT>& mat = mat_list.Lists();
@@ -171,6 +171,7 @@ void SimoQ1P0_Surface::TakeParameterList(const ParameterListT& list)
       /* collect surface element information */
       ArrayT<StringT> block_ID;
       ElementBlockIDs(block_ID);
+      //std::cout << block_ID << std::endl;
       ModelManagerT& model_manager = ElementSupport().ModelManager();
       model_manager.BoundingElements(block_ID, fSurfaceElements, fSurfaceElementNeighbors);
 
@@ -333,19 +334,9 @@ void SimoQ1P0_Surface::FormStiffness(double constK)
       fB.Dimension(nen);
       K_Total.Dimension(nen, nen);
 
- 	 double CurrTime = ElementSupport().Time(); // Obtaining current time
+ 	double CurrTime = ElementSupport().Time(); // Obtaining current time
 
- 	 double fNewSurfTension = min(fSurfTension, (CurrTime*fSurfTension)/fT_0); // Ramping up the surface tension
-
-     ModelManagerT& model_manager = ElementSupport().ModelManager();
-     const iArrayT node_set_1 = model_manager.NodeSet("1");
-     const iArrayT node_set_2 = model_manager.NodeSet("2");
-     const iArrayT node_set_3 = model_manager.NodeSet("3");
-
-     //cout << fSurfaceElementNeighbors << endl;
-
-     ofstream myJ;
-     myJ.open("J.txt", std::ios_base::app);
+ 	double fNewSurfTension = min(fSurfTension, (CurrTime*fSurfTension)/fT_0); // Ramping up the surface tension
 
      fGrad_U.Dimension(2, NumSD());
      fGrad_U = 0.0;
@@ -360,17 +351,17 @@ void SimoQ1P0_Surface::FormStiffness(double constK)
  		 if (element == CurrElementNumber()) // Is the current element a surface element?
  		 {
 
- 			if (i == 20) // element number 20
- 			{
- 				for (int k = 0; k < NumIP(); k++)
- 				{
- 					fShapes->GradU(fLocDisp, fGrad_U, k);
- 					fGrad_U.PlusIdentity(); // Computing F_0 = I + Grad_U
- 					double J_0 = fGrad_U.Det();
- 					myJ << k << "," << J_0 << endl;
- 				}
- 				myJ.close();
- 			}
+ 		// 	if (i == 20) // element number 20
+ 		// 	{
+ 		// 		for (int k = 0; k < NumIP(); k++)
+ 		// 		{
+ 		// 			fShapes->GradU(fLocDisp, fGrad_U, k);
+ 		// 			fGrad_U.PlusIdentity(); // Computing F_0 = I + Grad_U
+ 		// 			double J_0 = fGrad_U.Det();
+ 		// 			myJ << k << "," << J_0 << endl;
+ 		// 		}
+ 		// 		myJ.close();
+ 		// 	}
 
  			 const ElementCardT& element_card = ElementCard(element);
  			 fLocInitCoords.SetLocal(element_card.NodesX()); /* reference coordinates over bulk element (collects first x coords and then y coords) i.e.  [x1 x2 x3 x4 y1 y2 y3 y4] */
