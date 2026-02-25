@@ -1,1 +1,0 @@
-/home/saman/Tahoe/tahoe/src/main/BridgingScaleManagerT.cpp

@@ -33,10 +33,18 @@
      virtual void EvaluateShapeFunctions(const dArrayT& coords, dArrayT& Na,
          dArray2DT& DNa) const;
 
+     /** evaluate shape functions and first and second gradients (not implemented) */
+     virtual void EvaluateShapeFunctions(const dArrayT& coords, dArrayT& Na,
+         dArray2DT& DNa, dArray2DT& DDNa) const;
+
      /** evaluate the shape functions and gradients. See
       * GeometryBaseT::SetLocalShape for documentation */
      virtual void SetLocalShape(dArray2DT& Na, ArrayT<dArray2DT>& Na_x,
          dArrayT& weights) const;
+
+     /** sets first and second derivative of shape functions (not implemented) */
+     virtual void SetLocalShape(dArray2DT& Na, ArrayT<dArray2DT>& Na_x,
+         ArrayT<dArray2DT>& Na_xx, dArrayT& weights) const;
 
      /** compute gradients of the "bubble" modes */
      virtual void BubbleModeGradients(ArrayT<dArray2DT>& Na_x) const;

@@ -9,6 +9,7 @@
 
 #include "GRAD_MRSSNLHardT.h"
 #include <iostream>
+#include <fstream>
 #include <cmath>
 
 #include "iArrayT.h"

@@ -1,1 +1,0 @@
-/home/saman/Tahoe/f2c/src/Misc/getarg_.c

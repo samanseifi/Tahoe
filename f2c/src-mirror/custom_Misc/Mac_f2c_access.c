@@ -1,1 +1,0 @@
-/home/saman/Tahoe/f2c/src/custom_Misc/Mac_f2c_access.c

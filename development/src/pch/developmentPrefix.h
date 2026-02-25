@@ -3,9 +3,9 @@
 #include "ios_fwd_decl.h"
 
 /* ANSI headers */
-#include <iostream.h>
-#include <fstream.h>
-#include <iomanip.h>
+#include <iostream>
+#include <fstream>
+#include <iomanip>
 #include <math.h>
 #include <limits.h>
 #include <ctype.h>

@@ -115,6 +115,15 @@ using namespace std;
 #endif
 #endif
 
+/* version 5.x and later (GCC 5 through 14+, Clang, etc.) */
+#if (__GNUC__ >= 5)
+#define __GCC_4__  /* re-use GCC 4.x header paths */
+using namespace std;
+#ifndef NEW_STATIC_TEMPLATE_SYNTAX
+#define NEW_STATIC_TEMPLATE_SYNTAX
+#endif
+#endif
+
 #endif /* __GNU__ */
 
 /* IBM XL C/C++ for OS X */

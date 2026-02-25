@@ -1,1 +1,0 @@
-/home/saman/Tahoe/tahoe/../development/src/elements/micromorphic_curr_config/makefile

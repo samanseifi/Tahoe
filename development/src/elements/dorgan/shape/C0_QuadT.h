@@ -2,7 +2,7 @@
 #ifndef _C0_QUAD_T_H_
 #define _C0_QUAD_T_H_
 
-#include <iostream.h>
+#include <iostream>
 #include <ctype.h>
 
 #include "ifstreamT.h"

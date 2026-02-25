@@ -6,8 +6,8 @@
 /* base class */
 #include "MFGPAssemblyT.h"
 
-#include <iostream.h>
-#include <iomanip.h>
+#include <iostream>
+#include <iomanip>
 #include <math.h>
 
 #include "ifstreamT.h"

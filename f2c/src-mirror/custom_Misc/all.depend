@@ -1,3 +1,0 @@
-lsame.o: lsame.c /home/saman/Tahoe/f2c/inc/f2c.h
-Mac_f2c_access.o: Mac_f2c_access.c
-xerbla.o: xerbla.c /home/saman/Tahoe/f2c/inc/f2c.h

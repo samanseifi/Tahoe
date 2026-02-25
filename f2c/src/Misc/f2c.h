@@ -270,6 +270,17 @@ typedef doublereal E_f;	/* real function with -R not specified */
 #endif
 #undef vax
 #endif
+
+/* In C++ mode, undefine the min/max/abs macros that f2c defines above.
+   They conflict with GCC 5+ C++ standard library internal headers.
+   The typed aliases (dmin, dmax, dabs) and the f2c-generated call sites
+   use pointer-based helper functions, not these macros. */
+#ifdef __cplusplus
+#undef abs
+#undef min
+#undef max
+#endif
+
 #endif
 
 

@@ -1,1 +1,0 @@
-/home/saman/Tahoe/f2c/src/custom_Misc/lsame.c

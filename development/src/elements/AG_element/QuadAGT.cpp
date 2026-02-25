@@ -119,6 +119,20 @@ QuadAGT::~QuadAGT(void)
      
  }
 
+ /* evaluate shape functions and first and second gradients (not implemented) */
+ void QuadAGT::EvaluateShapeFunctions(const dArrayT& coords, dArrayT& Na, dArray2DT& DNa, dArray2DT& DDNa) const
+ {
+     (void)coords; (void)Na; (void)DNa; (void)DDNa;
+     ExceptionT::GeneralFail("QuadAGT::EvaluateShapeFunctions", "second derivatives not implemented");
+ }
+
+ /* sets first and second derivative of shape functions (not implemented) */
+ void QuadAGT::SetLocalShape(dArray2DT& Na, ArrayT<dArray2DT>& Na_x, ArrayT<dArray2DT>& Na_xx, dArrayT& weights) const
+ {
+     (void)Na; (void)Na_x; (void)Na_xx; (void)weights;
+     ExceptionT::GeneralFail("QuadAGT::SetLocalShape", "second derivatives not implemented");
+ }
+
  /* evaluate the shape functions and gradients. */
  void QuadAGT::EvaluateShapeFunctions(const dArrayT& coords, dArrayT& Na, dArray2DT& DNa) const
  {

@@ -2,7 +2,7 @@
 #ifndef _C1_LINE_T_H_
 #define _C1_LINE_T_H_
 
-#include <iostream.h>
+#include <iostream>
 #include <ctype.h>
 
 #include "ifstreamT.h"

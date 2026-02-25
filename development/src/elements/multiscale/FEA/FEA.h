@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-#include <iostream.h>
+#include <iostream>
 
 #include "ArrayT.h"
 #include "dArrayT.h"

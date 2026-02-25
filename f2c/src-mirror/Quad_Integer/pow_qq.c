@@ -1,1 +1,0 @@
-/home/saman/Tahoe/f2c/src/Quad_Integer/pow_qq.c

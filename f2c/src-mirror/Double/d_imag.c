@@ -1,1 +1,0 @@
-/home/saman/Tahoe/f2c/src/Double/d_imag.c

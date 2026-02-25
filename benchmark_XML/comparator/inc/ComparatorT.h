@@ -1,1 +1,0 @@
-/home/saman/Tahoe/benchmark_XML/comparator/src-mirror/ComparatorT.h

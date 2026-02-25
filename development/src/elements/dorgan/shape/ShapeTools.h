@@ -2,7 +2,7 @@
 #ifndef _SHAPE_TOOLS_H_
 #define _SHAPE_TOOLS_H_
 
-#include <iostream.h>
+#include <iostream>
 #include <ctype.h>
 
 #include "ifstreamT.h"
