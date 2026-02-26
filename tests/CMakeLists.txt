@@ -30,17 +30,35 @@ macro(tahoe_gtest target_name source_file)
 endmacro()
 
 # ---------------------------------------------------------------------------
-# Helper: full libtahoe test (material models, needs whole-archive)
+# Helper: full libtahoe+libdevelopment test (material models, needs whole-archive)
+# When TAHOE_DEV=ON, libtahoe's ElementListT references development element
+# constructors. We use --start-group/--end-group so the linker resolves
+# this circular dependency, with --whole-archive only on libtahoe+toolbox
+# (to keep factory registrations) but NOT on libdevelopment (to avoid
+# pulling in modules with broken global symbol names like Tahoe::fStack).
 # ---------------------------------------------------------------------------
 macro(tahoe_gtest_full target_name source_file)
     add_executable(${target_name} ${source_file})
-    target_link_libraries(${target_name} PRIVATE GTest::gtest_main libtahoe m dl)
-    target_link_options(${target_name} PRIVATE
-        -Wl,--whole-archive
-        $<TARGET_FILE:libtahoe>
-        $<TARGET_FILE:toolbox>
-        -Wl,--no-whole-archive
-    )
+    if(TAHOE_DEV)
+        target_link_libraries(${target_name} PRIVATE GTest::gtest_main libdevelopment libtahoe m dl)
+        target_link_options(${target_name} PRIVATE
+            -Wl,--start-group
+            -Wl,--whole-archive
+            $<TARGET_FILE:libtahoe>
+            $<TARGET_FILE:toolbox>
+            -Wl,--no-whole-archive
+            $<TARGET_FILE:libdevelopment>
+            -Wl,--end-group
+        )
+    else()
+        target_link_libraries(${target_name} PRIVATE GTest::gtest_main libtahoe m dl)
+        target_link_options(${target_name} PRIVATE
+            -Wl,--whole-archive
+            $<TARGET_FILE:libtahoe>
+            $<TARGET_FILE:toolbox>
+            -Wl,--no-whole-archive
+        )
+    endif()
     target_compile_options(${target_name} PRIVATE
         $<$<COMPILE_LANGUAGE:CXX>:-fpermissive>
         -Wno-deprecated

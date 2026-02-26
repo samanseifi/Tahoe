@@ -38,6 +38,11 @@ target_include_directories(libtahoe PUBLIC
     ${DEV_SRC_INC_DIRS}
 )
 
+# __DEVELOPMENT__ activates the #include "DevelopmentElementsConfig.h" guards
+# throughout libtahoe sources (ElementListT, FieldT, SolverT, NodeManagerT, etc.)
+# so that development element flags (DIELECTRIC_ELASTOMER, etc.) resolve correctly.
+target_compile_definitions(libtahoe PUBLIC __DEVELOPMENT__)
+
 # toolbox is a PUBLIC dependency — its include dirs are transitively exported
 target_link_libraries(libtahoe PUBLIC toolbox)
 

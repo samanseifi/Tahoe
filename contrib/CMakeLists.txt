@@ -19,13 +19,26 @@ tahoe_collect_header_dirs("${MAKECSE_SRC}" MAKECSE_INC_DIRS)
 
 add_executable(MakeCSE ${MAKECSE_SRCS})
 target_include_directories(MakeCSE PRIVATE ${MAKECSE_INC_DIRS})
-target_link_libraries(MakeCSE PRIVATE libtahoe)
-target_link_options(MakeCSE PRIVATE
-    -Wl,--whole-archive
-    $<TARGET_FILE:libtahoe>
-    $<TARGET_FILE:toolbox>
-    -Wl,--no-whole-archive
-)
+if(TAHOE_DEV)
+    target_link_libraries(MakeCSE PRIVATE libdevelopment libtahoe)
+    target_link_options(MakeCSE PRIVATE
+        -Wl,--start-group
+        -Wl,--whole-archive
+        $<TARGET_FILE:libtahoe>
+        $<TARGET_FILE:toolbox>
+        -Wl,--no-whole-archive
+        $<TARGET_FILE:libdevelopment>
+        -Wl,--end-group
+    )
+else()
+    target_link_libraries(MakeCSE PRIVATE libtahoe)
+    target_link_options(MakeCSE PRIVATE
+        -Wl,--whole-archive
+        $<TARGET_FILE:libtahoe>
+        $<TARGET_FILE:toolbox>
+        -Wl,--no-whole-archive
+    )
+endif()
 
 # ---------------------------------------------------------------------------
 # translate — converts Tahoe output between formats; extracts nodal/element data
@@ -37,13 +50,26 @@ tahoe_collect_header_dirs("${TRANSLATE_SRC}" TRANSLATE_INC_DIRS)
 
 add_executable(translate ${TRANSLATE_SRCS})
 target_include_directories(translate PRIVATE ${TRANSLATE_INC_DIRS})
-target_link_libraries(translate PRIVATE libtahoe)
-target_link_options(translate PRIVATE
-    -Wl,--whole-archive
-    $<TARGET_FILE:libtahoe>
-    $<TARGET_FILE:toolbox>
-    -Wl,--no-whole-archive
-)
+if(TAHOE_DEV)
+    target_link_libraries(translate PRIVATE libdevelopment libtahoe)
+    target_link_options(translate PRIVATE
+        -Wl,--start-group
+        -Wl,--whole-archive
+        $<TARGET_FILE:libtahoe>
+        $<TARGET_FILE:toolbox>
+        -Wl,--no-whole-archive
+        $<TARGET_FILE:libdevelopment>
+        -Wl,--end-group
+    )
+else()
+    target_link_libraries(translate PRIVATE libtahoe)
+    target_link_options(translate PRIVATE
+        -Wl,--whole-archive
+        $<TARGET_FILE:libtahoe>
+        $<TARGET_FILE:toolbox>
+        -Wl,--no-whole-archive
+    )
+endif()
 
 # ---------------------------------------------------------------------------
 # wrap — wraps/converts mesh files using Tahoe's I/O layer
@@ -55,13 +81,26 @@ tahoe_collect_header_dirs("${WRAP_SRC}" WRAP_INC_DIRS)
 
 add_executable(wrap ${WRAP_SRCS})
 target_include_directories(wrap PRIVATE ${WRAP_INC_DIRS})
-target_link_libraries(wrap PRIVATE libtahoe)
-target_link_options(wrap PRIVATE
-    -Wl,--whole-archive
-    $<TARGET_FILE:libtahoe>
-    $<TARGET_FILE:toolbox>
-    -Wl,--no-whole-archive
-)
+if(TAHOE_DEV)
+    target_link_libraries(wrap PRIVATE libdevelopment libtahoe)
+    target_link_options(wrap PRIVATE
+        -Wl,--start-group
+        -Wl,--whole-archive
+        $<TARGET_FILE:libtahoe>
+        $<TARGET_FILE:toolbox>
+        -Wl,--no-whole-archive
+        $<TARGET_FILE:libdevelopment>
+        -Wl,--end-group
+    )
+else()
+    target_link_libraries(wrap PRIVATE libtahoe)
+    target_link_options(wrap PRIVATE
+        -Wl,--whole-archive
+        $<TARGET_FILE:libtahoe>
+        $<TARGET_FILE:toolbox>
+        -Wl,--no-whole-archive
+    )
+endif()
 
 # ---------------------------------------------------------------------------
 # Dakota post-processing tools — standalone C++ utilities using toolbox only
