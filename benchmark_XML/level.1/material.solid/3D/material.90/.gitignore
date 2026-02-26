@@ -1,0 +1,4 @@
+*.stat
+*.out
+*.io*.run*
+*.geo

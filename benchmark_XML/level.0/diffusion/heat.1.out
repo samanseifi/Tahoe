@@ -4,14 +4,12 @@ begin: tahoe
 geometry_format. . . . . . . . . . . . . . . . . . = automatic
 geometry_format = automatic (default)
 geometry_format = TahoeII
-geometry_format = ExodusII
 geometry_file. . . . . . . . . . . . . . . . . . . = ../geometry/quad8.2x2.geom
-output_format. . . . . . . . . . . . . . . . . . . = ExodusII
+output_format. . . . . . . . . . . . . . . . . . . = automatic
 output_format = automatic (default)
 output_format = Tahoe
 output_format = TecPlot
 output_format = EnSight
-output_format = ExodusII
 restart_output_inc . . . . . . . . . . . . . . . . = 0
 restart_output_inc >= 0 (default)
 echo_input . . . . . . . . . . . . . . . . . . . . = false
@@ -61,69 +59,6 @@ end: tahoe::time
 begin: tahoe::nodes
 
 begin: tahoe::nodes::field
-field_name . . . . . . . . . . . . . . . . . . . . = displacement
-solution_group . . . . . . . . . . . . . . . . . . = 1
-solution_group >= 1 (default)
-integrator . . . . . . . . . . . . . . . . . . . . = static
-integrator = linear_static
-integrator = static (default)
-integrator = trapezoid
-integrator = linear_HHT
-integrator = nonlinear_HHT
-integrator = central_difference
-integrator = Verlet
-integrator = Gear6
-integrator = mixed
-total_energy_output_inc. . . . . . . . . . . . . . = 0
-total_energy_output_inc >= 0 (default)
-
-begin: tahoe::nodes::field::dof_labels
-
-begin: tahoe::nodes::field::dof_labels::String
-value. . . . . . . . . . . . . . . . . . . . . . . = D_X
-end: tahoe::nodes::field::dof_labels::String
-
-begin: tahoe::nodes::field::dof_labels::String
-value. . . . . . . . . . . . . . . . . . . . . . . = D_Y
-end: tahoe::nodes::field::dof_labels::String
-
-end: tahoe::nodes::field::dof_labels
-
-begin: tahoe::nodes::field::kinematic_BC
-node_ID. . . . . . . . . . . . . . . . . . . . . . = 3
-dof. . . . . . . . . . . . . . . . . . . . . . . . = 1
-type . . . . . . . . . . . . . . . . . . . . . . . = fixed
-type = fixed (default)
-type = u
-type = D_u
-type = DD_u
-type = D3_u
-type = D4_u
-schedule . . . . . . . . . . . . . . . . . . . . . = 0
-schedule(default) = 0
-value. . . . . . . . . . . . . . . . . . . . . . . = 0.000000e+00
-value(default) = 0.000000e+00
-end: tahoe::nodes::field::kinematic_BC
-
-begin: tahoe::nodes::field::kinematic_BC
-node_ID. . . . . . . . . . . . . . . . . . . . . . = 3
-dof. . . . . . . . . . . . . . . . . . . . . . . . = 2
-type . . . . . . . . . . . . . . . . . . . . . . . = fixed
-type = fixed (default)
-type = u
-type = D_u
-type = DD_u
-type = D3_u
-type = D4_u
-schedule . . . . . . . . . . . . . . . . . . . . . = 0
-schedule(default) = 0
-value. . . . . . . . . . . . . . . . . . . . . . . = 0.000000e+00
-value(default) = 0.000000e+00
-end: tahoe::nodes::field::kinematic_BC
-
-end: tahoe::nodes::field
-
-begin: tahoe::nodes::field
 field_name . . . . . . . . . . . . . . . . . . . . = temperature
 solution_group . . . . . . . . . . . . . . . . . . = 1
 solution_group >= 1 (default)
@@ -148,93 +83,11 @@ end: tahoe::nodes::field::dof_labels::String
 
 end: tahoe::nodes::field::dof_labels
 
-begin: tahoe::nodes::field::kinematic_BC
-node_ID. . . . . . . . . . . . . . . . . . . . . . = 1
-dof. . . . . . . . . . . . . . . . . . . . . . . . = 1
-type . . . . . . . . . . . . . . . . . . . . . . . = u
-type = fixed (default)
-type = u
-type = D_u
-type = DD_u
-type = D3_u
-type = D4_u
-schedule . . . . . . . . . . . . . . . . . . . . . = 1
-schedule(default) = 0
-value. . . . . . . . . . . . . . . . . . . . . . . = 1.000000e+00
-value(default) = 0.000000e+00
-end: tahoe::nodes::field::kinematic_BC
-
 end: tahoe::nodes::field
 
 end: tahoe::nodes
 
 begin: tahoe::element_list
-
-begin: tahoe::element_list::updated_lagrangian
-field_name . . . . . . . . . . . . . . . . . . . . = displacement
-mass_type. . . . . . . . . . . . . . . . . . . . . = automatic
-mass_type = automatic (default)
-mass_type = no_mass
-mass_type = consistent_mass
-mass_type = lumped_mass
-eigenvalue_inc . . . . . . . . . . . . . . . . . . = 0
-eigenvalue_inc >= 0 (default)
-
-begin: tahoe::element_list::updated_lagrangian::quadrilateral
-num_ip . . . . . . . . . . . . . . . . . . . . . . = 4
-num_ip = 1
-num_ip = 4 (default)
-num_ip = 5
-num_ip = 9
-num_ip = 16
-end: tahoe::element_list::updated_lagrangian::quadrilateral
-
-begin: tahoe::element_list::updated_lagrangian::solid_element_nodal_output
-displacements. . . . . . . . . . . . . . . . . . . = 1
-displacements(default) = 1
-stress . . . . . . . . . . . . . . . . . . . . . . = 1
-stress(default) = 1
-strain . . . . . . . . . . . . . . . . . . . . . . = 1
-strain(default) = 1
-end: tahoe::element_list::updated_lagrangian::solid_element_nodal_output
-
-begin: tahoe::element_list::updated_lagrangian::large_strain_element_block
-
-begin: tahoe::element_list::updated_lagrangian::large_strain_element_block::block_ID_list
-
-begin: tahoe::element_list::updated_lagrangian::large_strain_element_block::block_ID_list::String
-value. . . . . . . . . . . . . . . . . . . . . . . = 1
-end: tahoe::element_list::updated_lagrangian::large_strain_element_block::block_ID_list::String
-
-end: tahoe::element_list::updated_lagrangian::large_strain_element_block::block_ID_list
-
-begin: tahoe::element_list::updated_lagrangian::large_strain_element_block::large_strain_material_2D
-
-begin: tahoe::element_list::updated_lagrangian::large_strain_element_block::large_strain_material_2D::large_strain_StVenant_2D
-density. . . . . . . . . . . . . . . . . . . . . . = 1.000000e+00
-density >= 0.000000e+00
-constraint_2D. . . . . . . . . . . . . . . . . . . = plane_stress
-constraint_2D = none
-constraint_2D = plane_stress (default)
-constraint_2D = plane_strain
-CTE. . . . . . . . . . . . . . . . . . . . . . . . = 5.000000e-02
-CTE(default) = 0.000000e+00
-
-begin: tahoe::element_list::updated_lagrangian::large_strain_element_block::large_strain_material_2D::large_strain_StVenant_2D::E_and_nu
-Young_modulus. . . . . . . . . . . . . . . . . . . = 1.000000e+02
-Young_modulus > 0.000000e+00
-Poisson_ratio. . . . . . . . . . . . . . . . . . . = 2.500000e-01
-Poisson_ratio > -1.000000e+00
-Poisson_ratio < 5.000000e-01
-end: tahoe::element_list::updated_lagrangian::large_strain_element_block::large_strain_material_2D::large_strain_StVenant_2D::E_and_nu
-
-end: tahoe::element_list::updated_lagrangian::large_strain_element_block::large_strain_material_2D::large_strain_StVenant_2D
-
-end: tahoe::element_list::updated_lagrangian::large_strain_element_block::large_strain_material_2D
-
-end: tahoe::element_list::updated_lagrangian::large_strain_element_block
-
-end: tahoe::element_list::updated_lagrangian
 
 begin: tahoe::element_list::diffusion
 field_name . . . . . . . . . . . . . . . . . . . . = temperature
@@ -247,6 +100,23 @@ num_ip = 5
 num_ip = 9
 num_ip = 16
 end: tahoe::element_list::diffusion::quadrilateral
+
+begin: tahoe::element_list::diffusion::natural_bc
+side_set_ID. . . . . . . . . . . . . . . . . . . . = 1
+schedule . . . . . . . . . . . . . . . . . . . . . = 1
+coordinate_system. . . . . . . . . . . . . . . . . = global
+coordinate_system = global (default)
+coordinate_system = local
+
+begin: tahoe::element_list::diffusion::natural_bc::DoubleList
+
+begin: tahoe::element_list::diffusion::natural_bc::DoubleList::Double
+value. . . . . . . . . . . . . . . . . . . . . . . = 1.000000e+00
+end: tahoe::element_list::diffusion::natural_bc::DoubleList::Double
+
+end: tahoe::element_list::diffusion::natural_bc::DoubleList
+
+end: tahoe::element_list::diffusion::natural_bc
 
 begin: tahoe::element_list::diffusion::diffusion_element_nodal_output
 displacement . . . . . . . . . . . . . . . . . . . = 1
@@ -270,7 +140,7 @@ begin: tahoe::element_list::diffusion::diffusion_element_block::diffusion_materi
 begin: tahoe::element_list::diffusion::diffusion_element_block::diffusion_material::linear_diffusion_material
 density. . . . . . . . . . . . . . . . . . . . . . = 1.000000e+00
 specific_heat. . . . . . . . . . . . . . . . . . . = 1.000000e+00
-conductivity . . . . . . . . . . . . . . . . . . . = 2.000000e+00
+conductivity . . . . . . . . . . . . . . . . . . . = 1.000000e+00
 end: tahoe::element_list::diffusion::diffusion_element_block::diffusion_material::linear_diffusion_material
 
 end: tahoe::element_list::diffusion::diffusion_element_block::diffusion_material
@@ -306,11 +176,11 @@ end: tahoe
 
  E q u a t i o n    S y s t e m    D a t a :
 
- Local number of equations . . . . . . . . . . . = 48
- Total number of equations . . . . . . . . . . . = 48
- Number of terms in global matrix. . . . . . . . = 719
- Mean half bandwidth . . . . . . . . . . . . . . = 15
- Bandwidth . . . . . . . . . . . . . . . . . . . = 29
+ Local number of equations . . . . . . . . . . . = 21
+ Total number of equations . . . . . . . . . . . = 21
+ Number of terms in global matrix. . . . . . . . = 137
+ Mean half bandwidth . . . . . . . . . . . . . . = 7
+ Bandwidth . . . . . . . . . . . . . . . . . . . = 14
 
 
  Time = 1.000000e-01
@@ -343,10 +213,10 @@ end: tahoe
  Time = 1.000000e+00
  Step 10 of 10
 
-   Start time: Wed Apr 12 18:16:57 2017
- Construction: 4.563000e-03 sec.
-     Solution: 1.338300e-02 sec.
-    Stop time: Wed Apr 12 18:16:58 2017
+   Start time: Thu Feb 26 00:05:26 2026
+ Construction: 5.650000e-04 sec.
+     Solution: 5.390000e-04 sec.
+    Stop time: Thu Feb 26 00:05:26 2026
 
  End Execution
 

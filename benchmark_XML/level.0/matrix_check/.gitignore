@@ -1,0 +1,6 @@
+*.stat
+*.echo.xml
+*.valid.xml
+*.out
+*.io*.run*
+*.geo

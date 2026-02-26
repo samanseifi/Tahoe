@@ -3,7 +3,7 @@
 <tahoe
     geometry_format='automatic'
       geometry_file='../geometry/quad8.2x2.geom'
-      output_format='ExodusII'
+      output_format='automatic'
  restart_output_inc='0'
          echo_input='false'
             logging='moderate'
@@ -28,30 +28,6 @@
 	</time>
 	<nodes>
 		<field
-		              field_name='displacement'
-		          solution_group='1'
-		              integrator='static'
-		 total_energy_output_inc='0'>
-			<dof_labels>
-				<String
-				 value='D_X'/>
-				<String
-				 value='D_Y'/>
-			</dof_labels>
-			<kinematic_BC
-			  node_ID='3'
-			      dof='1'
-			     type='fixed'
-			 schedule='0'
-			    value='0.000000e+00'/>
-			<kinematic_BC
-			  node_ID='3'
-			      dof='2'
-			     type='fixed'
-			 schedule='0'
-			    value='0.000000e+00'/>
-		</field>
-		<field
 		              field_name='temperature'
 		          solution_group='1'
 		              integrator='trapezoid'
@@ -60,46 +36,22 @@
 				<String
 				 value='T'/>
 			</dof_labels>
-			<kinematic_BC
-			  node_ID='1'
-			      dof='1'
-			     type='u'
-			 schedule='1'
-			    value='1.000000e+00'/>
 		</field>
 	</nodes>
 	<element_list>
-		<updated_lagrangian
-		     field_name='displacement'
-		      mass_type='automatic'
-		 eigenvalue_inc='0'>
-			<quadrilateral
-			 num_ip='4'/>
-			<solid_element_nodal_output
-			 displacements='1'
-			        stress='1'
-			        strain='1'/>
-			<large_strain_element_block>
-				<block_ID_list>
-					<String
-					 value='1'/>
-				</block_ID_list>
-				<large_strain_material_2D>
-					<large_strain_StVenant_2D
-					       density='1.000000e+00'
-					 constraint_2D='plane_stress'
-					           CTE='5.000000e-02'>
-						<E_and_nu
-						 Young_modulus='1.000000e+02'
-						 Poisson_ratio='2.500000e-01'/>
-					</large_strain_StVenant_2D>
-				</large_strain_material_2D>
-			</large_strain_element_block>
-		</updated_lagrangian>
 		<diffusion
 		 field_name='temperature'>
 			<quadrilateral
 			 num_ip='4'/>
+			<natural_bc
+			       side_set_ID='1'
+			          schedule='1'
+			 coordinate_system='global'>
+				<DoubleList>
+					<Double
+					 value='1.000000e+00'/>
+				</DoubleList>
+			</natural_bc>
 			<diffusion_element_nodal_output
 			    displacement='1'
 			 material_output='1'/>
@@ -112,7 +64,7 @@
 					<linear_diffusion_material
 					       density='1.000000e+00'
 					 specific_heat='1.000000e+00'
-					  conductivity='2.000000e+00'/>
+					  conductivity='1.000000e+00'/>
 				</diffusion_material>
 			</diffusion_element_block>
 		</diffusion>
