@@ -111,7 +111,7 @@ FluidMaterialT* FluidMatListT::NewFluidMaterial(const StringT& name) const
 }
 
 /** FOR DEBUGGING PURPOSES ONLY */
-void FluidMatListT::WriteCallLocation( char* loc ) const
+void FluidMatListT::WriteCallLocation( const char* loc ) const
 {
 	cout << "\n Inside of FluidMatListT::" << loc << endl;
 }

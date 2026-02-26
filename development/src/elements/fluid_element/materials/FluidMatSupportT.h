@@ -91,7 +91,7 @@ private:
 	const FluidElementT* fFluid;
 
 	/** FOR DEBUGGING PURPOSES ONLY */
-	void WriteCallLocation( char* loc ) const;
+	void WriteCallLocation( const char* loc ) const;
 };
 
 /* inlines */

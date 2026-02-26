@@ -72,7 +72,7 @@ protected:
 	/*@}*/
 
 	/** FOR DEBUGGING PURPOSES ONLY */
-	void WriteCallLocation( char* loc ) const;
+	void WriteCallLocation( const char* loc ) const;
 };
 
 /* returns the density */

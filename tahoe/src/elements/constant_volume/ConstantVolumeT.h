@@ -154,7 +154,7 @@ protected:
 	int NumIP(GeometryT::CodeT code) const;
 
 	/** debugging function to output current function calls */
-	void WriteCallLocation( char* loc ) const;
+	void WriteCallLocation( const char* loc ) const;
 	
 protected:
 

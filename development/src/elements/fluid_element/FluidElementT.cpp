@@ -1675,7 +1675,7 @@ void FluidElementT::GenerateOutputLabels(const iArrayT& n_codes,
 
 
 /** FOR DEBUGGING PURPOSES ONLY */
-void FluidElementT::WriteCallLocation( char* loc ) const
+void FluidElementT::WriteCallLocation( const char* loc ) const
 {
 	cout << "\n Inside of FluidElementT::" << loc;
 }

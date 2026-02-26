@@ -728,7 +728,7 @@ int ConstantVolumeT::NumIP(GeometryT::CodeT code) const
 /* takes a string indicating the function calling ConstantVolumeT::WriteCallLocation
 ** and writes the current call location to cout
 ** FOR DEBUGGING AND CODE ACCLIMATION PURPOSES ONLY*/
-void ConstantVolumeT::WriteCallLocation( char* loc ) const {
+void ConstantVolumeT::WriteCallLocation( const char* loc ) const {
     cout << "*****************************************************\n";
     cout << "\tInside of ConstantVolumeT::" << loc << endl;
     cout << "*****************************************************\n";

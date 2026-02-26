@@ -246,7 +246,7 @@ private:
 	FluidElementT::ElementLSCodeT fElementLS;
 
 	/** FOR DEBUGGING PURPOSES ONLY */
-	void WriteCallLocation( char* loc ) const;
+	void WriteCallLocation( const char* loc ) const;
 };
 
 inline const LocalArrayT& FluidElementT::OldVelocities(void) const { return fLocOldVel; }

@@ -52,7 +52,7 @@ private:
 	const FluidMatSupportT* fFluidMatSupport;
 
 	/** FOR DEBUGGING PURPOSES ONLY */
-	void WriteCallLocation( char* loc ) const;
+	void WriteCallLocation( const char* loc ) const;
 };
 
 } // namespace Tahoe 

@@ -67,7 +67,7 @@ void FluidMatSupportT::SetContinuumElement(const ContinuumElementT* p)
 }
 
 /** FOR DEBUGGING PURPOSES ONLY */
-void FluidMatSupportT::WriteCallLocation( char* loc ) const 
+void FluidMatSupportT::WriteCallLocation( const char* loc ) const 
 {
 	cout << "Inside of FluidMatSupportT::" << loc << endl;
 }

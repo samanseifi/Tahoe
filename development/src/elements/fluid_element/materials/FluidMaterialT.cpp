@@ -128,7 +128,7 @@ void FluidMaterialT::TakeParameterList(const ParameterListT& list)
 }
 
 /** FOR DEBUGGING PURPOSES ONLY */
-void FluidMaterialT::WriteCallLocation( char* loc ) const
+void FluidMaterialT::WriteCallLocation( const char* loc ) const
 {
 	cout << "\n Inside of FluidMaterialT::" << loc << endl;
 }
