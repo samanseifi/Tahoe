@@ -1,4 +1,4 @@
-#include "FSDielectricElastomerQ1P0SurfaceT.h"
+#include "FSDielectricElastomerQ1P0ElastocapillaryT.h"
 #include "FSDEMatQ1P02DT.h"
 #include "FSDEMatSupportQ1P02DT.h"
 #include "ShapeFunctionT.h"
@@ -53,7 +53,7 @@ inline static void Sum(const double* A, const double* B, double* AB) {
 	AB[2] = A[2] + B[2];
 };
 
-FSDielectricElastomerQ1P0SurfaceT::FSDielectricElastomerQ1P0SurfaceT(const ElementSupportT& support) :
+FSDielectricElastomerQ1P0ElastocapillaryT::FSDielectricElastomerQ1P0ElastocapillaryT(const ElementSupportT& support) :
     FSDielectricElastomerQ1P02DT(support),
     fLocCurrCoords(LocalArrayT::kCurrCoords), fSurfTension(0), fSurfaceCBSupport(NULL)
 {
@@ -62,7 +62,7 @@ FSDielectricElastomerQ1P0SurfaceT::FSDielectricElastomerQ1P0SurfaceT(const Eleme
 
 
 /* Destructor */
-FSDielectricElastomerQ1P0SurfaceT::~FSDielectricElastomerQ1P0SurfaceT()
+FSDielectricElastomerQ1P0ElastocapillaryT::~FSDielectricElastomerQ1P0ElastocapillaryT()
 {
       /* TLCBSurface Stuff */
 	/* free surface models */
@@ -72,7 +72,7 @@ FSDielectricElastomerQ1P0SurfaceT::~FSDielectricElastomerQ1P0SurfaceT()
 
 
 // ------------------------------------------------specify parameters needed by the interface--------------------------------------------------------- //
-void FSDielectricElastomerQ1P0SurfaceT::DefineParameters(ParameterListT& list) const
+void FSDielectricElastomerQ1P0ElastocapillaryT::DefineParameters(ParameterListT& list) const
 {
       /* Inherited from the most similar element */
       FSDielectricElastomerQ1P02DT::DefineParameters(list);
@@ -84,7 +84,7 @@ void FSDielectricElastomerQ1P0SurfaceT::DefineParameters(ParameterListT& list) c
 }
 
   /* ----------------------------- information about subordinate parameter lists ------------------------------------------------------------------------*/
-void FSDielectricElastomerQ1P0SurfaceT::DefineSubs(SubListT& sub_list) const
+void FSDielectricElastomerQ1P0ElastocapillaryT::DefineSubs(SubListT& sub_list) const
 {
 
       /* inherited from the most similar element */
@@ -97,9 +97,9 @@ void FSDielectricElastomerQ1P0SurfaceT::DefineSubs(SubListT& sub_list) const
 
 
   // ---------------------------------------------------- accept parameter list ------------------------------------------------------------------------ //
-void FSDielectricElastomerQ1P0SurfaceT::TakeParameterList(const ParameterListT& list)
+void FSDielectricElastomerQ1P0ElastocapillaryT::TakeParameterList(const ParameterListT& list)
 {
-	const char caller[] = "FSDielectricElastomerQ1P0SurfaceT::TakeParameterList";
+	const char caller[] = "FSDielectricElastomerQ1P0ElastocapillaryT::TakeParameterList";
 
       /* inherited from the most similar element for bulk element */
       FSDielectricElastomerQ1P02DT::TakeParameterList(list);
@@ -295,9 +295,9 @@ void FSDielectricElastomerQ1P0SurfaceT::TakeParameterList(const ParameterListT& 
  ***********************************************************************/
 
 /* ------------------------------------------------ calculate the LHS of residual, or element stiffness matrix ------------------------------------------------*/
-void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
+void FSDielectricElastomerQ1P0ElastocapillaryT::FormStiffness(double constK)
 {
-	const char caller[] = "FSDielectricElastomerQ1P0SurfaceT::FormStiffness";
+	const char caller[] = "FSDielectricElastomerQ1P0ElastocapillaryT::FormStiffness";
 
 	/* Inherited */
 	FSDielectricElastomerQ1P02DT::FormStiffness(constK);
@@ -465,9 +465,9 @@ void FSDielectricElastomerQ1P0SurfaceT::FormStiffness(double constK)
 } /* End of Function FormStiffness */
 
 /* ------------------------------------------------ Compute RHS, or residual of element equations ------------------------------------------------*/
-void FSDielectricElastomerQ1P0SurfaceT::FormKd(double constK)
+void FSDielectricElastomerQ1P0ElastocapillaryT::FormKd(double constK)
 {
-      const char caller[] = "FSDielectricElastomerQ1P0SurfaceT::FormKd";
+      const char caller[] = "FSDielectricElastomerQ1P0ElastocapillaryT::FormKd";
 
       /* Inherited */
       FSDielectricElastomerQ1P02DT::FormKd(constK);
@@ -575,9 +575,9 @@ void FSDielectricElastomerQ1P0SurfaceT::FormKd(double constK)
 /***********************************************************************
  * Protected
  ***********************************************************************/
-iArrayT FSDielectricElastomerQ1P0SurfaceT::CanonicalNodes(const int node_index0, const int node_index1)
+iArrayT FSDielectricElastomerQ1P0ElastocapillaryT::CanonicalNodes(const int node_index0, const int node_index1)
 {
-	const char caller[] = "FSDielectricElastomerQ1P0SurfaceT::CanonicalNodes";
+	const char caller[] = "FSDielectricElastomerQ1P0ElastocapillaryT::CanonicalNodes";
 
 	/* Return nodes for canonical (psi, eta) element based on normal type */
 	int nen = NumElementNodes();
@@ -616,7 +616,7 @@ iArrayT FSDielectricElastomerQ1P0SurfaceT::CanonicalNodes(const int node_index0,
  ***********************************************************************/
 
   // ------------------------------------------------ extrapolate from integration points and compute output nodal/element values ------------------------ //
-void FSDielectricElastomerQ1P0SurfaceT::ComputeOutput(const iArrayT& n_codes,
+void FSDielectricElastomerQ1P0ElastocapillaryT::ComputeOutput(const iArrayT& n_codes,
       dArray2DT& n_values, const iArrayT& e_codes, dArray2DT& e_values)
 {
       // cout << "\033[1;31mCan you see this?\033[0m" << endl;

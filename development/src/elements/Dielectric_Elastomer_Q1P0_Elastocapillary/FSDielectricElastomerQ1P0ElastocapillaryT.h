@@ -1,6 +1,6 @@
 
-#if !defined(_FSDielectricElastomerQ1P0SurfaceT_)
-#define _FSDielectricElastomerQ1P0SurfaceT_
+#if !defined(_FSDielectricElastomerQ1P0ElastocapillaryT_)
+#define _FSDielectricElastomerQ1P0ElastocapillaryT_
 
 #include <cassert>
 
@@ -12,15 +12,15 @@ namespace Tahoe {
   // interface for finite deformation dielectric elastomers 
   // based on 2008 JMPS paper of Suo et al.
   
-  class FSDielectricElastomerQ1P0SurfaceT: public FSDielectricElastomerQ1P02DT {
+  class FSDielectricElastomerQ1P0ElastocapillaryT: public FSDielectricElastomerQ1P02DT {
 
   public:
 
     // constructor
-    FSDielectricElastomerQ1P0SurfaceT(const ElementSupportT& support);
+    FSDielectricElastomerQ1P0ElastocapillaryT(const ElementSupportT& support);
 
     // destructor
-    virtual ~FSDielectricElastomerQ1P0SurfaceT();
+    virtual ~FSDielectricElastomerQ1P0ElastocapillaryT();
 
     // specify parameters needed by the interface
     virtual void DefineParameters(ParameterListT& list) const;
@@ -102,4 +102,5 @@ namespace Tahoe {
 
 } // namespace Tahoe
 
-#endif // _FSDielectricElastomerQ1P0SurfaceT_
+#endif // _FSDielectricElastomerQ1P0ElastocapillaryT_
+

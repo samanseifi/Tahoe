@@ -116,7 +116,7 @@
 #endif
 
 #ifdef DIELECTRIC_ELASTOMER_Q1P0_ELASTOCAPILLARY
-#include "FSDielectricElastomerQ1P0SurfaceT.h"
+#include "FSDielectricElastomerQ1P0ElastocapillaryT.h"
 #endif
 
 #ifdef DIELECTRIC_ELASTOMER_Q1P0_VISCO
@@ -793,7 +793,7 @@ ElementBaseT* ElementListT::NewElement(const StringT& name) const
 
 #ifdef DIELECTRIC_ELASTOMER_Q1P0_ELASTOCAPILLARY
   else if (name == "dielectric_elastomer_Q1P0Elastocapillary")
-    return new FSDielectricElastomerQ1P0SurfaceT(fSupport);
+    return new FSDielectricElastomerQ1P0ElastocapillaryT(fSupport);
 #endif
 
 #ifdef DIELECTRIC_ELASTOMER_Q1P0_VISCO
