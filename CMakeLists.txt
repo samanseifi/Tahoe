@@ -33,11 +33,10 @@ add_compile_options(
     -Wno-unused-parameter
     -Wno-unused-variable
     -Wno-sign-compare
-    -Wno-reorder
-    # Allow C++98/03 patterns that modern g++ would reject as errors:
-    #  - unqualified calls to inherited static members in dependent base classes
-    #  - old-style template specialisation without template<>
-    -fpermissive
+    # C++-only flags: guard with generator expression so they are not passed to
+    # the C compiler when building f2c or other C-only libraries.
+    $<$<COMPILE_LANGUAGE:CXX>:-Wno-reorder>
+    $<$<COMPILE_LANGUAGE:CXX>:-fpermissive>
 )
 
 # ---------------------------------------------------------------------------
