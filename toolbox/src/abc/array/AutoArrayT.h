@@ -155,8 +155,14 @@ public:
   	/** size plus headroom */
   	int WithHeadRoom(int length) { return int(length*(1.0 + double(fHeadRoom)/100.0)); };
   	
+protected:
+	/** bring inherited names into scope for two-phase template name lookup */
+	using ArrayT<TYPE>::MemCopy;
+	using ArrayT<TYPE>::ReleasePointer;
+	using ArrayT<TYPE>::MemMove;
+
 private:
-	
+
 	/** size of allocated memory. fLength used to store
      * the logical size, ie. the number of initialized
      * elements in the array. */

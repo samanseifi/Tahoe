@@ -18,6 +18,9 @@ namespace Tahoe {
 
 /* forward declarations */
 template <class nTYPE> class OutputProxyT;
+inline int OutputWidth(ostream& out, const int* junk);
+inline int OutputWidth(ostream& out, const float* junk);
+inline int OutputWidth(ostream& out, const double* junk);
 
 /** templated base class for arrays of number types. The number type must
  * have the following mathematical operators defined:\n
@@ -213,6 +216,10 @@ public:
 	OutputProxyT<nTYPE> wrap_tight(int line_count, int tab = 0) const {
 		return OutputProxyT<nTYPE>(OutputProxyT<nTYPE>::kWrapTight, *this, line_count, tab); };
 	/*@}*/
+
+protected:
+	/** bring inherited names into scope for two-phase template name lookup */
+	using ArrayT<nTYPE>::MemCopy;
 };
 
 

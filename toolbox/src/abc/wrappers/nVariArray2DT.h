@@ -54,6 +54,11 @@ public:
 	/** reference to the ward */
 	const nArray2DT<nTYPE>& TheWard(void) const;
 		
+protected:
+
+	/** bring inherited names into scope for two-phase template name lookup */
+	using VariBaseT<nTYPE>::SetAlias;
+
 private:
 
 	/** \name the managed array */

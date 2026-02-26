@@ -220,7 +220,10 @@ public:
 	/*@}*/
 
 protected:
-	
+
+	/** bring inherited names into scope for two-phase template name lookup */
+	using nArrayT<nTYPE>::MemCopy;
+
 	/** \name dimensions */
 	/*@{*/
 	int	fRows;

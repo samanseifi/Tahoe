@@ -89,9 +89,11 @@ public:
 	/*@}*/
 
 protected:
+	/** bring inherited names into scope for two-phase template name lookup */
+	using ArrayT<TYPE>::MemCopy;
 
 	int fMajorDim;
-	int fMinorDim;  	
+	int fMinorDim;
 };
 
 /*************************************************************************

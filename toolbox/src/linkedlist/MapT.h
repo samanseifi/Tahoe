@@ -61,6 +61,10 @@ public:
 
 protected:
 
+	/** bring inherited names into scope for two-phase template name lookup */
+	using BinaryTreeT<MapNodeT<key_TYPE, value_TYPE> >::Find;
+	using BinaryTreeT<MapNodeT<key_TYPE, value_TYPE> >::InsertUnique;
+
 	/** cast to BinaryTreeT */
 	BinaryTreeT<MapNodeT<key_TYPE, value_TYPE> >& BTree(void) { return *this; }
 

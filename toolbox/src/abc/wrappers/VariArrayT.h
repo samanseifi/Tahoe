@@ -41,6 +41,11 @@ public:
 	/** free memory of self and ward */
 	void Free(void);
 
+protected:
+
+	/** bring inherited names into scope for two-phase template name lookup */
+	using VariBaseT<TYPE>::SetAlias;
+
 private:
 
 	/** the managed array */
