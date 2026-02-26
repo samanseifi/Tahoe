@@ -18,7 +18,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y cmake build-essential
+          sudo apt-get install -y cmake build-essential libexodusii-dev libnetcdf-dev
 
       - name: Configure
         run: |
@@ -30,7 +30,7 @@ jobs:
             -DTAHOE_DEV=ON \
             -DTAHOE_TESTS=ON \
             -DTAHOE_MPI=OFF \
-            -DTAHOE_SEACAS=OFF
+            -DTAHOE_SEACAS=ON
 
       - name: Build
         run: cmake --build build --parallel $(nproc)

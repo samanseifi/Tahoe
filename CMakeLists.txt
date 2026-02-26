@@ -86,21 +86,54 @@ endif()
 
 # ---------------------------------------------------------------------------
 # Optional: SEACAS / ACCESS (ExodusII + NetCDF mesh I/O)
+#
+# Two discovery modes (tried in order):
+#   1. SEACAS/ACCESS tree  — set ACCESS_PATH or the ACCESS env var
+#   2. System packages     — headers/libs found via find_path / find_library
+#      (e.g. apt install libexodusii-dev libnetcdf-dev on Ubuntu/Debian)
 # ---------------------------------------------------------------------------
 if(TAHOE_SEACAS)
-    set(ACCESS_PATH "$ENV{ACCESS}" CACHE PATH "Root of SEACAS/ACCESS installation")
-    if(NOT EXISTS "${ACCESS_PATH}")
-        message(FATAL_ERROR
-            "TAHOE_SEACAS=ON but ACCESS path '${ACCESS_PATH}' does not exist.\n"
-            "Set the ACCESS environment variable or cmake -DACCESS_PATH=... or "
-            "turn off TAHOE_SEACAS.")
-    endif()
     add_library(tahoe_seacas INTERFACE IMPORTED)
-    target_include_directories(tahoe_seacas INTERFACE "${ACCESS_PATH}/inc")
-    target_link_directories   (tahoe_seacas INTERFACE "${ACCESS_PATH}/lib")
-    target_link_libraries     (tahoe_seacas INTERFACE exoIIv2c netcdf)
     target_compile_definitions(tahoe_seacas INTERFACE "__ACCESS__")
-    message(STATUS "Tahoe: SEACAS/ACCESS enabled  (${ACCESS_PATH})")
+
+    set(ACCESS_PATH "$ENV{ACCESS}" CACHE PATH
+        "Root of SEACAS/ACCESS installation (optional; falls back to system search)")
+
+    if(EXISTS "${ACCESS_PATH}")
+        # --- Mode 1: SEACAS/ACCESS tree ---
+        target_include_directories(tahoe_seacas INTERFACE "${ACCESS_PATH}/inc")
+        target_link_directories   (tahoe_seacas INTERFACE "${ACCESS_PATH}/lib")
+        target_link_libraries     (tahoe_seacas INTERFACE exoIIv2c netcdf)
+        message(STATUS "Tahoe: SEACAS/ACCESS enabled via ACCESS tree (${ACCESS_PATH})")
+    else()
+        # --- Mode 2: System-installed packages ---
+        find_path(EXODUSII_INCLUDE_DIR  NAMES exodusII.h
+                  HINTS /usr/include /usr/local/include)
+        find_library(EXODUSII_LIB       NAMES exoIIv2c ExodusII exodus
+                     HINTS /usr/lib /usr/local/lib
+                           /usr/lib/x86_64-linux-gnu
+                           /usr/lib/aarch64-linux-gnu)
+        find_library(NETCDF_LIB         NAMES netcdf
+                     HINTS /usr/lib /usr/local/lib
+                           /usr/lib/x86_64-linux-gnu
+                           /usr/lib/aarch64-linux-gnu)
+
+        if(NOT EXODUSII_INCLUDE_DIR OR NOT EXODUSII_LIB OR NOT NETCDF_LIB)
+            message(FATAL_ERROR
+                "TAHOE_SEACAS=ON but neither an ACCESS tree nor system ExodusII "
+                "packages were found.\n"
+                "  • Set ACCESS_PATH / ACCESS env var, or\n"
+                "  • Install system packages (e.g. sudo apt install libexodusii-dev libnetcdf-dev), or\n"
+                "  • Disable: cmake -DTAHOE_SEACAS=OFF")
+        endif()
+
+        target_include_directories(tahoe_seacas INTERFACE "${EXODUSII_INCLUDE_DIR}")
+        target_link_libraries     (tahoe_seacas INTERFACE "${EXODUSII_LIB}" "${NETCDF_LIB}")
+        message(STATUS "Tahoe: SEACAS/ACCESS enabled via system packages")
+        message(STATUS "  ExodusII header : ${EXODUSII_INCLUDE_DIR}")
+        message(STATUS "  ExodusII lib    : ${EXODUSII_LIB}")
+        message(STATUS "  NetCDF lib      : ${NETCDF_LIB}")
+    endif()
 endif()
 
 # ---------------------------------------------------------------------------
