@@ -132,3 +132,12 @@ Tahoe reads XML input files validated against `tahoe.xsd`. Parameters are struct
 ## License
 
 See the `LICENSE` file. Tahoe was developed at Sandia National Laboratories under US government funding and is distributed as open-source software.
+
+---
+
+## Revision History
+
+| Date | Author | Notes |
+|------|--------|-------|
+| 2014 | Regents of the University of Colorado | Tahoe 2.1 release |
+| February 2026 | Saman Seifi (Boston University) | CMake modernization; C++11 two-phase lookup fixes; compiler warning cleanup (`-Wwrite-strings`, `-Wformat`, `-fpermissive`); `#pragma message` cleanup |

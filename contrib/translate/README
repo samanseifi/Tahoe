@@ -1,2 +1,5 @@
 This program translates geometry and results databases between the file formats
-supported by the I/O classes in the toolbox.
+supported by the I/O classes in the toolbox. Supported conversions include
+Patran and Abaqus input decks to Tahoe XML format.
+
+Revised: Saman Seifi (Boston University), February 2026
