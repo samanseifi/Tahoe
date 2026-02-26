@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, develop ]
+  pull_request:
+    branches: [ master, develop ]
+
+jobs:
+  build-and-test:
+    name: Build & Test (Ubuntu)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y cmake build-essential
+
+      - name: Configure
+        run: |
+          cmake -S . -B build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTAHOE_EXPAT=ON \
+            -DTAHOE_SPOOLES=ON \
+            -DTAHOE_F2C=ON \
+            -DTAHOE_DEV=ON \
+            -DTAHOE_TESTS=ON \
+            -DTAHOE_MPI=OFF \
+            -DTAHOE_SEACAS=OFF
+
+      - name: Build
+        run: cmake --build build --parallel $(nproc)
+
+      - name: Run unit tests (CTest / Google Test)
+        run: |
+          cd build
+          ctest --output-on-failure --parallel $(nproc)
+
+      - name: Run benchmark_XML level.0 (informational)
+        # Known failures exist for optional modules (SEACAS, bridging, adhesion).
+        # This step is informational; it does not block CI.
+        continue-on-error: true
+        run: |
+          cd benchmark_XML/level.0
+          printf "run.batch\nquit\n" | ../../build/bin/tahoe > /dev/null 2>&1 || true
+          printf "run.batch\nquit\n" | ../../build/bin/compare > compare.summary 2>&1 || true
+          echo "=== Benchmark summary ==="
+          cat compare.summary
+          passed=$(grep -c "PASS" compare.summary || true)
+          failed=$(grep -c "FAIL" compare.summary || true)
+          echo "Passed: ${passed}  Failed: ${failed}"

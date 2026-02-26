@@ -118,3 +118,12 @@ endif()
 # ---------------------------------------------------------------------------
 add_subdirectory(contrib)
 add_subdirectory(benchmark_XML)
+
+# ---------------------------------------------------------------------------
+# Unit tests (Google Test, fetched automatically)
+# ---------------------------------------------------------------------------
+option(TAHOE_TESTS "Build Google Test unit tests" ON)
+if(TAHOE_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
