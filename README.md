@@ -1,9 +1,6 @@
 <p align="center">
   <img src="tahoe_logo.png" alt="Tahoe Logo" width="480"/>
 </p>
-
-# Tahoe
-
 **Tahoe** is an open-source, modular C++ finite element framework for solid mechanics, multiscale analysis, and advanced material modeling. Originally developed at Sandia National Laboratories, it provides a flexible research platform covering a broad range of element formulations, time integrators, and material models.
 
 ---
