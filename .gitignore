@@ -32,13 +32,21 @@ _deps/
 *.xdmf
 
 # Benchmark / run output (generated during test runs)
+compare.summary
 *.echo.xml
-*.io0.geo
-*.io0.run
-*.io0.run.ps*
-*.io0.dat
+*.io*.geo
+*.io*.run
+*.io*.run.ps*
+*.io*.dat
+*.stat
 *.out
 err.txt
+
+# Matrix solver test output (FullMatrixT.LHS.0, CCSMatrixT.LHS.10, etc.)
+*MatrixT.LHS.*
+
+# Restart state files written by meshfree/particle tests (*rs50of100, *rs50of100.elem0, etc.)
+*[0-9]of[0-9]*
 
 # ---------------------------------------------------------------------------
 # IDE and editor files
