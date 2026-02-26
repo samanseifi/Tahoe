@@ -59,7 +59,7 @@ void FEA_dVectorT::FEA_Dimension (const FEA_dVectorT &a) // Copy Dimension of an
 
 //----------------------------------------------------
 
-void FEA_dVectorT::Print(char *c) { // overload << later
+void FEA_dVectorT::Print(const char* c) { // overload << later
 
   if (fLength==0)
 		cout << "...ERROR >> FEA_dVectorT::Print() : "<<c<<" Unallocated \n\n";

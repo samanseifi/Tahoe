@@ -101,7 +101,7 @@ void FEA_dMatrixT::FEA_Delete ( void )
 
 void FEA_dMatrixT::Print() const { Print(" "); } 
 
-void FEA_dMatrixT::Print(char *c) const
+void FEA_dMatrixT::Print(const char* c) const
 { 
 
 	if (fLength==0)

@@ -24,7 +24,7 @@ class FEA_dScalarT: public dArrayT // For the name sake only
 		FEA_dScalarT(void) : dArrayT() { }  // Call Base Class Constructor 
 		FEA_dScalarT(int length): dArrayT(length) { } // Call Base Class Constructor 
 		void Print(void) { Print(" "); }
-		void Print(char*);
+		void Print(const char*);
     	int IPs(void) { return fLength; }
 		void FEA_Dimension(int n_ip) { Dimension(n_ip); }
 
@@ -104,7 +104,7 @@ class FEA_dScalarT: public dArrayT // For the name sake only
 
 //----------------------------------------------------
 
-inline void FEA_dScalarT::Print(char *c) { // overload << later
+inline void FEA_dScalarT::Print(const char* c) { // overload << later
 
   cout << "\n Scalar "<<c<<" evaluated at "<<fLength<<" inegration points (ip): \n"; 
   for (int i=0; i<fLength; i++) 

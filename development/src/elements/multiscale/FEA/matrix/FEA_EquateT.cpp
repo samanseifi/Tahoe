@@ -466,7 +466,7 @@ return fStack->Stack[n];
 
 void FEA_EquateT::Print() const { Print(" "); } 
 
-void FEA_EquateT::Print(char *c) const // overload << later
+void FEA_EquateT::Print(const char* c) const // overload << later
 {
 
 	if (length==0)

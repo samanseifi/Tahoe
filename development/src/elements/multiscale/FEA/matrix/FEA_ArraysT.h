@@ -16,7 +16,7 @@ class FEA_dMatrix_ArrayT : public ArrayT <FEA_dMatrixT>
 
     FEA_dMatrix_ArrayT 	(void) : ArrayT <FEA_dMatrixT> () { }
  		void Print  (void);
-		void Print  (char*);
+		void Print(const char*);
   
 };
 
@@ -32,7 +32,7 @@ class FEA_dVector_ArrayT : public ArrayT <FEA_dVectorT>
 		 
     FEA_dVector_ArrayT (void) : ArrayT <FEA_dVectorT> () { }
  		void Print  (void);
-		void Print  (char*);
+		void Print(const char*);
 
 };
 
@@ -48,7 +48,7 @@ class FEA_dScalar_ArrayT : public ArrayT <FEA_dScalarT>
 
     FEA_dScalar_ArrayT (void) : ArrayT <FEA_dScalarT> () { }
  		void Print  (void);
-		void Print  (char*);
+		void Print(const char*);
   
 };
 

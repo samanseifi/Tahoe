@@ -15,7 +15,7 @@ class FEA_ShapeFunctionT
     	FEA_ShapeFunctionT 	() { n_ip=n_sd=n_en=0; }
     	FEA_ShapeFunctionT 	(int &nip,int &nsd,int &nen); 
     	void Construct 		(int &nip,int &nsd,int &nen); 
-		void Print 			( char* name);
+		void Print 			( const char* name);
 
 		FEA_dVectorT N;						
 		FEA_dMatrixT dNdx;						
@@ -51,7 +51,7 @@ inline void FEA_ShapeFunctionT::Construct (int &nip,int &nsd,int &nen)
 
 //------------------------------------------------------------------------
 
-inline void FEA_ShapeFunctionT::Print (char* name)
+inline void FEA_ShapeFunctionT::Print (const char* name)
 { 
 	cout << " FEA_ShapeFunctionT " << name << "\n\n";
 	N.Print("N");

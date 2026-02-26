@@ -60,7 +60,7 @@ class FEA_EquateT {
 		FEA_EquateT& operator / (const double& a); 
 
 		void Print(void) const;
-		void Print(char*) const;
+		void Print(const char*) const;
 
 };
 

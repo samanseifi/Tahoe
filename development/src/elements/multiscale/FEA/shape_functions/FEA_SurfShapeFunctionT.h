@@ -15,7 +15,7 @@ class FEA_SurfShapeFunctionT
     	FEA_SurfShapeFunctionT 	() { n_ip=n_sd=n_en=0; }
     	FEA_SurfShapeFunctionT 	(int &nip,int &nsd,int &nen); 
     	void Construct 		(int &nip,int &nsd,int &nen); 
-		void Print 			( char* name);
+		void Print 			( const char* name);
 
 		FEA_dVectorT N, normal;						
 		FEA_dMatrixT dNdx;						
@@ -53,7 +53,7 @@ inline void FEA_SurfShapeFunctionT::Construct (int &nip,int &nsd,int &nen)
 
 //------------------------------------------------------------------------
 
-inline void FEA_SurfShapeFunctionT::Print (char* name)
+inline void FEA_SurfShapeFunctionT::Print (const char* name)
 { 
 	cout << " FEA_SurfShapeFunctionT " << name << "\n\n";
 	N.Print("N");

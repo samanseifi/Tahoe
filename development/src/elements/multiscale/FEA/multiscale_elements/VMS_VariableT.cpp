@@ -37,7 +37,7 @@ void VMS_VariableT::Delete_Vars	( void )
 
 void VMS_VariableT::Print() { Print(" "); } 
 
-void VMS_VariableT::Print(char *c) { // overload << later
+void VMS_VariableT::Print(const char* c) { // overload << later
 
   cout <<"\n VMS_VariableT "<< c <<" follows: \n\n"; 
 

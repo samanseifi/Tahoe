@@ -24,7 +24,7 @@ class VMS_VariableT
 
 		/** Print Routine */
 		void Print  (void);
-		void Print  (char*);
+		void Print(const char*);
 
 		/** Compute and store F^-1, Fa, Fb, GRAD(ua), GRAD(ub) : recursive routine */ 
  	 	void Allocate_and_Compute_Variables(VMS::VarT kVariable);

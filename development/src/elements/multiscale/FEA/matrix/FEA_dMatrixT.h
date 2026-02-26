@@ -40,7 +40,7 @@ class FEA_dMatrixT: public ArrayT <dMatrixT>
 		void FEA_UnSet		 (void); 
 		void FEA_Delete		 (void);  
 		void Print  (void)  const;
-		void Print  (char*) const;
+		void Print(const char*) const;
 		void print  (char*) const;
 		void Random (int seed=1);
 		void Random (double high_val, double low_val=0, int seed=1);

@@ -23,9 +23,9 @@ void FEA_dMatrix_ArrayT::Construct (int n_mat,int n_ip,int n_rows,int n_cols)
 
 void FEA_dMatrix_ArrayT::Print() { Print(" "); } 
 
-void FEA_dMatrix_ArrayT::Print(char *c) { // overload << later
+void FEA_dMatrix_ArrayT::Print(const char* c) { // overload << later
 
-  char string[10];
+  char string[32];
 
   cout <<"\n FEA_dMatrix_ArrayT "<< c <<" follows: \n\n"; 
 
@@ -33,7 +33,7 @@ void FEA_dMatrix_ArrayT::Print(char *c) { // overload << later
 		if ((*this)[l].n_ip==0)
 			cout << " FEA_dScalar_ArrayT: n["<<l<<"] Unallocated \n\n";
     else {
-			sprintf(string,"%d",l);
+			snprintf(string, sizeof(string), "%d", l);
 			(*this)[l].Print(string);
 		}
 }
@@ -59,9 +59,9 @@ void FEA_dVector_ArrayT::Construct (int n_vec,int n_ip,int n_rows)
 
 void FEA_dVector_ArrayT::Print() { Print(" "); } 
 
-void FEA_dVector_ArrayT::Print(char *c) { // overload << later
+void FEA_dVector_ArrayT::Print(const char* c) { // overload << later
 
-  char string[10];
+  char string[32];
 
   cout <<"\n FEA_dVector_ArrayT "<< c <<" follows: \n\n"; 
 
@@ -69,7 +69,7 @@ void FEA_dVector_ArrayT::Print(char *c) { // overload << later
 		if ((*this)[l].Length()==0)
 			cout << " FEA_dScalar_ArrayT: n["<<l<<"] Unallocated \n\n";
     else {
-			sprintf(string,"%d",l);
+			snprintf(string, sizeof(string), "%d", l);
 			(*this)[l].Print(string);
 		}
 }
@@ -95,9 +95,9 @@ void FEA_dScalar_ArrayT::Construct (int n_scal,int n_ip)
 
 void FEA_dScalar_ArrayT::Print() { Print(" "); } 
 
-void FEA_dScalar_ArrayT::Print(char *c) { // overload << later
+void FEA_dScalar_ArrayT::Print(const char* c) { // overload << later
 
-  char string[10];
+  char string[32];
 
   cout <<"\n FEA_dScalar_ArrayT "<< c <<" follows: \n\n"; 
 
@@ -105,7 +105,7 @@ void FEA_dScalar_ArrayT::Print(char *c) { // overload << later
 		if ((*this)[l].Length()==0)
 			cout << " FEA_dScalar_ArrayT: n["<<l<<"] Unallocated \n\n";
     else {
-			sprintf(string,"%d",l);
+			snprintf(string, sizeof(string), "%d", l);
 			(*this)[l].Print(string);
 		}
 }

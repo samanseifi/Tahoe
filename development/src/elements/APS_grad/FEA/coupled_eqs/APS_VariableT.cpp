@@ -46,7 +46,7 @@ void APS_VariableT::Delete_Vars	( void )
 
 void APS_VariableT::Print() { Print(" "); } 
 
-void APS_VariableT::Print(char *c) { // overload << later
+void APS_VariableT::Print(const char* c) { // overload << later
 
   cout <<"\n APS_VariableT "<< c <<" follows: \n\n"; 
 

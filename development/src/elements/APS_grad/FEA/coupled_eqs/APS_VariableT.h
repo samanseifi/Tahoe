@@ -29,7 +29,7 @@ class APS_VariableT
 
 		/** Print Routine */
 		void Print  (void);
-		void Print  (char*);
+		void Print(const char*);
 		
 		/** Compute and store ... : recursive routine */ 
  	 	void Allocate_and_Compute_Variables(APS::VarT_vector kVariable);

@@ -28,7 +28,7 @@ class FEA_dVectorT: public ArrayT <dArrayT>
 		void FEA_Dimension (const FEA_dVectorT &a);
 		void FEA_Dimension (int ips,int length);
 		void Print(void) { Print(" "); }
-		void Print(char*);
+		void Print(const char*);
 
 		double* FEA_Pointer   (int offset) { return (*this)[0].Pointer(offset); }
 
