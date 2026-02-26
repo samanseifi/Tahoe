@@ -67,7 +67,6 @@ ExceptionT::GeneralFail("LocalizerT::LocalizerT", "out of date");
 /* set work space */
 void LocalizerT::Initialize(void)
 {
-#pragma message("delete me")
 #if 0
 	/* inherited */
 	UpdatedLagrangianT::Initialize();

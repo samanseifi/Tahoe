@@ -93,7 +93,7 @@ void nLinearHHTalpha::ConsistentKBC(BasicFieldT& field, const KBC_CardT& KBC)
 				"unknown BC code: %d", KBC.Code());
 	}
 }		
-#pragma message ("roll up redundancy after it works")
+// TODO: roll up redundancy after it works
 // predictors - map ALL, unless limit arguments are specified
 void nLinearHHTalpha::Predictor(BasicFieldT& field, int fieldstart /*= 0*/, int fieldend /*= -1*/)
 {
@@ -154,7 +154,7 @@ void nLinearHHTalpha::Corrector(BasicFieldT& field, const dArray2DT& update, int
 		/* acceleration corrector */
 		field[2].SetToScaled(1.0, update, fieldstart, fieldend);
 	}
-#pragma message("Not exctly sure about this one")
+// TODO: Not exctly sure about this one
 }
 
 /* correctors - map ACTIVE */

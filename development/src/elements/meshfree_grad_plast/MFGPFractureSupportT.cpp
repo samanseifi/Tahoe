@@ -74,8 +74,8 @@ void MFGPFractureSupportT::DefineSubs(SubListT& sub_list) const
 	/* sampling surfaces */
 	sub_list.AddSub("sampling_surface", ParameterListT::Any);
 
-#pragma message("define cutting surfaces")
-#pragma message("define sampling surfaces")
+// TODO: define cutting surfaces
+// TODO: define sampling surfaces
 }
 
 /* a pointer to the ParameterInterfaceT of the given subordinate */

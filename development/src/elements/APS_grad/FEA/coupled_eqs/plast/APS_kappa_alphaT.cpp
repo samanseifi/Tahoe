@@ -13,7 +13,6 @@ APS_kappa_alphaT::APS_kappa_alphaT	(FEA_ShapeFunctionT &Shapes_displ, FEA_ShapeF
 /* destructor */
 //APS_kappa_alphaT::~APS_kappa_alphaT(void);
 
-
 //---------------------------------------------------------------------
 
 void APS_kappa_alphaT::Initialize (int &in_ip, int &in_sd, int &in_en_displ, int &in_en_plast, int &in_state, int &in_str, 
@@ -97,7 +96,6 @@ void APS_kappa_alphaT::Form_RHS_F_int ( dArrayT &F_int )
 
 //=== Private =========================================================
 
-
 void APS_kappa_alphaT::Form_C_List (APS_MaterialT *APS_Matl)
 {
 	C[kMu]    	 		= APS_Matl -> Retrieve ( APS_MatlT::kMu 			);
@@ -122,7 +120,6 @@ void APS_kappa_alphaT::Form_C_List (APS_MaterialT *APS_Matl)
 	C[ksmall]			= 1.0e-8; 
 }
 
-
 void APS_kappa_alphaT::Form_V_S_Lists (  APS_VariableT &npt, APS_VariableT &n )
 {
 	// get state variables at times np1 and n
@@ -140,7 +137,7 @@ void APS_kappa_alphaT::Form_V_S_Lists (  APS_VariableT &npt, APS_VariableT &n )
 	B_gradgammap[kgrad_gammap] = npt.Get ( APS::kgrad_gammap );
 	
 	// calculate anti-plane curl component of gamma_p
-	#pragma message("APS_kappa_alphaT::Form_V_S_Lists: are these grads what I think they are? ")
+	// TODO: APS_kappa_alphaT::Form_V_S_Lists: are these grads what I think they are?
 	S[kgammap_curl] = B_gradgammap[kgrad_gammap](1,0)-B_gradgammap[kgrad_gammap](0,1);
 	// output mag of curl in out of plane direction
 	V_out[kstressstate](2) = S[kgammap_curl];
@@ -317,7 +314,6 @@ void APS_kappa_alphaT::Form_V_S_Lists (  APS_VariableT &npt, APS_VariableT &n )
 	V_out[kstressstate](8) = C[kkappa0_1];
 	V_out[kstressstate](8) += S[kIV_kappa1];
 	
-
 
 	/* slip system 2 */
 		
@@ -556,7 +552,6 @@ void APS_kappa_alphaT::Form_V_S_Lists (  APS_VariableT &npt, APS_VariableT &n )
 	
 }
 
-
 		
 void APS_kappa_alphaT::Form_VB_List (void)
 {					
@@ -717,7 +712,6 @@ void APS_kappa_alphaT::Form_VB_List (void)
  		
 }
 
-
 void APS_kappa_alphaT::Form_B_List (void)
 {
  		B_d[kBmvgam1d].Outer( V[km1_bar], VB_d[kVdelgam1d] );
@@ -727,7 +721,6 @@ void APS_kappa_alphaT::Form_B_List (void)
  		B_eps[kBmvgam2eps].Outer( V[km2_bar], VB_eps[kVdelgam2eps] );
  		B_eps[kBmvgam3eps].Outer( V[km3_bar], VB_eps[kVdelgam3eps] );		
 }
-
 
 //##############################################################################################
 
@@ -762,5 +755,4 @@ void APS_kappa_alphaT::Get ( StringT &Name, FEA_dScalarT &scalar )
 	else
 		cout << " ...ERROR: APS_kappa_alphaT::Get() >> Unknown scalar '"<<Name<<"' requested. \n";
 }
-
 

@@ -1092,8 +1092,7 @@ void ContinuumElementT::TakeNaturalBC(const ParameterListT& list)
 				}
 			}
 	    }
-#pragma message("OK with empty side sets?")
-
+// TODO: OK with empty side sets?
 		/* allocate all traction BC cards */
 	    fTractionList.Dimension(tot_num_sides);
 
@@ -1208,7 +1207,7 @@ bool ContinuumElementT::CheckMaterialOutput(void) const
 		/* output not compatible */
 		if (!OK)
 		{
-#pragma message("report names")
+// TODO: report names
 			cout << "\n ContinuumElementT::CheckMaterialOutput: incompatible output\n"
 			    <<    "     between materials " << i+1 << " and " << j+1 << ":\n";
 //			(*fMaterialList)[i]->PrintName(cout);

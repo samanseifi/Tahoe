@@ -66,7 +66,7 @@ void nMixed::ConsistentKBC(BasicFieldT& field, const KBC_CardT& KBC)
 				"unknown BC code: %d", KBC.Code());
 	}
 }		
-#pragma message ("roll up redundancy after it works")
+// TODO: roll up redundancy after it works
 // predictors - map ALL, unless limit arguments are specified
 void nMixed::Predictor(BasicFieldT& field, int fieldstart /*= 0*/, int fieldend /*= -1*/)
 {

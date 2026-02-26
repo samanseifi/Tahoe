@@ -80,7 +80,7 @@ void nGear6::ConsistentKBC(BasicFieldT& field, const KBC_CardT& KBC)
 			ExceptionT::BadInputValue(caller, "unknown BC code: %d", KBC.Code() );
 	}
 }		
-#pragma message("nGear6::Predictor, not implemented with limits yet, declaration changed to match others")
+// TODO: nGear6::Predictor, not implemented with limits yet, declaration changed to match others
 /* predictors - map ALL */
 void nGear6::Predictor(BasicFieldT& field, int fieldstart /*= 0*/, int fieldend /*= -1*/)
 {
@@ -107,7 +107,7 @@ void nGear6::Predictor(BasicFieldT& field, int fieldstart /*= 0*/, int fieldend 
 		(*p4++) += fdt*(*p5++);
 	}
 }		
-#pragma message("nGear6::Corrector, not implemented with limits yet, declaration changed to match others")
+// TODO: nGear6::Corrector, not implemented with limits yet, declaration changed to match others
 /* corrector. Maps ALL degrees of freedom forward. */
 void nGear6::Corrector(BasicFieldT& field, const dArray2DT& update, int fieldstart /*= 0*/, int fieldend /*= -1*/, int dummy /*= 0*/)
 {

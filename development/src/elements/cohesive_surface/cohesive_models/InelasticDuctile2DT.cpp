@@ -104,7 +104,7 @@ void InelasticDuctile2DT::InitStateVariables(ArrayT<double>& state)
 {
 	state = 0.0;
 
-#pragma message("InelasticDuctile2DT::InitStateVariables: using temporary values")
+// TODO: InelasticDuctile2DT::InitStateVariables: using temporary values
 	state[k_dex_phi]   = 0.05;
 	state[k_dex_phi_s] = 0.05;
 	state[k_dex_kappa] = 1.0;

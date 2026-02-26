@@ -160,7 +160,7 @@ void D2MeshFreeFSSolidT::ElementRHSDriver(void)
 /* initialization functions */
 void D2MeshFreeFSSolidT::SetShape(void)
 {
-#pragma message("fix me")
+// TODO: fix me
 #if 0
 	/* only support single list of integration cells for now */
 	if (fConnectivities.Length() > 1) {

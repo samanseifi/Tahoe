@@ -10,7 +10,6 @@
 #include <iostream>
 #include <iomanip>
 
-
 #include "toolboxConstants.h"
 #include "SurfaceShapeT.h"
 #include "SurfacePotentialT.h"
@@ -1039,7 +1038,7 @@ void CSEAnisoT::ComputeOutput(const iArrayT& n_codes, dArray2DT& n_values,
 #ifndef _FRACTURE_INTERFACE_LIBRARY_
 	Field().RegisterLocal(loc_disp);
 #else
-#pragma message("This routine needs displacements from SIERRA.")
+// TODO: This routine needs displacements from SIERRA.
 	loc_disp.SetGlobal(ElementSupport().CurrentCoordinates());
 #endif
 	dArrayT ipmat(n_codes[MaterialData]);
@@ -1526,7 +1525,6 @@ void CSEAnisoT::FromNodesToIPs(bool rotate, dArrayT& localFrameIP, LocalArrayT& 
 	else
 		localFrameIP = tensorIP;
 }
-
 
 void CSEAnisoT::UntieOrRetieNodes(int elNum, int nnd, const TiedPotentialBaseT* tiedpot, 
 								ArrayT<double>& state, dArrayT& localFrameIP)

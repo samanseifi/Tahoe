@@ -137,7 +137,7 @@ void ElementSupportT::SetEqnos(int *conn, const int& nElem, const int& nElemNode
 	/* Let SIERRA control the memory for the residual */
 	fResidual = new dArrayT();
 
-#pragma message("Do I really want to allocate a stiffness matrix?")
+// TODO: Do I really want to allocate a stiffness matrix?
 	fStiffness = new dMatrixT(ElementMatrixT::kNonSymmetric);
 //	fStiffness->Dimension(fNumSD*nNodes);
 }
@@ -201,7 +201,7 @@ void ElementSupportT::OutputSize(int& nNodeOutputVars, int& nElemOutputVars)
 	
 void ElementSupportT::SetOutputCodes(iArrayT& fNodalOutputCodes, iArrayT& fElementOutputCodes)
 {
-#pragma message("Must read in IO codes somehow")
+// TODO: Must read in IO codes somehow
 	fNodalOutputCodes = IOBaseT::kAtInc;
 	fElementOutputCodes = IOBaseT::kAtInc;
 }
@@ -221,7 +221,7 @@ void ElementSupportT::AssembleLHS(int group, const ElementMatrixT& elMat,
 	FEManager().AssembleLHS(group, elMat, eqnos);
 #else
 #pragma unused(eqnos)
-#pragma message("ElementSupportT::AssembleLHS only fullMatrix so far")
+// TODO: ElementSupportT::AssembleLHS only fullMatrix so far
 /* NB that group is really the element number; it's an offset in my eq array */
 	double *fp = elMat.Pointer();
 	int *ip1 = ieqnos->Pointer() + group*elMat.Rows();

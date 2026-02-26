@@ -119,8 +119,7 @@ void PenaltyRegionT::ApplyRHS(void)
 /* apply kinematic boundary conditions */
 void PenaltyRegionT::InitStep(void)
 {
-#pragma message("move to SetContactConfiguration after BRANCH_david_spatial_2")
-
+// TODO: move to SetContactConfiguration after BRANCH_david_spatial_2
 	/* look for axisymmetric groups */
 	bool axisymmetric = false;
 	int num_groups = FieldSupport().NumElementGroups();

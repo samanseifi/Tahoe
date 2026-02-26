@@ -29,7 +29,6 @@
 *		7)	Farrell DE, EG Karpov, WK Liu. "Algorithms for Bridging Scale Method Parameters", Computational Mechanics, in print DOI: 10.1007/s00466-007-0156-z (2007)
 */
 
-
 using namespace Tahoe;
 
 // constructor
@@ -175,8 +174,7 @@ void BridgingScaleManagerT::InitBSM(void)
 	
 	fFubig.Dimension(fNND,fNSD);
 	
-#pragma message("fix this when come back to do parallel implementation for spatial/index decomp")
-	
+// TODO: fix this when come back to do parallel implementation for spatial/index decomp
 	fFine_comm_manager = fFine_THK->CommManager();
 	if (!fFine_comm_manager) ExceptionT::GeneralFail(caller, "could not resolve fine scale comm manager");
 	fFubig_ID = fFine_comm_manager->Init_AllGather(fFubig);
@@ -285,8 +283,7 @@ void BridgingScaleManagerT::InitBetaBSM(void)
 	
 	fFubig.Dimension(fNND,fNSD);
 	
-#pragma message("fix this when come back to do parallel implementation for spatial/index decomp")
-	
+// TODO: fix this when come back to do parallel implementation for spatial/index decomp
 	fFine_comm_manager = fFine_THK->CommManager();
 	if (!fFine_comm_manager) ExceptionT::GeneralFail(caller, "could not resolve fine scale comm manager");
 	fFubig_ID = fFine_comm_manager->Init_AllGather(fFubig);
@@ -734,7 +731,7 @@ const dArray2DT& BridgingScaleManagerT::TotalForce(const StringT& field_name, co
 	iArray2DT& eq_nos = field->Equations();
 	
 	// get the internal and external (interatomic & BC) force into the projection
-#pragma message("FIX ME- do a better implementation")	
+// TODO: FIX ME- do a better implementation
 	for (int i = 0; i < fNND; i++)
 	{
 		for (int j = 0; j < fNSD; j++)

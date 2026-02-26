@@ -67,7 +67,7 @@ void nExplicitCD::ConsistentKBC(BasicFieldT& field, const KBC_CardT& KBC)
 			ExceptionT::GeneralFail("nExplicitCD::ConsistentKBC","unknown BC code %d", KBC.Code());
 	}
 }
-#pragma message ("roll up redundancy after it works")
+// TODO: roll up redundancy after it works
 // predictors - map ALL, unless limit arguments are specified
 void nExplicitCD::Predictor(BasicFieldT& field, int fieldstart /*= 0*/, int fieldend /*= -1*/)
 {
@@ -132,7 +132,6 @@ void nExplicitCD::Corrector(BasicFieldT& field, const dArray2DT& update, int fie
 		/* acceleration corrector */
 		field[2].AddScaled(1.0, update, fieldstart, fieldend);
 	}
-
 
 	// err_c = field[2];
 	// err_c -= a_old;

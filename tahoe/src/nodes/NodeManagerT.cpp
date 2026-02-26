@@ -702,7 +702,7 @@ void NodeManagerT::WriteOutput(void)
 		}
 	}
 
-#pragma message("NodeManagerT -- Necessary kludge here")
+// TODO: NodeManagerT -- Necessary kludge here
 	UpdateCurrentCoordinates();
 
 	/* nodal histories */
@@ -951,8 +951,7 @@ void NodeManagerT::ResizeNodes(int num_nodes)
 {
 	/* reference coordinates */
 	fFEManager.ModelManager()->ResizeNodes(num_nodes);
-#pragma message("resize reference coords here or require separate call?")
-
+// TODO: resize reference coords here or require separate call?
 	/* current coordinates */
 	if (fCurrentCoords) fCurrentCoords_man.SetMajorDimension(num_nodes, true);
 

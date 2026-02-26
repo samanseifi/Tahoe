@@ -322,7 +322,7 @@ void CSEIsoT::ComputeOutput(const iArrayT& n_codes, dArray2DT& n_values,
 #ifndef _FRACTURE_INTERFACE_LIBRARY_
 	Field().RegisterLocal(loc_disp);
 #else
-#pragma message("What to do with loc_disp?")
+// TODO: What to do with loc_disp?
 #endif
 
 	/* set shallow copies */

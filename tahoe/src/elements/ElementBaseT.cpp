@@ -587,7 +587,7 @@ void ElementBaseT::AssembleLHS(void) const
 #endif
 }
 
-#pragma message("document what ElementBaseT::DefineElements does")
+// TODO: document what ElementBaseT::DefineElements does
 /* define the elements blocks for the element group */
 void ElementBaseT::DefineElements(const ArrayT<StringT>& block_ID, const ArrayT<int>& mat_index)
 {

@@ -677,7 +677,7 @@ void MultiManagerT::TakeParameterList(const ParameterListT& list)
 	StringT path;
 	path.FilePath(fInputFile);
 	TaskT task = kRun;
-#pragma message("Ignore continuum only implemented for Dynamic Bridging Scale calculation, ask dave")	
+// TODO: Ignore continuum only implemented for Dynamic Bridging Scale calculation, ask dave
 	// check to see if continuum should be ignored
 	const ParameterT* cont_ignore = list.FindParameter("continuum_input"); // see if the continuum is present
 	fignore = false;
@@ -997,9 +997,8 @@ void MultiManagerT::TakeParams1(const ParameterListT& list)
 // set up just the fine scale (atomistic, for MD only Dynamic Bridging Scale only)
 void MultiManagerT::TakeParams2(const ParameterListT& list)
 {
-#pragma message("Ignore continuum only implemented for Dynamic Bridging Scale calculation, ask dave")
-#pragma message("Can get rid of the redundancy here, not quite sure how to do it well")
-	
+// TODO: Ignore continuum only implemented for Dynamic Bridging Scale calculation, ask dave
+// TODO: Can get rid of the redundancy here, not quite sure how to do it well
 	const char caller[] = "MultiManagerT::TakeParameterList";
 	
 	/* check consistency between time managers */

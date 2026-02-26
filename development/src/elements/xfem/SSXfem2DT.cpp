@@ -48,7 +48,6 @@ SSXfem2DT::~SSXfem2DT(void)
     delete fShapes_enhan;
 }
 
-
 void SSXfem2DT::Echo_Input_Data(void) 
 {
 
@@ -64,7 +63,6 @@ void SSXfem2DT::Echo_Input_Data(void)
     cout << "fMaterial_Params[kLambda] "  			<< fMaterial_Params[kLambda] << endl;
 	
 }
-
 
 //---------------------------------------------------------------------
 
@@ -129,8 +127,7 @@ void SSXfem2DT::Equations(AutoArrayT<const iArray2DT*>& eq_d,
     else
 	/* doing staggered */
     {
-#pragma message("initialization for staggered solution needs to be corrected")
-	
+// TODO: initialization for staggered solution needs to be corrected
 		/* ElementBaseT handles equation array for displacements */
 		if (ElementSupport().CurrentGroup() == fDispl->Group())
 		    ElementBaseT::Equations(eq_d, eq_q);
@@ -157,7 +154,6 @@ void SSXfem2DT::Equations(AutoArrayT<const iArray2DT*>& eq_d,
     }
     */
 }
-
 
 //---------------------------------------------------------------------
 
@@ -202,14 +198,12 @@ bool SSXfem2DT::InGroup(int group) const
 
 //---------------------------------------------------------------------
 
-
 /* initialize/finalize step */
 void SSXfem2DT::InitStep(void)
 {
 	/* inherited */
 	ElementBaseT::InitStep();
 }
-
 
 /* close current time increment */
 void SSXfem2DT::CloseStep(void)
@@ -333,7 +327,6 @@ void SSXfem2DT::CloseStep(void)
 //    ss_xfem2D_out	<< endl << "**********************************************************************************************" << endl;
 }
 
-
 /* resets to the last converged solution */
 /*
 GlobalT::RelaxCodeT SSXfem2DT::ResetStep(void)
@@ -345,7 +338,7 @@ GlobalT::RelaxCodeT SSXfem2DT::ResetStep(void)
 
 	// update material internal variables 
 	//needs to be implemented
-#pragma message("reseting internal variables not implemented")	
+// TODO: reseting internal variables not implemented
 	//ExceptionT::GeneralFail(caller, "reseting internal variables not implemented");
 
 	return relax;
@@ -363,20 +356,18 @@ GlobalT::RelaxCodeT SSXfem2DT::RelaxSystem(void)
 
 	// loop over materials 
 	//needs to be implemented
-#pragma message("relax step for materials not implemented")	
+// TODO: relax step for materials not implemented
 	//ExceptionT::GeneralFail(caller, "relax step for materials not implemented");
 
 	return relax;
 }
 */
 
-
 void SSXfem2DT::SendOutput(int kincode)
 {
 #pragma unused(kincode)
 //not implemented
 }
-
 
 /* return geometry and number of nodes on each facet */
 void SSXfem2DT::FacetGeometry(ArrayT<GeometryT::CodeT>& facet_geometry, 
@@ -385,7 +376,6 @@ void SSXfem2DT::FacetGeometry(ArrayT<GeometryT::CodeT>& facet_geometry,
 	/* from integration domain */
 	ShapeFunctionDispl().FacetGeometry(facet_geometry, num_facet_nodes);
 }
-
 
 /* form of tangent matrix */
 GlobalT::SystemTypeT SSXfem2DT::TangentType(void) const
@@ -419,8 +409,6 @@ void SSXfem2DT::InitialCondition(void)
 	/* inherited */
 	ElementBaseT::InitialCondition();
 }
-
-
 
 //#############################################################################
 //#############################################################################
@@ -663,7 +651,7 @@ void SSXfem2DT::RegisterOutput(void)
 	n_labels[count++] = svlabels3D[i];
 
     /* set output specifier */
-#pragma message("SSXfem2DT::RegisterOutput: is this right? ")
+// TODO: SSXfem2DT::RegisterOutput: is this right?
     OutputSetT output_set(fGeometryCode_displ, block_ID, fConnectivities, n_labels, e_labels, false);
 		
     /* register and get output ID */
@@ -744,7 +732,6 @@ void SSXfem2DT::WriteOutput(void)
     ElementSupport().WriteOutput(fOutputID, n_values, fIPVariable);
 }	
 
-
 //#############################################################################
 //#############################################################################
 //#############################################################################
@@ -763,7 +750,7 @@ void SSXfem2DT::WriteOutput(void)
 void SSXfem2DT::RHSDriver_staggered(void)
 {
 	const char caller[] = "SSXfem2DT::RHSDriver_staggered";
-#pragma message("staggered solution not implemented")
+// TODO: staggered solution not implemented
 }
 
 //---------------------------------------------------------------------
@@ -899,7 +886,6 @@ void SSXfem2DT::RHSDriver_monolithic(void)
 	}
 */
 
-
 	/* print solid acceleration at current step (u_dotdot)*/
 /*	ss_xfem2D_out	<<"nodal solid velocity at current step(u_dotdot)"<< endl ;
 	for (int i=0; i<n_en_displ; i++)
@@ -957,7 +943,6 @@ void SSXfem2DT::RHSDriver_monolithic(void)
 	    ss_xfem2D_out	<< ujump_dot_n(i,0) << endl;
 	}
 */
-
 
 	/* print second derivative of enhan-displacement-gradient at current step (enhan_dotdot)*/
 /*	ss_xfem2D_out	<<"second derivative of nodal enhan-displacement-gradient at current step(enhan_dotdot)"<< endl ;
@@ -1169,8 +1154,6 @@ void SSXfem2DT::RHSDriver_monolithic(void)
     }
 }
 
-
-
 /* form global shape function derivatives */
 void SSXfem2DT::SetGlobalShape(void)
 {
@@ -1181,7 +1164,6 @@ void SSXfem2DT::SetGlobalShape(void)
     fShapes_displ->SetDerivatives_DN_DDN();
     fShapes_enhan->SetDerivatives();
 }
-
 
 /* describe the parameters needed by the interface */
 void SSXfem2DT::DefineParameters(ParameterListT& list) const
@@ -1217,7 +1199,6 @@ void SSXfem2DT::DefineParameters(ParameterListT& list) const
 //    list.AddParameter(newGamma, "gamma");
 
 }
-
 
 /* accept parameter list */
 void SSXfem2DT::TakeParameterList(const ParameterListT& list)
@@ -1505,7 +1486,6 @@ void SSXfem2DT::TakeParameterList(const ParameterListT& list)
 //    ss_xfem2D_out.open("ss_xfem2D.info");
 }
 
-
 /* information about subordinate parameter lists */
 void SSXfem2DT::DefineSubs(SubListT& sub_list) const
 {
@@ -1519,16 +1499,12 @@ void SSXfem2DT::DefineSubs(SubListT& sub_list) const
     sub_list.AddSub("xfem_SS_2D_natural_bc", ParameterListT::Any);
 }
 
-
-
 /* return the description of the given inline subordinate parameter list */
 void SSXfem2DT::DefineInlineSub(const StringT& name, ParameterListT::ListOrderT& order, 
 				       SubListT& sub_lists) const
 {
     ElementBaseT::DefineInlineSub(name, order, sub_lists);
 }
-
-
 
 /* a pointer to the ParameterInterfaceT of the given subordinate */
 ParameterInterfaceT* SSXfem2DT::NewSub(const StringT& name) const
@@ -1562,8 +1538,6 @@ ParameterInterfaceT* SSXfem2DT::NewSub(const StringT& name) const
     else /* inherited */
 	return ElementBaseT::NewSub(name);
 }
-
-
 
 //##################################################################################
 //###### Traction B.C. Methods (Cut and Paste from ContinuumElementT) ##############
@@ -1616,8 +1590,6 @@ void SSXfem2DT::SetTractionBC(void)
     /* set flag */
     fTractionBCSet = 1;
 }
-
-
 
 /* extract natural boundary condition information */
 void SSXfem2DT::TakeNaturalBC(const ParameterListT& list)
@@ -1712,8 +1684,7 @@ void SSXfem2DT::TakeNaturalBC(const ParameterListT& list)
 		}
 	    }
 	}
-#pragma message("OK with empty side sets?")
-
+// TODO: OK with empty side sets?
 	/* allocate all traction BC cards */
 	fTractionList.Dimension(tot_num_sides);
 
@@ -1749,7 +1720,6 @@ void SSXfem2DT::TakeNaturalBC(const ParameterListT& list)
 		    ExceptionT::BadInputValue(caller, "coordinate system must be Cartesian if (nsd != ndof) for card %d", i+1);
     }
 }
-
 
 //---------------------------------------------------------------------
 
@@ -1910,7 +1880,6 @@ void SSXfem2DT::Form_solid_shape_functions(const double* &shapes_displ_X)
     }
 }
 
-
 void SSXfem2DT::Form_enhan_shape_functions(const double* &shapes_enhan_X)
 {
     fShapeEnhan = 0.0;
@@ -1921,10 +1890,6 @@ void SSXfem2DT::Form_enhan_shape_functions(const double* &shapes_enhan_X)
 		fShapeEnhan(1,1+i*n_sd) = shapes_enhan_X[i];
     }	
 }
-
-
-
-
 
 void SSXfem2DT::Form_D_matrix(void)
 {
@@ -1947,5 +1912,4 @@ void SSXfem2DT::Form_B_matrix(void)
 		fB_matrix(2,i*n_sd+1)=fShapeDisplGrad(0,i);
     }
 }
-
 

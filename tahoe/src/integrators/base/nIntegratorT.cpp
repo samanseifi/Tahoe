@@ -22,6 +22,6 @@ void nIntegratorT::Corrector(BasicFieldT& field, const dArray2DT& update, int fi
 {
 #pragma unused(field)
 #pragma unused(update)
-#pragma message("nIntegratorT::Corrector: make me pure virtual")
+// TODO: nIntegratorT::Corrector: make me pure virtual
 ExceptionT::GeneralFail("nIntegratorT::Corrector", "not implemented");
 }

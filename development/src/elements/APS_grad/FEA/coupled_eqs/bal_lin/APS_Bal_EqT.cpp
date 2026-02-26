@@ -16,7 +16,6 @@ APS_Bal_EqT::APS_Bal_EqT ( int& nipsurf, int& nensurf, FEA_ShapeFunctionT &Shape
 /* destructor */
 //APS_Bal_EqT::~APS_Bal_EqT(void);
 
-
 //---------------------------------------------------------------------
 
 void APS_Bal_EqT::Construct ( int& nipsurf, int& nensurf, FEA_ShapeFunctionT &Shapes_displ, FEA_ShapeFunctionT &Shapes_plast, 
@@ -85,7 +84,6 @@ void APS_Bal_EqT::Form_RHS_F_int ( dArrayT &F_int, APS_VariableT &npt )
 		F_int -= Integral.of( B_d[kB], C[kOne], V[kgammap] );
 }
 
-
 //---------------------------------------------------------------------
 
 void APS_Bal_EqT::Form_LHS_Kd_Surf	( dMatrixT &Kd_face, FEA_SurfShapeFunctionT &SurfShapes )  
@@ -134,8 +132,6 @@ void APS_Bal_EqT::Form_RHS_F_int_Surf ( dArrayT &F_int_face, APS_VariableT &npt,
 		F_int_face += SurfIntegral.of( VB_d[kN], C[kOne], S[knuepseps] );
 }
 
-
-
 //=== Private =========================================================
 	             				
 void APS_Bal_EqT::Form_B_List (void)
@@ -159,7 +155,6 @@ void APS_Bal_EqT::Form_VB_List (void)
 		VB_eps.Construct ( kNUM_VB_eps_TERMS, n_ip, n_sd_x_n_en_plast );				
 }
 
-
 void APS_Bal_EqT::Form_V_S_List (APS_VariableT &npt)
 {
 		S.Construct 	( kNUM_S_TERMS, 	n_ip_surf 		);
@@ -168,7 +163,6 @@ void APS_Bal_EqT::Form_V_S_List (APS_VariableT &npt)
 		int dum=1;
 		VS.Construct 	( kNUM_VS_TERMS, 	n_ip, dum 	);
 }
-
 
 void APS_Bal_EqT::Form_C_List (APS_MaterialT *Shear_Matl, APS_MaterialT *APS_Matl)
 {
@@ -182,7 +176,6 @@ void APS_Bal_EqT::Form_C_List (APS_MaterialT *Shear_Matl, APS_MaterialT *APS_Mat
 		C[kOne] = 1.0;
 }
 
-
 void APS_Bal_EqT::Get ( StringT &Name, FEA_dMatrixT &tensor )
 {
 	if ( Name == "grad_u" )
@@ -190,7 +183,6 @@ void APS_Bal_EqT::Get ( StringT &Name, FEA_dMatrixT &tensor )
 	else
 		cout << " ...ERROR: APS_Bal_EqT::Get() >> Unknown tensor '"<<Name<<"' requested. \n";
 }
-
 
 void APS_Bal_EqT::Get ( StringT &Name, FEA_dVectorT &vector )
 {
@@ -211,5 +203,4 @@ void APS_Bal_EqT::Get ( StringT &Name, FEA_dScalarT &scalar )
 		cout << " ...ERROR: APS_Bal_EqT::Get() >> Unknown scalar '"<<Name<<"' requested. \n";
 		*/
 }
-
 

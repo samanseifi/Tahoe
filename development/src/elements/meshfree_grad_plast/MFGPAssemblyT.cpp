@@ -273,7 +273,6 @@ void MFGPAssemblyT::PrintControlData(ostream& out) const
 	out << " Number of integration points. . . . . . . . . . = " << fNumIP_plast    << '\n';
 }
 
-
 /* resets to the last converged solution */
 GlobalT::RelaxCodeT MFGPAssemblyT::ResetStep(void)
 {
@@ -1685,8 +1684,7 @@ void MFGPAssemblyT::TakeNaturalBC(const ParameterListT& list)
 				}// if (num_traction_vectors == 1)
 			}// if (num_sides > 0)
 	    }// for (int i = 0; i < num_natural_bc; i++)
-#pragma message("OK with empty side sets?")
-
+// TODO: OK with empty side sets?
 		/* allocate all traction BC cards */
 	    fTractionList.Dimension(tot_num_sides);
 
@@ -1927,7 +1925,7 @@ bool MFGPAssemblyT::CheckMaterialOutput(void) const
 		/* output not compatible */
 		if (!OK)	
 		{
-#pragma message("report names")
+// TODO: report names
 			cout << "\n MFGPAssemblyT::CheckMaterialOutput: incompatible output\n"
 			    <<    "     between materials " << i+1 << " and " << j+1 << ":\n";
 //			(*fMFGPMatList)[i]->PrintName(cout);

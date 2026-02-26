@@ -14,7 +14,7 @@
 #include "HarmonicPairT.h"
 #include "LennardJonesPairT.h"
 #else
-#pragma message("Chain1D requires PARTICLE_ELEMENT")
+// TODO: Chain1D requires PARTICLE_ELEMENT
 #error "Chain1D requires PARTICLE_ELEMENT"
 #endif
 

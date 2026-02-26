@@ -84,7 +84,7 @@ const dSymMatrixT& J2Simo2D::s_ij(void)
 
 	/* modify Cauchy stress (return mapping) */
 	double mu = Mu();
-#pragma message("make elastic its a parameter")
+// TODO: make elastic its a parameter
 	int iteration = fFSMatSupport->GroupIterationNumber();
 	if (iteration > -1 && PlasticLoading(element, mu, ip)) /* 1st iteration is elastic */	
 //	if (PlasticLoading(element, mu, ip))

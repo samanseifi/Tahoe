@@ -42,7 +42,6 @@ void PenaltyContactDrag2DT::TakeParameterList(const ParameterListT& list)
 	fGapTolerance = list.GetParameter("gap_tolerance");
 	fSlipTolerance = list.GetParameter("slip_tolerance");
 
-#pragma message("delete me")
 #if 0
 	/* collect volume element block ID's containing the strikers */
 	ModelManagerT& model = ElementSupport().ModelManager();

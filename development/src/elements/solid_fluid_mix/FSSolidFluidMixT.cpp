@@ -49,7 +49,6 @@ FSSolidFluidMixT::~FSSolidFluidMixT(void)
     delete fShapes_press;
 }
 
-
 void FSSolidFluidMixT::Echo_Input_Data(void) {
 
     cout << "#######################################################" << endl; 
@@ -112,7 +111,6 @@ void FSSolidFluidMixT::Echo_Input_Data(void) {
 //    cout << "fIntegration_Params[kBeta] " 		<< fIntegration_Params[kBeta] 	<< endl;
 //    cout << "fIntegration_Params[kGamma] " 		<< fIntegration_Params[kGamma] 	<< endl;
 }
-
 
 //---------------------------------------------------------------------
 
@@ -177,8 +175,7 @@ void FSSolidFluidMixT::Equations(AutoArrayT<const iArray2DT*>& eq_d,
     else
 	/* doing staggered */
     {
-#pragma message("initialization for staggered solution needs to be corrected")
-	
+// TODO: initialization for staggered solution needs to be corrected
 		/* ElementBaseT handles equation array for displacements */
 		if (ElementSupport().CurrentGroup() == fDispl->Group())
 		    ElementBaseT::Equations(eq_d, eq_theta);
@@ -205,7 +202,6 @@ void FSSolidFluidMixT::Equations(AutoArrayT<const iArray2DT*>& eq_d,
     }
     */
 }
-
 
 //---------------------------------------------------------------------
 
@@ -250,14 +246,12 @@ bool FSSolidFluidMixT::InGroup(int group) const
 
 //---------------------------------------------------------------------
 
-
 /* initialize/finalize step */
 void FSSolidFluidMixT::InitStep(void)
 {
 	/* inherited */
 	ElementBaseT::InitStep();
 }
-
 
 /* close current time increment */
 void FSSolidFluidMixT::CloseStep(void)
@@ -440,7 +434,6 @@ void FSSolidFluidMixT::CloseStep(void)
 	
 }
 
-
 /* resets to the last converged solution */
 /*
 GlobalT::RelaxCodeT FSSolidFluidMixT::ResetStep(void)
@@ -452,7 +445,7 @@ GlobalT::RelaxCodeT FSSolidFluidMixT::ResetStep(void)
 
 	// update material internal variables 
 	//needs to be implemented
-#pragma message("reseting internal variables not implemented")	
+// TODO: reseting internal variables not implemented
 	//ExceptionT::GeneralFail(caller, "reseting internal variables not implemented");
 
 	return relax;
@@ -470,20 +463,18 @@ GlobalT::RelaxCodeT FSSolidFluidMixT::RelaxSystem(void)
 
 	// loop over materials 
 	//needs to be implemented
-#pragma message("relax step for materials not implemented")	
+// TODO: relax step for materials not implemented
 	//ExceptionT::GeneralFail(caller, "relax step for materials not implemented");
 
 	return relax;
 }
 */
 
-
 void FSSolidFluidMixT::SendOutput(int kincode)
 {
 #pragma unused(kincode)
 //not implemented
 }
-
 
 /* return geometry and number of nodes on each facet */
 void FSSolidFluidMixT::FacetGeometry(ArrayT<GeometryT::CodeT>& facet_geometry, 
@@ -492,7 +483,6 @@ void FSSolidFluidMixT::FacetGeometry(ArrayT<GeometryT::CodeT>& facet_geometry,
 	/* from integration domain */
 	ShapeFunctionDispl().FacetGeometry(facet_geometry, num_facet_nodes);
 }
-
 
 /* form of tangent matrix */
 GlobalT::SystemTypeT FSSolidFluidMixT::TangentType(void) const
@@ -526,8 +516,6 @@ void FSSolidFluidMixT::InitialCondition(void)
 	/* inherited */
 	ElementBaseT::InitialCondition();
 }
-
-
 
 //#############################################################################
 //#############################################################################
@@ -770,7 +758,7 @@ void FSSolidFluidMixT::RegisterOutput(void)
 	n_labels[count++] = svlabels3D[i];
 
     /* set output specifier */
-#pragma message("FSSolidFluidMixT::RegisterOutput: is this right? ")
+// TODO: FSSolidFluidMixT::RegisterOutput: is this right?
     OutputSetT output_set(fGeometryCode_displ, block_ID, fConnectivities, n_labels, e_labels, false);
 		
     /* register and get output ID */
@@ -851,7 +839,6 @@ void FSSolidFluidMixT::WriteOutput(void)
     ElementSupport().WriteOutput(fOutputID, n_values, fIPVariable);
 }	
 
-
 //#############################################################################
 //#############################################################################
 //#############################################################################
@@ -870,7 +857,7 @@ void FSSolidFluidMixT::WriteOutput(void)
 void FSSolidFluidMixT::RHSDriver_staggered(void)
 {
 	const char caller[] = "FSSolidFluidMixT::RHSDriver_staggered";
-#pragma message("staggered solution not implemented")
+// TODO: staggered solution not implemented
 }
 
 //---------------------------------------------------------------------
@@ -2814,7 +2801,6 @@ void FSSolidFluidMixT::RHSDriver_monolithic(void)
     }
 }
 
-
 /* form global shape function derivatives */
 void FSSolidFluidMixT::SetGlobalShape(void)
 {
@@ -2825,7 +2811,6 @@ void FSSolidFluidMixT::SetGlobalShape(void)
     fShapes_displ->SetDerivatives_DN_DDN();
     fShapes_press->SetDerivatives();
 }
-
 
 /* describe the parameters needed by the interface */
 void FSSolidFluidMixT::DefineParameters(ParameterListT& list) const
@@ -2916,7 +2901,6 @@ void FSSolidFluidMixT::DefineParameters(ParameterListT& list) const
     */
 
 }
-
 
 /* accept parameter list */
 void FSSolidFluidMixT::TakeParameterList(const ParameterListT& list)
@@ -3480,8 +3464,6 @@ void FSSolidFluidMixT::TakeParameterList(const ParameterListT& list)
     outputFileWidth = outputPrecision + 8;
 }
 
-
-
 /* information about subordinate parameter lists */
 void FSSolidFluidMixT::DefineSubs(SubListT& sub_list) const
 {
@@ -3498,16 +3480,12 @@ void FSSolidFluidMixT::DefineSubs(SubListT& sub_list) const
     sub_list.AddSub("total_lagrangian_solid_fluid_mix_natural_bc", ParameterListT::Any);
 }
 
-
-
 /* return the description of the given inline subordinate parameter list */
 void FSSolidFluidMixT::DefineInlineSub(const StringT& name, ParameterListT::ListOrderT& order, 
 				       SubListT& sub_lists) const
 {
     ElementBaseT::DefineInlineSub(name, order, sub_lists);
 }
-
-
 
 /* a pointer to the ParameterInterfaceT of the given subordinate */
 ParameterInterfaceT* FSSolidFluidMixT::NewSub(const StringT& name) const
@@ -3554,7 +3532,6 @@ ParameterInterfaceT* FSSolidFluidMixT::NewSub(const StringT& name) const
     else /* inherited */
 		return ElementBaseT::NewSub(name);
 }
-
 
 //##################################################################################
 //###### Traction B.C. Methods (Cut and Paste from ContinuumElementT) ##############
@@ -3607,8 +3584,6 @@ void FSSolidFluidMixT::SetTractionBC(void)
     /* set flag */
     fTractionBCSet = 1;
 }
-
-
 
 /* extract natural boundary condition information */
 void FSSolidFluidMixT::TakeNaturalBC(const ParameterListT& list)
@@ -3703,8 +3678,7 @@ void FSSolidFluidMixT::TakeNaturalBC(const ParameterListT& list)
 		}
 	    }
 	}
-#pragma message("OK with empty side sets?")
-
+// TODO: OK with empty side sets?
 	/* allocate all traction BC cards */
 	fTractionList.Dimension(tot_num_sides);
 
@@ -3740,7 +3714,6 @@ void FSSolidFluidMixT::TakeNaturalBC(const ParameterListT& list)
 		    ExceptionT::BadInputValue(caller, "coordinate system must be Cartesian if (nsd != ndof) for card %d", i+1);
     }
 }
-
 
 //---------------------------------------------------------------------
 
@@ -4011,7 +3984,6 @@ void FSSolidFluidMixT::Form_fDefGradT_9x9_matrix(void)
 
 }
 
-
 void FSSolidFluidMixT::Form_deformation_gradient_inv_vector(void)
 {
     fDefGradInv_vector[0] = fDeformation_Gradient_Inverse(0,0);
@@ -4038,8 +4010,6 @@ void FSSolidFluidMixT::Form_effective_kirchhoff_stress_vector()
     fEffective_Kirchhoff_vector[7] = fEffective_Kirchhoff_tensor(1,2);
     fEffective_Kirchhoff_vector[8] = fEffective_Kirchhoff_tensor(2,2);
 }
-
-
 
 void FSSolidFluidMixT::Form_Varpi_temp_matrix()
 {
@@ -4900,8 +4870,6 @@ void FSSolidFluidMixT::Form_Im_Prim_temp_matrix()
     fIm_Prim_temp_matrix(8,8) = fEffective_Kirchhoff_tensor(2,2);
 }
 
-
-
 void FSSolidFluidMixT::Extract_six_values_from_symmetric_tensor(const dMatrixT &fTensor,dArrayT& fTemp_six_values)
 {
     fTemp_six_values[0]=fTensor(0,0);
@@ -5300,7 +5268,6 @@ void FSSolidFluidMixT::Form_Imath_temp_matrix(void)
     }
 }
 
-
 void FSSolidFluidMixT::Compute_norm_of_array(double& norm,const LocalArrayT& B)
 {
     int index = 0;
@@ -5312,8 +5279,6 @@ void FSSolidFluidMixT::Compute_norm_of_array(double& norm,const LocalArrayT& B)
     }
     norm = sqrt(sum);
 }
-
-
 
 void FSSolidFluidMixT::Form_a_f_matrix()
 {

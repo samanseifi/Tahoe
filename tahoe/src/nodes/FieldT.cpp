@@ -548,7 +548,7 @@ void FieldT::AssembleUpdate(const dArrayT& update)
 		/* next */
 		p++;
 	}
-#pragma message("FieldT -- Needs FBC controllers too?")
+// TODO: FieldT -- Needs FBC controllers too?
 	/* KBC controllers */
 	for (int i = 0; i < fKBC_Controllers.Length(); i++)
 		fKBC_Controllers[i]->Update(update);

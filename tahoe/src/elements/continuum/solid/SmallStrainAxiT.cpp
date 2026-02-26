@@ -296,7 +296,7 @@ void SmallStrainAxiT::SetGlobalShape(void)
 /* compute mean shape function gradient, Hughes (4.5.23) */
 void SmallStrainAxiT::SetMeanGradient(dArray2DT& mean_gradient) const
 {
-#pragma message("correct integration volume")
+// TODO: correct integration volume
 
 	int nip = NumIP();
 	const double* det = fShapes->IPDets();

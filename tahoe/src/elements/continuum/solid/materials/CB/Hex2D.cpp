@@ -13,7 +13,7 @@
 #include "HarmonicPairT.h"
 #include "LennardJonesPairT.h"
 #else
-#pragma message("Hex2D requires PARTICLE_ELEMENT")
+// TODO: Hex2D requires PARTICLE_ELEMENT
 #error "Hex2D requires PARTICLE_ELEMENT"
 #endif
 

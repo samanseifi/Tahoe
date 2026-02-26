@@ -138,8 +138,7 @@ void MFGPElementT::Equations(AutoArrayT<const iArray2DT*>& eq_1,
 	}
 	else
 	{
-#pragma message("correct initialization for staggered solution")
-	
+// TODO: correct initialization for staggered solution
 		/* ElementBaseT handles equation array for displacements */
 		if (ElementSupport().CurrentGroup() == fDispl->Group())
 			ElementBaseT::Equations(eq_1, eq_2);

@@ -96,7 +96,6 @@ void APS_V_kappa_gpT::Form_RHS_F_int ( dArrayT &F_int )
 
 //=== Private =========================================================
 
-
 void APS_V_kappa_gpT::Form_C_List (APS_MaterialT *APS_Matl)
 {
 	C[kMu]    	 		= APS_Matl -> Retrieve ( APS_MatlT::kMu 			);
@@ -121,7 +120,6 @@ void APS_V_kappa_gpT::Form_C_List (APS_MaterialT *APS_Matl)
 	C[ksmall]			= 1.0e-8; 
 }
 
-
 void APS_V_kappa_gpT::Form_V_S_Lists (  APS_VariableT &npt, APS_VariableT &n )
 {
 	// get state variables at times np1 and n
@@ -135,7 +133,7 @@ void APS_V_kappa_gpT::Form_V_S_Lists (  APS_VariableT &npt, APS_VariableT &n )
 	V[kgammap_n] = n.Get ( APS::kgammap );
 	B_gradgammap[kgrad_gammap] = npt.Get ( APS::kgrad_gammap );
 	
-	#pragma message("APS_V_kappa_gpT::Form_V_S_Lists: are these grads what I think they are? ")
+	// TODO: APS_V_kappa_gpT::Form_V_S_Lists: are these grads what I think they are?
 	S[kgammap_curl] = B_gradgammap[kgrad_gammap](1,0)-B_gradgammap[kgrad_gammap](0,1);
 	// output mag of curl in out of plane direction
 	V_out[kstressstate](2) = S[kgammap_curl];
@@ -375,7 +373,6 @@ void APS_V_kappa_gpT::Form_V_S_Lists (  APS_VariableT &npt, APS_VariableT &n )
 	
 }
 
-
 		
 void APS_V_kappa_gpT::Form_VB_List (void)
 {					
@@ -532,7 +529,6 @@ void APS_V_kappa_gpT::Form_VB_List (void)
  		
 }
 
-
 void APS_V_kappa_gpT::Form_B_List (void)
 {
  		B_d[kBmvgam1d].Outer( V[km1_bar], VB_d[kVdelgam1d] );
@@ -542,7 +538,6 @@ void APS_V_kappa_gpT::Form_B_List (void)
  		B_eps[kBmvgam2eps].Outer( V[km2_bar], VB_eps[kVdelgam2eps] );
  		B_eps[kBmvgam3eps].Outer( V[km3_bar], VB_eps[kVdelgam3eps] );		
 }
-
 
 //##############################################################################################
 
@@ -577,5 +572,4 @@ void APS_V_kappa_gpT::Get ( StringT &Name, FEA_dScalarT &scalar )
 	else
 		cout << " ...ERROR: APS_V_kappa_gpT::Get() >> Unknown scalar '"<<Name<<"' requested. \n";
 }
-
 

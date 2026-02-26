@@ -39,7 +39,7 @@ void APS_VariableT::Delete_Vars	( void )
 	for (int i=0; i<n_vars; i++) 
 		fVars_vector[i].FEA_Delete(); // ArrayT checks if fLength=0 before deleting
 #endif
-#pragma message("APS_VariableT::Delete_Vars: fVars[i] is a FEA_dVectorT which has no FEA_Delete()")
+// TODO: APS_VariableT::Delete_Vars: fVars[i] is a FEA_dVectorT which has no FEA_Delete()
 }
 
 //----------------------------------------------------
@@ -106,7 +106,6 @@ const FEA_dMatrixT& APS_VariableT::Get(APS::VarT_matrix variable)
   return fVars_matrix[variable];
 } 
 
-
 //---------------------------------------------------------------------
 /** Compute and store ... : recursive routine */ 
 void APS_VariableT::Allocate_and_Compute_Variables(APS::VarT_vector kVariable)
@@ -132,7 +131,6 @@ void APS_VariableT::Allocate_and_Compute_Variables(APS::VarT_vector kVariable)
     }
 }
 
-
 //---------------------------------------------------------------------
 /** Compute and store ... : recursive routine */ 
 void APS_VariableT::Allocate_and_Compute_Variables(APS::VarT_matrix kVariable)
@@ -157,7 +155,6 @@ void APS_VariableT::Allocate_and_Compute_Variables(APS::VarT_matrix kVariable)
 				break;
     }
 }
-
 
 //---------------------------------------------------------------------
 
@@ -187,7 +184,6 @@ void APS_VariableT::operator +=  (const double &a)
 for (int i=0; i<n_vars_vector; i++) fVars_vector[i] += a;
 for (int i=0; i<n_vars_matrix; i++) fVars_matrix[i] += a;
 };
-
 
 //---------------------------------------------------------------------
 

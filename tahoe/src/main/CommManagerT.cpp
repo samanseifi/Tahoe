@@ -350,7 +350,7 @@ void CommManagerT::Configure(void)
 		dArray2DT new_curr_coords;
 		nVariArray2DT<double> new_curr_coords_man;
 
-#pragma message("reset grid dimensions?")
+// TODO: reset grid dimensions?
 #if 0
 if (!fFirstConfigure && reset grid dimensions?)
 	GetProcessorBounds(const dArray2DT& coords, dArray2DT& bounds, iArray2DT& adjacent_ID)

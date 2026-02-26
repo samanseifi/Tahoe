@@ -10,7 +10,6 @@
 
 using namespace Tahoe;
 
-
 /* constructor */
 APS_AssemblyT::APS_AssemblyT(const ElementSupportT& support):
 	ElementBaseT(support), //pass the displacement field to the base class
@@ -41,7 +40,6 @@ APS_AssemblyT::APS_AssemblyT(const ElementSupportT& support):
 	SetName("antiplane_shear_grad_plast");
 }
 
-
 /* destructor */
 APS_AssemblyT::~APS_AssemblyT(void) 
 {  
@@ -60,7 +58,6 @@ APS_AssemblyT::~APS_AssemblyT(void)
 	}
 
 }
-
 
 void APS_AssemblyT::Echo_Input_Data(void) {
 
@@ -99,7 +96,6 @@ void APS_AssemblyT::Echo_Input_Data(void) {
 	cout << "fMaterial_Data[kkappa0_3] "			<< fMaterial_Data[kkappa0_3]	<< endl;
 	
 }
-
 
 //---------------------------------------------------------------------
 
@@ -163,8 +159,7 @@ void APS_AssemblyT::Equations(AutoArrayT<const iArray2DT*>& eq_d,
 	}
 	else
 	{
-#pragma message("correct initialization for staggered solution")
-	
+// TODO: correct initialization for staggered solution
 		/* ElementBaseT handles equation array for displacements */
 		if (ElementSupport().CurrentGroup() == fDispl->Group())
 			ElementBaseT::Equations(eq_d, eq_eps);
@@ -189,7 +184,6 @@ void APS_AssemblyT::Equations(AutoArrayT<const iArray2DT*>& eq_d,
 		fDispl->SetLocalEqnos(faces, eqnos);
 	}
 }
-
 
 //---------------------------------------------------------------------
 
@@ -316,20 +310,17 @@ void APS_AssemblyT::CloseStep(void)
 	fiState = fiState_new;
 }
 
-
 void APS_AssemblyT::SendOutput(int kincode)
 {
 #pragma unused(kincode)
 //not implemented
 }
 
-
 /* form of tangent matrix */
 GlobalT::SystemTypeT APS_AssemblyT::TangentType(void) const
 {
 	return GlobalT::kNonSymmetric; 
 }
-
 
 //#############################################################################
 //#############################################################################
@@ -559,7 +550,7 @@ void APS_AssemblyT::RegisterOutput(void)
 		n_labels[count++] = svlabels2D[i];
 
 	/* set output specifier */
-	#pragma message("APS_AssemblyT::RegisterOutput: is this right? ")
+	// TODO: APS_AssemblyT::RegisterOutput: is this right?
 	OutputSetT output_set(fGeometryCode_displ, block_ID, fConnectivities, n_labels, e_labels, false);
 		
 	/* register and get output ID */
@@ -641,15 +632,12 @@ void APS_AssemblyT::WriteOutput(void)
 
 }	
 
-
-
 //---------------------------------------------------------------------
 
 void 	APS_AssemblyT::Get_Fd_ext ( dArrayT &fFd_ext )
 {
 	fFd_ext = 0.0;
 }
-
 
 //#############################################################################
 //#############################################################################
@@ -984,8 +972,6 @@ void APS_AssemblyT::RHSDriver_monolithic(void)
 	}	
 }
 
-
-
 /* form global shape function derivatives */
 void APS_AssemblyT::SetGlobalShape(void)
 {
@@ -996,8 +982,6 @@ void APS_AssemblyT::SetGlobalShape(void)
 	fShapes_displ->SetDerivatives();
 	fShapes_plast->SetDerivatives();
 }
-
-
 
 /* describe the parameters needed by the interface */
 void APS_AssemblyT::DefineParameters(ParameterListT& list) const
@@ -1104,7 +1088,6 @@ void APS_AssemblyT::DefineParameters(ParameterListT& list) const
  	*/
 
 }
-
 
 /* accept parameter list */
 void APS_AssemblyT::TakeParameterList(const ParameterListT& list)
@@ -1424,8 +1407,6 @@ void APS_AssemblyT::TakeParameterList(const ParameterListT& list)
 	TakeNaturalBC(list);
 }
 
-
-
 /* information about subordinate parameter lists */
 void APS_AssemblyT::DefineSubs(SubListT& sub_list) const
 {
@@ -1479,8 +1460,6 @@ ParameterInterfaceT* APS_AssemblyT::NewSub(const StringT& name) const
 		return ElementBaseT::NewSub(name);
 }
 
-
-
 //##################################################################################
 //###### Traction B.C. Methods (Cut and Paste from ContinuumElementT) ##############
 //##################################################################################
@@ -1532,8 +1511,6 @@ void APS_AssemblyT::SetTractionBC(void)
 	/* set flag */
 	fTractionBCSet = 1;
 }
-
-
 
 /* extract natural boundary condition information */
 void APS_AssemblyT::TakeNaturalBC(const ParameterListT& list)
@@ -1628,8 +1605,7 @@ void APS_AssemblyT::TakeNaturalBC(const ParameterListT& list)
 				}
 			}
 	    }
-#pragma message("OK with empty side sets?")
-
+// TODO: OK with empty side sets?
 		/* allocate all traction BC cards */
 	    fTractionList.Dimension(tot_num_sides);
 
@@ -1665,7 +1641,6 @@ void APS_AssemblyT::TakeNaturalBC(const ParameterListT& list)
 					ExceptionT::BadInputValue(caller, "coordinate system must be Cartesian if (nsd != ndof) for card %d", i+1);
 	}
 }
-
 
 //---------------------------------------------------------------------
 

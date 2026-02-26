@@ -46,8 +46,7 @@ void NLHHTalpha::FormNodalForce(NodeManagerT* nodeboss) const
 	/* form nodal contribution to RHS */
 //	nodeboss->FormRHS();
 #pragma unused(nodeboss)
-#pragma message("NLHHTalpha::FormNodalForce: need this???")
-	
+// TODO: NLHHTalpha::FormNodalForce: need this???
 	/* reset the time */
 	fTimeBoss->ResetTime();
 }

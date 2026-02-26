@@ -384,7 +384,6 @@ ExceptionT::GeneralFail("APS_V_AssemblyT::Initialize", "out of date");
 		Render_Vector[e].Construct ( 1, n_ip_plast, knumstrain+knumstress+knum_d_state );	
 	}
 
-
 	/* streams */
 	ifstreamT& in  = ElementSupport().Input();
 	ofstreamT& out = ElementSupport().Output();
@@ -468,8 +467,7 @@ void APS_V_AssemblyT::Equations(AutoArrayT<const iArray2DT*>& eq_d,
 	}
 	else
 	{
-#pragma message("correct initialization for staggered solution")
-	
+// TODO: correct initialization for staggered solution
 		/* ElementBaseT handles equation array for the coarse scale */
 		if (ElementSupport().CurrentGroup() == fDispl.Group())
 			ElementBaseT::Equations(eq_d, eq_eps);
@@ -494,7 +492,6 @@ void APS_V_AssemblyT::Equations(AutoArrayT<const iArray2DT*>& eq_d,
 		fDispl.SetLocalEqnos(faces, eqnos);
 	}
 }
-
 
 //---------------------------------------------------------------------
 
@@ -858,7 +855,7 @@ void APS_V_AssemblyT::RegisterOutput(void)
 		n_labels[count++] = svlabels2D[i];
 
 	/* set output specifier */
-	#pragma message("APS_V_AssemblyT::RegisterOutput: is this right? ")
+	// TODO: APS_V_AssemblyT::RegisterOutput: is this right?
 	OutputSetT output_set(fGeometryCode_displ, block_ID, fConnectivities, n_labels, e_labels, false);
 		
 	/* register and get output ID */
@@ -940,15 +937,12 @@ void APS_V_AssemblyT::WriteOutput(void)
 
 }	
 
-
-
 //---------------------------------------------------------------------
 
 void 	APS_V_AssemblyT::Get_Fd_ext ( dArrayT &fFd_ext )
 {
 	fFd_ext = 0.0;
 }
-
 
 //#############################################################################
 //#############################################################################

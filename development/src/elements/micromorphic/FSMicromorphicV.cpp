@@ -48,7 +48,6 @@ FSMicromorphic2DT::~FSMicromorphic2DT(void)
     delete fShapes_micro;
 }
 
-
 void FSMicromorphic2DT::Echo_Input_Data(void) {
 
     cout << "#######################################################" << endl; 
@@ -72,7 +71,6 @@ void FSMicromorphic2DT::Echo_Input_Data(void) {
 //    cout << "fIntegration_Params[kBeta] " 		<< fIntegration_Params[kBeta] 	<< endl;
 //    cout << "fIntegration_Params[kGamma] " 		<< fIntegration_Params[kGamma] 	<< endl;
 }
-
 
 //---------------------------------------------------------------------
 
@@ -137,8 +135,7 @@ void FSMicromorphic2DT::Equations(AutoArrayT<const iArray2DT*>& eq_d,
     else
 	/* doing staggered */
     {
-#pragma message("initialization for staggered solution needs to be corrected")
-	
+// TODO: initialization for staggered solution needs to be corrected
 		/* ElementBaseT handles equation array for displacements */
 		if (ElementSupport().CurrentGroup() == fDispl->Group())
 		    ElementBaseT::Equations(eq_d, eq_phi);
@@ -165,7 +162,6 @@ void FSMicromorphic2DT::Equations(AutoArrayT<const iArray2DT*>& eq_d,
     }
     */
 }
-
 
 //---------------------------------------------------------------------
 
@@ -210,14 +206,12 @@ bool FSMicromorphic2DT::InGroup(int group) const
 
 //---------------------------------------------------------------------
 
-
 /* initialize/finalize step */
 void FSMicromorphic2DT::InitStep(void)
 {
 	/* inherited */
 	ElementBaseT::InitStep();
 }
-
 
 /* close current time increment */
 void FSMicromorphic2DT::CloseStep(void)
@@ -337,7 +331,6 @@ void FSMicromorphic2DT::CloseStep(void)
 //    fs_micromorph2D_out	<< endl << "**********************************************************************************************" << endl;
 }
 
-
 /* resets to the last converged solution */
 /*
 GlobalT::RelaxCodeT FSMicromorphic2DT::ResetStep(void)
@@ -349,7 +342,7 @@ GlobalT::RelaxCodeT FSMicromorphic2DT::ResetStep(void)
 
 	// update material internal variables 
 	//needs to be implemented
-#pragma message("reseting internal variables not implemented")	
+// TODO: reseting internal variables not implemented
 	//ExceptionT::GeneralFail(caller, "reseting internal variables not implemented");
 
 	return relax;
@@ -367,20 +360,18 @@ GlobalT::RelaxCodeT FSMicromorphic2DT::RelaxSystem(void)
 
 	// loop over materials 
 	//needs to be implemented
-#pragma message("relax step for materials not implemented")	
+// TODO: relax step for materials not implemented
 	//ExceptionT::GeneralFail(caller, "relax step for materials not implemented");
 
 	return relax;
 }
 */
 
-
 void FSMicromorphic2DT::SendOutput(int kincode)
 {
 #pragma unused(kincode)
 //not implemented
 }
-
 
 /* return geometry and number of nodes on each facet */
 void FSMicromorphic2DT::FacetGeometry(ArrayT<GeometryT::CodeT>& facet_geometry, 
@@ -389,7 +380,6 @@ void FSMicromorphic2DT::FacetGeometry(ArrayT<GeometryT::CodeT>& facet_geometry,
 	/* from integration domain */
 	ShapeFunctionDispl().FacetGeometry(facet_geometry, num_facet_nodes);
 }
-
 
 /* form of tangent matrix */
 GlobalT::SystemTypeT FSMicromorphic2DT::TangentType(void) const
@@ -423,8 +413,6 @@ void FSMicromorphic2DT::InitialCondition(void)
 	/* inherited */
 	ElementBaseT::InitialCondition();
 }
-
-
 
 //#############################################################################
 //#############################################################################
@@ -667,7 +655,7 @@ void FSMicromorphic2DT::RegisterOutput(void)
 	n_labels[count++] = svlabels3D[i];
 
     /* set output specifier */
-#pragma message("FSMicromorphic2DT::RegisterOutput: is this right? ")
+// TODO: FSMicromorphic2DT::RegisterOutput: is this right?
     OutputSetT output_set(fGeometryCode_displ, block_ID, fConnectivities, n_labels, e_labels, false);
 		
     /* register and get output ID */
@@ -748,7 +736,6 @@ void FSMicromorphic2DT::WriteOutput(void)
     ElementSupport().WriteOutput(fOutputID, n_values, fIPVariable);
 }	
 
-
 //#############################################################################
 //#############################################################################
 //#############################################################################
@@ -767,7 +754,7 @@ void FSMicromorphic2DT::WriteOutput(void)
 void FSMicromorphic2DT::RHSDriver_staggered(void)
 {
 	const char caller[] = "FSMicromorphic2DT::RHSDriver_staggered";
-#pragma message("staggered solution not implemented")
+// TODO: staggered solution not implemented
 }
 
 //---------------------------------------------------------------------
@@ -911,7 +898,6 @@ void FSMicromorphic2DT::RHSDriver_monolithic(void)
 	}
 */
 
-
 	/* print solid acceleration at current step (u_dotdot)*/
 /*	fs_micromorph2D_out	<<"nodal solid velocity at current step(u_dotdot)"<< endl ;
 	for (int i=0; i<n_en_displ; i++)
@@ -969,7 +955,6 @@ void FSMicromorphic2DT::RHSDriver_monolithic(void)
 	    fs_micromorph2D_out	<< Phi_dot_n(i,0) << endl;
 	}
 */
-
 
 	/* print second derivative of micro-displacement-gradient at current step (micro_dotdot)*/
 /*	fs_micromorph2D_out	<<"second derivative of nodal micro-displacement-gradient at current step(micro_dotdot)"<< endl ;
@@ -1472,8 +1457,6 @@ void FSMicromorphic2DT::RHSDriver_monolithic(void)
     }
 }
 
-
-
 /* form global shape function derivatives */
 void FSMicromorphic2DT::SetGlobalShape(void)
 {
@@ -1484,8 +1467,6 @@ void FSMicromorphic2DT::SetGlobalShape(void)
     fShapes_displ->SetDerivatives_DN_DDN();
     fShapes_micro->SetDerivatives();
 }
-
-
 
 /* describe the parameters needed by the interface */
 void FSMicromorphic2DT::DefineParameters(ParameterListT& list) const
@@ -1534,7 +1515,6 @@ void FSMicromorphic2DT::DefineParameters(ParameterListT& list) const
 //    list.AddParameter(newGamma, "gamma");
 
 }
-
 
 /* accept parameter list */
 void FSMicromorphic2DT::TakeParameterList(const ParameterListT& list)
@@ -1700,7 +1680,6 @@ void FSMicromorphic2DT::TakeParameterList(const ParameterListT& list)
     //ElementSupport().RegisterCoordinates(fInitCoords_displ);
     fDispl->RegisterLocal(u);
     fDispl->RegisterLocal(u_n);
-
 
     if (fIntegrator->Order() == 1)
     {
@@ -1896,7 +1875,6 @@ void FSMicromorphic2DT::TakeParameterList(const ParameterListT& list)
 //    fs_micromorph2D_out.open("fs_micromorph2D.info");
 }
 
-
 /* information about subordinate parameter lists */
 void FSMicromorphic2DT::DefineSubs(SubListT& sub_list) const
 {
@@ -1910,16 +1888,12 @@ void FSMicromorphic2DT::DefineSubs(SubListT& sub_list) const
     sub_list.AddSub("micromorphic_FS_2D_natural_bc", ParameterListT::Any);
 }
 
-
-
 /* return the description of the given inline subordinate parameter list */
 void FSMicromorphic2DT::DefineInlineSub(const StringT& name, ParameterListT::ListOrderT& order, 
 				       SubListT& sub_lists) const
 {
     ElementBaseT::DefineInlineSub(name, order, sub_lists);
 }
-
-
 
 /* a pointer to the ParameterInterfaceT of the given subordinate */
 ParameterInterfaceT* FSMicromorphic2DT::NewSub(const StringT& name) const
@@ -1953,8 +1927,6 @@ ParameterInterfaceT* FSMicromorphic2DT::NewSub(const StringT& name) const
     else /* inherited */
 	return ElementBaseT::NewSub(name);
 }
-
-
 
 //##################################################################################
 //###### Traction B.C. Methods (Cut and Paste from ContinuumElementT) ##############
@@ -2007,8 +1979,6 @@ void FSMicromorphic2DT::SetTractionBC(void)
     /* set flag */
     fTractionBCSet = 1;
 }
-
-
 
 /* extract natural boundary condition information */
 void FSMicromorphic2DT::TakeNaturalBC(const ParameterListT& list)
@@ -2103,8 +2073,7 @@ void FSMicromorphic2DT::TakeNaturalBC(const ParameterListT& list)
 		}
 	    }
 	}
-#pragma message("OK with empty side sets?")
-
+// TODO: OK with empty side sets?
 	/* allocate all traction BC cards */
 	fTractionList.Dimension(tot_num_sides);
 
@@ -2140,7 +2109,6 @@ void FSMicromorphic2DT::TakeNaturalBC(const ParameterListT& list)
 		    ExceptionT::BadInputValue(caller, "coordinate system must be Cartesian if (nsd != ndof) for card %d", i+1);
     }
 }
-
 
 //---------------------------------------------------------------------
 
@@ -2324,7 +2292,6 @@ if (n_sd==2)
 		fShapeDisplGrad(0,i*2) = fShapeDisplGrad_temp(0,i);
 		fShapeDisplGrad(1,1+i*2) = fShapeDisplGrad_temp(0,i);
 
-
 		fShapeDisplGrad(2,i*2) = fShapeDisplGrad_temp(1,i);
 		fShapeDisplGrad(3,1+i*2) = fShapeDisplGrad_temp(1,i);
     }
@@ -2465,7 +2432,6 @@ void FSMicromorphic2DT::Form_fDefGradT_9x9_matrix(void)
     fDefGradT_9x9_matrix(8,7) = fDeformation_Gradient(1,2);
     fDefGradT_9x9_matrix(8,8) = fDeformation_Gradient(2,2);
 }
-
 
 void FSMicromorphic2DT::Form_deformation_gradient_inv_vector(void)
 {
@@ -2646,8 +2612,6 @@ void FSMicromorphic2DT::Form_Im_temp_matrix()
 	}
 }
 
-
-
 void FSMicromorphic2DT::Form_Hbar_temp_matrix()
 {
  
@@ -2708,9 +2672,7 @@ void FSMicromorphic2DT::Form_Hbar_temp_matrix()
     fHbar_temp_matrix(8,8) = fLeft_Cauchy_Green_tensor(2,2);
 	}
 
-
 }
-
 
 void FSMicromorphic2DT::Form_Ell_temp_matrix()
 {
@@ -2772,9 +2734,7 @@ else
 
 }
 
-
 }
-
 
 void FSMicromorphic2DT::Form_C_matrix(const double& J_Prim)
 {
@@ -3365,9 +3325,6 @@ void FSMicromorphic2DT::Form_I_ijkl_matrix(void)
 		    
 		}
 }
-
-
-
 
 void FSMicromorphic2DT::Compute_norm_of_array(double& norm,const LocalArrayT& B)
 {

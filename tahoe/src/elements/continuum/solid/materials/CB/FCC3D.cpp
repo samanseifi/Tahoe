@@ -11,7 +11,7 @@
 #include "HarmonicPairT.h"
 #include "LennardJonesPairT.h"
 #else
-#pragma message("FCC3D requires PARTICLE_ELEMENT")
+// TODO: FCC3D requires PARTICLE_ELEMENT
 #error "FCC3D requires PARTICLE_ELEMENT"
 #endif
 

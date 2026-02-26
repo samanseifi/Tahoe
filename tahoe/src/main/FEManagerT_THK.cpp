@@ -33,7 +33,6 @@
 *		7)	Farrell DE, EG Karpov, WK Liu. "Algorithms for Bridging Scale Method Parameters", Computational Mechanics, in print DOI: 10.1007/s00466-007-0156-z (2007)
 */
 
-
 using namespace Tahoe;
 
 const double tol = 1.0e-3;   // for neighbor searching tolerance
@@ -654,7 +653,7 @@ void FEManagerT_THK::DoNeighSearch2D(void)
 // perform neighbor search for THK boundary atoms, 3D 
 void FEManagerT_THK::DoNeighSearch3D(void)
 {
-#pragma message("This search is still not very general... figure out better way")
+// TODO: This search is still not very general... figure out better way
 	// This neighbor search curently assumes that the user specifies a normal along one of the coordinate directions
 	// So, based on the 2D analogy, it will set up the appropriate triad of lattice vectors to ensure the atoms are 
 	// found correctly (basically, assumes that _only_ one of the entries in the normal vector is non-zero)
