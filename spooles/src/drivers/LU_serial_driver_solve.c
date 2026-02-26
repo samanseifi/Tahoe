@@ -84,8 +84,7 @@ if ( (msgFile = fopen(message_file, "a")) == NULL )
 */
 
 if (!pLU_dat) {
-	fprintf(stderr, "\n SPOOLES:LU_serial_driver_solve: pLU_dat is NULL\n",
-	message_file) ;
+	fprintf(stderr, "\n SPOOLES:LU_serial_driver_solve: pLU_dat is NULL\n") ;
    	return -1;
 }
 else {

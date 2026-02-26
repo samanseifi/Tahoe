@@ -519,7 +519,7 @@ fprintf(fp, "\n rowind = %p, colind = %p, entries = %p",
         mtx->rowind, mtx->colind, mtx->entries) ;
 fprintf(fp, ", base = %p", DV_entries(&mtx->wrkDV)) ;
 fprintf(fp, 
-       "\n rowind - base = %d, colind - base = %d, entries - base = %d",
+       "\n rowind - base = %td, colind - base = %td, entries - base = %td",
        mtx->rowind - (int *) DV_entries(&mtx->wrkDV),
        mtx->colind - (int *) DV_entries(&mtx->wrkDV),
        mtx->entries - DV_entries(&mtx->wrkDV)) ;

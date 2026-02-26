@@ -58,7 +58,7 @@ case SPOOLES_REAL :
    } else {
       fprintf(stderr, 
               "\n fatal error in Chv_nbytesNeeded()"
-              "\n sizeof(int) = %d, sizeof(double) = %d",
+              "\n sizeof(int) = %zu, sizeof(double) = %zu",
               sizeof(int), sizeof(double)) ;
       exit(-1) ;
    }
@@ -90,7 +90,7 @@ case SPOOLES_COMPLEX :
    } else {
       fprintf(stderr, 
               "\n fatal error in Chv_nbytesNeeded()"
-              "\n sizeof(int) = %d, sizeof(double) = %d",
+              "\n sizeof(int) = %zu, sizeof(double) = %zu",
               sizeof(int), sizeof(double)) ;
       exit(-1) ;
    }

@@ -33,18 +33,18 @@ if ( (count) > 0 ) { \
    if ( (ptr = (type *)malloc((unsigned long)((count)*sizeof(type)))) \
         == NULL ) {\
       fprintf(stderr, \
-              "\n ALLOCATE failure : bytes %d, line %d, file %s", \
+              "\n ALLOCATE failure : bytes %zu, line %d, file %s", \
               (count)*sizeof(type), __LINE__, __FILE__) ; \
       exit(-1) ; } \
    else if ( MEMORY_DEBUG > 0 ) { \
       fprintf(stderr, \
-              "\n ALLOCATE : address %p, bytes %d, line %d, file %s", \
+              "\n ALLOCATE : address %p, bytes %zu, line %d, file %s", \
               ptr, (count)*sizeof(type), __LINE__, __FILE__) ; } } \
 else if ( (count) == 0 ) { \
    ptr = NULL ; } \
 else { \
    fprintf(stderr, \
-           "\n ALLOCATE error : bytes %d, line %d, file %s", \
+           "\n ALLOCATE error : bytes %zu, line %d, file %s", \
            (count)*sizeof(type), __LINE__, __FILE__) ; \
    exit(-1) ; }
 /*

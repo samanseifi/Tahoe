@@ -107,7 +107,7 @@ if ( sizeof(int) == sizeof(double) ) {
    nbytes = ((nint + 1)/2 + ndouble)*sizeof(double) ;
 } else {
    fprintf(stderr, "\n error in SubMtx_nbytesNeeded(%d,%d)"
-           "\n sizeof(int) = %d, sizeof(double) = %d",
+           "\n sizeof(int) = %zu, sizeof(double) = %zu",
            nrow, ncol, sizeof(int), sizeof(double)) ;
    exit(-1) ;
 }
