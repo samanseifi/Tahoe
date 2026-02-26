@@ -23,7 +23,18 @@ cmake --build build -j$(nproc)
 | `TAHOE_F2C` | `ON` | Fortran-to-C converter (ABAQUS UMAT support) |
 | `TAHOE_DEV` | `ON` | Research/development element module |
 | `TAHOE_MPI` | `OFF` | MPI parallelization (requires system MPI) |
-| `TAHOE_SEACAS` | `OFF` | ExodusII mesh I/O (requires ACCESS/SEACAS) |
+| `TAHOE_SEACAS` | `OFF` | ExodusII mesh I/O — auto-detects system packages or `ACCESS` tree (see below) |
+| `TAHOE_TESTS` | `ON` | Build Google Test unit test suite |
+
+#### Enabling ExodusII (SEACAS)
+
+Two discovery modes are tried automatically when `-DTAHOE_SEACAS=ON`:
+
+1. **System packages** (Ubuntu/Debian): install `libexodusii-dev libnetcdf-dev`, then:
+   ```bash
+   cmake -B build -DTAHOE_SEACAS=ON
+   ```
+2. **SEACAS/ACCESS tree**: set the `ACCESS` environment variable or pass `-DACCESS_PATH=...`.
 
 ---
 
@@ -121,6 +132,29 @@ Bundled expat library. Parses Tahoe's XML input format (validated against `tahoe
 ### `benchmark_XML/` — Regression Tests
 18+ benchmark problems covering elastostatics, elastodynamics, diffusion, contact, cohesive fracture, particle methods, meshfree analysis, and time integrator verification. Run through `MakeCSE`.
 
+See `benchmark_XML/ReadMe` for detailed run instructions. Quick start (from build root):
+```bash
+cd benchmark_XML/level.0
+printf "run.batch\nquit\n" | ../../build/bin/tahoe   # run simulations
+printf "run.batch\nquit\n" | ../../build/bin/compare  # compare vs reference
+```
+
+#### level.0 Status (February 2026, with SEACAS enabled)
+
+| Result | Count | Notes |
+|--------|-------|-------|
+| **PASS** | **144** | Core elastostatics, elastodynamics, meshfree, contact, cohesive |
+| FAIL — bridging scale | 51 | Requires `BRIDGING_ELEMENT` compile flag (not yet supported) |
+| FAIL — ExodusII format mismatch | 13 | Tests write `.exo` output; reference files are in TahoeII `.run/.geo` format; compare tool cannot diff ExodusII |
+| FAIL — adhesion module | 4 | Module not compiled in standard build |
+| FAIL — surface Cauchy–Born | 5 | Surface CB validation tests |
+| FAIL — Q1P0 enhanced strain | 3 | Coupled voltage-field formulation not compiled |
+| FAIL — parallel decompose/join | 2 | Serial build; `inputoutput/square.xml` decomposed-join convergence |
+| FAIL — other | 5 | CSE, tsurf, diffusion (non-ExodusII) |
+| **Total** | **227** | |
+
+> **Note on ExodusII failures**: enabling `TAHOE_SEACAS` allows tests that write ExodusII (`.exo`) output to run, but the benchmark reference files in `benchmark/` were generated with TahoeII (`.run`/`.geo`) format. The `compare` tool cannot read `.exo` files, so those tests report FAIL even though the physics result is correct. Regenerating the reference files with SEACAS enabled would resolve this.
+
 ---
 
 ## Input Format
@@ -140,4 +174,4 @@ See the `LICENSE` file. Tahoe was developed at Sandia National Laboratories unde
 | Date | Author | Notes |
 |------|--------|-------|
 | 2014 | Regents of the University of Colorado | Tahoe 2.1 release |
-| February 2026 | Saman Seifi (Boston University) | CMake modernization; C++11 two-phase lookup fixes; compiler warning cleanup (`-Wwrite-strings`, `-Wformat`, `-fpermissive`); `#pragma message` cleanup |
+| February 2026 | Saman Seifi (Boston University) | CMake modernization; C++11 two-phase lookup fixes; compiler warning cleanup (`-fpermissive`); ExodusII/SEACAS enabled via system packages; Google Test unit test suite (36 tests); GitHub Actions CI/CD pipeline; fix missing `return` in `PotentialT::MeanEnergy` |
