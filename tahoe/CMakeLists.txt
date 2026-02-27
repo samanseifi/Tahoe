@@ -50,10 +50,6 @@ if(TAHOE_SPOOLES)
     target_link_libraries(libtahoe PUBLIC tahoe_spooles)
 endif()
 
-if(TAHOE_MUMPS)
-    target_link_libraries(libtahoe PUBLIC tahoe_mumps)
-endif()
-
 if(TAHOE_F2C)
     target_link_libraries(libtahoe PUBLIC tahoe_f2c)
 endif()
