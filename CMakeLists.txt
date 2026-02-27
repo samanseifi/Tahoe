@@ -101,11 +101,57 @@ if(TAHOE_F2C)
 endif()
 
 # ---------------------------------------------------------------------------
-# Optional: MPI
+# Optional: MPI  (requires system OpenMPI/MPICH — libopenmpi-dev / libmpich-dev)
+#
+# Portability note: conda installs its own MPI wrappers (mpicxx, mpicc) into
+# its bin/ which may appear first in PATH even when conda is not activated.
+# To avoid picking up the wrong MPI, we search /usr/bin and /usr/local/bin
+# explicitly before falling back to PATH.  The user can always override with
+#   cmake -DMPI_CXX_COMPILER=/path/to/mpicxx
 # ---------------------------------------------------------------------------
 if(TAHOE_MPI)
-    find_package(MPI REQUIRED COMPONENTS CXX)
+    # Search standard system locations FIRST (NO_DEFAULT_PATH bypasses PATH,
+    # so conda wrappers in PATH are ignored).  We FORCE-set the cache so that
+    # stale conda values from a previous configure run are overridden — unless
+    # the user has explicitly passed -DMPI_CXX_COMPILER=... on the command line
+    # (CMAKE_CACHE_ARGS or -D flags always take priority over FORCE inside the
+    # script because the user value is written before project() runs).
+    if(NOT MPI_CXX_COMPILER OR MPI_CXX_COMPILER MATCHES "conda|miniforge|anaconda")
+        find_program(_sys_mpicxx
+            NAMES mpicxx mpiCC mpi-cxx
+            HINTS /usr/bin /usr/local/bin /opt/local/bin
+            NO_DEFAULT_PATH
+            DOC "System MPI C++ wrapper (bypasses conda PATH entries)")
+        if(_sys_mpicxx)
+            set(MPI_CXX_COMPILER "${_sys_mpicxx}" CACHE FILEPATH
+                "MPI C++ compiler wrapper (auto-detected; override with -DMPI_CXX_COMPILER=...)" FORCE)
+        endif()
+        unset(_sys_mpicxx CACHE)
+    endif()
+    if(NOT MPI_C_COMPILER OR MPI_C_COMPILER MATCHES "conda|miniforge|anaconda")
+        find_program(_sys_mpicc
+            NAMES mpicc mpi-cc
+            HINTS /usr/bin /usr/local/bin /opt/local/bin
+            NO_DEFAULT_PATH)
+        if(_sys_mpicc)
+            set(MPI_C_COMPILER "${_sys_mpicc}" CACHE FILEPATH
+                "MPI C compiler wrapper (auto-detected)" FORCE)
+        endif()
+        unset(_sys_mpicc CACHE)
+    endif()
+
+    find_package(MPI REQUIRED COMPONENTS CXX C)
+
+    # Warn if a non-system wrapper slipped through (e.g. conda not deactivated)
+    if(MPI_CXX_COMPILER MATCHES "conda|miniforge|anaconda")
+        message(WARNING
+            "MPI wrapper looks like a conda install: ${MPI_CXX_COMPILER}\n"
+            "This may conflict with system SEACAS/HDF5 libraries.\n"
+            "Override: cmake -DMPI_CXX_COMPILER=/usr/bin/mpicxx")
+    endif()
+
     message(STATUS "Tahoe: MPI enabled  (${MPI_CXX_COMPILER})")
+    add_subdirectory(spoolesMPI)
 endif()
 
 # ---------------------------------------------------------------------------

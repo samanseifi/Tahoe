@@ -62,7 +62,8 @@ if(TAHOE_F2C)
 endif()
 
 if(TAHOE_MPI)
-    target_link_libraries(libtahoe PUBLIC MPI::MPI_CXX)
+    target_link_libraries(libtahoe PUBLIC MPI::MPI_CXX tahoe_spooles_mpi)
+    # __SPOOLES_MPI__ comes transitively from tahoe_spooles_mpi PUBLIC defines
 endif()
 
 if(TAHOE_SEACAS)

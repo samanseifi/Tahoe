@@ -23,7 +23,7 @@ cmake --build build -j$(nproc)
 | `TAHOE_SPOOLES_MT` | `OFF` | SPOOLES multithreaded solver — POSIX-thread parallel LU factorisation on a single node; no MPI required. Requires `TAHOE_SPOOLES=ON`. Use `<SPOOLES_MT_matrix num_threads="N" .../>` in XML (N ≥ 2). |
 | `TAHOE_F2C` | `ON` | Fortran-to-C converter (ABAQUS UMAT support) |
 | `TAHOE_DEV` | `ON` | Research/development element module |
-| `TAHOE_MPI` | `OFF` | MPI parallelization (requires system MPI) |
+| `TAHOE_MPI` | `OFF` | MPI parallelization — requires system OpenMPI (`libopenmpi-dev`). Automatically builds the bundled `spoolesMPI` distributed solver. CMake prefers system wrappers (`/usr/bin/mpicxx`) over conda-installed MPI; override with `-DMPI_CXX_COMPILER=...`. Run with `mpirun -np N tahoe -f input.xml`. |
 | `TAHOE_SEACAS` | `OFF` | ExodusII mesh I/O — auto-detects system packages or `ACCESS` tree (see below) |
 | `TAHOE_TESTS` | `ON` | Build Google Test unit test suite |
 
