@@ -20,6 +20,7 @@ cmake --build build -j$(nproc)
 |--------|---------|-------------|
 | `TAHOE_EXPAT` | `ON` | Bundled expat XML parser |
 | `TAHOE_SPOOLES` | `ON` | Bundled SPOOLES sparse direct solver |
+| `TAHOE_SPOOLES_MT` | `OFF` | SPOOLES multithreaded solver — POSIX-thread parallel LU factorisation on a single node; no MPI required. Requires `TAHOE_SPOOLES=ON`. Use `<SPOOLES_MT_matrix num_threads="N" .../>` in XML (N ≥ 2). |
 | `TAHOE_F2C` | `ON` | Fortran-to-C converter (ABAQUS UMAT support) |
 | `TAHOE_DEV` | `ON` | Research/development element module |
 | `TAHOE_MPI` | `OFF` | MPI parallelization (requires system MPI) |
