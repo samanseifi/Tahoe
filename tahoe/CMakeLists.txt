@@ -50,6 +50,13 @@ if(TAHOE_SPOOLES)
     target_link_libraries(libtahoe PUBLIC tahoe_spooles)
 endif()
 
+if(TAHOE_SPOOLES_MT)
+    # Pull in the MT library (which already links tahoe_spooles + Threads::Threads)
+    target_link_libraries(libtahoe PUBLIC tahoe_spooles_mt)
+    # Activate SPOOLESMatrixT_MT in SolverT.cpp and SPOOLESMatrixT_MT.cpp
+    target_compile_definitions(libtahoe PUBLIC __SPOOLES_MT__ __POSIX_THREADS__)
+endif()
+
 if(TAHOE_F2C)
     target_link_libraries(libtahoe PUBLIC tahoe_f2c)
 endif()

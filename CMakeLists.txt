@@ -72,6 +72,30 @@ if(TAHOE_SPOOLES)
     add_subdirectory(spooles)
 endif()
 
+# ---------------------------------------------------------------------------
+# Optional: SPOOLES multithreaded (single-node parallel factorisation)
+#
+# Adds a POSIX-threads parallel LU driver on top of the serial SPOOLES data
+# structures.  No MPI required — threads only.  Requires TAHOE_SPOOLES=ON.
+#
+# The serial SPOOLES library also needs __POSIX_THREADS__ so that its Lock
+# struct layout (pthread_mutex_t* vs void*) and Lock_init/lock/unlock match
+# what the MT code expects.  This is safe for the serial solver path because
+# the serial LU driver always calls SubMtxManager_init with NO_LOCK (0), so
+# Lock_init never actually allocates a mutex in the serial path.
+# ---------------------------------------------------------------------------
+option(TAHOE_SPOOLES_MT "Build SPOOLES multithreaded solver (requires TAHOE_SPOOLES)" OFF)
+
+if(TAHOE_SPOOLES_MT)
+    if(NOT TAHOE_SPOOLES)
+        message(FATAL_ERROR "TAHOE_SPOOLES_MT=ON requires TAHOE_SPOOLES=ON")
+    endif()
+    find_package(Threads REQUIRED)   # resolves to system -lpthread, not conda
+    target_compile_definitions(tahoe_spooles PUBLIC __POSIX_THREADS__)
+    add_subdirectory(spoolesMT)
+    message(STATUS "Tahoe: SPOOLES-MT enabled  (${CMAKE_THREAD_LIBS_INIT})")
+endif()
+
 if(TAHOE_F2C)
     add_subdirectory(f2c)
 endif()
