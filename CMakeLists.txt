@@ -23,6 +23,7 @@ option(TAHOE_F2C      "Use bundled F2C (Fortran-to-C for ABAQUS UMATs)"   ON)
 option(TAHOE_MPI      "Enable MPI parallelization (requires system MPI)"   OFF)
 option(TAHOE_SEACAS   "Enable SEACAS/ExodusII mesh I/O (requires ACCESS)"  OFF)
 option(TAHOE_DEV      "Build the research/development element module"      ON)
+option(TAHOE_MUMPS    "Use system MUMPS sequential sparse direct solver"   OFF)
 
 # ---------------------------------------------------------------------------
 # Suppress harmless warnings from old C++98/03 code
@@ -134,6 +135,55 @@ if(TAHOE_SEACAS)
         message(STATUS "  ExodusII lib    : ${EXODUSII_LIB}")
         message(STATUS "  NetCDF lib      : ${NETCDF_LIB}")
     endif()
+endif()
+
+# ---------------------------------------------------------------------------
+# Optional: MUMPS sequential sparse direct solver
+#   Install: sudo apt install libmumps-seq-dev
+#   Enable:  cmake -DTAHOE_MUMPS=ON
+# ---------------------------------------------------------------------------
+if(TAHOE_MUMPS)
+    add_library(tahoe_mumps INTERFACE IMPORTED)
+    target_compile_definitions(tahoe_mumps INTERFACE "__MUMPS__")
+
+    find_path(MUMPS_INCLUDE_DIR NAMES dmumps_c.h
+              HINTS /usr/include /usr/local/include
+                    /usr/include/mumps-seq
+                    /usr/include/mumps_seq)
+    find_library(MUMPS_D_LIB NAMES dmumps_seq dmumps
+                 HINTS /usr/lib /usr/local/lib
+                       /usr/lib/x86_64-linux-gnu
+                       /usr/lib/aarch64-linux-gnu)
+    find_library(MUMPS_COMMON_LIB NAMES mumps_common_seq mumps_common
+                 HINTS /usr/lib /usr/local/lib
+                       /usr/lib/x86_64-linux-gnu
+                       /usr/lib/aarch64-linux-gnu)
+    find_library(MUMPS_PORD_LIB NAMES pord
+                 HINTS /usr/lib /usr/local/lib
+                       /usr/lib/x86_64-linux-gnu
+                       /usr/lib/aarch64-linux-gnu)
+    find_library(MUMPS_BLAS_LIB NAMES blas openblas
+                 HINTS /usr/lib /usr/local/lib
+                       /usr/lib/x86_64-linux-gnu
+                       /usr/lib/aarch64-linux-gnu)
+
+    if(NOT MUMPS_INCLUDE_DIR OR NOT MUMPS_D_LIB)
+        message(FATAL_ERROR
+            "TAHOE_MUMPS=ON but MUMPS headers/libs not found.\n"
+            "  • Install: sudo apt install libmumps-seq-dev\n"
+            "  • Then re-run cmake")
+    endif()
+
+    target_include_directories(tahoe_mumps INTERFACE "${MUMPS_INCLUDE_DIR}")
+    target_link_libraries(tahoe_mumps INTERFACE
+        "${MUMPS_D_LIB}"
+        "${MUMPS_COMMON_LIB}"
+        "${MUMPS_PORD_LIB}"
+        "${MUMPS_BLAS_LIB}"
+        gfortran)
+    message(STATUS "Tahoe: MUMPS enabled")
+    message(STATUS "  MUMPS header : ${MUMPS_INCLUDE_DIR}")
+    message(STATUS "  MUMPS dmumps : ${MUMPS_D_LIB}")
 endif()
 
 # ---------------------------------------------------------------------------

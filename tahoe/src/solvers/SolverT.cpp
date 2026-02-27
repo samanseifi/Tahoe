@@ -36,6 +36,10 @@
 #include "SPOOLESMatrixT_MT.h"
 #endif
 
+#ifdef __MUMPS__
+#include "MUMPSMatrixT.h"
+#endif
+
 #ifdef __TRILINOS__
 /* extra Tahoe headers */
 #include "IOManager.h"
@@ -622,6 +626,20 @@ ParameterInterfaceT* SolverT::NewSub(const StringT& name) const
 #endif /* __SPOOLES_MT__ */
 #endif /* __SPOOLES__ */
 
+#ifdef __MUMPS__
+		ParameterContainerT MUMPS("MUMPS_matrix");
+		ParameterT mumps_msg(ParameterT::Enumeration, "message_level");
+		mumps_msg.AddEnumeration("silent",  0);
+		mumps_msg.AddEnumeration("timing",  1);
+		mumps_msg.AddEnumeration("verbose", 4);
+		mumps_msg.SetDefault(0);
+		MUMPS.AddParameter(mumps_msg);
+		ParameterT mumps_sym(ParameterT::Boolean, "always_symmetric");
+		mumps_sym.SetDefault(false);
+		MUMPS.AddParameter(mumps_sym);
+		choice->AddSub(MUMPS);
+#endif /* __MUMPS__ */
+
 #ifdef __PSPASES__
 		choice->AddSub(ParameterContainerT("PSPASES_matrix"));
 #endif
@@ -1122,6 +1140,30 @@ void SolverT::SetGlobalMatrix(const ParameterListT& params, int check_code)
 #else /* __SPOOLES__ */
 		ExceptionT::GeneralFail(caller, "SPOOLES not installed");
 #endif /* __SPOOLES__ */
+	}
+	else if (params.Name() == "MUMPS_matrix")
+	{
+#ifdef __MUMPS__
+		GlobalT::SystemTypeT type = fFEManager.GlobalSystemType(fGroup);
+
+		int  message_level    = params.GetParameter("message_level");
+		bool always_symmetric = params.GetParameter("always_symmetric");
+		bool symmetric;
+		if (always_symmetric)
+			symmetric = true;
+		else if (type == GlobalT::kDiagonal || type == GlobalT::kSymmetric)
+			symmetric = true;
+		else if (type == GlobalT::kNonSymmetric)
+			symmetric = false;
+		else
+			ExceptionT::GeneralFail(caller, "unexpected system type: %d", type);
+
+		fLHS = new MUMPSMatrixT(out, check_code, symmetric, message_level, comm);
+#else
+		ExceptionT::GeneralFail(caller,
+			"MUMPS solver not compiled in. Re-run cmake with -DTAHOE_MUMPS=ON "
+			"after installing libmumps-seq-dev.");
+#endif /* __MUMPS__ */
 	}
 	else if (params.Name() == "SuperLU_matrix")
 	{

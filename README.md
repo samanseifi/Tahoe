@@ -19,12 +19,31 @@ cmake --build build -j$(nproc)
 | Option | Default | Description |
 |--------|---------|-------------|
 | `TAHOE_EXPAT` | `ON` | Bundled expat XML parser |
-| `TAHOE_SPOOLES` | `ON` | Bundled SPOOLES sparse direct solver |
+| `TAHOE_SPOOLES` | `ON` | Bundled SPOOLES sparse direct solver (legacy) |
+| `TAHOE_MUMPS` | `OFF` | System MUMPS sequential sparse direct solver (modern, recommended — see below) |
 | `TAHOE_F2C` | `ON` | Fortran-to-C converter (ABAQUS UMAT support) |
 | `TAHOE_DEV` | `ON` | Research/development element module |
 | `TAHOE_MPI` | `OFF` | MPI parallelization (requires system MPI) |
 | `TAHOE_SEACAS` | `OFF` | ExodusII mesh I/O — auto-detects system packages or `ACCESS` tree (see below) |
 | `TAHOE_TESTS` | `ON` | Build Google Test unit test suite |
+
+#### Enabling MUMPS (recommended direct solver)
+
+MUMPS is a modern multifrontal sparse direct solver that is faster and more robust than the legacy SPOOLES. To use it:
+
+```bash
+sudo apt install libmumps-seq-dev   # Ubuntu/Debian
+cmake -B build -DTAHOE_MUMPS=ON -DTAHOE_SPOOLES=OFF
+```
+
+Then replace `<SPOOLES_matrix .../>` in your XML input with:
+```xml
+<MUMPS_matrix message_level="silent" always_symmetric="false"/>
+```
+
+`message_level` choices: `silent` (0), `timing` (1), `verbose` (4).
+
+---
 
 #### Enabling ExodusII (SEACAS)
 
