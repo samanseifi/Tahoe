@@ -91,20 +91,13 @@ void MUMPSMatrixT_mpi::Factorize(void)
         fId.a   = fValues.Pointer();
     }
 
-    /* Job 1: Analysis */
-    fId.job = 1;
-    dmumps_c(&fId);
-    if (fId.infog[0] != 0)
-        ExceptionT::GeneralFail("MUMPSMatrixT_mpi::Factorize",
-            "MUMPS analysis (job 1) failed: infog[0]=%d infog[1]=%d",
-            fId.infog[0], fId.infog[1]);
-
-    /* Job 2: Numerical factorization */
-    fId.job = 2;
+    /* Job 4: Analysis + Numerical factorization (combined) */
+    fId.job = 4;
     dmumps_c(&fId);
     if (fId.infog[0] != 0)
         ExceptionT::BadJacobianDet("MUMPSMatrixT_mpi::Factorize",
-            "MUMPS factorization (job 2) failed: infog[0]=%d infog[1]=%d",
+            "MUMPS analysis+factorization (job 4) failed: infog[0]=%d infog[1]=%d "
+            "(negative value means singular or near-singular matrix)",
             fId.infog[0], fId.infog[1]);
 
     fIsFactorized = true;
@@ -139,12 +132,14 @@ void MUMPSMatrixT_mpi::BackSubstitute(dArrayT& result)
 
 void MUMPSMatrixT_mpi::Initialize(void)
 {
+    int rank = 0;
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+
     memset(&fId, 0, sizeof(DMUMPS_STRUC_C));
 
     fId.job          = -1;
     fId.par          =  1;
     fId.sym          = fSymmetric ? 2 : 0;
-    /* Use the actual MPI_COMM_WORLD communicator (converted to Fortran handle) */
     fId.comm_fortran = (MUMPS_INT) MPI_Comm_c2f(MPI_COMM_WORLD);
     dmumps_c(&fId);
 
@@ -153,16 +148,22 @@ void MUMPSMatrixT_mpi::Initialize(void)
             "MUMPS init (job -1) failed: infog[0]=%d infog[1]=%d",
             fId.infog[0], fId.infog[1]);
 
-    fId.icntl[0] = (fMessageLevel > 0) ? 6 : -1;
-    fId.icntl[1] = (fMessageLevel > 1) ? 6 : -1;
-    fId.icntl[2] = (fMessageLevel > 0) ? 6 : -1;
-    fId.icntl[3] = (fMessageLevel > 0) ? fMessageLevel : 0;
+    /* Only rank 0 prints — suppress output on all worker ranks to avoid
+     * N-fold duplication of diagnostic messages with N MPI processes. */
+    const bool print = (rank == 0) && (fMessageLevel > 0);
+    fId.icntl[0] = print ? 6 : -1;
+    fId.icntl[1] = (rank == 0 && fMessageLevel > 1) ? 6 : -1;
+    fId.icntl[2] = print ? 6 : -1;
+    fId.icntl[3] = print ? fMessageLevel : 0;
 
     /* Centralized assembled input — rank 0 provides all data */
     fId.icntl[17] = 0;
 
-    /* METIS fill-reducing ordering */
-    fId.icntl[6] = 7;
+    /* AMD fill-reducing ordering */
+    fId.icntl[6] = 0;
+
+    /* Allow 200% of estimated workspace (default 20% can be too tight) */
+    fId.icntl[13] = 100;
 
     fIsInitialized = true;
 }

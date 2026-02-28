@@ -3,6 +3,12 @@
 #include <iostream>
 #include <fstream>
 
+#ifdef __TAHOE_MPI__
+/* For dup2 / STDOUT_FILENO — suppress duplicate output on non-zero MPI ranks */
+#include <unistd.h>
+#include <fcntl.h>
+#endif
+
 #include "Environment.h"
 #include "ExceptionT.h"
 //#include "FloatingPointT.h"
@@ -71,20 +77,35 @@ static void StartUp(int* argc, char*** argv, CommunicatorT& comm)
 {
 #if !defined(_MACOS_) && !defined(__INTEL__)
 #if defined (__DEC__) || defined (__SUN__) || defined(__GCC_3__) || defined(__GCC_4__) || defined(__INTEL_CC__)
-	/* redirect cout and cerr */
+	/* Redirect all output on non-zero ranks to a per-rank console file.
+	 * We redirect both the C++ stream buffers AND the underlying OS file
+	 * descriptors so that printf, Fortran write(6,*), and other non-C++
+	 * output (e.g. MUMPS diagnostics, MPI library messages) are also
+	 * suppressed on worker ranks — preventing N-fold duplication of every
+	 * message when running with N MPI processes. */
 	if (comm.Rank() > 0)
 	{
 		StringT console_file("console");
 		console_file.Append(comm.Rank());
 		console.open(console_file, ios::app);
 
-		/* keep buffers from cout and cerr */
+		/* redirect C++ streams */
 		cout_buff = cout.rdbuf();
 		cerr_buff = cerr.rdbuf();
-
-		/* redirect */
 		cout.rdbuf(console.rdbuf());
 		cerr.rdbuf(console.rdbuf());
+
+#ifdef __TAHOE_MPI__
+		/* redirect OS-level stdout/stderr to the same console file so that
+		 * printf, Fortran write(6,*), and other non-C++ output is also
+		 * silenced on worker ranks */
+		int console_fd = open(console_file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (console_fd >= 0) {
+			dup2(console_fd, STDOUT_FILENO);
+			dup2(console_fd, STDERR_FILENO);
+			close(console_fd);
+		}
+#endif
 	}
 #else
 	/* redirect cout and cerr */

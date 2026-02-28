@@ -22,7 +22,7 @@ cmake --build build -j$(nproc)
 | `TAHOE_SPOOLES` | `ON` | Bundled SPOOLES sparse direct solver |
 | `TAHOE_SPOOLES_MT` | `OFF` | SPOOLES multithreaded solver — POSIX-thread parallel LU factorisation on a single node; no MPI required. Requires `TAHOE_SPOOLES=ON`. Use `<SPOOLES_MT_matrix num_threads="N" .../>` in XML (N ≥ 2). |
 | `TAHOE_SUPERLU` | `OFF` | Bundled SuperLU 3.0 serial sparse direct solver — high-performance LU with partial pivoting and optional iterative refinement. Requires `TAHOE_F2C=ON`. No system BLAS needed. Use `<SuperLU_matrix/>` in XML. |
-| `TAHOE_MUMPS` | `OFF` | System MUMPS direct solver — links against system `libmumps-dev`. Uses `comm_fortran=-987654` (sequential, no MPI communication). Install: `sudo apt-get install libmumps-dev`. Use `<MUMPS_matrix/>` in XML. |
+| `TAHOE_MUMPS` | `OFF` | System MUMPS direct solver — links against system `libmumps-dev`. Two variants: `<MUMPS_matrix/>` (serial, uses `MPI_COMM_SELF`) and `<MUMPS_MPI_matrix/>` (distributed, requires `TAHOE_MPI=ON`). Install: `sudo apt-get install libmumps-dev`. |
 | `TAHOE_F2C` | `ON` | Fortran-to-C converter (ABAQUS UMAT support) |
 | `TAHOE_DEV` | `ON` | Research/development element module |
 | `TAHOE_MPI` | `OFF` | MPI parallelization — requires system OpenMPI (`libopenmpi-dev`). Automatically builds the bundled `spoolesMPI` distributed solver. CMake prefers system wrappers (`/usr/bin/mpicxx`) over conda-installed MPI; override with `-DMPI_CXX_COMPILER=...`. Run with `mpirun -np N tahoe -f input.xml`. |
@@ -126,7 +126,7 @@ MPI extension to SPOOLES for distributed-memory parallel factorisation across mu
 Bundled SuperLU 3.0 library (C, no system BLAS dependency). Provides sparse LU factorisation with partial pivoting and optional iterative refinement; a fast drop-in alternative to SPOOLES for serial single-node jobs. Enable with `-DTAHOE_SUPERLU=ON`. See [`superlu/README.md`](superlu/README.md).
 
 ### MUMPS (system library)
-Wrapper around the system MUMPS direct solver (`libmumps-dev`). Uses MUMPS with the sequential dummy communicator so no MPI communication is needed at runtime. Enable with `-DTAHOE_MUMPS=ON`. Source wrapper: [`tahoe/src/primitives/globalmatrix/MUMPS/`](tahoe/src/primitives/globalmatrix/MUMPS/).
+Wrapper around the system MUMPS direct solver (`libmumps-dev`). Two variants: serial (`MUMPSMatrixT` — uses `MPI_COMM_SELF`, no `mpirun` needed) and MPI distributed (`MUMPSMatrixT_mpi` — uses `MPI_COMM_WORLD`, requires `-DTAHOE_MPI=ON`). Enable with `-DTAHOE_MUMPS=ON`. Source: [`tahoe/src/primitives/globalmatrix/MUMPS/`](tahoe/src/primitives/globalmatrix/MUMPS/).
 
 ### `f2c/` — Fortran-to-C Runtime
 Enables ABAQUS UMAT material subroutines (originally written in Fortran) to be compiled and called from C++.
@@ -193,7 +193,8 @@ Tahoe ships five sparse direct solvers. The bundled solvers (SPOOLES, SuperLU) h
 |--------|-----------|-------------|-------------|-------------|
 | SPOOLES (default) | `TAHOE_SPOOLES=ON` | 1 thread | `<SPOOLES_matrix/>` | Default; development and small models |
 | SuperLU 3.0 | `TAHOE_SUPERLU=ON` | 1 thread | `<SuperLU_matrix/>` | Serial alternative with partial pivoting; often faster than SPOOLES on medium models |
-| MUMPS | `TAHOE_MUMPS=ON` | 1 thread (seq.) | `<MUMPS_matrix/>` | System MUMPS with METIS ordering; requires `libmumps-dev` |
+| MUMPS (serial) | `TAHOE_MUMPS=ON` | 1 thread | `<MUMPS_matrix/>` | System MUMPS on a single process; requires `libmumps-dev` |
+| MUMPS (MPI) | `TAHOE_MUMPS=ON` + `TAHOE_MPI=ON` | N MPI ranks | `<MUMPS_MPI_matrix/>` | Distributed MUMPS across MPI ranks; same install, run with `mpirun` |
 | SPOOLES-MT | `TAHOE_SPOOLES_MT=ON` | N pthreads | `<SPOOLES_MT_matrix num_threads="N"/>` | Multicore workstations; no MPI required |
 | SPOOLES-MPI | `TAHOE_MPI=ON` | N MPI ranks | batch mode | HPC clusters or multi-node jobs |
 
@@ -227,27 +228,47 @@ In the XML input, replace the solver block with:
 
 Verified: WLC finite-anisotropy benchmark (290 Newton steps, single hex element) completes in ~0.35 s with SuperLU vs ~0.40 s with SPOOLES. See [`superlu/README.md`](superlu/README.md).
 
-### MUMPS — system sparse direct solver
+### MUMPS — system sparse direct solver (serial and MPI)
 
-Requires `libmumps-dev` from the system package manager. Uses the sequential dummy communicator (`comm_fortran=-987654`) so no actual MPI communication occurs, but the library links against MPI and ScaLAPACK at build time.
+Requires `libmumps-dev`. Two variants share the same install and build flags:
+
+- **Serial** (`<MUMPS_matrix/>`) — uses `MPI_COMM_SELF`; runs in-process without `mpirun`
+- **MPI** (`<MUMPS_MPI_matrix/>`) — distributes factorization across ranks; requires `TAHOE_MPI=ON`
 
 ```bash
 sudo apt-get install libmumps-dev
 
+# Serial MUMPS only (recommended):
 cmake -B build -DTAHOE_MUMPS=ON
 cmake --build build -j$(nproc)
 ./build/bin/tahoe -f input.xml
+
+# MUMPS + MPI (enables both variants; use system OpenMPI launcher):
+cmake -B build -DTAHOE_MUMPS=ON -DTAHOE_MPI=ON
+cmake --build build -j$(nproc)
+/usr/bin/mpirun -np 4 ./build/bin/tahoe -f input.xml
 ```
 
 In the XML input, replace the solver block with:
 ```xml
-<MUMPS_matrix/>
-<!-- optional parameters: -->
+<!-- Serial (no mpirun needed) — recommended: -->
 <MUMPS_matrix message_level="silent" always_symmetric="false"/>
+
+<!-- MPI distributed (run with /usr/bin/mpirun, experimental): -->
+<MUMPS_MPI_matrix message_level="silent" always_symmetric="false"/>
+
 <!-- message_level options: silent | errors | verbose -->
 ```
 
-MUMPS uses METIS fill-reducing ordering by default (`icntl[6]=7`). Verified: WLC finite-anisotropy benchmark (290 Newton steps) completes with the same results as SPOOLES and SuperLU.
+Uses AMD fill-reducing ordering (`icntl[6]=0`) and 200% workspace headroom (`icntl[13]=100`).
+
+> **BLAS note**: MUMPS links against system BLAS (`libblas.so.3`). The build uses `-Wl,--exclude-libs,ALL` to prevent SuperLU's bundled CBLAS routines from shadowing MUMPS's BLAS calls — without this, MUMPS segfaults on large problems inside the frontal factorization kernel.
+
+> **mpirun note**: always use the system OpenMPI launcher (`/usr/bin/mpirun`), not conda's MPICH. With system OpenMPI, worker ranks redirect their output to per-rank `console<N>` log files, avoiding N-fold duplicated messages. Conda's `mpirun` bypasses rank detection and duplicates all output.
+
+> **MUMPS_MPI_matrix note**: experimental — requires proper domain decomposition (batch mode, same requirements as SPOOLES-MPI). For large single-node problems, `<MUMPS_matrix/>` (serial MUMPS without mpirun) is the recommended choice.
+
+Verified: WLC benchmark (290 Newton steps) and dielectric elastomer benchmark (18832 DOFs, mixed-physics) complete correctly with `<MUMPS_matrix/>`.
 
 ### SPOOLES-MT — shared-memory multithreaded
 
@@ -306,4 +327,4 @@ See the `LICENSE` file. Tahoe was developed at Sandia National Laboratories unde
 | Date | Author | Notes |
 |------|--------|-------|
 | 2014 | Regents of the University of Colorado | Tahoe 2.1 release |
-| February 2026 | Saman Seifi (Boston University) | CMake modernization; C++11 two-phase lookup fixes; compiler warning cleanup (`-fpermissive`); ExodusII/SEACAS enabled via system packages; Google Test unit test suite (36 tests); GitHub Actions CI/CD pipeline; fix missing `return` in `PotentialT::MeanEnergy`; SPOOLES multithreaded (pthreads) solver (`TAHOE_SPOOLES_MT`); MPI distributed solver via bundled spoolesMPI (`TAHOE_MPI`); 22/22 level.3 MPI benchmarks pass; SuperLU 3.0 serial solver (`TAHOE_SUPERLU`) with bundled CBLAS — no system BLAS required; enable `FINITE_ANISOTROPY` materials (Bischoff-Arruda WLC); 322/357 benchmarks pass |
+| February 2026 | Saman Seifi (Boston University) | CMake modernization; C++11 two-phase lookup fixes; compiler warning cleanup (`-fpermissive`); ExodusII/SEACAS enabled via system packages; Google Test unit test suite (36 tests); GitHub Actions CI/CD pipeline; fix missing `return` in `PotentialT::MeanEnergy`; SPOOLES multithreaded (pthreads) solver (`TAHOE_SPOOLES_MT`); MPI distributed solver via bundled spoolesMPI (`TAHOE_MPI`); 22/22 level.3 MPI benchmarks pass; SuperLU 3.0 serial solver (`TAHOE_SUPERLU`) with bundled CBLAS — no system BLAS required; enable `FINITE_ANISOTROPY` materials (Bischoff-Arruda WLC); system MUMPS solver — serial (`MUMPS_matrix`) and MPI distributed (`MUMPS_MPI_matrix`); fix BLAS symbol conflict (`-Wl,--exclude-libs,ALL`) enabling MUMPS on large problems (18k+ DOFs); 322/357 benchmarks pass |
