@@ -4,12 +4,14 @@ begin: tahoe
 geometry_format. . . . . . . . . . . . . . . . . . = automatic
 geometry_format = automatic (default)
 geometry_format = TahoeII
+geometry_format = ExodusII
 geometry_file. . . . . . . . . . . . . . . . . . . = ../geometry/quad8.2x2.geom
 output_format. . . . . . . . . . . . . . . . . . . = automatic
 output_format = automatic (default)
 output_format = Tahoe
 output_format = TecPlot
 output_format = EnSight
+output_format = ExodusII
 restart_output_inc . . . . . . . . . . . . . . . . = 0
 restart_output_inc >= 0 (default)
 echo_input . . . . . . . . . . . . . . . . . . . . = false
@@ -213,10 +215,10 @@ end: tahoe
  Time = 1.000000e+00
  Step 10 of 10
 
-   Start time: Thu Feb 26 00:05:26 2026
- Construction: 5.650000e-04 sec.
-     Solution: 5.390000e-04 sec.
-    Stop time: Thu Feb 26 00:05:26 2026
+   Start time: Fri Feb 27 15:22:22 2026
+ Construction: 9.120000e-04 sec.
+     Solution: 6.270000e-04 sec.
+    Stop time: Fri Feb 27 15:22:22 2026
 
  End Execution
 

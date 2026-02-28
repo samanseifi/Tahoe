@@ -11,7 +11,7 @@
 	<time
 	       scaling='linear'
 	     init_time='0.000000e+00'
-	     num_steps='100'
+	     num_steps='1'
 	    output_inc='1'
 	 max_step_cuts='0'
 	     time_step='1.000000e+00'>
