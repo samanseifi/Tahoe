@@ -61,6 +61,12 @@ if(TAHOE_F2C)
     target_link_libraries(libtahoe PUBLIC tahoe_f2c)
 endif()
 
+if(TAHOE_SUPERLU)
+    target_link_libraries(libtahoe PUBLIC tahoe_superlu)
+    # Activates SuperLUMatrixT in SolverT.cpp and SuperLUMatrixT.cpp
+    target_compile_definitions(libtahoe PUBLIC __SUPERLU__)
+endif()
+
 if(TAHOE_MPI)
     target_link_libraries(libtahoe PUBLIC MPI::MPI_CXX tahoe_spooles_mpi)
     # __SPOOLES_MPI__ comes transitively from tahoe_spooles_mpi PUBLIC defines

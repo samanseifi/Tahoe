@@ -101,6 +101,23 @@ if(TAHOE_F2C)
 endif()
 
 # ---------------------------------------------------------------------------
+# Optional: SuperLU 3.0 (serial sparse direct solver)
+#
+# Bundled SuperLU 3.0 from the original 2005 distribution. BLAS routines are
+# provided by the bundled SuperLU_CBLAS (f2c-generated C), so no system BLAS
+# or external dependency is required.  Requires TAHOE_F2C=ON (f2c.h types).
+# ---------------------------------------------------------------------------
+option(TAHOE_SUPERLU "Build bundled SuperLU 3.0 serial sparse solver" OFF)
+
+if(TAHOE_SUPERLU)
+    if(NOT TAHOE_F2C)
+        message(FATAL_ERROR "TAHOE_SUPERLU=ON requires TAHOE_F2C=ON (for f2c.h types in bundled CBLAS)")
+    endif()
+    add_subdirectory(superlu)
+    message(STATUS "Tahoe: SuperLU 3.0 enabled (bundled, no system BLAS needed)")
+endif()
+
+# ---------------------------------------------------------------------------
 # Optional: MPI  (requires system OpenMPI/MPICH — libopenmpi-dev / libmpich-dev)
 #
 # Portability note: conda installs its own MPI wrappers (mpicxx, mpicc) into

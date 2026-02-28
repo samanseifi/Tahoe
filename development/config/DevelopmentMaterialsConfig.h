@@ -80,6 +80,12 @@
  * in DevelopmentMaterialsConfig.make. */
 /* #define ABAQUS_TI_DEV 1 */
 
+/** \def FINITE_ANISOTROPY
+ * Finite deformation anisotropic material models (includes Bischoff-Arruda WLC).
+ * This option must be set in conjunction with the DIRECTORY_FINITE_ANISOTROPY macro
+ * in DevelopmentMaterialsConfig.make. */
+#define FINITE_ANISOTROPY 1
+
 /** \def BIO_MODELS
  * models of biomaterials.
  * This option must be set in conjunction with the DIRECTORY_BIO_MODELS macro
