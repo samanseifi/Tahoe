@@ -102,20 +102,14 @@ void MUMPSMatrixT::Factorize(void)
     fId.jcn = fColIdx.Pointer();
     fId.a   = fValues.Pointer();
 
-    /* --- Job 1: Analysis (symbolic factorization / fill-reducing ordering) --- */
-    fId.job = 1;
-    dmumps_c(&fId);
-    if (fId.infog[0] != 0)
-        ExceptionT::GeneralFail("MUMPSMatrixT::Factorize",
-            "MUMPS analysis (job 1) failed: infog[0]=%d infog[1]=%d",
-            fId.infog[0], fId.infog[1]);
-
-    /* --- Job 2: Numerical factorization --- */
-    fId.job = 2;
+    /* --- Job 4: Analysis + Numerical factorization (combined) ---
+     * Using combined job avoids potential state issues between separate
+     * job 1 and job 2 calls (e.g. MUMPS internal workspace re-allocation). */
+    fId.job = 4;
     dmumps_c(&fId);
     if (fId.infog[0] != 0)
         ExceptionT::BadJacobianDet("MUMPSMatrixT::Factorize",
-            "MUMPS factorization (job 2) failed: infog[0]=%d infog[1]=%d "
+            "MUMPS analysis+factorization (job 4) failed: infog[0]=%d infog[1]=%d "
             "(negative value means singular or near-singular matrix)",
             fId.infog[0], fId.infog[1]);
 
@@ -180,8 +174,11 @@ void MUMPSMatrixT::Initialize(void)
     /* icntl[17]=0 : centralized assembled input (host provides irn/jcn/a) */
     fId.icntl[17] = 0;
 
-    /* icntl[6]=7 : use METIS ordering (good default; falls back if not available) */
-    fId.icntl[6] = 7;
+    /* icntl[6]=0 : AMD ordering */
+    fId.icntl[6] = 0;
+
+    /* icntl[13]=100 : allow 200% of estimated workspace (default 20% often too tight) */
+    fId.icntl[13] = 100;
 
     fIsInitialized = true;
 }

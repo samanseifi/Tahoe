@@ -137,6 +137,12 @@ target_link_options(tahoe PRIVATE
     $<TARGET_FILE:libtahoe>
     $<TARGET_FILE:toolbox>
     -Wl,--no-whole-archive
+    # Prevent SuperLU's bundled BLAS routines (idamax_, dgemm_, etc.) from
+    # polluting the binary's dynamic symbol table.  Without this flag, shared
+    # libraries like libdmumps resolve idamax_/dgemm_/… from our binary
+    # instead of from their linked system BLAS (libblas.so.3), causing
+    # crashes inside MUMPS's frontal factorization kernel.
+    -Wl,--exclude-libs,ALL
 )
 
 install(TARGETS tahoe DESTINATION bin)
