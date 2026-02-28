@@ -111,8 +111,14 @@ Low-level infrastructure shared by all modules.
 
 ---
 
-### `spooles/` — Sparse Direct Solver
-Bundled SPOOLES library (C, no external dependencies). Provides multi-frontal sparse LU and Cholesky factorization used as the default direct solver.
+### `spooles/` — Sparse Direct Solver (serial)
+Bundled SPOOLES 2.2 library (C, no external dependencies). Provides multi-frontal sparse LU and Cholesky factorization; the default solver for serial and shared-memory builds. See [`spooles/README.md`](spooles/README.md).
+
+### `spoolesMT/` — SPOOLES Multithreaded
+POSIX-threads extension to SPOOLES. Parallelises the LU factorisation across cores on a single node without MPI. Enable with `-DTAHOE_SPOOLES_MT=ON`. See [`spoolesMT/README.md`](spoolesMT/README.md).
+
+### `spoolesMPI/` — SPOOLES Distributed (MPI)
+MPI extension to SPOOLES for distributed-memory parallel factorisation across multiple nodes. Enable with `-DTAHOE_MPI=ON`. See [`spoolesMPI/README.md`](spoolesMPI/README.md).
 
 ### `f2c/` — Fortran-to-C Runtime
 Enables ABAQUS UMAT material subroutines (originally written in Fortran) to be compiled and called from C++.
@@ -168,6 +174,66 @@ Use `run_benchmarks.sh` at the repo root to reproduce. Level 3 requires `-DTAHOE
 | **C** — SimoQ1P0 Voltage field | 5 | `SimoQ1P0` unconditionally searches for an electrical-field DOF at construction; pure-mechanical Q1P0 tests fail with *"Voltage field not found"*. |
 | **D** — NaN in diffusion solver | 4 | `heat.1`, `heat.2`, `tsurf`, `heat.hyper.1` produce `-nan` temperatures; numerical issue in the diffusion element path. |
 | **E** — Unregistered material | 2 | `small_strain_StVenant_DP_2D` is not registered in the material factory (`mat.11` tests). |
+
+---
+
+## Parallel Solvers
+
+Tahoe ships three solver tiers for LU factorisation, all built from the same bundled SPOOLES 2.2 source tree.
+
+| Tier | CMake flag | Parallelism | When to use |
+|------|-----------|-------------|-------------|
+| Serial SPOOLES | `TAHOE_SPOOLES=ON` (default) | 1 thread | Development, small models |
+| SPOOLES-MT | `TAHOE_SPOOLES_MT=ON` | N pthreads, single node | Production runs on multicore workstations |
+| SPOOLES-MPI | `TAHOE_MPI=ON` | N MPI ranks, distributed | HPC clusters or multi-node jobs |
+
+### Serial SPOOLES (default)
+
+No extra flags needed. Built automatically when `TAHOE_SPOOLES=ON`.
+
+```bash
+cmake -B build
+cmake --build build -j$(nproc)
+./build/bin/tahoe -f input.xml
+```
+
+### SPOOLES-MT — shared-memory multithreaded
+
+Requires pthreads (standard on Linux/macOS). No MPI installation needed.
+
+```bash
+cmake -B build -DTAHOE_SPOOLES_MT=ON
+cmake --build build -j$(nproc)
+./build/bin/tahoe -f input.xml   # thread count set inside the XML
+```
+
+In the XML input, replace the solver block with:
+```xml
+<SPOOLES_MT_matrix num_threads="8" .../>
+```
+
+### SPOOLES-MPI — distributed-memory MPI
+
+Requires system OpenMPI (`libopenmpi-dev` on Debian/Ubuntu). CMake auto-detects `/usr/bin/mpicxx`; pass `-DMPI_CXX_COMPILER=/path/to/mpicxx` to override.
+
+```bash
+# Install system OpenMPI first (not conda — see note below)
+sudo apt-get install libopenmpi-dev
+
+cmake -B build -DTAHOE_MPI=ON
+cmake --build build -j$(nproc)
+mpirun -np 4 ./build/bin/tahoe -f input.xml
+```
+
+> **Conda note**: if your shell has conda activated, `mpirun` may point to conda's MPICH, which is ABI-incompatible with the system OpenMPI that Tahoe links against. The CMake scripts explicitly prefer `/usr/bin/mpicxx` over conda wrappers. After a fresh build, verify with `ldd build/bin/tahoe | grep mpi` — it should show `/lib/x86_64-linux-gnu/libmpi.so`, not a conda path. If you see a conda path, run `cmake -B build --fresh -DTAHOE_MPI=ON` to wipe the stale cache.
+
+**Batch-mode invocation** (used by `run_benchmarks.sh` for level.3):
+```bash
+cd benchmark_XML/level.3/parallel
+mpirun -np 4 /path/to/tahoe -f run.batch
+```
+
+The batch file format uses `@` as the first character (batch-mode marker), followed by option lines (`-run`, `-join_io`, `-decomp_method -0`, etc.) and XML filenames. Options accumulate as global state before each XML file is processed.
 
 ---
 

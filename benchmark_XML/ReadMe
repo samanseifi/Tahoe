@@ -14,8 +14,9 @@ reference solutions. Tests are organized into levels:
   level.2  — Extended capabilities. May involve larger models or
               longer run times. No optional modules required.
 
-  level.3  — Optional modules (MPI parallel, ExodusII I/O, bridging
-              scale). Requires specific build flags.
+  level.3  — MPI distributed-memory parallel tests. Requires
+              -DTAHOE_MPI=ON and system OpenMPI (libopenmpi-dev).
+              Run with mpirun -np 4. All 22 tests pass.
 
 
 BUILDING
@@ -49,6 +50,26 @@ Step 1 - Run simulations
   Output files (*.run, *.geo, etc.) are written alongside the input
   XML files and are excluded from version control via .gitignore.
 
+  For level.3 MPI tests, build with TAHOE_MPI=ON first, then:
+
+    sudo apt-get install libopenmpi-dev   # system OpenMPI
+    cmake -B build --fresh -DTAHOE_MPI=ON
+    cmake --build build -j$(nproc)
+
+    cd benchmark_XML/level.3/parallel
+    /usr/bin/mpirun -np 4 ../../build/bin/tahoe -f run.batch
+
+  IMPORTANT: use /usr/bin/mpirun (system OpenMPI), not the mpirun
+  that conda may have placed earlier in your PATH (conda uses MPICH,
+  which is ABI-incompatible with the system OpenMPI that Tahoe links
+  against). See spoolesMPI/README.md for full troubleshooting notes.
+
+  The automated script at the repo root handles all levels including
+  level.3:
+
+    ./run_benchmarks.sh           # all levels
+    ./run_benchmarks.sh level.3   # level.3 only
+
 
 Step 2 - Compare against benchmarks
 
@@ -60,6 +81,16 @@ Step 2 - Compare against benchmarks
 
   A summary is written to `compare.summary` in the batch file's
   directory. Detailed per-variable differences appear on stdout.
+
+  For level.3, `compare` is a serial tool run once per XML file after
+  the MPI batch finishes. It reads the joined output files (*.io0.run,
+  etc.) written by the parallel run and compares them against the
+  reference files in each benchmark/ sub-directory:
+
+    cd benchmark_XML/level.3/parallel
+    /path/to/build/bin/compare -f elastostatic.xml
+    /path/to/build/bin/compare -f elastostatic.N-LS.xml
+    # ... (run_benchmarks.sh does this automatically)
 
 
 PASS/FAIL CRITERIA
@@ -78,7 +109,7 @@ Override per-directory by placing a `compare.tol` file alongside the
     skip s12          # ignore variable "s12" in comparisons
 
 
-KNOWN EXPECTED FAILURES (level.0)
+KNOWN EXPECTED FAILURES (level.0–2)
 -----------------------------------------------------------------------
 The following test groups require optional build features and will
 fail in a default build. This is expected:
@@ -89,6 +120,13 @@ fail in a default build. This is expected:
   inputoutput/       Requires ExodusII output (-DTAHOE_SEACAS=ON)
   hex2D_*CB*         Surface Cauchy-Born element validation failure
   Q1P0.*.b / 3D      Require coupled voltage field
+
+Overall pass rates (February 2026, SEACAS + MPI build):
+  level.0  155 pass / 30 fail
+  level.1  105 pass /  3 fail
+  level.2   39 pass /  2 fail
+  level.3   22 pass /  0 fail  (MPI, 4 ranks)
+  Total    321 pass / 35 fail
 
 
 CLEANING TEST OUTPUT
