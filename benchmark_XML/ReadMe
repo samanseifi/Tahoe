@@ -121,12 +121,12 @@ fail in a default build. This is expected:
   hex2D_*CB*         Surface Cauchy-Born element validation failure
   Q1P0.*.b / 3D      Require coupled voltage field
 
-Overall pass rates (February 2026, SEACAS + MPI build):
+Overall pass rates (February 2026, SEACAS + MPI + SuperLU build):
   level.0  155 pass / 30 fail
-  level.1  105 pass /  3 fail
+  level.1  106 pass /  3 fail  (includes WLC + SuperLU benchmark)
   level.2   39 pass /  2 fail
   level.3   22 pass /  0 fail  (MPI, 4 ranks)
-  Total    321 pass / 35 fail
+  Total    322 pass / 35 fail
 
 
 CLEANING TEST OUTPUT

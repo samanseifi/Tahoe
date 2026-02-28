@@ -21,6 +21,7 @@ cmake --build build -j$(nproc)
 | `TAHOE_EXPAT` | `ON` | Bundled expat XML parser |
 | `TAHOE_SPOOLES` | `ON` | Bundled SPOOLES sparse direct solver |
 | `TAHOE_SPOOLES_MT` | `OFF` | SPOOLES multithreaded solver — POSIX-thread parallel LU factorisation on a single node; no MPI required. Requires `TAHOE_SPOOLES=ON`. Use `<SPOOLES_MT_matrix num_threads="N" .../>` in XML (N ≥ 2). |
+| `TAHOE_SUPERLU` | `OFF` | Bundled SuperLU 3.0 serial sparse direct solver — high-performance LU with partial pivoting and optional iterative refinement. Requires `TAHOE_F2C=ON`. No system BLAS needed. Use `<SuperLU_matrix/>` in XML. |
 | `TAHOE_F2C` | `ON` | Fortran-to-C converter (ABAQUS UMAT support) |
 | `TAHOE_DEV` | `ON` | Research/development element module |
 | `TAHOE_MPI` | `OFF` | MPI parallelization — requires system OpenMPI (`libopenmpi-dev`). Automatically builds the bundled `spoolesMPI` distributed solver. CMake prefers system wrappers (`/usr/bin/mpicxx`) over conda-installed MPI; override with `-DMPI_CXX_COMPILER=...`. Run with `mpirun -np N tahoe -f input.xml`. |
@@ -120,6 +121,9 @@ POSIX-threads extension to SPOOLES. Parallelises the LU factorisation across cor
 ### `spoolesMPI/` — SPOOLES Distributed (MPI)
 MPI extension to SPOOLES for distributed-memory parallel factorisation across multiple nodes. Enable with `-DTAHOE_MPI=ON`. See [`spoolesMPI/README.md`](spoolesMPI/README.md).
 
+### `superlu/` — SuperLU 3.0 Sparse Direct Solver
+Bundled SuperLU 3.0 library (C, no system BLAS dependency). Provides sparse LU factorisation with partial pivoting and optional iterative refinement; a fast drop-in alternative to SPOOLES for serial single-node jobs. Enable with `-DTAHOE_SUPERLU=ON`. See [`superlu/README.md`](superlu/README.md).
+
 ### `f2c/` — Fortran-to-C Runtime
 Enables ABAQUS UMAT material subroutines (originally written in Fortran) to be compiled and called from C++.
 
@@ -160,10 +164,10 @@ Use `run_benchmarks.sh` at the repo root to reproduce. Level 3 requires `-DTAHOE
 | Level | PASS | FAIL/CRASH | SKIP | Notes |
 |-------|------|------------|------|-------|
 | level.0 | **155** | 30 | — | Core physics suite |
-| level.1 | **105** | 3 | — | Extended element tests |
+| level.1 | **106** | 3 | — | Extended element tests (includes WLC + SuperLU benchmark) |
 | level.2 | **39** | 2 | — | Additional verification |
 | level.3 | **22** | 0 | — | MPI parallel (4 ranks): elastostatic, explicit dynamics, particle MD, PCG, periodic BC |
-| **Total** | **321** | **35** | | |
+| **Total** | **322** | **35** | | |
 
 ##### Failure categories
 
@@ -177,15 +181,16 @@ Use `run_benchmarks.sh` at the repo root to reproduce. Level 3 requires `-DTAHOE
 
 ---
 
-## Parallel Solvers
+## Solvers
 
-Tahoe ships three solver tiers for LU factorisation, all built from the same bundled SPOOLES 2.2 source tree.
+Tahoe ships four bundled sparse direct solvers. All are built from source with no external library dependencies (SuperLU uses bundled CBLAS via `f2c`; SPOOLES needs only pthreads for the MT variant).
 
-| Tier | CMake flag | Parallelism | When to use |
-|------|-----------|-------------|-------------|
-| Serial SPOOLES | `TAHOE_SPOOLES=ON` (default) | 1 thread | Development, small models |
-| SPOOLES-MT | `TAHOE_SPOOLES_MT=ON` | N pthreads, single node | Production runs on multicore workstations |
-| SPOOLES-MPI | `TAHOE_MPI=ON` | N MPI ranks, distributed | HPC clusters or multi-node jobs |
+| Solver | CMake flag | Parallelism | XML element | When to use |
+|--------|-----------|-------------|-------------|-------------|
+| SPOOLES (default) | `TAHOE_SPOOLES=ON` | 1 thread | `<SPOOLES_matrix/>` | Default; development and small models |
+| SuperLU 3.0 | `TAHOE_SUPERLU=ON` | 1 thread | `<SuperLU_matrix/>` | Serial alternative with partial pivoting; often faster than SPOOLES on medium models |
+| SPOOLES-MT | `TAHOE_SPOOLES_MT=ON` | N pthreads | `<SPOOLES_MT_matrix num_threads="N"/>` | Multicore workstations; no MPI required |
+| SPOOLES-MPI | `TAHOE_MPI=ON` | N MPI ranks | batch mode | HPC clusters or multi-node jobs |
 
 ### Serial SPOOLES (default)
 
@@ -196,6 +201,26 @@ cmake -B build
 cmake --build build -j$(nproc)
 ./build/bin/tahoe -f input.xml
 ```
+
+### SuperLU 3.0 — serial, high-performance direct solver
+
+Requires `TAHOE_F2C=ON` (on by default). No system BLAS needed — uses bundled CBLAS.
+
+```bash
+cmake -B build -DTAHOE_SUPERLU=ON
+cmake --build build -j$(nproc)
+./build/bin/tahoe -f input.xml
+```
+
+In the XML input, replace the solver block with:
+```xml
+<SuperLU_matrix/>
+<!-- optional parameters: -->
+<SuperLU_matrix print_stat="false" refinement="NOREFINE"/>
+<!-- refinement options: NOREFINE | SINGLE | DOUBLE | EXTRA -->
+```
+
+Verified: WLC finite-anisotropy benchmark (290 Newton steps, single hex element) completes in ~0.35 s with SuperLU vs ~0.40 s with SPOOLES. See [`superlu/README.md`](superlu/README.md).
 
 ### SPOOLES-MT — shared-memory multithreaded
 
@@ -254,4 +279,4 @@ See the `LICENSE` file. Tahoe was developed at Sandia National Laboratories unde
 | Date | Author | Notes |
 |------|--------|-------|
 | 2014 | Regents of the University of Colorado | Tahoe 2.1 release |
-| February 2026 | Saman Seifi (Boston University) | CMake modernization; C++11 two-phase lookup fixes; compiler warning cleanup (`-fpermissive`); ExodusII/SEACAS enabled via system packages; Google Test unit test suite (36 tests); GitHub Actions CI/CD pipeline; fix missing `return` in `PotentialT::MeanEnergy`; SPOOLES multithreaded (pthreads) solver (`TAHOE_SPOOLES_MT`); MPI distributed solver via bundled spoolesMPI (`TAHOE_MPI`); 22/22 level.3 MPI benchmarks pass |
+| February 2026 | Saman Seifi (Boston University) | CMake modernization; C++11 two-phase lookup fixes; compiler warning cleanup (`-fpermissive`); ExodusII/SEACAS enabled via system packages; Google Test unit test suite (36 tests); GitHub Actions CI/CD pipeline; fix missing `return` in `PotentialT::MeanEnergy`; SPOOLES multithreaded (pthreads) solver (`TAHOE_SPOOLES_MT`); MPI distributed solver via bundled spoolesMPI (`TAHOE_MPI`); 22/22 level.3 MPI benchmarks pass; SuperLU 3.0 serial solver (`TAHOE_SUPERLU`) with bundled CBLAS — no system BLAS required; enable `FINITE_ANISOTROPY` materials (Bischoff-Arruda WLC); 322/357 benchmarks pass |
