@@ -2,19 +2,24 @@
 # run_benchmarks.sh — Run all Tahoe benchmark levels and report failures
 # Usage: ./run_benchmarks.sh [level.0] [level.1] ...  (default: all levels)
 
-TAHOE=/home/samanseifi/codes/tahoe/build/bin/tahoe
-COMPARE=/home/samanseifi/codes/tahoe/build/bin/compare
-BENCH_ROOT=/home/samanseifi/codes/tahoe/benchmark_XML
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+TAHOE="${TAHOE:-$SCRIPT_DIR/build/bin/tahoe}"
+COMPARE="${COMPARE:-$SCRIPT_DIR/build/bin/compare}"
+BENCH_ROOT="${BENCH_ROOT:-$SCRIPT_DIR/benchmark_XML}"
+MPI_NP="${MPI_NP:-4}"        # number of MPI ranks for level.3; override via env
+MPIFLAGS="${MPIFLAGS:-}"     # extra mpirun flags, e.g. "--oversubscribe" on CI
 
 # Detect system MPI (avoid conda wrappers which use a different MPI implementation)
-MPIRUN=""
-for candidate in /usr/bin/mpirun /usr/local/bin/mpirun /usr/bin/mpirun.openmpi; do
-    if [ -x "$candidate" ]; then
-        MPIRUN="$candidate"
-        break
-    fi
-done
-MPI_NP=4   # number of MPI ranks for level.3
+# Override via MPIRUN env variable.
+if [ -z "${MPIRUN+x}" ]; then
+    MPIRUN=""
+    for candidate in /usr/bin/mpirun /usr/local/bin/mpirun /usr/bin/mpirun.openmpi; do
+        if [ -x "$candidate" ]; then
+            MPIRUN="$candidate"
+            break
+        fi
+    done
+fi
 
 LEVELS=("${@:-}")
 if [ $# -eq 0 ]; then
@@ -139,8 +144,9 @@ run_level3() {
 
     echo "  Running MPI batch with $MPIRUN -np $MPI_NP ..."
     local rc=0
-    (cd "$parallel_dir" && timeout 300 "$MPIRUN" --allow-run-as-root -np "$MPI_NP" \
-        "$TAHOE" -f run.batch > /dev/null 2>&1) || rc=$?
+    # shellcheck disable=SC2086
+    (cd "$parallel_dir" && timeout 300 "$MPIRUN" --allow-run-as-root $MPIFLAGS \
+        -np "$MPI_NP" "$TAHOE" -f run.batch > /dev/null 2>&1) || rc=$?
     if [ $rc -eq 124 ]; then
         echo "  TIMEOUT  level.3 MPI batch (300s)"
         ((CRASH++)); FAILED_LIST+=("TIMEOUT: level.3/parallel/run.batch"); return
@@ -198,4 +204,13 @@ if [ ${#FAILED_LIST[@]} -gt 0 ]; then
     for f in "${FAILED_LIST[@]}"; do
         echo "    $f"
     done
+fi
+
+# Exit non-zero if any solver crashes (tahoe exited non-zero or timed out).
+# Reference-comparison failures (FAIL) are tolerated — many are known issues
+# with optional modules or ExodusII format mismatches.
+if [ $CRASH -gt 0 ]; then
+    echo ""
+    echo "  ** $CRASH crash(es) detected — CI FAIL **"
+    exit 1
 fi

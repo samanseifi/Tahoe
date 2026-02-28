@@ -1,0 +1,64 @@
+name: CI — MPI Parallel Benchmarks
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+
+jobs:
+  build-and-test-mpi:
+    name: Build, Unit Tests & level.3 Benchmarks (MPI)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y cmake build-essential \
+            libexodusii-dev libnetcdf-dev \
+            libopenmpi-dev openmpi-bin
+
+      - name: Configure (MPI)
+        run: |
+          cmake -S . -B build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTAHOE_EXPAT=ON \
+            -DTAHOE_SPOOLES=ON \
+            -DTAHOE_F2C=ON \
+            -DTAHOE_DEV=ON \
+            -DTAHOE_TESTS=ON \
+            -DTAHOE_MPI=ON \
+            -DTAHOE_SEACAS=ON
+
+      - name: Build
+        run: cmake --build build --parallel $(nproc)
+
+      # ---------------------------------------------------------------
+      # Unit tests — must pass, block CI on failure
+      # ---------------------------------------------------------------
+      - name: Unit tests (CTest / Google Test)
+        run: ctest --test-dir build --output-on-failure --parallel $(nproc)
+
+      # ---------------------------------------------------------------
+      # MPI parallel benchmarks — level.3
+      #
+      # GitHub Actions runners have 2 cores; --oversubscribe allows
+      # 4 MPI ranks on 2 cores (slower but functionally correct).
+      #
+      # Pass criterion: CRASH = 0  (MPI batch exits 0)
+      # Tolerated:      FAIL  > 0  (reference comparison failures)
+      # ---------------------------------------------------------------
+      - name: Benchmarks level.3 (MPI, 4 ranks)
+        run: |
+          ./run_benchmarks.sh level.3
+        env:
+          TAHOE:    ${{ github.workspace }}/build/bin/tahoe
+          COMPARE:  ${{ github.workspace }}/build/bin/compare
+          BENCH_ROOT: ${{ github.workspace }}/benchmark_XML
+          MPIRUN:   /usr/bin/mpirun
+          MPI_NP:   4
+          MPIFLAGS: --oversubscribe
