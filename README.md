@@ -147,17 +147,17 @@ printf "run.batch\nquit\n" | ../../build/bin/tahoe   # run simulations
 printf "run.batch\nquit\n" | ../../build/bin/compare  # compare vs reference
 ```
 
-#### Benchmark Status (February 2026, serial build with SEACAS enabled)
+#### Benchmark Status (February 2026, MPI build with SEACAS enabled)
 
-Use `run_benchmarks.sh` at the repo root to reproduce. Level 3 contains only MPI parallel tests and requires `-DTAHOE_MPI=ON` plus `mpirun`.
+Use `run_benchmarks.sh` at the repo root to reproduce. Level 3 requires `-DTAHOE_MPI=ON` and system OpenMPI (`/usr/bin/mpirun`). The script auto-detects system `mpirun` and runs level.3 with 4 MPI ranks.
 
 | Level | PASS | FAIL/CRASH | SKIP | Notes |
 |-------|------|------------|------|-------|
 | level.0 | **155** | 30 | — | Core physics suite |
 | level.1 | **105** | 3 | — | Extended element tests |
 | level.2 | **39** | 2 | — | Additional verification |
-| level.3 | — | — | all | MPI-only; requires `TAHOE_MPI=ON` + `mpirun` |
-| **Total** | **299** | **35** | | |
+| level.3 | **22** | 0 | — | MPI parallel (4 ranks): elastostatic, explicit dynamics, particle MD, PCG, periodic BC |
+| **Total** | **321** | **35** | | |
 
 ##### Failure categories
 
@@ -188,4 +188,4 @@ See the `LICENSE` file. Tahoe was developed at Sandia National Laboratories unde
 | Date | Author | Notes |
 |------|--------|-------|
 | 2014 | Regents of the University of Colorado | Tahoe 2.1 release |
-| February 2026 | Saman Seifi (Boston University) | CMake modernization; C++11 two-phase lookup fixes; compiler warning cleanup (`-fpermissive`); ExodusII/SEACAS enabled via system packages; Google Test unit test suite (36 tests); GitHub Actions CI/CD pipeline; fix missing `return` in `PotentialT::MeanEnergy` |
+| February 2026 | Saman Seifi (Boston University) | CMake modernization; C++11 two-phase lookup fixes; compiler warning cleanup (`-fpermissive`); ExodusII/SEACAS enabled via system packages; Google Test unit test suite (36 tests); GitHub Actions CI/CD pipeline; fix missing `return` in `PotentialT::MeanEnergy`; SPOOLES multithreaded (pthreads) solver (`TAHOE_SPOOLES_MT`); MPI distributed solver via bundled spoolesMPI (`TAHOE_MPI`); 22/22 level.3 MPI benchmarks pass |
