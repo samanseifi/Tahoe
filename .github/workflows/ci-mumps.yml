@@ -1,0 +1,83 @@
+name: CI — MUMPS Solver
+
+on:
+  push:
+    branches: [master, develop]
+  pull_request:
+    branches: [master, develop]
+
+jobs:
+  build-and-test-mumps:
+    name: Build, Unit Tests & Benchmarks (MUMPS)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y cmake build-essential \
+            libexodusii-dev libnetcdf-dev \
+            libmumps-dev
+
+      - name: Configure (MUMPS)
+        run: |
+          cmake -S . -B build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTAHOE_EXPAT=ON \
+            -DTAHOE_SPOOLES=ON \
+            -DTAHOE_SUPERLU=ON \
+            -DTAHOE_F2C=ON \
+            -DTAHOE_DEV=ON \
+            -DTAHOE_TESTS=ON \
+            -DTAHOE_MPI=OFF \
+            -DTAHOE_MUMPS=ON \
+            -DTAHOE_SEACAS=ON
+
+      - name: Build
+        run: cmake --build build --parallel $(nproc)
+
+      # ---------------------------------------------------------------
+      # Unit tests — must pass, block CI on failure
+      # ---------------------------------------------------------------
+      - name: Unit tests (CTest / Google Test)
+        run: ctest --test-dir build --output-on-failure --parallel $(nproc)
+
+      # ---------------------------------------------------------------
+      # Standard serial benchmarks — verify MUMPS build doesn't break
+      # anything.  Pass criterion: CRASH = 0.
+      # ---------------------------------------------------------------
+      - name: Benchmarks level.0 (core physics)
+        run: ./run_benchmarks.sh level.0
+        env:
+          TAHOE:    ${{ github.workspace }}/build/bin/tahoe
+          COMPARE:  ${{ github.workspace }}/build/bin/compare
+          BENCH_ROOT: ${{ github.workspace }}/benchmark_XML
+
+      - name: Benchmarks level.1 (constitutive models)
+        run: ./run_benchmarks.sh level.1
+        env:
+          TAHOE:    ${{ github.workspace }}/build/bin/tahoe
+          COMPARE:  ${{ github.workspace }}/build/bin/compare
+          BENCH_ROOT: ${{ github.workspace }}/benchmark_XML
+
+      - name: Benchmarks level.2 (extended capabilities)
+        run: ./run_benchmarks.sh level.2
+        env:
+          TAHOE:    ${{ github.workspace }}/build/bin/tahoe
+          COMPARE:  ${{ github.workspace }}/build/bin/compare
+          BENCH_ROOT: ${{ github.workspace }}/benchmark_XML
+
+      # ---------------------------------------------------------------
+      # MUMPS-specific smoke test
+      #
+      # wlc_mumps.xml uses <MUMPS_matrix/> and is intentionally kept
+      # out of the standard run.batch files so it doesn't crash
+      # non-MUMPS builds.
+      # ---------------------------------------------------------------
+      - name: MUMPS smoke test (WLC 3D, 290 steps)
+        run: |
+          cd benchmark_XML/level.1/material.solid/3D/material.120
+          ${{ github.workspace }}/build/bin/tahoe -f wlc_mumps.xml

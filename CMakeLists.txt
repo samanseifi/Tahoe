@@ -118,6 +118,18 @@ if(TAHOE_SUPERLU)
 endif()
 
 # ---------------------------------------------------------------------------
+# Optional: MUMPS  (requires system libmumps-dev — apt-get install libmumps-dev)
+#
+# Uses comm_fortran=-987654 (sequential dummy communicator), so MUMPS runs
+# without actual MPI communication, but the library itself still depends on
+# MPI and ScaLAPACK at link time.
+# ---------------------------------------------------------------------------
+option(TAHOE_MUMPS "Link system MUMPS direct solver (-DTAHOE_MUMPS=ON)" OFF)
+if(TAHOE_MUMPS)
+    message(STATUS "Tahoe: MUMPS enabled (system library — requires libmumps-dev)")
+endif()
+
+# ---------------------------------------------------------------------------
 # Optional: MPI  (requires system OpenMPI/MPICH — libopenmpi-dev / libmpich-dev)
 #
 # Portability note: conda installs its own MPI wrappers (mpicxx, mpicc) into

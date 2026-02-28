@@ -22,6 +22,7 @@ cmake --build build -j$(nproc)
 | `TAHOE_SPOOLES` | `ON` | Bundled SPOOLES sparse direct solver |
 | `TAHOE_SPOOLES_MT` | `OFF` | SPOOLES multithreaded solver — POSIX-thread parallel LU factorisation on a single node; no MPI required. Requires `TAHOE_SPOOLES=ON`. Use `<SPOOLES_MT_matrix num_threads="N" .../>` in XML (N ≥ 2). |
 | `TAHOE_SUPERLU` | `OFF` | Bundled SuperLU 3.0 serial sparse direct solver — high-performance LU with partial pivoting and optional iterative refinement. Requires `TAHOE_F2C=ON`. No system BLAS needed. Use `<SuperLU_matrix/>` in XML. |
+| `TAHOE_MUMPS` | `OFF` | System MUMPS direct solver — links against system `libmumps-dev`. Uses `comm_fortran=-987654` (sequential, no MPI communication). Install: `sudo apt-get install libmumps-dev`. Use `<MUMPS_matrix/>` in XML. |
 | `TAHOE_F2C` | `ON` | Fortran-to-C converter (ABAQUS UMAT support) |
 | `TAHOE_DEV` | `ON` | Research/development element module |
 | `TAHOE_MPI` | `OFF` | MPI parallelization — requires system OpenMPI (`libopenmpi-dev`). Automatically builds the bundled `spoolesMPI` distributed solver. CMake prefers system wrappers (`/usr/bin/mpicxx`) over conda-installed MPI; override with `-DMPI_CXX_COMPILER=...`. Run with `mpirun -np N tahoe -f input.xml`. |
@@ -124,6 +125,9 @@ MPI extension to SPOOLES for distributed-memory parallel factorisation across mu
 ### `superlu/` — SuperLU 3.0 Sparse Direct Solver
 Bundled SuperLU 3.0 library (C, no system BLAS dependency). Provides sparse LU factorisation with partial pivoting and optional iterative refinement; a fast drop-in alternative to SPOOLES for serial single-node jobs. Enable with `-DTAHOE_SUPERLU=ON`. See [`superlu/README.md`](superlu/README.md).
 
+### MUMPS (system library)
+Wrapper around the system MUMPS direct solver (`libmumps-dev`). Uses MUMPS with the sequential dummy communicator so no MPI communication is needed at runtime. Enable with `-DTAHOE_MUMPS=ON`. Source wrapper: [`tahoe/src/primitives/globalmatrix/MUMPS/`](tahoe/src/primitives/globalmatrix/MUMPS/).
+
 ### `f2c/` — Fortran-to-C Runtime
 Enables ABAQUS UMAT material subroutines (originally written in Fortran) to be compiled and called from C++.
 
@@ -183,12 +187,13 @@ Use `run_benchmarks.sh` at the repo root to reproduce. Level 3 requires `-DTAHOE
 
 ## Solvers
 
-Tahoe ships four bundled sparse direct solvers. All are built from source with no external library dependencies (SuperLU uses bundled CBLAS via `f2c`; SPOOLES needs only pthreads for the MT variant).
+Tahoe ships five sparse direct solvers. The bundled solvers (SPOOLES, SuperLU) have no external library dependencies. The system solvers (MUMPS, SPOOLES-MPI) require system packages.
 
 | Solver | CMake flag | Parallelism | XML element | When to use |
 |--------|-----------|-------------|-------------|-------------|
 | SPOOLES (default) | `TAHOE_SPOOLES=ON` | 1 thread | `<SPOOLES_matrix/>` | Default; development and small models |
 | SuperLU 3.0 | `TAHOE_SUPERLU=ON` | 1 thread | `<SuperLU_matrix/>` | Serial alternative with partial pivoting; often faster than SPOOLES on medium models |
+| MUMPS | `TAHOE_MUMPS=ON` | 1 thread (seq.) | `<MUMPS_matrix/>` | System MUMPS with METIS ordering; requires `libmumps-dev` |
 | SPOOLES-MT | `TAHOE_SPOOLES_MT=ON` | N pthreads | `<SPOOLES_MT_matrix num_threads="N"/>` | Multicore workstations; no MPI required |
 | SPOOLES-MPI | `TAHOE_MPI=ON` | N MPI ranks | batch mode | HPC clusters or multi-node jobs |
 
@@ -221,6 +226,28 @@ In the XML input, replace the solver block with:
 ```
 
 Verified: WLC finite-anisotropy benchmark (290 Newton steps, single hex element) completes in ~0.35 s with SuperLU vs ~0.40 s with SPOOLES. See [`superlu/README.md`](superlu/README.md).
+
+### MUMPS — system sparse direct solver
+
+Requires `libmumps-dev` from the system package manager. Uses the sequential dummy communicator (`comm_fortran=-987654`) so no actual MPI communication occurs, but the library links against MPI and ScaLAPACK at build time.
+
+```bash
+sudo apt-get install libmumps-dev
+
+cmake -B build -DTAHOE_MUMPS=ON
+cmake --build build -j$(nproc)
+./build/bin/tahoe -f input.xml
+```
+
+In the XML input, replace the solver block with:
+```xml
+<MUMPS_matrix/>
+<!-- optional parameters: -->
+<MUMPS_matrix message_level="silent" always_symmetric="false"/>
+<!-- message_level options: silent | errors | verbose -->
+```
+
+MUMPS uses METIS fill-reducing ordering by default (`icntl[6]=7`). Verified: WLC finite-anisotropy benchmark (290 Newton steps) completes with the same results as SPOOLES and SuperLU.
 
 ### SPOOLES-MT — shared-memory multithreaded
 

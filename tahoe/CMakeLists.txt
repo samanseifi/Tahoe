@@ -72,6 +72,41 @@ if(TAHOE_MPI)
     # __SPOOLES_MPI__ comes transitively from tahoe_spooles_mpi PUBLIC defines
 endif()
 
+if(TAHOE_MUMPS)
+    # MUMPS from the system package manager (e.g. libmumps-dev on Ubuntu).
+    # Even in sequential mode (comm_fortran=-987654) the library depends on
+    # MPI and ScaLAPACK at link time.
+    find_package(MPI REQUIRED COMPONENTS C Fortran)
+
+    find_library(MUMPS_D_LIBRARY   NAMES dmumps
+        HINTS /usr/lib /usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/openmpi/lib)
+    find_library(MUMPS_CMN_LIBRARY NAMES mumps_common
+        HINTS /usr/lib /usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/openmpi/lib)
+    find_library(PORD_LIBRARY      NAMES pord
+        HINTS /usr/lib /usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/openmpi/lib)
+    find_library(SCALAPACK_LIBRARY NAMES scalapack-openmpi scalapack
+        HINTS /usr/lib /usr/lib/x86_64-linux-gnu)
+    find_path(MUMPS_INCLUDE_DIR    NAMES dmumps_c.h
+        HINTS /usr/include /usr/include/mumps_seq)
+
+    if(NOT MUMPS_D_LIBRARY OR NOT MUMPS_INCLUDE_DIR)
+        message(FATAL_ERROR
+            "TAHOE_MUMPS=ON but MUMPS libraries not found.\n"
+            "Install with: sudo apt-get install libmumps-dev")
+    endif()
+
+    target_include_directories(libtahoe PUBLIC ${MUMPS_INCLUDE_DIR})
+    target_compile_definitions(libtahoe PUBLIC __MUMPS__)
+    target_link_libraries(libtahoe PUBLIC
+        ${MUMPS_D_LIBRARY}
+        ${MUMPS_CMN_LIBRARY}
+        ${PORD_LIBRARY}
+        ${SCALAPACK_LIBRARY}
+        MPI::MPI_C
+        MPI::MPI_Fortran
+    )
+endif()
+
 if(TAHOE_SEACAS)
     target_link_libraries(libtahoe PUBLIC tahoe_seacas)
 endif()

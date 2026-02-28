@@ -36,6 +36,8 @@
 #include "SPOOLESMatrixT_MT.h"
 #endif
 
+#include "MUMPSMatrixT.h"
+
 #ifdef __TRILINOS__
 /* extra Tahoe headers */
 #include "IOManager.h"
@@ -668,6 +670,20 @@ ParameterInterfaceT* SolverT::NewSub(const StringT& name) const
 		choice->AddSub(SuperLU_MT);
 #endif /* __SUPERLU_MT__ */
 
+#ifdef __MUMPS__
+		ParameterContainerT MUMPS("MUMPS_matrix");
+		ParameterT mumps_msg_level(ParameterT::Enumeration, "message_level");
+		mumps_msg_level.AddEnumeration("silent",  0);
+		mumps_msg_level.AddEnumeration("errors",  1);
+		mumps_msg_level.AddEnumeration("verbose", 2);
+		mumps_msg_level.SetDefault(0);
+		MUMPS.AddParameter(mumps_msg_level);
+		ParameterT mumps_always_sym(ParameterT::Boolean, "always_symmetric");
+		mumps_always_sym.SetDefault(false);
+		MUMPS.AddParameter(mumps_always_sym);
+		choice->AddSub(MUMPS);
+#endif /* __MUMPS__ */
+
 		return choice;
 	}
 #ifdef __AZTEC__
@@ -997,6 +1013,18 @@ int SolverT::CheckMatrixType(int matrix_type, int analysis_code) const
 			      analysis_code == GlobalT::kAugLagStatic);
 			break;
 
+		case kMUMPS:
+
+			OK = (analysis_code == GlobalT::kLinStatic       ||
+			      analysis_code == GlobalT::kLinDynamic      ||
+			      analysis_code == GlobalT::kNLStatic        ||
+			      analysis_code == GlobalT::kNLDynamic       ||
+			      analysis_code == GlobalT::kDR              ||
+			      analysis_code == GlobalT::kNLStaticKfield  ||
+			      analysis_code == GlobalT::kVarNodeNLStatic ||
+			      analysis_code == GlobalT::kAugLagStatic);
+			break;
+
 		default:
 
 			cout << "\n SolverT::CheckMatrixType: unknown matrix type ";
@@ -1022,7 +1050,8 @@ int SolverT::CheckMatrixType(int matrix_type, int analysis_code) const
 	    (matrix_type == kFullMatrix    ||
 	     matrix_type == kProfileSolver ||
 	     matrix_type == kSuperLU  ||
-	     matrix_type == kSPOOLES))
+	     matrix_type == kSPOOLES  ||
+	     matrix_type == kMUMPS))
 	{
 		cout << "\n SolverT::CheckMatrixType: matrix type not support in parallel: "
 		     << matrix_type << endl;
@@ -1195,6 +1224,29 @@ void SolverT::SetGlobalMatrix(const ParameterListT& params, int check_code)
 #else
 			ExceptionT::GeneralFail(caller, "Trilinos not installed: %d", fMatrixType);
 #endif /* __TRILINOS__ */
+	}
+	else if (params.Name() == "MUMPS_matrix")
+	{
+#ifdef __MUMPS__
+		/* global system properties */
+		GlobalT::SystemTypeT type = fFEManager.GlobalSystemType(fGroup);
+
+		int  message_level    = params.GetParameter("message_level");
+		bool always_symmetric = params.GetParameter("always_symmetric");
+		bool symmetric;
+		if (always_symmetric)
+			symmetric = true;
+		else if (type == GlobalT::kDiagonal || type == GlobalT::kSymmetric)
+			symmetric = true;
+		else if (type == GlobalT::kNonSymmetric)
+			symmetric = false;
+		else
+			ExceptionT::GeneralFail(caller, "unexpected system type: %d", type);
+
+		fLHS = new MUMPSMatrixT(out, check_code, symmetric, message_level, comm);
+#else /* no __MUMPS__ */
+		ExceptionT::GeneralFail(caller, "MUMPS not installed");
+#endif /* __MUMPS__ */
 	}
 	else
 		ExceptionT::GeneralFail(caller, "unrecognized matrix type \"%s\"", params.Name().Pointer());

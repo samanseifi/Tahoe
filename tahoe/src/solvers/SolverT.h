@@ -50,7 +50,8 @@ public:
 					           kAztec = 3, /**< sparse, iterative solver */
 			                 kSuperLU = 4, /**< sparse, direct solver */
 			                 kSPOOLES = 5, /**< sparse, direct solver */
-			                 kPSPASES = 6  /**< sparse, direct multi-processor solver */
+			                 kPSPASES = 6, /**< sparse, direct multi-processor solver */
+			                  kMUMPS  = 7  /**< sparse, direct solver (system MUMPS) */
 			                 };
 
 	/** solution status */
