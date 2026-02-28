@@ -74,9 +74,12 @@ endif()
 
 if(TAHOE_MUMPS)
     # MUMPS from the system package manager (e.g. libmumps-dev on Ubuntu).
-    # Even in sequential mode (comm_fortran=-987654) the library depends on
-    # MPI and ScaLAPACK at link time.
-    find_package(MPI REQUIRED COMPONENTS C Fortran)
+    # libdmumps.so is a shared library that already carries transitive deps on
+    # libscalapack, libmpi_mpifh, and libgfortran — so we only need to link
+    # MPI::MPI_C for the C-level MPI headers used by MUMPSMatrixT_mpi.
+    # We do NOT request the Fortran MPI component because that requires the
+    # Fortran language to be enabled in CMake.
+    find_package(MPI REQUIRED COMPONENTS C)
 
     find_library(MUMPS_D_LIBRARY   NAMES dmumps
         HINTS /usr/lib /usr/lib/x86_64-linux-gnu /usr/lib/x86_64-linux-gnu/openmpi/lib)
@@ -103,7 +106,6 @@ if(TAHOE_MUMPS)
         ${PORD_LIBRARY}
         ${SCALAPACK_LIBRARY}
         MPI::MPI_C
-        MPI::MPI_Fortran
     )
 endif()
 

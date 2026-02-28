@@ -37,6 +37,7 @@
 #endif
 
 #include "MUMPSMatrixT.h"
+#include "MUMPSMatrixT_mpi.h"
 
 #ifdef __TRILINOS__
 /* extra Tahoe headers */
@@ -682,6 +683,13 @@ ParameterInterfaceT* SolverT::NewSub(const StringT& name) const
 		mumps_always_sym.SetDefault(false);
 		MUMPS.AddParameter(mumps_always_sym);
 		choice->AddSub(MUMPS);
+
+#if defined(__MUMPS__) && defined(__TAHOE_MPI__)
+		ParameterContainerT MUMPS_MPI("MUMPS_MPI_matrix");
+		MUMPS_MPI.AddParameter(mumps_msg_level);
+		MUMPS_MPI.AddParameter(mumps_always_sym);
+		choice->AddSub(MUMPS_MPI);
+#endif /* __MUMPS__ && __TAHOE_MPI__ */
 #endif /* __MUMPS__ */
 
 		return choice;
@@ -1014,6 +1022,7 @@ int SolverT::CheckMatrixType(int matrix_type, int analysis_code) const
 			break;
 
 		case kMUMPS:
+		case kMUMPS_MPI:
 
 			OK = (analysis_code == GlobalT::kLinStatic       ||
 			      analysis_code == GlobalT::kLinDynamic      ||
@@ -1247,6 +1256,29 @@ void SolverT::SetGlobalMatrix(const ParameterListT& params, int check_code)
 #else /* no __MUMPS__ */
 		ExceptionT::GeneralFail(caller, "MUMPS not installed");
 #endif /* __MUMPS__ */
+	}
+	else if (params.Name() == "MUMPS_MPI_matrix")
+	{
+#if defined(__MUMPS__) && defined(__TAHOE_MPI__)
+		/* global system properties */
+		GlobalT::SystemTypeT type = fFEManager.GlobalSystemType(fGroup);
+
+		int  message_level    = params.GetParameter("message_level");
+		bool always_symmetric = params.GetParameter("always_symmetric");
+		bool symmetric;
+		if (always_symmetric)
+			symmetric = true;
+		else if (type == GlobalT::kDiagonal || type == GlobalT::kSymmetric)
+			symmetric = true;
+		else if (type == GlobalT::kNonSymmetric)
+			symmetric = false;
+		else
+			ExceptionT::GeneralFail(caller, "unexpected system type: %d", type);
+
+		fLHS = new MUMPSMatrixT_mpi(out, check_code, symmetric, message_level, comm);
+#else
+		ExceptionT::GeneralFail(caller, "MUMPS_MPI requires TAHOE_MUMPS=ON and TAHOE_MPI=ON");
+#endif /* __MUMPS__ && __TAHOE_MPI__ */
 	}
 	else
 		ExceptionT::GeneralFail(caller, "unrecognized matrix type \"%s\"", params.Name().Pointer());

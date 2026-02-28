@@ -69,6 +69,7 @@ private:
     bool fSymmetric;
     bool fIsInitialized;
     bool fIsFactorized;
+    bool fInitedMPI;     /**< true if this object called MPI_Init */
 
     /** 1-based COO storage kept alive between Factorize and BackSubstitute */
     iArrayT fRowIdx;   /**< irn: row indices (1-based) */

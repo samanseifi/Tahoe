@@ -4,6 +4,7 @@
 #ifdef __MUMPS__
 
 #include "ExceptionT.h"
+#include "mumps_mpi_util.h"
 #include <cstring>
 
 using namespace Tahoe;
@@ -18,7 +19,8 @@ MUMPSMatrixT::MUMPSMatrixT(ostream& out, int check_code, bool symmetric,
     fMessageLevel(message_level),
     fSymmetric(symmetric),
     fIsInitialized(false),
-    fIsFactorized(false)
+    fIsFactorized(false),
+    fInitedMPI(false)
 {
     memset(&fId, 0, sizeof(DMUMPS_STRUC_C));
 }
@@ -28,7 +30,8 @@ MUMPSMatrixT::MUMPSMatrixT(const MUMPSMatrixT& source)
     fMessageLevel(source.fMessageLevel),
     fSymmetric(source.fSymmetric),
     fIsInitialized(false),
-    fIsFactorized(false)
+    fIsFactorized(false),
+    fInitedMPI(false)
 {
     ExceptionT::GeneralFail("MUMPSMatrixT::MUMPSMatrixT(copy)", "not implemented");
 }
@@ -56,9 +59,9 @@ void MUMPSMatrixT::Clear(void)
         ExceptionT::GeneralFail("MUMPSMatrixT::Clear",
             "expecting first equation number to be 1 not %d", fStartEQ);
 
-    /* reinitialize MUMPS (discards any previous factorization state) */
-    if (fIsInitialized) Finalize();
-    Initialize();
+    /* Initialize MUMPS once (MPI + job=-1); subsequent steps reuse the same
+     * MUMPS instance — Factorize() reruns jobs 1+2 with the new matrix. */
+    if (!fIsInitialized) Initialize();
 
     fIsFactorized = false;
 }
@@ -144,12 +147,21 @@ void MUMPSMatrixT::BackSubstitute(dArrayT& result)
 
 void MUMPSMatrixT::Initialize(void)
 {
+    /* The parallel libmumps requires MPI to be initialized even when using
+     * the sequential dummy communicator (comm_fortran=-987654).  If MPI is
+     * not yet running (e.g. serial build without -DTAHOE_MPI=ON), we call
+     * the C helper which performs MPI_Init without pulling in OpenMPI's
+     * C++ binding headers that conflict with CommunicatorT's stub macros. */
+    fInitedMPI = tahoe_mumps_mpi_init();
+
     memset(&fId, 0, sizeof(DMUMPS_STRUC_C));
 
-    fId.job          = -1;       /* initialize */
-    fId.par          =  1;       /* host participates in factorization */
-    fId.sym          = fSymmetric ? 2 : 0;  /* 0=unsymmetric, 2=general symmetric */
-    fId.comm_fortran = -987654;  /* dummy MPI communicator for sequential build */
+    fId.job          = -1;  /* initialize */
+    fId.par          =  1;  /* host participates in factorization */
+    fId.sym          = fSymmetric ? 2 : 0;
+    /* MPI_COMM_SELF (single rank) — compatible with parallel libmumps-dev.
+     * The -987654 sentinel is only valid for the sequential libmumps-seq. */
+    fId.comm_fortran = (MUMPS_INT) tahoe_mumps_comm_self();
     dmumps_c(&fId);
 
     if (fId.infog[0] != 0)
@@ -160,9 +172,9 @@ void MUMPSMatrixT::Initialize(void)
     /* Output verbosity:
      *   icntl[0..2] = output unit for errors/diagnostics/global info (-1 = suppress)
      *   icntl[3]    = print level (0=nothing, 1=errors, 2=diagnostics, 3=stats, 4=info) */
-    fId.icntl[0] = (fMessageLevel > 0) ? 6 : -1;   /* error output */
-    fId.icntl[1] = (fMessageLevel > 1) ? 6 : -1;   /* diagnostic output */
-    fId.icntl[2] = (fMessageLevel > 0) ? 6 : -1;   /* global info output */
+    fId.icntl[0] = (fMessageLevel > 0) ? 6 : -1;
+    fId.icntl[1] = (fMessageLevel > 1) ? 6 : -1;
+    fId.icntl[2] = (fMessageLevel > 0) ? 6 : -1;
     fId.icntl[3] = (fMessageLevel > 0) ? fMessageLevel : 0;
 
     /* icntl[17]=0 : centralized assembled input (host provides irn/jcn/a) */
@@ -180,6 +192,10 @@ void MUMPSMatrixT::Finalize(void)
     dmumps_c(&fId);
     fIsInitialized = false;
     fIsFactorized  = false;
+
+    /* Finalize MPI only if we were the ones who initialized it */
+    tahoe_mumps_mpi_finalize(fInitedMPI);
+    fInitedMPI = false;
 }
 
 #endif /* __MUMPS__ */

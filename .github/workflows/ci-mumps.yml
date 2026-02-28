@@ -20,7 +20,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y cmake build-essential \
             libexodusii-dev libnetcdf-dev \
-            libmumps-dev
+            libmumps-dev openmpi-bin libopenmpi-dev
 
       - name: Configure (MUMPS)
         run: |
@@ -71,13 +71,55 @@ jobs:
           BENCH_ROOT: ${{ github.workspace }}/benchmark_XML
 
       # ---------------------------------------------------------------
-      # MUMPS-specific smoke test
+      # MUMPS-specific smoke tests (sequential)
       #
-      # wlc_mumps.xml uses <MUMPS_matrix/> and is intentionally kept
-      # out of the standard run.batch files so it doesn't crash
+      # These files use <MUMPS_matrix/> and are intentionally kept
+      # out of the standard run.batch files so they don't crash
       # non-MUMPS builds.
       # ---------------------------------------------------------------
-      - name: MUMPS smoke test (WLC 3D, 290 steps)
+      - name: MUMPS smoke test — level.0 diffusion (sequential)
+        run: |
+          cd benchmark_XML/level.0/diffusion
+          ${{ github.workspace }}/build/bin/tahoe -f bar.2D.lin.mumps.xml
+
+      - name: MUMPS smoke test — level.1 solid 2D (sequential)
+        run: |
+          cd benchmark_XML/level.1/material.solid/2D/material.02
+          ${{ github.workspace }}/build/bin/tahoe -f mat.2.a.mumps.xml
+
+      - name: MUMPS smoke test — level.1 WLC 3D (sequential, 290 steps)
         run: |
           cd benchmark_XML/level.1/material.solid/3D/material.120
           ${{ github.workspace }}/build/bin/tahoe -f wlc_mumps.xml
+
+      # ---------------------------------------------------------------
+      # MUMPS + MPI smoke tests (parallel MUMPS_MPI_matrix)
+      #
+      # Builds with TAHOE_MPI=ON to activate the MUMPSMatrixT_mpi path.
+      # ---------------------------------------------------------------
+      - name: Configure (MUMPS + MPI)
+        run: |
+          cmake -S . -B build-mpi-mumps \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DTAHOE_EXPAT=ON \
+            -DTAHOE_SPOOLES=ON \
+            -DTAHOE_SUPERLU=ON \
+            -DTAHOE_F2C=ON \
+            -DTAHOE_DEV=ON \
+            -DTAHOE_TESTS=ON \
+            -DTAHOE_MPI=ON \
+            -DTAHOE_MUMPS=ON \
+            -DTAHOE_SEACAS=ON
+
+      - name: Build (MUMPS + MPI)
+        run: cmake --build build-mpi-mumps --parallel $(nproc)
+
+      - name: MUMPS MPI smoke test — level.0 diffusion (2 ranks)
+        run: |
+          cd benchmark_XML/level.0/diffusion
+          mpirun -np 2 --oversubscribe ${{ github.workspace }}/build-mpi-mumps/bin/tahoe -f bar.2D.lin.mumps_mpi.xml
+
+      - name: MUMPS MPI smoke test — level.1 solid 2D (2 ranks)
+        run: |
+          cd benchmark_XML/level.1/material.solid/2D/material.02
+          mpirun -np 2 --oversubscribe ${{ github.workspace }}/build-mpi-mumps/bin/tahoe -f mat.2.a.mumps_mpi.xml
