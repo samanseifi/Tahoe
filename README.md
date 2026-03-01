@@ -194,7 +194,7 @@ Tahoe ships five sparse direct solvers. The bundled solvers (SPOOLES, SuperLU) h
 | SPOOLES (default) | `TAHOE_SPOOLES=ON` | 1 thread | `<SPOOLES_matrix/>` | Default; development and small models |
 | SuperLU 3.0 | `TAHOE_SUPERLU=ON` | 1 thread | `<SuperLU_matrix/>` | Serial alternative with partial pivoting; often faster than SPOOLES on medium models |
 | MUMPS (serial) | `TAHOE_MUMPS=ON` | 1 thread | `<MUMPS_matrix/>` | System MUMPS on a single process; requires `libmumps-dev` |
-| MUMPS (MPI) | `TAHOE_MUMPS=ON` + `TAHOE_MPI=ON` | N MPI ranks | `<MUMPS_MPI_matrix/>` | Distributed MUMPS across MPI ranks; same install, run with `mpirun` |
+| MUMPS (MPI) | `TAHOE_MUMPS=ON` + `TAHOE_MPI=ON` | N MPI ranks | `<MUMPS_MPI_matrix/>` | Distributed MUMPS across MPI ranks; same install, run with `mpirun -decomp_method -0` |
 | SPOOLES-MT | `TAHOE_SPOOLES_MT=ON` | N pthreads | `<SPOOLES_MT_matrix num_threads="N"/>` | Multicore workstations; no MPI required |
 | SPOOLES-MPI | `TAHOE_MPI=ON` | N MPI ranks | batch mode | HPC clusters or multi-node jobs |
 
@@ -254,21 +254,23 @@ In the XML input, replace the solver block with:
 <!-- Serial (no mpirun needed) — recommended: -->
 <MUMPS_matrix message_level="silent" always_symmetric="false"/>
 
-<!-- MPI distributed (run with /usr/bin/mpirun, experimental): -->
+<!-- MPI distributed — run with /usr/bin/mpirun and -decomp_method -0: -->
 <MUMPS_MPI_matrix message_level="silent" always_symmetric="false"/>
 
 <!-- message_level options: silent | errors | verbose -->
 ```
 
-Uses AMD fill-reducing ordering (`icntl[6]=0`) and 200% workspace headroom (`icntl[13]=100`).
+Both variants use AMD fill-reducing ordering (`icntl[6]=0`) and 200% workspace headroom (`icntl[13]=100`).
+
+**How MUMPS-MPI works** (`icntl[17]=3`, distributed assembled input): each MPI rank calls `GenerateRCV()` to extract its local COO triplets with global indices, then supplies them to MUMPS directly. MUMPS handles the global assembly and distributed factorization internally. After the solve, the full solution is gathered on rank 0 and broadcast to all ranks, which extract their local portion.
 
 > **BLAS note**: MUMPS links against system BLAS (`libblas.so.3`). The build uses `-Wl,--exclude-libs,ALL` to prevent SuperLU's bundled CBLAS routines from shadowing MUMPS's BLAS calls — without this, MUMPS segfaults on large problems inside the frontal factorization kernel.
 
 > **mpirun note**: always use the system OpenMPI launcher (`/usr/bin/mpirun`), not conda's MPICH. With system OpenMPI, worker ranks redirect their output to per-rank `console<N>` log files, avoiding N-fold duplicated messages. Conda's `mpirun` bypasses rank detection and duplicates all output.
 
-> **MUMPS_MPI_matrix note**: experimental — requires proper domain decomposition (batch mode, same requirements as SPOOLES-MPI). For large single-node problems, `<MUMPS_matrix/>` (serial MUMPS without mpirun) is the recommended choice.
+> **Domain decomposition**: `<MUMPS_MPI_matrix/>` requires the same domain-decomposition setup as SPOOLES-MPI — pass `-decomp_method -0` on the command line (or include it in a batch file). This generates per-rank geometry partitions automatically at startup.
 
-Verified: WLC benchmark (290 Newton steps) and dielectric elastomer benchmark (18832 DOFs, mixed-physics) complete correctly with `<MUMPS_matrix/>`.
+Verified: WLC benchmark (290 Newton steps) and dielectric elastomer benchmark (18832 DOFs, mixed-physics) complete correctly with both `<MUMPS_matrix/>` and `<MUMPS_MPI_matrix/>`. See [`benchmark_XML/level.4/README.md`](benchmark_XML/level.4/README.md) for a full solver comparison.
 
 ### SPOOLES-MT — shared-memory multithreaded
 
@@ -327,4 +329,4 @@ See the `LICENSE` file. Tahoe was developed at Sandia National Laboratories unde
 | Date | Author | Notes |
 |------|--------|-------|
 | 2014 | Regents of the University of Colorado | Tahoe 2.1 release |
-| February 2026 | Saman Seifi (Boston University) | CMake modernization; C++11 two-phase lookup fixes; compiler warning cleanup (`-fpermissive`); ExodusII/SEACAS enabled via system packages; Google Test unit test suite (36 tests); GitHub Actions CI/CD pipeline; fix missing `return` in `PotentialT::MeanEnergy`; SPOOLES multithreaded (pthreads) solver (`TAHOE_SPOOLES_MT`); MPI distributed solver via bundled spoolesMPI (`TAHOE_MPI`); 22/22 level.3 MPI benchmarks pass; SuperLU 3.0 serial solver (`TAHOE_SUPERLU`) with bundled CBLAS — no system BLAS required; enable `FINITE_ANISOTROPY` materials (Bischoff-Arruda WLC); system MUMPS solver — serial (`MUMPS_matrix`) and MPI distributed (`MUMPS_MPI_matrix`); fix BLAS symbol conflict (`-Wl,--exclude-libs,ALL`) enabling MUMPS on large problems (18k+ DOFs); 322/357 benchmarks pass |
+| February–March 2026 | Saman Seifi (Boston University) | CMake modernization; C++11 two-phase lookup fixes; compiler warning cleanup (`-fpermissive`); ExodusII/SEACAS enabled via system packages; Google Test unit test suite (36 tests); GitHub Actions CI/CD pipeline; fix missing `return` in `PotentialT::MeanEnergy`; SPOOLES multithreaded (pthreads) solver (`TAHOE_SPOOLES_MT`); MPI distributed solver via bundled spoolesMPI (`TAHOE_MPI`); 22/22 level.3 MPI benchmarks pass; SuperLU 3.0 serial solver (`TAHOE_SUPERLU`) with bundled CBLAS — no system BLAS required; enable `FINITE_ANISOTROPY` materials (Bischoff-Arruda WLC); system MUMPS solver — serial (`MUMPS_matrix`, `MPI_COMM_SELF`) and MPI distributed (`MUMPS_MPI_matrix`, `icntl[17]=3` distributed-assembled input); fix BLAS symbol conflict (`-Wl,--exclude-libs,ALL`) enabling MUMPS on large problems (18k+ DOFs); MUMPS-MPI np=2 is the fastest solver tested (5.2 s vs 7.5 s serial MUMPS vs 13.4 s SPOOLES on 18k-DOF dielectric elastomer); 322/357 benchmarks pass |
