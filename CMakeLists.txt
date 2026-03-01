@@ -130,6 +130,33 @@ if(TAHOE_MUMPS)
 endif()
 
 # ---------------------------------------------------------------------------
+# Optional: METIS  (requires system libmetis-dev — apt-get install libmetis-dev)
+#
+# Enables high-quality k-way graph partitioning for MPI domain decomposition.
+# Without METIS, Tahoe uses a built-in recursive bisection (-decomp_method -0).
+# With METIS, the decomposer minimises edge cuts / communication volume for
+# better load balance — used automatically when __METIS__ is defined (i.e. when
+# METIS is available, it is the default; disable with -no_metis at runtime).
+# ---------------------------------------------------------------------------
+option(TAHOE_METIS "Use system METIS graph partitioner (-DTAHOE_METIS=ON)" OFF)
+if(TAHOE_METIS)
+    find_path(METIS_INCLUDE_DIR metis.h
+        HINTS /usr/include /usr/local/include
+        DOC "METIS header directory")
+    find_library(METIS_LIBRARY
+        NAMES metis
+        HINTS /usr/lib /usr/local/lib /usr/lib/x86_64-linux-gnu
+        DOC "METIS library")
+    if(NOT METIS_INCLUDE_DIR OR NOT METIS_LIBRARY)
+        message(FATAL_ERROR
+            "TAHOE_METIS=ON but METIS not found.\n"
+            "Install with: sudo apt-get install libmetis-dev\n"
+            "Or set -DMETIS_INCLUDE_DIR=... -DMETIS_LIBRARY=... manually.")
+    endif()
+    message(STATUS "Tahoe: METIS enabled  (${METIS_LIBRARY})")
+endif()
+
+# ---------------------------------------------------------------------------
 # Optional: MPI  (requires system OpenMPI/MPICH — libopenmpi-dev / libmpich-dev)
 #
 # Portability note: conda installs its own MPI wrappers (mpicxx, mpicc) into

@@ -46,6 +46,12 @@ if(TAHOE_MPI)
     target_compile_definitions(toolbox PUBLIC __TAHOE_MPI__)
 endif()
 
+if(TAHOE_METIS)
+    target_compile_definitions(toolbox PUBLIC __METIS__)
+    target_include_directories(toolbox PUBLIC "${METIS_INCLUDE_DIR}")
+    target_link_libraries(toolbox PUBLIC "${METIS_LIBRARY}")
+endif()
+
 if(TAHOE_SEACAS)
     target_link_libraries(toolbox PUBLIC tahoe_seacas)
 endif()

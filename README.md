@@ -26,6 +26,7 @@ cmake --build build -j$(nproc)
 | `TAHOE_F2C` | `ON` | Fortran-to-C converter (ABAQUS UMAT support) |
 | `TAHOE_DEV` | `ON` | Research/development element module |
 | `TAHOE_MPI` | `OFF` | MPI parallelization — requires system OpenMPI (`libopenmpi-dev`). Automatically builds the bundled `spoolesMPI` distributed solver. CMake prefers system wrappers (`/usr/bin/mpicxx`) over conda-installed MPI; override with `-DMPI_CXX_COMPILER=...`. Run with `mpirun -np N tahoe -f input.xml`. |
+| `TAHOE_METIS` | `OFF` | System METIS 5 graph partitioner — improves MPI domain decomposition quality (minimises edge cuts / communication volume). Requires `TAHOE_MPI=ON`. Install: `sudo apt-get install libmetis-dev`. When enabled, METIS is used automatically during decomposition; disable at runtime with `-no_metis`. |
 | `TAHOE_SEACAS` | `OFF` | ExodusII mesh I/O — auto-detects system packages or `ACCESS` tree (see below) |
 | `TAHOE_TESTS` | `ON` | Build Google Test unit test suite |
 
@@ -310,6 +311,24 @@ mpirun -np 4 /path/to/tahoe -f run.batch
 
 The batch file format uses `@` as the first character (batch-mode marker), followed by option lines (`-run`, `-join_io`, `-decomp_method -0`, etc.) and XML filenames. Options accumulate as global state before each XML file is processed.
 
+### METIS — graph partitioner for MPI domain decomposition
+
+METIS improves the quality of the mesh partition passed to MPI ranks. Without it, Tahoe uses a built-in recursive bisection which can be unbalanced on unstructured meshes. METIS minimises edge cuts (fewer shared boundary nodes → less inter-process communication per Newton iteration).
+
+```bash
+sudo apt-get install libmetis-dev
+
+cmake -B build -DTAHOE_MPI=ON -DTAHOE_METIS=ON
+cmake --build build -j$(nproc)
+
+# METIS is used automatically — disable at runtime with -no_metis:
+/usr/bin/mpirun -np 4 ./build/bin/tahoe -f input.xml -decomp_method -0
+# force built-in bisection instead:
+/usr/bin/mpirun -np 4 ./build/bin/tahoe -f input.xml -decomp_method -0 -no_metis
+```
+
+METIS partitioning is invoked during the decomposition phase (before the first time step). It calls `METIS_PartGraphKway` with vertex weights set to the nodal cost reported by each element group, producing load-balanced partitions with minimised cut edges. The runtime flag `-no_metis` falls back to the built-in bisection without rebuilding.
+
 ---
 
 ## Input Format
@@ -329,4 +348,4 @@ See the `LICENSE` file. Tahoe was developed at Sandia National Laboratories unde
 | Date | Author | Notes |
 |------|--------|-------|
 | 2014 | Regents of the University of Colorado | Tahoe 2.1 release |
-| February–March 2026 | Saman Seifi (Boston University) | CMake modernization; C++11 two-phase lookup fixes; compiler warning cleanup (`-fpermissive`); ExodusII/SEACAS enabled via system packages; Google Test unit test suite (36 tests); GitHub Actions CI/CD pipeline; fix missing `return` in `PotentialT::MeanEnergy`; SPOOLES multithreaded (pthreads) solver (`TAHOE_SPOOLES_MT`); MPI distributed solver via bundled spoolesMPI (`TAHOE_MPI`); 22/22 level.3 MPI benchmarks pass; SuperLU 3.0 serial solver (`TAHOE_SUPERLU`) with bundled CBLAS — no system BLAS required; enable `FINITE_ANISOTROPY` materials (Bischoff-Arruda WLC); system MUMPS solver — serial (`MUMPS_matrix`, `MPI_COMM_SELF`) and MPI distributed (`MUMPS_MPI_matrix`, `icntl[17]=3` distributed-assembled input); fix BLAS symbol conflict (`-Wl,--exclude-libs,ALL`) enabling MUMPS on large problems (18k+ DOFs); MUMPS-MPI np=2 is the fastest solver tested (5.2 s vs 7.5 s serial MUMPS vs 13.4 s SPOOLES on 18k-DOF dielectric elastomer); 322/357 benchmarks pass |
+| February–March 2026 | Saman Seifi (Boston University) | CMake modernization; C++11 two-phase lookup fixes; compiler warning cleanup (`-fpermissive`); ExodusII/SEACAS enabled via system packages; Google Test unit test suite (36 tests); GitHub Actions CI/CD pipeline; fix missing `return` in `PotentialT::MeanEnergy`; SPOOLES multithreaded (pthreads) solver (`TAHOE_SPOOLES_MT`); MPI distributed solver via bundled spoolesMPI (`TAHOE_MPI`); 22/22 level.3 MPI benchmarks pass; SuperLU 3.0 serial solver (`TAHOE_SUPERLU`) with bundled CBLAS — no system BLAS required; enable `FINITE_ANISOTROPY` materials (Bischoff-Arruda WLC); system MUMPS solver — serial (`MUMPS_matrix`, `MPI_COMM_SELF`) and MPI distributed (`MUMPS_MPI_matrix`, `icntl[17]=3` distributed-assembled input); fix BLAS symbol conflict (`-Wl,--exclude-libs,ALL`) enabling MUMPS on large problems (18k+ DOFs); MUMPS-MPI np=2 is the fastest solver tested (5.2 s vs 7.5 s serial MUMPS vs 13.4 s SPOOLES on 18k-DOF dielectric elastomer); METIS 5 graph partitioner (`TAHOE_METIS`) — rewrote `GraphBaseT::Partition_METIS` for METIS 5 API (`METIS_PartGraphKway`, replaces removed METIS 4 functions); 322/357 benchmarks pass |

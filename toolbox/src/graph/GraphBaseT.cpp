@@ -192,11 +192,14 @@ void GraphBaseT::Partition_METIS(int num_partitions, const iArrayT& weight,
 #pragma unused(volume_or_edgecut)
 
 	/* error message */
-	cout << "\n GraphBaseT::Partition_METIS: requires metis module" << endl;
+	cout << "\n GraphBaseT::Partition_METIS: requires METIS (enable with -DTAHOE_METIS=ON)" << endl;
 	throw ExceptionT::kGeneralFail;
 #else
-	
-	/* NOTE: based on "kmetis.c" */
+
+	/* METIS 5 uses idx_t (int32_t by default).  Verify it matches Tahoe's int
+	 * so the pointer casts below are safe. */
+	static_assert(sizeof(idx_t) == sizeof(int),
+		"METIS idx_t width does not match Tahoe int — rebuild METIS with IDXTYPEWIDTH=32");
 
 	/* dimension check */
 	if (weight.Length() != fEdgeList.MajorDim()) throw ExceptionT::kSizeMismatch;
@@ -204,7 +207,7 @@ void GraphBaseT::Partition_METIS(int num_partitions, const iArrayT& weight,
 	/* options check */
 	if (volume_or_edgecut != 0 && volume_or_edgecut != 1)
 	{
-		cout << "\n GraphBaseT::Partition_METIS: volume_or_edgecut must be 0 or 1: " 
+		cout << "\n GraphBaseT::Partition_METIS: volume_or_edgecut must be 0 or 1: "
 		     << volume_or_edgecut << endl;
 		throw ExceptionT::kGeneralFail;
 	}
@@ -214,66 +217,60 @@ void GraphBaseT::Partition_METIS(int num_partitions, const iArrayT& weight,
 	partition = 0;
 	if (num_partitions < 2) return;
 
-	/* timing info */
-	timer TOTALTmr, METISTmr;    
-  	cleartimer(TOTALTmr);
-  	cleartimer(METISTmr);
-
-	starttimer(TOTALTmr);
 	cout << "**********************************************************************\n";
-	cout << METISTITLE;
+	cout << " METIS 5 Graph Partitioning\n";
 	cout << "Graph Information ---------------------------------------------------\n";
 	cout << "#Vertices: " << fEdgeList.MajorDim() << '\n';
 	cout << "   #Edges: " << fEdgeList.Length()/2 << '\n';
 	cout << "   #Parts: " << num_partitions << '\n';
-	cout << "  Balancing Constraints: " << 0 << '\n';
+	cout << "  Objective: " << (volume_or_edgecut == 0 ? "minimize communication volume"
+	                                                   : "minimize edge cut") << '\n';
 	cout << "\nK-way Partitioning... -----------------------------------------------\n" << endl;
 
-	/* offset vector for adjacency list */
+	/* build CSR offset (xadj) array for the adjacency list */
 	iArrayT offsets;
 	fEdgeList.GenerateOffsetVector(offsets);
-	
-	/* partition weights - even */
-	ArrayT<float> tpwgts(num_partitions);
-	tpwgts = 1.0/num_partitions;
 
-  	/* METIS options */
-	iArrayT options(5);
-	options[0] = 0; /* use all default values */
+	/* METIS 5 arguments */
+	idx_t nvtxs  = (idx_t) fEdgeList.MajorDim();
+	idx_t ncon   = 1;    /* one balancing constraint (vertex weight) */
+	idx_t nparts = (idx_t) num_partitions;
+	idx_t edgecut = 0;
 
-	/* other arguments */
-	int num_vertices = fEdgeList.MajorDim();
-	int edgecut; /* returns with number of edges cut by the partitioning */
-	int num_flag = 0;
-	int weight_flag = 2;
-	int* adjwgt = NULL;
+	/* set default options then select objective type */
+	idx_t opts[METIS_NOPTIONS];
+	METIS_SetDefaultOptions(opts);
+	opts[METIS_OPTION_OBJTYPE]   = (volume_or_edgecut == 0) ? METIS_OBJTYPE_VOL
+	                                                         : METIS_OBJTYPE_CUT;
+	opts[METIS_OPTION_NUMBERING] = 0;  /* C-style 0-based indices */
 
-	/* partitioning method */
-	starttimer(METISTmr);
-	if (volume_or_edgecut == 0)
-		METIS_WPartGraphVKway(&num_vertices, offsets.Pointer(), fEdgeList.Pointer(), (int*) weight.Pointer(), 
-			adjwgt, &weight_flag, &num_flag, &num_partitions, 
-			tpwgts.Pointer(), options.Pointer(), &edgecut, partition.Pointer());
-	else if (volume_or_edgecut == 1)
-		METIS_WPartGraphKway(&num_vertices, offsets.Pointer(), fEdgeList.Pointer(), (int*) weight.Pointer(), 
-			adjwgt, &weight_flag, &num_flag, &num_partitions, 
-			tpwgts.Pointer(), options.Pointer(), &edgecut, partition.Pointer());
-	else throw;
-	stoptimer(METISTmr);
+	clock_t t0 = clock();
+	int ret = METIS_PartGraphKway(
+		&nvtxs,
+		&ncon,
+		(idx_t*) offsets.Pointer(),       /* xadj:   CSR row-pointer array        */
+		(idx_t*) fEdgeList.Pointer(),     /* adjncy: CSR column-index array        */
+		(idx_t*) weight.Pointer(),        /* vwgt:   vertex weights (load balance) */
+		NULL,                             /* vsize:  NULL = use vwgt for VOL obj   */
+		NULL,                             /* adjwgt: no edge weights               */
+		&nparts,
+		NULL,                             /* tpwgts: NULL = equal partition sizes  */
+		NULL,                             /* ubvec:  NULL = default imbalance 1.001*/
+		opts,
+		&edgecut,
+		(idx_t*) partition.Pointer()
+	);
+	clock_t t1 = clock();
 
-	/* assess partition quality */
-	GraphType* graph = CreateGraph();
-	int ncon = 1; /* just 1 constraint per vertex - the weight */
-	SetUpGraph(graph, OP_KMETIS, num_vertices, ncon, offsets.Pointer(), fEdgeList.Pointer(), 
-		(int*) weight.Pointer(), NULL, 2);	
-	ComputePartitionInfo(graph, num_partitions, partition.Pointer());
-  	FreeGraph(graph);
+	if (ret != METIS_OK) {
+		cout << "\n GraphBaseT::Partition_METIS: METIS_PartGraphKway failed (code "
+		     << ret << ")" << endl;
+		throw ExceptionT::kGeneralFail;
+	}
 
-	/* write timing info */
-	stoptimer(TOTALTmr);
 	cout << "\nTiming Information --------------------------------------------------\n";
-	cout << "  Partitioning: \t\t " << gettimer(METISTmr) << "   (KMETIS time)\n";
-	cout << "  Total:        \t\t " << gettimer(TOTALTmr) << '\n';
+	cout << "  Partitioning: \t\t " << double(t1 - t0)/CLOCKS_PER_SEC << " s\n";
+	cout << "  Edge cut:     \t\t " << edgecut << '\n';
 	cout << "**********************************************************************\n";
 	cout.flush();
 #endif
