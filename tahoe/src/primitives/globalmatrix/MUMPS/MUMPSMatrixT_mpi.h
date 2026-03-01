@@ -16,13 +16,14 @@ namespace Tahoe {
 /** Wrapper around the MUMPS parallel (MPI) sparse direct solver.
  *
  *  Uses MPI_COMM_WORLD so MUMPS distributes the factorization across all
- *  MPI ranks.  The matrix data is provided in centralized assembled mode
- *  (icntl[17]=0): rank 0 holds all irn/jcn/a entries and receives the
- *  solution; other ranks participate in computation only.
+ *  MPI ranks.  The matrix data is provided in distributed assembled mode
+ *  (icntl[17]=3): each rank contributes its own local COO triplets (with
+ *  global 1-based indices).  The RHS is gathered to rank 0 before the
+ *  solve, and the solution is broadcast back to all ranks.
  *
  *  Requires TAHOE_MUMPS=ON and TAHOE_MPI=ON.
  *
- *  Usage in XML input file (MPI run only):
+ *  Usage in XML input file (MPI run only, requires -decomp_method flag):
  *    <MUMPS_MPI_matrix message_level="silent" always_symmetric="false"/>
  */
 class MUMPSMatrixT_mpi : public MSRMatrixT
