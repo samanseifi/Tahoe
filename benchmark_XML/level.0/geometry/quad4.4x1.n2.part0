@@ -1,0 +1,41 @@
+# data for partition: 0
+v1.1
+     2 # number of parts
+     0 # partition number
+     1 # numbering scope
+     0 # decomposition type
+# internal nodes:
+2
+0 1
+# border nodes:
+2
+2 3
+# external nodes:
+2
+4 5
+# comm ID list:
+1
+1
+# incoming nodes:
+2
+4 5
+# outgoing nodes:
+2
+2 3
+# number of element blocks:
+1
+# element block ID's:
+1 
+# internal elements (by block):
+0
+
+# external elements (by block):
+2
+0 1
+# node maps:
+6
+4 9 3 8 2 7
+# element maps (by block):
+2
+2 3
+

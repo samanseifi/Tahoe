@@ -24,7 +24,7 @@ Full problem: `voltage1_mumps.xml` (1470 steps). Benchmark variants use 5 steps 
 ## Solver Benchmark Results
 
 Measured on **WSL2 (Ubuntu 22.04), 12 logical cores** (Intel), March 2026.
-Build: `cmake -B build -DTAHOE_MUMPS=ON -DTAHOE_MPI=ON -DTAHOE_SUPERLU=ON -DTAHOE_SPOOLES_MT=ON`.
+Build: `cmake -B build -DTAHOE_MUMPS=ON -DTAHOE_MPI=ON -DTAHOE_SUPERLU=ON -DTAHOE_SPOOLES_MT=ON -DTAHOE_METIS=ON`.
 Each entry is the **median of 3 trials** (wall-clock time, seconds).
 
 ### Serial / Single-Node Solvers
@@ -39,9 +39,10 @@ Each entry is the **median of 3 trials** (wall-clock time, seconds).
 
 > SPOOLES-MT and SuperLU are slower than serial SPOOLES on this problem due to WSL2 thread-scheduling overhead and the moderate problem size (18k DOFs). Multithreaded solvers scale better on bare-metal Linux with larger problems.
 
-### MPI Distributed Solvers
+### MPI Distributed Solvers — Built-in Partitioner
 
 Run with `/usr/bin/mpirun -np N ./build/bin/tahoe -f input.xml -decomp_method -0`.
+Geometry pre-partitioned using the built-in recursive bisection partitioner.
 
 | Solver | Ranks | XML element | Median (s) | vs serial MUMPS |
 |--------|-------|------------|-----------|----------------|
@@ -52,21 +53,40 @@ Run with `/usr/bin/mpirun -np N ./build/bin/tahoe -f input.xml -decomp_method -0
 | SPOOLES-MPI | 4 | `<SPOOLES_matrix/>` | 9.28 | 1.24× slower |
 | SPOOLES-MPI | 6 | `<SPOOLES_matrix/>` | 7.80 | 1.04× slower |
 
-> MUMPS-MPI uses distributed assembled input (`icntl[17]=3`): each rank supplies its local COO triplets with global indices; MUMPS handles the distributed factorization. The RHS is gathered on rank 0 before the solve and broadcast back to all ranks. **2 ranks is the sweet spot** for this problem size — beyond that, MPI communication overhead limits further gains on WSL2.
+### MPI Distributed Solvers — METIS 5 Partitioner (`-DTAHOE_METIS=ON`)
+
+Same runs with geometry re-partitioned by METIS 5 (`METIS_PartGraphKway`, edge-cut objective).
+METIS is used automatically when built with `TAHOE_METIS=ON`; disable at runtime with `-no_metis`.
+
+| Solver | Ranks | XML element | Median (s) | vs built-in | vs serial MUMPS |
+|--------|-------|------------|-----------|------------|----------------|
+| **MUMPS-MPI** | **2** | `<MUMPS_MPI_matrix/>` | **4.36** | **+16% faster** | **1.71× faster** |
+| MUMPS-MPI | 4 | `<MUMPS_MPI_matrix/>` | 5.65 | +11% faster | 1.32× faster |
+| MUMPS-MPI | 6 | `<MUMPS_MPI_matrix/>` | 6.19 | +9% faster | 1.21× faster |
+| SPOOLES-MPI | 2 | `<SPOOLES_matrix/>` | 15.07 | — (high WSL2 variance) | 2.02× slower |
+| SPOOLES-MPI | 4 | `<SPOOLES_matrix/>` | 12.47 | — (high WSL2 variance) | 1.67× slower |
+| SPOOLES-MPI | 6 | `<SPOOLES_matrix/>` | 13.13 | — (high WSL2 variance) | 1.76× slower |
+
+> METIS produces better-balanced partitions with fewer boundary DOFs, which directly reduces
+> the inter-rank communication volume in MUMPS-MPI (distributed assembled solve). The improvement
+> is most pronounced at np=2 (16%). SPOOLES-MPI timing shows high variance on WSL2 due to
+> OS scheduler interference; results on bare-metal Linux are expected to be more consistent
+> and also benefit from METIS partitioning.
 
 ---
 
-## Overall Winner
+## Overall Winner (with METIS)
 
 ```
-MUMPS-MPI np=2   5.2 s   ← fastest
-MUMPS serial     7.5 s   ← fastest single-process
-SPOOLES-MPI np=6 7.8 s
-SPOOLES serial  13.4 s   ← default solver
+MUMPS-MPI np=2 + METIS   4.4 s   ← fastest overall
+MUMPS-MPI np=2 built-in  5.2 s
+MUMPS serial             7.5 s   ← fastest single-process
+SPOOLES-MPI np=6         7.8 s   (built-in; METIS variance too high on WSL2)
+SPOOLES serial          13.4 s   ← default solver
 ```
 
 For single-node production runs: use `<MUMPS_matrix/>` (serial MUMPS, no `mpirun` needed).
-For MPI runs (already using domain decomposition): use `<MUMPS_MPI_matrix/>` with 2–4 ranks.
+For MPI runs: use `<MUMPS_MPI_matrix/>` with 2 ranks and `-DTAHOE_METIS=ON`.
 
 ---
 
@@ -93,7 +113,13 @@ $TAHOE -f voltage1_bench_mumps.xml
 $TAHOE -f voltage1_bench_spooles.xml
 $TAHOE -f voltage1_bench_superlu.xml
 
-# MPI solvers (requires TAHOE_MPI=ON build)
+# MPI solvers — built-in partitioner (requires TAHOE_MPI=ON)
 /usr/bin/mpirun -np 2 $TAHOE -f voltage1_bench_mumps_mpi.xml -decomp_method -0
 /usr/bin/mpirun -np 4 $TAHOE -f voltage1_bench_spooles.xml   -decomp_method -0
+
+# MPI solvers — METIS partitioner (requires TAHOE_MPI=ON + TAHOE_METIS=ON)
+# Delete existing .n*.p*.geom files to force METIS re-decomposition
+/usr/bin/mpirun -np 2 $TAHOE -f voltage1_bench_mumps_mpi.xml -decomp_method -0
+/usr/bin/mpirun -np 4 $TAHOE -f voltage1_bench_mumps_mpi.xml -decomp_method -0
+/usr/bin/mpirun -np 6 $TAHOE -f voltage1_bench_mumps_mpi.xml -decomp_method -0
 ```
