@@ -55,7 +55,7 @@ inline static void Sum(const double* A, const double* B, double* AB) {
 
 SimoQ1P0_Surface::SimoQ1P0_Surface(const ElementSupportT& support) :
     SimoQ1P0(support),
-    fLocCurrCoords(LocalArrayT::kCurrCoords), fSurfTension(0), fSurfaceCBSupport(NULL)
+    fLocCurrCoords(LocalArrayT::kCurrCoords), fSurfaceCBSupport(NULL)
 {
       SetName("updated_lagrangian_Q1P0_surface");
 }
@@ -93,6 +93,25 @@ void SimoQ1P0_Surface::DefineSubs(SubListT& sub_list) const
       /* list of passivated surfaces - side set list */
       sub_list.AddSub("passivated_surface_ID_list", ParameterListT::ZeroOrOnce);
 
+      /* one surface_tension block per sideset/value pair; zero or more allowed */
+      sub_list.AddSub("surface_tension", ParameterListT::Any);
+
+}
+
+/* ----------------------------- construct sub-list parameter interface -----------------------------------------------------------------------*/
+ParameterInterfaceT* SimoQ1P0_Surface::NewSub(const StringT& name) const
+{
+      if (name == "surface_tension") {
+            ParameterContainerT* st = new ParameterContainerT(name);
+            /* side set ID this surface tension is applied to */
+            st->AddParameter(ParameterT::Word, "side_set_ID");
+            /* surface tension coefficient gamma */
+            st->AddParameter(ParameterT::Double, "gamma");
+            /* ramp-up time; set to 0.0 for instant application */
+            st->AddParameter(0.0, "t_0");
+            return st;
+      }
+      return SimoQ1P0::NewSub(name);
 }
 
 
@@ -161,10 +180,7 @@ void SimoQ1P0_Surface::TakeParameterList(const ParameterListT& list)
       const ArrayT<ParameterListT>& mat = mat_list.Lists();
       const ParameterListT& bulk_params = mat[0]; /* getting bulk parameters */
 
-      //fSurfTension = bulk_params.GetParameter("gamma"); /* Reading the value of gamma (surface tension) */
-			fSurfTension = 5.0;
-			fT_0 = 5.0;
-      //fT_0 = bulk_params.GetParameter("t_0");
+      /* surface tension is now specified per side set — see surface_tension sub-lists below */
 
       bool output_surface = list.GetParameter("output_surface");
 
@@ -178,8 +194,47 @@ void SimoQ1P0_Surface::TakeParameterList(const ParameterListT& list)
 
       ArrayT<const iArray2DT*> connects;
       model_manager.ElementGroupPointers(block_ID, connects);
-      //cout << fSurfaceElementNeighbors << endl;
-      //cout << fSurfaceElements << endl;
+
+      /* initialize per-face surface tension arrays (zero = no contribution) */
+      fSurfaceGamma.Dimension(fSurfaceElements.Length(), fSurfaceElementNeighbors.MinorDim());
+      fSurfaceGamma = 0.0;
+      fSurfaceT0.Dimension(fSurfaceElements.Length(), fSurfaceElementNeighbors.MinorDim());
+      fSurfaceT0 = 0.0;
+
+      /* parse surface_tension sub-lists: each specifies a side set, gamma, and t_0 */
+      int n_st = list.NumLists("surface_tension");
+      if (n_st > 0) {
+            InverseMapT st_elem_map;
+            st_elem_map.SetOutOfRange(InverseMapT::Throw);
+            st_elem_map.SetMap(fSurfaceElements);
+
+            for (int k = 0; k < n_st; k++) {
+                  const ParameterListT& st = list.GetList("surface_tension", k);
+                  StringT ss_id;
+                  double gamma, t_0;
+                  st.GetParameter("side_set_ID", ss_id);
+                  st.GetParameter("gamma", gamma);
+                  st.GetParameter("t_0", t_0);
+
+                  iArray2DT sides = model_manager.SideSet(ss_id);
+                  const StringT& blk_id = model_manager.SideSetGroupID(ss_id);
+
+                  if (sides.MajorDim() > 0) {
+                        iArrayT elems(sides.MajorDim());
+                        sides.ColumnCopy(0, elems);
+                        BlockToGroupElementNumbers(elems, blk_id);
+                        sides.SetColumn(0, elems);
+
+                        for (int j = 0; j < sides.MajorDim(); j++) {
+                              int elem = sides(j, 0);
+                              int s_elem = st_elem_map.Map(elem);
+                              int side = sides(j, 1);
+                              fSurfaceGamma(s_elem, side) = gamma;
+                              fSurfaceT0(s_elem, side) = t_0;
+                        }
+                  }
+            }
+      }
 
       /* determine normal type of each face */
       dMatrixT Q(nsd);
@@ -333,22 +388,10 @@ void SimoQ1P0_Surface::FormStiffness(double constK)
       fB.Dimension(nen);
       K_Total.Dimension(nen, nen);
 
- 	 double CurrTime = ElementSupport().Time(); // Obtaining current time
+      double CurrTime = ElementSupport().Time();
 
- 	 double fNewSurfTension = min(fSurfTension, (CurrTime*fSurfTension)/fT_0); // Ramping up the surface tension
-
-     ModelManagerT& model_manager = ElementSupport().ModelManager();
-     const iArrayT node_set_1 = model_manager.NodeSet("1");
-     const iArrayT node_set_2 = model_manager.NodeSet("2");
-     const iArrayT node_set_3 = model_manager.NodeSet("3");
-
-     //cout << fSurfaceElementNeighbors << endl;
-
-     ofstream myJ;
-     myJ.open("J.txt", std::ios_base::app);
-
-     fGrad_U.Dimension(2, NumSD());
-     fGrad_U = 0.0;
+      fGrad_U.Dimension(2, NumSD());
+      fGrad_U = 0.0;
 
  	 // Should be loop over number of elements on surface!! //
  	 for (int i = 0; i < fSurfaceElements.Length(); i++)
@@ -359,22 +402,9 @@ void SimoQ1P0_Surface::FormStiffness(double constK)
 
  		 if (element == CurrElementNumber()) // Is the current element a surface element?
  		 {
-
- 			if (i == 20) // element number 20
- 			{
- 				for (int k = 0; k < NumIP(); k++)
- 				{
- 					fShapes->GradU(fLocDisp, fGrad_U, k);
- 					fGrad_U.PlusIdentity(); // Computing F_0 = I + Grad_U
- 					double J_0 = fGrad_U.Det();
- 					myJ << k << "," << J_0 << endl;
- 				}
- 				myJ.close();
- 			}
-
  			 const ElementCardT& element_card = ElementCard(element);
- 			 fLocInitCoords.SetLocal(element_card.NodesX()); /* reference coordinates over bulk element (collects first x coords and then y coords) i.e.  [x1 x2 x3 x4 y1 y2 y3 y4] */
- 			 fLocDisp.SetLocal(element_card.NodesU()); /* displacements over bulk element */
+ 			 fLocInitCoords.SetLocal(element_card.NodesX());
+ 			 fLocDisp.SetLocal(element_card.NodesU());
 
  			 fB = 0.0;
  			 K1 = 0.0;
@@ -383,18 +413,22 @@ void SimoQ1P0_Surface::FormStiffness(double constK)
  			 K_Total = 0.0;
  			 fAmm_mat2 = 0.0;
 
-
  			 for (int j = 0; j < fSurfaceElementNeighbors.MinorDim(); j++) /* loop over faces */
  			 {
  				 if (fSurfaceElementNeighbors(i,j) == -1) /* no neighbor => surface */
  				 {
+ 					 /* per-face surface tension with optional ramp-up */
+ 					 double gamma = fSurfaceGamma(i, j);
+ 					 if (gamma == 0.0) continue; /* no tension on this face */
+ 					 double t_0 = fSurfaceT0(i, j);
+ 					 double newGamma = (t_0 > 0.0) ? gamma * min(1.0, CurrTime / t_0) : gamma;
 
  					 /* face parent domain */
  					 const ParentDomainT& surf_shape = shape.FacetShapeFunction(j);
 
  					 /* collect coordinates of face nodes */
  					 ElementCardT& element_card = ElementCard(fSurfaceElements[i]);
- 					 shape.NodesOnFacet(j, face_nodes_index);  // fni = 4 nodes of surface face
+ 					 shape.NodesOnFacet(j, face_nodes_index);
  					 face_nodes.Collect(face_nodes_index, element_card.NodesX());
  					 face_coords.SetLocal(face_nodes);
 
@@ -410,53 +444,39 @@ void SimoQ1P0_Surface::FormStiffness(double constK)
  					 double y_1 = face_coords[2];
  					 double y_2 = face_coords[3];
 
- 					 //cout << face_nodes_index[0] << "=" << "(" << x_1 << "," << y_1 << ")" << endl;
- 					 //cout << face_nodes_index[1] << "=" << "(" << x_2 << "," << y_2 << ")" << endl;
-
- 					 /* For 2D cubic element: nen = 4 */
  					 fB[0] = (x_1 - x_2);
  					 fB[1] = (y_1 - y_2);
  					 fB[2] = (x_2 - x_1);
  					 fB[3] = (y_2 - y_1);
 
- 					 K2.Outer(fB, fB); /* Multiplying B to BT */
+ 					 K2.Outer(fB, fB);
 
- 					 /* Length of the surface */
  					 double L_e = sqrt((x_1 - x_2)*(x_1 - x_2) + (y_1 - y_2)*(y_1 - y_2));
 
- 					 double coeff1 =  fNewSurfTension/L_e;
- 					 double coeff2 = -fNewSurfTension/(L_e*L_e*L_e);
+ 					 double coeff1 =  newGamma / L_e;
+ 					 double coeff2 = -newGamma / (L_e * L_e * L_e);
 
  					 K_Total = 0.0;
-
  					 K1 *= coeff1;
  					 K2 *= coeff2;
  					 K_Total += K1;
  					 K_Total += K2;
 
- 					 /* Constructing fAmm_mat */
- 					 //int normaltype = fSurfaceElementFacesType(i, j);
  					 counter = CanonicalNodes(face_nodes_index[0], face_nodes_index[1]);
 
  					 for (int n = 0; n < nen; n++) {
- 					 	 fAmm_mat2(counter[n], counter[0]) = fAmm_mat2(counter[n], counter[0]) + K_Total(n ,0);
- 					 	 fAmm_mat2(counter[n], counter[1]) = fAmm_mat2(counter[n], counter[1]) + K_Total(n ,1);
- 					 	 fAmm_mat2(counter[n], counter[2]) = fAmm_mat2(counter[n], counter[2]) + K_Total(n ,2);
- 					 	 fAmm_mat2(counter[n], counter[3]) = fAmm_mat2(counter[n], counter[3]) + K_Total(n ,3);
+ 					 	 fAmm_mat2(counter[n], counter[0]) += K_Total(n, 0);
+ 					 	 fAmm_mat2(counter[n], counter[1]) += K_Total(n, 1);
+ 					 	 fAmm_mat2(counter[n], counter[2]) += K_Total(n, 2);
+ 					 	 fAmm_mat2(counter[n], counter[3]) += K_Total(n, 3);
  					 }
-
- 					 /* Dynamic formulation */
- 					 int order = fIntegrator->Order();;
- 					 if (order == 2)
- 						 fAmm_mat2 *= constK;
-
-
- 					 /* End of constructing fAmm_mat */
 
  				 } /* End of if */
 
  			 } /* End of surface edge loop */
 
+ 			 /* scale by integrator coefficient once, after all faces are accumulated */
+ 			 fAmm_mat2 *= constK;
  			 fLHS.AddBlock(0, 0, fAmm_mat2);
 
  		 }
@@ -497,24 +517,16 @@ void SimoQ1P0_Surface::FormKd(double constK)
       R_Total.Dimension(nme);
       R.Dimension((nsd + 1) * nen);
 
-  	  double CurrTime = ElementSupport().Time();
-
-  	  double fNewSurfTension = min(fSurfTension, (CurrTime*fSurfTension)/fT_0);
-
-  	  //cout << fNewSurfTension << endl;
-
-  	 //fNewSurfTension = fSurfTension;
+      double CurrTime = ElementSupport().Time();
 
       for (int i = 0; i < fSurfaceElements.Length(); i++)
       {
-            /* bulk element information */
-
-    	  	int element = fSurfaceElements[i];
+            int element = fSurfaceElements[i];
             if (element == CurrElementNumber()) // Is the current element a surface element?
             {
             	const ElementCardT& element_card = ElementCard(element);
-            	fLocInitCoords.SetLocal(element_card.NodesX()); /* reference coordinates over bulk element */
-            	fLocDisp.SetLocal(element_card.NodesU()); /* displacements over bulk element */
+            	fLocInitCoords.SetLocal(element_card.NodesX());
+            	fLocDisp.SetLocal(element_card.NodesU());
 
             	fD = 0.0;
             	R_Total = 0.0;
@@ -524,44 +536,41 @@ void SimoQ1P0_Surface::FormKd(double constK)
             	{
             		if (fSurfaceElementNeighbors(i,j) == -1) /* no neighbor => surface */
             		{
+            			/* per-face surface tension with optional ramp-up */
+            			double gamma = fSurfaceGamma(i, j);
+            			if (gamma == 0.0) continue; /* no tension on this face */
+            			double t_0 = fSurfaceT0(i, j);
+            			double newGamma = (t_0 > 0.0) ? gamma * min(1.0, CurrTime / t_0) : gamma;
+
             			/* face parent domain */
             			const ParentDomainT& surf_shape = shape.FacetShapeFunction(j);
 
             			/* collect coordinates of face nodes */
                         ElementCardT& element_card = ElementCard(fSurfaceElements[i]);
-                        shape.NodesOnFacet(j, face_nodes_index);  // fni = 4 nodes of surface face
+                        shape.NodesOnFacet(j, face_nodes_index);
                         face_nodes.Collect(face_nodes_index, element_card.NodesX());
                         face_coords.SetLocal(face_nodes);
 
                         double x_1 = face_coords[0];
-                       	double x_2 = face_coords[1];
+                        double x_2 = face_coords[1];
                         double y_1 = face_coords[2];
                         double y_2 = face_coords[3];
 
                         fD = 0.0;
-                        // Length of the surface
                         double L_e = sqrt((x_1 - x_2)*(x_1 - x_2) + (y_1 - y_2)*(y_1 - y_2));
-
-                        double coeff3 = -fNewSurfTension/(L_e);
-
-                        // cout << "coeff3= " << coeff3 << endl;
+                        double coeff3 = -newGamma / L_e;
 
                         fD[0] = coeff3*(x_1 - x_2);
                         fD[1] = coeff3*(y_1 - y_2);
                         fD[2] = coeff3*(x_2 - x_1);
                         fD[3] = coeff3*(y_2 - y_1);
 
-                        //                        D *= coeff3;
-                        //R_Total = 0.0;
-                       	// cout << D[0] << D[1] << D[2] << D[3] << endl;
-
-                       	//int normaltype = fSurfaceElementFacesType(i,j);
                        	counter = CanonicalNodes(face_nodes_index[0], face_nodes_index[1]);
 
-                       	R_Total[counter[0]] = R_Total[counter[0]] + fD[0];
-                       	R_Total[counter[1]] = R_Total[counter[1]] + fD[1];
-                        R_Total[counter[2]] = R_Total[counter[2]] + fD[2];
-                        R_Total[counter[3]] = R_Total[counter[3]] + fD[3];
+                       	R_Total[counter[0]] += fD[0];
+                       	R_Total[counter[1]] += fD[1];
+                        R_Total[counter[2]] += fD[2];
+                        R_Total[counter[3]] += fD[3];
 
             		} /* End of if */
 

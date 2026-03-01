@@ -6,6 +6,7 @@
 
 /* base class */
 #include "SimoQ1P0.h"
+#include "ParameterContainerT.h"
 
 namespace Tahoe {
 
@@ -33,6 +34,9 @@ namespace Tahoe {
 
     // internal force
     virtual void FormKd(double constK);
+
+	// construct sub-list parameter interfaces
+	virtual ParameterInterfaceT* NewSub(const StringT& name) const;
 
 	/* TLCBSurfaceT stuff */
 	virtual void DefineSubs(SubListT& sub_list) const;
@@ -94,8 +98,12 @@ namespace Tahoe {
     dMatrixT fAmm_mat2;	// mechanical material part of Hessian matrix
     dMatrixT fAmm_geo2;	// mechanical geometric part of Hessian matrix
     dMatrixT fB2, fD2, fLHS2;
-    double fSurfTension, fNewSurfTension;
-    double fT_0;
+
+    /** surface tension gamma per (surface element, face) — 0 means no contribution */
+    dArray2DT fSurfaceGamma;
+
+    /** ramp-up time t_0 per (surface element, face) — 0 means apply instantly */
+    dArray2DT fSurfaceT0;
 
 	dMatrixT tempstiff;
   };
