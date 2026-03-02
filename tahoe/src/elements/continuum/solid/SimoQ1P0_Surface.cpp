@@ -515,7 +515,7 @@ void SimoQ1P0_Surface::FormKd(double constK)
 
       fD.Dimension(nen);
       R_Total.Dimension(nme);
-      R.Dimension((nsd + 1) * nen);
+      R.Dimension(fRHS.Length());
 
       double CurrTime = ElementSupport().Time();
 
