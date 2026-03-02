@@ -222,7 +222,7 @@ void SimoQ1P0::SetGlobalShape(void)
 			/* "replace" dilatation */
 			dMatrixT& F = fF_List[i];
 			double J = F.Det();
-			F *= pow(v/(H*J), 1.0/2.0);
+			F *= pow(v/(H*J), 1.0/3.0);
 //			F *= pow((pow((v/H),2.0/3.0)*(1.0/J)), 1.0/2.0);
 
 			/* store Jacobian */
@@ -236,7 +236,7 @@ void SimoQ1P0::SetGlobalShape(void)
 			dMatrixT& F = fF_last_List[i];
 
 			double J = F.Det();
-			F *= pow(v_last/(H*J), 1.0/2.0);
+			F *= pow(v_last/(H*J), 1.0/3.0);
 //			F *= pow((pow((v_last/H),2.0/3.0)*(1.0/J)), 1.0/2.0);
 		}
 	}
@@ -353,9 +353,8 @@ void SimoQ1P0::FormStiffness(double constK)
 		/* accumulate */
 		fAmm_mat.MultQTBQ(fB, fD, format, dMatrixT::kAccumulate);
 
-/*----------------- TEMPORARLY COMMENTED TO CHANGE THE IMPLEMENTATION ---------------- */
 		/* $div div$ term */
-		/* fNEEmat.Outer(fGradNa, fGradNa);
+		fNEEmat.Outer(fGradNa, fGradNa);
 		fLHS.AddScaled(p_bar*scale, fNEEmat);
 
 		fdiff_b.DiffOf(fGradNa, fb_bar);
@@ -367,21 +366,14 @@ void SimoQ1P0::FormStiffness(double constK)
 		fLHS.AddScaled(-J_correction*scale*4.0/3.0, fNEEmat);
 
 		bSp_bRq_to_KSqRp(fGradNa, fNEEmat);
-		fLHS.AddScaled(scale*(p - p_bar), fNEEmat); */
+		fLHS.AddScaled(scale*(p - p_bar), fNEEmat);
 	}
-	//MassMatrix();
-	//fLHS.AddBlock(0, 0, fMassMatrix);
 	fAmm_mat.Expand(fAmm_geo, NumDOF(), dMatrixT::kAccumulate);
 	fLHS.AddBlock(0, 0, fAmm_mat);
 
-
-	// stress stiffness into fLHS
-	/* fLHS.Expand(fStressStiff, NumDOF(), dMatrixT::kAccumulate);
-
-	// $\bar{div}\bar{div}$ term
+	/* $\bar{div}\bar{div}$ term */
 	fNEEmat.Outer(fb_bar, fb_bar);
-	fLHS.AddScaled(-p_bar*v, fNEEmat); */
-/* ------------------------------------------------------------------------------------- */
+	fLHS.AddScaled(-p_bar*v, fNEEmat);
 }
 
 /* calculate the internal force contribution ("-k*d") */

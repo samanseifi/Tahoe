@@ -1,3 +1,4 @@
+/* $Id: SimoQ1P0.cpp,v 1.15 2026/03/01 23:09:12 samanseifi Exp $ */
 #include "SimoQ1P0_Surface.h"
 
 #include "FSDEMatQ1P02DT.h"
@@ -24,42 +25,12 @@ using namespace std;
 
 namespace Tahoe {
 
-/* vector functions */
-inline static void CrossProduct(const double* A, const double* B, double* AxB) {
-      AxB[0] = A[1]*B[2] - A[2]*B[1];
-      AxB[1] = A[2]*B[0] - A[0]*B[2];
-	AxB[2] = A[0]*B[1] - A[1]*B[0];
-};
-
-inline static double Dot(const double* A, const double* B){
-      return A[0]*B[0] + A[1]*B[1] + A[2]*B[2];
-};
-
-inline static void Vector(const double* start, const double* end, double* v) {
-      v[0] = end[0] - start[0];
-      v[1] = end[1] - start[1];
-      v[2] = end[2] - start[2];
-};
-
-inline static void Scale(double* v, double scale) {
-      v[0] *= scale;
-      v[1] *= scale;
-      v[2] *= scale;
-};
-
-inline static void Sum(const double* A, const double* B, double* AB) {
-      AB[0] = A[0] + B[0];
-	AB[1] = A[1] + B[1];
-	AB[2] = A[2] + B[2];
-};
-
 SimoQ1P0_Surface::SimoQ1P0_Surface(const ElementSupportT& support) :
     SimoQ1P0(support),
     fLocCurrCoords(LocalArrayT::kCurrCoords), fSurfaceCBSupport(NULL)
 {
       SetName("updated_lagrangian_Q1P0_surface");
 }
-
 
 /* Destructor */
 SimoQ1P0_Surface::~SimoQ1P0_Surface()
@@ -69,7 +40,6 @@ SimoQ1P0_Surface::~SimoQ1P0_Surface()
 	delete fSurfaceCBSupport;
 
 }
-
 
 // ------------------------------------------------specify parameters needed by the interface--------------------------------------------------------- //
 void SimoQ1P0_Surface::DefineParameters(ParameterListT& list) const
@@ -369,7 +339,7 @@ void SimoQ1P0_Surface::FormStiffness(double constK)
       int nen = NumElementNodes();                      // # nodes in bulk element
       int nme = nen * nsd;
 
-      iArrayT counter(nen);
+      iArrayT dof_indicies(nen);
 
       /* loop over surface elements */
       dMatrixT jacobian(nsd, nsd-1);
@@ -393,93 +363,76 @@ void SimoQ1P0_Surface::FormStiffness(double constK)
       fGrad_U.Dimension(2, NumSD());
       fGrad_U = 0.0;
 
- 	 // Should be loop over number of elements on surface!! //
  	 for (int i = 0; i < fSurfaceElements.Length(); i++)
  	 {
-
- 		 /* bulk element information */
  		 int element = fSurfaceElements[i];
+ 		 if (element != CurrElementNumber()) continue; /* Skip if not current element */
 
- 		 if (element == CurrElementNumber()) // Is the current element a surface element?
+ 		 const ElementCardT& element_card = ElementCard(element);
+ 		 fLocInitCoords.SetLocal(element_card.NodesX());
+ 		 fLocDisp.SetLocal(element_card.NodesU());
+ 		 fAmm_mat2 = 0.0;
+
+ 		 for (int j = 0; j < fSurfaceElementNeighbors.MinorDim(); j++) /* loop over faces */
  		 {
- 			 const ElementCardT& element_card = ElementCard(element);
- 			 fLocInitCoords.SetLocal(element_card.NodesX());
- 			 fLocDisp.SetLocal(element_card.NodesU());
+ 			 if (fSurfaceElementNeighbors(i,j) != -1) continue; /* Skip if has neighbor */
 
- 			 fB = 0.0;
+ 			 /* per-face surface tension with optional ramp-up */
+ 			 double gamma = fSurfaceGamma(i, j);
+ 			 if (gamma == 0.0) continue;
+ 			 
+ 			 double t_0 = fSurfaceT0(i, j);
+ 			 double scaled_gamma = (t_0 > 0.0) ? gamma * min(1.0, CurrTime / t_0) : gamma;
+
+ 			 /* collect coordinates of face nodes */
+ 			 shape.NodesOnFacet(j, face_nodes_index);
+ 			 face_nodes.Collect(face_nodes_index, element_card.NodesX());
+ 			 face_coords.SetLocal(face_nodes);
+
+ 			 double x_1 = face_coords[0];
+ 			 double x_2 = face_coords[1];
+ 			 double y_1 = face_coords[2];
+ 			 double y_2 = face_coords[3];
+
+ 			 double dx = x_1 - x_2;
+ 			 double dy = y_1 - y_2;
+ 			 double edge_length_sq = dx*dx + dy*dy;
+ 			 double edge_length = sqrt(edge_length_sq);
+
+ 			 /* Stiffness matrix: K = coeff1 * I + coeff2 * (b ⊗ b) */
+ 			 double coeff1 = scaled_gamma / edge_length;
+ 			 double coeff2 = -scaled_gamma / (edge_length * edge_length_sq);
+
+ 			 /* Build K_Total without intermediate matrices */
  			 K1 = 0.0;
+ 			 K1(0,0) = 1.0;   K1(1,1) = 1.0;
+ 			 K1(2,2) = 1.0;   K1(3,3) = 1.0;
+ 			 K1(0,2) = -1.0;  K1(2,0) = -1.0;
+ 			 K1(1,3) = -1.0;  K1(3,1) = -1.0;
+ 			 K1 *= coeff1;
+
  			 K2 = 0.0;
- 			 K3 = 0.0;
- 			 K_Total = 0.0;
- 			 fAmm_mat2 = 0.0;
+ 			 K2(0,0) = dx*dx;    K2(0,1) = dx*dy;    K2(0,2) = -dx*dx;   K2(0,3) = -dx*dy;
+ 			 K2(1,0) = dy*dx;    K2(1,1) = dy*dy;    K2(1,2) = -dy*dx;   K2(1,3) = -dy*dy;
+ 			 K2(2,0) = -dx*dx;   K2(2,1) = -dx*dy;   K2(2,2) = dx*dx;    K2(2,3) = dx*dy;
+ 			 K2(3,0) = -dy*dx;   K2(3,1) = -dy*dy;   K2(3,2) = dy*dx;    K2(3,3) = dy*dy;
+ 			 K2 *= coeff2;
 
- 			 for (int j = 0; j < fSurfaceElementNeighbors.MinorDim(); j++) /* loop over faces */
- 			 {
- 				 if (fSurfaceElementNeighbors(i,j) == -1) /* no neighbor => surface */
- 				 {
- 					 /* per-face surface tension with optional ramp-up */
- 					 double gamma = fSurfaceGamma(i, j);
- 					 if (gamma == 0.0) continue; /* no tension on this face */
- 					 double t_0 = fSurfaceT0(i, j);
- 					 double newGamma = (t_0 > 0.0) ? gamma * min(1.0, CurrTime / t_0) : gamma;
+ 			 K_Total = K1;
+ 			 K_Total += K2;
 
- 					 /* face parent domain */
- 					 const ParentDomainT& surf_shape = shape.FacetShapeFunction(j);
+ 			 dof_indicies = CanonicalNodes(face_nodes_index[0], face_nodes_index[1]);
 
- 					 /* collect coordinates of face nodes */
- 					 ElementCardT& element_card = ElementCard(fSurfaceElements[i]);
- 					 shape.NodesOnFacet(j, face_nodes_index);
- 					 face_nodes.Collect(face_nodes_index, element_card.NodesX());
- 					 face_coords.SetLocal(face_nodes);
+ 			 for (int n = 0; n < 4; n++) {
+ 			 	 for (int m = 0; m < 4; m++) {
+ 			 	 	 fAmm_mat2(dof_indicies[n], dof_indicies[m]) += K_Total(n, m);
+ 			 	 }
+ 			 }
+ 		 } /* End of surface edge loop */
 
- 					 K1 = 0.0; K2 = 0.0; fB = 0.0;
-
- 					 K1(0,0) = 1.0; K1(1,1) = 1.0;
- 					 K1(2,2) = 1.0; K1(3,3) = 1.0;
- 					 K1(0,2) = -1.0; K1(2,0) = -1.0;
- 					 K1(3,1) = -1.0; K1(1,3) = -1.0;
-
- 					 double x_1 = face_coords[0];
- 					 double x_2 = face_coords[1];
- 					 double y_1 = face_coords[2];
- 					 double y_2 = face_coords[3];
-
- 					 fB[0] = (x_1 - x_2);
- 					 fB[1] = (y_1 - y_2);
- 					 fB[2] = (x_2 - x_1);
- 					 fB[3] = (y_2 - y_1);
-
- 					 K2.Outer(fB, fB);
-
- 					 double L_e = sqrt((x_1 - x_2)*(x_1 - x_2) + (y_1 - y_2)*(y_1 - y_2));
-
- 					 double coeff1 =  newGamma / L_e;
- 					 double coeff2 = -newGamma / (L_e * L_e * L_e);
-
- 					 K_Total = 0.0;
- 					 K1 *= coeff1;
- 					 K2 *= coeff2;
- 					 K_Total += K1;
- 					 K_Total += K2;
-
- 					 counter = CanonicalNodes(face_nodes_index[0], face_nodes_index[1]);
-
- 					 for (int n = 0; n < nen; n++) {
- 					 	 fAmm_mat2(counter[n], counter[0]) += K_Total(n, 0);
- 					 	 fAmm_mat2(counter[n], counter[1]) += K_Total(n, 1);
- 					 	 fAmm_mat2(counter[n], counter[2]) += K_Total(n, 2);
- 					 	 fAmm_mat2(counter[n], counter[3]) += K_Total(n, 3);
- 					 }
-
- 				 } /* End of if */
-
- 			 } /* End of surface edge loop */
-
- 			 /* scale by integrator coefficient once, after all faces are accumulated */
- 			 fAmm_mat2 *= constK;
- 			 fLHS.AddBlock(0, 0, fAmm_mat2);
-
- 		 }
+ 		 /* scale by integrator coefficient and add to LHS */
+ 		 fAmm_mat2 *= constK;
+ 		 fLHS.AddBlock(0, 0, fAmm_mat2);
  	 } /* End of element loop */
 
 } /* End of Function FormStiffness */
@@ -501,7 +454,7 @@ void SimoQ1P0_Surface::FormKd(double constK)
       int nen = NumElementNodes();                      // # nodes in bulk element
       int nme = nen * nsd;
 
-      iArrayT counter(nen);
+      iArrayT dof_indicies(nen);
 
       /* loop over surface elements */
       dMatrixT jacobian(nsd, nsd-1);
@@ -522,64 +475,55 @@ void SimoQ1P0_Surface::FormKd(double constK)
       for (int i = 0; i < fSurfaceElements.Length(); i++)
       {
             int element = fSurfaceElements[i];
-            if (element == CurrElementNumber()) // Is the current element a surface element?
+            if (element != CurrElementNumber()) continue; /* Skip if not current element */
+
+            const ElementCardT& element_card = ElementCard(element);
+            fLocInitCoords.SetLocal(element_card.NodesX());
+            fLocDisp.SetLocal(element_card.NodesU());
+
+            fD = 0.0;
+            R_Total = 0.0;
+
+            for (int j = 0; j < fSurfaceElementNeighbors.MinorDim(); j++) /* loop over faces */
             {
-            	const ElementCardT& element_card = ElementCard(element);
-            	fLocInitCoords.SetLocal(element_card.NodesX());
-            	fLocDisp.SetLocal(element_card.NodesU());
+                  if (fSurfaceElementNeighbors(i,j) != -1) continue; /* Skip if has neighbor */
 
-            	fD = 0.0;
-            	R_Total = 0.0;
-            	R = 0.0;
+                  /* per-face surface tension with optional ramp-up */
+                  double gamma = fSurfaceGamma(i, j);
+                  if (gamma == 0.0) continue;
+                  
+                  double t_0 = fSurfaceT0(i, j);
+                  double scaled_gamma = (t_0 > 0.0) ? gamma * min(1.0, CurrTime / t_0) : gamma;
 
-            	for (int j = 0; j < fSurfaceElementNeighbors.MinorDim(); j++) /* loop over faces */
-            	{
-            		if (fSurfaceElementNeighbors(i,j) == -1) /* no neighbor => surface */
-            		{
-            			/* per-face surface tension with optional ramp-up */
-            			double gamma = fSurfaceGamma(i, j);
-            			if (gamma == 0.0) continue; /* no tension on this face */
-            			double t_0 = fSurfaceT0(i, j);
-            			double newGamma = (t_0 > 0.0) ? gamma * min(1.0, CurrTime / t_0) : gamma;
+                  /* collect coordinates of face nodes */
+                  shape.NodesOnFacet(j, face_nodes_index);
+                  face_nodes.Collect(face_nodes_index, element_card.NodesX());
+                  face_coords.SetLocal(face_nodes);
 
-            			/* face parent domain */
-            			const ParentDomainT& surf_shape = shape.FacetShapeFunction(j);
+                  double x_1 = face_coords[0];
+                  double x_2 = face_coords[1];
+                  double y_1 = face_coords[2];
+                  double y_2 = face_coords[3];
 
-            			/* collect coordinates of face nodes */
-                        ElementCardT& element_card = ElementCard(fSurfaceElements[i]);
-                        shape.NodesOnFacet(j, face_nodes_index);
-                        face_nodes.Collect(face_nodes_index, element_card.NodesX());
-                        face_coords.SetLocal(face_nodes);
+                  double dx = x_1 - x_2;
+                  double dy = y_1 - y_2;
+                  double edge_length = sqrt(dx*dx + dy*dy);
+                  double scale_factor = -scaled_gamma / edge_length;
 
-                        double x_1 = face_coords[0];
-                        double x_2 = face_coords[1];
-                        double y_1 = face_coords[2];
-                        double y_2 = face_coords[3];
+                  fD[0] = scale_factor * dx;
+                  fD[1] = scale_factor * dy;
+                  fD[2] = -fD[0];
+                  fD[3] = -fD[1];
 
-                        fD = 0.0;
-                        double L_e = sqrt((x_1 - x_2)*(x_1 - x_2) + (y_1 - y_2)*(y_1 - y_2));
-                        double coeff3 = -newGamma / L_e;
+                  dof_indicies = CanonicalNodes(face_nodes_index[0], face_nodes_index[1]);
 
-                        fD[0] = coeff3*(x_1 - x_2);
-                        fD[1] = coeff3*(y_1 - y_2);
-                        fD[2] = coeff3*(x_2 - x_1);
-                        fD[3] = coeff3*(y_2 - y_1);
-
-                       	counter = CanonicalNodes(face_nodes_index[0], face_nodes_index[1]);
-
-                       	R_Total[counter[0]] += fD[0];
-                       	R_Total[counter[1]] += fD[1];
-                        R_Total[counter[2]] += fD[2];
-                        R_Total[counter[3]] += fD[3];
-
-            		} /* End of if */
-
-            	}  /* End of surface edge loop */
-
-            	R.CopyIn(0, R_Total);
-            	fRHS += R;
+                  for (int k = 0; k < 4; k++)
+                        R_Total[dof_indicies[k]] += fD[k];
             }
-      } /* End of element loop */
+
+            R.CopyIn(0, R_Total);
+            fRHS += R;
+      }
 }
 /***********************************************************************
  * Protected
@@ -588,35 +532,24 @@ iArrayT SimoQ1P0_Surface::CanonicalNodes(const int node_index0, const int node_i
 {
 	const char caller[] = "SimoQ1P0_Surface::CanonicalNodes";
 
-	/* Return nodes for canonical (psi, eta) element based on normal type */
-	int nen = NumElementNodes();
-	iArrayT counter(nen);
+	/* Tahoe's fRHS/fLHS use INTERLEAVED DOF ordering (confirmed via FieldT::SetLocalEqnos):
+	 * [u_x0, u_y0, u_x1, u_y1, u_x2, u_y2, u_x3, u_y3]
+	 * Face (n0,n1) DOFs: [x_n0=2*n0, y_n0=2*n0+1, x_n1=2*n1, y_n1=2*n1+1] */
+	iArrayT dof_indicies(4);   /* 4 entries: [x_n0, y_n0, x_n1, y_n1] */
 
 	if (node_index0 == 0 && node_index1 == 1) {
-		counter[0] = 0;
-		counter[1] = 1;
-		counter[2] = 2;
-		counter[3] = 3;
+		dof_indicies[0] = 0; dof_indicies[1] = 1; dof_indicies[2] = 2; dof_indicies[3] = 3;
 	} else if (node_index0 == 1 && node_index1 == 2) {
-		counter[0] = 2;
-		counter[1] = 3;
-		counter[2] = 4;
-		counter[3] = 5;
+		dof_indicies[0] = 2; dof_indicies[1] = 3; dof_indicies[2] = 4; dof_indicies[3] = 5;
 	} else if (node_index0 == 2 && node_index1 == 3) {
-		counter[0] = 4;
-		counter[1] = 5;
-		counter[2] = 6;
-		counter[3] = 7;
+		dof_indicies[0] = 4; dof_indicies[1] = 5; dof_indicies[2] = 6; dof_indicies[3] = 7;
 	} else if (node_index0 == 3 && node_index1 == 0) {
-		counter[0] = 6;
-		counter[1] = 7;
-		counter[2] = 0;
-		counter[3] = 1;
+		dof_indicies[0] = 6; dof_indicies[1] = 7; dof_indicies[2] = 0; dof_indicies[3] = 1;
 	} else {
 		ExceptionT::GeneralFail(caller, "could not classify face with node index %d and %d", node_index0, node_index1);
 	}
 
-	return counter;
+	return dof_indicies;
 }
 
 
