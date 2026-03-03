@@ -179,17 +179,20 @@ void SimoQ1P0::SetGlobalShape(void)
 	 * deformation gradients */
 	FiniteStrainT::SetGlobalShape();
 
-	/* calculating electric field */
-	SetLocalU(fLocScalarPotential);	// Getting the electric potential values
-
-	for (int i = 0; i < NumIP(); i++) {
-		// electric field
-		dArrayT& E = fE_List[i];
-		dMatrixT E1(1, NumSD());
-		fShapes->GradU(fLocScalarPotential, E1, i);
-		E1 *= -1.0;
-   		for (int j = 0; j < NumSD(); j++)
-			E[j] = E1(0,j);
+	/* calculating electric field — only when the field is present */
+	if (fElectricScalarPotentialField) {
+		SetLocalU(fLocScalarPotential);
+		for (int i = 0; i < NumIP(); i++) {
+			dArrayT& E = fE_List[i];
+			dMatrixT E1(1, NumSD());
+			fShapes->GradU(fLocScalarPotential, E1, i);
+			E1 *= -1.0;
+			for (int j = 0; j < NumSD(); j++)
+				E[j] = E1(0,j);
+		}
+	} else {
+		/* no electric field — keep E = 0 at all integration points */
+		fE_all = 0.0;
 	}
 
 
@@ -219,7 +222,7 @@ void SimoQ1P0::SetGlobalShape(void)
 			/* "replace" dilatation */
 			dMatrixT& F = fF_List[i];
 			double J = F.Det();
-			F *= pow(v/(H*J), 1.0/2.0);
+			F *= pow(v/(H*J), 1.0/3.0);
 //			F *= pow((pow((v/H),2.0/3.0)*(1.0/J)), 1.0/2.0);
 
 			/* store Jacobian */
@@ -233,7 +236,7 @@ void SimoQ1P0::SetGlobalShape(void)
 			dMatrixT& F = fF_last_List[i];
 
 			double J = F.Det();
-			F *= pow(v_last/(H*J), 1.0/2.0);
+			F *= pow(v_last/(H*J), 1.0/3.0);
 //			F *= pow((pow((v_last/H),2.0/3.0)*(1.0/J)), 1.0/2.0);
 		}
 	}
@@ -255,37 +258,23 @@ void SimoQ1P0::SetShape(void)
 /* bringing electrical model here */
 void SimoQ1P0::SetLocalArrays()
 {
-
-	// look for an electric scalar potential field
-	const FieldT* esp = 0;
-
-	if (0 == fElectricScalarPotentialField) {
-		esp = ElementSupport().Field("electric_scalar_potential");
-		fElectricScalarPotentialField = esp;
-	} else {
-		esp = fElectricScalarPotentialField;
-	}
-	if (0 == esp) {
-		std::cout << std::endl;
-		std::cout << "SimoQ1P0::SetLocalArrays: ";
-		std::cout << "Voltage field not found.";
-		std::cout << std::endl;
-		throw ExceptionT::kGeneralFail;
-	}
+	/* look for electric scalar potential field — optional */
+	if (0 == fElectricScalarPotentialField)
+		fElectricScalarPotentialField = ElementSupport().Field("electric_scalar_potential");
 
 	/* inherited */
 	FiniteStrainT::SetLocalArrays();
 
-	const int nen = NumElementNodes();
-
-	fLocScalarPotential.Dimension(nen, 1);
-
-	// Register fields
-	esp->RegisterLocal(fLocScalarPotential);
-
 	/* allocate and set source */
 	fLocCurrCoords.Dimension(NumElementNodes(), NumSD());
 	ElementSupport().RegisterCoordinates(fLocCurrCoords);
+
+	/* only register potential if the field exists */
+	if (fElectricScalarPotentialField) {
+		const int nen = NumElementNodes();
+		fLocScalarPotential.Dimension(nen, 1);
+		fElectricScalarPotentialField->RegisterLocal(fLocScalarPotential);
+	}
 }
 
 
@@ -323,23 +312,15 @@ void SimoQ1P0::FormStiffness(double constK)
 		double scale = constK*(*Det++)*(*Weight++);
 
 	/* S T R E S S   S T I F F N E S S */
-		/* compute Cauchy stress */
+		/* compute Cauchy stress from the material model */
+		dSymMatrixT cauchy = fCurrMaterial->s_ij();
 
-		dSymMatrixT cauchy1 = fCurrMaterial->s_ij();
-		dSymMatrixT maxwell = MaxwellStress(fE_List[CurrIP()], 1.0);
-		cauchy1 += maxwell;
-		//const dSymMatrixT& cauchy = cauchy1;
-		//cauchy.ToMatrix(fCauchyStress);
+		/* add Maxwell (electrostatic) stress when electric field is present */
+		if (fElectricScalarPotentialField) {
+			dSymMatrixT maxwell = MaxwellStress(fE_List[CurrIP()], 1.0);
+			cauchy += maxwell;
+		}
 
-		dArrayT params(4);
-		params[0] = 10000.0;		// 		\mu
-		params[1] = 100000000.0;	//		\lambda
-		params[2] = 1.0e-11;	  //		\epsilon
-		params[3] = 5.0;		//		\Nrig
-		const dArrayT  fParams 	= params;
-		const dArrayT  E 		= fE_List[CurrIP()];
-		const dMatrixT F 		= DeformationGradient();
-		const dSymMatrixT cauchy = s_ij(E, F, fParams);
 		cauchy.ToMatrix(fCauchyStress);
 
 		/* determinant of modified deformation gradient */
@@ -372,9 +353,8 @@ void SimoQ1P0::FormStiffness(double constK)
 		/* accumulate */
 		fAmm_mat.MultQTBQ(fB, fD, format, dMatrixT::kAccumulate);
 
-/*----------------- TEMPORARLY COMMENTED TO CHANGE THE IMPLEMENTATION ---------------- */
 		/* $div div$ term */
-		/* fNEEmat.Outer(fGradNa, fGradNa);
+		fNEEmat.Outer(fGradNa, fGradNa);
 		fLHS.AddScaled(p_bar*scale, fNEEmat);
 
 		fdiff_b.DiffOf(fGradNa, fb_bar);
@@ -386,21 +366,14 @@ void SimoQ1P0::FormStiffness(double constK)
 		fLHS.AddScaled(-J_correction*scale*4.0/3.0, fNEEmat);
 
 		bSp_bRq_to_KSqRp(fGradNa, fNEEmat);
-		fLHS.AddScaled(scale*(p - p_bar), fNEEmat); */
+		fLHS.AddScaled(scale*(p - p_bar), fNEEmat);
 	}
-	//MassMatrix();
-	//fLHS.AddBlock(0, 0, fMassMatrix);
 	fAmm_mat.Expand(fAmm_geo, NumDOF(), dMatrixT::kAccumulate);
 	fLHS.AddBlock(0, 0, fAmm_mat);
 
-
-	// stress stiffness into fLHS
-	/* fLHS.Expand(fStressStiff, NumDOF(), dMatrixT::kAccumulate);
-
-	// $\bar{div}\bar{div}$ term
+	/* $\bar{div}\bar{div}$ term */
 	fNEEmat.Outer(fb_bar, fb_bar);
-	fLHS.AddScaled(-p_bar*v, fNEEmat); */
-/* ------------------------------------------------------------------------------------- */
+	fLHS.AddScaled(-p_bar*v, fNEEmat);
 }
 
 /* calculate the internal force contribution ("-k*d") */
@@ -425,26 +398,14 @@ void SimoQ1P0::FormKd(double constK)
 		/* strain displacement matrix */
 		Set_B_bar(fCurrShapes->Derivatives_U(), fMeanGradient, fB);
 
-		/* B^T * Cauchy stress */
+		/* B^T * Cauchy stress — from material model */
+		dSymMatrixT cauchy = fCurrMaterial->s_ij();
 
-
-
-		//dSymMatrixT cauchy1 = fCurrMaterial->s_ij();
-		//dSymMatrixT maxwell = MaxwellStress(fE_List[CurrIP()], 1.0);
-		//cauchy1 += maxwell;
-		//const dSymMatrixT& cauchy = cauchy1;
-
-		dArrayT params(4);
-		params[0] = 10000.0;		// 	\mu = Shear modulus
-		params[1] = 100000000.0;	//	\kappa = Bulk modulus
-		params[2] = 1.0e-11;		//	\epsilon = Electrical Permittivity
-		params[3] = 5.0;		//  Nrig	= Arruda-Boyce model constant
-		const dArrayT  fParams 	= params;
-		const dArrayT  E 		= fE_List[CurrIP()];
-		const dMatrixT F 		= DeformationGradient();
-		const dSymMatrixT cauchy = s_ij(E, F, fParams);
-
-		//const dSymMatrixT& cauchy = fCurrMaterial->s_ij();
+		/* add Maxwell stress when electric field is present */
+		if (fElectricScalarPotentialField) {
+			dSymMatrixT maxwell = MaxwellStress(fE_List[CurrIP()], 1.0);
+			cauchy += maxwell;
+		}
 
 		fB.MultTx(cauchy, fNEEvec);
 
