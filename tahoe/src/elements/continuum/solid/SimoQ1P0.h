@@ -5,6 +5,7 @@
 /* base classes */
 #include "UpdatedLagrangianT.h"
 #include "FSSolidMatT.h"
+#include "IElectricallyCouplable.h"
 
 namespace Tahoe {
 

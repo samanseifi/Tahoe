@@ -312,14 +312,14 @@ void SimoQ1P0::FormStiffness(double constK)
 		double scale = constK*(*Det++)*(*Weight++);
 
 	/* S T R E S S   S T I F F N E S S */
-		/* compute Cauchy stress from the material model */
-		dSymMatrixT cauchy = fCurrMaterial->s_ij();
-
-		/* add Maxwell (electrostatic) stress when electric field is present */
-		if (fElectricScalarPotentialField) {
-			dSymMatrixT maxwell = MaxwellStress(fE_List[CurrIP()], 1.0);
-			cauchy += maxwell;
+		/* notify DE material of current IP's electric field (no-op for non-DE materials) */
+		{
+			IElectricallyCouplable* de_mat =
+				dynamic_cast<IElectricallyCouplable*>(fCurrMaterial);
+			if (de_mat) de_mat->SetIPElectricField(fE_List[CurrIP()]);
 		}
+		/* compute Cauchy stress from the material model (includes Maxwell for DE materials) */
+		dSymMatrixT cauchy = fCurrMaterial->s_ij();
 
 		cauchy.ToMatrix(fCauchyStress);
 
@@ -398,14 +398,14 @@ void SimoQ1P0::FormKd(double constK)
 		/* strain displacement matrix */
 		Set_B_bar(fCurrShapes->Derivatives_U(), fMeanGradient, fB);
 
-		/* B^T * Cauchy stress — from material model */
-		dSymMatrixT cauchy = fCurrMaterial->s_ij();
-
-		/* add Maxwell stress when electric field is present */
-		if (fElectricScalarPotentialField) {
-			dSymMatrixT maxwell = MaxwellStress(fE_List[CurrIP()], 1.0);
-			cauchy += maxwell;
+		/* notify DE material of current IP's electric field (no-op for non-DE materials) */
+		{
+			IElectricallyCouplable* de_mat =
+				dynamic_cast<IElectricallyCouplable*>(fCurrMaterial);
+			if (de_mat) de_mat->SetIPElectricField(fE_List[CurrIP()]);
 		}
+		/* B^T * Cauchy stress — from material model (includes Maxwell for DE materials) */
+		dSymMatrixT cauchy = fCurrMaterial->s_ij();
 
 		fB.MultTx(cauchy, fNEEvec);
 

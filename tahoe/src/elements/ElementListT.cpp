@@ -92,6 +92,7 @@
 #include "SimoQ1P0Axi.h"
 #include "SimoQ1P0Axi_inv.h"
 #include "DiffusionElementT.h"
+#include "DEDiffusionElementT.h"
 #include "NLDiffusionElementT.h"
 #include "HyperbolicDiffusionElementT.h"
 #include "MeshFreeSSSolidT.h"
@@ -430,6 +431,7 @@ void ElementListT::DefineInlineSub(const StringT& name, ParameterListT::ListOrde
 
 #ifdef CONTINUUM_ELEMENT
 		sub_lists.AddSub("diffusion");
+		sub_lists.AddSub("de_diffusion");
 		sub_lists.AddSub("viscous_drag");
 		sub_lists.AddSub("nonlinear_diffusion");
 		sub_lists.AddSub("hyperbolic_diffusion");
@@ -735,6 +737,8 @@ ElementBaseT* ElementListT::NewElement(const StringT& name) const
 #ifdef CONTINUUM_ELEMENT
 	else if (name == "diffusion")
 		return new DiffusionElementT(fSupport);
+	else if (name == "de_diffusion")
+		return new DEDiffusionElementT(fSupport);
 	else if (name == "viscous_drag")
 		return new ViscousDragT(fSupport);
 	else if (name == "nonlinear_diffusion")
