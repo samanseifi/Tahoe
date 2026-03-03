@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tahoe author="samansei" compute_IC="false"
+    geometry_file="../geometry/block_3D/block_3D.geom"
+    output_format="ExodusII" title="3D Surface Tension Benchmark SPOOLES" xmlns:x0="http://www.w3.org/2001/XMLSchema">
+    <time num_steps="100" output_inc="0" time_step="1">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0" y="0"/>
+                <OrderedPair x="10000" y="10000"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+    <nodes>
+        <field field_name="displacement" integrator="static">
+            <dof_labels>
+                <String value="D_X"/>
+                <String value="D_Y"/>
+                <String value="D_Z"/>
+            </dof_labels>
+        </field>
+    </nodes>
+    <element_list>
+        <updated_lagrangian_Q1P0_3D_surface field_name="displacement" mass_type="lumped_mass">
+            <hexahedron/>
+            <solid_element_nodal_output coordinates="0" displacements="0" strain="0" stress="0"/>
+            <large_strain_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <large_strain_material_3D>
+                    <RG_split_general density="1">
+                        <rg_eq_potential>
+                            <neo-hookean kappa="10" mu="1.0"/>
+                        </rg_eq_potential>
+                    </RG_split_general>
+                </large_strain_material_3D>
+            </large_strain_element_block>
+            <surface_tension side_set_ID="1" gamma="5.1" t_0="50.0"/>
+            <surface_tension side_set_ID="2" gamma="5.1" t_0="50.0"/>
+            <surface_tension side_set_ID="3" gamma="5.1" t_0="50.0"/>
+            <surface_tension side_set_ID="4" gamma="5.1" t_0="50.0"/>
+            <surface_tension side_set_ID="5" gamma="5.1" t_0="50.0"/>
+            <surface_tension side_set_ID="6" gamma="5.1" t_0="50.0"/>
+        </updated_lagrangian_Q1P0_3D_surface>
+    </element_list>
+    <nonlinear_solver abs_tolerance="1.0e-7" check_LHS_perturbation="1.0E-8" check_code="no_check" divergence_tolerance="1.0e+10" max_iterations="10" rel_tolerance="1.0e-9">
+        <SPOOLES_matrix/>
+    </nonlinear_solver>
+</tahoe>
