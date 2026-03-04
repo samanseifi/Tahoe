@@ -1,5 +1,5 @@
-#ifndef FSDE_COMMON_DEFINESQ1P02D_H
-#define FSDE_COMMON_DEFINESQ1P02D_H
+#ifndef COMMON_DEFINESQ1P0_H
+#define COMMON_DEFINESQ1P0_H
 
 /* Sequence of parameters is:
  * epsilon
@@ -34,4 +34,4 @@ double F31 = Fmat[6];
 double F32 = Fmat[7];
 double F33 = Fmat[8];
 
-#endif /* FSDE_COMMON_DEFINESQ1P02D_H */
+#endif /* COMMON_DEFINESQ1P0_H */
