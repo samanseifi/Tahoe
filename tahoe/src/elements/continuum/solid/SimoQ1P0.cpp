@@ -168,10 +168,8 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 /***********************************************************************
  * Protected
  ***********************************************************************/
-
 /* form shape functions and derivatives */
-void SimoQ1P0::Se<<<<<<< HEAD
-tGlobalShape(void)
+void SimoQ1P0::SetGlobalShape(void)
 {
 	/* current element number */
 	int elem = CurrElementNumber();
@@ -224,7 +222,7 @@ tGlobalShape(void)
 			/* "replace" dilatation */
 			dMatrixT& F = fF_List[i];
 			double J = F.Det();
-			F *= pow(v/(H*J), 1.0/2.0);
+			F *= pow(v/(H*J), 1.0/3.0);
 
 			/* store Jacobian */
 			fJacobian[i] = J;
@@ -237,7 +235,7 @@ tGlobalShape(void)
 			dMatrixT& F = fF_last_List[i];
 
 			double J = F.Det();
-			F *= pow(v_last/(H*J), 1.0/2.0);
+			F *= pow(v_last/(H*J), 1.0/3.0);
 		}
 	}
 }
