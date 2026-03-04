@@ -87,10 +87,12 @@
 #include "SimoFiniteStrainT.h"
 #include "SimoQ1P0.h"
 #include "SimoQ1P0_Surface.h"
+#include "SimoQ1P0_3D_Surface.h"
 #include "SimoQ1P0_inv.h"
 #include "SimoQ1P0Axi.h"
 #include "SimoQ1P0Axi_inv.h"
 #include "DiffusionElementT.h"
+#include "DEDiffusionElementT.h"
 #include "NLDiffusionElementT.h"
 #include "HyperbolicDiffusionElementT.h"
 #include "MeshFreeSSSolidT.h"
@@ -429,6 +431,7 @@ void ElementListT::DefineInlineSub(const StringT& name, ParameterListT::ListOrde
 
 #ifdef CONTINUUM_ELEMENT
 		sub_lists.AddSub("diffusion");
+		sub_lists.AddSub("de_diffusion");
 		sub_lists.AddSub("viscous_drag");
 		sub_lists.AddSub("nonlinear_diffusion");
 		sub_lists.AddSub("hyperbolic_diffusion");
@@ -436,6 +439,7 @@ void ElementListT::DefineInlineSub(const StringT& name, ParameterListT::ListOrde
 		sub_lists.AddSub("updated_lagrangian");
 		sub_lists.AddSub("updated_lagrangian_Q1P0");
 		sub_lists.AddSub("updated_lagrangian_Q1P0_surface");
+		sub_lists.AddSub("updated_lagrangian_Q1P0_3D_surface");
 		sub_lists.AddSub("updated_lagrangian_Q1P0_inv");
 		sub_lists.AddSub("total_lagrangian");
 		sub_lists.AddSub("small_strain_meshfree");
@@ -733,6 +737,8 @@ ElementBaseT* ElementListT::NewElement(const StringT& name) const
 #ifdef CONTINUUM_ELEMENT
 	else if (name == "diffusion")
 		return new DiffusionElementT(fSupport);
+	else if (name == "de_diffusion")
+		return new DEDiffusionElementT(fSupport);
 	else if (name == "viscous_drag")
 		return new ViscousDragT(fSupport);
 	else if (name == "nonlinear_diffusion")
@@ -747,6 +753,8 @@ ElementBaseT* ElementListT::NewElement(const StringT& name) const
 		return new SimoQ1P0(fSupport);
 	else if (name == "updated_lagrangian_Q1P0_surface")
 		return new SimoQ1P0_Surface(fSupport);
+	else if (name == "updated_lagrangian_Q1P0_3D_surface")
+		return new SimoQ1P0_3D_Surface(fSupport);
 	else if (name == "updated_lagrangian_Q1P0_inv")
 		return new SimoQ1P0_inv(fSupport);
 	else if (name == "total_lagrangian")

@@ -35,6 +35,7 @@
 #ifdef VISCOELASTICITY
 #include "RGSplitT.h"
 #include "RGSplitT2.h"
+#include "RGSplitDEMatT.h"
 #include "BoyceViscoPlasticity.h"
 #endif
 
@@ -255,6 +256,7 @@ void FSSolidMatList3DT::DefineInlineSub(const StringT& name, ParameterListT::Lis
 #ifdef VISCOELASTICITY
 		sub_lists.AddSub("Reese-Govindjee_split");
 		sub_lists.AddSub("RG_split_general");
+		sub_lists.AddSub("RG_split_DE");
                 sub_lists.AddSub("boyce_viscoplasticity");
 #endif
 
@@ -464,6 +466,8 @@ FSSolidMatT* FSSolidMatList3DT::NewFSSolidMat(const StringT& name) const
 		mat= new RGSplitT;
 	else if (name == "RG_split_general")
 		mat= new RGSplitT2;
+	else if (name == "RG_split_DE")
+		mat = new RGSplitDEMatT;
         else if (name == "boyce_viscoplasticity")
                 mat = new BoyceViscoPlasticity;
 #endif
