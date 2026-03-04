@@ -2,19 +2,10 @@
 #define FSDE_COMMON_DEFINESQ1P02D_H
 
 /* Sequence of parameters is:
- * mu
- * lambda
  * epsilon
- * Nrig
  */
 
 /* common variable defintion/mappings for auto-generated C code */
-
-/* potential parameters */
-double mu   		= params[ 0];
-double lambda		= params[ 1];
-double epsilon      = params[ 2];
-double Nrig	  	 	= params[ 3];
 
 /* E-field */
 double ex = Xsi[0];

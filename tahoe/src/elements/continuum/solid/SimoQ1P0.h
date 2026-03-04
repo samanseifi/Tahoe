@@ -96,9 +96,8 @@ private:
 
 	void MassMatrix();
 
-	dSymMatrixT MaxwellStress(dArrayT E, const double epsilon);
-
-	dSymMatrixT s_ij(const dArrayT E, const dMatrixT F, dArrayT fParams);
+	dSymMatrixT s_electric_ij(const dArrayT E, const dMatrixT F, const double epsilon);
+	dMatrixT c_electric_ijkl(const dArrayT E, const dMatrixT F, const double epsilon)
 
 
 protected:

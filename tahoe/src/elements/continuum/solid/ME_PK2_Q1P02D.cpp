@@ -5,7 +5,7 @@
 static double z[109];
 
 /* function to compute electrical displacement */
-void me_pk2_q1p02D(const double* params, const double *Xsi, const double* Cmat, const double* Fmat, double J, double* dUdCmechelec) {
+void me_pk2_q1p02D(const double epsilon, const double *Xsi, const double* Cmat, const double* Fmat, double J, double* dUdCmechelec) {
 
 /* common definitions */
 #include "Common_definesQ1P02D.h"
