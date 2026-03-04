@@ -5,7 +5,6 @@
 /* base classes */
 #include "UpdatedLagrangianT.h"
 #include "FSSolidMatT.h"
-#include "IElectricallyCouplable.h"
 
 namespace Tahoe {
 
@@ -98,7 +97,7 @@ private:
 	void MassMatrix();
 
 	dSymMatrixT s_electric_ij(const dArrayT E, const dMatrixT F, const double epsilon);
-	dMatrixT c_electric_ijkl(const dArrayT E, const dMatrixT F, const double epsilon)
+	dMatrixT c_electrical_ijkl(const dArrayT E, const dMatrixT F, const double epsilon);
 
 
 protected:
@@ -140,6 +139,7 @@ private:
 	dMatrixT fAmm_geo;
 	dMatrixT fAmm_mat;
   	dMatrixT fMassMatrix;	// mass matrix for LHS
+	dMatrixT fTangentMechanical;
 
 	dMatrixT fF_mech;
 	dSymMatrixT D;

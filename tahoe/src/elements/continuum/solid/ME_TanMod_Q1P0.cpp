@@ -1,14 +1,14 @@
-#include "FSDE_incQ1P02D.h"
+#include "incQ1P0.h"
 
 #include <math.h>
 
 static double z[955];
 
 /* function to compute mixed electromechanical modulus */
-void me_tanmod_q1p02D(const double epsilon, const double *Xsi, const double* Cmat, const double* Fmat, double J, double* ddCmechelec) { 
+void me_tanmod_q1p0(const double epsilon, const double *Xsi, const double* Cmat, const double* Fmat, double J, double* ddCmechelec) { 
 
 /* common definitions */
-#include "FSDE_common_definesQ1P02D.h"
+#include "Common_definesQ1P0.h"
 	
 	/* Stress code */
 	z[1] = -C12*C21;

@@ -6,12 +6,12 @@
 #include "SolidMaterialT.h"
 #include "SolidMatListT.h"
 
-#include "FSDEMatQ1P0T.h"
+// #include "FSDEMatQ1P0T.h"
 #include "FSSolidMatT.h"
 
-#include "incQ1P02D.h"
+#include "incQ1P0.h"
 
-//#include "TensorTransformT.h"
+// #include "TensorTransformT.h"
 
 #include <iostream>
 
@@ -187,8 +187,7 @@ void SimoQ1P0::SetGlobalShape(void)
 			fShapes->GradU(fLocScalarPotential, E1, i);
 			E1 *= -1.0;
 			for (int j = 0; j < NumSD(); j++)
-				E<<<<<<< HEAD
-[j] = E1(0,j);
+				E[j] = E1(0,j);
 		}
 	} else {
 		/* no electric field — keep E = 0 at all integration points */
@@ -346,8 +345,11 @@ void SimoQ1P0::FormStiffness(double constK)
 		/* strain displacement matrix */
 		Set_B_bar(fCurrShapes->Derivatives_U(), fMeanGradient, fB);
 
+		dMatrixT cijkl = c_electrical_ijkl(E, F, epsilon);
+		cijkl += fCurrMaterial->c_ijkl();
+
 		/* get D matrix from base material */
-		fD.SetToScaled(scale*J_correction, fCurrMaterial->c_ijkl());
+		fD.SetToScaled(scale*J_correction, cijkl);
 
 		/* accumulate */
 		fAmm_mat.MultQTBQ(fB, fD, format, dMatrixT::kAccumulate);
@@ -555,7 +557,6 @@ void SimoQ1P0::bSp_bRq_to_KSqRp(const dMatrixT& b, dMatrixT& K) const
 /* Calculating the total stress (elec+mech) in reference conf and then push it forward! */
 dSymMatrixT SimoQ1P0::s_electric_ij(const dArrayT E, const dMatrixT F, const double epsilon)
 {
-
 	int nsd = NumSD();
 
 	dSymMatrixT fStress(nsd);
@@ -566,17 +567,15 @@ dSymMatrixT SimoQ1P0::s_electric_ij(const dArrayT E, const dMatrixT F, const dou
 	if (nsd == 3){
 		dMatrixT C(nsd); // Right Cauchy strain tensor
 
-
 		C.MultATB(F, F);
 		double J = F.Det();
 		double I1 = C(0,0) + C(1,1) + C(2,2);
 
 		stress_temp2 = 0.0;
 
-		me_pk2_q1p02D(epsilon, E.Pointer(), C.Pointer(), F.Pointer(), J, stress_temp2.Pointer());
+		me_pk2_q1p0(epsilon, E.Pointer(), C.Pointer(), F.Pointer(), J, stress_temp2.Pointer());
 
 		fStress.FromMatrix(stress_temp2);
-
 
 	}	else if (nsd == 2) {
 
@@ -624,7 +623,7 @@ dSymMatrixT SimoQ1P0::s_electric_ij(const dArrayT E, const dMatrixT F, const dou
 		double I1 = C2D(0, 0) + C2D(1, 1) + 1.0/det_C;
 
 		/* call C function for electrical part of PK2 stress */
-		me_pk2_q1p02D(epsilon, E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, stress_temp2.Pointer());
+		me_pk2_q1p0(epsilon, E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, stress_temp2.Pointer());
 		stress_temp += stress_temp2;
 
 		fStress(0,0) = stress_temp(0,0);
@@ -647,70 +646,88 @@ dSymMatrixT SimoQ1P0::s_electric_ij(const dArrayT E, const dMatrixT F, const dou
 
 /* TODO: Adding 3D stuff and Push forward procedure */
 
-dMatrixT SimoQ1P0::c_electrical_ijkl(cons dArrayT E, const dMatrixT F, const double epsilon)
- {
-	dMatrixT F2D(nsd);	// Deformation Gradient
-	dMatrixT C2D(nsd);	// Right Cauchy strain tensor
+dMatrixT SimoQ1P0::c_electrical_ijkl(const dArrayT E, const dMatrixT F, const double epsilon)
+{
+    int nsd = NumSD();
+    double J = F.Det();
 
-	F2D = F;
-	C2D.MultATB(F, F);
-	double J = F2D.Det();
-	double det_C = C2D.Det();
+    // 1. Prepare Reference Tangent (Material Tangent)
+    // We'll use a 6x6 matrix for the 3D Voigt notation (11, 22, 33, 23, 13, 12)
+    dMatrixT C_mat_3D(6); 
+    C_mat_3D = 0.0;
 
-	dMatrixT C3D(3), F3D(3), stress_temp(3), stress_temp2(3);
-	dArrayT E3D(3);
+    if (nsd == 3) {
+        dMatrixT C(3);
+        C.MultATB(F, F);
+        
+        // Call the 3D C-function directly
+        me_tanmod_q1p0(epsilon, E.Pointer(), C.Pointer(), F.Pointer(), J, C_mat_3D.Pointer());
 
+		fTangentMechanical = C_mat_3D;
+    } 
+    else if (nsd == 2) {
+        // Plane Strain Logic
 
-    dMatrixT C3D(3), F3D(3), mechtan3D(6), metan3D(6);
-    dArrayT E3D(3); 
+		dMatrixT F2D(nsd);	// Deformation Gradient
+		dMatrixT C2D(nsd);	// Right Cauchy strain tensor
 
-    metan3D = 0.0;
-    mechtan3D = 0.0;
+		F2D = F;
+		C2D.MultATB(F, F);
+		double J = F2D.Det();
+		double det_C = C2D.Det();
 
-    C3D[0] = C2D[0];
-    C3D[1] = C2D[1];
-    C3D[2] = 0.0;
-    
-    C3D[3] = C2D[2];
-    C3D[4] = C2D[3];
-    C3D[5] = 0.0;
-    
-    C3D[6] = 0.0;
-    C3D[7] = 0.0;
-    C3D[8] = 1.0;
-    
-    F3D[0] = F2D[0];
-    F3D[1] = F2D[1];
-    F3D[2] = 0.0;
-    
-    F3D[3] = F2D[2];
-    F3D[4] = F2D[3];
-    F3D[5] = 0.0;
-    
-    F3D[6] = 0.0;
-    F3D[7] = 0.0;
-    F3D[8] = 1.0;
-    
-    const dArrayT& E = ElectricField();
-    E3D[0] = E[0];
-    E3D[1] = E[1];
-    E3D[2] = 0.0;
-    
-  	double I1 = C2D(0,0) + C2D(1,1) + 1.0;	// plane strain constraint
-	
-	/* call C function for mechanical part of tangent modulus */
- 	me_tanmod_q1p02D(epsilon, E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, metan3D.Pointer());
- 
- 	fTangentMechanical(0,0) = metan3D(0,0);
-	fTangentMechanical(0,1) = metan3D(0,1);
-	fTangentMechanical(0,2) = metan3D(0,5);
-	fTangentMechanical(1,0) = metan3D(1,0);
-	fTangentMechanical(1,1) = metan3D(1,1);
-	fTangentMechanical(1,2) = metan3D(1,5);
-	fTangentMechanical(2,0) = metan3D(5,0);
-	fTangentMechanical(2,1) = metan3D(5,1);
-	fTangentMechanical(2,2) = metan3D(5,5);
+		dMatrixT C3D(3), F3D(3), stress_temp(3), stress_temp2(3);
+  		dArrayT E3D(3);
 
+		stress_temp2 = 0.0;
+
+		C3D[0] = C2D[0];
+		C3D[1] = C2D[1];
+		C3D[2] = 0.0;
+
+		C3D[3] = C2D[2];
+		C3D[4] = C2D[3];
+		C3D[5] = 0.0;
+
+		C3D[6] = 0.0;
+		C3D[7] = 0.0;
+		C3D[8] = 1.0;
+
+		F3D[0] = F2D[0];
+		F3D[1] = F2D[1];
+		F3D[2] = 0.0;
+
+		F3D[3] = F2D[2];
+		F3D[4] = F2D[3];
+		F3D[5] = 0.0;
+
+		F3D[6] = 0.0;
+		F3D[7] = 0.0;
+		F3D[8] = 1.0;
+
+		E3D[0] = E[0];
+		E3D[1] = E[1];
+		E3D[2] = 0.0;
+
+        me_tanmod_q1p0(epsilon, E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, C_mat_3D.Pointer());
+
+		fTangentMechanical(0,0) = C_mat_3D(0,0);
+		fTangentMechanical(0,1) = C_mat_3D(0,1);
+		fTangentMechanical(0,2) = C_mat_3D(0,5);
+		fTangentMechanical(1,0) = C_mat_3D(1,0);
+		fTangentMechanical(1,1) = C_mat_3D(1,1);
+		fTangentMechanical(1,2) = C_mat_3D(1,5);
+		fTangentMechanical(2,0) = C_mat_3D(5,0);
+		fTangentMechanical(2,1) = C_mat_3D(5,1);
+		fTangentMechanical(2,2) = C_mat_3D(5,5);
+    }
+
+	dMatrixT c = fTangentMechanical;
+
+	fTangentMechanical.MultQBQT(F, c);		// Push forward procedure
+	fTangentMechanical *= 1.0 / J;
+    
 
     return fTangentMechanical;
-  }
+}
+
