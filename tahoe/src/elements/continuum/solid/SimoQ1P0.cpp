@@ -170,7 +170,8 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
  ***********************************************************************/
 
 /* form shape functions and derivatives */
-void SimoQ1P0::SetGlobalShape(void)
+void SimoQ1P0::Se<<<<<<< HEAD
+tGlobalShape(void)
 {
 	/* current element number */
 	int elem = CurrElementNumber();
@@ -188,7 +189,8 @@ void SimoQ1P0::SetGlobalShape(void)
 			fShapes->GradU(fLocScalarPotential, E1, i);
 			E1 *= -1.0;
 			for (int j = 0; j < NumSD(); j++)
-				E[j] = E1(0,j);
+				E<<<<<<< HEAD
+[j] = E1(0,j);
 		}
 	} else {
 		/* no electric field — keep E = 0 at all integration points */
@@ -222,12 +224,7 @@ void SimoQ1P0::SetGlobalShape(void)
 			/* "replace" dilatation */
 			dMatrixT& F = fF_List[i];
 			double J = F.Det();
-<<<<<<< HEAD
 			F *= pow(v/(H*J), 1.0/2.0);
-=======
-			F *= pow(v/(H*J), 1.0/3.0);
-//			F *= pow((pow((v/H),2.0/3.0)*(1.0/J)), 1.0/2.0);
->>>>>>> 9257fd91a261bb8f613b8067d804ab2dac192881
 
 			/* store Jacobian */
 			fJacobian[i] = J;
@@ -240,12 +237,7 @@ void SimoQ1P0::SetGlobalShape(void)
 			dMatrixT& F = fF_last_List[i];
 
 			double J = F.Det();
-<<<<<<< HEAD
 			F *= pow(v_last/(H*J), 1.0/2.0);
-=======
-			F *= pow(v_last/(H*J), 1.0/3.0);
-//			F *= pow((pow((v_last/H),2.0/3.0)*(1.0/J)), 1.0/2.0);
->>>>>>> 9257fd91a261bb8f613b8067d804ab2dac192881
 		}
 	}
 }
@@ -320,7 +312,6 @@ void SimoQ1P0::FormStiffness(double constK)
 		double scale = constK*(*Det++)*(*Weight++);
 
 	/* S T R E S S   S T I F F N E S S */
-<<<<<<< HEAD
 		/* compute Cauchy stress from the base material */
 		dSymMatrixT cauchy = fCurrMaterial->s_ij();
 		
@@ -332,17 +323,6 @@ void SimoQ1P0::FormStiffness(double constK)
 		cauchy += maxwell;
 
 		/* Combine total stresses */
-=======
-		/* notify DE material of current IP's electric field (no-op for non-DE materials) */
-		{
-			IElectricallyCouplable* de_mat =
-				dynamic_cast<IElectricallyCouplable*>(fCurrMaterial);
-			if (de_mat) de_mat->SetIPElectricField(fE_List[CurrIP()]);
-		}
-		/* compute Cauchy stress from the material model (includes Maxwell for DE materials) */
-		dSymMatrixT cauchy = fCurrMaterial->s_ij();
-
->>>>>>> 9257fd91a261bb8f613b8067d804ab2dac192881
 		cauchy.ToMatrix(fCauchyStress);
 
 		/* determinant of modified deformation gradient */
@@ -419,7 +399,6 @@ void SimoQ1P0::FormKd(double constK)
 		/* strain displacement matrix */
 		Set_B_bar(fCurrShapes->Derivatives_U(), fMeanGradient, fB);
 
-<<<<<<< HEAD
 		/* B^T * Cauchy stress */
 
 
@@ -433,16 +412,6 @@ void SimoQ1P0::FormKd(double constK)
 		dSymMatrixT maxwell = s_electric_ij(E, F, epsilon);
 		cauchy += maxwell;
 
-=======
-		/* notify DE material of current IP's electric field (no-op for non-DE materials) */
-		{
-			IElectricallyCouplable* de_mat =
-				dynamic_cast<IElectricallyCouplable*>(fCurrMaterial);
-			if (de_mat) de_mat->SetIPElectricField(fE_List[CurrIP()]);
-		}
-		/* B^T * Cauchy stress — from material model (includes Maxwell for DE materials) */
-		dSymMatrixT cauchy = fCurrMaterial->s_ij();
->>>>>>> 9257fd91a261bb8f613b8067d804ab2dac192881
 
 		fB.MultTx(cauchy, fNEEvec);
 
