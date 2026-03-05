@@ -426,7 +426,7 @@ void DiffusionElementT::FormStiffness(double constK)
 		/* get D matrix */
 		if (mechanical_coupling)
 		{
-			const double epsilon = 1.0;
+			const double epsilon = fCurrMaterial->Permittivity();
 			const dMatrixT F = fF_List[CurrIP()];
 			fD.SetToScaled(scale * epsilon, b_ij(F));
 		} else {
@@ -461,7 +461,7 @@ void DiffusionElementT::FormKd(double constK)
 		if (mechanical_coupling)
 		{
 			/* electric displacement d_i = epsilon * J * C^{-1} * E in reference frame */
-			const double epsilon = 1.0;
+			const double epsilon = fCurrMaterial->Permittivity();
 			dArrayT E(nsd);    /* nsd-dimensional electric field vector */
 			dMatrixT E1(1, nsd);
 			fShapes->GradU(fLocDisp, E1, CurrIP());

@@ -6,6 +6,7 @@
 /* diffusion materials */
 #include "DiffusionMaterialT.h"
 #include "NLDiffusionMaterialT.h"
+#include "LinearDielectricT.h"
 
 using namespace Tahoe;
 
@@ -45,6 +46,7 @@ void DiffusionMatListT::DefineInlineSub(const StringT& name, ParameterListT::Lis
 		/* diffusion materials */
 		sub_lists.AddSub("linear_diffusion_material");
 		sub_lists.AddSub("nonlinear_diffusion_material");
+		sub_lists.AddSub("linear_dielectric_material");
 	}	
 	else /* inherited */
 		ParameterInterfaceT::DefineInlineSub(name, order, sub_lists);
@@ -93,9 +95,11 @@ DiffusionMaterialT* DiffusionMatListT::NewDiffusionMaterial(const StringT& name)
 	DiffusionMaterialT* mat = NULL;
 
 	if (name == "linear_diffusion_material")
-		mat = new DiffusionMaterialT;	
+		mat = new DiffusionMaterialT;
 	else if (name == "nonlinear_diffusion_material")
 		mat = new NLDiffusionMaterialT;
+	else if (name == "linear_dielectric_material")
+		mat = new LinearDielectricT;
 
 	/* set support */
 	if (mat) mat->SetDiffusionMatSupport(fDiffusionMatSupport);

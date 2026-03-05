@@ -21,7 +21,8 @@ using namespace Tahoe;
 SimoQ1P0::SimoQ1P0(const ElementSupportT& support):
 	UpdatedLagrangianT(support),
 	fLocScalarPotential(LocalArrayT::kESP),
-	fElectricScalarPotentialField(0)
+	fElectricScalarPotentialField(0),
+	fElectricPermittivity(1.0)
 {
 	SetName("updated_lagrangian_Q1P0");
 }
@@ -79,11 +80,26 @@ void SimoQ1P0::WriteRestart(ostream& out) const
 	out << fElementVolume << '\n';
 }
 
+/* describe the parameters needed by the interface */
+void SimoQ1P0::DefineParameters(ParameterListT& list) const
+{
+	/* inherited */
+	UpdatedLagrangianT::DefineParameters(list);
+
+	/* electric permittivity for Maxwell stress and electrical tangent */
+	ParameterT epsilon(fElectricPermittivity, "epsilon");
+	epsilon.SetDefault(1.0);
+	list.AddParameter(epsilon, ParameterListT::ZeroOrOnce);
+}
+
 /* accept parameter list */
 void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 {
 	const char caller[] = "SimoQ1P0::TakeParameterList";
 
+	/* read epsilon before calling inherited (which may call SetGlobalShape) */
+	const ParameterT* peps = list.Parameter("epsilon");
+	fElectricPermittivity = peps ? double(*peps) : 1.0;
 
 	/* inherited */
 	UpdatedLagrangianT::TakeParameterList(list);
@@ -318,10 +334,9 @@ void SimoQ1P0::FormStiffness(double constK)
 		dSymMatrixT cauchy = fCurrMaterial->s_ij();
 		
 		/* compute Maxwell stress */
-		const double epsilon = 1.0;
 		const dArrayT  E 		= fE_List[CurrIP()];
 		const dMatrixT F 		= DeformationGradient();
-		dSymMatrixT maxwell = s_electric_ij(E, F, epsilon);
+		dSymMatrixT maxwell = s_electric_ij(E, F, fElectricPermittivity);
 		cauchy += maxwell;
 
 		/* Combine total stresses */
@@ -350,7 +365,7 @@ void SimoQ1P0::FormStiffness(double constK)
 		/* strain displacement matrix */
 		Set_B_bar(fCurrShapes->Derivatives_U(), fMeanGradient, fB);
 
-		dMatrixT cijkl = c_electrical_ijkl(E, F, epsilon);
+		dMatrixT cijkl = c_electrical_ijkl(E, F, fElectricPermittivity);
 		cijkl += fCurrMaterial->c_ijkl();
 
 		/* get D matrix from base material */
@@ -411,10 +426,9 @@ void SimoQ1P0::FormKd(double constK)
 		dSymMatrixT cauchy = fCurrMaterial->s_ij();
 
 
-		const double epsilon = 1.0;
 		const dArrayT  E 		= fE_List[CurrIP()];
 		const dMatrixT F 		= DeformationGradient();
-		dSymMatrixT maxwell = s_electric_ij(E, F, epsilon);
+		dSymMatrixT maxwell = s_electric_ij(E, F, fElectricPermittivity);
 		cauchy += maxwell;
 
 

@@ -430,7 +430,6 @@ void ElementListT::DefineInlineSub(const StringT& name, ParameterListT::ListOrde
 
 #ifdef CONTINUUM_ELEMENT
 		sub_lists.AddSub("diffusion");
-		sub_lists.AddSub("de_diffusion");
 		sub_lists.AddSub("viscous_drag");
 		sub_lists.AddSub("nonlinear_diffusion");
 		sub_lists.AddSub("hyperbolic_diffusion");

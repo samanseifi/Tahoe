@@ -64,6 +64,9 @@ public:
 
 	/** \name implementation of the ParameterInterfaceT interface */
 	/*@{*/
+	/** describe the parameters needed by the interface */
+	virtual void DefineParameters(ParameterListT& list) const;
+
 	/** accept parameter list */
 	virtual void TakeParameterList(const ParameterListT& list);
 	/*@}*/
@@ -146,6 +149,9 @@ private:
 
 	// For case of electric field coupling for DE
   	const FieldT* fElectricScalarPotentialField;
+
+	/** electric permittivity — read from XML, must match LinearDielectricT epsilon */
+	double fElectricPermittivity;
 
 
 	/*@}*/

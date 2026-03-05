@@ -255,8 +255,7 @@ void FSSolidMatList3DT::DefineInlineSub(const StringT& name, ParameterListT::Lis
 #ifdef VISCOELASTICITY
 		sub_lists.AddSub("Reese-Govindjee_split");
 		sub_lists.AddSub("RG_split_general");
-		sub_lists.AddSub("RG_split_DE");
-                sub_lists.AddSub("boyce_viscoplasticity");
+        sub_lists.AddSub("boyce_viscoplasticity");
 #endif
 
 #ifdef VISCOELASTIC_MATERIALS_DEV

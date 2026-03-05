@@ -33,6 +33,10 @@ public:
 	/** conductivity */
 	virtual const dMatrixT& k_ij(void);
 
+	/** electric permittivity — returns the scalar conductivity by default;
+	 *  override in LinearDielectricT to return the dedicated epsilon */
+	virtual double Permittivity(void) const { return fConductivity(0,0); }
+
 	/** heat flux */
 	virtual const dArrayT& q_i(void);
 
