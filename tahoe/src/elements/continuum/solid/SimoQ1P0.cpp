@@ -134,6 +134,11 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 	fAmm_geo.Dimension(nen, nen);	// dimensions changed for Q1P0!
 	fMassMatrix.Dimension(nme, nme);
 
+	/* electrical tangent in Voigt notation: 6x6 for 3D, 3x3 for 2D */
+	int voigt_dim = (nsd == 3) ? 6 : 3;
+	fTangentMechanical.Dimension(voigt_dim, voigt_dim);
+	fTangentMechanical = 0.0;
+
 	/* element pressure */
 	fPressure.Dimension(NumElements());
 	fPressure = 0.0;
@@ -624,12 +629,12 @@ dSymMatrixT SimoQ1P0::s_electric_ij(const dArrayT E, const dMatrixT F, const dou
 
 		/* call C function for electrical part of PK2 stress */
 		me_pk2_q1p0(epsilon, E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, stress_temp2.Pointer());
-		stress_temp += stress_temp2;
 
-		fStress(0,0) = stress_temp(0,0);
-    	fStress(0,1) = stress_temp(0,1);
-		fStress(1,0) = stress_temp(1,0);
-    	fStress(1,1) = stress_temp(1,1);
+		/* use stress_temp2 directly — stress_temp was uninitialized (bug fix) */
+		fStress(0,0) = stress_temp2(0,0);
+    	fStress(0,1) = stress_temp2(0,1);
+		fStress(1,0) = stress_temp2(1,0);
+    	fStress(1,1) = stress_temp2(1,1);
 	}
 
 
@@ -644,89 +649,87 @@ dSymMatrixT SimoQ1P0::s_electric_ij(const dArrayT E, const dMatrixT F, const dou
 
 }
 
-/* TODO: Adding 3D stuff and Push forward procedure */
-
+/* Correct 4th-order Voigt push-forward: c_spatial = (1/J) * P * C_mat * P^T
+ *
+ * Voigt ordering (0-based indices into the matrix):
+ *   3D: (0,0)->0, (1,1)->1, (2,2)->2, (1,2)->3, (0,2)->4, (0,1)->5
+ *   2D: (0,0)->0, (1,1)->1, (0,1)->2
+ *
+ * P[a,b] = F[vi[a], vi[b]] * F[vj[a], vj[b]]
+ * where (vi[a], vj[a]) is the index pair for Voigt index a.
+ */
 dMatrixT SimoQ1P0::c_electrical_ijkl(const dArrayT E, const dMatrixT F, const double epsilon)
 {
     int nsd = NumSD();
     double J = F.Det();
 
-    // 1. Prepare Reference Tangent (Material Tangent)
-    // We'll use a 6x6 matrix for the 3D Voigt notation (11, 22, 33, 23, 13, 12)
-    dMatrixT C_mat_3D(6); 
+    dMatrixT C_mat_3D(6);
     C_mat_3D = 0.0;
 
     if (nsd == 3) {
         dMatrixT C(3);
         C.MultATB(F, F);
-        
-        // Call the 3D C-function directly
         me_tanmod_q1p0(epsilon, E.Pointer(), C.Pointer(), F.Pointer(), J, C_mat_3D.Pointer());
 
-		fTangentMechanical = C_mat_3D;
-    } 
-    else if (nsd == 2) {
-        // Plane Strain Logic
+        /* 4th-order Voigt push-forward (3D):
+         * Voigt pairs: 0=(0,0), 1=(1,1), 2=(2,2), 3=(1,2), 4=(0,2), 5=(0,1) */
+        static const int vi3D[6] = {0, 1, 2, 1, 0, 0};
+        static const int vj3D[6] = {0, 1, 2, 2, 2, 1};
 
-		dMatrixT F2D(nsd);	// Deformation Gradient
-		dMatrixT C2D(nsd);	// Right Cauchy strain tensor
+        dMatrixT P(6);
+        for (int a = 0; a < 6; a++)
+            for (int b = 0; b < 6; b++)
+                P(a, b) = F(vi3D[a], vi3D[b]) * F(vj3D[a], vj3D[b]);
 
-		F2D = F;
-		C2D.MultATB(F, F);
-		double J = F2D.Det();
-		double det_C = C2D.Det();
-
-		dMatrixT C3D(3), F3D(3), stress_temp(3), stress_temp2(3);
-  		dArrayT E3D(3);
-
-		stress_temp2 = 0.0;
-
-		C3D[0] = C2D[0];
-		C3D[1] = C2D[1];
-		C3D[2] = 0.0;
-
-		C3D[3] = C2D[2];
-		C3D[4] = C2D[3];
-		C3D[5] = 0.0;
-
-		C3D[6] = 0.0;
-		C3D[7] = 0.0;
-		C3D[8] = 1.0;
-
-		F3D[0] = F2D[0];
-		F3D[1] = F2D[1];
-		F3D[2] = 0.0;
-
-		F3D[3] = F2D[2];
-		F3D[4] = F2D[3];
-		F3D[5] = 0.0;
-
-		F3D[6] = 0.0;
-		F3D[7] = 0.0;
-		F3D[8] = 1.0;
-
-		E3D[0] = E[0];
-		E3D[1] = E[1];
-		E3D[2] = 0.0;
-
-        me_tanmod_q1p0(epsilon, E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, C_mat_3D.Pointer());
-
-		fTangentMechanical(0,0) = C_mat_3D(0,0);
-		fTangentMechanical(0,1) = C_mat_3D(0,1);
-		fTangentMechanical(0,2) = C_mat_3D(0,5);
-		fTangentMechanical(1,0) = C_mat_3D(1,0);
-		fTangentMechanical(1,1) = C_mat_3D(1,1);
-		fTangentMechanical(1,2) = C_mat_3D(1,5);
-		fTangentMechanical(2,0) = C_mat_3D(5,0);
-		fTangentMechanical(2,1) = C_mat_3D(5,1);
-		fTangentMechanical(2,2) = C_mat_3D(5,5);
+        dMatrixT tmp(6);
+        tmp.MultAB(P, C_mat_3D);
+        fTangentMechanical.MultABT(tmp, P);
+        fTangentMechanical *= 1.0 / J;
     }
+    else if (nsd == 2) {
+        dMatrixT F2D(nsd);
+        dMatrixT C2D(nsd);
+        F2D = F;
+        C2D.MultATB(F, F);
+        double J2D = F2D.Det();
 
-	dMatrixT c = fTangentMechanical;
+        /* extend to 3D for the auto-generated C function */
+        dMatrixT C3D(3), F3D(3);
+        dArrayT E3D(3);
 
-	fTangentMechanical.MultQBQT(F, c);		// Push forward procedure
-	fTangentMechanical *= 1.0 / J;
-    
+        C3D[0]=C2D[0]; C3D[1]=C2D[1]; C3D[2]=0.0;
+        C3D[3]=C2D[2]; C3D[4]=C2D[3]; C3D[5]=0.0;
+        C3D[6]=0.0;    C3D[7]=0.0;    C3D[8]=1.0;
+
+        F3D[0]=F2D[0]; F3D[1]=F2D[1]; F3D[2]=0.0;
+        F3D[3]=F2D[2]; F3D[4]=F2D[3]; F3D[5]=0.0;
+        F3D[6]=0.0;    F3D[7]=0.0;    F3D[8]=1.0;
+
+        E3D[0]=E[0]; E3D[1]=E[1]; E3D[2]=0.0;
+
+        me_tanmod_q1p0(epsilon, E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J2D, C_mat_3D.Pointer());
+
+        /* extract plane-strain 2D block (Voigt 3D ordering: 11->0, 22->1, 12->5) */
+        dMatrixT C_mat_2D(3);
+        C_mat_2D(0,0)=C_mat_3D(0,0); C_mat_2D(0,1)=C_mat_3D(0,1); C_mat_2D(0,2)=C_mat_3D(0,5);
+        C_mat_2D(1,0)=C_mat_3D(1,0); C_mat_2D(1,1)=C_mat_3D(1,1); C_mat_2D(1,2)=C_mat_3D(1,5);
+        C_mat_2D(2,0)=C_mat_3D(5,0); C_mat_2D(2,1)=C_mat_3D(5,1); C_mat_2D(2,2)=C_mat_3D(5,5);
+
+        /* 4th-order Voigt push-forward (2D):
+         * Voigt pairs: 0=(0,0), 1=(1,1), 2=(0,1) */
+        static const int vi2D[3] = {0, 1, 0};
+        static const int vj2D[3] = {0, 1, 1};
+
+        dMatrixT P2D(3);
+        for (int a = 0; a < 3; a++)
+            for (int b = 0; b < 3; b++)
+                P2D(a, b) = F2D(vi2D[a], vi2D[b]) * F2D(vj2D[a], vj2D[b]);
+
+        dMatrixT tmp2D(3);
+        tmp2D.MultAB(P2D, C_mat_2D);
+        fTangentMechanical.MultABT(tmp2D, P2D);
+        fTangentMechanical *= 1.0 / J2D;
+    }
 
     return fTangentMechanical;
 }

@@ -426,8 +426,9 @@ void DiffusionElementT::FormStiffness(double constK)
 		/* get D matrix */
 		if (mechanical_coupling)
 		{
+			const double epsilon = 1.0;
 			const dMatrixT F = fF_List[CurrIP()];
-			fD.SetToScaled(scale, b_ij(F));
+			fD.SetToScaled(scale * epsilon, b_ij(F));
 		} else {
 			fD.SetToScaled(scale, fCurrMaterial->k_ij());
 		}
@@ -457,33 +458,27 @@ void DiffusionElementT::FormKd(double constK)
 		/* get strain-displacement matrix */
 		B(fShapes->CurrIP(), fB);
 
-		/* compute heat flow */
-		fB.MultTx(fCurrMaterial->q_i(), fNEEvec);
+		if (mechanical_coupling)
+		{
+			/* electric displacement d_i = epsilon * J * C^{-1} * E in reference frame */
+			const double epsilon = 1.0;
+			dArrayT E(nsd);    /* nsd-dimensional electric field vector */
+			dMatrixT E1(1, nsd);
+			fShapes->GradU(fLocDisp, E1, CurrIP());
+			E1 *= -1.0;
+			for (int j = 0; j < nsd; j++)
+				E[j] = E1(0, j);
 
-		//if (CurrElementNumber() == 1)
-		//	cout << fF_List[0] << endl;
+			const dMatrixT& F = fF_List[CurrIP()];
+			dArrayT di = d_i(F, E, epsilon);
 
-
-/*------------------------------Start of DE stuff--------------------------*/
-		int nip = NumIP();
-		dArrayT E(nip);
-		dMatrixT E1(1, NumSD());
-		fShapes->GradU(fLocDisp, E1, CurrIP());
-		E1 *= -1.0;
-		for (int j = 0; j < NumSD(); j++)
-			E[j] = E1(0, j);
-
-
-		const double epsilon = 1.0;	  	//		\epsilon
-
-
-		dMatrixT F = fF_List[CurrIP()];
-		double J = F.Det();
-		dArrayT di = d_i(F, E, epsilon);
-		di *=(1.0);
-
-		fB.MultTx(di, fNEEvec);
-/*------------------------------End of DE stuff--------------------------*/
+			fB.MultTx(di, fNEEvec);
+		}
+		else
+		{
+			/* no mechanical coupling: use material conductivity */
+			fB.MultTx(fCurrMaterial->q_i(), fNEEvec);
+		}
 
 		/* accumulate */
 		fRHS.AddScaled(-constK*(*Weight++)*(*Det++), fNEEvec);
