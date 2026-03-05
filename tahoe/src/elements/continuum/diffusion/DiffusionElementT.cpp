@@ -19,7 +19,7 @@
 #include "DiffusionMatListT.h"
 
 /* mechanical coupling stuff */
-#include "incQ1P02D.h"
+#include "incQ1P0_elec.h"
 
 
 using namespace Tahoe;
@@ -473,16 +473,13 @@ void DiffusionElementT::FormKd(double constK)
 		for (int j = 0; j < NumSD(); j++)
 			E[j] = E1(0, j);
 
-		dArrayT params(4);
-		params[0] = 1.0;		// 		\mu
-		params[1] = 1000.0;	//		\lambda
-		params[2] = 1.0;	  	//		\epsilon
-		params[3] = 5.0;		//		\Nrig
-		const dArrayT  fParams 	= params;
+
+		const double epsilon = 1.0;	  	//		\epsilon
+
 
 		dMatrixT F = fF_List[CurrIP()];
 		double J = F.Det();
-		dArrayT di = d_i(F, E, fParams);
+		dArrayT di = d_i(F, E, epsilon);
 		di *=(1.0);
 
 		fB.MultTx(di, fNEEvec);
@@ -850,7 +847,7 @@ dMatrixT DiffusionElementT::b_ij(const dMatrixT F)
 	//return fKD;   // K_D
 }
 /* Not neccessary for weakly coupling */
-dArrayT DiffusionElementT::d_i(const dMatrixT F, const dArrayT E, dArrayT fParams)
+dArrayT DiffusionElementT::d_i(const dMatrixT F, const dArrayT E, const double epsilon)
 {
 	int nsd = NumSD();
 	dArrayT fElectricDisplacement(nsd), D(nsd), ED(nsd);
@@ -861,7 +858,7 @@ dArrayT DiffusionElementT::d_i(const dMatrixT F, const dArrayT E, dArrayT fParam
 		C.MultATB(F, F);
 		double J = F.Det();
 
-		elec_pk2_q1p02D(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, ED.Pointer());
+		elec_pk2_q1p0(epsilon, E.Pointer(), C.Pointer(), F.Pointer(), J, ED.Pointer());
 
 		D = ED;
 
@@ -909,7 +906,7 @@ dArrayT DiffusionElementT::d_i(const dMatrixT F, const dArrayT E, dArrayT fParam
 		E3D[2] = 0.0;
 
 		/* call C function for electric stress (i.e. electric displacement D_{I}) */
-		elec_pk2_q1p02D(fParams.Pointer(), E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, ED.Pointer());
+		elec_pk2_q1p0(epsilon, E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, ED.Pointer());
 
 		D[0] = ED[0];
 		D[1] = ED[1];

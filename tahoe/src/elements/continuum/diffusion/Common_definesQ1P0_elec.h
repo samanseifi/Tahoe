@@ -1,5 +1,5 @@
-#ifndef COMMON_DEFINESQ1P02D_H
-#define COMMON_DEFINESQ1P02D_H
+#ifndef COMMON_DEFINESQ1P0_ELEC_H
+#define COMMON_DEFINESQ1P0_ELEC_H
 
 /* Sequence of parameters is:
  * mu
@@ -10,11 +10,6 @@
 
 /* common variable defintion/mappings for auto-generated C code */
 
-/* potential parameters */
-double mu   		= params[ 0];
-double lambda		= params[ 1];
-double epsilon      = params[ 2];
-double Nrig	  	 	= params[ 3];
 
 /* E-field */
 double ex = Xsi[0];
@@ -43,4 +38,4 @@ double F31 = Fmat[6];
 double F32 = Fmat[7];
 double F33 = Fmat[8];
 
-#endif /* COMMON_DEFINESQ1P02D_H */
+#endif /* COMMON_DEFINESQ1P0_ELEC_H */

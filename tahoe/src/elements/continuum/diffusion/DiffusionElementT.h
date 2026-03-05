@@ -117,7 +117,7 @@ private:
 
 	dMatrixT b_ij(const dMatrixT F);
 
-	dArrayT d_i(const dMatrixT F, const dArrayT E, const dArrayT fParams);
+	dArrayT d_i(const dMatrixT F, const dArrayT E, const double epsilon);
 
 protected:
 
