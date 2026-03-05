@@ -92,7 +92,6 @@
 #include "SimoQ1P0Axi.h"
 #include "SimoQ1P0Axi_inv.h"
 #include "DiffusionElementT.h"
-#include "DEDiffusionElementT.h"
 #include "NLDiffusionElementT.h"
 #include "HyperbolicDiffusionElementT.h"
 #include "MeshFreeSSSolidT.h"
@@ -737,8 +736,6 @@ ElementBaseT* ElementListT::NewElement(const StringT& name) const
 #ifdef CONTINUUM_ELEMENT
 	else if (name == "diffusion")
 		return new DiffusionElementT(fSupport);
-	else if (name == "de_diffusion")
-		return new DEDiffusionElementT(fSupport);
 	else if (name == "viscous_drag")
 		return new ViscousDragT(fSupport);
 	else if (name == "nonlinear_diffusion")
