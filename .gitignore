@@ -40,6 +40,7 @@ compare.summary
 *.io*.dat
 *.stat
 *.out
+*.exo
 err.txt
 
 # Matrix solver test output (FullMatrixT.LHS.0, CCSMatrixT.LHS.10, etc.)

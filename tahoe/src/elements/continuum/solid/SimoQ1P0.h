@@ -64,6 +64,9 @@ public:
 
 	/** \name implementation of the ParameterInterfaceT interface */
 	/*@{*/
+	/** describe the parameters needed by the interface */
+	virtual void DefineParameters(ParameterListT& list) const;
+
 	/** accept parameter list */
 	virtual void TakeParameterList(const ParameterListT& list);
 	/*@}*/
@@ -96,9 +99,8 @@ private:
 
 	void MassMatrix();
 
-	dSymMatrixT MaxwellStress(dArrayT E, const double epsilon);
-
-	dSymMatrixT s_ij(const dArrayT E, const dMatrixT F, dArrayT fParams);
+	dSymMatrixT s_electric_ij(const dArrayT E, const dMatrixT F, const double epsilon);
+	dMatrixT c_electrical_ijkl(const dArrayT E, const dMatrixT F, const double epsilon);
 
 
 protected:
@@ -140,12 +142,16 @@ private:
 	dMatrixT fAmm_geo;
 	dMatrixT fAmm_mat;
   	dMatrixT fMassMatrix;	// mass matrix for LHS
+	dMatrixT fTangentMechanical;
 
 	dMatrixT fF_mech;
 	dSymMatrixT D;
 
 	// For case of electric field coupling for DE
   	const FieldT* fElectricScalarPotentialField;
+
+	/** electric permittivity — read from XML, must match LinearDielectricT epsilon */
+	double fElectricPermittivity;
 
 
 	/*@}*/

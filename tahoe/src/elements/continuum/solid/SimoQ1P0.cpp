@@ -6,12 +6,12 @@
 #include "SolidMaterialT.h"
 #include "SolidMatListT.h"
 
-#include "FSDEMatQ1P0T.h"
+// #include "FSDEMatQ1P0T.h"
 #include "FSSolidMatT.h"
 
-#include "incQ1P02D.h"
+#include "incQ1P0.h"
 
-//#include "TensorTransformT.h"
+// #include "TensorTransformT.h"
 
 #include <iostream>
 
@@ -21,7 +21,8 @@ using namespace Tahoe;
 SimoQ1P0::SimoQ1P0(const ElementSupportT& support):
 	UpdatedLagrangianT(support),
 	fLocScalarPotential(LocalArrayT::kESP),
-	fElectricScalarPotentialField(0)
+	fElectricScalarPotentialField(0),
+	fElectricPermittivity(1.0)
 {
 	SetName("updated_lagrangian_Q1P0");
 }
@@ -79,11 +80,26 @@ void SimoQ1P0::WriteRestart(ostream& out) const
 	out << fElementVolume << '\n';
 }
 
+/* describe the parameters needed by the interface */
+void SimoQ1P0::DefineParameters(ParameterListT& list) const
+{
+	/* inherited */
+	UpdatedLagrangianT::DefineParameters(list);
+
+	/* electric permittivity for Maxwell stress and electrical tangent */
+	ParameterT epsilon(fElectricPermittivity, "epsilon");
+	epsilon.SetDefault(1.0);
+	list.AddParameter(epsilon, ParameterListT::ZeroOrOnce);
+}
+
 /* accept parameter list */
 void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 {
 	const char caller[] = "SimoQ1P0::TakeParameterList";
 
+	/* read epsilon before calling inherited (which may call SetGlobalShape) */
+	const ParameterT* peps = list.Parameter("epsilon");
+	fElectricPermittivity = peps ? double(*peps) : 1.0;
 
 	/* inherited */
 	UpdatedLagrangianT::TakeParameterList(list);
@@ -134,6 +150,11 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 	fAmm_geo.Dimension(nen, nen);	// dimensions changed for Q1P0!
 	fMassMatrix.Dimension(nme, nme);
 
+	/* electrical tangent in Voigt notation: 6x6 for 3D, 3x3 for 2D */
+	int voigt_dim = (nsd == 3) ? 6 : 3;
+	fTangentMechanical.Dimension(voigt_dim, voigt_dim);
+	fTangentMechanical = 0.0;
+
 	/* element pressure */
 	fPressure.Dimension(NumElements());
 	fPressure = 0.0;
@@ -168,7 +189,6 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 /***********************************************************************
  * Protected
  ***********************************************************************/
-
 /* form shape functions and derivatives */
 void SimoQ1P0::SetGlobalShape(void)
 {
@@ -223,7 +243,6 @@ void SimoQ1P0::SetGlobalShape(void)
 			dMatrixT& F = fF_List[i];
 			double J = F.Det();
 			F *= pow(v/(H*J), 1.0/3.0);
-//			F *= pow((pow((v/H),2.0/3.0)*(1.0/J)), 1.0/2.0);
 
 			/* store Jacobian */
 			fJacobian[i] = J;
@@ -237,7 +256,6 @@ void SimoQ1P0::SetGlobalShape(void)
 
 			double J = F.Det();
 			F *= pow(v_last/(H*J), 1.0/3.0);
-//			F *= pow((pow((v_last/H),2.0/3.0)*(1.0/J)), 1.0/2.0);
 		}
 	}
 }
@@ -312,15 +330,16 @@ void SimoQ1P0::FormStiffness(double constK)
 		double scale = constK*(*Det++)*(*Weight++);
 
 	/* S T R E S S   S T I F F N E S S */
-		/* compute Cauchy stress from the material model */
+		/* compute Cauchy stress from the base material */
 		dSymMatrixT cauchy = fCurrMaterial->s_ij();
+		
+		/* compute Maxwell stress */
+		const dArrayT  E 		= fE_List[CurrIP()];
+		const dMatrixT F 		= DeformationGradient();
+		dSymMatrixT maxwell = s_electric_ij(E, F, fElectricPermittivity);
+		cauchy += maxwell;
 
-		/* add Maxwell (electrostatic) stress when electric field is present */
-		if (fElectricScalarPotentialField) {
-			dSymMatrixT maxwell = MaxwellStress(fE_List[CurrIP()], 1.0);
-			cauchy += maxwell;
-		}
-
+		/* Combine total stresses */
 		cauchy.ToMatrix(fCauchyStress);
 
 		/* determinant of modified deformation gradient */
@@ -340,15 +359,17 @@ void SimoQ1P0::FormStiffness(double constK)
 		fAmm_geo.MultQTBQ(fGradNa, fCauchyStress, format, dMatrixT::kAccumulate);
 
 		/* using the stress symmetry */
-		fStressStiff.MultQTBQ(fGradNa, fCauchyStress,
-			format, dMatrixT::kAccumulate);
+		fStressStiff.MultQTBQ(fGradNa, fCauchyStress, format, dMatrixT::kAccumulate);
 
 	/* M A T E R I A L   S T I F F N E S S */
 		/* strain displacement matrix */
 		Set_B_bar(fCurrShapes->Derivatives_U(), fMeanGradient, fB);
 
-		/* get D matrix */
-		fD.SetToScaled(scale*J_correction, fCurrMaterial->c_ijkl());
+		dMatrixT cijkl = c_electrical_ijkl(E, F, fElectricPermittivity);
+		cijkl += fCurrMaterial->c_ijkl();
+
+		/* get D matrix from base material */
+		fD.SetToScaled(scale*J_correction, cijkl);
 
 		/* accumulate */
 		fAmm_mat.MultQTBQ(fB, fD, format, dMatrixT::kAccumulate);
@@ -398,14 +419,18 @@ void SimoQ1P0::FormKd(double constK)
 		/* strain displacement matrix */
 		Set_B_bar(fCurrShapes->Derivatives_U(), fMeanGradient, fB);
 
-		/* B^T * Cauchy stress — from material model */
+		/* B^T * Cauchy stress */
+
+
+
 		dSymMatrixT cauchy = fCurrMaterial->s_ij();
 
-		/* add Maxwell stress when electric field is present */
-		if (fElectricScalarPotentialField) {
-			dSymMatrixT maxwell = MaxwellStress(fE_List[CurrIP()], 1.0);
-			cauchy += maxwell;
-		}
+
+		const dArrayT  E 		= fE_List[CurrIP()];
+		const dMatrixT F 		= DeformationGradient();
+		dSymMatrixT maxwell = s_electric_ij(E, F, fElectricPermittivity);
+		cauchy += maxwell;
+
 
 		fB.MultTx(cauchy, fNEEvec);
 
@@ -547,32 +572,10 @@ void SimoQ1P0::bSp_bRq_to_KSqRp(const dMatrixT& b, dMatrixT& K) const
 	}
 }
 
-/* Calculating Maxwell Stress */
-dSymMatrixT SimoQ1P0::MaxwellStress(const dArrayT E, const double epsilon) {
-
-	/* \sigma = \epsilon(\mathbf{E}\otimes\mathbf{E} - 0.5|\mathbf{E}|\mathbf{I})
-	/* Calculating the first term and second term */
-	int nsd = NumSD();
-	dSymMatrixT fMaxwellStress(nsd);
-	dMatrixT term1(nsd);
-	dMatrixT term2(nsd);
-
-	term1.Outer(E, E);
-	term2.Identity();
-
-	double Emag = pow(E.Magnitude(), 2.0);
-	term2 *= -0.5*Emag;
-	fMaxwellStress += term1;
-	fMaxwellStress += term2;
-	fMaxwellStress *= epsilon;
-
-	return fMaxwellStress;
-}
 
 /* Calculating the total stress (elec+mech) in reference conf and then push it forward! */
-dSymMatrixT SimoQ1P0::s_ij(const dArrayT E, const dMatrixT F, dArrayT fParams)
+dSymMatrixT SimoQ1P0::s_electric_ij(const dArrayT E, const dMatrixT F, const double epsilon)
 {
-
 	int nsd = NumSD();
 
 	dSymMatrixT fStress(nsd);
@@ -583,21 +586,15 @@ dSymMatrixT SimoQ1P0::s_ij(const dArrayT E, const dMatrixT F, dArrayT fParams)
 	if (nsd == 3){
 		dMatrixT C(nsd); // Right Cauchy strain tensor
 
-
 		C.MultATB(F, F);
 		double J = F.Det();
 		double I1 = C(0,0) + C(1,1) + C(2,2);
 
-		stress_temp = 0.0;
 		stress_temp2 = 0.0;
 
-		mech_pk2_q1p02D(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, I1, stress_temp.Pointer());
-		me_pk2_q1p02D(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, stress_temp2.Pointer());
-		stress_temp += stress_temp2;
+		me_pk2_q1p0(epsilon, E.Pointer(), C.Pointer(), F.Pointer(), J, stress_temp2.Pointer());
 
-		fStress.FromMatrix(stress_temp);
-
-
+		fStress.FromMatrix(stress_temp2);
 
 	}	else if (nsd == 2) {
 
@@ -610,9 +607,8 @@ dSymMatrixT SimoQ1P0::s_ij(const dArrayT E, const dMatrixT F, dArrayT fParams)
 		double det_C = C2D.Det();
 
 		dMatrixT C3D(3), F3D(3), stress_temp(3), stress_temp2(3);
-  	dArrayT E3D(3);
+  		dArrayT E3D(3);
 
-		stress_temp = 0.0;
 		stress_temp2 = 0.0;
 
 		C3D[0] = C2D[0];
@@ -645,15 +641,14 @@ dSymMatrixT SimoQ1P0::s_ij(const dArrayT E, const dMatrixT F, dArrayT fParams)
 
 		double I1 = C2D(0, 0) + C2D(1, 1) + 1.0/det_C;
 
-		/* call C function for mechanical part of PK2 stress */
-		mech_pk2_q1p02D(fParams.Pointer(), E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, I1, stress_temp.Pointer());
-		me_pk2_q1p02D(fParams.Pointer(), E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, stress_temp2.Pointer());
-		stress_temp += stress_temp2;
+		/* call C function for electrical part of PK2 stress */
+		me_pk2_q1p0(epsilon, E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, stress_temp2.Pointer());
 
-		fStress(0,0) = stress_temp(0,0);
-    fStress(0,1) = stress_temp(0,1);
-		fStress(1,0) = stress_temp(1,0);
-    fStress(1,1) = stress_temp(1,1);
+		/* use stress_temp2 directly — stress_temp was uninitialized (bug fix) */
+		fStress(0,0) = stress_temp2(0,0);
+    	fStress(0,1) = stress_temp2(0,1);
+		fStress(1,0) = stress_temp2(1,0);
+    	fStress(1,1) = stress_temp2(1,1);
 	}
 
 
@@ -667,3 +662,89 @@ dSymMatrixT SimoQ1P0::s_ij(const dArrayT E, const dMatrixT F, dArrayT fParams)
 	return fStress;
 
 }
+
+/* Correct 4th-order Voigt push-forward: c_spatial = (1/J) * P * C_mat * P^T
+ *
+ * Voigt ordering (0-based indices into the matrix):
+ *   3D: (0,0)->0, (1,1)->1, (2,2)->2, (1,2)->3, (0,2)->4, (0,1)->5
+ *   2D: (0,0)->0, (1,1)->1, (0,1)->2
+ *
+ * P[a,b] = F[vi[a], vi[b]] * F[vj[a], vj[b]]
+ * where (vi[a], vj[a]) is the index pair for Voigt index a.
+ */
+dMatrixT SimoQ1P0::c_electrical_ijkl(const dArrayT E, const dMatrixT F, const double epsilon)
+{
+    int nsd = NumSD();
+    double J = F.Det();
+
+    dMatrixT C_mat_3D(6);
+    C_mat_3D = 0.0;
+
+    if (nsd == 3) {
+        dMatrixT C(3);
+        C.MultATB(F, F);
+        me_tanmod_q1p0(epsilon, E.Pointer(), C.Pointer(), F.Pointer(), J, C_mat_3D.Pointer());
+
+        /* 4th-order Voigt push-forward (3D):
+         * Voigt pairs: 0=(0,0), 1=(1,1), 2=(2,2), 3=(1,2), 4=(0,2), 5=(0,1) */
+        static const int vi3D[6] = {0, 1, 2, 1, 0, 0};
+        static const int vj3D[6] = {0, 1, 2, 2, 2, 1};
+
+        dMatrixT P(6);
+        for (int a = 0; a < 6; a++)
+            for (int b = 0; b < 6; b++)
+                P(a, b) = F(vi3D[a], vi3D[b]) * F(vj3D[a], vj3D[b]);
+
+        dMatrixT tmp(6);
+        tmp.MultAB(P, C_mat_3D);
+        fTangentMechanical.MultABT(tmp, P);
+        fTangentMechanical *= 1.0 / J;
+    }
+    else if (nsd == 2) {
+        dMatrixT F2D(nsd);
+        dMatrixT C2D(nsd);
+        F2D = F;
+        C2D.MultATB(F, F);
+        double J2D = F2D.Det();
+
+        /* extend to 3D for the auto-generated C function */
+        dMatrixT C3D(3), F3D(3);
+        dArrayT E3D(3);
+
+        C3D[0]=C2D[0]; C3D[1]=C2D[1]; C3D[2]=0.0;
+        C3D[3]=C2D[2]; C3D[4]=C2D[3]; C3D[5]=0.0;
+        C3D[6]=0.0;    C3D[7]=0.0;    C3D[8]=1.0;
+
+        F3D[0]=F2D[0]; F3D[1]=F2D[1]; F3D[2]=0.0;
+        F3D[3]=F2D[2]; F3D[4]=F2D[3]; F3D[5]=0.0;
+        F3D[6]=0.0;    F3D[7]=0.0;    F3D[8]=1.0;
+
+        E3D[0]=E[0]; E3D[1]=E[1]; E3D[2]=0.0;
+
+        me_tanmod_q1p0(epsilon, E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J2D, C_mat_3D.Pointer());
+
+        /* extract plane-strain 2D block (Voigt 3D ordering: 11->0, 22->1, 12->5) */
+        dMatrixT C_mat_2D(3);
+        C_mat_2D(0,0)=C_mat_3D(0,0); C_mat_2D(0,1)=C_mat_3D(0,1); C_mat_2D(0,2)=C_mat_3D(0,5);
+        C_mat_2D(1,0)=C_mat_3D(1,0); C_mat_2D(1,1)=C_mat_3D(1,1); C_mat_2D(1,2)=C_mat_3D(1,5);
+        C_mat_2D(2,0)=C_mat_3D(5,0); C_mat_2D(2,1)=C_mat_3D(5,1); C_mat_2D(2,2)=C_mat_3D(5,5);
+
+        /* 4th-order Voigt push-forward (2D):
+         * Voigt pairs: 0=(0,0), 1=(1,1), 2=(0,1) */
+        static const int vi2D[3] = {0, 1, 0};
+        static const int vj2D[3] = {0, 1, 1};
+
+        dMatrixT P2D(3);
+        for (int a = 0; a < 3; a++)
+            for (int b = 0; b < 3; b++)
+                P2D(a, b) = F2D(vi2D[a], vi2D[b]) * F2D(vj2D[a], vj2D[b]);
+
+        dMatrixT tmp2D(3);
+        tmp2D.MultAB(P2D, C_mat_2D);
+        fTangentMechanical.MultABT(tmp2D, P2D);
+        fTangentMechanical *= 1.0 / J2D;
+    }
+
+    return fTangentMechanical;
+}
+

@@ -19,7 +19,7 @@
 #include "DiffusionMatListT.h"
 
 /* mechanical coupling stuff */
-#include "incQ1P02D.h"
+#include "incQ1P0_elec.h"
 
 
 using namespace Tahoe;
@@ -426,8 +426,9 @@ void DiffusionElementT::FormStiffness(double constK)
 		/* get D matrix */
 		if (mechanical_coupling)
 		{
+			const double epsilon = fCurrMaterial->Permittivity();
 			const dMatrixT F = fF_List[CurrIP()];
-			fD.SetToScaled(scale, b_ij(F));
+			fD.SetToScaled(scale * epsilon, b_ij(F));
 		} else {
 			fD.SetToScaled(scale, fCurrMaterial->k_ij());
 		}
@@ -457,36 +458,27 @@ void DiffusionElementT::FormKd(double constK)
 		/* get strain-displacement matrix */
 		B(fShapes->CurrIP(), fB);
 
-		/* compute heat flow */
-		fB.MultTx(fCurrMaterial->q_i(), fNEEvec);
+		if (mechanical_coupling)
+		{
+			/* electric displacement d_i = epsilon * J * C^{-1} * E in reference frame */
+			const double epsilon = fCurrMaterial->Permittivity();
+			dArrayT E(nsd);    /* nsd-dimensional electric field vector */
+			dMatrixT E1(1, nsd);
+			fShapes->GradU(fLocDisp, E1, CurrIP());
+			E1 *= -1.0;
+			for (int j = 0; j < nsd; j++)
+				E[j] = E1(0, j);
 
-		//if (CurrElementNumber() == 1)
-		//	cout << fF_List[0] << endl;
+			const dMatrixT& F = fF_List[CurrIP()];
+			dArrayT di = d_i(F, E, epsilon);
 
-
-/*------------------------------Start of DE stuff--------------------------*/
-		int nip = NumIP();
-		dArrayT E(nip);
-		dMatrixT E1(1, NumSD());
-		fShapes->GradU(fLocDisp, E1, CurrIP());
-		E1 *= -1.0;
-		for (int j = 0; j < NumSD(); j++)
-			E[j] = E1(0, j);
-
-		dArrayT params(4);
-		params[0] = 1.0;		// 		\mu
-		params[1] = 1000.0;	//		\lambda
-		params[2] = 1.0;	  	//		\epsilon
-		params[3] = 5.0;		//		\Nrig
-		const dArrayT  fParams 	= params;
-
-		dMatrixT F = fF_List[CurrIP()];
-		double J = F.Det();
-		dArrayT di = d_i(F, E, fParams);
-		di *=(1.0);
-
-		fB.MultTx(di, fNEEvec);
-/*------------------------------End of DE stuff--------------------------*/
+			fB.MultTx(di, fNEEvec);
+		}
+		else
+		{
+			/* no mechanical coupling: use material conductivity */
+			fB.MultTx(fCurrMaterial->q_i(), fNEEvec);
+		}
 
 		/* accumulate */
 		fRHS.AddScaled(-constK*(*Weight++)*(*Det++), fNEEvec);
@@ -850,7 +842,7 @@ dMatrixT DiffusionElementT::b_ij(const dMatrixT F)
 	//return fKD;   // K_D
 }
 /* Not neccessary for weakly coupling */
-dArrayT DiffusionElementT::d_i(const dMatrixT F, const dArrayT E, dArrayT fParams)
+dArrayT DiffusionElementT::d_i(const dMatrixT F, const dArrayT E, const double epsilon)
 {
 	int nsd = NumSD();
 	dArrayT fElectricDisplacement(nsd), D(nsd), ED(nsd);
@@ -861,7 +853,7 @@ dArrayT DiffusionElementT::d_i(const dMatrixT F, const dArrayT E, dArrayT fParam
 		C.MultATB(F, F);
 		double J = F.Det();
 
-		elec_pk2_q1p02D(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, ED.Pointer());
+		elec_pk2_q1p0(epsilon, E.Pointer(), C.Pointer(), F.Pointer(), J, ED.Pointer());
 
 		D = ED;
 
@@ -909,7 +901,7 @@ dArrayT DiffusionElementT::d_i(const dMatrixT F, const dArrayT E, dArrayT fParam
 		E3D[2] = 0.0;
 
 		/* call C function for electric stress (i.e. electric displacement D_{I}) */
-		elec_pk2_q1p02D(fParams.Pointer(), E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, ED.Pointer());
+		elec_pk2_q1p0(epsilon, E3D.Pointer(), C3D.Pointer(), F3D.Pointer(), J, ED.Pointer());
 
 		D[0] = ED[0];
 		D[1] = ED[1];

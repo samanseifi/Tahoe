@@ -1,14 +1,14 @@
-#include "FSDE_incQ1P02D.h"
+#include "incQ1P0_elec.h"
 
 #include <math.h>
 
 static double z[25];
 
 /* function to compute electric displacement */
-void elec_pk2_q1p02D(const double* params, const double* Xsi, const double* Cmat, const double* Fmat, double J, double* dUdCelec) { 
+void elec_pk2_q1p0(const double epsilon, const double* Xsi, const double* Cmat, const double* Fmat, double J, double* dUdCelec) { 
 
 /* common definitions */
-#include "FSDE_common_definesQ1P02D.h"
+#include "Common_definesQ1P0_elec.h"
 
 	/* Stress code */
 	z[1] = -C12*C21;
