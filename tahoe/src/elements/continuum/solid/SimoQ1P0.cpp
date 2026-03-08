@@ -22,7 +22,10 @@ SimoQ1P0::SimoQ1P0(const ElementSupportT& support):
 	UpdatedLagrangianT(support),
 	fLocScalarPotential(LocalArrayT::kESP),
 	fElectricScalarPotentialField(0),
-	fElectricPermittivity(1.0)
+	fElectricPermittivity(1.0),
+	fPhaseFieldField(NULL),
+	fLocPhaseField(LocalArrayT::kDisp),
+	fPF_kSmall(1.0e-6)
 {
 	SetName("updated_lagrangian_Q1P0");
 }
@@ -90,6 +93,11 @@ void SimoQ1P0::DefineParameters(ParameterListT& list) const
 	ParameterT epsilon(fElectricPermittivity, "epsilon");
 	epsilon.SetDefault(1.0);
 	list.AddParameter(epsilon, ParameterListT::ZeroOrOnce);
+
+	/* phase-field residual stiffness (optional) */
+	ParameterT pf_k(fPF_kSmall, "pf_residual_stiffness");
+	pf_k.SetDefault(1.0e-6);
+	list.AddParameter(pf_k, ParameterListT::ZeroOrOnce);
 }
 
 /* accept parameter list */
@@ -101,6 +109,10 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 	const ParameterT* peps = list.Parameter("epsilon");
 	fElectricPermittivity = peps ? double(*peps) : 1.0;
 
+	/* read phase-field residual stiffness */
+	const ParameterT* ppf_k = list.Parameter("pf_residual_stiffness");
+	fPF_kSmall = ppf_k ? double(*ppf_k) : 1.0e-6;
+
 	/* inherited */
 	UpdatedLagrangianT::TakeParameterList(list);
 
@@ -108,6 +120,14 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 	fElectricScalarPotentialField = ElementSupport().Field("electric_scalar_potential");
 	if (!fElectricScalarPotentialField) {
 	  std::cout << "There is no electric field coupling. Perhaps it's not DE model" << std::endl;
+	}
+
+	/* check for phase-field coupling */
+	fPhaseFieldField = ElementSupport().Field("phase_field");
+	if (fPhaseFieldField) {
+		std::cout << "SimoQ1P0: phase-field fracture coupling detected." << std::endl;
+	} else {
+		std::cout << "SimoQ1P0: no phase-field coupling." << std::endl;
 	}
 
 	/* check geometry code and number of element nodes -> Q1 */
@@ -154,6 +174,12 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 	int voigt_dim = (nsd == 3) ? 6 : 3;
 	fTangentMechanical.Dimension(voigt_dim, voigt_dim);
 	fTangentMechanical = 0.0;
+
+	/* phase-field IP storage */
+	fPhaseField_ip.Dimension(nip);
+	fPhaseField_ip = 0.0;
+	fDegradation_ip.Dimension(nip);
+	fDegradation_ip = 1.0;  /* no degradation by default */
 
 	/* element pressure */
 	fPressure.Dimension(NumElements());
@@ -215,6 +241,23 @@ void SimoQ1P0::SetGlobalShape(void)
 		fE_all = 0.0;
 	}
 
+
+	/* interpolate phase-field d at integration points */
+	if (fPhaseFieldField) {
+		SetLocalU(fLocPhaseField);
+		dArrayT d_vec(1);
+		for (int i = 0; i < NumIP(); i++) {
+			fShapes->InterpolateU(fLocPhaseField, d_vec, i);
+			double d = d_vec[0];
+			/* clamp to [0, 1] */
+			if (d < 0.0) d = 0.0;
+			if (d > 1.0) d = 1.0;
+			fPhaseField_ip[i] = d;
+			fDegradation_ip[i] = (1.0 - d)*(1.0 - d) + fPF_kSmall;
+		}
+	} else {
+		fDegradation_ip = 1.0;
+	}
 
 	/* shape function wrt current config */
 	SetLocalX(fLocCurrCoords);
@@ -293,6 +336,15 @@ void SimoQ1P0::SetLocalArrays()
 		fLocScalarPotential.Dimension(nen, 1);
 		fElectricScalarPotentialField->RegisterLocal(fLocScalarPotential);
 	}
+
+	/* register phase-field local array */
+	if (0 == fPhaseFieldField)
+		fPhaseFieldField = ElementSupport().Field("phase_field");
+	if (fPhaseFieldField) {
+		const int nen = NumElementNodes();
+		fLocPhaseField.Dimension(nen, 1);
+		fPhaseFieldField->RegisterLocal(fLocPhaseField);
+	}
 }
 
 
@@ -329,15 +381,21 @@ void SimoQ1P0::FormStiffness(double constK)
 		/* double scale factor */
 		double scale = constK*(*Det++)*(*Weight++);
 
+		/* phase-field degradation g(d) */
+		double g_d = fDegradation_ip[CurrIP()];
+
 	/* S T R E S S   S T I F F N E S S */
 		/* compute Cauchy stress from the base material */
 		dSymMatrixT cauchy = fCurrMaterial->s_ij();
-		
+
 		/* compute Maxwell stress */
 		const dArrayT  E 		= fE_List[CurrIP()];
 		const dMatrixT F 		= DeformationGradient();
 		dSymMatrixT maxwell = s_electric_ij(E, F, fElectricPermittivity);
 		cauchy += maxwell;
+
+		/* apply phase-field degradation to total stress */
+		cauchy *= g_d;
 
 		/* Combine total stresses */
 		cauchy.ToMatrix(fCauchyStress);
@@ -367,6 +425,9 @@ void SimoQ1P0::FormStiffness(double constK)
 
 		dMatrixT cijkl = c_electrical_ijkl(E, F, fElectricPermittivity);
 		cijkl += fCurrMaterial->c_ijkl();
+
+		/* apply phase-field degradation to tangent */
+		cijkl *= g_d;
 
 		/* get D matrix from base material */
 		fD.SetToScaled(scale*J_correction, cijkl);
@@ -420,17 +481,16 @@ void SimoQ1P0::FormKd(double constK)
 		Set_B_bar(fCurrShapes->Derivatives_U(), fMeanGradient, fB);
 
 		/* B^T * Cauchy stress */
-
-
-
 		dSymMatrixT cauchy = fCurrMaterial->s_ij();
-
 
 		const dArrayT  E 		= fE_List[CurrIP()];
 		const dMatrixT F 		= DeformationGradient();
 		dSymMatrixT maxwell = s_electric_ij(E, F, fElectricPermittivity);
 		cauchy += maxwell;
 
+		/* apply phase-field degradation */
+		double g_d = fDegradation_ip[CurrIP()];
+		cauchy *= g_d;
 
 		fB.MultTx(cauchy, fNEEvec);
 

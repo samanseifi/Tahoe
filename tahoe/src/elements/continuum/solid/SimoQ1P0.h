@@ -153,6 +153,20 @@ private:
 	/** electric permittivity — read from XML, must match LinearDielectricT epsilon */
 	double fElectricPermittivity;
 
+	/** \name phase-field fracture coupling */
+	/*@{*/
+	const FieldT* fPhaseFieldField;
+	LocalArrayT fLocPhaseField;
+
+	/** phase-field values interpolated at integration points: [nip] */
+	dArrayT fPhaseField_ip;
+
+	/** degradation function g(d) = (1-d)^2 + k at each IP */
+	dArrayT fDegradation_ip;
+
+	/** residual stiffness to prevent complete loss of stiffness */
+	double fPF_kSmall;
+	/*@}*/
 
 	/*@}*/
 };
