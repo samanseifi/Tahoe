@@ -1,0 +1,56 @@
+<?xml version="1.0"?>
+<!-- Phase-field screened Poisson test (AT2 model, standalone).
+
+     Solves: -Gc*ell*Laplacian(d) + (Gc/ell)*d = 0
+     with d=1 at x=0 (center), d=0 at x=+-L (far boundaries).
+
+     Analytical solution (1D): d(x) = exp(-|x|/ell)
+
+     Parameters: Gc=1.0, ell=1.0
+     Domain: x in [-5, 5], thin strip (h=0.1)
+     Mesh: 100 x 1 quad4 elements
+-->
+<tahoe xmlns:x0="http://www.w3.org/2001/XMLSchema"
+    geometry_file="bar_phase_field.geom"
+    output_format="ExodusII"
+    title="Phase-field screened Poisson verification">
+    <time num_steps="1" output_inc="1" time_step="1.0">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0.0" y="0.0"/>
+                <OrderedPair x="1.0" y="1.0"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+    <nodes>
+        <field field_name="phase_field">
+            <dof_labels>
+                <String value="d"/>
+            </dof_labels>
+            <!-- d=1 at center (node set 3: x=0 nodes) -->
+            <kinematic_BC dof="1" node_ID="3" schedule="1" type="u" value="1.0"/>
+            <!-- d=0 at far boundaries (node set 6: x=+-L nodes) -->
+            <kinematic_BC dof="1" node_ID="6"/>
+        </field>
+    </nodes>
+    <element_list>
+        <phase_field field_name="phase_field">
+            <quadrilateral/>
+            <phase_field_element_nodal_output phase_field="1" coordinates="1"/>
+            <phase_field_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <phase_field_material>
+                    <phase_field_fracture_material
+                        Gc="1.0"
+                        length_scale="1.0"
+                        residual_stiffness="1.0e-06"/>
+                </phase_field_material>
+            </phase_field_element_block>
+        </phase_field>
+    </element_list>
+    <linear_solver>
+        <profile_matrix/>
+    </linear_solver>
+</tahoe>
