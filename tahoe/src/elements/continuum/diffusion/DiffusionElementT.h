@@ -154,6 +154,21 @@ private:
 	//LocalArrayT fLocDisplacement;
 	//const FieldT* fDisplacementVectorField;
 
+	/** \name phase-field fracture coupling */
+	/*@{*/
+	const FieldT* fPhaseFieldField;
+	LocalArrayT fLocPhaseField;
+
+	/** phase-field values interpolated at integration points */
+	dArrayT fPhaseField_ip;
+
+	/** degradation function g(d) = (1-d)^2 + k at each IP */
+	dArrayT fDegradation_ip;
+
+	/** residual stiffness to prevent complete loss of permittivity */
+	double fPF_kSmall;
+	/*@}*/
+
   	/** the material support used to construct materials lists. This pointer
   	 * is only set the first time DiffusionElementT::NewMaterialList is called. */
 	DiffusionMatSupportT* fDiffusionMatSupport;

@@ -39,6 +39,9 @@ DiffusionElementT::DiffusionElementT(const ElementSupportT& support):
 	ContinuumElementT(support),
 	fLocVel(LocalArrayT::kVel),
 	fLocDisplacement(NULL),
+	fPhaseFieldField(NULL),
+	fLocPhaseField(LocalArrayT::kDisp),
+	fPF_kSmall(1.0e-6),
 	fDiffusionMatSupport(NULL)
 {
 	SetName("diffusion");
@@ -160,6 +163,14 @@ void DiffusionElementT::SetLocalArrays(void)
 		//fDisplacementVectorField->RegisterLocal(*fLocDisplacement_last);
 	}
 
+	/* register phase-field local array */
+	if (0 == fPhaseFieldField)
+		fPhaseFieldField = ElementSupport().Field("phase_field");
+	if (fPhaseFieldField) {
+		fLocPhaseField.Dimension(nen, 1);
+		fPhaseFieldField->RegisterLocal(fLocPhaseField);
+	}
+
 }
 
 /*------------------------for mechanicala coupling --------------------------*/
@@ -190,7 +201,24 @@ void DiffusionElementT::SetGlobalShape(void)
 			/* add identity */
 			mat.PlusIdentity();
 		}
-}
+	}
+
+	/* interpolate phase-field d at integration points */
+	if (fPhaseFieldField) {
+		SetLocalU(fLocPhaseField);
+		dArrayT d_vec(1);
+		for (int i = 0; i < NumIP(); i++) {
+			fShapes->InterpolateU(fLocPhaseField, d_vec, i);
+			double d = d_vec[0];
+			/* clamp to [0, 1] */
+			if (d < 0.0) d = 0.0;
+			if (d > 1.0) d = 1.0;
+			fPhaseField_ip[i] = d;
+			fDegradation_ip[i] = (1.0 - d)*(1.0 - d) + fPF_kSmall;
+		}
+	} else {
+		fDegradation_ip = 1.0;
+	}
 /*------------------------------end of coupling stuff------------------------*/
 
 }
@@ -420,6 +448,9 @@ void DiffusionElementT::FormStiffness(double constK)
 	{
 		double scale = constK*(*Det++)*(*Weight++);
 
+		/* phase-field degradation */
+		double g_d = fDegradation_ip[CurrIP()];
+
 		/* strain displacement matrix */
 		B(fShapes->CurrIP(), fB);
 
@@ -428,9 +459,9 @@ void DiffusionElementT::FormStiffness(double constK)
 		{
 			const double epsilon = fCurrMaterial->Permittivity();
 			const dMatrixT F = fF_List[CurrIP()];
-			fD.SetToScaled(scale * epsilon, b_ij(F));
+			fD.SetToScaled(scale * epsilon * g_d, b_ij(F));
 		} else {
-			fD.SetToScaled(scale, fCurrMaterial->k_ij());
+			fD.SetToScaled(scale * g_d, fCurrMaterial->k_ij());
 		}
 
 		/* multiply b(transpose) * db, taking account of symmetry, */
@@ -455,6 +486,9 @@ void DiffusionElementT::FormKd(double constK)
 		grad.Set(1, nsd, fGradient_list[CurrIP()].Pointer());
 		IP_ComputeGradient(fLocDisp, grad);
 
+		/* phase-field degradation */
+		double g_d = fDegradation_ip[CurrIP()];
+
 		/* get strain-displacement matrix */
 		B(fShapes->CurrIP(), fB);
 
@@ -470,7 +504,7 @@ void DiffusionElementT::FormKd(double constK)
 				E[j] = E1(0, j);
 
 			const dMatrixT& F = fF_List[CurrIP()];
-			dArrayT di = d_i(F, E, epsilon);
+			dArrayT di = d_i(F, E, epsilon * g_d);
 
 			fB.MultTx(di, fNEEvec);
 		}
@@ -478,6 +512,9 @@ void DiffusionElementT::FormKd(double constK)
 		{
 			/* no mechanical coupling: use material conductivity */
 			fB.MultTx(fCurrMaterial->q_i(), fNEEvec);
+
+			/* apply degradation to the flux */
+			fNEEvec *= g_d;
 		}
 
 		/* accumulate */
@@ -704,6 +741,20 @@ void DiffusionElementT::TakeParameterList(const ParameterListT& list)
 		fF_all = 0.0;
 		for (int i = 0; i < nip; i++)
 			fF_List[i].Alias(nsd, nsd, fF_all.Pointer(i*nsd*nsd));
+
+		/* check for phase-field coupling */
+		fPhaseFieldField = ElementSupport().Field("phase_field");
+		if (fPhaseFieldField) {
+			std::cout << "DiffusionElementT: phase-field fracture coupling detected — permittivity will be degraded." << std::endl;
+		} else {
+			std::cout << "DiffusionElementT: no phase-field coupling." << std::endl;
+		}
+
+		/* phase-field IP storage */
+		fPhaseField_ip.Dimension(nip);
+		fPhaseField_ip = 0.0;
+		fDegradation_ip.Dimension(nip);
+		fDegradation_ip = 1.0;  /* no degradation by default */
 }
 
 /* extract the list of material parameters */

@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<!-- Three-way coupled mechanics + electrical + phase-field test.
+
+     A 2D bar under uniaxial tension with an applied voltage (top-to-bottom).
+     Phase-field d=1 is prescribed at x=Lx/2 to simulate a crack.
+     The crack degrades:
+       1. Mechanical stiffness: g(d)*sigma in SimoQ1P0
+       2. Electric permittivity: g(d)*epsilon in DiffusionElementT
+
+     Three element groups:
+       1. updated_lagrangian_Q1P0 — mechanical (displacement)
+       2. diffusion — electrical (voltage / scalar potential)
+       3. phase_field — damage field
+
+     Degradation function: g(d) = (1-d)^2 + k,  k = 1e-6
+-->
+<tahoe xmlns:x0="http://www.w3.org/2001/XMLSchema"
+    geometry_file="bar_three_way.geom"
+    output_format="ExodusII"
+    title="Three-way coupled electro-mechano-fracture test">
+    <time num_steps="5" output_inc="1" time_step="0.2">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0.0" y="0.0"/>
+                <OrderedPair x="1.0" y="1.0"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+    <nodes>
+        <!-- Mechanical field -->
+        <field field_name="displacement">
+            <dof_labels>
+                <String value="D_X"/>
+                <String value="D_Y"/>
+            </dof_labels>
+            <!-- fix x on left edge -->
+            <kinematic_BC dof="1" node_ID="1"/>
+            <!-- fix y on bottom-left corner -->
+            <kinematic_BC dof="2" node_ID="3"/>
+            <!-- applied x-displacement on right edge -->
+            <kinematic_BC dof="1" node_ID="2" schedule="1" type="u" value="0.01"/>
+        </field>
+        <!-- Electrical field (scalar potential / voltage) -->
+        <!-- Voltage applied left-to-right so E-field crosses the crack at x=Lx/2 -->
+        <field field_name="electric_scalar_potential">
+            <dof_labels>
+                <String value="ESP"/>
+            </dof_labels>
+            <!-- ground on left edge -->
+            <kinematic_BC dof="1" node_ID="1"/>
+            <!-- applied voltage on right edge -->
+            <kinematic_BC dof="1" node_ID="2" schedule="1" type="u" value="1.0"/>
+        </field>
+        <!-- Phase-field -->
+        <field field_name="phase_field">
+            <dof_labels>
+                <String value="d"/>
+            </dof_labels>
+            <!-- d=1 at center -->
+            <kinematic_BC dof="1" node_ID="4" schedule="1" type="u" value="1.0"/>
+            <!-- d=0 at far boundaries -->
+            <kinematic_BC dof="1" node_ID="5"/>
+        </field>
+    </nodes>
+    <element_list>
+        <!-- Mechanical element group -->
+        <updated_lagrangian_Q1P0 field_name="displacement">
+            <quadrilateral/>
+            <solid_element_nodal_output displacements="1" stress="1" material_output="1"/>
+            <large_strain_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <large_strain_material_2D>
+                    <large_strain_StVenant_2D constraint_2D="plane_strain" density="1.0">
+                        <E_and_nu Poisson_ratio="0.3" Young_modulus="100.0"/>
+                    </large_strain_StVenant_2D>
+                </large_strain_material_2D>
+            </large_strain_element_block>
+        </updated_lagrangian_Q1P0>
+        <!-- Electrical element group (diffusion) -->
+        <diffusion field_name="electric_scalar_potential">
+            <quadrilateral/>
+            <diffusion_element_nodal_output displacement="1" coordinates="1"/>
+            <diffusion_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <diffusion_material>
+                    <linear_dielectric_material epsilon="8.854e-03"/>
+                </diffusion_material>
+            </diffusion_element_block>
+        </diffusion>
+        <!-- Phase-field element group -->
+        <phase_field field_name="phase_field">
+            <quadrilateral/>
+            <phase_field_element_nodal_output phase_field="1" coordinates="1"/>
+            <phase_field_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <phase_field_material>
+                    <phase_field_fracture_material
+                        Gc="1.0"
+                        length_scale="0.1"
+                        residual_stiffness="1.0e-06"/>
+                </phase_field_material>
+            </phase_field_element_block>
+        </phase_field>
+    </element_list>
+    <nonlinear_solver abs_tolerance="1.0e-10" divergence_tolerance="1.0e+01"
+        max_iterations="30" rel_tolerance="1.0e-12">
+        <profile_matrix/>
+    </nonlinear_solver>
+</tahoe>

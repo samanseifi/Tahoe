@@ -1,0 +1,344 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage{amsmath,amssymb,bm}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{enumitem}
+
+% Notation shortcuts
+\newcommand{\FF}{\bm{F}}
+\newcommand{\CC}{\bm{C}}
+\newcommand{\BB}{\bm{B}}
+\newcommand{\EE}{\bm{E}}
+\newcommand{\DD}{\bm{D}}
+\newcommand{\II}{\bm{I}}
+\newcommand{\ssigma}{\bm{\sigma}}
+\newcommand{\PP}{\bm{P}}
+\newcommand{\SSS}{\bm{S}}
+\newcommand{\uu}{\bm{u}}
+\newcommand{\XX}{\bm{X}}
+\newcommand{\xx}{\bm{x}}
+\newcommand{\nn}{\bm{n}}
+\newcommand{\grad}{\nabla}
+\newcommand{\Grad}{\nabla_{\!0}}
+\newcommand{\tr}{\mathrm{tr}}
+\newcommand{\diff}{\mathrm{d}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+
+\title{Phase-Field Fracture Model for Dielectric Elastomers\\[4pt]
+\large Formulation and Implementation in Tahoe}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+
+This document describes the phase-field fracture model implemented in the Tahoe finite element code for coupled electromechanical problems. The formulation uses the AT2 (Ambrosio--Tortorelli type 2) regularization of brittle fracture and introduces a scalar damage field $d \in [0,1]$ that degrades both the mechanical stiffness and the electric permittivity. The three coupled fields are:
+\begin{enumerate}[nosep]
+    \item \textbf{Displacement} $\uu(\XX,t)$ --- mechanical deformation,
+    \item \textbf{Electric scalar potential} $\phi(\XX,t)$ --- electrostatic field,
+    \item \textbf{Phase field} $d(\XX,t)$ --- damage/crack indicator.
+\end{enumerate}
+The value $d=0$ represents intact material and $d=1$ represents fully broken material.
+
+\section{Kinematics}
+
+The deformation gradient and its determinant are
+\begin{equation}
+    \FF = \II + \Grad \uu, \qquad J = \det \FF > 0.
+\end{equation}
+The right Cauchy--Green tensor and its first invariant are
+\begin{equation}
+    \CC = \FF^T \FF, \qquad I_1 = \tr(\CC).
+\end{equation}
+The reference-frame electric field is derived from the scalar potential:
+\begin{equation}
+    \EE = -\Grad \phi.
+\end{equation}
+
+\section{Energy Functional}
+
+The total energy of the system consists of three contributions:
+
+\subsection{Mechanical strain energy}
+
+The bulk strain energy density is degraded by the phase field through a degradation function $g(d)$:
+\begin{equation}
+    \Psi_{\mathrm{mech}} = \int_{\Omega_0} g(d)\, \psi_0(\FF) \, \diff V,
+\end{equation}
+where $\psi_0$ is the undegraded strain energy density of the intact material. The degradation function is
+\begin{equation}
+    \boxed{g(d) = (1-d)^2 + k}
+\end{equation}
+with a small residual stiffness $k \sim 10^{-6}$ to prevent complete loss of stiffness and maintain numerical stability. Note that $g(0) = 1 + k \approx 1$ (intact) and $g(1) = k \approx 0$ (broken).
+
+For the compressible Neo-Hookean material used in the phase-field element's strain energy computation:
+\begin{equation}
+    \psi_0(\FF) = \frac{\mu}{2}(I_1 - n_{\mathrm{sd}}) - \mu \ln J + \frac{\lambda}{2}(\ln J)^2,
+\end{equation}
+where $\mu$ and $\lambda$ are the Lam\'{e} parameters and $n_{\mathrm{sd}}$ is the number of spatial dimensions.
+
+For the SimoQ1P0 element, the material model is determined by the user's XML input (e.g., St.~Venant--Kirchhoff, Neo-Hookean). The degradation is applied to the Cauchy stress and spatial tangent regardless of the material choice.
+
+\subsection{Electrostatic energy}
+
+The electrostatic energy is similarly degraded:
+\begin{equation}
+    \Psi_{\mathrm{elec}} = \int_{\Omega_0} g(d)\, \psi_{\mathrm{elec}}(\FF, \EE) \, \diff V,
+\end{equation}
+where, for a linear dielectric with permittivity $\varepsilon$,
+\begin{equation}
+    \psi_{\mathrm{elec}} = -\frac{\varepsilon}{2} J\, \EE \cdot \CC^{-1} \EE.
+\end{equation}
+This is the standard electrostatic energy density in the reference configuration for a deformable dielectric.
+
+\subsection{Fracture energy (AT2 model)}
+
+The phase-field regularization of the crack surface energy is
+\begin{equation}
+    \Psi_{\mathrm{frac}} = \int_{\Omega_0} G_c \left[ \frac{d^2}{2\ell} + \frac{\ell}{2} |\Grad d|^2 \right] \diff V,
+\end{equation}
+where $G_c$ is the critical energy release rate (fracture toughness) and $\ell$ is the regularization length scale that controls the diffuse crack width. As $\ell \to 0$, the phase-field model $\Gamma$-converges to Griffith's theory of brittle fracture.
+
+\subsection{Total energy}
+
+The total potential energy is
+\begin{equation}
+    \Pi[\uu, \phi, d] = \Psi_{\mathrm{mech}} + \Psi_{\mathrm{elec}} + \Psi_{\mathrm{frac}} - \Pi_{\mathrm{ext}},
+\end{equation}
+where $\Pi_{\mathrm{ext}}$ represents the work done by external loads and prescribed boundary conditions.
+
+\section{Governing Equations}
+
+Stationarity of $\Pi$ with respect to each field yields three coupled PDEs.
+
+\subsection{Mechanical equilibrium}
+
+\begin{equation}
+    \boxed{\Grad \cdot \left[ g(d)\, \PP_0 \right] + \Grad \cdot \left[ g(d)\, \PP_0^{\mathrm{elec}} \right] = \bm{0} \quad \text{in } \Omega_0}
+\end{equation}
+where $\PP_0 = \partial \psi_0 / \partial \FF$ is the undegraded first Piola--Kirchhoff stress and $\PP_0^{\mathrm{elec}}$ is the electrostatic (Maxwell) stress contribution. In the spatial (current) configuration, this becomes
+\begin{equation}
+    \grad \cdot \left[ g(d)\, \ssigma \right] = \bm{0},
+\end{equation}
+where $\ssigma$ is the total Cauchy stress (mechanical + Maxwell).
+
+\subsection{Electrostatic equation}
+
+\begin{equation}
+    \boxed{\Grad \cdot \left[ g(d)\, \DD_0 \right] = 0 \quad \text{in } \Omega_0}
+\end{equation}
+where the reference electric displacement for a linear dielectric is
+\begin{equation}
+    \DD_0 = \varepsilon\, J\, \CC^{-1} \EE.
+\end{equation}
+The degradation $g(d)$ reduces the effective permittivity:
+\begin{equation}
+    \varepsilon_{\mathrm{eff}} = g(d)\, \varepsilon = \left[(1-d)^2 + k\right] \varepsilon.
+\end{equation}
+
+\subsection{Phase-field evolution}
+
+\begin{equation}
+    \boxed{-G_c \ell\, \Delta d + \frac{G_c}{\ell}\, d = 2(1-d)\, \mathcal{H} \quad \text{in } \Omega_0}
+\end{equation}
+where $\Delta d = \Grad \cdot \Grad d$ is the Laplacian and $\mathcal{H}$ is the crack driving force (history variable):
+\begin{equation}
+    \mathcal{H}(\XX, t) = \max_{\tau \in [0,t]} \psi_{\mathrm{total}}(\XX, \tau), \qquad \psi_{\mathrm{total}} = \psi_0 + \psi_{\mathrm{elec}}.
+\end{equation}
+The history variable $\mathcal{H}$ enforces crack irreversibility: once a crack forms, it cannot heal. This is the approach introduced by Miehe et al.~(2010).
+
+\paragraph{Boundary conditions.} Natural boundary conditions for the phase field are $\Grad d \cdot \nn = 0$ on $\partial\Omega_0$ (no crack flux through the boundary).
+
+\section{Weak Forms and Finite Element Discretization}
+
+\subsection{Phase-field weak form}
+
+Multiplying the phase-field equation by a test function $\delta d$ and integrating by parts:
+\begin{equation}
+    \int_{\Omega_0} \left[ G_c \ell\, \Grad d \cdot \Grad(\delta d) + \left(\frac{G_c}{\ell} + 2\mathcal{H}\right) d\, \delta d \right] \diff V = \int_{\Omega_0} 2\mathcal{H}\, \delta d \, \diff V.
+\end{equation}
+
+\paragraph{Element stiffness matrix.} Using standard shape functions $N_a$ and the gradient matrix $\bm{B}$ where $B_{ia} = \partial N_a / \partial X_i$:
+\begin{equation}
+    \bm{K}_{dd} = \int_{\Omega_0^e} \left[ G_c \ell\, \bm{B}^T \bm{B} + \left(\frac{G_c}{\ell} + 2\mathcal{H}\right) \bm{N}^T \bm{N} \right] \diff V.
+\end{equation}
+
+\paragraph{Element residual (internal force).}
+\begin{equation}
+    \bm{f}_d = \int_{\Omega_0^e} \left[ G_c \ell\, \bm{B}^T \Grad d + \left(\frac{G_c}{\ell} + 2\mathcal{H}\right) \bm{N}^T d - 2\mathcal{H}\, \bm{N}^T \right] \diff V.
+\end{equation}
+
+\subsection{Mechanical weak form (SimoQ1P0)}
+
+The SimoQ1P0 formulation uses a mixed method due to Simo, Taylor, and Pister (1985) with piecewise constant pressure and dilatation fields. The modified deformation gradient is
+\begin{equation}
+    \bar{\FF} = \left(\frac{\Theta}{J}\right)^{1/3} \FF,
+\end{equation}
+where $\Theta$ is the element-averaged dilatation. The element stiffness and internal force are computed from the degraded Cauchy stress and spatial tangent:
+\begin{equation}
+    \tilde{\ssigma} = g(d)\, \ssigma, \qquad \tilde{\mathbb{c}} = g(d)\, \mathbb{c},
+\end{equation}
+where $\ssigma$ and $\mathbb{c}$ are the undegraded stress and tangent modulus from the constitutive model.
+
+\subsection{Electrostatic weak form}
+
+The weak form of the electrostatic equation is
+\begin{equation}
+    \int_{\Omega_0} g(d)\, \DD_0 \cdot \Grad(\delta\phi) \, \diff V = 0.
+\end{equation}
+With mechanical coupling (deformable dielectric):
+\begin{equation}
+    \bm{K}_{\phi\phi} = \int_{\Omega_0^e} g(d)\, \varepsilon\, \bm{B}^T \left(J\, \CC^{-1}\right) \bm{B} \, \diff V.
+\end{equation}
+Without mechanical coupling (small deformation / no displacement field):
+\begin{equation}
+    \bm{K}_{\phi\phi} = \int_{\Omega_0^e} g(d)\, \bm{B}^T \bm{\kappa} \, \bm{B} \, \diff V,
+\end{equation}
+where $\bm{\kappa}$ is the material conductivity/permittivity tensor.
+
+\section{Solution Strategy}
+
+\subsection{Consistent monolithic tangent (not implemented)}
+
+A fully monolithic Newton--Raphson scheme would solve all three fields simultaneously using the consistent tangent:
+\begin{equation}
+    \begin{bmatrix}
+        \bm{K}_{uu} & \bm{K}_{u\phi} & \bm{K}_{ud} \\
+        \bm{K}_{\phi u} & \bm{K}_{\phi\phi} & \bm{K}_{\phi d} \\
+        \bm{K}_{du} & \bm{K}_{d\phi} & \bm{K}_{dd}
+    \end{bmatrix}
+    \begin{Bmatrix}
+        \Delta \uu \\ \Delta \phi \\ \Delta d
+    \end{Bmatrix}
+    = -
+    \begin{Bmatrix}
+        \bm{R}_u \\ \bm{R}_\phi \\ \bm{R}_d
+    \end{Bmatrix}.
+\end{equation}
+This requires the off-diagonal coupling tangent blocks, which are:
+\begin{align}
+    \bm{K}_{ud} &= \pd{\bm{R}_u}{d} = \int_{\Omega_0^e} g'(d)\, \ssigma \otimes \bm{N} \, \diff V, \\
+    \bm{K}_{\phi d} &= \pd{\bm{R}_\phi}{d} = \int_{\Omega_0^e} g'(d)\, \DD_0 \otimes \bm{N} \, \diff V, \\
+    \bm{K}_{du} &= \pd{\bm{R}_d}{\uu} = \int_{\Omega_0^e} -2(1-d)\, \pd{\mathcal{H}}{\uu} \otimes \bm{N} \, \diff V,
+\end{align}
+where $g'(d) = -2(1-d)$. These off-diagonal blocks are \textbf{not currently assembled} in the implementation. The consistent monolithic tangent would yield quadratic convergence but requires significant additional implementation effort, particularly for $\partial\mathcal{H}/\partial\uu$ which depends on the active loading condition and the material model.
+
+\subsection{Block-diagonal single-group scheme (current default)}
+
+When all three fields share a single \texttt{solution\_group} (the default), Tahoe assembles them into one global system but each element only contributes its \textbf{own diagonal block} to the tangent:
+\begin{equation}
+    \begin{bmatrix}
+        \bm{K}_{uu} & \bm{0} & \bm{0} \\
+        \bm{0} & \bm{K}_{\phi\phi} & \bm{0} \\
+        \bm{0} & \bm{0} & \bm{K}_{dd}
+    \end{bmatrix}
+    \begin{Bmatrix}
+        \Delta \uu \\ \Delta \phi \\ \Delta d
+    \end{Bmatrix}
+    = -
+    \begin{Bmatrix}
+        \bm{R}_u \\ \bm{R}_\phi \\ \bm{R}_d
+    \end{Bmatrix}.
+\end{equation}
+The coupling enters only through the \textbf{residual} evaluation: each element reads the current values of the other fields at integration points and applies the degradation $g(d)$. Since the tangent is missing the off-diagonal blocks, convergence is not quadratic --- the scheme behaves as a block Gauss--Seidel (fixed-point) iteration within each Newton step. This can lead to slow convergence or non-convergence for strongly coupled problems.
+
+\subsection{Staggered approach (recommended)}
+
+In the staggered (alternating minimization) approach, each field is assigned to a separate \texttt{solution\_group} and solved independently while holding the others fixed. Within each time step, the solver cycles through phases:
+\begin{enumerate}[nosep]
+    \item \textbf{Phase 1}: Solve the phase-field equation for $d$ with $\uu$ and $\phi$ fixed.
+    \item \textbf{Phase 2}: Solve the electrostatic equation for $\phi$ with $\uu$ and $d$ fixed.
+    \item \textbf{Phase 3}: Solve the mechanical equation for $\uu$ with $\phi$ and $d$ fixed.
+\end{enumerate}
+This cycle repeats until an outer convergence criterion is met. In Tahoe, this is configured via \texttt{solution\_group} attributes on the field definitions and \texttt{solver\_phases} at the end of the input file:
+\begin{verbatim}
+<field field_name="phase_field"              solution_group="1"/>
+<field field_name="electric_scalar_potential" solution_group="2"/>
+<field field_name="displacement"             solution_group="3"/>
+
+<nonlinear_solver ...>   <!-- solver 1: phase-field -->
+    <profile_matrix/>
+</nonlinear_solver>
+<nonlinear_solver ...>   <!-- solver 2: electrical -->
+    <profile_matrix/>
+</nonlinear_solver>
+<nonlinear_solver ...>   <!-- solver 3: mechanics -->
+    <profile_matrix/>
+</nonlinear_solver>
+
+<solver_phases max_loops="10">
+    <solver_phase iterations="20" pass_iterations="0" solver="1"/>
+    <solver_phase iterations="20" pass_iterations="0" solver="2"/>
+    <solver_phase iterations="20" pass_iterations="0" solver="3"/>
+</solver_phases>
+\end{verbatim}
+
+The staggered approach is the standard method for phase-field fracture (Miehe et al., 2010; Bourdin et al., 2000) because:
+\begin{itemize}[nosep]
+    \item Each sub-problem has a well-defined, consistent tangent (the diagonal block), so each phase converges quadratically.
+    \item The block structure is made explicit --- no missing off-diagonal terms pollute the convergence behavior.
+    \item It is more robust for strongly coupled problems where the monolithic tangent would need careful line-search or trust-region strategies.
+    \item The phase-field sub-problem is linear (for fixed $\mathcal{H}$), so it converges in one iteration per phase.
+\end{itemize}
+The trade-off is that more outer loops may be needed for the fields to reach mutual consistency, but in practice 3--5 stagger loops per time step suffice.
+
+\section{Analytical Verification: Screened Poisson Equation}
+
+In the absence of mechanical coupling ($\mathcal{H} = 0$), the phase-field equation reduces to a screened Poisson (or modified Helmholtz) equation:
+\begin{equation}
+    -\ell^2 \Delta d + d = 0.
+\end{equation}
+For a 1D infinite domain with a point source $d(0) = 1$, the analytical solution is
+\begin{equation}
+    d(x) = \exp\!\left(-\frac{|x|}{\ell}\right).
+\end{equation}
+This exponential decay profile provides a verification test for the phase-field element implementation.
+
+\section{Material Parameters}
+
+\begin{table}[h]
+\centering
+\begin{tabular}{llll}
+\toprule
+Parameter & Symbol & Units & Description \\
+\midrule
+Fracture toughness & $G_c$ & N/m & Critical energy release rate \\
+Length scale & $\ell$ & m & Phase-field regularization width \\
+Residual stiffness & $k$ & -- & Prevents $g(1) = 0$ (typically $10^{-6}$) \\
+Electric permittivity & $\varepsilon$ & F/m & Dielectric constant \\
+Young's modulus & $E$ & Pa & Elastic stiffness \\
+Poisson's ratio & $\nu$ & -- & Lateral contraction ratio \\
+Shear modulus & $\mu$ & Pa & $\mu = E/[2(1+\nu)]$ \\
+Lam\'{e} parameter & $\lambda$ & Pa & $\lambda = E\nu/[(1+\nu)(1-2\nu)]$ \\
+\bottomrule
+\end{tabular}
+\caption{Summary of material parameters.}
+\end{table}
+
+\section{Implementation Notes}
+
+\begin{itemize}[nosep]
+    \item The phase-field element (\texttt{PhaseFieldElementT}) is registered in Tahoe as \texttt{"phase\_field"} and operates on a scalar DOF labeled \texttt{"d"}.
+    \item The history variable $\mathcal{H}$ is stored per integration point and updated during \texttt{FormKd}. The maximum is tracked across load steps via \texttt{fH\_current} and \texttt{fH\_last} arrays.
+    \item The mechanical element (\texttt{SimoQ1P0}) reads the phase-field via \texttt{ElementSupport().Field("phase\_field")} and interpolates $d$ at each integration point in \texttt{SetGlobalShape}.
+    \item The electrical element (\texttt{DiffusionElementT}) similarly reads the phase field and applies $g(d)$ to the permittivity in both \texttt{FormStiffness} and \texttt{FormKd}.
+    \item All element implementations are dimension-generic: the same code works for 2D (quadrilateral) and 3D (hexahedral) elements.
+    \item The implementation follows the quasi-static AT2 model. Dynamic fracture would require adding inertia terms and a rate-dependent dissipation potential.
+\end{itemize}
+
+\section*{References}
+
+\begin{enumerate}[nosep]
+    \item Ambrosio, L. and Tortorelli, V.M. (1990). Approximation of functionals depending on jumps by elliptic functionals via $\Gamma$-convergence. \textit{Comm. Pure Appl. Math.}, 43(8):999--1036.
+    \item Bourdin, B., Francfort, G.A., and Marigo, J.-J. (2000). Numerical experiments in revisited brittle fracture. \textit{J. Mech. Phys. Solids}, 48(4):797--826.
+    \item Miehe, C., Welschinger, F., and Hofacker, M. (2010). Thermodynamically consistent phase-field models of fracture: Variational principles and multi-field FE implementations. \textit{Int. J. Numer. Meth. Eng.}, 83(10):1273--1311.
+    \item Simo, J.C., Taylor, R.L., and Pister, K.S. (1985). Variational and projection methods for the volume constraint in finite deformation elasto-plasticity. \textit{Comput. Methods Appl. Mech. Engrg.}, 51:177--208.
+    \item Miehe, C., Vallicotti, D., and Teichtmeister, S. (2016). Coupling of electro-mechanically driven fracture in piezoelectrics and ferroelectrics using phase-field models. \textit{Proc. Appl. Math. Mech.}, 16:167--168.
+\end{enumerate}
+
+\end{document}
