@@ -21,7 +21,7 @@ option(TAHOE_EXPAT    "Use bundled expat XML parser (highly recommended)"  ON)
 option(TAHOE_SPOOLES  "Use bundled SPOOLES direct sparse solver"           ON)
 option(TAHOE_F2C      "Use bundled F2C (Fortran-to-C for ABAQUS UMATs)"   ON)
 option(TAHOE_MPI      "Enable MPI parallelization (requires system MPI)"   OFF)
-option(TAHOE_SEACAS   "Enable SEACAS/ExodusII mesh I/O (requires ACCESS)"  OFF)
+option(TAHOE_SEACAS   "Enable SEACAS/ExodusII mesh I/O (requires ACCESS)"  ON)
 option(TAHOE_DEV      "Build the research/development element module"      ON)
 
 # ---------------------------------------------------------------------------

@@ -5,6 +5,7 @@
 /* base classes */
 #include "UpdatedLagrangianT.h"
 #include "FSSolidMatT.h"
+#include "TensorTransformT.h"
 
 namespace Tahoe {
 
@@ -85,6 +86,9 @@ protected:
 	/** calculate the internal force contribution ("-k*d") */
 	virtual void FormKd(double constK);
 
+	/** add Maxwell stress (with phase-field degradation) to output stress */
+	virtual void AddExtraStress(dSymMatrixT& cauchy) const;
+
 private:
 
 	/** compute mean shape function gradient, H (reference volume), and
@@ -99,10 +103,17 @@ private:
 
 	void MassMatrix();
 
+	/** compute element internal force for the current state into the
+	 * provided vector. Used by the numerical tangent. */
+	void ComputeInternalForce(double constK, dArrayT& force);
+
+	/** recompute deformation gradients and B-bar state from current
+	 * fLocDisp. Call after perturbing displacement for numerical tangent. */
+	void RecomputeDeformationState(void);
+
 	dSymMatrixT s_electric_ij(const dArrayT E, const dMatrixT F, const double epsilon);
 	dMatrixT c_electrical_ijkl(const dArrayT E, const dMatrixT F, const double epsilon);
-
-
+	
 protected:
 
 	// Electric field stuff
@@ -143,6 +154,7 @@ private:
 	dMatrixT fAmm_mat;
   	dMatrixT fMassMatrix;	// mass matrix for LHS
 	dMatrixT fTangentMechanical;
+	TensorTransformT fTransform;
 
 	dMatrixT fF_mech;
 	dSymMatrixT D;

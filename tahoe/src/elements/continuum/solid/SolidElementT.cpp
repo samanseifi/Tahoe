@@ -1342,6 +1342,12 @@ const SolidMatListT& SolidElementT::StructuralMaterialList(void) const
 	return TB_DYNAMIC_CAST(const SolidMatListT&, MaterialsList());
 }
 
+/* default: no extra stress contributions */
+void SolidElementT::AddExtraStress(dSymMatrixT& /* cauchy */) const
+{
+	/* no-op — override in subclasses to add Maxwell stress, etc. */
+}
+
 /* extrapolate the integration point stresses and strains and extrapolate */
 void SolidElementT::ComputeOutput(const iArrayT& n_codes, dArray2DT& n_values,
 	const iArrayT& e_codes, dArray2DT& e_values)
@@ -1551,6 +1557,9 @@ void SolidElementT::ComputeOutput(const iArrayT& n_codes, dArray2DT& n_values,
 				/* get Cauchy stress */
 				const dSymMatrixT& stress = fCurrMaterial->s_ij();
 				cauchy.Translate(stress);
+
+				/* add extra stress contributions (e.g. Maxwell stress) */
+				AddExtraStress(cauchy);
 
 				/* stresses */
 				if (n_codes[iNodalStress]) {

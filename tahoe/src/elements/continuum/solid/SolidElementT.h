@@ -191,6 +191,11 @@ protected:
 	virtual void ComputeOutput(const iArrayT& n_codes, dArray2DT& n_values,
 	                           const iArrayT& e_codes, dArray2DT& e_values);
 
+	/** add extra stress contributions beyond the material model (e.g. Maxwell stress).
+	 * Called per integration point during ComputeOutput after getting material stress.
+	 * Default implementation does nothing. */
+	virtual void AddExtraStress(dSymMatrixT& cauchy) const;
+
 	/** indicies of elements in the list of material needs */
 	enum MaterialNeedsT {kNeedDisp = 0,
 	                     kNeedVel  = 1,
