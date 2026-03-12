@@ -384,6 +384,43 @@ GlobalMatrixT* CCNSMatrixT::Clone(void) const
 	return new_mat;
 }
 
+/* matrix-vector product b = A*x using compact-column non-symmetric skyline storage.
+ * Storage layout:
+ *   fKU[famax[col] .. famax[col]+BandWidth(col)-1]  upper triangle (col > row)
+ *   fKD[0..n-1]                                     diagonal
+ *   fKL[famax[row] .. famax[row]+BandWidth(row)-1]  lower triangle (row > col)
+ * where BandWidth(i) = famax[i+1] - famax[i] gives the number of off-diagonal
+ * entries in row/column i. */
+void CCNSMatrixT::Multx(const dArrayT& x, dArrayT& b) const
+{
+	const char caller[] = "CCNSMatrixT::Multx";
+	if (fIsFactorized)
+		ExceptionT::GeneralFail(caller, "matrix is factorized");
+	if (x.Length() != fLocNumEQ || b.Length() != fLocNumEQ)
+		ExceptionT::SizeMismatch(caller);
+
+	/* zero result */
+	b = 0.0;
+
+	/* diagonal contribution */
+	for (int i = 0; i < fLocNumEQ; i++)
+		b[i] += fKD[i] * x[i];
+
+	/* off-diagonal contributions using Element() accessor */
+	for (int row = 0; row < fLocNumEQ; row++)
+	{
+		int bw = BandWidth(row);
+		for (int k = 1; k <= bw; k++)
+		{
+			int col = row - k;  /* column index for this lower-triangle entry */
+			/* lower triangle: A[row,col] is stored in fKL */
+			b[row] += fKL[famax[row] + bw - k] * x[col];
+			/* upper triangle by symmetry of the skyline pattern: A[col,row] */
+			b[col] += fKU[famax[row] + bw - k] * x[row];
+		}
+	}
+}
+
 /* return the values along the diagonal of the matrix */
 bool CCNSMatrixT::CopyDiagonal(dArrayT& diags) const
 {

@@ -143,9 +143,9 @@ bool NLSolver_NK::GMRES(dArrayT& x, const dArrayT& b) const
 	/* outer restart loop */
 	while (!done && total_iter < max_iter)
 	{
-		/* r = b - A*x */
-		fLHS->Multx(x, fw);                           /* fw = A*x     */
-		fw.SetToCombination(1.0, b, -1.0, fw);        /* fw = b - A*x */
+		/* r = b - A*x  (avoid aliasing: compute A*x into fz, then r = b - fz) */
+		fLHS->Multx(x, fz);                           /* fz = A*x     */
+		for (int i = 0; i < n; i++) fw[i] = b[i] - fz[i]; /* fw = b - A*x */
 
 		/* apply preconditioner: fw <- M^{-1} fw */
 		for (int i = 0; i < n; i++) fw[i] *= fdiag[i];
@@ -153,8 +153,9 @@ bool NLSolver_NK::GMRES(dArrayT& x, const dArrayT& b) const
 		double beta = std::sqrt(nArrayT<double>::Dot(fw, fw));
 		if (beta == 0.0) { done = true; break; }
 
-		/* check convergence on initial residual */
-		if (beta < fLinearTolerance) { done = true; break; }
+		/* relative stopping tolerance: ||r_j|| / ||r_0|| < fLinearTolerance */
+		double tol_abs = fLinearTolerance * beta;
+		if (tol_abs == 0.0) { done = true; break; }
 
 		/* q[0] = fw / beta */
 		fQ[0].SetToScaled(1.0/beta, fw);
@@ -206,7 +207,7 @@ bool NLSolver_NK::GMRES(dArrayT& x, const dArrayT& b) const
 			ApplyGivens(fcs[j], fsn[j], fg[j],   fg[j+1]);
 
 			double res_norm = fabs(fg[j+1]);
-			if (res_norm < fLinearTolerance) {
+			if (res_norm < tol_abs) {
 				j_end = j;
 				done  = true;
 				break;
