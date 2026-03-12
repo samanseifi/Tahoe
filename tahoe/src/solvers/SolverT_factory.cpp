@@ -5,6 +5,7 @@
 /* subclasses supporting the factory method */
 #include "LinearSolver.h"
 #include "NLSolver.h"
+#include "NLSolver_NK.h"
 #include "PCGSolver_LS.h"
 #include "NLSolver_LS.h"
 #include "LinearSolver_RS.h"
@@ -18,6 +19,8 @@ SolverT* SolverT::New(FEManagerT& fe_manager, const char* name, int group)
 		return new LinearSolver(fe_manager, group);
 	else if (strcmp(name, "nonlinear_solver") == 0)
 		return new NLSolver(fe_manager, group);
+	else if (strcmp(name, "newton_krylov_solver") == 0)
+		return new NLSolver_NK(fe_manager, group);
 	else if (strcmp(name, "PCG_solver") == 0)
 		return new PCGSolver_LS(fe_manager, group);
 	else if (strcmp(name, "nonlinear_solver_LS") == 0)

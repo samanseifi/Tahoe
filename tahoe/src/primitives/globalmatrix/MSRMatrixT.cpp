@@ -377,6 +377,48 @@ bool MSRMatrixT::CopyDiagonal(dArrayT& diags) const
 	return (status == 1);
 }
 
+/* matrix-vector product b = A*x using MSR sparse storage.
+ * For symmetric matrices only the upper triangle is stored, so both
+ * triangles are applied here by symmetry.
+ * NOTE: column indices in fbindx[n+1..] are 0-based global equation
+ * numbers; for serial runs these equal 0-based local indices. */
+void MSRMatrixT::Multx(const dArrayT& x, dArrayT& b) const
+{
+	const char caller[] = "MSRMatrixT::Multx";
+
+	if (x.Length() != fLocNumEQ || b.Length() != fLocNumEQ)
+		ExceptionT::SizeMismatch(caller);
+
+	/* zero destination */
+	b = 0.0;
+
+	/* fStartEQ is the first 1-based global equation number on this partition
+	 * (= 1 for serial; > 1 for MPI partitions).  Column indices in
+	 * fbindx[n+1..] are stored as 0-based global numbers (equation number
+	 * minus 1), so subtracting (fStartEQ - 1) converts them to 0-based
+	 * local indices. */
+	int col_offset = fStartEQ - 1;
+
+	for (int row = 0; row < fLocNumEQ; row++)
+	{
+		/* diagonal contribution */
+		b[row] += fval[row] * x[row];
+
+		/* off-diagonal contributions: fbindx[row..row+1-1] are absolute
+		 * indices into fbindx[]; fbindx[j] is the 0-based global column */
+		for (int j = fbindx[row]; j < fbindx[row+1]; j++)
+		{
+			int col = fbindx[j] - col_offset; /* 0-based local column */
+			if (col >= 0 && col < fLocNumEQ)
+			{
+				b[row] += fval[j] * x[col];
+				/* lower triangle by symmetry (upper only stored) */
+				if (fSymmetric) b[col] += fval[j] * x[row];
+			}
+		}
+	}
+}
+
 /* set all matrix values to 0.0 */
 void MSRMatrixT::Clear(void) { fval = 0.0; }
 

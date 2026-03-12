@@ -57,6 +57,10 @@ public:
 	/** return the values along the diagonal of the matrix */
 	virtual bool CopyDiagonal(dArrayT& diags) const;
 
+	/** matrix-vector product b = A*x. For symmetric storage only the
+	 * upper triangle is stored, so both triangles are applied. */
+	virtual void Multx(const dArrayT& x, dArrayT& b) const;
+
 	/** set all matrix values to 0.0 */
 	void Clear(void);
 
