@@ -73,6 +73,7 @@ tahoe_gtest(test_dArrayT     toolbox/test_dArrayT.cpp)
 tahoe_gtest(test_dMatrixT    toolbox/test_dMatrixT.cpp)
 tahoe_gtest(test_dSymMatrixT toolbox/test_dSymMatrixT.cpp)
 tahoe_gtest(test_QuadT       geometry/test_QuadT.cpp)
+tahoe_gtest(test_GMRES       solvers/test_GMRES.cpp)
 
 # ---------------------------------------------------------------------------
 # Full libtahoe tests (material models)

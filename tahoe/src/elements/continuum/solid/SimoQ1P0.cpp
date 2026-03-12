@@ -11,7 +11,7 @@
 
 #include "incQ1P0.h"
 
-// #include "TensorTransformT.h"
+#include "TensorTransformT.h"
 
 #include <iostream>
 
@@ -22,7 +22,10 @@ SimoQ1P0::SimoQ1P0(const ElementSupportT& support):
 	UpdatedLagrangianT(support),
 	fLocScalarPotential(LocalArrayT::kESP),
 	fElectricScalarPotentialField(0),
-	fElectricPermittivity(1.0)
+	fElectricPermittivity(1.0),
+	fPhaseFieldField(NULL),
+	fLocPhaseField(LocalArrayT::kDisp),
+	fPF_kSmall(1.0e-6)
 {
 	SetName("updated_lagrangian_Q1P0");
 }
@@ -90,6 +93,11 @@ void SimoQ1P0::DefineParameters(ParameterListT& list) const
 	ParameterT epsilon(fElectricPermittivity, "epsilon");
 	epsilon.SetDefault(1.0);
 	list.AddParameter(epsilon, ParameterListT::ZeroOrOnce);
+
+	/* phase-field residual stiffness (optional) */
+	ParameterT pf_k(fPF_kSmall, "pf_residual_stiffness");
+	pf_k.SetDefault(1.0e-6);
+	list.AddParameter(pf_k, ParameterListT::ZeroOrOnce);
 }
 
 /* accept parameter list */
@@ -101,6 +109,10 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 	const ParameterT* peps = list.Parameter("epsilon");
 	fElectricPermittivity = peps ? double(*peps) : 1.0;
 
+	/* read phase-field residual stiffness */
+	const ParameterT* ppf_k = list.Parameter("pf_residual_stiffness");
+	fPF_kSmall = ppf_k ? double(*ppf_k) : 1.0e-6;
+
 	/* inherited */
 	UpdatedLagrangianT::TakeParameterList(list);
 
@@ -108,6 +120,14 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 	fElectricScalarPotentialField = ElementSupport().Field("electric_scalar_potential");
 	if (!fElectricScalarPotentialField) {
 	  std::cout << "There is no electric field coupling. Perhaps it's not DE model" << std::endl;
+	}
+
+	/* check for phase-field coupling */
+	fPhaseFieldField = ElementSupport().Field("phase_field");
+	if (fPhaseFieldField) {
+		std::cout << "SimoQ1P0: phase-field fracture coupling detected." << std::endl;
+	} else {
+		std::cout << "SimoQ1P0: no phase-field coupling." << std::endl;
 	}
 
 	/* check geometry code and number of element nodes -> Q1 */
@@ -154,6 +174,15 @@ void SimoQ1P0::TakeParameterList(const ParameterListT& list)
 	int voigt_dim = (nsd == 3) ? 6 : 3;
 	fTangentMechanical.Dimension(voigt_dim, voigt_dim);
 	fTangentMechanical = 0.0;
+
+	/* tensor transform for push-forward */
+	fTransform.Dimension(nsd);
+
+	/* phase-field IP storage */
+	fPhaseField_ip.Dimension(nip);
+	fPhaseField_ip = 0.0;
+	fDegradation_ip.Dimension(nip);
+	fDegradation_ip = 1.0;  /* no degradation by default */
 
 	/* element pressure */
 	fPressure.Dimension(NumElements());
@@ -216,6 +245,23 @@ void SimoQ1P0::SetGlobalShape(void)
 	}
 
 
+	/* interpolate phase-field d at integration points */
+	if (fPhaseFieldField) {
+		SetLocalU(fLocPhaseField);
+		dArrayT d_vec(1);
+		for (int i = 0; i < NumIP(); i++) {
+			fShapes->InterpolateU(fLocPhaseField, d_vec, i);
+			double d = d_vec[0];
+			/* clamp to [0, 1] */
+			if (d < 0.0) d = 0.0;
+			if (d > 1.0) d = 1.0;
+			fPhaseField_ip[i] = d;
+			fDegradation_ip[i] = (1.0 - d)*(1.0 - d) + fPF_kSmall;
+		}
+	} else {
+		fDegradation_ip = 1.0;
+	}
+
 	/* shape function wrt current config */
 	SetLocalX(fLocCurrCoords);
 	fCurrShapes->SetDerivatives();
@@ -233,16 +279,19 @@ void SimoQ1P0::SetGlobalShape(void)
 	bool needs_F = Needs_F(material_number);
 	bool needs_F_last = Needs_F_last(material_number);
 
+	/* B-bar exponent: 1/nsd ensures det(F_bar) = Theta (constant within element) */
+	double bbar_exp = 1.0/NumSD();
+
 	/* loop over integration points */
 	for (int i = 0; i < NumIP(); i++)
 	{
 		/* deformation gradient */
 		if (needs_F)
 		{
-			/* "replace" dilatation */
+			/* "replace" dilatation: F_bar = (Theta/J)^{1/nsd} * F */
 			dMatrixT& F = fF_List[i];
 			double J = F.Det();
-			F *= pow(v/(H*J), 1.0/3.0);
+			F *= pow(v/(H*J), bbar_exp);
 
 			/* store Jacobian */
 			fJacobian[i] = J;
@@ -255,7 +304,7 @@ void SimoQ1P0::SetGlobalShape(void)
 			dMatrixT& F = fF_last_List[i];
 
 			double J = F.Det();
-			F *= pow(v_last/(H*J), 1.0/3.0);
+			F *= pow(v_last/(H*J), bbar_exp);
 		}
 	}
 }
@@ -293,108 +342,186 @@ void SimoQ1P0::SetLocalArrays()
 		fLocScalarPotential.Dimension(nen, 1);
 		fElectricScalarPotentialField->RegisterLocal(fLocScalarPotential);
 	}
+
+	/* register phase-field local array */
+	if (0 == fPhaseFieldField)
+		fPhaseFieldField = ElementSupport().Field("phase_field");
+	if (fPhaseFieldField) {
+		const int nen = NumElementNodes();
+		fLocPhaseField.Dimension(nen, 1);
+		fPhaseFieldField->RegisterLocal(fLocPhaseField);
+	}
 }
 
 
-/* form the element stiffness matrix */
-void SimoQ1P0::FormStiffness(double constK)
+/* recompute deformation gradients and B-bar state from current fLocDisp.
+ * Call after perturbing displacement for numerical tangent. */
+void SimoQ1P0::RecomputeDeformationState(void)
 {
-//	int order = fIntegrator->Order();
-	 /* matrix format */
-	dMatrixT::SymmetryFlagT format =
-		(fLHS.Format() == ElementMatrixT::kNonSymmetric) ?
-		dMatrixT::kWhole :
-		dMatrixT::kUpperOnly;
+	const int nsd = NumSD();
+	const int nip = NumIP();
+	const int elem = CurrElementNumber();
 
-	/* current element info */
-	int el = CurrElementNumber();
-	double v = fElementVolume[el];
-	double p_bar = fPressure[el];
+	/* recompute current-config shape function derivatives.
+	 * fCurrShapes is linked to fLocCurrCoords, which must be
+	 * updated before this call. */
+	fCurrShapes->SetDerivatives();
 
-	fAmm_mat = 0.0;
-	fAmm_geo = 0.0;
-	D = 0.0;
-	/* integration */
+	/* recompute mean gradient and element volume */
+	double H;
+	SetMeanGradient(fMeanGradient, H, fElementVolume[elem]);
+
+	/* recompute deformation gradients with B-bar correction */
+	double bbar_exp = 1.0/nsd;
+	for (int ip = 0; ip < nip; ip++)
+	{
+		dMatrixT& F = fF_List[ip];
+		fShapes->GradU(fLocDisp, F, ip);
+		F.PlusIdentity();
+
+		double J = F.Det();
+		fJacobian[ip] = J;
+		F *= pow(fElementVolume[elem]/(H*J), bbar_exp);
+	}
+}
+
+/* compute element internal force into provided vector.
+ * Same physics as FormKd but writes to 'force' instead of fRHS. */
+void SimoQ1P0::ComputeInternalForce(double constK, dArrayT& force)
+{
+	force = 0.0;
+
+	const int elem = CurrElementNumber();
+	double p_bar_tmp = 0.0;
+
 	const double* Det    = fCurrShapes->IPDets();
 	const double* Weight = fCurrShapes->IPWeights();
 
-	/* initialize */
-	fStressStiff = 0.0;
-
+	/* mean B-bar gradient */
 	fCurrShapes->GradNa(fMeanGradient, fb_bar);
 	fShapes->TopIP();
 
-	while ( fShapes->NextIP() )
+	while (fShapes->NextIP())
 	{
-		/* double scale factor */
-		double scale = constK*(*Det++)*(*Weight++);
-
-	/* S T R E S S   S T I F F N E S S */
-		/* compute Cauchy stress from the base material */
-		dSymMatrixT cauchy = fCurrMaterial->s_ij();
-		
-		/* compute Maxwell stress */
-		const dArrayT  E 		= fE_List[CurrIP()];
-		const dMatrixT F 		= DeformationGradient();
-		dSymMatrixT maxwell = s_electric_ij(E, F, fElectricPermittivity);
-		cauchy += maxwell;
-
-		/* Combine total stresses */
-		cauchy.ToMatrix(fCauchyStress);
-
-		/* determinant of modified deformation gradient */
-		double J_bar = DeformationGradient().Det();
-
-		/* detF correction */
-		double J_correction = J_bar/fJacobian[CurrIP()];
-		double p = J_correction*cauchy.Trace()/3.0;
-
-		/* get shape function gradients matrix */
-		fCurrShapes->GradNa(fGradNa);
-		fb_sig.MultAB(fCauchyStress, fGradNa);
-
-		/* integration constants */
-		fCauchyStress *= scale*J_correction;
-
-		fAmm_geo.MultQTBQ(fGradNa, fCauchyStress, format, dMatrixT::kAccumulate);
-
-		/* using the stress symmetry */
-		fStressStiff.MultQTBQ(fGradNa, fCauchyStress, format, dMatrixT::kAccumulate);
-
-	/* M A T E R I A L   S T I F F N E S S */
-		/* strain displacement matrix */
+		/* B-bar strain-displacement matrix */
 		Set_B_bar(fCurrShapes->Derivatives_U(), fMeanGradient, fB);
 
-		dMatrixT cijkl = c_electrical_ijkl(E, F, fElectricPermittivity);
-		cijkl += fCurrMaterial->c_ijkl();
+		/* Cauchy stress from base material */
+		dSymMatrixT cauchy = fCurrMaterial->s_ij();
 
-		/* get D matrix from base material */
-		fD.SetToScaled(scale*J_correction, cijkl);
+		/* Maxwell stress (if electrical coupling) */
+		if (fElectricScalarPotentialField) {
+			const dArrayT  E = fE_List[CurrIP()];
+			const dMatrixT F = DeformationGradient();
+			dSymMatrixT maxwell = s_electric_ij(E, F, fElectricPermittivity);
+			cauchy += maxwell;
+		}
 
-		/* accumulate */
-		fAmm_mat.MultQTBQ(fB, fD, format, dMatrixT::kAccumulate);
+		/* phase-field degradation */
+		double g_d = fDegradation_ip[CurrIP()];
+		cauchy *= g_d;
 
-		/* $div div$ term */
-		fNEEmat.Outer(fGradNa, fGradNa);
-		fLHS.AddScaled(p_bar*scale, fNEEmat);
+		/* B^T * sigma */
+		fB.MultTx(cauchy, fNEEvec);
 
-		fdiff_b.DiffOf(fGradNa, fb_bar);
-		fNEEmat.Outer(fdiff_b, fdiff_b);
-		fLHS.AddScaled(scale*2.0*p/3.0, fNEEmat);
+		/* J_bar / J correction */
+		double J_bar = DeformationGradient().Det();
+		double J_correction = J_bar/fJacobian[CurrIP()];
 
-		fNEEmat.Outer(fb_sig, fdiff_b);
-		fNEEmat.Symmetrize();
-		fLHS.AddScaled(-J_correction*scale*4.0/3.0, fNEEmat);
+		/* integrate pressure */
+		p_bar_tmp += (*Weight)*(*Det)*J_correction*cauchy.Trace()/NumSD();
 
-		bSp_bRq_to_KSqRp(fGradNa, fNEEmat);
-		fLHS.AddScaled(scale*(p - p_bar), fNEEmat);
+		/* accumulate force */
+		force.AddScaled(constK*(*Weight++)*(*Det++)*J_correction, fNEEvec);
 	}
-	fAmm_mat.Expand(fAmm_geo, NumDOF(), dMatrixT::kAccumulate);
-	fLHS.AddBlock(0, 0, fAmm_mat);
 
-	/* $\bar{div}\bar{div}$ term */
-	fNEEmat.Outer(fb_bar, fb_bar);
-	fLHS.AddScaled(-p_bar*v, fNEEmat);
+	/* volume-averaged pressure */
+	fPressure[elem] = p_bar_tmp/fElementVolume[elem];
+}
+
+/* form the element stiffness matrix — numerical tangent via
+ * forward finite differences of the internal force.
+ * This gives the exact consistent tangent for the Q1P0
+ * formulation, including all B-bar correction terms. */
+void SimoQ1P0::FormStiffness(double constK)
+{
+	const int nsd = NumSD();
+	const int nen = NumElementNodes();
+	const int ndof_elem = nen*nsd;
+	const int nip = NumIP();
+	const int elem = CurrElementNumber();
+	const double eps = 1.0e-7;
+
+	/* ---- save state ---- */
+
+	/* local displacements */
+	dArrayT u_save(fLocDisp.Length());
+	for (int k = 0; k < fLocDisp.Length(); k++)
+		u_save[k] = fLocDisp[k];
+
+	/* current coordinates */
+	dArrayT x_save(fLocCurrCoords.Length());
+	for (int k = 0; k < fLocCurrCoords.Length(); k++)
+		x_save[k] = fLocCurrCoords[k];
+
+	/* deformation gradients */
+	ArrayT<dMatrixT> F_save(nip);
+	for (int ip = 0; ip < nip; ip++) {
+		F_save[ip].Dimension(nsd, nsd);
+		F_save[ip] = fF_List[ip];
+	}
+
+	/* Jacobians, mean gradient, volume, pressure */
+	dArrayT J_save(nip);
+	J_save = fJacobian;
+	dArray2DT mg_save(fMeanGradient);
+	double v_save = fElementVolume[elem];
+	double p_save = fPressure[elem];
+
+	/* ---- reference internal force ---- */
+	dArrayT f0(ndof_elem);
+	ComputeInternalForce(constK, f0);
+
+	/* ---- perturb each DOF and finite-difference ---- */
+	dArrayT f_pert(ndof_elem);
+
+	for (int a = 0; a < nen; a++) {
+		for (int i = 0; i < nsd; i++) {
+			/* column index in tangent matrix (equation ordering) */
+			int col = a*nsd + i;
+
+			/* perturb displacement and current coordinates */
+			fLocDisp(a, i) += eps;
+			fLocCurrCoords(a, i) += eps;
+
+			/* recompute all deformation state */
+			RecomputeDeformationState();
+
+			/* compute perturbed internal force */
+			ComputeInternalForce(constK, f_pert);
+
+			/* forward finite difference → column of tangent */
+			for (int j = 0; j < ndof_elem; j++)
+				fLHS(j, col) += (f_pert[j] - f0[j])/eps;
+
+			/* undo perturbation */
+			fLocDisp(a, i) -= eps;
+			fLocCurrCoords(a, i) -= eps;
+		}
+	}
+
+	/* ---- restore full state ---- */
+	for (int k = 0; k < fLocDisp.Length(); k++)
+		fLocDisp[k] = u_save[k];
+	for (int k = 0; k < fLocCurrCoords.Length(); k++)
+		fLocCurrCoords[k] = x_save[k];
+	for (int ip = 0; ip < nip; ip++)
+		fF_List[ip] = F_save[ip];
+	fJacobian = J_save;
+	fMeanGradient = mg_save;
+	fElementVolume[elem] = v_save;
+	fPressure[elem] = p_save;
+	fCurrShapes->SetDerivatives();
 }
 
 /* calculate the internal force contribution ("-k*d") */
@@ -420,17 +547,16 @@ void SimoQ1P0::FormKd(double constK)
 		Set_B_bar(fCurrShapes->Derivatives_U(), fMeanGradient, fB);
 
 		/* B^T * Cauchy stress */
-
-
-
 		dSymMatrixT cauchy = fCurrMaterial->s_ij();
-
 
 		const dArrayT  E 		= fE_List[CurrIP()];
 		const dMatrixT F 		= DeformationGradient();
 		dSymMatrixT maxwell = s_electric_ij(E, F, fElectricPermittivity);
 		cauchy += maxwell;
 
+		/* apply phase-field degradation */
+		double g_d = fDegradation_ip[CurrIP()];
+		cauchy *= g_d;
 
 		fB.MultTx(cauchy, fNEEvec);
 
@@ -441,7 +567,7 @@ void SimoQ1P0::FormKd(double constK)
 		double J_correction = J_bar/fJacobian[CurrIP()];
 
 		/* integrate pressure */
-		p_bar += (*Weight)*(*Det)*J_correction*cauchy.Trace()/3.0;
+		p_bar += (*Weight)*(*Det)*J_correction*cauchy.Trace()/NumSD();
 
 		/* accumulate */
 		fRHS.AddScaled(constK*(*Weight++)*(*Det++)*J_correction, fNEEvec);
@@ -453,6 +579,27 @@ void SimoQ1P0::FormKd(double constK)
 
 	/* volume averaged */
 	p_bar /= fElementVolume[CurrElementNumber()];
+}
+
+/* add Maxwell stress (with phase-field degradation) to output stress */
+void SimoQ1P0::AddExtraStress(dSymMatrixT& cauchy) const
+{
+	if (!fElectricScalarPotentialField) return;
+
+	/* Maxwell stress at current IP */
+	const dArrayT  E = fE_List[CurrIP()];
+	const dMatrixT F = DeformationGradient();
+
+	/* NOTE: s_electric_ij is non-const because it uses workspace fStress.
+	 * Use const_cast here since this is purely a query operation. */
+	dSymMatrixT maxwell =
+		const_cast<SimoQ1P0*>(this)->s_electric_ij(E, F, fElectricPermittivity);
+
+	/* apply phase-field degradation */
+	double g_d = fDegradation_ip[CurrIP()];
+	maxwell *= g_d;
+
+	cauchy += maxwell;
 }
 
 
@@ -686,19 +833,22 @@ dMatrixT SimoQ1P0::c_electrical_ijkl(const dArrayT E, const dMatrixT F, const do
         me_tanmod_q1p0(epsilon, E.Pointer(), C.Pointer(), F.Pointer(), J, C_mat_3D.Pointer());
 
         /* 4th-order Voigt push-forward (3D):
-         * Voigt pairs: 0=(0,0), 1=(1,1), 2=(2,2), 3=(1,2), 4=(0,2), 5=(0,1) */
+         * Voigt pairs: 0=(0,0), 1=(1,1), 2=(2,2), 3=(1,2), 4=(0,2), 5=(0,1)
+         * T[a,b] = F[vi[a],vi[b]]*F[vj[a],vj[b]]  (diagonal b)
+         * T[a,b] += F[vi[a],vj[b]]*F[vj[a],vi[b]]  (off-diagonal b) */
         static const int vi3D[6] = {0, 1, 2, 1, 0, 0};
         static const int vj3D[6] = {0, 1, 2, 2, 2, 1};
 
-        dMatrixT P(6);
+        dMatrixT T(6);
         for (int a = 0; a < 6; a++)
-            for (int b = 0; b < 6; b++)
-                P(a, b) = F(vi3D[a], vi3D[b]) * F(vj3D[a], vj3D[b]);
+            for (int b = 0; b < 6; b++) {
+                T(a, b) = F(vi3D[a], vi3D[b]) * F(vj3D[a], vj3D[b]);
+                if (vi3D[b] != vj3D[b])
+                    T(a, b) += F(vi3D[a], vj3D[b]) * F(vj3D[a], vi3D[b]);
+            }
 
-        dMatrixT tmp(6);
-        tmp.MultAB(P, C_mat_3D);
-        fTangentMechanical.MultABT(tmp, P);
-        fTangentMechanical *= 1.0 / J;
+		fTangentMechanical.SetToScaled(1.0 / J, fTransform.PushForward(F, C_mat_3D)); // finite difference c_ijkl
+
     }
     else if (nsd == 2) {
         dMatrixT F2D(nsd);
@@ -730,21 +880,23 @@ dMatrixT SimoQ1P0::c_electrical_ijkl(const dArrayT E, const dMatrixT F, const do
         C_mat_2D(2,0)=C_mat_3D(5,0); C_mat_2D(2,1)=C_mat_3D(5,1); C_mat_2D(2,2)=C_mat_3D(5,5);
 
         /* 4th-order Voigt push-forward (2D):
-         * Voigt pairs: 0=(0,0), 1=(1,1), 2=(0,1) */
+         * Voigt pairs: 0=(0,0), 1=(1,1), 2=(0,1)
+         * T[a,b] includes cross-term for off-diagonal Voigt index b */
         static const int vi2D[3] = {0, 1, 0};
         static const int vj2D[3] = {0, 1, 1};
 
-        dMatrixT P2D(3);
+        dMatrixT T2D(3);
         for (int a = 0; a < 3; a++)
-            for (int b = 0; b < 3; b++)
-                P2D(a, b) = F2D(vi2D[a], vi2D[b]) * F2D(vj2D[a], vj2D[b]);
+            for (int b = 0; b < 3; b++) {
+                T2D(a, b) = F2D(vi2D[a], vi2D[b]) * F2D(vj2D[a], vj2D[b]);
+                if (vi2D[b] != vj2D[b])
+                    T2D(a, b) += F2D(vi2D[a], vj2D[b]) * F2D(vj2D[a], vi2D[b]);
+            }
 
-        dMatrixT tmp2D(3);
-        tmp2D.MultAB(P2D, C_mat_2D);
-        fTangentMechanical.MultABT(tmp2D, P2D);
-        fTangentMechanical *= 1.0 / J2D;
+
+		fTangentMechanical.SetToScaled(1.0 / J2D, fTransform.PushForward(F2D, C_mat_2D)); // finite difference c_ijkl
+
     }
 
     return fTangentMechanical;
 }
-

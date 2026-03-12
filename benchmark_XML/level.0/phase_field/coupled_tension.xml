@@ -1,0 +1,89 @@
+<?xml version="1.0"?>
+<!-- Coupled mechanics + phase-field test.
+
+     A 2D bar under uniaxial tension with a prescribed phase-field crack
+     at x=Lx/2. The mechanical stiffness is degraded by g(d)=(1-d)^2+k
+     where d is interpolated from the phase-field solution.
+
+     Two element groups:
+       1. updated_lagrangian_Q1P0 — mechanical (displacement)
+       2. phase_field — damage field
+
+     The phase-field is prescribed (d=1 at center, d=0 at far ends).
+     This tests one-way coupling: phase-field degrades mechanics.
+-->
+<tahoe xmlns:x0="http://www.w3.org/2001/XMLSchema"
+    geometry_file="bar_coupled.geom"
+    output_format="ExodusII"
+    title="Coupled mechanics + phase-field tension test">
+    <time num_steps="5" output_inc="1" time_step="0.2">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0.0" y="0.0"/>
+                <OrderedPair x="1.0" y="1.0"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+    <nodes>
+        <!-- Mechanical field -->
+        <field field_name="displacement">
+            <dof_labels>
+                <String value="D_X"/>
+                <String value="D_Y"/>
+            </dof_labels>
+            <!-- fix x on left edge -->
+            <kinematic_BC dof="1" node_ID="1"/>
+            <!-- fix y on bottom-left corner -->
+            <kinematic_BC dof="2" node_ID="3"/>
+            <!-- applied x-displacement on right edge -->
+            <kinematic_BC dof="1" node_ID="2" schedule="1" type="u" value="0.01"/>
+        </field>
+        <!-- Phase-field -->
+        <field field_name="phase_field">
+            <dof_labels>
+                <String value="d"/>
+            </dof_labels>
+            <!-- d=1 at center -->
+            <kinematic_BC dof="1" node_ID="4" schedule="1" type="u" value="1.0"/>
+            <!-- d=0 at far boundaries -->
+            <kinematic_BC dof="1" node_ID="5"/>
+        </field>
+    </nodes>
+    <element_list>
+        <!-- Mechanical element group -->
+        <updated_lagrangian_Q1P0 field_name="displacement">
+            <quadrilateral/>
+            <solid_element_nodal_output displacements="1" stress="1" material_output="1"/>
+            <large_strain_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <large_strain_material_2D>
+                    <large_strain_StVenant_2D constraint_2D="plane_strain" density="1.0">
+                        <E_and_nu Poisson_ratio="0.3" Young_modulus="100.0"/>
+                    </large_strain_StVenant_2D>
+                </large_strain_material_2D>
+            </large_strain_element_block>
+        </updated_lagrangian_Q1P0>
+        <!-- Phase-field element group -->
+        <phase_field field_name="phase_field">
+            <quadrilateral/>
+            <phase_field_element_nodal_output phase_field="1" coordinates="1"/>
+            <phase_field_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <phase_field_material>
+                    <phase_field_fracture_material
+                        Gc="1.0"
+                        length_scale="0.1"
+                        residual_stiffness="1.0e-06"/>
+                </phase_field_material>
+            </phase_field_element_block>
+        </phase_field>
+    </element_list>
+    <nonlinear_solver abs_tolerance="1.0e-10" divergence_tolerance="1.0e+01"
+        max_iterations="15" rel_tolerance="1.0e-12">
+        <profile_matrix/>
+    </nonlinear_solver>
+</tahoe>

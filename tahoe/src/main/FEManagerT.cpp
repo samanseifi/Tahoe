@@ -1888,6 +1888,9 @@ void FEManagerT::DefineInlineSub(const StringT& name, ParameterListT::ListOrderT
 
 		/* linear solver with residual correction */
 		sub_lists.AddSub("linear_solver_RS");
+
+		/* Newton-Krylov solver (GMRES inner iterations) */
+		sub_lists.AddSub("newton_krylov_solver");
 	}
 	else /* inherited */
 		ParameterInterfaceT::DefineInlineSub(name, order, sub_lists);
