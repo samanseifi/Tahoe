@@ -111,8 +111,12 @@ public:
 	/** return a clone of self. Caller is responsible for disposing of the matrix */
 	virtual GlobalMatrixT* Clone(void) const;
 
+	/** matrix-vector product b = A*x using compact-column non-symmetric
+	 * skyline storage.  Cannot be called when the matrix is factorized. */
+	virtual void Multx(const dArrayT& x, dArrayT& b) const;
+
 	/** return the values along the diagonal of the matrix. Derived classes
-	 * must reimplement this function to extrat the diagonals from the
+	 * must reimplement this function to extract the diagonals from the
 	 * matrix-specific storage schemes.
 	 * \param diags returns with the diagonals of the matrix if the function
 	 *        is supported. Otherwise is left unchanged.
