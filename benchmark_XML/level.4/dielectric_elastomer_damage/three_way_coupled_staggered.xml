@@ -1,24 +1,43 @@
 <?xml version="1.0"?>
 <!-- Three-way coupled mechanics + electrical + phase-field test.
 
-     A 2D bar under uniaxial tension with an applied voltage (top-to-bottom).
-     Phase-field d=1 is prescribed at x=Lx/2 to simulate a crack.
-     The crack degrades:
-       1. Mechanical stiffness: g(d)*sigma in SimoQ1P0
-       2. Electric permittivity: g(d)*epsilon in DiffusionElementT
+     2D dielectric elastomer bar (domain: -1 ≤ x ≤ 1, -0.5 ≤ y ≤ 0.5).
 
-     Three element groups:
-       1. updated_lagrangian_Q1P0 — mechanical (displacement)
-       2. diffusion — electrical (voltage / scalar potential)
-       3. phase_field — damage field
+     Loading:
+       - Mechanical: right edge (ns3, 24 nodes) pulled in +X; left edge (ns1, 24 nodes) fixed
+       - Electrical: voltage applied top-to-bottom (ns0 → ns2, across thickness Y)
 
-     Degradation function: g(d) = (1-d)^2 + k,  k = 1e-6
+     Node sets:
+       ns0  node_ID="1"  47 nodes  top edge    (y=+0.5)
+       ns1  node_ID="2"  24 nodes  left edge   (x=-1.0)
+       ns2  node_ID="3"  47 nodes  bottom edge (y=-0.5)
+       ns3  node_ID="4"  24 nodes  right edge  (x=+1.0)
+
+     Three-way coupling:
+       1. Mechanical stiffness degraded by g(d) = (1-d)^2 + k  (in SimoQ1P0)
+       2. Electric permittivity degraded by g(d)               (in DiffusionElementT)
+       3. Phase-field d driven by mechanical strain energy ψ    (in PhaseFieldElementT)
+
+     Solver order (staggered):
+       Pass 1 — electrical  (solution_group=1): static, linear
+       Pass 2 — mechanical  (solution_group=2): nonlinear HHT, receives Maxwell stress
+       Pass 3 — phase-field (solution_group=3): static, receives ψ from mechanical
+
+     Parameters:
+       mu=5, kappa=1000 (nearly incompressible)
+       epsilon=1.0 (dielectric permittivity)
+       Gc=0.1, ell=0.1: damage initiates at ψ > 0.5, reached at ~30% engineering strain
+       lame_lambda=6.67: deviatoric ψ dominates (volumetric term small for J≈1)
 -->
 <tahoe xmlns:x0="http://www.w3.org/2001/XMLSchema"
     geometry_file="../geometry/block_2D_2x1/block_2D_2x1.geom"
     output_format="ExodusII"
     title="Three-way coupled electro-mechano-fracture test">
-    <time num_steps="50000" output_inc="10" time_step="0.1">
+
+    <!-- 200 steps × dt=0.005 = T=1.0; schedule ramps 0→1 over [0,1].
+         Mechanical BC = 0.5 × t → 25% strain on 2-unit bar at T=1.
+         Electrical  BC = 0.1 × t → 0.1 V at T=1. -->
+    <time num_steps="200000" output_inc="100" time_step="0.01">
         <schedule_function>
             <piecewise_linear>
                 <OrderedPair x="0.0" y="0.0"/>
@@ -26,40 +45,55 @@
             </piecewise_linear>
         </schedule_function>
     </time>
+
     <nodes>
+        <!-- Electrical field — solved first so mechanical gets current Maxwell stress -->
+        <field field_name="electric_scalar_potential" solution_group="1">
+            <dof_labels>
+                <String value="Psi"/>
+            </dof_labels>
+            <!-- ground on bottom edge -->
+            <kinematic_BC dof="1" node_ID="3"/>
+            <!-- voltage on top edge: ramps to 0.1 V -->
+            <kinematic_BC dof="1" node_ID="1" schedule="1" type="u" value="0.1"/>
+        </field>
+
         <!-- Mechanical field -->
         <field field_name="displacement" integrator="nonlinear_HHT" solution_group="2">
             <dof_labels>
                 <String value="D_X"/>
                 <String value="D_Y"/>
             </dof_labels>
-            <!-- fix x on left edge -->
+            <!-- fix X and Y on left edge -->
             <kinematic_BC dof="1" node_ID="2"/>
-            <!-- fix y on bottom-left corner -->
             <kinematic_BC dof="2" node_ID="3"/>
-            <!-- applied x-displacement on right edge -->
         </field>
-        <!-- Electrical field (scalar potential / voltage) -->
-        <!-- Voltage applied left-to-right so E-field crosses the crack at x=Lx/2 -->
-        <field field_name="electric_scalar_potential" solution_group="1">
-            <dof_labels>
-                <String value="Psi"/>
-            </dof_labels>
-            <!-- ground on left edge -->
-            <kinematic_BC dof="1" node_ID="3"/>
-            <!-- applied voltage on right edge -->
-            <kinematic_BC dof="1" node_ID="1" schedule="1" type="u" value="0.1"/>
-        </field>
-        <!-- Phase-field -->
+
+        <!-- Phase-field — solved last, reads converged displacement -->
         <field field_name="phase_field" solution_group="3">
             <dof_labels>
                 <String value="d"/>
             </dof_labels>
-
         </field>
     </nodes>
+
     <element_list>
-        <!-- Mechanical element group -->
+        <!-- Electrical element group -->
+        <diffusion field_name="electric_scalar_potential">
+            <quadrilateral/>
+            <diffusion_element_nodal_output displacement="1" coordinates="1"/>
+            <diffusion_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <diffusion_material>
+                    <linear_dielectric_material epsilon="1.0"/>
+                </diffusion_material>
+            </diffusion_element_block>
+        </diffusion>
+
+        <!-- Mechanical element group (Q1P0): receives Maxwell stress from electrical,
+             stiffness degraded by g(d) -->
         <updated_lagrangian_Q1P0 field_name="displacement" mass_type="lumped_mass">
             <quadrilateral/>
             <solid_element_nodal_output displacements="1" stress="1" material_output="1"/>
@@ -76,20 +110,10 @@
                 </large_strain_material_2D>
             </large_strain_element_block>
         </updated_lagrangian_Q1P0>
-        <!-- Electrical element group (diffusion) -->
-        <diffusion field_name="electric_scalar_potential">
-            <quadrilateral/>
-            <diffusion_element_nodal_output displacement="1" coordinates="1"/>
-            <diffusion_element_block>
-                <block_ID_list>
-                    <String value="1"/>
-                </block_ID_list>
-                <diffusion_material>
-                    <linear_dielectric_material epsilon="1.0"/>
-                </diffusion_material>
-            </diffusion_element_block>
-        </diffusion>
-        <!-- Phase-field element group -->
+
+        <!-- Phase-field element group: computes ψ from displacement, updates d.
+             lame_lambda=6.67 keeps driving force deviatoric (J≈1 for nearly-incompressible).
+             Gc=0.1: damage at ψ > Gc/(2*ell) = 0.5, ~30% engineering strain. -->
         <phase_field field_name="phase_field"
             shear_modulus="5.0" lame_lambda="6.67">
             <quadrilateral/>
@@ -100,28 +124,33 @@
                 </block_ID_list>
                 <phase_field_material>
                     <phase_field_fracture_material
-                        Gc="1.0"
+                        Gc="0.1"
                         length_scale="0.1"
                         residual_stiffness="1.0e-06"/>
                 </phase_field_material>
             </phase_field_element_block>
         </phase_field>
     </element_list>
+
+    <!-- Solver 1: electrical (linear, static) -->
     <nonlinear_solver abs_tolerance="1.0e-10" divergence_tolerance="1.0e+01"
         max_iterations="30" rel_tolerance="1.0e-12">
         <SPOOLES_matrix/>
     </nonlinear_solver>
+    <!-- Solver 2: mechanical (nonlinear) -->
     <nonlinear_solver abs_tolerance="1.0e-10" divergence_tolerance="1.0e+01"
         max_iterations="30" rel_tolerance="1.0e-12">
         <SPOOLES_matrix/>
     </nonlinear_solver>
+    <!-- Solver 3: phase-field (linear, static) -->
     <nonlinear_solver abs_tolerance="1.0e-10" divergence_tolerance="1.0e+01"
         max_iterations="30" rel_tolerance="1.0e-12">
         <SPOOLES_matrix/>
     </nonlinear_solver>
-    <solver_phases max_loops="10">
+
+    <solver_phases max_loops="50">
         <solver_phase iterations="20" pass_iterations="0" solver="1"/>
         <solver_phase iterations="20" pass_iterations="0" solver="2"/>
-	<solver_phase iterations="20" pass_iterations="0" solver="3"/>
+        <solver_phase iterations="20" pass_iterations="0" solver="3"/>
     </solver_phases>
 </tahoe>

@@ -532,6 +532,23 @@ void PhaseFieldElementT::ComputeOutput(const iArrayT& n_codes, dArray2DT& n_valu
 	ElementSupport().OutputUsedAverage(n_values);
 }
 
+/* describe the parameters needed by the interface */
+void PhaseFieldElementT::DefineParameters(ParameterListT& list) const
+{
+	/* inherited */
+	ContinuumElementT::DefineParameters(list);
+
+	/* Neo-Hookean parameters for strain energy density used as crack driving force.
+	 * Required when coupling to a displacement field is desired. */
+	ParameterT mu(ParameterT::Double, "shear_modulus");
+	mu.SetDefault(0.0);
+	list.AddParameter(mu, ParameterListT::ZeroOrOnce);
+
+	ParameterT lam(ParameterT::Double, "lame_lambda");
+	lam.SetDefault(0.0);
+	list.AddParameter(lam, ParameterListT::ZeroOrOnce);
+}
+
 /* information about subordinate parameter lists */
 void PhaseFieldElementT::DefineSubs(SubListT& sub_list) const
 {

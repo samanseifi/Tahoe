@@ -95,6 +95,7 @@ protected:
 
 	/** \name implementation of the ParameterInterfaceT interface */
 	/*@{*/
+	virtual void DefineParameters(ParameterListT& list) const;
 	virtual void DefineSubs(SubListT& sub_list) const;
 	ParameterInterfaceT* NewSub(const StringT& name) const;
 	virtual void TakeParameterList(const ParameterListT& list);

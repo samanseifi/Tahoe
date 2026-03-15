@@ -1,16 +1,14 @@
 <?xml version="1.0"?>
-<!-- Three-way coupled mechanics + electrical + phase-field test.
+<!-- Two-way coupled mechanics + phase-field fracture test.
 
-     A 2D bar under uniaxial tension with an applied voltage (top-to-bottom).
-     Phase-field d=1 is prescribed at x=Lx/2 to simulate a crack.
-     The crack degrades:
-       1. Mechanical stiffness: g(d)*sigma in SimoQ1P0
-       2. Electric permittivity: g(d)*epsilon in DiffusionElementT
+     A 2D bar under uniaxial tension (X-direction).
+     Right edge (node set 4) is pulled; left edge (node set 2) is fixed.
 
-     Three element groups:
-       1. updated_lagrangian_Q1P0 — mechanical (displacement)
-       2. diffusion — electrical (voltage / scalar potential)
-       3. phase_field — damage field
+     Parameters chosen so that fracture initiates at ~20% engineering strain:
+       mu = 5, lambda = 500 (matches kappa=1000 nearly-incompressible mechanical model:
+         lambda = kappa - 2*mu/3 ≈ 997, but using 500 here is a compromise)
+       Gc = 0.1, ell = 0.1  →  critical psi ≈ Gc/(2*ell) = 0.5
+       Neo-Hookean psi at 20% strain ≈ 0.5  →  d ≈ 50% at peak
 
      Degradation function: g(d) = (1-d)^2 + k,  k = 1e-6
 -->
@@ -18,11 +16,13 @@
     geometry_file="../geometry/block_2D_2x1/block_2D_2x1.geom"
     output_format="ExodusII"
     title="Three-way coupled electro-mechano-fracture test">
-    <time num_steps="50000" output_inc="10" time_step="0.01">
+    <!-- 200 steps × dt=0.005 = T=1.0; schedule ramps from 0→1 over [0,1]
+         BC = value × schedule(t) = 0.5 × t  →  0.5 at t=1 (25% strain on 2-unit bar) -->
+    <time num_steps="200" output_inc="5" time_step="0.005">
         <schedule_function>
             <piecewise_linear>
                 <OrderedPair x="0.0" y="0.0"/>
-                <OrderedPair x="100000.0" y="100000.0"/>
+                <OrderedPair x="1.0" y="1.0"/>
             </piecewise_linear>
         </schedule_function>
     </time>
@@ -37,8 +37,8 @@
             <kinematic_BC dof="1" node_ID="2"/>
             <kinematic_BC dof="2" node_ID="2"/>
             <!-- fix y on bottom-left corner -->
-            <kinematic_BC dof="1" node_ID="4" schedule="1" type="u" value="0.01"/>
-            <!-- applied x-displacement on right edge -->
+            <kinematic_BC dof="1" node_ID="4" schedule="1" type="u" value="0.5"/>
+            <!-- applied x-displacement on right edge: ramps to 0.5 (25% strain on 2-unit bar) -->
         </field>
         <!-- Phase-field -->
         <field field_name="phase_field" solution_group="2">
@@ -67,6 +67,11 @@
             </large_strain_element_block>
         </updated_lagrangian_Q1P0>
         <!-- Phase-field element group -->
+        <!-- Phase-field parameters:
+             For a nearly-incompressible Q1P0 material (kappa=1000), J≈1, so the volumetric
+             term lambda/2*(lnJ)^2 is negligible. Use lame_lambda=6.67 so the driving force
+             is dominated by the deviatoric/isochoric part: psi ≈ mu/2*(I1-nsd).
+             Gc=0.1, ell=0.1: fracture initiates at psi > Gc/(2*ell) = 0.5, reached at ~30% strain. -->
         <phase_field field_name="phase_field"
             shear_modulus="5.0" lame_lambda="6.67">
             <quadrilateral/>
@@ -77,7 +82,7 @@
                 </block_ID_list>
                 <phase_field_material>
                     <phase_field_fracture_material
-                        Gc="1.0"
+                        Gc="0.1"
                         length_scale="0.1"
                         residual_stiffness="1.0e-06"/>
                 </phase_field_material>
@@ -92,7 +97,7 @@
         max_iterations="30" rel_tolerance="1.0e-12">
         <SPOOLES_matrix/>
     </nonlinear_solver>
-    <solver_phases max_loops="10">
+    <solver_phases max_loops="50">
         <solver_phase iterations="20" pass_iterations="0" solver="1"/>
         <solver_phase iterations="20" pass_iterations="0" solver="2"/>
     </solver_phases>
