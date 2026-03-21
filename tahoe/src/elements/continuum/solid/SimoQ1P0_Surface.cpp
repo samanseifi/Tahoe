@@ -141,15 +141,6 @@ void SimoQ1P0_Surface::TakeParameterList(const ParameterListT& list)
             fNormal[i] = normals(i);
       }
 
-      /* find parameter list for the bulk material */
-      int num_blocks = list.NumLists("large_strain_element_block");
-      if (num_blocks > 1)
-      ExceptionT::GeneralFail(caller, "expecting only 1 not %d element blocks", num_blocks);
-      const ParameterListT& block = list.GetList("large_strain_element_block");
-      const ParameterListT& mat_list = block.GetListChoice(*this, "large_strain_material_choice");
-      const ArrayT<ParameterListT>& mat = mat_list.Lists();
-      const ParameterListT& bulk_params = mat[0]; /* getting bulk parameters */
-
       /* surface tension is now specified per side set — see surface_tension sub-lists below */
 
       bool output_surface = list.GetParameter("output_surface");
@@ -160,10 +151,64 @@ void SimoQ1P0_Surface::TakeParameterList(const ParameterListT& list)
       ModelManagerT& model_manager = ElementSupport().ModelManager();
       model_manager.BoundingElements(block_ID, fSurfaceElements, fSurfaceElementNeighbors);
 
-
-
       ArrayT<const iArray2DT*> connects;
       model_manager.ElementGroupPointers(block_ID, connects);
+
+      /* Pre-scan surface_tension sidesets: elements on internal interfaces
+       * (multi-block) are not found by BoundingElements, so merge them in. */
+      int n_st = list.NumLists("surface_tension");
+      if (n_st > 0) {
+            /* collect all sideset element/face pairs (group-numbered) */
+            AutoArrayT<int> extra_elems;
+            for (int k = 0; k < n_st; k++) {
+                  const ParameterListT& st = list.GetList("surface_tension", k);
+                  StringT ss_id;
+                  st.GetParameter("side_set_ID", ss_id);
+                  iArray2DT sides = model_manager.SideSet(ss_id);
+                  const StringT& blk_id = model_manager.SideSetGroupID(ss_id);
+                  if (sides.MajorDim() > 0) {
+                        iArrayT elems(sides.MajorDim());
+                        sides.ColumnCopy(0, elems);
+                        BlockToGroupElementNumbers(elems, blk_id);
+                        for (int j = 0; j < elems.Length(); j++)
+                              extra_elems.AppendUnique(elems[j]);
+                  }
+            }
+
+            /* check if any sideset elements are missing from fSurfaceElements */
+            int nfs = fSurfaceElementNeighbors.MinorDim();
+            iArrayT old_surf;
+            old_surf.Dimension(fSurfaceElements.Length());
+            old_surf.CopyPart(0, fSurfaceElements, 0, fSurfaceElements.Length());
+
+            AutoArrayT<int> merged;
+            for (int i = 0; i < old_surf.Length(); i++)
+                  merged.AppendUnique(old_surf[i]);
+            int old_len = merged.Length();
+            for (int i = 0; i < extra_elems.Length(); i++)
+                  merged.AppendUnique(extra_elems[i]);
+
+            if (merged.Length() != old_len) {
+                  /* rebuild: expand fSurfaceElements and fSurfaceElementNeighbors */
+                  int new_len = merged.Length();
+                  iArray2DT old_neighbors(fSurfaceElementNeighbors);
+
+                  fSurfaceElements.Dimension(new_len);
+                  fSurfaceElementNeighbors.Dimension(new_len, nfs);
+                  fSurfaceElementNeighbors = -1; /* default: no neighbor (free surface) */
+
+                  /* copy old data */
+                  for (int i = 0; i < old_len; i++) {
+                        fSurfaceElements[i] = merged[i];
+                        for (int j = 0; j < nfs; j++)
+                              fSurfaceElementNeighbors(i, j) = old_neighbors(i, j);
+                  }
+                  /* new entries: interior interface elements — mark all faces as free
+                   * so surface tension can act on them */
+                  for (int i = old_len; i < new_len; i++)
+                        fSurfaceElements[i] = merged[i];
+            }
+      }
 
       /* initialize per-face surface tension arrays (zero = no contribution) */
       fSurfaceGamma.Dimension(fSurfaceElements.Length(), fSurfaceElementNeighbors.MinorDim());
@@ -171,8 +216,7 @@ void SimoQ1P0_Surface::TakeParameterList(const ParameterListT& list)
       fSurfaceT0.Dimension(fSurfaceElements.Length(), fSurfaceElementNeighbors.MinorDim());
       fSurfaceT0 = 0.0;
 
-      /* parse surface_tension sub-lists: each specifies a side set, gamma, and t_0 */
-      int n_st = list.NumLists("surface_tension");
+      /* parse surface_tension sub-lists and assign gamma/t_0 per face */
       if (n_st > 0) {
             InverseMapT st_elem_map;
             st_elem_map.SetOutOfRange(InverseMapT::Throw);
@@ -375,11 +419,9 @@ void SimoQ1P0_Surface::FormStiffness(double constK)
 
  		 for (int j = 0; j < fSurfaceElementNeighbors.MinorDim(); j++) /* loop over faces */
  		 {
- 			 if (fSurfaceElementNeighbors(i,j) != -1) continue; /* Skip if has neighbor */
-
  			 /* per-face surface tension with optional ramp-up */
  			 double gamma = fSurfaceGamma(i, j);
- 			 if (gamma == 0.0) continue;
+ 			 if (gamma == 0.0) continue; /* Skip faces without surface tension */
  			 
  			 double t_0 = fSurfaceT0(i, j);
  			 double scaled_gamma = (t_0 > 0.0) ? gamma * min(1.0, CurrTime / t_0) : gamma;
@@ -486,11 +528,9 @@ void SimoQ1P0_Surface::FormKd(double constK)
 
             for (int j = 0; j < fSurfaceElementNeighbors.MinorDim(); j++) /* loop over faces */
             {
-                  if (fSurfaceElementNeighbors(i,j) != -1) continue; /* Skip if has neighbor */
-
                   /* per-face surface tension with optional ramp-up */
                   double gamma = fSurfaceGamma(i, j);
-                  if (gamma == 0.0) continue;
+                  if (gamma == 0.0) continue; /* Skip faces without surface tension */
                   
                   double t_0 = fSurfaceT0(i, j);
                   double scaled_gamma = (t_0 > 0.0) ? gamma * min(1.0, CurrTime / t_0) : gamma;
