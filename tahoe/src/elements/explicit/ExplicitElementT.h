@@ -51,8 +51,8 @@ public:
 
 protected:
 
-	/** batched internal force computation — replaces per-element loop */
-	virtual void ElementRHSDriver(void);
+	/** override RHSDriver (virtual) to use batched internal force */
+	virtual void RHSDriver(void);
 
 private:
 

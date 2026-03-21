@@ -18,6 +18,7 @@
 
 #include <iostream>
 #include <cstring>
+#include <chrono>
 
 using namespace Tahoe;
 
@@ -124,22 +125,25 @@ void ExplicitElementT::TakeParameterList(const ParameterListT& list)
 }
 
 /*----------------------------------------------------------------------
- * ElementRHSDriver — override with batched loop
+ * RHSDriver — override the virtual dispatch point
  *----------------------------------------------------------------------*/
-void ExplicitElementT::ElementRHSDriver(void)
+void ExplicitElementT::RHSDriver(void)
 {
-	/* fast path: if kernel and material are available */
+	/* inherited: traction BCs, body forces from ContinuumElementT */
+	ContinuumElementT::RHSDriver();
+
+	/* fast path: batched internal force */
 	if (fKernel && fBatchMaterial) {
-		/* get integrator coefficients */
 		double constKd = 0.0;
 		int formKd = fIntegrator->FormKd(constKd);
-		if (formKd)
+		if (formKd) {
 			BatchedInternalForce(-constKd);
-		return;
+			return;
+		}
 	}
 
 	/* fallback: use the generic per-element loop */
-	UpdatedLagrangianT::ElementRHSDriver();
+	SolidElementT::RHSDriver();
 }
 
 /*----------------------------------------------------------------------
@@ -160,6 +164,12 @@ void ExplicitElementT::BatchedInternalForce(double constKd)
 	const dArray2DT& init_coords = ElementSupport().InitialCoordinates();
 	const dArray2DT& curr_coords = ElementSupport().CurrentCoordinates();
 	int numnod = init_coords.MajorDim();
+
+	/* timing instrumentation */
+	static long long t_total = 0, t_assemble = 0;
+	static int call_count = 0;
+	call_count++;
+	auto t0 = std::chrono::high_resolution_clock::now();
 
 	/* global force accumulation */
 	dArray2DT force(numnod, ndof);
@@ -360,6 +370,23 @@ void ExplicitElementT::BatchedInternalForce(double constKd)
 		elem_offset += block_nel;
 	} /* end block loop */
 
+	auto t1 = std::chrono::high_resolution_clock::now();
+	t_total += std::chrono::duration_cast<std::chrono::microseconds>(t1-t0).count();
+
 	/* assemble global forces */
 	ElementSupport().AssembleRHS(Group(), force, Field().Equations());
+
+	auto t2 = std::chrono::high_resolution_clock::now();
+	t_assemble += std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count();
+
+	/* print timing summary */
+	if (call_count == 10000) {
+		std::cout << "ExplicitElementT timing (" << call_count << " calls):"
+		          << " element_force=" << (t_total/1000.0) << "ms"
+		          << " assembly=" << (t_assemble/1000.0) << "ms"
+		          << " (" << (100.0*t_total/(t_total+t_assemble)) << "% / "
+		          << (100.0*t_assemble/(t_total+t_assemble)) << "%)"
+		          << std::endl;
+		std::cout.flush();
+	}
 }
