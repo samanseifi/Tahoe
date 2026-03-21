@@ -95,6 +95,7 @@
 #include "NLDiffusionElementT.h"
 #include "HyperbolicDiffusionElementT.h"
 #include "PhaseFieldElementT.h"
+#include "ExplicitElementT.h"
 #include "MeshFreeSSSolidT.h"
 #include "MeshFreeFSSolidT.h"
 #include "MeshFreeFSSolidAxiT.h"
@@ -427,6 +428,7 @@ void ElementListT::DefineInlineSub(const StringT& name, ParameterListT::ListOrde
 		sub_lists.AddSub("nonlinear_diffusion");
 		sub_lists.AddSub("hyperbolic_diffusion");
 		sub_lists.AddSub("phase_field");
+		sub_lists.AddSub("explicit_solid");
 		sub_lists.AddSub("small_strain");
 		sub_lists.AddSub("updated_lagrangian");
 		sub_lists.AddSub("updated_lagrangian_Q1P0");
@@ -729,6 +731,8 @@ ElementBaseT* ElementListT::NewElement(const StringT& name) const
 		return new HyperbolicDiffusionElementT(fSupport);
 	else if (name == "phase_field")
 		return new PhaseFieldElementT(fSupport);
+	else if (name == "explicit_solid")
+		return new ExplicitElementT(fSupport);
 	else if (name == "small_strain")
 		return new SmallStrainT(fSupport);
 	else if (name == "updated_lagrangian")
