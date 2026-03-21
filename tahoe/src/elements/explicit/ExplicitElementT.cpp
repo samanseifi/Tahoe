@@ -1,6 +1,7 @@
 /* ExplicitElementT.cpp — MVSIZ-batched explicit solid element. */
 #include "ExplicitElementT.h"
 
+#include "UpdatedLagrangianT.h"
 #include "ExplicitKernelT.h"
 #include "Q4KernelT.h"
 #include "Hex8KernelT.h"
@@ -12,6 +13,8 @@
 #include "ParameterContainerT.h"
 #include "ParameterUtils.h"
 #include "eIntegratorT.h"
+#include "MaterialListT.h"
+#include "ContinuumMaterialT.h"
 
 #include <iostream>
 #include <cstring>
@@ -19,10 +22,11 @@
 using namespace Tahoe;
 
 ExplicitElementT::ExplicitElementT(const ElementSupportT& support)
-	: SolidElementT(support),
+	: UpdatedLagrangianT(support),
 	  fKernel(NULL),
 	  fBatchMaterial(NULL)
 {
+	SetName("explicit_solid");
 }
 
 ExplicitElementT::~ExplicitElementT(void)
@@ -37,34 +41,28 @@ ExplicitElementT::~ExplicitElementT(void)
 void ExplicitElementT::DefineParameters(ParameterListT& list) const
 {
 	/* inherited — picks up field_name, mass_type, etc. */
-	SolidElementT::DefineParameters(list);
+	UpdatedLagrangianT::DefineParameters(list);
 }
 
 void ExplicitElementT::DefineSubs(SubListT& sub_list) const
 {
-	/* inherited — picks up geometry (quadrilateral/hexahedron) */
-	SolidElementT::DefineSubs(sub_list);
-
-	/* explicit material specification */
-	sub_list.AddSub("explicit_neo_hookean");
+	/* use the same XML format as updated_lagrangian so the parent
+	 * initialization (connectivity, shape functions, equation numbering)
+	 * works without modification. The batch material is created from
+	 * the block's material parameters in TakeParameterList. */
+	UpdatedLagrangianT::DefineSubs(sub_list);
 }
 
 ParameterInterfaceT* ExplicitElementT::NewSub(const StringT& name) const
 {
-	if (name == "explicit_neo_hookean") {
-		ParameterContainerT* mat = new ParameterContainerT(name);
-		mat->AddParameter(ParameterT::Double, "mu");
-		mat->AddParameter(ParameterT::Double, "kappa");
-		mat->AddParameter(ParameterT::Double, "density");
-		return mat;
-	}
-	return SolidElementT::NewSub(name);
+	return UpdatedLagrangianT::NewSub(name);
 }
 
 void ExplicitElementT::TakeParameterList(const ParameterListT& list)
 {
-	/* inherited — sets up connectivity, shape functions, etc. */
-	SolidElementT::TakeParameterList(list);
+	/* inherited — sets up connectivity, shape functions, materials, etc.
+	 * Uses the same XML format as updated_lagrangian. */
+	UpdatedLagrangianT::TakeParameterList(list);
 
 	/* create kernel based on geometry */
 	int nsd = NumSD();
@@ -75,24 +73,54 @@ void ExplicitElementT::TakeParameterList(const ParameterListT& list)
 		fKernel = new Hex8KernelT;
 	else {
 		std::cout << "ExplicitElementT: unsupported topology nsd="
-		          << nsd << " nen=" << nen << std::endl;
-		/* fall back to base class behavior */
+		          << nsd << " nen=" << nen
+		          << " — using legacy element loop" << std::endl;
 		fKernel = NULL;
 	}
 
-	/* create material */
-	if (list.NumLists("explicit_neo_hookean") > 0) {
-		const ParameterListT& mat_params = list.GetList("explicit_neo_hookean");
-		double mu = mat_params.GetParameter("mu");
-		double kappa = mat_params.GetParameter("kappa");
-		double density = mat_params.GetParameter("density");
-		fBatchMaterial = new ExplNeoHookeanT(mu, kappa, density);
+	/* create batch material from the first block's XML parameters.
+	 * Scan recursively for mu/kappa/density in the material sub-tree.
+	 * Works with both direct neo-hookean and RG_split_general wrappers. */
+	int num_blocks = list.NumLists("large_strain_element_block");
+	if (num_blocks > 0) {
+		const ParameterListT& block = list.GetList("large_strain_element_block");
+		const ParameterListT& mat_choice = block.GetListChoice(*this, "large_strain_material_choice");
+
+		/* recursive search for mu/kappa in the material parameter tree */
+		double mu = 0.0, kappa = 0.0, density = 1.0;
+		bool found_mu = false, found_kappa = false;
+
+		/* search function: scan this list and all its sub-lists */
+		struct ParamFinder {
+			static void Find(const ParameterListT& p,
+				double& mu, double& kappa, double& density,
+				bool& found_mu, bool& found_kappa)
+			{
+				const ParameterT* pm = p.Parameter("mu");
+				const ParameterT* pk = p.Parameter("kappa");
+				const ParameterT* pd = p.Parameter("density");
+				if (pm) { mu = *pm; found_mu = true; }
+				if (pk) { kappa = *pk; found_kappa = true; }
+				if (pd) { density = *pd; }
+				/* recurse into sub-lists */
+				const ArrayT<ParameterListT>& subs = p.Lists();
+				for (int i = 0; i < subs.Length(); i++)
+					Find(subs[i], mu, kappa, density, found_mu, found_kappa);
+			}
+		};
+
+		ParamFinder::Find(mat_choice, mu, kappa, density, found_mu, found_kappa);
+
+		if (found_mu && found_kappa)
+			fBatchMaterial = new ExplNeoHookeanT(mu, kappa, density);
 	}
 
 	if (fKernel && fBatchMaterial)
 		std::cout << "ExplicitElementT: MVSIZ=" << MVSIZ
 		          << " batched path active (nsd=" << nsd
 		          << " nen=" << nen << ")" << std::endl;
+	else
+		std::cout << "ExplicitElementT: falling back to legacy element loop" << std::endl;
 }
 
 /*----------------------------------------------------------------------
@@ -111,7 +139,7 @@ void ExplicitElementT::ElementRHSDriver(void)
 	}
 
 	/* fallback: use the generic per-element loop */
-	SolidElementT::ElementRHSDriver();
+	UpdatedLagrangianT::ElementRHSDriver();
 }
 
 /*----------------------------------------------------------------------

@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!-- Legacy explicit solver benchmark: 200 elements, updated_lagrangian -->
+<tahoe geometry_file="block_medium.geom" output_format="ExodusII"
+    title="Legacy explicit benchmark (medium)">
+    <time num_steps="10000" output_inc="10000" time_step="1.0e-04">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0.0" y="0.0"/>
+                <OrderedPair x="1.0" y="1.0"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+    <nodes>
+        <field field_name="displacement" integrator="central_difference">
+            <dof_labels>
+                <String value="D_X"/>
+                <String value="D_Y"/>
+            </dof_labels>
+            <!-- fix left edge -->
+            <kinematic_BC dof="1" node_ID="4"/>
+            <kinematic_BC dof="2" node_ID="4"/>
+            <!-- pull right edge -->
+            <kinematic_BC dof="1" node_ID="2" schedule="1" type="u" value="0.1"/>
+        </field>
+    </nodes>
+    <element_list>
+        <updated_lagrangian field_name="displacement" mass_type="lumped_mass">
+            <quadrilateral/>
+            <large_strain_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <large_strain_material_2D>
+                    <RG_split_general constraint_2D="plane_strain" density="1.0">
+                        <rg_eq_potential>
+                            <neo-hookean kappa="1000.0" mu="5.0"/>
+                        </rg_eq_potential>
+                    </RG_split_general>
+                </large_strain_material_2D>
+            </large_strain_element_block>
+        </updated_lagrangian>
+    </element_list>
+    <linear_solver>
+        <SPOOLES_matrix/>
+    </linear_solver>
+</tahoe>

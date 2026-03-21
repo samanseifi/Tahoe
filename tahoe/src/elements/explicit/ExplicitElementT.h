@@ -21,7 +21,7 @@
 #ifndef _EXPLICIT_ELEMENT_T_H_
 #define _EXPLICIT_ELEMENT_T_H_
 
-#include "SolidElementT.h"
+#include "UpdatedLagrangianT.h"
 
 namespace Tahoe {
 
@@ -29,7 +29,7 @@ namespace Tahoe {
 class ExplicitKernelT;
 class ExplicitMaterialT;
 
-class ExplicitElementT : public SolidElementT
+class ExplicitElementT : public UpdatedLagrangianT
 {
 public:
 
@@ -47,15 +47,6 @@ public:
 	virtual void DefineSubs(SubListT& sub_list) const;
 	virtual ParameterInterfaceT* NewSub(const StringT& name) const;
 	virtual void TakeParameterList(const ParameterListT& list);
-	/*@}*/
-
-	/** \name pure virtual overrides from SolidElementT */
-	/*@{*/
-	/** no-op: explicit solver does not assemble stiffness */
-	virtual void FormStiffness(double constK) {}
-
-	/** no-op: internal force is handled by BatchedInternalForce via ElementRHSDriver */
-	virtual void FormKd(double constK) {}
 	/*@}*/
 
 protected:
