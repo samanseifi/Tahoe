@@ -1081,6 +1081,19 @@ void SolverT::SetGlobalMatrix(const ParameterListT& params, int check_code)
 	const CommunicatorT& comm = fFEManager.Communicator();
 
 	/* resolve matrix type */
+	/* Phase 0: if the system is diagonal (explicit with lumped mass),
+	 * always use DiagonalMatrixT regardless of what the user specified.
+	 * This avoids wastefully running a sparse solver on a diagonal matrix. */
+	GlobalT::SystemTypeT sys_type = fFEManager.GlobalSystemType(fGroup);
+	if (sys_type == GlobalT::kDiagonal && params.Name() != "diagonal_matrix")
+	{
+		out << "\n SolverT::SetGlobalMatrix: system is diagonal (explicit/lumped mass)\n"
+		    << "   -> overriding \"" << params.Name() << "\" with diagonal_matrix\n" << endl;
+		DiagonalMatrixT* diag = new DiagonalMatrixT(out, check_code, DiagonalMatrixT::kNoAssembly, comm);
+		diag->SetAssemblyMode(DiagonalMatrixT::kDiagOnly);
+		fLHS = diag;
+		return;
+	}
 	if (params.Name() == "diagonal_matrix")
 	{
 		DiagonalMatrixT* diag = new DiagonalMatrixT(out, check_code, DiagonalMatrixT::kNoAssembly, comm);
