@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<tahoe geometry_file="block_large.geom" output_format="ExodusII"
+<tahoe geometry_file="geometry/block_large.geom" output_format="ExodusII"
     title="Vectorized explicit benchmark with mass scaling (large)">
     <time num_steps="10000" output_inc="10000" time_step="1.0e-04">
         <schedule_function>

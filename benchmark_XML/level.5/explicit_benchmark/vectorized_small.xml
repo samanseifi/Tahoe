@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!-- Vectorized explicit solver benchmark: 200 elements, explicit_solid.
      Uses same XML format as updated_lagrangian but with MVSIZ batched loop. -->
-<tahoe geometry_file="block_small.geom" output_format="ExodusII"
+<tahoe geometry_file="geometry/block_small.geom" output_format="ExodusII"
     title="Vectorized explicit benchmark (small)">
     <time num_steps="10000" output_inc="10000" time_step="1.0e-04">
         <schedule_function>

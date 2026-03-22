@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!-- Legacy explicit 3D benchmark: 2000 Hex8 elements, explicit_solid -->
-<tahoe geometry_file="hex_large.geom" output_format="ExodusII"
+<tahoe geometry_file="geometry/hex_large.geom" output_format="ExodusII"
     title="Legacy explicit 3D benchmark (large)">
     <time num_steps="10000" output_inc="10000" time_step="1.0e-05">
         <schedule_function>
             <piecewise_linear>
                 <OrderedPair x="0.0" y="0.0"/>
-                <OrderedPair x="1.0" y="1.0"/>
+                <OrderedPair x="10000.0" y="10000.0"/>
             </piecewise_linear>
         </schedule_function>
     </time>
@@ -28,6 +28,8 @@
     <element_list>
         <explicit_solid field_name="displacement" mass_type="lumped_mass">
             <hexahedron/>
+            <solid_element_nodal_output coordinates="1"
+                displacements="1" strain="1" stress="1"/>
             <large_strain_element_block>
                 <block_ID_list>
                     <String value="1"/>

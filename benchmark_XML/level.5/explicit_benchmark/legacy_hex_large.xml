@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <!-- Legacy explicit 3D benchmark: 2000 Hex8 elements, updated_lagrangian -->
-<tahoe geometry_file="hex_large.geom" output_format="ExodusII"
+<tahoe geometry_file="geometry/hex_large.geom" output_format="ExodusII"
     title="Legacy explicit 3D benchmark (large)">
     <time num_steps="10000" output_inc="10000" time_step="1.0e-05">
         <schedule_function>

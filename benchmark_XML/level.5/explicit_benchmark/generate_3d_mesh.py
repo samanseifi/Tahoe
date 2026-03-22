@@ -16,7 +16,8 @@ def write_mesh(name, nx, ny, nz, Lx=2.0, Ly=1.0, Lz=1.0):
     numnod = nnx * nny * nnz
     numel = nx * ny * nz
 
-    outdir = os.path.dirname(os.path.abspath(__file__))
+    outdir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "geometry")
+    os.makedirs(outdir, exist_ok=True)
     base = os.path.join(outdir, name)
 
     def node_id(i, j, k):
