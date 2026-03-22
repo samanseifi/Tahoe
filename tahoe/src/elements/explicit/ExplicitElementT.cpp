@@ -175,39 +175,40 @@ void ExplicitElementT::BatchedInternalForce(double constKd)
 	dArray2DT force(numnod, ndof);
 	force = 0.0;
 
-	/* SoA workspace */
-	double xc[ExplicitKernelT::MAX_NEN][MVSIZ];
-	double yc[ExplicitKernelT::MAX_NEN][MVSIZ];
-	double zc[ExplicitKernelT::MAX_NEN][MVSIZ];
-	double xr[ExplicitKernelT::MAX_NEN][MVSIZ];
-	double yr[ExplicitKernelT::MAX_NEN][MVSIZ];
-	double zr[ExplicitKernelT::MAX_NEN][MVSIZ];
-
-	/* shape derivatives */
-	double dNdX[ExplicitKernelT::MAX_NEN][MVSIZ]; /* reference */
-	double dNdY[ExplicitKernelT::MAX_NEN][MVSIZ];
-	double dNdZ[ExplicitKernelT::MAX_NEN][MVSIZ];
-	double detJ_cur[MVSIZ];
-
-	/* deformation gradient and stress */
-	double F2D[4][MVSIZ];
-	double F3D[9][MVSIZ];
-	double sig11[MVSIZ], sig22[MVSIZ], sig12[MVSIZ];
-	double sig3D[6][MVSIZ];
-
-	/* force accumulators and connectivity */
-	double fx[ExplicitKernelT::MAX_NEN][MVSIZ];
-	double fy[ExplicitKernelT::MAX_NEN][MVSIZ];
-	double fz[ExplicitKernelT::MAX_NEN][MVSIZ];
-	int lconn[ExplicitKernelT::MAX_NEN][MVSIZ];
-
+	/* compute number of batches for OpenMP scheduling */
 	int elem_offset = 0;
 	for (int b = 0; b < fBlockData.Length(); b++) {
 		int block_nel = fBlockData[b].Dimension();
+		int num_batches = (block_nel + MVSIZ - 1) / MVSIZ;
 
-		for (int batch_start = 0; batch_start < block_nel; batch_start += MVSIZ) {
+		/* OpenMP parallel loop over batches.
+		 * Each thread gets private SoA workspace on the stack.
+		 * Scatter uses atomic adds to the shared force array. */
+		#pragma omp parallel for schedule(dynamic, 1) if(num_batches > 1)
+		for (int ibatch = 0; ibatch < num_batches; ibatch++) {
+			int batch_start = ibatch * MVSIZ;
 			int nel = batch_start + MVSIZ <= block_nel
 			        ? MVSIZ : block_nel - batch_start;
+
+			/* per-thread SoA workspace (stack allocated) */
+			double xc[ExplicitKernelT::MAX_NEN][MVSIZ];
+			double yc[ExplicitKernelT::MAX_NEN][MVSIZ];
+			double zc[ExplicitKernelT::MAX_NEN][MVSIZ];
+			double xr[ExplicitKernelT::MAX_NEN][MVSIZ];
+			double yr[ExplicitKernelT::MAX_NEN][MVSIZ];
+			double zr[ExplicitKernelT::MAX_NEN][MVSIZ];
+			double dNdX[ExplicitKernelT::MAX_NEN][MVSIZ];
+			double dNdY[ExplicitKernelT::MAX_NEN][MVSIZ];
+			double dNdZ[ExplicitKernelT::MAX_NEN][MVSIZ];
+			double detJ_cur[MVSIZ];
+			double F2D[4][MVSIZ];
+			double F3D[9][MVSIZ];
+			double sig11[MVSIZ], sig22[MVSIZ], sig12[MVSIZ];
+			double sig3D[6][MVSIZ];
+			double fx[ExplicitKernelT::MAX_NEN][MVSIZ];
+			double fy[ExplicitKernelT::MAX_NEN][MVSIZ];
+			double fz[ExplicitKernelT::MAX_NEN][MVSIZ];
+			int lconn[ExplicitKernelT::MAX_NEN][MVSIZ];
 
 			/* 1. GATHER */
 			for (int i = 0; i < nel; i++) {
@@ -355,17 +356,21 @@ void ExplicitElementT::BatchedInternalForce(double constKd)
 				}
 			} /* end IP loop */
 
-			/* 6. SCATTER */
+			/* 6. SCATTER — atomic adds for thread safety */
 			for (int i = 0; i < nel; i++) {
 				for (int n = 0; n < nen; n++) {
 					int node = lconn[n][i];
+					#pragma omp atomic
 					force(node, 0) += fx[n][i];
+					#pragma omp atomic
 					force(node, 1) += fy[n][i];
-					if (nsd == 3)
+					if (nsd == 3) {
+						#pragma omp atomic
 						force(node, 2) += fz[n][i];
+					}
 				}
 			}
-		} /* end batch loop */
+		} /* end batch (parallel) loop */
 
 		elem_offset += block_nel;
 	} /* end block loop */

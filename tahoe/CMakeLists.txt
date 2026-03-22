@@ -113,6 +113,10 @@ if(TAHOE_SEACAS)
     target_link_libraries(libtahoe PUBLIC tahoe_seacas)
 endif()
 
+if(TAHOE_OPENMP AND OpenMP_CXX_FOUND)
+    target_link_libraries(libtahoe PUBLIC OpenMP::OpenMP_CXX)
+endif()
+
 target_compile_options(libtahoe PRIVATE -O2)
 
 # ---------------------------------------------------------------------------
