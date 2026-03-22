@@ -34,6 +34,10 @@ public:
 	/** number of history variables per element per IP (0 for elastic) */
 	virtual int NumHistoryVars(void) const = 0;
 
+	/** P-wave speed: c = sqrt((kappa + 4mu/3) / rho).
+	 *  Used for CFL time step and viscous hourglass control. */
+	virtual double WaveSpeed(void) const = 0;
+
 	/** Compute Cauchy stress from deformation gradient F for 2D plane strain.
 	 *
 	 * \param nel     number of elements (<= MVSIZ)

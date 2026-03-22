@@ -21,6 +21,7 @@ public:
 
 	double Density(void) const { return fDensity; }
 	int NumHistoryVars(void) const { return 0; }
+	double WaveSpeed(void) const;
 
 	void ComputeStress2D(
 		int nel,

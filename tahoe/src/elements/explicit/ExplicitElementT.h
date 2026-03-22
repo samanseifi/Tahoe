@@ -63,6 +63,10 @@ private:
 	/** build flat connectivity and equation number arrays at init */
 	void BuildFlatArrays(void);
 
+	/** Compute stable time step for all elements.
+	 *  Returns the minimum dt across all elements. */
+	double ComputeStableTimeStep(void) const;
+
 	/** the element kernel (geometry/shape functions) */
 	ExplicitKernelT* fKernel;
 
@@ -75,6 +79,13 @@ private:
 	int* fFlatConn;               /**< [fTotalElements * nen] node IDs */
 	int* fFlatEqnos;              /**< [fTotalElements * nen * ndof] equation numbers */
 	double* fGlobalRHS;           /**< cached pointer to global RHS vector */
+	/*@}*/
+
+	/** \name hourglass control */
+	/*@{*/
+	enum HourglassTypeT { kNoHourglass = 0, kViscousHG, kStiffnessHG };
+	HourglassTypeT fHourglassType;
+	double fHourglassCoeff;       /**< hourglass coefficient (0.01-0.15 typical) */
 	/*@}*/
 };
 

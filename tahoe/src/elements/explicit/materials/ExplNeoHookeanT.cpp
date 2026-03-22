@@ -17,6 +17,13 @@ ExplNeoHookeanT::ExplNeoHookeanT(double mu, double kappa, double density)
 {
 }
 
+double ExplNeoHookeanT::WaveSpeed(void) const
+{
+	/* P-wave modulus: M = kappa + 4mu/3 */
+	double M = fKappa + 4.0*fMu/3.0;
+	return sqrt(M / fDensity);
+}
+
 /*----------------------------------------------------------------------
  * 2D plane strain
  * F layout: F[0]=F11, F[1]=F12, F[2]=F21, F[3]=F22

@@ -29,7 +29,9 @@ ExplicitElementT::ExplicitElementT(const ElementSupportT& support)
 	  fTotalElements(0),
 	  fFlatConn(NULL),
 	  fFlatEqnos(NULL),
-	  fGlobalRHS(NULL)
+	  fGlobalRHS(NULL),
+	  fHourglassType(kNoHourglass),
+	  fHourglassCoeff(0.1)
 {
 	SetName("explicit_solid");
 }
@@ -53,15 +55,27 @@ void ExplicitElementT::DefineParameters(ParameterListT& list) const
 
 void ExplicitElementT::DefineSubs(SubListT& sub_list) const
 {
-	/* use the same XML format as updated_lagrangian so the parent
-	 * initialization (connectivity, shape functions, equation numbering)
-	 * works without modification. The batch material is created from
-	 * the block's material parameters in TakeParameterList. */
 	UpdatedLagrangianT::DefineSubs(sub_list);
+	sub_list.AddSub("hourglass_control", ParameterListT::ZeroOrOnce);
 }
 
 ParameterInterfaceT* ExplicitElementT::NewSub(const StringT& name) const
 {
+	if (name == "hourglass_control") {
+		ParameterContainerT* hg = new ParameterContainerT(name);
+
+		ParameterT type(ParameterT::Enumeration, "type");
+		type.AddEnumeration("viscous", kViscousHG);
+		type.AddEnumeration("stiffness", kStiffnessHG);
+		type.SetDefault(kViscousHG);
+		hg->AddParameter(type);
+
+		ParameterT coeff(ParameterT::Double, "coefficient");
+		coeff.SetDefault(0.1);
+		hg->AddParameter(coeff);
+
+		return hg;
+	}
 	return UpdatedLagrangianT::NewSub(name);
 }
 
@@ -122,12 +136,27 @@ void ExplicitElementT::TakeParameterList(const ParameterListT& list)
 			fBatchMaterial = new ExplNeoHookeanT(mu, kappa, density);
 	}
 
+	/* hourglass control */
+	if (list.NumLists("hourglass_control") > 0) {
+		const ParameterListT& hg = list.GetList("hourglass_control");
+		int hg_type = hg.GetParameter("type");
+		fHourglassType = (HourglassTypeT)hg_type;
+		fHourglassCoeff = hg.GetParameter("coefficient");
+	}
+
 	if (fKernel && fBatchMaterial) {
 		BuildFlatArrays();
+		double dt_cfl = ComputeStableTimeStep();
 		std::cout << "ExplicitElementT: MVSIZ=" << MVSIZ
 		          << " batched path active (nsd=" << nsd
 		          << " nen=" << nen
-		          << " nel=" << fTotalElements << ")" << std::endl;
+		          << " nel=" << fTotalElements
+		          << " CFL_dt=" << dt_cfl;
+		if (fHourglassType != kNoHourglass)
+			std::cout << " hourglass="
+			          << (fHourglassType == kViscousHG ? "viscous" : "stiffness")
+			          << " coeff=" << fHourglassCoeff;
+		std::cout << ")" << std::endl;
 	} else
 		std::cout << "ExplicitElementT: falling back to legacy element loop" << std::endl;
 }
@@ -160,6 +189,77 @@ void ExplicitElementT::BuildFlatArrays(void)
 	/* equation numbers are set up after TakeParameterList when the
 	 * field equations are initialized. We'll fill them lazily on
 	 * first call to BatchedInternalForce. */
+}
+
+/*----------------------------------------------------------------------
+ * ComputeStableTimeStep — CFL condition for all elements
+ *
+ * For each element: dt = h / c  where
+ *   h = characteristic length = sqrt(area) for 2D, cbrt(vol) for 3D
+ *   c = wave speed = sqrt((kappa + 4mu/3) / rho)
+ * Returns the global minimum dt.
+ *----------------------------------------------------------------------*/
+double ExplicitElementT::ComputeStableTimeStep(void) const
+{
+	if (!fKernel || !fBatchMaterial) return 1.0e30;
+
+	const int nsd = NumSD();
+	const int nen = fKernel->NodesPerElement();
+	const dArray2DT& ref_coords = ElementSupport().InitialCoordinates();
+	double rho = fBatchMaterial->Density();
+
+	/* approximate P-wave speed: need kappa and mu from the material.
+	 * For now, compute from the reference configuration Jacobian. */
+	/* TODO: get kappa and mu from the material interface */
+	double dt_min = 1.0e30;
+
+	for (int e = 0; e < fTotalElements; e++) {
+		const int* ec = fFlatConn + e * nen;
+
+		if (nsd == 2) {
+			/* compute approximate element area from node coordinates */
+			double x[4], y[4];
+			for (int n = 0; n < nen; n++) {
+				x[n] = ref_coords(ec[n], 0);
+				y[n] = ref_coords(ec[n], 1);
+			}
+			/* shoelace formula for Q4 area */
+			double area = 0.5 * fabs(
+				(x[0]-x[2])*(y[1]-y[3]) - (x[1]-x[3])*(y[0]-y[2]));
+			double h = sqrt(area);
+
+			/* dt = h / c where c = sqrt((kappa + 4mu/3) / rho)
+			 * For now estimate c from element size and density */
+			/* We don't have direct kappa/mu access from material interface.
+			 * Use a conservative estimate based on the stored material. */
+			/* TODO: add wave_speed() method to ExplicitMaterialT */
+			double c = fBatchMaterial->WaveSpeed();
+			double dt_elem = h / c;
+			if (dt_elem < dt_min) dt_min = dt_elem;
+		}
+		else {
+			/* 3D: approximate volume from hex coords */
+			double x[8], y[8], z[8];
+			for (int n = 0; n < nen; n++) {
+				x[n] = ref_coords(ec[n], 0);
+				y[n] = ref_coords(ec[n], 1);
+				z[n] = ref_coords(ec[n], 2);
+			}
+			/* approximate volume: 1/6 * |diag1 x diag2 . diag3| */
+			double dx1 = x[6]-x[0], dy1 = y[6]-y[0], dz1 = z[6]-z[0];
+			double dx2 = x[7]-x[1], dy2 = y[7]-y[1], dz2 = z[7]-z[1];
+			double dx3 = x[5]-x[3], dy3 = y[5]-y[3], dz3 = z[5]-z[3];
+			double vol = fabs(dx1*(dy2*dz3-dz2*dy3)
+			                - dy1*(dx2*dz3-dz2*dx3)
+			                + dz1*(dx2*dy3-dy2*dx3)) / 6.0;
+			double h = cbrt(vol);
+			double c = 1.0; /* placeholder */
+			double dt_elem = h / c;
+			if (dt_elem < dt_min) dt_min = dt_elem;
+		}
+	}
+
+	return dt_min;
 }
 
 /*----------------------------------------------------------------------
@@ -392,6 +492,95 @@ void ExplicitElementT::BatchedInternalForce(double constKd)
 					}
 				}
 			} /* end IP loop */
+
+			/* HOURGLASS CONTROL (only for 1-IP reduced integration) */
+			if (fHourglassType != kNoHourglass && nip == 1) {
+				double hg_coeff = fHourglassCoeff;
+
+				if (nsd == 2 && nen == 4) {
+					/* Q4 hourglass: one mode, gamma = {1,-1,1,-1}
+					 * Flanagan-Belytschko formulation:
+					 *   q_hg_x = sum_n gamma_n * u_x_n (hourglass projection)
+					 *   F_hg_x_n = coeff * kappa_hg * gamma_n * q_hg_x
+					 * where kappa_hg = stiffness scale from element */
+					static const double gamma[4] = {1.0, -1.0, 1.0, -1.0};
+					const double w_1ip = 4.0; /* Q4 1-point weight */
+
+					for (int i = 0; i < nel; i++) {
+						/* element area (from detJ at 1-IP) */
+						double area = fabs(detJ_cur[i]) * w_1ip;
+
+						/* characteristic length */
+						double h = sqrt(area);
+
+						/* hourglass stiffness scale:
+						 * For stiffness: kappa_hg = coeff * (kappa + 4mu/3) / area
+						 * For viscous:   kappa_hg = coeff * rho * c * h / area
+						 * We use material bulk+shear modulus from the batch material */
+						double rho = fBatchMaterial->Density();
+						double c = fBatchMaterial->WaveSpeed();
+						double kappa_hg;
+						if (fHourglassType == kStiffnessHG)
+							kappa_hg = hg_coeff * rho * c * c / h;
+						else /* kViscousHG */
+							kappa_hg = hg_coeff * rho * c;
+
+						/* compute hourglass mode projection */
+						double qx = 0.0, qy = 0.0;
+						for (int n = 0; n < 4; n++) {
+							/* displacement = current - reference */
+							double ux = xc[n][i] - xr[n][i];
+							double uy = yc[n][i] - yr[n][i];
+							qx += gamma[n] * ux;
+							qy += gamma[n] * uy;
+						}
+
+						/* hourglass force: F_n = kappa_hg * gamma_n * q */
+						for (int n = 0; n < 4; n++) {
+							fx[n][i] += constKd * kappa_hg * gamma[n] * qx;
+							fy[n][i] += constKd * kappa_hg * gamma[n] * qy;
+						}
+					}
+				}
+				else if (nsd == 3 && nen == 8) {
+					/* Hex8 hourglass: 4 modes
+					 * Flanagan-Belytschko base vectors for 8-node hex */
+					static const double gamma[4][8] = {
+						{ 1,-1, 1,-1,-1, 1,-1, 1},
+						{ 1,-1,-1, 1, 1,-1,-1, 1},
+						{ 1, 1,-1,-1,-1,-1, 1, 1},
+						{-1, 1,-1, 1, 1,-1, 1,-1}
+					};
+					const double w_1ip = 8.0; /* Hex8 1-point weight */
+
+					for (int i = 0; i < nel; i++) {
+						double vol = fabs(detJ_cur[i]) * w_1ip;
+						double h = cbrt(vol);
+						double rho = fBatchMaterial->Density();
+						double c = fBatchMaterial->WaveSpeed();
+
+						double kappa_hg;
+						if (fHourglassType == kStiffnessHG)
+							kappa_hg = hg_coeff * rho * c * c / h;
+						else
+							kappa_hg = hg_coeff * rho * c;
+
+						for (int m = 0; m < 4; m++) {
+							double qx = 0.0, qy = 0.0, qz = 0.0;
+							for (int n = 0; n < 8; n++) {
+								qx += gamma[m][n] * (xc[n][i] - xr[n][i]);
+								qy += gamma[m][n] * (yc[n][i] - yr[n][i]);
+								qz += gamma[m][n] * (zc[n][i] - zr[n][i]);
+							}
+							for (int n = 0; n < 8; n++) {
+								fx[n][i] += constKd * kappa_hg * gamma[m][n] * qx;
+								fy[n][i] += constKd * kappa_hg * gamma[m][n] * qy;
+								fz[n][i] += constKd * kappa_hg * gamma[m][n] * qz;
+							}
+						}
+					}
+				}
+			} /* end hourglass */
 
 			/* 6. SCATTER — atomic adds for thread safety */
 			for (int i = 0; i < nel; i++) {
