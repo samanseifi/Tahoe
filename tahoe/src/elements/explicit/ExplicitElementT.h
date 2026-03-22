@@ -60,11 +60,22 @@ private:
 	 * \param constKd  force coefficient from integrator */
 	void BatchedInternalForce(double constKd);
 
+	/** build flat connectivity and equation number arrays at init */
+	void BuildFlatArrays(void);
+
 	/** the element kernel (geometry/shape functions) */
 	ExplicitKernelT* fKernel;
 
 	/** the batch material */
 	ExplicitMaterialT* fBatchMaterial;
+
+	/** \name pre-computed flat arrays for fast gather/scatter */
+	/*@{*/
+	int fTotalElements;           /**< total elements across all blocks */
+	int* fFlatConn;               /**< [fTotalElements * nen] node IDs */
+	int* fFlatEqnos;              /**< [fTotalElements * nen * ndof] equation numbers */
+	double* fGlobalRHS;           /**< cached pointer to global RHS vector */
+	/*@}*/
 };
 
 } /* namespace Tahoe */

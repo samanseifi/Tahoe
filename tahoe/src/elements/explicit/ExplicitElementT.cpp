@@ -25,7 +25,11 @@ using namespace Tahoe;
 ExplicitElementT::ExplicitElementT(const ElementSupportT& support)
 	: UpdatedLagrangianT(support),
 	  fKernel(NULL),
-	  fBatchMaterial(NULL)
+	  fBatchMaterial(NULL),
+	  fTotalElements(0),
+	  fFlatConn(NULL),
+	  fFlatEqnos(NULL),
+	  fGlobalRHS(NULL)
 {
 	SetName("explicit_solid");
 }
@@ -34,6 +38,8 @@ ExplicitElementT::~ExplicitElementT(void)
 {
 	delete fKernel;
 	delete fBatchMaterial;
+	delete[] fFlatConn;
+	delete[] fFlatEqnos;
 }
 
 /*----------------------------------------------------------------------
@@ -116,12 +122,44 @@ void ExplicitElementT::TakeParameterList(const ParameterListT& list)
 			fBatchMaterial = new ExplNeoHookeanT(mu, kappa, density);
 	}
 
-	if (fKernel && fBatchMaterial)
+	if (fKernel && fBatchMaterial) {
+		BuildFlatArrays();
 		std::cout << "ExplicitElementT: MVSIZ=" << MVSIZ
 		          << " batched path active (nsd=" << nsd
-		          << " nen=" << nen << ")" << std::endl;
-	else
+		          << " nen=" << nen
+		          << " nel=" << fTotalElements << ")" << std::endl;
+	} else
 		std::cout << "ExplicitElementT: falling back to legacy element loop" << std::endl;
+}
+
+/*----------------------------------------------------------------------
+ * BuildFlatArrays — pre-compute connectivity and equation numbers
+ *----------------------------------------------------------------------*/
+void ExplicitElementT::BuildFlatArrays(void)
+{
+	const int nen = fKernel->NodesPerElement();
+	const int ndof = NumDOF();
+
+	/* count total elements */
+	fTotalElements = 0;
+	for (int b = 0; b < fBlockData.Length(); b++)
+		fTotalElements += fBlockData[b].Dimension();
+
+	/* allocate flat arrays */
+	fFlatConn = new int[fTotalElements * nen];
+	fFlatEqnos = new int[fTotalElements * nen * ndof];
+
+	/* fill connectivity from ElementCards */
+	for (int e = 0; e < fTotalElements; e++) {
+		const ElementCardT& card = ElementCard(e);
+		const iArrayT& nodes = card.NodesX();
+		for (int n = 0; n < nen; n++)
+			fFlatConn[e * nen + n] = nodes[n];
+	}
+
+	/* equation numbers are set up after TakeParameterList when the
+	 * field equations are initialized. We'll fill them lazily on
+	 * first call to BatchedInternalForce. */
 }
 
 /*----------------------------------------------------------------------
@@ -171,73 +209,72 @@ void ExplicitElementT::BatchedInternalForce(double constKd)
 	call_count++;
 	auto t0 = std::chrono::high_resolution_clock::now();
 
-	/* global force accumulation */
+	/* global force accumulation — persistent array, zeroed each step */
 	dArray2DT force(numnod, ndof);
 	force = 0.0;
 
-	/* compute number of batches for OpenMP scheduling */
-	int elem_offset = 0;
-	for (int b = 0; b < fBlockData.Length(); b++) {
-		int block_nel = fBlockData[b].Dimension();
-		int num_batches = (block_nel + MVSIZ - 1) / MVSIZ;
+	/* raw coordinate pointers for direct indexing */
+	const double* cur_ptr = curr_coords.Pointer();
+	const double* ref_ptr = init_coords.Pointer();
+	int coord_stride = ndof; /* nsd == ndof for displacement field */
 
-		/* OpenMP parallel loop over batches.
-		 * Each thread gets private SoA workspace on the stack.
-		 * Scatter uses atomic adds to the shared force array. */
-		#pragma omp parallel for schedule(dynamic, 1) if(num_batches > 1)
-		for (int ibatch = 0; ibatch < num_batches; ibatch++) {
-			int batch_start = ibatch * MVSIZ;
-			int nel = batch_start + MVSIZ <= block_nel
-			        ? MVSIZ : block_nel - batch_start;
+	/* total batches across all blocks */
+	int num_batches = (fTotalElements + MVSIZ - 1) / MVSIZ;
 
-			/* per-thread SoA workspace (stack allocated) */
-			double xc[ExplicitKernelT::MAX_NEN][MVSIZ];
-			double yc[ExplicitKernelT::MAX_NEN][MVSIZ];
-			double zc[ExplicitKernelT::MAX_NEN][MVSIZ];
-			double xr[ExplicitKernelT::MAX_NEN][MVSIZ];
-			double yr[ExplicitKernelT::MAX_NEN][MVSIZ];
-			double zr[ExplicitKernelT::MAX_NEN][MVSIZ];
-			double dNdX[ExplicitKernelT::MAX_NEN][MVSIZ];
-			double dNdY[ExplicitKernelT::MAX_NEN][MVSIZ];
-			double dNdZ[ExplicitKernelT::MAX_NEN][MVSIZ];
-			double detJ_cur[MVSIZ];
-			double F2D[4][MVSIZ];
-			double F3D[9][MVSIZ];
-			double sig11[MVSIZ], sig22[MVSIZ], sig12[MVSIZ];
-			double sig3D[6][MVSIZ];
-			double fx[ExplicitKernelT::MAX_NEN][MVSIZ];
-			double fy[ExplicitKernelT::MAX_NEN][MVSIZ];
-			double fz[ExplicitKernelT::MAX_NEN][MVSIZ];
-			int lconn[ExplicitKernelT::MAX_NEN][MVSIZ];
+	/* OpenMP parallel loop over batches */
+	#pragma omp parallel for schedule(dynamic, 1) if(num_batches > 1)
+	for (int ibatch = 0; ibatch < num_batches; ibatch++) {
+		int batch_start = ibatch * MVSIZ;
+		int nel = batch_start + MVSIZ <= fTotalElements
+		        ? MVSIZ : fTotalElements - batch_start;
 
-			/* 1. GATHER */
-			for (int i = 0; i < nel; i++) {
-				int global_elem = elem_offset + batch_start + i;
-				const ElementCardT& card = ElementCard(global_elem);
-				const iArrayT& nodes = card.NodesX();
-				for (int n = 0; n < nen; n++) {
-					int node = nodes[n];
-					lconn[n][i] = node;
-					xc[n][i] = curr_coords(node, 0);
-					yc[n][i] = curr_coords(node, 1);
-					xr[n][i] = init_coords(node, 0);
-					yr[n][i] = init_coords(node, 1);
-				}
-				if (nsd == 3) {
-					for (int n = 0; n < nen; n++) {
-						int node = nodes[n];
-						zc[n][i] = curr_coords(node, 2);
-						zr[n][i] = init_coords(node, 2);
-					}
-				}
-				for (int n = 0; n < nen; n++) {
-					fx[n][i] = 0.0;
-					fy[n][i] = 0.0;
-				}
-				if (nsd == 3)
-					for (int n = 0; n < nen; n++)
-						fz[n][i] = 0.0;
+		/* per-thread SoA workspace (stack allocated) */
+		double xc[ExplicitKernelT::MAX_NEN][MVSIZ];
+		double yc[ExplicitKernelT::MAX_NEN][MVSIZ];
+		double zc[ExplicitKernelT::MAX_NEN][MVSIZ];
+		double xr[ExplicitKernelT::MAX_NEN][MVSIZ];
+		double yr[ExplicitKernelT::MAX_NEN][MVSIZ];
+		double zr[ExplicitKernelT::MAX_NEN][MVSIZ];
+		double dNdX[ExplicitKernelT::MAX_NEN][MVSIZ];
+		double dNdY[ExplicitKernelT::MAX_NEN][MVSIZ];
+		double dNdZ[ExplicitKernelT::MAX_NEN][MVSIZ];
+		double detJ_cur[MVSIZ];
+		double F2D[4][MVSIZ];
+		double F3D[9][MVSIZ];
+		double sig11[MVSIZ], sig22[MVSIZ], sig12[MVSIZ];
+		double sig3D[6][MVSIZ];
+		double fx[ExplicitKernelT::MAX_NEN][MVSIZ];
+		double fy[ExplicitKernelT::MAX_NEN][MVSIZ];
+		double fz[ExplicitKernelT::MAX_NEN][MVSIZ];
+		int lconn[ExplicitKernelT::MAX_NEN][MVSIZ];
+
+		/* 1. GATHER — flat connectivity, direct pointer indexing */
+		const int* conn_base = fFlatConn + batch_start * nen;
+		for (int i = 0; i < nel; i++) {
+			const int* ec = conn_base + i * nen;
+			for (int n = 0; n < nen; n++) {
+				int node = ec[n];
+				lconn[n][i] = node;
+				xc[n][i] = cur_ptr[node * coord_stride + 0];
+				yc[n][i] = cur_ptr[node * coord_stride + 1];
+				xr[n][i] = ref_ptr[node * coord_stride + 0];
+				yr[n][i] = ref_ptr[node * coord_stride + 1];
 			}
+			if (nsd == 3) {
+				for (int n = 0; n < nen; n++) {
+					int node = ec[n];
+					zc[n][i] = cur_ptr[node * coord_stride + 2];
+					zr[n][i] = ref_ptr[node * coord_stride + 2];
+				}
+			}
+			for (int n = 0; n < nen; n++) {
+				fx[n][i] = 0.0;
+				fy[n][i] = 0.0;
+			}
+			if (nsd == 3)
+				for (int n = 0; n < nen; n++)
+					fz[n][i] = 0.0;
+		}
 
 			/* 2-5. SINGLE-PASS IP LOOP: one kernel call on reference
 			 * coords gives dN/dX. Then compute F and detJ_cur inline. */
@@ -370,10 +407,7 @@ void ExplicitElementT::BatchedInternalForce(double constKd)
 					}
 				}
 			}
-		} /* end batch (parallel) loop */
-
-		elem_offset += block_nel;
-	} /* end block loop */
+	} /* end batch (parallel) loop */
 
 	auto t1 = std::chrono::high_resolution_clock::now();
 	t_total += std::chrono::duration_cast<std::chrono::microseconds>(t1-t0).count();
