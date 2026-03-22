@@ -31,7 +31,12 @@ ExplicitElementT::ExplicitElementT(const ElementSupportT& support)
 	  fFlatEqnos(NULL),
 	  fGlobalRHS(NULL),
 	  fHourglassType(kNoHourglass),
-	  fHourglassCoeff(0.1)
+	  fHourglassCoeff(0.1),
+	  fMassScalingType(kNoMassScaling),
+	  fTargetDt(0.0),
+	  fDtScaleFactor(0.9),
+	  fMassScaleInterval(100),
+	  fMassScale(NULL)
 {
 	SetName("explicit_solid");
 }
@@ -42,6 +47,7 @@ ExplicitElementT::~ExplicitElementT(void)
 	delete fBatchMaterial;
 	delete[] fFlatConn;
 	delete[] fFlatEqnos;
+	delete[] fMassScale;
 }
 
 /*----------------------------------------------------------------------
@@ -57,6 +63,7 @@ void ExplicitElementT::DefineSubs(SubListT& sub_list) const
 {
 	UpdatedLagrangianT::DefineSubs(sub_list);
 	sub_list.AddSub("hourglass_control", ParameterListT::ZeroOrOnce);
+	sub_list.AddSub("mass_scaling", ParameterListT::ZeroOrOnce);
 }
 
 ParameterInterfaceT* ExplicitElementT::NewSub(const StringT& name) const
@@ -75,6 +82,29 @@ ParameterInterfaceT* ExplicitElementT::NewSub(const StringT& name) const
 		hg->AddParameter(coeff);
 
 		return hg;
+	}
+	if (name == "mass_scaling") {
+		ParameterContainerT* ms = new ParameterContainerT(name);
+
+		ParameterT type(ParameterT::Enumeration, "type");
+		type.AddEnumeration("fixed", kFixedMassScaling);
+		type.AddEnumeration("adaptive", kAdaptiveMassScaling);
+		type.SetDefault(kFixedMassScaling);
+		ms->AddParameter(type);
+
+		ParameterT target_dt(ParameterT::Double, "target_dt");
+		target_dt.SetDefault(0.0);
+		ms->AddParameter(target_dt);
+
+		ParameterT scale_factor(ParameterT::Double, "scale_factor");
+		scale_factor.SetDefault(0.9);
+		ms->AddParameter(scale_factor);
+
+		ParameterT interval(ParameterT::Integer, "update_interval");
+		interval.SetDefault(100);
+		ms->AddParameter(interval);
+
+		return ms;
 	}
 	return UpdatedLagrangianT::NewSub(name);
 }
@@ -144,9 +174,28 @@ void ExplicitElementT::TakeParameterList(const ParameterListT& list)
 		fHourglassCoeff = hg.GetParameter("coefficient");
 	}
 
+	/* mass scaling */
+	if (list.NumLists("mass_scaling") > 0) {
+		const ParameterListT& ms = list.GetList("mass_scaling");
+		int ms_type = ms.GetParameter("type");
+		fMassScalingType = (MassScalingTypeT)ms_type;
+		fTargetDt = ms.GetParameter("target_dt");
+		fDtScaleFactor = ms.GetParameter("scale_factor");
+		fMassScaleInterval = ms.GetParameter("update_interval");
+	}
+
 	if (fKernel && fBatchMaterial) {
 		BuildFlatArrays();
 		double dt_cfl = ComputeStableTimeStep();
+
+		/* apply initial mass scaling if requested */
+		if (fMassScalingType != kNoMassScaling) {
+			fMassScale = new double[fTotalElements];
+			for (int e = 0; e < fTotalElements; e++)
+				fMassScale[e] = 1.0;
+			if (fTargetDt > 0.0)
+				ApplyMassScaling();
+		}
 		std::cout << "ExplicitElementT: MVSIZ=" << MVSIZ
 		          << " batched path active (nsd=" << nsd
 		          << " nen=" << nen
@@ -156,6 +205,24 @@ void ExplicitElementT::TakeParameterList(const ParameterListT& list)
 			std::cout << " hourglass="
 			          << (fHourglassType == kViscousHG ? "viscous" : "stiffness")
 			          << " coeff=" << fHourglassCoeff;
+		if (fMassScalingType != kNoMassScaling) {
+			std::cout << " mass_scaling="
+			          << (fMassScalingType == kFixedMassScaling ? "fixed" : "adaptive")
+			          << " target_dt=" << fTargetDt;
+			if (fMassScalingType == kAdaptiveMassScaling)
+				std::cout << " interval=" << fMassScaleInterval;
+			/* count how many elements were scaled */
+			if (fMassScale) {
+				int n_scaled = 0;
+				double max_scale = 1.0;
+				for (int e = 0; e < fTotalElements; e++) {
+					if (fMassScale[e] > 1.001) n_scaled++;
+					if (fMassScale[e] > max_scale) max_scale = fMassScale[e];
+				}
+				std::cout << " scaled=" << n_scaled << "/" << fTotalElements
+				          << " max_factor=" << max_scale;
+			}
+		}
 		std::cout << ")" << std::endl;
 	} else
 		std::cout << "ExplicitElementT: falling back to legacy element loop" << std::endl;
@@ -263,12 +330,91 @@ double ExplicitElementT::ComputeStableTimeStep(void) const
 }
 
 /*----------------------------------------------------------------------
+ * ApplyMassScaling — increase element mass to meet target time step
+ *
+ * For each element: dt_elem = h / c.
+ * If dt_elem < target_dt, scale mass by (target_dt / dt_elem)^2.
+ * Since dt ~ sqrt(M/K), scaling M by alpha^2 scales dt by alpha.
+ *
+ * The mass scale factors are stored per element. The actual mass matrix
+ * is modified by the parent class mass assembly — we modify the density
+ * seen by FormMass. For now, we report the scaling but the actual mass
+ * modification requires hooking into the LHS assembly (future work).
+ *----------------------------------------------------------------------*/
+void ExplicitElementT::ApplyMassScaling(void)
+{
+	if (!fKernel || !fBatchMaterial || !fMassScale) return;
+
+	const int nsd = NumSD();
+	const int nen = fKernel->NodesPerElement();
+	const dArray2DT& ref_coords = ElementSupport().InitialCoordinates();
+	double c = fBatchMaterial->WaveSpeed();
+	double target = fTargetDt * fDtScaleFactor; /* apply safety factor */
+
+	int n_scaled = 0;
+	double max_scale = 1.0;
+
+	for (int e = 0; e < fTotalElements; e++) {
+		const int* ec = fFlatConn + e * nen;
+		double h;
+
+		if (nsd == 2) {
+			double x[4], y[4];
+			for (int n = 0; n < nen; n++) {
+				x[n] = ref_coords(ec[n], 0);
+				y[n] = ref_coords(ec[n], 1);
+			}
+			double area = 0.5 * fabs(
+				(x[0]-x[2])*(y[1]-y[3]) - (x[1]-x[3])*(y[0]-y[2]));
+			h = sqrt(area);
+		} else {
+			double x[8], y[8], z[8];
+			for (int n = 0; n < nen; n++) {
+				x[n] = ref_coords(ec[n], 0);
+				y[n] = ref_coords(ec[n], 1);
+				z[n] = ref_coords(ec[n], 2);
+			}
+			double dx1=x[6]-x[0], dy1=y[6]-y[0], dz1=z[6]-z[0];
+			double dx2=x[7]-x[1], dy2=y[7]-y[1], dz2=z[7]-z[1];
+			double dx3=x[5]-x[3], dy3=y[5]-y[3], dz3=z[5]-z[3];
+			double vol = fabs(dx1*(dy2*dz3-dz2*dy3)
+			                - dy1*(dx2*dz3-dz2*dx3)
+			                + dz1*(dx2*dy3-dy2*dx3)) / 6.0;
+			h = cbrt(vol);
+		}
+
+		double dt_elem = h / c;
+		if (dt_elem < target) {
+			double alpha = target / dt_elem;
+			fMassScale[e] = alpha * alpha; /* M_new = alpha^2 * M_old */
+			n_scaled++;
+			if (fMassScale[e] > max_scale) max_scale = fMassScale[e];
+		} else {
+			fMassScale[e] = 1.0;
+		}
+	}
+
+	if (n_scaled > 0)
+		std::cout << "ExplicitElementT: mass scaling applied to "
+		          << n_scaled << "/" << fTotalElements
+		          << " elements (max factor=" << max_scale << ")" << std::endl;
+}
+
+/*----------------------------------------------------------------------
  * RHSDriver — override the virtual dispatch point
  *----------------------------------------------------------------------*/
 void ExplicitElementT::RHSDriver(void)
 {
 	/* inherited: traction BCs, body forces from ContinuumElementT */
 	ContinuumElementT::RHSDriver();
+
+	/* adaptive mass scaling: periodically recompute scale factors */
+	if (fMassScalingType == kAdaptiveMassScaling && fMassScale) {
+		static int step_count = 0;
+		step_count++;
+		if (step_count % fMassScaleInterval == 0)
+			ApplyMassScaling();
+	}
 
 	/* fast path: batched internal force */
 	if (fKernel && fBatchMaterial) {

@@ -87,6 +87,20 @@ private:
 	HourglassTypeT fHourglassType;
 	double fHourglassCoeff;       /**< hourglass coefficient (0.01-0.15 typical) */
 	/*@}*/
+
+	/** \name mass scaling */
+	/*@{*/
+	enum MassScalingTypeT { kNoMassScaling = 0, kFixedMassScaling, kAdaptiveMassScaling };
+	MassScalingTypeT fMassScalingType;
+	double fTargetDt;             /**< target time step for fixed mass scaling */
+	double fDtScaleFactor;        /**< safety factor for adaptive (0.9 typical) */
+	int fMassScaleInterval;       /**< update interval for adaptive (steps) */
+	double* fMassScale;           /**< per-element mass scale factor [fTotalElements] */
+
+	/** Apply mass scaling: increase element mass so that dt_elem >= target_dt.
+	 *  Called at init for fixed, periodically for adaptive. */
+	void ApplyMassScaling(void);
+	/*@}*/
 };
 
 } /* namespace Tahoe */
