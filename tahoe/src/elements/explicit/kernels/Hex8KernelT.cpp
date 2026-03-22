@@ -38,7 +38,7 @@ void Hex8KernelT::ComputeIPData(
 	dNdxi[4] = -0.125*em*mp;  dNdeta[4] = -0.125*xm*mp;  dNdmu[4] = +0.125*xm*em;
 	dNdxi[5] = +0.125*em*mp;  dNdeta[5] = -0.125*xp*mp;  dNdmu[5] = +0.125*xp*em;
 	dNdxi[6] = +0.125*ep*mp;  dNdeta[6] = +0.125*xp*mp;  dNdmu[6] = +0.125*xp*ep;
-	dNdxi[7] = -0.125*ep*mp;  dNdeta[7] = +0.125*xm*mp;  dNdmu[7] = -0.125*xm*ep;
+	dNdxi[7] = -0.125*ep*mp;  dNdeta[7] = +0.125*xm*mp;  dNdmu[7] = +0.125*xm*ep;
 
 	/* Jacobian, inverse, spatial derivatives — vectorized over nel */
 	for (int i = 0; i < nel; i++) {

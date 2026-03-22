@@ -506,14 +506,14 @@ void ExplicitElementT::BatchedInternalForce(double constKd)
 	call_count++;
 	auto t0 = std::chrono::high_resolution_clock::now();
 
-	/* global force accumulation — persistent array, zeroed each step */
-	dArray2DT force(numnod, ndof);
-	force = 0.0;
+	/* per-element RHS vector for assembly */
+	dArrayT elem_rhs(nen * ndof);
 
 	/* raw coordinate pointers for direct indexing */
 	const double* cur_ptr = curr_coords.Pointer();
 	const double* ref_ptr = init_coords.Pointer();
-	int coord_stride = ndof; /* nsd == ndof for displacement field */
+	int coord_stride = init_coords.MinorDim();
+
 
 	/* total batches across all blocks */
 	int num_batches = (fTotalElements + MVSIZ - 1) / MVSIZ;
@@ -573,20 +573,24 @@ void ExplicitElementT::BatchedInternalForce(double constKd)
 					fz[n][i] = 0.0;
 		}
 
-			/* 2-5. SINGLE-PASS IP LOOP: one kernel call on reference
-			 * coords gives dN/dX. Then compute F and detJ_cur inline. */
+			/* 2-5. IP LOOP: two kernel calls (reference + current) */
 			for (int ip = 0; ip < nip; ip++) {
-				double w_ref;
+				double w_ref, w_cur;
 
 				/* reference config: dN/dX for F computation */
 				fKernel->ComputeIPData(ip, nel,
 					xr, yr, zr, dNdX, dNdY, dNdZ, detJ_cur, w_ref);
-				/* Note: detJ_cur from ref coords = detJ_ref.
-				 * We'll compute detJ_cur from F below. */
+
+				/* current config: dN/dx for B^T*sigma */
+				double dNdx_cur[ExplicitKernelT::MAX_NEN][MVSIZ];
+				double dNdy_cur[ExplicitKernelT::MAX_NEN][MVSIZ];
+				double dNdz_cur[ExplicitKernelT::MAX_NEN][MVSIZ];
+				double detJ_actual[MVSIZ];
+				fKernel->ComputeIPData(ip, nel,
+					xc, yc, zc, dNdx_cur, dNdy_cur, dNdz_cur, detJ_actual, w_cur);
 
 				if (nsd == 2) {
-					/* Compute F = dx/dX and detJ_cur = det(F)*detJ_ref
-					 * in a single vectorized loop */
+					/* F = dx/dX = sum x_cur * dN/dX */
 					for (int i = 0; i < nel; i++) {
 						double f11 = 0.0, f12 = 0.0, f21 = 0.0, f22 = 0.0;
 						for (int n = 0; n < nen; n++) {
@@ -597,43 +601,17 @@ void ExplicitElementT::BatchedInternalForce(double constKd)
 						}
 						F2D[0][i] = f11; F2D[1][i] = f12;
 						F2D[2][i] = f21; F2D[3][i] = f22;
-
-						/* detJ_cur = det(F) * detJ_ref
-						 * (since dx = F * dX, the current Jacobian = F * J_ref) */
-						double detF = f11*f22 - f12*f21;
-						detJ_cur[i] = detF * detJ_cur[i]; /* detJ_cur was detJ_ref */
-
-						/* dN/dx = F^{-T} * dN/dX (push forward of shape derivs)
-						 * F^{-1} = (1/detF) * [F22, -F12; -F21, F11]
-						 * Reuse dNdX/dNdY arrays in-place for dN/dx */
 					}
 
-					/* Compute dN/dx from dN/dX via F^{-T} push-forward
-					 * (separate loop for better vectorization) */
-					for (int i = 0; i < nel; i++) {
-						double f11 = F2D[0][i], f12 = F2D[1][i];
-						double f21 = F2D[2][i], f22 = F2D[3][i];
-						double invDetF = 1.0 / (f11*f22 - f12*f21);
-						/* F^{-T} = (1/detF) * [F22, -F21; -F12, F11] */
-						double FiT11 =  f22*invDetF, FiT12 = -f21*invDetF;
-						double FiT21 = -f12*invDetF, FiT22 =  f11*invDetF;
-						for (int n = 0; n < nen; n++) {
-							double dX = dNdX[n][i], dY = dNdY[n][i];
-							dNdX[n][i] = FiT11*dX + FiT12*dY; /* now dN/dx */
-							dNdY[n][i] = FiT21*dX + FiT22*dY; /* now dN/dy */
-						}
-					}
-
-					/* MATERIAL */
 					fBatchMaterial->ComputeStress2D(nel, F2D,
 						sig11, sig22, sig12, NULL);
 
-					/* B^T * sigma (uses dNdX/dNdY which are now dN/dx) */
+					/* B^T * sigma using current-config dN/dx */
 					for (int i = 0; i < nel; i++) {
-						double scale = constKd * detJ_cur[i] * w_ref;
+						double scale = constKd * detJ_actual[i] * w_cur;
 						for (int n = 0; n < nen; n++) {
-							fx[n][i] += (dNdX[n][i]*sig11[i] + dNdY[n][i]*sig12[i]) * scale;
-							fy[n][i] += (dNdX[n][i]*sig12[i] + dNdY[n][i]*sig22[i]) * scale;
+							fx[n][i] += (dNdx_cur[n][i]*sig11[i] + dNdy_cur[n][i]*sig12[i]) * scale;
+							fy[n][i] += (dNdx_cur[n][i]*sig12[i] + dNdy_cur[n][i]*sig22[i]) * scale;
 						}
 					}
 				}
@@ -647,44 +625,19 @@ void ExplicitElementT::BatchedInternalForce(double constKd)
 							f[6] += zc[n][i]*dNdX[n][i]; f[7] += zc[n][i]*dNdY[n][i]; f[8] += zc[n][i]*dNdZ[n][i];
 						}
 						for (int k = 0; k < 9; k++) F3D[k][i] = f[k];
-
-						/* detJ_cur = det(F) * detJ_ref */
-						double detF = f[0]*(f[4]*f[8]-f[5]*f[7])
-						            - f[1]*(f[3]*f[8]-f[5]*f[6])
-						            + f[2]*(f[3]*f[7]-f[4]*f[6]);
-						detJ_cur[i] = detF * detJ_cur[i];
-					}
-
-					/* dN/dx = F^{-T} * dN/dX (3D push-forward) */
-					for (int i = 0; i < nel; i++) {
-						double *f = &F3D[0][i]; /* stride = MVSIZ */
-						double f0=F3D[0][i],f1=F3D[1][i],f2=F3D[2][i];
-						double f3=F3D[3][i],f4=F3D[4][i],f5=F3D[5][i];
-						double f6=F3D[6][i],f7=F3D[7][i],f8=F3D[8][i];
-						double detF = f0*(f4*f8-f5*f7) - f1*(f3*f8-f5*f6) + f2*(f3*f7-f4*f6);
-						double id = 1.0/detF;
-						/* F^{-T} cofactors / detF */
-						double c00=(f4*f8-f5*f7)*id, c01=(f5*f6-f3*f8)*id, c02=(f3*f7-f4*f6)*id;
-						double c10=(f2*f7-f1*f8)*id, c11=(f0*f8-f2*f6)*id, c12=(f1*f6-f0*f7)*id;
-						double c20=(f1*f5-f2*f4)*id, c21=(f2*f3-f0*f5)*id, c22=(f0*f4-f1*f3)*id;
-						for (int n = 0; n < nen; n++) {
-							double dX=dNdX[n][i], dY=dNdY[n][i], dZ=dNdZ[n][i];
-							dNdX[n][i] = c00*dX + c01*dY + c02*dZ;
-							dNdY[n][i] = c10*dX + c11*dY + c12*dZ;
-							dNdZ[n][i] = c20*dX + c21*dY + c22*dZ;
-						}
 					}
 
 					fBatchMaterial->ComputeStress3D(nel, F3D, sig3D, NULL);
 
+					/* B^T * sigma using current-config dN/dx */
 					for (int i = 0; i < nel; i++) {
-						double scale = constKd * detJ_cur[i] * w_ref;
+						double scale = constKd * detJ_actual[i] * w_cur;
 						double ss11=sig3D[0][i], ss22=sig3D[1][i], ss33=sig3D[2][i];
 						double ss23=sig3D[3][i], ss13=sig3D[4][i], ss12=sig3D[5][i];
 						for (int n = 0; n < nen; n++) {
-							fx[n][i] += (dNdX[n][i]*ss11 + dNdY[n][i]*ss12 + dNdZ[n][i]*ss13) * scale;
-							fy[n][i] += (dNdX[n][i]*ss12 + dNdY[n][i]*ss22 + dNdZ[n][i]*ss23) * scale;
-							fz[n][i] += (dNdX[n][i]*ss13 + dNdY[n][i]*ss23 + dNdZ[n][i]*ss33) * scale;
+							fx[n][i] += (dNdx_cur[n][i]*ss11 + dNdy_cur[n][i]*ss12 + dNdz_cur[n][i]*ss13) * scale;
+							fy[n][i] += (dNdx_cur[n][i]*ss12 + dNdy_cur[n][i]*ss22 + dNdz_cur[n][i]*ss23) * scale;
+							fz[n][i] += (dNdx_cur[n][i]*ss13 + dNdy_cur[n][i]*ss23 + dNdz_cur[n][i]*ss33) * scale;
 						}
 					}
 				}
@@ -779,27 +732,25 @@ void ExplicitElementT::BatchedInternalForce(double constKd)
 				}
 			} /* end hourglass */
 
-			/* 6. SCATTER — atomic adds for thread safety */
+			/* 6. SCATTER — per-element assembly via equation numbers */
 			for (int i = 0; i < nel; i++) {
+				int global_elem = batch_start + i;
+				const ElementCardT& card = ElementCard(global_elem);
+				const iArrayT& eqnos = card.Equations();
+				dArrayT erhs(nen * ndof);
 				for (int n = 0; n < nen; n++) {
-					int node = lconn[n][i];
-					#pragma omp atomic
-					force(node, 0) += fx[n][i];
-					#pragma omp atomic
-					force(node, 1) += fy[n][i];
-					if (nsd == 3) {
-						#pragma omp atomic
-						force(node, 2) += fz[n][i];
-					}
+					erhs[n*ndof + 0] = fx[n][i];
+					erhs[n*ndof + 1] = fy[n][i];
+					if (nsd == 3)
+						erhs[n*ndof + 2] = fz[n][i];
 				}
+				#pragma omp critical
+				ElementSupport().AssembleRHS(Group(), erhs, eqnos);
 			}
 	} /* end batch (parallel) loop */
 
 	auto t1 = std::chrono::high_resolution_clock::now();
 	t_total += std::chrono::duration_cast<std::chrono::microseconds>(t1-t0).count();
-
-	/* assemble global forces */
-	ElementSupport().AssembleRHS(Group(), force, Field().Equations());
 
 	auto t2 = std::chrono::high_resolution_clock::now();
 	t_assemble += std::chrono::duration_cast<std::chrono::microseconds>(t2-t1).count();
