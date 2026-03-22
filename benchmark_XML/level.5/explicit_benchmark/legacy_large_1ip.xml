@@ -25,7 +25,7 @@
     </nodes>
     <element_list>
         <updated_lagrangian field_name="displacement" mass_type="lumped_mass">
-            <quadrilateral/>
+            <quadrilateral num_ip="1"/>
             <solid_element_nodal_output coordinates="1"
                 displacements="1" strain="1" stress="1"/>
             <large_strain_element_block>

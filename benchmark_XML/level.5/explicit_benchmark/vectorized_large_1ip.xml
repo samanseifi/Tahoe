@@ -1,7 +1,8 @@
 <?xml version="1.0"?>
-<!-- Legacy explicit solver benchmark: 200 elements, updated_lagrangian -->
+<!-- Vectorized explicit solver benchmark: 200 elements, explicit_solid.
+     Uses same XML format as updated_lagrangian but with MVSIZ batched loop. -->
 <tahoe geometry_file="block_large.geom" output_format="ExodusII"
-    title="Legacy explicit benchmark (large)">
+    title="Vectorized explicit benchmark (large)">
     <time num_steps="10000" output_inc="10000" time_step="1.0e-04">
         <schedule_function>
             <piecewise_linear>
@@ -16,16 +17,14 @@
                 <String value="D_X"/>
                 <String value="D_Y"/>
             </dof_labels>
-            <!-- fix left edge -->
             <kinematic_BC dof="1" node_ID="4"/>
             <kinematic_BC dof="2" node_ID="4"/>
-            <!-- pull right edge -->
             <kinematic_BC dof="1" node_ID="2" schedule="1" type="u" value="0.1"/>
         </field>
     </nodes>
     <element_list>
-        <updated_lagrangian field_name="displacement" mass_type="lumped_mass">
-            <quadrilateral/>
+        <explicit_solid field_name="displacement" mass_type="lumped_mass">
+            <quadrilateral num_ip="1"/>
             <solid_element_nodal_output coordinates="1"
                 displacements="1" strain="1" stress="1"/>
             <large_strain_element_block>
@@ -40,7 +39,7 @@
                     </RG_split_general>
                 </large_strain_material_2D>
             </large_strain_element_block>
-        </updated_lagrangian>
+        </explicit_solid>
     </element_list>
     <linear_solver>
         <SPOOLES_matrix/>

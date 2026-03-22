@@ -25,6 +25,8 @@
     <element_list>
         <explicit_solid field_name="displacement" mass_type="lumped_mass">
             <quadrilateral/>
+            <solid_element_nodal_output coordinates="1"
+                displacements="1" strain="1" stress="1"/>
             <large_strain_element_block>
                 <block_ID_list>
                     <String value="1"/>
