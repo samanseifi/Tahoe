@@ -15,6 +15,7 @@
 #include "eIntegratorT.h"
 #include "MaterialListT.h"
 #include "ContinuumMaterialT.h"
+#include "SolidMaterialT.h"
 
 #include <iostream>
 #include <cstring>
@@ -398,6 +399,56 @@ void ExplicitElementT::ApplyMassScaling(void)
 		std::cout << "ExplicitElementT: mass scaling applied to "
 		          << n_scaled << "/" << fTotalElements
 		          << " elements (max factor=" << max_scale << ")" << std::endl;
+}
+
+/*----------------------------------------------------------------------
+ * LHSDriver — override to apply mass scaling to lumped mass
+ *----------------------------------------------------------------------*/
+void ExplicitElementT::LHSDriver(GlobalT::SystemTypeT sys_type)
+{
+	/* if no mass scaling, use the parent's assembly */
+	if (!fMassScale || fMassScalingType == kNoMassScaling) {
+		SolidElementT::LHSDriver(sys_type);
+		return;
+	}
+
+	/* inherited: constraint equations from ContinuumElementT */
+	ContinuumElementT::LHSDriver(sys_type);
+
+	/* mass assembly with per-element scaling */
+	double constM = 0.0;
+	double constK = 0.0;
+	int formM = fIntegrator->FormM(constM);
+	int formK = fIntegrator->FormK(constK);
+	if (fMassType == kNoMass) formM = 0;
+	if (formM == 0 && formK == 0) return;
+
+	bool axisymmetric = Axisymmetric();
+	int elem_index = 0;
+	Top();
+	while (NextElement())
+	{
+		if (CurrentElement().Flag() != ElementCardT::kOFF)
+		{
+			fLHS = 0.0;
+			SetGlobalShape();
+
+			/* element mass with scale factor */
+			double constMe = constM;
+			if (fabs(constMe) > kSmall) {
+				double density = fCurrMaterial->Density();
+				double scaled_density = density * fMassScale[elem_index];
+				FormMass(fMassType, constMe * scaled_density, axisymmetric, NULL);
+			}
+
+			/* stiffness (explicit: constK = 0, this block is skipped) */
+			if (fabs(constK) > kSmall)
+				FormStiffness(constK);
+
+			AssembleLHS();
+		}
+		elem_index++;
+	}
 }
 
 /*----------------------------------------------------------------------

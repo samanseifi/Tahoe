@@ -54,6 +54,9 @@ protected:
 	/** override RHSDriver (virtual) to use batched internal force */
 	virtual void RHSDriver(void);
 
+	/** override LHSDriver (virtual) to apply mass scaling to lumped mass */
+	virtual void LHSDriver(GlobalT::SystemTypeT sys_type);
+
 private:
 
 	/** Compute internal forces using MVSIZ batched SoA loop.
