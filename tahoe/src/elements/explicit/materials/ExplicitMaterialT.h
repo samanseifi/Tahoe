@@ -38,6 +38,16 @@ public:
 	 *  Used for CFL time step and viscous hourglass control. */
 	virtual double WaveSpeed(void) const = 0;
 
+	/** Initialize history variables at t=0. Default: leave zero (correct for
+	 *  most rate-independent hyperelastic and small-strain plasticity).
+	 *  Override for rate plasticity where F_n must start as I.
+	 *
+	 *  \param nip      number of integration points per element
+	 *  \param total    total number of elements
+	 *  \param history  flat buffer of size (nip*NumHistoryVars()*total), zero-initialized
+	 *                  Layout: history[ip * nhist * total + var * total + elem] */
+	virtual void InitializeHistory(int nip, int total, double* history) const {}
+
 	/** Compute Cauchy stress from deformation gradient F for 2D plane strain.
 	 *
 	 * \param nel     number of elements (<= MVSIZ)

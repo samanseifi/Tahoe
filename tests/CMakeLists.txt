@@ -80,3 +80,4 @@ tahoe_gtest(test_GMRES       solvers/test_GMRES.cpp)
 # ---------------------------------------------------------------------------
 tahoe_gtest_full(test_IsotropicT  materials/test_IsotropicT.cpp)
 tahoe_gtest_full(test_NeoHookean  materials/test_NeoHookean.cpp)
+tahoe_gtest_full(test_ExplJ2Plasticity materials/test_ExplJ2Plasticity.cpp)

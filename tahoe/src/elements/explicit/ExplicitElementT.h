@@ -84,6 +84,14 @@ private:
 	double* fGlobalRHS;           /**< cached pointer to global RHS vector */
 	/*@}*/
 
+	/** \name history variables (plasticity, etc.)
+	 *  Layout: fHistory[ip * nhist * total + var * total + elem]
+	 *  NULL / zero for stateless hyperelastic materials. */
+	/*@{*/
+	double* fHistory;
+	int fNumHist;                 /**< history vars per IP (0 for elastic) */
+	/*@}*/
+
 	/** \name hourglass control */
 	/*@{*/
 	enum HourglassTypeT { kNoHourglass = 0, kViscousHG, kStiffnessHG };

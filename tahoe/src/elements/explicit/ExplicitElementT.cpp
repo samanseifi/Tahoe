@@ -7,6 +7,7 @@
 #include "Hex8KernelT.h"
 #include "ExplicitMaterialT.h"
 #include "ExplNeoHookeanT.h"
+#include "ExplJ2PlasticityT.h"
 
 #include "ElementSupportT.h"
 #include "ModelManagerT.h"
@@ -37,7 +38,9 @@ ExplicitElementT::ExplicitElementT(const ElementSupportT& support)
 	  fTargetDt(0.0),
 	  fDtScaleFactor(0.9),
 	  fMassScaleInterval(100),
-	  fMassScale(NULL)
+	  fMassScale(NULL),
+	  fHistory(NULL),
+	  fNumHist(0)
 {
 	SetName("explicit_solid");
 }
@@ -49,6 +52,7 @@ ExplicitElementT::~ExplicitElementT(void)
 	delete[] fFlatConn;
 	delete[] fFlatEqnos;
 	delete[] fMassScale;
+	delete[] fHistory;
 }
 
 /*----------------------------------------------------------------------
@@ -65,6 +69,7 @@ void ExplicitElementT::DefineSubs(SubListT& sub_list) const
 	UpdatedLagrangianT::DefineSubs(sub_list);
 	sub_list.AddSub("hourglass_control", ParameterListT::ZeroOrOnce);
 	sub_list.AddSub("mass_scaling", ParameterListT::ZeroOrOnce);
+	sub_list.AddSub("j2_plasticity", ParameterListT::ZeroOrOnce);
 }
 
 ParameterInterfaceT* ExplicitElementT::NewSub(const StringT& name) const
@@ -83,6 +88,16 @@ ParameterInterfaceT* ExplicitElementT::NewSub(const StringT& name) const
 		hg->AddParameter(coeff);
 
 		return hg;
+	}
+	if (name == "j2_plasticity") {
+		ParameterContainerT* j2 = new ParameterContainerT(name);
+		ParameterT sigY(ParameterT::Double, "sigma_Y");
+		sigY.SetDefault(0.0);
+		j2->AddParameter(sigY);
+		ParameterT hard(ParameterT::Double, "hardening");
+		hard.SetDefault(0.0);
+		j2->AddParameter(hard);
+		return j2;
 	}
 	if (name == "mass_scaling") {
 		ParameterContainerT* ms = new ParameterContainerT(name);
@@ -132,17 +147,15 @@ void ExplicitElementT::TakeParameterList(const ParameterListT& list)
 
 	/* create batch material from the first block's XML parameters.
 	 * Scan recursively for mu/kappa/density in the material sub-tree.
-	 * Works with both direct neo-hookean and RG_split_general wrappers. */
+	 * If <j2_plasticity> is present, build J2 plasticity; otherwise Neo-Hookean. */
 	int num_blocks = list.NumLists("large_strain_element_block");
 	if (num_blocks > 0) {
 		const ParameterListT& block = list.GetList("large_strain_element_block");
 		const ParameterListT& mat_choice = block.GetListChoice(*this, "large_strain_material_choice");
 
-		/* recursive search for mu/kappa in the material parameter tree */
 		double mu = 0.0, kappa = 0.0, density = 1.0;
 		bool found_mu = false, found_kappa = false;
 
-		/* search function: scan this list and all its sub-lists */
 		struct ParamFinder {
 			static void Find(const ParameterListT& p,
 				double& mu, double& kappa, double& density,
@@ -154,7 +167,6 @@ void ExplicitElementT::TakeParameterList(const ParameterListT& list)
 				if (pm) { mu = *pm; found_mu = true; }
 				if (pk) { kappa = *pk; found_kappa = true; }
 				if (pd) { density = *pd; }
-				/* recurse into sub-lists */
 				const ArrayT<ParameterListT>& subs = p.Lists();
 				for (int i = 0; i < subs.Length(); i++)
 					Find(subs[i], mu, kappa, density, found_mu, found_kappa);
@@ -163,8 +175,18 @@ void ExplicitElementT::TakeParameterList(const ParameterListT& list)
 
 		ParamFinder::Find(mat_choice, mu, kappa, density, found_mu, found_kappa);
 
-		if (found_mu && found_kappa)
-			fBatchMaterial = new ExplNeoHookeanT(mu, kappa, density);
+		if (found_mu && found_kappa) {
+			if (list.NumLists("j2_plasticity") > 0) {
+				const ParameterListT& j2 = list.GetList("j2_plasticity");
+				double sigma_Y = j2.GetParameter("sigma_Y");
+				double H = j2.GetParameter("hardening");
+				fBatchMaterial = new ExplJ2PlasticityT(mu, kappa, sigma_Y, H, density);
+				std::cout << "ExplicitElementT: J2 plasticity ("
+				          << "mu=" << mu << " kappa=" << kappa
+				          << " sigma_Y=" << sigma_Y << " H=" << H << ")" << std::endl;
+			} else
+				fBatchMaterial = new ExplNeoHookeanT(mu, kappa, density);
+		}
 	}
 
 	/* hourglass control */
@@ -187,6 +209,22 @@ void ExplicitElementT::TakeParameterList(const ParameterListT& list)
 
 	if (fKernel && fBatchMaterial) {
 		BuildFlatArrays();
+
+		/* allocate and initialize history variables (plasticity, etc.) */
+		fNumHist = fBatchMaterial->NumHistoryVars();
+		if (fNumHist > 0) {
+			int nip = fKernel->NumIP();
+			long nwords = (long)fTotalElements * nip * fNumHist;
+			fHistory = new double[nwords]();   /* zero-initialized */
+			fBatchMaterial->InitializeHistory(nip, fTotalElements, fHistory);
+			std::cout << "ExplicitElementT: history "
+			          << fNumHist << " vars/IP x "
+			          << nip << " IPs x "
+			          << fTotalElements << " elems = "
+			          << nwords << " doubles ("
+			          << (nwords * 8) / (1024*1024) << " MB)" << std::endl;
+		}
+
 		double dt_cfl = ComputeStableTimeStep();
 
 		/* apply initial mass scaling if requested */
@@ -545,6 +583,10 @@ void ExplicitElementT::BatchedInternalForce(double constKd)
 		double fz[ExplicitKernelT::MAX_NEN][MVSIZ];
 		int lconn[ExplicitKernelT::MAX_NEN][MVSIZ];
 
+		/* per-batch history scratch buffer: [var * MVSIZ + i] layout */
+		static const int MAX_HIST = 20;
+		double hist_batch[MAX_HIST * MVSIZ];
+
 		/* 1. GATHER — flat connectivity, direct pointer indexing */
 		const int* conn_base = fFlatConn + batch_start * nen;
 		for (int i = 0; i < nel; i++) {
@@ -603,8 +645,30 @@ void ExplicitElementT::BatchedInternalForce(double constKd)
 						F2D[2][i] = f21; F2D[3][i] = f22;
 					}
 
+					/* gather history slice for this batch at this IP */
+					double* hist_ptr = NULL;
+					if (fNumHist > 0 && fHistory) {
+						hist_ptr = hist_batch;
+						const double* hsrc = fHistory + ((long)ip * fNumHist * fTotalElements);
+						for (int var = 0; var < fNumHist; var++) {
+							const double* src = hsrc + (long)var * fTotalElements + batch_start;
+							double* dst = hist_batch + var * MVSIZ;
+							for (int i = 0; i < nel; i++) dst[i] = src[i];
+						}
+					}
+
 					fBatchMaterial->ComputeStress2D(nel, F2D,
-						sig11, sig22, sig12, NULL);
+						sig11, sig22, sig12, hist_ptr);
+
+					/* scatter history back */
+					if (hist_ptr) {
+						double* hdst = fHistory + ((long)ip * fNumHist * fTotalElements);
+						for (int var = 0; var < fNumHist; var++) {
+							double* dst = hdst + (long)var * fTotalElements + batch_start;
+							const double* src = hist_batch + var * MVSIZ;
+							for (int i = 0; i < nel; i++) dst[i] = src[i];
+						}
+					}
 
 					/* B^T * sigma using current-config dN/dx */
 					for (int i = 0; i < nel; i++) {
@@ -627,7 +691,29 @@ void ExplicitElementT::BatchedInternalForce(double constKd)
 						for (int k = 0; k < 9; k++) F3D[k][i] = f[k];
 					}
 
-					fBatchMaterial->ComputeStress3D(nel, F3D, sig3D, NULL);
+					/* gather history slice for this batch at this IP */
+					double* hist_ptr3 = NULL;
+					if (fNumHist > 0 && fHistory) {
+						hist_ptr3 = hist_batch;
+						const double* hsrc = fHistory + ((long)ip * fNumHist * fTotalElements);
+						for (int var = 0; var < fNumHist; var++) {
+							const double* src = hsrc + (long)var * fTotalElements + batch_start;
+							double* dst = hist_batch + var * MVSIZ;
+							for (int i = 0; i < nel; i++) dst[i] = src[i];
+						}
+					}
+
+					fBatchMaterial->ComputeStress3D(nel, F3D, sig3D, hist_ptr3);
+
+					/* scatter history back */
+					if (hist_ptr3) {
+						double* hdst = fHistory + ((long)ip * fNumHist * fTotalElements);
+						for (int var = 0; var < fNumHist; var++) {
+							double* dst = hdst + (long)var * fTotalElements + batch_start;
+							const double* src = hist_batch + var * MVSIZ;
+							for (int i = 0; i < nel; i++) dst[i] = src[i];
+						}
+					}
 
 					/* B^T * sigma using current-config dN/dx */
 					for (int i = 0; i < nel; i++) {
