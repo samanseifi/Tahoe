@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<!-- Tet4 + ANP (Bonet-Burton, ELFORM=13 equivalent) smoke test (#28).
+     Same mesh and boundary conditions as vectorized_tet_small.xml but with
+     <anp_tet4 enabled="true"/> activated.  Verifies the F-bar averaging
+     pipeline runs without crashing and produces a stable simulation. -->
+<tahoe geometry_file="geometry/tet_small.geom"
+       output_format="ExodusII"
+       compute_IC="false"
+       title="Explicit Tet4 + ANP smoke (270 tets, ELFORM=13 equivalent)">
+    <time num_steps="10000" output_inc="2000" time_step="1.0e-05">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0.0" y="0.0"/>
+                <OrderedPair x="1.0e+06" y="1.0e+06"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+    <nodes>
+        <field field_name="displacement" integrator="central_difference">
+            <dof_labels>
+                <String value="D_X"/>
+                <String value="D_Y"/>
+                <String value="D_Z"/>
+            </dof_labels>
+            <initial_condition dof="3" node_ID="7" type="D_u" value="-0.190"/>
+            <kinematic_BC dof="3" node_ID="5"/>
+        </field>
+    </nodes>
+    <element_list>
+        <explicit_solid field_name="displacement" mass_type="lumped_mass">
+            <tetrahedron/>
+            <solid_element_nodal_output displacements="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <large_strain_material_3D>
+                    <RG_split_general density="8.96e-3">
+                        <rg_eq_potential>
+                            <neo-hookean kappa="130000.0" mu="43333.0"/>
+                        </rg_eq_potential>
+                    </RG_split_general>
+                </large_strain_material_3D>
+            </large_strain_element_block>
+            <j2_plasticity sigma_Y="1.0" hardening="50.0"/>
+            <anp_tet4 enabled="true"/>
+        </explicit_solid>
+    </element_list>
+    <linear_solver>
+        <diagonal_matrix/>
+    </linear_solver>
+</tahoe>

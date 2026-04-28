@@ -28,6 +28,7 @@ namespace Tahoe {
 /* forward declarations */
 class ExplicitKernelT;
 class ExplicitMaterialT;
+class ANPHelperT;
 
 class ExplicitElementT : public UpdatedLagrangianT
 {
@@ -90,6 +91,21 @@ private:
 	/*@{*/
 	double* fHistory;
 	int fNumHist;                 /**< history vars per IP (0 for elastic) */
+	/*@}*/
+
+	/** \name ANP / F-bar (Bonet-Burton 1998, LS-DYNA ELFORM=13).
+	 *  When enabled, the dilatation J=det(F) is averaged at nodes and
+	 *  fed back as F_bar = (J_bar/J)^(1/nsd) * F before the material call.
+	 *  Removes Tet4 (or any reduced-integration element) volumetric locking
+	 *  for nearly-incompressible materials.  See ANPHelperT. */
+	/*@{*/
+	bool fANPEnabled;
+	ANPHelperT* fANP;             /**< owned; NULL if disabled */
+	double* fVrefE;               /**< [fTotalElements] reference volumes */
+	double* fJe;                  /**< [fTotalElements] J per element each step */
+	double* fJbarE;               /**< [fTotalElements] nodal-averaged J */
+	void BuildANPRefVolumes(void);
+	void ComputeAllJe(void);
 	/*@}*/
 
 	/** \name hourglass control */

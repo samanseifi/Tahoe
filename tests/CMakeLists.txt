@@ -82,6 +82,7 @@ tahoe_gtest_full(test_IsotropicT  materials/test_IsotropicT.cpp)
 tahoe_gtest_full(test_NeoHookean  materials/test_NeoHookean.cpp)
 tahoe_gtest_full(test_ExplJ2Plasticity materials/test_ExplJ2Plasticity.cpp)
 tahoe_gtest_full(test_Tet4Kernel       kernels/test_Tet4Kernel.cpp)
+tahoe_gtest_full(test_ANPHelperT       kernels/test_ANPHelperT.cpp)
 tahoe_gtest_full(test_TaylorBar benchmarks/test_TaylorBar.cpp)
 
 # Pass absolute paths so the integration test can locate the binary and

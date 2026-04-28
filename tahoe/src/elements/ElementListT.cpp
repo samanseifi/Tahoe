@@ -86,6 +86,7 @@
 #include "LocalizerT.h"
 #include "SimoFiniteStrainT.h"
 #include "SimoQ1P0.h"
+#include "BonetTetT.h"
 #include "SimoQ1P0_Surface.h"
 #include "SimoQ1P0_3D_Surface.h"
 #include "SimoQ1P0_inv.h"
@@ -431,6 +432,7 @@ void ElementListT::DefineInlineSub(const StringT& name, ParameterListT::ListOrde
 		sub_lists.AddSub("explicit_solid");
 		sub_lists.AddSub("small_strain");
 		sub_lists.AddSub("updated_lagrangian");
+		sub_lists.AddSub("bonet_tet");
 		sub_lists.AddSub("updated_lagrangian_Q1P0");
 		sub_lists.AddSub("updated_lagrangian_Q1P0_surface");
 		sub_lists.AddSub("updated_lagrangian_Q1P0_3D_surface");
@@ -737,6 +739,8 @@ ElementBaseT* ElementListT::NewElement(const StringT& name) const
 		return new SmallStrainT(fSupport);
 	else if (name == "updated_lagrangian")
 		return new UpdatedLagrangianT(fSupport);
+	else if (name == "bonet_tet")
+		return new BonetTetT(fSupport);
 	else if (name == "updated_lagrangian_Q1P0")
 		return new SimoQ1P0(fSupport);
 	else if (name == "updated_lagrangian_Q1P0_surface")

@@ -9,6 +9,7 @@
 #include "ExplicitMaterialT.h"
 #include "ExplNeoHookeanT.h"
 #include "ExplJ2PlasticityT.h"
+#include "ANPHelperT.h"
 
 #include "ElementSupportT.h"
 #include "ModelManagerT.h"
@@ -41,7 +42,12 @@ ExplicitElementT::ExplicitElementT(const ElementSupportT& support)
 	  fMassScaleInterval(100),
 	  fMassScale(NULL),
 	  fHistory(NULL),
-	  fNumHist(0)
+	  fNumHist(0),
+	  fANPEnabled(false),
+	  fANP(NULL),
+	  fVrefE(NULL),
+	  fJe(NULL),
+	  fJbarE(NULL)
 {
 	SetName("explicit_solid");
 }
@@ -54,6 +60,10 @@ ExplicitElementT::~ExplicitElementT(void)
 	delete[] fFlatEqnos;
 	delete[] fMassScale;
 	delete[] fHistory;
+	delete fANP;
+	delete[] fVrefE;
+	delete[] fJe;
+	delete[] fJbarE;
 }
 
 /*----------------------------------------------------------------------
@@ -71,6 +81,7 @@ void ExplicitElementT::DefineSubs(SubListT& sub_list) const
 	sub_list.AddSub("hourglass_control", ParameterListT::ZeroOrOnce);
 	sub_list.AddSub("mass_scaling", ParameterListT::ZeroOrOnce);
 	sub_list.AddSub("j2_plasticity", ParameterListT::ZeroOrOnce);
+	sub_list.AddSub("anp_tet4", ParameterListT::ZeroOrOnce);
 }
 
 ParameterInterfaceT* ExplicitElementT::NewSub(const StringT& name) const
@@ -89,6 +100,13 @@ ParameterInterfaceT* ExplicitElementT::NewSub(const StringT& name) const
 		hg->AddParameter(coeff);
 
 		return hg;
+	}
+	if (name == "anp_tet4") {
+		ParameterContainerT* anp = new ParameterContainerT(name);
+		ParameterT enabled(ParameterT::Boolean, "enabled");
+		enabled.SetDefault(true);
+		anp->AddParameter(enabled);
+		return anp;
 	}
 	if (name == "j2_plasticity") {
 		ParameterContainerT* j2 = new ParameterContainerT(name);
@@ -200,6 +218,12 @@ void ExplicitElementT::TakeParameterList(const ParameterListT& list)
 		fHourglassCoeff = hg.GetParameter("coefficient");
 	}
 
+	/* ANP / F-bar (Bonet-Burton): only meaningful for Tet4 (nen=4) */
+	if (list.NumLists("anp_tet4") > 0) {
+		const ParameterListT& anp = list.GetList("anp_tet4");
+		fANPEnabled = anp.GetParameter("enabled");
+	}
+
 	/* mass scaling */
 	if (list.NumLists("mass_scaling") > 0) {
 		const ParameterListT& ms = list.GetList("mass_scaling");
@@ -212,6 +236,22 @@ void ExplicitElementT::TakeParameterList(const ParameterListT& list)
 
 	if (fKernel && fBatchMaterial) {
 		BuildFlatArrays();
+
+		/* ANP/F-bar: only Tet4 (nen=4 in 3D) supported here.  Skip silently
+		 * for hex/quad — not needed since those have full integration. */
+		if (fANPEnabled && nsd == 3 && nen == 4) {
+			BuildANPRefVolumes();
+			fJe    = new double[fTotalElements]();
+			fJbarE = new double[fTotalElements]();
+			fANP = new ANPHelperT();
+			int numnod = ElementSupport().InitialCoordinates().MajorDim();
+			fANP->Init(fTotalElements, numnod, nen, fFlatConn, fVrefE);
+			std::cout << "ExplicitElementT: ANP-Tet4 (LS-DYNA ELFORM=13) enabled "
+			          << "for " << fTotalElements << " tets, "
+			          << numnod << " nodes" << std::endl;
+		} else if (fANPEnabled) {
+			fANPEnabled = false;   /* only valid for Tet4 */
+		}
 
 		/* allocate and initialize history variables (plasticity, etc.) */
 		fNumHist = fBatchMaterial->NumHistoryVars();
@@ -268,6 +308,56 @@ void ExplicitElementT::TakeParameterList(const ParameterListT& list)
 		std::cout << ")" << std::endl;
 	} else
 		std::cout << "ExplicitElementT: falling back to legacy element loop" << std::endl;
+}
+
+/*----------------------------------------------------------------------
+ * BuildANPRefVolumes — precompute reference tet volumes for F-bar averaging
+ *----------------------------------------------------------------------*/
+void ExplicitElementT::BuildANPRefVolumes(void)
+{
+	const int nen = fKernel->NodesPerElement();
+	const dArray2DT& ref = ElementSupport().InitialCoordinates();
+
+	delete[] fVrefE;
+	fVrefE = new double[fTotalElements];
+	for (int e = 0; e < fTotalElements; e++) {
+		const int* ec = fFlatConn + e * nen;
+		double x[4], y[4], z[4];
+		for (int n = 0; n < 4; n++) {
+			x[n] = ref(ec[n], 0); y[n] = ref(ec[n], 1); z[n] = ref(ec[n], 2);
+		}
+		double a1=x[0]-x[2], a2=y[0]-y[2], a3=z[0]-z[2];
+		double b1=x[1]-x[2], b2=y[1]-y[2], b3=z[1]-z[2];
+		double c1=x[3]-x[2], c2=y[3]-y[2], c3=z[3]-z[2];
+		fVrefE[e] = std::fabs(a1*(b2*c3-b3*c2)
+		                    - a2*(b1*c3-b3*c1)
+		                    + a3*(b1*c2-b2*c1)) / 6.0;
+	}
+}
+
+/*----------------------------------------------------------------------
+ * ComputeAllJe — current-config tet volume / reference volume = J = det(F)
+ *----------------------------------------------------------------------*/
+void ExplicitElementT::ComputeAllJe(void)
+{
+	const int nen = fKernel->NodesPerElement();
+	const dArray2DT& cur = ElementSupport().CurrentCoordinates();
+
+	#pragma omp parallel for if(fTotalElements > 1024)
+	for (int e = 0; e < fTotalElements; e++) {
+		const int* ec = fFlatConn + e * nen;
+		double x[4], y[4], z[4];
+		for (int n = 0; n < 4; n++) {
+			x[n] = cur(ec[n], 0); y[n] = cur(ec[n], 1); z[n] = cur(ec[n], 2);
+		}
+		double a1=x[0]-x[2], a2=y[0]-y[2], a3=z[0]-z[2];
+		double b1=x[1]-x[2], b2=y[1]-y[2], b3=z[1]-z[2];
+		double c1=x[3]-x[2], c2=y[3]-y[2], c3=z[3]-z[2];
+		double V_cur = std::fabs(a1*(b2*c3-b3*c2)
+		                       - a2*(b1*c3-b3*c1)
+		                       + a3*(b1*c2-b2*c1)) / 6.0;
+		fJe[e] = (fVrefE[e] > 0.0) ? V_cur / fVrefE[e] : 1.0;
+	}
 }
 
 /*----------------------------------------------------------------------
@@ -571,6 +661,14 @@ void ExplicitElementT::BatchedInternalForce(double constKd)
 	call_count++;
 	auto t0 = std::chrono::high_resolution_clock::now();
 
+	/* ANP / F-bar pre-pass: compute J_e for all elements, average at nodes,
+	 * scatter back to J_bar_e.  Done before the batched force loop so the
+	 * J_bar value for each element is ready when its batch is processed. */
+	if (fANPEnabled && fANP) {
+		ComputeAllJe();
+		fANP->ComputeJBar(fJe, fJbarE);
+	}
+
 	/* per-element RHS vector for assembly */
 	dArrayT elem_rhs(nen * ndof);
 
@@ -727,6 +825,20 @@ void ExplicitElementT::BatchedInternalForce(double constKd)
 							const double* src = hsrc + (long)var * fTotalElements + batch_start;
 							double* dst = hist_batch + var * MVSIZ;
 							for (int i = 0; i < nel; i++) dst[i] = src[i];
+						}
+					}
+
+					/* ANP / F-bar correction: scale F by (J_bar/J)^(1/3)
+					 * before passing to material so the material sees the
+					 * nodal-averaged dilatation.  Removes Tet4 volumetric
+					 * locking under near-incompressibility. */
+					if (fANPEnabled && fANP) {
+						for (int i = 0; i < nel; i++) {
+							double J = fJe[batch_start + i];
+							double Jb = fJbarE[batch_start + i];
+							double scale = (J > 0.0) ? std::cbrt(Jb / J) : 1.0;
+							for (int k = 0; k < 9; k++)
+								F3D[k][i] *= scale;
 						}
 					}
 
