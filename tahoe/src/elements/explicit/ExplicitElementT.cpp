@@ -359,7 +359,7 @@ double ExplicitElementT::ComputeStableTimeStep(void) const
 			                - dy1*(dx2*dz3-dz2*dx3)
 			                + dz1*(dx2*dy3-dy2*dx3)) / 6.0;
 			double h = cbrt(vol);
-			double c = 1.0; /* placeholder */
+			double c = fBatchMaterial->WaveSpeed();
 			double dt_elem = h / c;
 			if (dt_elem < dt_min) dt_min = dt_elem;
 		}

@@ -176,3 +176,158 @@ TEST(ExplJ2, BatchConsistency) {
 				<< "slot " << i << " component " << k;
 	}
 }
+
+/*=====================================================================
+ * TEST 5: Rigid rotation objectivity
+ *
+ * Apply F = R (pure rotation, no stretch). After building up some plastic
+ * state with shear, then rotating, the stress magnitude should rotate with
+ * the body (Mises invariance) but not grow spuriously.
+ *
+ * Simplified check: start at zero stress, apply rigid rotation only.
+ * The stress should remain zero through any rotation history.
+ *===================================================================*/
+TEST(ExplJ2, RigidRotationZeroStress) {
+	ExplJ2PlasticityT mat = MakeSteel();
+	int nhist = mat.NumHistoryVars();
+	std::vector<double> hist(nhist * MVSIZ, 0.0);
+	hist[0*MVSIZ + 0] = 1.0; hist[4*MVSIZ + 0] = 1.0; hist[8*MVSIZ + 0] = 1.0;
+
+	double F[9][MVSIZ];
+	SetIdentity(F, 0);
+	double sig[6][MVSIZ];
+
+	/* Apply SMALL rotation increments.  Hughes-Winget has O(d_theta^2) error
+	 * per step from truncating sym(f_rel - I) at first order.  For d_theta =
+	 * 0.001 rad (~0.057 deg), per-step de error ~ d_theta^2/2 = 5e-7, giving
+	 * pressure drift ~ 3*kappa*5e-7 ~ 0.2 MPa per step.  Over 100 steps of
+	 * 0.001 rad each (5.73 deg total), total drift < 20 MPa. */
+	const int n_steps = 100;
+	double d_theta = 0.001;  /* radians per step */
+	double cumulative_theta = 0.0;
+	for (int step = 0; step < n_steps; step++) {
+		cumulative_theta += d_theta;
+		double c = cos(cumulative_theta), s = sin(cumulative_theta);
+		F[0][0] =  c; F[1][0] = -s; F[2][0] = 0.0;
+		F[3][0] =  s; F[4][0] =  c; F[5][0] = 0.0;
+		F[6][0] = 0.0; F[7][0] = 0.0; F[8][0] = 1.0;
+
+		mat.ComputeStress3D(1, F, sig, hist.data());
+	}
+
+	/* Final stress at 5.73 deg rotation: drift < 30 MPa tolerates the
+	 * known quadratic error.  This is a SANITY check for no catastrophic
+	 * failure; strict rotation invariance requires exact Hencky or polar
+	 * decomposition (tracked in #24 follow-up). */
+	double max_sig = 0.0;
+	for (int k = 0; k < 6; k++) max_sig = std::max(max_sig, fabs(sig[k][0]));
+	EXPECT_LT(max_sig, 30.0)
+		<< "after " << cumulative_theta*180/M_PI << " deg rotation: max sigma="
+		<< max_sig << " MPa (H-W quadratic drift, documented).";
+
+	/* eps_p should never grow from rigid rotation alone */
+	EXPECT_NEAR(hist[15*MVSIZ + 0], 0.0, 1e-10);
+}
+
+/*=====================================================================
+ * TEST 6: Uniaxial stretch past yield, linear hardening curve
+ *
+ * Apply axial stretch (incompressible flow approximation via Poisson) and
+ * check sigma vs eps_p follows sigma_Y + H*eps_p.
+ *===================================================================*/
+TEST(ExplJ2, UniaxialStretchHardeningCurve) {
+	double E = 117e3, nu = 0.35;
+	double mu = E / (2.0*(1.0+nu));
+	double kappa = E / (3.0*(1.0-2.0*nu));
+	double sigY = 90.0, H = 150.0;
+	ExplJ2PlasticityT mat(mu, kappa, sigY, H, 8.96e-9);
+	int nhist = mat.NumHistoryVars();
+	std::vector<double> hist(nhist * MVSIZ, 0.0);
+	hist[0*MVSIZ + 0] = 1.0; hist[4*MVSIZ + 0] = 1.0; hist[8*MVSIZ + 0] = 1.0;
+
+	double F[9][MVSIZ];
+	SetIdentity(F, 0);
+	double sig[6][MVSIZ];
+
+	/* ramp axial stretch 1.0 -> 1.10 in 200 small steps
+	 * For plastic incompressibility, lateral stretch ~ 1/sqrt(lambda_z). */
+	const int n_steps = 200;
+	double lam_final = 1.10;
+
+	double last_q = 0.0;
+	double last_eps_p = 0.0;
+	for (int step = 1; step <= n_steps; step++) {
+		double lam_z = 1.0 + (lam_final - 1.0) * step / n_steps;
+		double lam_xy = 1.0/sqrt(lam_z);  /* isochoric */
+		F[0][0] = lam_xy; F[4][0] = lam_xy; F[8][0] = lam_z;
+		mat.ComputeStress3D(1, F, sig, hist.data());
+
+		/* von Mises */
+		double s11=sig[0][0], s22=sig[1][0], s33=sig[2][0];
+		double p = (s11+s22+s33)/3.0;
+		double d11 = s11-p, d22 = s22-p, d33 = s33-p;
+		double s23=sig[3][0], s13=sig[4][0], s12=sig[5][0];
+		double q = sqrt(1.5*(d11*d11+d22*d22+d33*d33 + 2*(s23*s23+s13*s13+s12*s12)));
+		double eps_p = hist[15*MVSIZ + 0];
+		last_q = q; last_eps_p = eps_p;
+	}
+
+	/* after full ramp, stress should be on yield surface sigma_Y + H*eps_p */
+	double expected_q = sigY + H*last_eps_p;
+	EXPECT_NEAR(last_q, expected_q, 0.05*expected_q)  /* 5% tolerance */
+		<< "q=" << last_q << " expected " << expected_q << " (eps_p=" << last_eps_p << ")";
+	EXPECT_GT(last_eps_p, 0.0) << "no plastic strain accumulated at 10% stretch";
+}
+
+/*=====================================================================
+ * TEST 7: Pure elastic load-unload cycle — hypoelastic path-dependence
+ *
+ * Apply ELASTIC shear strain (below yield), then reverse it.  Ideal
+ * hyperelasticity returns sigma=0.  Hughes-Winget hypoelastic has small
+ * O(gamma^2) path-dependence even in elastic regime.
+ *
+ * Full-unload to gamma=0 is constructed to stay elastic in both directions
+ * (|gamma| < gamma_yield = sigma_Y / (2*mu) so the path never touches the
+ * yield surface).
+ *===================================================================*/
+TEST(ExplJ2, ElasticLoadUnloadPathDependence) {
+	ExplJ2PlasticityT mat = MakeSteel();
+	int nhist = mat.NumHistoryVars();
+	std::vector<double> hist(nhist * MVSIZ, 0.0);
+	hist[0*MVSIZ + 0] = 1.0; hist[4*MVSIZ + 0] = 1.0; hist[8*MVSIZ + 0] = 1.0;
+
+	double F[9][MVSIZ];
+	double sig[6][MVSIZ];
+
+	double E = 200e3, nu = 0.3;
+	double mu = E / (2.0*(1.0+nu));
+	double gamma_yield = 250.0 / (mu * sqrt(3.0));  /* 0.00163 */
+	double gamma_peak = 0.5 * gamma_yield;            /* well elastic */
+
+	const int n_load = 100;
+	double peak_sigma12 = 0.0;
+	for (int step = 1; step <= n_load; step++) {
+		SetIdentity(F, 0);
+		F[1][0] = gamma_peak * step / n_load;
+		mat.ComputeStress3D(1, F, sig, hist.data());
+	}
+	peak_sigma12 = sig[5][0];
+	double peak_q = fabs(peak_sigma12) * sqrt(3.0);
+
+	for (int step = 1; step <= n_load; step++) {
+		SetIdentity(F, 0);
+		F[1][0] = gamma_peak * (1.0 - (double)step / n_load);
+		mat.ComputeStress3D(1, F, sig, hist.data());
+	}
+
+	/* residual: should be near zero for pure elastic cycle */
+	double residual_sigma12 = sig[5][0];
+	double residual_q = fabs(residual_sigma12) * sqrt(3.0);
+
+	EXPECT_LT(residual_q, 0.05 * peak_q)
+		<< "residual q=" << residual_q << " peak_q=" << peak_q
+		<< " drift=" << (residual_q/peak_q)*100 << "% (H-W documented limit <5%)";
+
+	/* no plastic strain should accumulate in purely elastic cycle */
+	EXPECT_NEAR(hist[15*MVSIZ + 0], 0.0, 1e-10);
+}

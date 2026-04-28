@@ -81,3 +81,11 @@ tahoe_gtest(test_GMRES       solvers/test_GMRES.cpp)
 tahoe_gtest_full(test_IsotropicT  materials/test_IsotropicT.cpp)
 tahoe_gtest_full(test_NeoHookean  materials/test_NeoHookean.cpp)
 tahoe_gtest_full(test_ExplJ2Plasticity materials/test_ExplJ2Plasticity.cpp)
+tahoe_gtest_full(test_TaylorBar benchmarks/test_TaylorBar.cpp)
+
+# Pass absolute paths so the integration test can locate the binary and
+# benchmark XML regardless of the CWD when gtest is invoked.
+target_compile_definitions(test_TaylorBar PRIVATE
+    "TAHOE_TEST_REPO_ROOT=\"${CMAKE_SOURCE_DIR}\""
+    "TAHOE_TEST_BUILD_DIR=\"${CMAKE_BINARY_DIR}\""
+)
