@@ -38,6 +38,17 @@ protected:
 	/** penalty "stiffness" */
 	double fK;
 
+	/** Coulomb friction coefficient (0 = frictionless, default).
+	 *  When >0, applies regularised kinetic Coulomb friction:
+	 *    f_t = -mu * |f_n| * v_t / sqrt(|v_t|^2 + eps^2)
+	 *  with v_t the relative tangential velocity at the contact point.
+	 *  See #26. */
+	double fMu;
+
+	/** Velocity regularisation for Coulomb friction (mm/us in our units).
+	 *  Prevents the discontinuity at zero tangential velocity. */
+	double fFrictionEps;
+
 	/** \name element coords and displacements */
 	/*@{*/
 	dArray2DT fElCoord;

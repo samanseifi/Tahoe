@@ -31,7 +31,9 @@ inline static void Vector(const double* start, const double* end, double* v)
 /* constructor */
 PenaltyContact3DT::PenaltyContact3DT(const ElementSupportT& support):
 	Contact3DT(support),
-	fK(0.0)
+	fK(0.0),
+	fMu(0.0),
+	fFrictionEps(1.0e-6)
 {
 	SetName("contact_3D_penalty");
 }
@@ -46,6 +48,19 @@ void PenaltyContact3DT::DefineParameters(ParameterListT& list) const
 	ParameterT stiffness(ParameterT::Double, "penalty_stiffness");
 	stiffness.AddLimit(0.0, LimitT::LowerInclusive);
 	list.AddParameter(stiffness);
+
+	/* Coulomb friction coefficient (0 = frictionless, default).
+	 * When >0, regularised kinetic Coulomb is applied:
+	 *   f_t = -mu * |f_n| * v_t / sqrt(|v_t|^2 + eps^2)  */
+	ParameterT mu(ParameterT::Double, "friction_coefficient");
+	mu.SetDefault(0.0);
+	mu.AddLimit(0.0, LimitT::LowerInclusive);
+	list.AddParameter(mu, ParameterListT::ZeroOrOnce);
+
+	ParameterT eps(ParameterT::Double, "friction_epsilon_velocity");
+	eps.SetDefault(1.0e-6);
+	eps.AddLimit(0.0, LimitT::Lower);
+	list.AddParameter(eps, ParameterListT::ZeroOrOnce);
 }
 
 /* accept parameter list */
@@ -56,6 +71,15 @@ void PenaltyContact3DT::TakeParameterList(const ParameterListT& list)
 
 	/* contact stiffness */
 	fK = list.GetParameter("penalty_stiffness");
+
+	/* Coulomb friction (defaults: mu=0 frictionless, eps=1e-6 regularisation) */
+	const ParameterT* p_mu = list.Parameter("friction_coefficient");
+	if (p_mu) fMu = *p_mu;
+	const ParameterT* p_eps = list.Parameter("friction_epsilon_velocity");
+	if (p_eps) fFrictionEps = *p_eps;
+	if (fMu > 0.0)
+		std::cout << "PenaltyContact3DT: Coulomb friction enabled, mu="
+		          << fMu << ", eps=" << fFrictionEps << std::endl;
 
 	/* dimension workspace */
 	fElCoord.Dimension(fNumFacetNodes + 1, NumSD());
@@ -273,13 +297,61 @@ void PenaltyContact3DT::RHSDriver(void)
 			fRHS.SetToScaled(dphi, fV1);
 
 			/* d_normal */
-			Set_dn_du(fElCoord, fdn_du);					
+			Set_dn_du(fElCoord, fdn_du);
 			fM1.Outer(n, n);
 			fM1.PlusIdentity(-1.0);
 			fM2.MultATB(fM1, fdn_du);
 			fM2.MultTx(c, fV1);
 			fRHS.AddScaled(-dphi/mag, fV1);
-								
+
+			/* ----- Coulomb friction (regularised kinetic) -----
+			 * f_t = -mu * |f_n| * v_t / sqrt(|v_t|^2 + eps^2)
+			 *
+			 * Distribution to nodal RHS:
+			 *   striker:  -f_t       (resists striker tangential motion)
+			 *   facet 1..3: +f_t / 3 (Newton's 3rd law, equal split)
+			 * The 1/3 split is a simplification of the proper shape-function
+			 * weighting; preserves linear momentum conservation, sufficient
+			 * for kinetic friction in penalty contact.
+			 */
+			if (fMu > 0.0) {
+				const dArray2DT& vel = Field()[1];
+				double v_str[3] = {vel(pelem[3], 0), vel(pelem[3], 1), vel(pelem[3], 2)};
+				double v_fc[3]  = {
+					(vel(pelem[0], 0) + vel(pelem[1], 0) + vel(pelem[2], 0)) / 3.0,
+					(vel(pelem[0], 1) + vel(pelem[1], 1) + vel(pelem[2], 1)) / 3.0,
+					(vel(pelem[0], 2) + vel(pelem[1], 2) + vel(pelem[2], 2)) / 3.0
+				};
+				double v_rel[3] = {v_str[0]-v_fc[0], v_str[1]-v_fc[1], v_str[2]-v_fc[2]};
+				double vrn = v_rel[0]*n[0] + v_rel[1]*n[1] + v_rel[2]*n[2];
+				double vt[3] = {v_rel[0]-vrn*n[0], v_rel[1]-vrn*n[1], v_rel[2]-vrn*n[2]};
+				double vt_mag2 = vt[0]*vt[0] + vt[1]*vt[1] + vt[2]*vt[2];
+				double inv_smooth = 1.0 / sqrt(vt_mag2 + fFrictionEps*fFrictionEps);
+				double f_n_mag = fabs(dphi);
+				double s = -fMu * f_n_mag * inv_smooth;  /* opposes v_t */
+				double ft[3] = {s*vt[0], s*vt[1], s*vt[2]};
+
+				/* fRHS layout: 4 nodes * 3 dofs = 12 doubles, node order
+				 * [facet1, facet2, facet3, striker] */
+				double third = 1.0 / 3.0;
+				/* facet 1 — opposite reaction */
+				fRHS[0]  += -ft[0] * third;
+				fRHS[1]  += -ft[1] * third;
+				fRHS[2]  += -ft[2] * third;
+				/* facet 2 */
+				fRHS[3]  += -ft[0] * third;
+				fRHS[4]  += -ft[1] * third;
+				fRHS[5]  += -ft[2] * third;
+				/* facet 3 */
+				fRHS[6]  += -ft[0] * third;
+				fRHS[7]  += -ft[1] * third;
+				fRHS[8]  += -ft[2] * third;
+				/* striker — friction acts ON it */
+				fRHS[9]  += ft[0];
+				fRHS[10] += ft[1];
+				fRHS[11] += ft[2];
+			}
+
 			/* get equation numbers */
 			fEqnos[0].RowAlias(i, eqnos);
 

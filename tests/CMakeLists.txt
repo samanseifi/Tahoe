@@ -84,6 +84,11 @@ tahoe_gtest_full(test_ExplJ2Plasticity materials/test_ExplJ2Plasticity.cpp)
 tahoe_gtest_full(test_Tet4Kernel       kernels/test_Tet4Kernel.cpp)
 tahoe_gtest_full(test_ANPHelperT       kernels/test_ANPHelperT.cpp)
 tahoe_gtest_full(test_TaylorBar benchmarks/test_TaylorBar.cpp)
+tahoe_gtest_full(test_FrictionContact benchmarks/test_FrictionContact.cpp)
+target_compile_definitions(test_FrictionContact PRIVATE
+    "TAHOE_TEST_REPO_ROOT=\"${CMAKE_SOURCE_DIR}\""
+    "TAHOE_TEST_BUILD_DIR=\"${CMAKE_BINARY_DIR}\""
+)
 
 # Pass absolute paths so the integration test can locate the binary and
 # benchmark XML regardless of the CWD when gtest is invoked.
