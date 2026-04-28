@@ -5,6 +5,7 @@
 #include "ExplicitKernelT.h"
 #include "Q4KernelT.h"
 #include "Hex8KernelT.h"
+#include "Tet4KernelT.h"
 #include "ExplicitMaterialT.h"
 #include "ExplNeoHookeanT.h"
 #include "ExplJ2PlasticityT.h"
@@ -138,6 +139,8 @@ void ExplicitElementT::TakeParameterList(const ParameterListT& list)
 		fKernel = new Q4KernelT;
 	else if (nsd == 3 && nen == 8)
 		fKernel = new Hex8KernelT;
+	else if (nsd == 3 && nen == 4)
+		fKernel = new Tet4KernelT;
 	else {
 		std::cout << "ExplicitElementT: unsupported topology nsd="
 		          << nsd << " nen=" << nen
@@ -344,20 +347,33 @@ double ExplicitElementT::ComputeStableTimeStep(void) const
 			if (dt_elem < dt_min) dt_min = dt_elem;
 		}
 		else {
-			/* 3D: approximate volume from hex coords */
+			/* 3D: characteristic length from element volume */
 			double x[8], y[8], z[8];
 			for (int n = 0; n < nen; n++) {
 				x[n] = ref_coords(ec[n], 0);
 				y[n] = ref_coords(ec[n], 1);
 				z[n] = ref_coords(ec[n], 2);
 			}
-			/* approximate volume: 1/6 * |diag1 x diag2 . diag3| */
-			double dx1 = x[6]-x[0], dy1 = y[6]-y[0], dz1 = z[6]-z[0];
-			double dx2 = x[7]-x[1], dy2 = y[7]-y[1], dz2 = z[7]-z[1];
-			double dx3 = x[5]-x[3], dy3 = y[5]-y[3], dz3 = z[5]-z[3];
-			double vol = fabs(dx1*(dy2*dz3-dz2*dy3)
-			                - dy1*(dx2*dz3-dz2*dx3)
-			                + dz1*(dx2*dy3-dy2*dx3)) / 6.0;
+			double vol;
+			if (nen == 8) {
+				/* Hex8: 1/6 * |diag1 x diag2 . diag3| */
+				double dx1 = x[6]-x[0], dy1 = y[6]-y[0], dz1 = z[6]-z[0];
+				double dx2 = x[7]-x[1], dy2 = y[7]-y[1], dz2 = z[7]-z[1];
+				double dx3 = x[5]-x[3], dy3 = y[5]-y[3], dz3 = z[5]-z[3];
+				vol = fabs(dx1*(dy2*dz3-dz2*dy3)
+				         - dy1*(dx2*dz3-dz2*dx3)
+				         + dz1*(dx2*dy3-dy2*dx3)) / 6.0;
+			} else {
+				/* Tet4: 1/6 * |(x_0-x_2) x (x_1-x_2) . (x_3-x_2)|
+				 * (uses Tahoe Tet4 node ordering — node 2 is the apex at
+				 * parametric origin) */
+				double a1 = x[0]-x[2], a2 = y[0]-y[2], a3 = z[0]-z[2];
+				double b1 = x[1]-x[2], b2 = y[1]-y[2], b3 = z[1]-z[2];
+				double c1 = x[3]-x[2], c2 = y[3]-y[2], c3 = z[3]-z[2];
+				vol = fabs(a1*(b2*c3-b3*c2)
+				         - a2*(b1*c3-b3*c1)
+				         + a3*(b1*c2-b2*c1)) / 6.0;
+			}
 			double h = cbrt(vol);
 			double c = fBatchMaterial->WaveSpeed();
 			double dt_elem = h / c;
@@ -413,12 +429,23 @@ void ExplicitElementT::ApplyMassScaling(void)
 				y[n] = ref_coords(ec[n], 1);
 				z[n] = ref_coords(ec[n], 2);
 			}
-			double dx1=x[6]-x[0], dy1=y[6]-y[0], dz1=z[6]-z[0];
-			double dx2=x[7]-x[1], dy2=y[7]-y[1], dz2=z[7]-z[1];
-			double dx3=x[5]-x[3], dy3=y[5]-y[3], dz3=z[5]-z[3];
-			double vol = fabs(dx1*(dy2*dz3-dz2*dy3)
-			                - dy1*(dx2*dz3-dz2*dx3)
-			                + dz1*(dx2*dy3-dy2*dx3)) / 6.0;
+			double vol;
+			if (nen == 8) {
+				double dx1=x[6]-x[0], dy1=y[6]-y[0], dz1=z[6]-z[0];
+				double dx2=x[7]-x[1], dy2=y[7]-y[1], dz2=z[7]-z[1];
+				double dx3=x[5]-x[3], dy3=y[5]-y[3], dz3=z[5]-z[3];
+				vol = fabs(dx1*(dy2*dz3-dz2*dy3)
+				         - dy1*(dx2*dz3-dz2*dx3)
+				         + dz1*(dx2*dy3-dy2*dx3)) / 6.0;
+			} else {
+				/* Tet4 */
+				double a1 = x[0]-x[2], a2 = y[0]-y[2], a3 = z[0]-z[2];
+				double b1 = x[1]-x[2], b2 = y[1]-y[2], b3 = z[1]-z[2];
+				double c1 = x[3]-x[2], c2 = y[3]-y[2], c3 = z[3]-z[2];
+				vol = fabs(a1*(b2*c3-b3*c2)
+				         - a2*(b1*c3-b3*c1)
+				         + a3*(b1*c2-b2*c1)) / 6.0;
+			}
 			h = cbrt(vol);
 		}
 

@@ -42,9 +42,10 @@ void Q4KernelT::ComputeIPData(
 		double inv = 1.0 / det;
 		double Ji11 =  J22*inv, Ji12 = -J12*inv;
 		double Ji21 = -J21*inv, Ji22 =  J11*inv;
+		/* dN_n/dX_i = sum_k (J^{-1})[k,i] * dN_n/dξ_k  — uses COL i of Ji */
 		for (int n = 0; n < 4; n++) {
-			dNdx[n][i] = Ji11*dNdxi[n] + Ji12*dNdeta[n];
-			dNdy[n][i] = Ji21*dNdxi[n] + Ji22*dNdeta[n];
+			dNdx[n][i] = Ji11*dNdxi[n] + Ji21*dNdeta[n];
+			dNdy[n][i] = Ji12*dNdxi[n] + Ji22*dNdeta[n];
 		}
 	}
 }

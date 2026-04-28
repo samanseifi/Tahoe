@@ -66,10 +66,14 @@ void Hex8KernelT::ComputeIPData(
 		Ji[2][1] = -(J[0][0]*J[2][1] - J[0][1]*J[2][0])*inv;
 		Ji[2][2] =  (J[0][0]*J[1][1] - J[0][1]*J[1][0])*inv;
 
+		/* dN_n/dX_i = sum_k (J^{-1})[k,i] * dN_n/dξ_k    (chain rule)
+		 * Note: uses COLUMN i of Ji (= J^{-1}), NOT row i.
+		 * Bug fix Mar 2026: this was wrong (transposed) for non-axis-aligned
+		 * Jacobians; symmetric Ji on aligned meshes hid the issue. */
 		for (int n = 0; n < 8; n++) {
-			dNdx[n][i] = Ji[0][0]*dNdxi[n] + Ji[0][1]*dNdeta[n] + Ji[0][2]*dNdmu[n];
-			dNdy[n][i] = Ji[1][0]*dNdxi[n] + Ji[1][1]*dNdeta[n] + Ji[1][2]*dNdmu[n];
-			dNdz[n][i] = Ji[2][0]*dNdxi[n] + Ji[2][1]*dNdeta[n] + Ji[2][2]*dNdmu[n];
+			dNdx[n][i] = Ji[0][0]*dNdxi[n] + Ji[1][0]*dNdeta[n] + Ji[2][0]*dNdmu[n];
+			dNdy[n][i] = Ji[0][1]*dNdxi[n] + Ji[1][1]*dNdeta[n] + Ji[2][1]*dNdmu[n];
+			dNdz[n][i] = Ji[0][2]*dNdxi[n] + Ji[1][2]*dNdeta[n] + Ji[2][2]*dNdmu[n];
 		}
 	}
 }

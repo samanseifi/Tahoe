@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!-- Tet4 explicit smoke test (#27): 270-element tet bar with initial velocity
+     impacting a rigid wall.  Verifies the new Tet4KernelT runs end-to-end
+     in ExplicitElementT alongside Q4/Hex8.
+
+     Mesh: 5-tet decomposition of a 3x3x6 hex, domain [0,1]^3 stretched in z.
+     Material: very soft Cu (sigma_Y = 1 MPa) so plasticity engages on the
+     prismatic tet geometry — same demo parameters as the Hex8 Taylor-bar
+     CI (taylor_ci.xml).  See #28 for ANP fix to the locking issue. -->
+<tahoe geometry_file="geometry/tet_small.geom"
+       output_format="ExodusII"
+       compute_IC="false"
+       title="Explicit Tet4 smoke test (270 tets)">
+    <!-- Conservative dt for tet stability: 1e-6 us (3% of computed CFL).
+         num_steps=1000 -> total 1e-3 us (very short, just to verify no NaN).
+         output every 100 steps so we can see when (if) instability hits. -->
+    <time num_steps="10000" output_inc="2000" time_step="1.0e-05">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0.0" y="0.0"/>
+                <OrderedPair x="1.0e+06" y="1.0e+06"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+    <nodes>
+        <field field_name="displacement" integrator="central_difference">
+            <dof_labels>
+                <String value="D_X"/>
+                <String value="D_Y"/>
+                <String value="D_Z"/>
+            </dof_labels>
+            <!-- ns7 = body (all nodes not on z=0); apply initial velocity -->
+            <initial_condition dof="3" node_ID="7" type="D_u" value="-0.190"/>
+            <!-- rigid frictionless wall at z=0 -->
+            <kinematic_BC dof="3" node_ID="5"/>
+        </field>
+    </nodes>
+    <element_list>
+        <explicit_solid field_name="displacement" mass_type="lumped_mass">
+            <tetrahedron/>
+            <solid_element_nodal_output displacements="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <large_strain_material_3D>
+                    <RG_split_general density="8.96e-3">
+                        <rg_eq_potential>
+                            <neo-hookean kappa="130000.0" mu="43333.0"/>
+                        </rg_eq_potential>
+                    </RG_split_general>
+                </large_strain_material_3D>
+            </large_strain_element_block>
+            <j2_plasticity sigma_Y="1.0" hardening="50.0"/>
+        </explicit_solid>
+    </element_list>
+    <linear_solver>
+        <diagonal_matrix/>
+    </linear_solver>
+</tahoe>
