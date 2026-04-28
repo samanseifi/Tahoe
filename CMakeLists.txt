@@ -20,7 +20,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 option(TAHOE_EXPAT    "Use bundled expat XML parser (highly recommended)"  ON)
 option(TAHOE_SPOOLES  "Use bundled SPOOLES direct sparse solver"           ON)
 option(TAHOE_F2C      "Use bundled F2C (Fortran-to-C for ABAQUS UMATs)"   ON)
-option(TAHOE_MPI      "Enable MPI parallelization (requires system MPI)"   ON)
+option(TAHOE_MPI      "Enable MPI parallelization (requires system MPI)"   OFF)
 option(TAHOE_SEACAS   "Enable SEACAS/ExodusII mesh I/O (requires ACCESS)"  ON)
 option(TAHOE_DEV      "Build the research/development element module"      ON)
 option(TAHOE_OPENMP   "Enable OpenMP threading for explicit elements"       ON)
@@ -138,7 +138,7 @@ endif()
 # without actual MPI communication, but the library itself still depends on
 # MPI and ScaLAPACK at link time.
 # ---------------------------------------------------------------------------
-option(TAHOE_MUMPS "Link system MUMPS direct solver (-DTAHOE_MUMPS=ON)" ON)
+option(TAHOE_MUMPS "Link system MUMPS direct solver (-DTAHOE_MUMPS=ON)" OFF)
 if(TAHOE_MUMPS)
     message(STATUS "Tahoe: MUMPS enabled (system library — requires libmumps-dev)")
 endif()
@@ -152,7 +152,7 @@ endif()
 # better load balance — used automatically when __METIS__ is defined (i.e. when
 # METIS is available, it is the default; disable with -no_metis at runtime).
 # ---------------------------------------------------------------------------
-option(TAHOE_METIS "Use system METIS graph partitioner (-DTAHOE_METIS=ON)" ON)
+option(TAHOE_METIS "Use system METIS graph partitioner (-DTAHOE_METIS=ON)" OFF)
 if(TAHOE_METIS)
     find_path(METIS_INCLUDE_DIR metis.h
         HINTS /usr/include /usr/local/include
