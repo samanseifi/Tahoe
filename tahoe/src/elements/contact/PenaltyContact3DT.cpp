@@ -5,6 +5,9 @@
 #include <cmath>
 #include <iostream>
 #include <iomanip>
+#ifdef _OPENMP
+#include <omp.h>
+#endif
 
 #include "ifstreamT.h"
 #include "eIntegratorT.h"
@@ -33,7 +36,8 @@ PenaltyContact3DT::PenaltyContact3DT(const ElementSupportT& support):
 	Contact3DT(support),
 	fK(0.0),
 	fMu(0.0),
-	fFrictionEps(1.0e-6)
+	fFrictionEps(1.0e-6),
+	fViscousDamping(0.0)
 {
 	SetName("contact_3D_penalty");
 }
@@ -61,6 +65,15 @@ void PenaltyContact3DT::DefineParameters(ParameterListT& list) const
 	eps.SetDefault(1.0e-6);
 	eps.AddLimit(0.0, LimitT::Lower);
 	list.AddParameter(eps, ParameterListT::ZeroOrOnce);
+
+	/* Normal-direction viscous damping (see #31).  Dimensional: force per
+	 * unit velocity per unit area.  Default 0 = no damping (existing
+	 * behaviour).  Typical value ~ 2 * sqrt(rho * E) for critical damping
+	 * of the contact spring — user-calibrated. */
+	ParameterT visc(ParameterT::Double, "viscous_damping");
+	visc.SetDefault(0.0);
+	visc.AddLimit(0.0, LimitT::LowerInclusive);
+	list.AddParameter(visc, ParameterListT::ZeroOrOnce);
 }
 
 /* accept parameter list */
@@ -80,6 +93,14 @@ void PenaltyContact3DT::TakeParameterList(const ParameterListT& list)
 	if (fMu > 0.0)
 		std::cout << "PenaltyContact3DT: Coulomb friction enabled, mu="
 		          << fMu << ", eps=" << fFrictionEps << std::endl;
+
+	/* Viscous normal damping (default 0 = no damping). */
+	const ParameterT* p_visc = list.Parameter("viscous_damping");
+	if (p_visc) fViscousDamping = *p_visc;
+	if (fViscousDamping > 0.0)
+		std::cout << "PenaltyContact3DT: viscous damping enabled, c="
+		          << fViscousDamping << " (force per unit velocity per unit area)"
+		          << std::endl;
 
 	/* dimension workspace */
 	fElCoord.Dimension(fNumFacetNodes + 1, NumSD());
@@ -237,11 +258,6 @@ void PenaltyContact3DT::RHSDriver(void)
 	const dArray2DT& init_coords = ElementSupport().InitialCoordinates();
 	const dArray2DT& disp = Field()[0]; /* displacements */
 
-	/* work space */
-	dArrayT c(3), n(3);
-	iArrayT eqnos;
-	double a[3], b[3];
-
 	/* reset tracking data */
 	int num_contact = 0;
 	double h_max = 0.0;
@@ -249,22 +265,56 @@ void PenaltyContact3DT::RHSDriver(void)
 	/* clear force */
 	fStrikerForce2D = 0.0;
 
-	const int* pelem = fConnectivities[0]->Pointer();
+	/* OpenMP-parallel contact loop (#33).  Workspaces (elCoord, dn_du, M1,
+	 * M2, V1, RHS) are declared thread-local inside the loop so each thread
+	 * has its own.  Class member fdc_du is constant after init — shared
+	 * read-only.  fStrikerForce2D writes and AssembleRHS are serialised in
+	 * a critical section (small per-pair cost, exact same scatter as serial).
+	 *
+	 * Threshold matches the explicit-element auto-tune (#32): only enable
+	 * threading when the loop has enough work per thread to amortise the
+	 * sync cost. */
+	const int* base = fConnectivities[0]->Pointer();
 	int rowlength = fConnectivities[0]->MinorDim();
-	for (int i = 0; i < fConnectivities[0]->MajorDim(); i++, pelem += rowlength)
+	int N = fConnectivities[0]->MajorDim();
+
+	int max_threads = 1;
+#ifdef _OPENMP
+	max_threads = omp_get_max_threads();
+#endif
+	bool use_omp = (N >= 32 * max_threads);
+
+	#pragma omp parallel for schedule(dynamic, 16) \
+		reduction(+:num_contact) reduction(min:h_max) if(use_omp)
+	for (int i = 0; i < N; i++)
 	{
+		const int* pelem = base + i * rowlength;
+
+		/* thread-local workspaces (replicate the class members) */
+		dArray2DT elCoord(fNumFacetNodes + 1, NumSD());
+		dArray2DT elDisp (fNumFacetNodes + 1, NumDOF());
+		dMatrixT  dn_du  (NumSD(), elDisp.Length());
+		dMatrixT  M1     (NumSD());
+		dMatrixT  M2     (NumSD(), elDisp.Length());
+		dArrayT   V1     (elDisp.Length());
+		dArrayT   RHS    (elDisp.Length());
+		dArrayT fx1, fx2, fx3, fStriker;
+		dArrayT c(3), n(3);
+		iArrayT eqnos;
+		double a[3], b[3];
+
 		/* collect element configuration */
-		fElCoord.RowCollect(pelem, init_coords);
-		fElDisp.RowCollect(pelem, disp);
+		elCoord.RowCollect(pelem, init_coords);
+		elDisp.RowCollect(pelem, disp);
 
 		/* current configuration using effective displacement */
-		fElCoord.AddScaled(constKd, fElDisp);
-	
+		elCoord.AddScaled(constKd, elDisp);
+
 		/* get facet and striker coords */
-		fElCoord.RowAlias(0, fx1);
-		fElCoord.RowAlias(1, fx2);
-		fElCoord.RowAlias(2, fx3);
-		fElCoord.RowAlias(3, fStriker);
+		elCoord.RowAlias(0, fx1);
+		elCoord.RowAlias(1, fx2);
+		elCoord.RowAlias(2, fx3);
+		elCoord.RowAlias(3, fStriker);
 
 		/* facet normal (direction) = a x b */
 		Vector(fx1.Pointer(), fx2.Pointer(), a);
@@ -284,25 +334,25 @@ void PenaltyContact3DT::RHSDriver(void)
 		/* contact */
 		if (h < 0.0)
 		{
-			/* tracking data */
+			/* tracking data — reductions handle accumulation */
 			num_contact++;
 			h_max = (h < h_max) ? h : h_max;
-		
-			/* penetration force */
-			int striker_index = fStrikerTags_map.Map(pelem[3]);			
-			double dphi =-fK*h*fStrikerArea[striker_index];
 
-			/* d_c */
-			fdc_du.MultTx(n, fV1);
-			fRHS.SetToScaled(dphi, fV1);
+			/* penetration force */
+			int striker_index = fStrikerTags_map.Map(pelem[3]);
+			double dphi = -fK*h*fStrikerArea[striker_index];
+
+			/* d_c (fdc_du is const member, read-only here) */
+			fdc_du.MultTx(n, V1);
+			RHS.SetToScaled(dphi, V1);
 
 			/* d_normal */
-			Set_dn_du(fElCoord, fdn_du);
-			fM1.Outer(n, n);
-			fM1.PlusIdentity(-1.0);
-			fM2.MultATB(fM1, fdn_du);
-			fM2.MultTx(c, fV1);
-			fRHS.AddScaled(-dphi/mag, fV1);
+			Set_dn_du(elCoord, dn_du);
+			M1.Outer(n, n);
+			M1.PlusIdentity(-1.0);
+			M2.MultATB(M1, dn_du);
+			M2.MultTx(c, V1);
+			RHS.AddScaled(-dphi/mag, V1);
 
 			/* ----- Coulomb friction (regularised kinetic) -----
 			 * f_t = -mu * |f_n| * v_t / sqrt(|v_t|^2 + eps^2)
@@ -335,33 +385,75 @@ void PenaltyContact3DT::RHSDriver(void)
 				 * [facet1, facet2, facet3, striker] */
 				double third = 1.0 / 3.0;
 				/* facet 1 — opposite reaction */
-				fRHS[0]  += -ft[0] * third;
-				fRHS[1]  += -ft[1] * third;
-				fRHS[2]  += -ft[2] * third;
+				RHS[0]  += -ft[0] * third;
+				RHS[1]  += -ft[1] * third;
+				RHS[2]  += -ft[2] * third;
 				/* facet 2 */
-				fRHS[3]  += -ft[0] * third;
-				fRHS[4]  += -ft[1] * third;
-				fRHS[5]  += -ft[2] * third;
+				RHS[3]  += -ft[0] * third;
+				RHS[4]  += -ft[1] * third;
+				RHS[5]  += -ft[2] * third;
 				/* facet 3 */
-				fRHS[6]  += -ft[0] * third;
-				fRHS[7]  += -ft[1] * third;
-				fRHS[8]  += -ft[2] * third;
+				RHS[6]  += -ft[0] * third;
+				RHS[7]  += -ft[1] * third;
+				RHS[8]  += -ft[2] * third;
 				/* striker — friction acts ON it */
-				fRHS[9]  += ft[0];
-				fRHS[10] += ft[1];
-				fRHS[11] += ft[2];
+				RHS[9]  += ft[0];
+				RHS[10] += ft[1];
+				RHS[11] += ft[2];
 			}
 
-			/* get equation numbers */
+			/* ----- Normal viscous damping (#31) -----
+			 * f_visc_n = -c * v_n_relative * area
+			 * Damps the spring-mass ringing of the penalty contact.
+			 *
+			 * Distribution: same Newton-3rd-law split as Coulomb friction —
+			 *   striker:  +f_visc * n (away from facet, resists approach)
+			 *   facet 1..3: -f_visc * n / 3
+			 *
+			 * Note: a striker that's APPROACHING (v_n_rel < 0) gets a
+			 * REPULSIVE damp force (along +n), reinforcing the normal spring;
+			 * a striker that's SEPARATING (v_n_rel > 0) gets an ATTRACTIVE
+			 * damp force.  This mimics LS-DYNA VDC behaviour.
+			 */
+			if (fViscousDamping > 0.0) {
+				const dArray2DT& vel = Field()[1];
+				double vsr[3] = {vel(pelem[3], 0), vel(pelem[3], 1), vel(pelem[3], 2)};
+				double vfc[3] = {
+					(vel(pelem[0], 0) + vel(pelem[1], 0) + vel(pelem[2], 0)) / 3.0,
+					(vel(pelem[0], 1) + vel(pelem[1], 1) + vel(pelem[2], 1)) / 3.0,
+					(vel(pelem[0], 2) + vel(pelem[1], 2) + vel(pelem[2], 2)) / 3.0
+				};
+				double vrn = (vsr[0]-vfc[0])*n[0] + (vsr[1]-vfc[1])*n[1] + (vsr[2]-vfc[2])*n[2];
+				double area = fStrikerArea[striker_index];
+				double f_visc = -fViscousDamping * vrn * area;
+				double third = 1.0 / 3.0;
+				RHS[0]  += -f_visc * n[0] * third;
+				RHS[1]  += -f_visc * n[1] * third;
+				RHS[2]  += -f_visc * n[2] * third;
+				RHS[3]  += -f_visc * n[0] * third;
+				RHS[4]  += -f_visc * n[1] * third;
+				RHS[5]  += -f_visc * n[2] * third;
+				RHS[6]  += -f_visc * n[0] * third;
+				RHS[7]  += -f_visc * n[1] * third;
+				RHS[8]  += -f_visc * n[2] * third;
+				RHS[9]  +=  f_visc * n[0];
+				RHS[10] +=  f_visc * n[1];
+				RHS[11] +=  f_visc * n[2];
+			}
+
+			/* get equation numbers (read-only — fEqnos is shared) */
 			fEqnos[0].RowAlias(i, eqnos);
 
-			/* assemble */
-			ElementSupport().AssembleRHS(Group(), fRHS, eqnos);
-
-			/* store force vector for output */
-			fStrikerForce2D(striker_index,0) = dphi*n[0];
-			fStrikerForce2D(striker_index,1) = dphi*n[1];
-			fStrikerForce2D(striker_index,2) = dphi*n[2];
+			/* serialise the global-RHS scatter and per-striker force store
+			 * so multiple threads contributing to the same equation row or
+			 * the same striker index don't race. */
+			#pragma omp critical(PenaltyContact3DT_assemble)
+			{
+				ElementSupport().AssembleRHS(Group(), RHS, eqnos);
+				fStrikerForce2D(striker_index, 0) = dphi*n[0];
+				fStrikerForce2D(striker_index, 1) = dphi*n[1];
+				fStrikerForce2D(striker_index, 2) = dphi*n[2];
+			}
 		}
 	}
 

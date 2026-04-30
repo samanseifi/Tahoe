@@ -89,6 +89,11 @@ target_compile_definitions(test_FrictionContact PRIVATE
     "TAHOE_TEST_REPO_ROOT=\"${CMAKE_SOURCE_DIR}\""
     "TAHOE_TEST_BUILD_DIR=\"${CMAKE_BINARY_DIR}\""
 )
+tahoe_gtest_full(test_ContactPerf benchmarks/test_ContactPerf.cpp)
+target_compile_definitions(test_ContactPerf PRIVATE
+    "TAHOE_TEST_REPO_ROOT=\"${CMAKE_SOURCE_DIR}\""
+    "TAHOE_TEST_BUILD_DIR=\"${CMAKE_BINARY_DIR}\""
+)
 
 # Pass absolute paths so the integration test can locate the binary and
 # benchmark XML regardless of the CWD when gtest is invoked.

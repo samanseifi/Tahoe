@@ -23,6 +23,9 @@
 #include <iostream>
 #include <cstring>
 #include <chrono>
+#ifdef _OPENMP
+#include <omp.h>
+#endif
 
 using namespace Tahoe;
 
@@ -681,8 +684,23 @@ void ExplicitElementT::BatchedInternalForce(double constKd)
 	/* total batches across all blocks */
 	int num_batches = (fTotalElements + MVSIZ - 1) / MVSIZ;
 
-	/* OpenMP parallel loop over batches */
-	#pragma omp parallel for schedule(dynamic, 1) if(num_batches > 1)
+	/* OpenMP parallel loop over batches.
+	 *
+	 * Threshold: only parallelise when there are enough batches to amortise
+	 * per-task sync overhead.  Heuristic — at least 4 batches per available
+	 * thread.  Below that, run serial (avoids the small-problem slowdown
+	 * documented in #32, where 250-hex tests ran 2-3x SLOWER with 12 threads
+	 * than with 1 thread).
+	 *
+	 * This is a static decision per call; the value of fThreadingActive is
+	 * also stored for the timing-banner stats below. */
+	int max_threads = 1;
+#ifdef _OPENMP
+	max_threads = omp_get_max_threads();
+#endif
+	bool use_omp = (num_batches >= 4 * max_threads);
+
+	#pragma omp parallel for schedule(dynamic, 1) if(use_omp)
 	for (int ibatch = 0; ibatch < num_batches; ibatch++) {
 		int batch_start = ibatch * MVSIZ;
 		int nel = batch_start + MVSIZ <= fTotalElements

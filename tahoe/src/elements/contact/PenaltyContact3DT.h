@@ -49,6 +49,15 @@ protected:
 	 *  Prevents the discontinuity at zero tangential velocity. */
 	double fFrictionEps;
 
+	/** Normal-direction viscous damping coefficient (force / velocity / area).
+	 *  When >0, damps the relative normal velocity at contacting strikers:
+	 *    f_visc_n = -c * v_n_relative * area
+	 *  where v_n_relative is the relative normal velocity (striker-facet
+	 *  centroid).  The coefficient is dimensional — user calibrates against
+	 *  problem stiffness/mass to choose a critical-damping fraction.
+	 *  See #31. */
+	double fViscousDamping;
+
 	/** \name element coords and displacements */
 	/*@{*/
 	dArray2DT fElCoord;
