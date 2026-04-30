@@ -1,16 +1,12 @@
 <?xml version="1.0"?>
-<!-- Friction sliding test (#26): two stacked cubes with prescribed
-     compression on the top face (sustained normal contact), upper cube
-     given initial X velocity.  Coulomb friction decelerates the X motion.
-
-     Setup: bottom face fixed, top face pressed down 5% (steady compression).
-     Upper cube nodes start with V_X = 2.0 mm/us.  Friction force opposes
-     this motion; X displacement at t_final is reduced from the no-friction
-     baseline.  -->
-<tahoe geometry_file="../../level.2/geometry/two_cubes.1.geom"
+<!-- Friction sliding test (#26): refined 5x5x5 hex per cube.
+     Upper cube has X-velocity = +2 mm/us; sustained 5% Z compression
+     held by prescribing top face (NS2) z-displacement = -0.05.
+     Friction (mu=0.3) decelerates the X motion. -->
+<tahoe geometry_file="geometry/two_cubes_refined.geom"
        output_format="ExodusII"
-       title="Sliding cube on cube with no friction (mu=0)">
-    <time num_steps="5000" output_inc="100" time_step="1.0e-04">
+       title="Sliding cube on cube with no friction reference (mu=0, refined)">
+    <time num_steps="5000" output_inc="50" time_step="1.0e-04">
         <schedule_function>
             <piecewise_linear>
                 <OrderedPair x="0.0" y="0.0"/>
@@ -25,16 +21,16 @@
                 <String value="D_Y"/>
                 <String value="D_Z"/>
             </dof_labels>
-            <!-- give top cube nodes (9..16) initial X velocity -->
-            <initial_condition dof="1" node_ID="3" type="D_u" value="2.0"/>
+            <!-- upper cube (NS4 interface + NS2 top) initial X velocity -->
             <initial_condition dof="1" node_ID="4" type="D_u" value="2.0"/>
-            <!-- bottom cube fully fixed -->
+            <initial_condition dof="1" node_ID="2" type="D_u" value="2.0"/>
+            <!-- lower cube bottom face fully fixed -->
             <kinematic_BC dof="1" node_ID="1"/>
             <kinematic_BC dof="2" node_ID="1"/>
             <kinematic_BC dof="3" node_ID="1"/>
-            <!-- top cube top face: hold Z = -0.05 (sustained 5% compression)
-                 leave X and Y free so it can slide -->
-            <kinematic_BC dof="3" node_ID="4" schedule="1" type="u" value="-0.05"/>
+            <!-- top face: hold z = -0.05 (sustained 5% compression),
+                 leave x and y free so the cube can slide -->
+            <kinematic_BC dof="3" node_ID="2" schedule="1" type="u" value="-0.05"/>
         </field>
     </nodes>
     <element_list>
@@ -42,7 +38,10 @@
             <hexahedron/>
             <solid_element_nodal_output displacements="1" velocities="1" stress="1"/>
             <large_strain_element_block>
-                <block_ID_list><String value="1"/></block_ID_list>
+                <block_ID_list>
+                    <String value="1"/>
+                    <String value="2"/>
+                </block_ID_list>
                 <large_strain_material_3D>
                     <RG_split_general density="1.0">
                         <rg_eq_potential>
@@ -65,8 +64,8 @@
             </contact_surface>
             <contact_nodes>
                 <node_ID_list>
-                    <String value="2"/>
                     <String value="3"/>
+                    <String value="4"/>
                 </node_ID_list>
             </contact_nodes>
         </contact_3D_penalty>
