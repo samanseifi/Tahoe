@@ -58,7 +58,7 @@ Increasing-complexity sequence used while bringing the Tet4 kernel up.
 |------|-------|
 | `vectorized_tet_anp_small.xml` | Same mesh as `vectorized_tet_small.xml` with `<anp_tet4 enabled="true"/>` — F-bar averaging produces ~35 % more compliance, exactly the locking relief expected from ELFORM=13 |
 
-### Contact (issues #19, #26)
+### Contact (issues #19, #26, #31, #32, #33)
 
 | File | Notes |
 |------|-------|
@@ -66,6 +66,17 @@ Increasing-complexity sequence used while bringing the Tet4 kernel up.
 | `vectorized_cubes_impact.xml` | Dynamic impact, initial velocity (#19) — bouncing |
 | `vectorized_cubes_nofric.xml` | Sliding cube, frictionless (μ = 0) — reference |
 | `vectorized_cubes_friction.xml` | Sliding cube, μ = 0.3 — Coulomb friction retards motion 10 % at t = 0.5 µs (#26) |
+
+Performance + stability fixes shipped alongside these benchmarks:
+- `viscous_damping` parameter on `<contact_3D_penalty>` for normal-direction
+  damping in explicit runs — quenches contact-mode ringing (#31)
+- OpenMP auto-tune threshold (`num_batches >= 4 * num_threads`) on
+  `ExplicitElementT` — single-thread performance preserved on small
+  meshes that otherwise pay full OMP overhead (#32)
+- OpenMP-parallel `RHSDriver` for `PenaltyContact3DT` with thread-local
+  workspaces and `omp critical` only around the global-RHS scatter (#33).
+  See `tests/benchmarks/test_ContactPerf.cpp` for the integration tests
+  that exercise all three fixes together.
 
 ### Mesh generators
 
@@ -88,6 +99,26 @@ Reference numbers in the commit message of `#18`; full Wilkins-Guinan
 match would need a cylindrical geometry (current mesh is prismatic
 quarter-symmetry, captures KE → plastic-work conversion correctly but
 not the Hugoniot pressure concentration).
+
+## hertz/
+
+Quarter-symmetry curved-bottom indenter on an elastic base, sized so
+both bodies sit cleanly in the half-space limit Hertz assumes.
+Exercises both Tahoe contact pathways (explicit + implicit) on the
+same mesh.  Match against analytical Hertz — `a`, `F`, `p₀`, `p_mid` —
+within 1-2 % on every fitted metric.  See [`hertz/README.md`](hertz/README.md).
+
+| File | Purpose |
+|------|---------|
+| `hertz_explicit.xml` | `<explicit_solid>` + central-difference + viscous damping |
+| `hertz_implicit.xml` | `<updated_lagrangian>` + Newton-Raphson |
+| `generate_hertz_mesh.py` | tanh-graded Hex8 mesh, 16 128 elements |
+| `compare_to_analytical.py` | post-processing — extracts `a`, `F`, `p₀`, fits Hertz, plots |
+| `hertz_pressure.png` | side-by-side dimensional + normalised p(r) overlay |
+
+Cross-validation: explicit and implicit agree with each other to
+better than 0.5 % on every fitted metric — strong evidence that
+Tahoe's two contact pathways compute the same physics.
 
 ## tet_classic/
 
@@ -117,3 +148,5 @@ the explicit benchmarks above.
 | #26 Coulomb friction | `vectorized_cubes_friction.xml`, `tests/benchmarks/test_FrictionContact.cpp` |
 | #27 Tet4 kernel + Ji-fix | `vectorized_tet_*.xml`, `tests/kernels/test_Tet4Kernel.cpp` |
 | #28 ANP-Tet4 (ELFORM=13) | `vectorized_tet_anp_small.xml`, `tests/kernels/test_ANPHelperT.cpp`, `tet_classic/*` |
+| #31/#32/#33 contact-stack perf | `tests/benchmarks/test_ContactPerf.cpp`, `vectorized_cubes_*.xml` (viscous damping, OMP threshold, parallel contact) |
+| Hertz contact validation | `hertz/hertz_explicit.xml`, `hertz/hertz_implicit.xml`, `hertz/compare_to_analytical.py` |
