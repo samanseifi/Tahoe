@@ -1,16 +1,18 @@
 <?xml version="1.0"?>
 <!-- Hertz contact benchmark — explicit path.
-     Quarter-symmetry hemisphere (R=10 mm) on a stiff base, both with
-     E=200000, ν=0.3, density=7.85 (consistent units; gives c_p ≈ 159 in
-     length/time units).  δ=0.05 mm prescribed at sphere top, ramped
-     smoothly over T=1.0 (≈16 wave traversals → quasistatic limit).
-     Viscous damping in the contact pair suppresses elastic ringing.
+     Two elastic bodies in contact: sphere indenter (block 1) and
+     elastic base block (block 2), both with E=200000, ν=0.3, ρ=7.85.
+     δ_BC = 0.05 mm prescribed at sphere top, ramped smoothly over
+     T=1.0 (~16 wave traversals → quasistatic limit).  Viscous damping
+     on the contact pair suppresses elastic ringing.
 
-     With identical material on both bodies the effective contact modulus
-     is E* = E/(2(1-ν²)) ≈ 110 GPa, giving the analytical predictions:
-     a = √(R·δ) ≈ 0.707 mm, F_quarter ≈ 1.30 kN, p₀ ≈ 4.94 GPa.
+     Two-body contact modulus:
+       1/E* = 2(1−ν²)/E   →   E* = E/(2(1−ν²)) ≈ 109 890 MPa
 
-     Δt = 1e-4 (≈ 0.5× CFL for h_min ≈ 0.12, c_p ≈ 159 in 3D). -->
+     Hertz uses δ_apex (relative apex approach), computed in
+     post-processing — NOT the prescribed δ_BC.
+
+     Δt = 1e-4 (~0.7× CFL for h_min ≈ 0.04, c_p ≈ 159 in 3D). -->
 <tahoe geometry_file="geometry/hertz.geom"
        output_format="ExodusII"
        title="Hertz quarter-sphere on flat base — explicit + viscous damping">
@@ -47,6 +49,7 @@
             <kinematic_BC dof="3" node_ID="4"/>
             <kinematic_BC dof="1" node_ID="5"/>
             <kinematic_BC dof="2" node_ID="6"/>
+            <!-- NS8 (base top) is FREE — base deforms elastically under contact load -->
         </field>
     </nodes>
     <element_list>
@@ -67,7 +70,7 @@
         </explicit_solid>
 
         <contact_3D_penalty field_name="displacement"
-                            penalty_stiffness="1.0e5"
+                            penalty_stiffness="1.0e7"
                             viscous_damping="2.0">
             <contact_surface>
                 <surface_side_set side_set_ID="1"/>

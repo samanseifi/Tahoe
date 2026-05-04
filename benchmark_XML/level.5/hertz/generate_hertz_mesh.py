@@ -1,22 +1,36 @@
 #!/usr/bin/env python3
 """Hertz contact benchmark mesh.
 
-Quarter-symmetry hemisphere (deformable) sitting on a stiff base block.
-Both meshed as Hex8.  Inline Tahoe geom format with two element blocks
-(block 1 = sphere, block 2 = base) and side sets for contact.
+Quarter-symmetry indenter (curved-bottom block, square cross-section)
+sitting on a base block.  Both meshed as Hex8.  Inline Tahoe geom format
+with two element blocks (block 1 = sphere/indenter, block 2 = base) and
+side sets for contact.
+
+NOTE on geometry: this is *not* a true 1/8 sphere — it is a block with
+square cross-section and an arced bottom face.  A true 1/8 sphere
+requires either (a) degenerate hexes at the apex (Tahoe's 8-node hex
+element does not handle these), or (b) a butterfly-style mesh with a
+Cartesian core at the apex (significant additional meshing complexity).
+The local geometry at the contact apex *is* a sphere of radius R — and
+that is the only ingredient Hertz contact mechanics needs.  The block
+is sized so the contact radius a ≪ R_box, keeping the simulation in
+the half-space limit Hertz assumes.
 
 Geometry (mm):
-  R       = 10.0   sphere radius
-  R_box   = 0.5*R  quarter-square edge length (stays well clear of the
-                   sphere boundary so element thicknesses stay healthy;
-                   the far corner has z_bot = R - sqrt(R² - R_box²·2)
-                   ≈ 0.29R, giving slab thickness ~0.71R there)
-  H_top   = R      sphere apex-to-top distance (top is flat at z=R)
+  R       = 10.0   sphere radius (defines the curved bottom)
+  R_box   = 3.0    quarter-square edge length
+  h_top   = 2.0    indenter top-plane height (flat, at z = h_top)
+  H_base  = 2.0    base block thickness
+
+  Apex column slab thickness  = h_top                = 2.0 mm
+  Corner column slab thickness ≈ h_top - z_bot(R_box,R_box)
+                                = 2.0 - (R - √(R² - 2 R_box²))
+                                = 2.0 - 0.94          = 1.06 mm
 
 Sphere geometry (block 1):
   - (x, y) ∈ [0, R_box] × [0, R_box]    quarter-square
-  - z(x, y) bottom = R - sqrt(R² - x² - y²)   (curved, on the sphere surface)
-  - z       top    = R                          (flat)
+  - z(x, y) bottom = R - sqrt(R² - x² - y²)   (curved, on sphere surface)
+  - z       top    = h_top                    (flat)
 
 Base block (block 2):
   - (x, y) ∈ [0, R_box] × [0, R_box]
@@ -60,15 +74,20 @@ def grade_tanh(N: int, scale: float = 2.5):
 
 
 def write_mesh(name: str,
-               nx: int = 24, ny: int = 24, nz_sph: int = 12,
-               mx: int = 24, my: int = 24, mz_base: int = 6,
-               R: float = 10.0, H_base: float = 5.0,
-               grade_xy: float = 2.5, grade_z: float = 2.5,
+               nx: int = 24, ny: int = 24, nz_sph: int = 16,
+               mx: int = 24, my: int = 24, mz_base: int = 12,
+               R: float = 10.0, R_box: float = 3.0,
+               h_top: float = 6.0, H_base: float = 6.0,
+               grade_xy: float = 1.5, grade_z: float = 1.5,
                gap: float = 1.0e-3):
     """gap > 0 lifts the sphere block by `gap` mm so the initial
        configuration has no penetration anywhere on the contact pair —
        penalty contact activates only as compression begins."""
-    R_box = 0.5 * R
+    # Sanity: corner column must have positive slab thickness
+    z_bot_corner = R - math.sqrt(max(R * R - 2.0 * R_box * R_box, 0.0))
+    if h_top <= z_bot_corner:
+        raise ValueError(f"h_top={h_top} must exceed z_bot at corner "
+                         f"({z_bot_corner:.4f}); reduce R_box or raise h_top")
     nnx, nny, nnz = nx + 1, ny + 1, nz_sph + 1
     mnx, mny, mnz = mx + 1, my + 1, mz_base + 1
 
@@ -102,7 +121,7 @@ def write_mesh(name: str,
             for i in range(nnx):
                 x, y = xs[i], ys[j]
                 z_bot = R - math.sqrt(max(R*R - x*x - y*y, 0.0))
-                z_top = R
+                z_top = h_top
                 z = z_bot + zs_norm[k] * (z_top - z_bot)
                 # lift entire sphere by `gap` so initial contact pair
                 # has a uniform tiny gap rather than zero penetration
@@ -226,10 +245,8 @@ def write_mesh(name: str,
 
 
 if __name__ == "__main__":
-    # Mild grading (scale=1.0): smallest dx ~0.14 mm at apex, dx ~0.55 mm
-    # at far corner; ~10 elements across the analytical contact radius
-    # a≈0.7 mm.  Keeps Δt ~0.025 μs (5e-3 of total ramp T=100 μs).
-    write_mesh("hertz",
-               nx=24, ny=24, nz_sph=12,
-               mx=24, my=24, mz_base=8,
-               grade_xy=1.0, grade_z=1.0)
+    # h_top = H_base = 6 mm (≈ 8.5 × a_Hz so each body is in the half-space
+    # limit Hertz assumes).  nx=24 over R_box=3 mm with grade=1.5 →
+    # dx_min ≈ 0.041 mm.  nz_sph=16 over h=6 with grade=1.5 → dz_min ≈ 0.16
+    # mm (apex AR ≈ 4:1; trade-off to keep SPOOLES factorisation in memory).
+    write_mesh("hertz")

@@ -33,6 +33,10 @@ E   = 200000.0
 NU  = 0.3
 DELTA_BC = 0.05            # prescribed sphere-top displacement (mm)
 
+# Two identical elastic bodies (sphere + base same material):
+#   1/E* = (1−ν²)/E_sphere + (1−ν²)/E_base = 2(1−ν²)/E
+ESTAR_TWO = E / (2.0 * (1.0 - NU * NU))
+
 
 def hertz(delta, Estar):
     """Return analytical (a, F_full, p0) given effective indentation delta."""
@@ -42,9 +46,46 @@ def hertz(delta, Estar):
     return a, F, p0
 
 
-def Estar_for(E1, nu1, E2, nu2):
-    """Hertz effective contact modulus for two bodies."""
-    return 1.0 / ((1.0 - nu1 * nu1) / E1 + (1.0 - nu2 * nu2) / E2)
+def fit_hertz(r, p):
+    """Least-squares fit p(r) = p₀ √(1 − (r/a)²) for r < a, 0 elsewhere.
+
+    Uses scipy if available; otherwise simple bracketed search on (p₀, a).
+    Returns (p0_fit, a_fit, residual_rms).
+    """
+    p = np.asarray(p)
+    r = np.asarray(r)
+    pos = p > 0
+    if pos.sum() < 4:
+        return float("nan"), float("nan"), float("nan")
+    r_pos = r[pos]
+    p_pos = p[pos]
+    p0_init = p_pos.max() / 1.5     # apex node typically overshoots
+    a_init = r_pos.max() * 0.85     # sim contact radius typically overshoots
+
+    try:
+        from scipy.optimize import curve_fit
+
+        def model(r, p0, a):
+            v = 1.0 - (r / a) ** 2
+            v = np.clip(v, 0.0, None)
+            return p0 * np.sqrt(v)
+
+        popt, _ = curve_fit(model, r_pos, p_pos, p0=[p0_init, a_init],
+                            bounds=([0, 1e-3], [np.inf, 5 * R]))
+        p0_fit, a_fit = popt
+        rms = float(np.sqrt(np.mean((model(r_pos, *popt) - p_pos) ** 2)))
+        return float(p0_fit), float(a_fit), rms
+    except ImportError:
+        # Crude grid search fallback
+        best = (None, None, float("inf"))
+        for p0_try in np.linspace(0.5 * p0_init, 1.5 * p0_init, 30):
+            for a_try in np.linspace(0.5 * a_init, 1.5 * a_init, 30):
+                v = np.clip(1.0 - (r_pos / a_try) ** 2, 0, None)
+                pred = p0_try * np.sqrt(v)
+                rms = float(np.sqrt(np.mean((pred - p_pos) ** 2)))
+                if rms < best[2]:
+                    best = (p0_try, a_try, rms)
+        return best
 
 
 def striker_areas_from_geom(geom_path):
@@ -188,47 +229,96 @@ def main():
     here = os.path.dirname(os.path.abspath(__file__))
     geom = os.path.join(here, "geometry", "hertz.geom")
 
+    # Both runs: two elastic bodies (sphere + elastic base, same material).
+    # E* = E/(2(1−ν²)) for two identical elastic bodies in Hertz contact.
     runs = []
-    for stem, label, estar in [("hertz_explicit", "explicit",
-                                Estar_for(E, NU, E, NU)),       # both E
-                               ("hertz_implicit", "implicit",
-                                Estar_for(E, NU, 10 * E, NU))]: # base 10x
+    for stem, label in [("hertz_explicit", "explicit"),
+                        ("hertz_implicit", "implicit")]:
         io0 = os.path.join(here, f"{stem}.io0.exo")
         io1 = os.path.join(here, f"{stem}.io1.exo")
         if not os.path.exists(io0) or not os.path.exists(io1):
             print(f"[skip] missing output for {label}: {io0}")
             continue
         d = analyse(io0, io1, geom, label)
-        d["Estar"] = estar
+        d["Estar"] = ESTAR_TWO
         runs.append(d)
 
     if not runs:
         print("no outputs to compare")
         sys.exit(1)
 
-    # Tabulate vs analytical at the prescribed indenter displacement δ_BC
+    a_h_BC, F_h_BC, p0_h_BC = hertz(DELTA_BC, ESTAR_TWO)
     print()
-    print(f"  R = {R} mm,  ν = {NU},  δ_BC = {DELTA_BC} mm (prescribed)")
-    print(f"  {'run':<10} {'E*':>8} {'a_sim':>8} {'a_Hz':>8}"
-          f" {'F_quarter_sim':>14} {'F_Hz/4':>10}"
-          f" {'p₀_sim':>10} {'p₀_Hz':>10}")
+    print(f"  R = {R} mm,  ν = {NU},  δ_BC = {DELTA_BC} mm (prescribed at top)")
+    print(f"  E* = E/(2(1-ν²)) = {ESTAR_TWO:.0f} MPa  (two identical "
+          f"elastic bodies)")
+    print()
+    print(f"  Hertz @ δ_BC (half-space limit reference):")
+    print(f"    a = {a_h_BC:.4f} mm,  F/4 = {F_h_BC/4:.1f} N,  "
+          f"p₀ = {p0_h_BC:.0f} MPa")
+    print()
+
+    # Reference: Hertz at δ_BC (relative center-to-center motion).
+    # For two elastic half-space-like bodies with sphere top forced down by
+    # δ_BC and base bottom clamped, δ_Hertz ≈ δ_BC — bulk compression of
+    # each body is small if h_top, H_base ≫ a (half-space limit).
+    p_mid_h_BC = p0_h_BC * math.sqrt(1.0 - 0.5 ** 2)
+
     for r in runs:
-        a_h, F_h, p0_h = hertz(DELTA_BC, r["Estar"])
+        # Hertz at δ_apex (for reference — small when bodies are half-space-like)
+        a_h, F_h, p0_h = hertz(max(r["delta_eff"], 1e-9), ESTAR_TWO)
+        r["a_h_apex"] = a_h
+        r["F_h_apex"] = F_h
+        r["p0_h_apex"] = p0_h
+
+        # Hertz at δ_BC (the relevant comparison for half-space-like bodies)
+        r["a_h"] = a_h_BC
+        r["F_h"] = F_h_BC
+        r["p0_h"] = p0_h_BC
+        r["p_mid_h"] = p_mid_h_BC
+
+        # Hertz fit
+        p0_fit, a_fit, rms = fit_hertz(r["r"], r["p"])
+        r["p0_fit"] = p0_fit
+        r["a_fit"]  = a_fit
+        r["rms"]    = rms
+        # Mid-radius pressure: 0.4·a_fit to 0.6·a_fit
+        mask = (r["r"] >= 0.4 * a_fit) & (r["r"] <= 0.6 * a_fit)
+        r["p_mid_sim"] = r["p"][mask].mean() if mask.any() else 0.0
+
+    print("  Per-run δ_apex (penalty give; small when bodies are half-space-like):")
+    for r in runs:
+        print(f"    {r['label']}: δ_apex = {r['delta_eff']*1e3:.2f} μm")
+    print()
+
+    print("  Direct extraction vs Hertz @ δ_BC:")
+    print(f"  {'run':<10} {'a_sim':>8} {'F_q_sim':>10} "
+          f"{'p_mid_sim':>11} {'p₀_sim':>11}    {'a%':>6} {'F%':>6} "
+          f"{'p_mid%':>7} {'p₀%':>6}")
+    for r in runs:
         p0_sim = r["p"].max()
-        print(f"  {r['label']:<10} {r['Estar']:>8.0f}"
-              f" {r['a_sim']:>8.4f} {a_h:>8.4f}"
-              f" {r['F_quarter']:>14.2f} {F_h / 4:>10.2f}"
-              f" {p0_sim:>10.1f} {p0_h:>10.1f}")
+        ea = (r["a_sim"] - a_h_BC) / a_h_BC * 100
+        eF = (r["F_quarter"] - F_h_BC / 4) / (F_h_BC / 4) * 100
+        epm = (r["p_mid_sim"] - p_mid_h_BC) / p_mid_h_BC * 100
+        ep0 = (p0_sim - p0_h_BC) / p0_h_BC * 100
+        print(f"  {r['label']:<10} {r['a_sim']:>8.4f} {r['F_quarter']:>10.1f}"
+              f" {r['p_mid_sim']:>11.1f} {p0_sim:>11.1f}    "
+              f"{ea:+6.1f} {eF:+6.1f} {epm:+7.1f} {ep0:+6.1f}")
     print()
-    print(f"  (δ_apex_sim = sphere apex DZ - base apex DZ; small because "
-          f"both bodies deform.")
-    print(f"   Hertz analytical above uses δ_BC = top displacement; the "
-          f"contact zone size matches because")
-    print(f"   the indentation imposed by a curved indenter pushed down by "
-          f"δ produces a = √(R·δ).)")
-    print()
+    print("  Hertz fit (least-squares to p₀√(1−(r/a)²)) vs Hertz @ δ_BC:")
+    print(f"  {'run':<10} {'a_fit':>8} {'p₀_fit':>11}  "
+          f"{'F_fit/4':>10} {'rms':>10}    {'a%':>6} {'p₀%':>6} {'F%':>6}")
     for r in runs:
-        print(f"  {r['label']}: δ_apex_sim = {r['delta_eff']*1e3:.2f} μm")
+        a_f = r["a_fit"]
+        p0_f = r["p0_fit"]
+        F_f = (2.0 / 3.0) * math.pi * a_f * a_f * p0_f
+        ea = (a_f - a_h_BC) / a_h_BC * 100
+        ep0 = (p0_f - p0_h_BC) / p0_h_BC * 100
+        eF = (F_f / 4 - F_h_BC / 4) / (F_h_BC / 4) * 100
+        print(f"  {r['label']:<10} {a_f:>8.4f} {p0_f:>11.1f}  "
+              f"{F_f / 4:>10.1f} {r['rms']:>10.1f}    "
+              f"{ea:+6.1f} {ep0:+6.1f} {eF:+6.1f}")
+    print()
 
     # plot p(r) overlay vs Hertz at δ_BC
     try:
@@ -236,24 +326,48 @@ def main():
         matplotlib.use("Agg")
         import matplotlib.pyplot as plt
 
-        fig, ax = plt.subplots(figsize=(7.5, 5.0))
+        fig, axes = plt.subplots(1, 2, figsize=(13, 5))
+        ax, ax2 = axes
+
+        # Left: dimensional p(r) — sim points + Hertz @ δ_BC + fit
         for r, color, marker in zip(runs, ["C0", "C1"], ["o", "s"]):
             ax.plot(r["r"], r["p"], marker, color=color,
-                    label=f"Tahoe {r['label']} (E*={r['Estar']:.0f})",
-                    markersize=4, alpha=0.8)
-        # Plot analytical for each run's E*
+                    label=f"Tahoe {r['label']}", markersize=4, alpha=0.6)
+        # Hertz analytical at δ_BC (single curve since both runs same setup)
+        r_plot = np.linspace(0, a_h_BC, 200)
+        p_plot = p0_h_BC * np.sqrt(np.clip(1.0 - (r_plot / a_h_BC) ** 2, 0, 1))
+        ax.plot(r_plot, p_plot, "k--", linewidth=2.5,
+                label=f"Hertz @ δ_BC (a={a_h_BC:.3f}, p₀={p0_h_BC:.0f})")
+        # Hertz fit
         for r, color in zip(runs, ["C0", "C1"]):
-            a_h, F_h, p0_h = hertz(DELTA_BC, r["Estar"])
-            r_plot = np.linspace(0, a_h, 200)
-            p_plot = p0_h * np.sqrt(np.clip(1.0 - (r_plot / a_h) ** 2, 0, 1))
-            ax.plot(r_plot, p_plot, "--", color=color, alpha=0.8, linewidth=2,
-                    label=f"Hertz (E*={r['Estar']:.0f}, p₀={p0_h:.0f})")
-        ax.set_xlabel("radial distance from contact axis r [mm]")
+            r_plot = np.linspace(0, r["a_fit"], 200)
+            p_plot = r["p0_fit"] * np.sqrt(np.clip(1.0 - (r_plot / r["a_fit"]) ** 2, 0, 1))
+            ax.plot(r_plot, p_plot, "-", color=color, alpha=0.5, linewidth=1.5,
+                    label=f"fit {r['label']} (a={r['a_fit']:.3f}, p₀={r['p0_fit']:.0f})")
+        ax.set_xlabel("radial distance r [mm]")
         ax.set_ylabel("contact pressure p(r) [MPa]")
-        ax.set_title(f"Hertz contact: Tahoe vs analytical "
-                     f"(R={R} mm, δ={DELTA_BC} mm)")
+        ax.set_title(f"Hertz contact: two elastic bodies "
+                     f"(R={R} mm, E*={ESTAR_TWO:.0f} MPa, δ_BC={DELTA_BC} mm)")
         ax.legend()
         ax.grid(True, alpha=0.3)
+
+        # Right: normalised r/a_Hz vs p/p0_Hz against Hertz @ δ_BC
+        for r, color, marker in zip(runs, ["C0", "C1"], ["o", "s"]):
+            ax2.plot(r["r"] / a_h_BC, r["p"] / p0_h_BC, marker, color=color,
+                     label=f"Tahoe {r['label']}", markersize=4, alpha=0.7)
+        x = np.linspace(0, 1, 200)
+        ax2.plot(x, np.sqrt(np.clip(1 - x ** 2, 0, 1)), "k--", linewidth=2,
+                 label="Hertz analytical")
+        ax2.set_xlabel("r / a_Hz")
+        ax2.set_ylabel("p / p₀_Hz")
+        ax2.set_xlim(0, 2.0)
+        ax2.set_ylim(0, 2.0)
+        ax2.axhline(1.0, color="grey", lw=0.6, ls=":")
+        ax2.axvline(1.0, color="grey", lw=0.6, ls=":")
+        ax2.set_title("Normalised: collapses onto universal Hertz curve")
+        ax2.legend()
+        ax2.grid(True, alpha=0.3)
+
         out = os.path.join(here, "hertz_pressure.png")
         fig.tight_layout()
         fig.savefig(out, dpi=130)

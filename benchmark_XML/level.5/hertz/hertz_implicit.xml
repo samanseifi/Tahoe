@@ -1,15 +1,25 @@
 <?xml version="1.0"?>
-<!-- Hertz contact benchmark — classic-Tahoe implicit path.
-     Same Hertz mesh as the explicit benchmark.  Quasistatic Newton
-     iteration with PenaltyContact3DT.  10 monotonic load steps push
-     δ = 0..0.05 mm at the sphere top.
+<!-- Hertz contact benchmark — implicit (classic-Tahoe) path.
+     Two elastic bodies in contact: sphere indenter (block 1) on
+     elastic base block (block 2).  Both share material:
+     E=200000, ν=0.3, ρ=7.85.
 
-     Both blocks share E=200000, ν=0.3 → effective contact modulus
-     E* = E/(2(1-ν²)) ≈ 110 GPa, giving a = √(R·δ) ≈ 0.707 mm,
-     F_quarter ≈ 1.30 kN, p₀ ≈ 4.94 GPa at the final step. -->
+     Two-body contact modulus:
+       1/E* = (1−ν²)/E_sphere + (1−ν²)/E_base = 2(1−ν²)/E
+       E* = E / (2(1−ν²)) ≈ 109 890 MPa
+
+     Hertz at δ_apex = (u_sphere_apex − u_base_apex):
+       a   = √(R·δ)
+       F   = (4/3) E* √R δ^{3/2}     (full sphere; quarter = F/4)
+       p₀  = 3F / (2π a²)
+       p_mid (r/a=0.5) = √0.75 · p₀
+
+     δ_apex is the relative apex approach — NOT the prescribed top
+     displacement δ_BC = 0.05 mm.  The post-processing script
+     computes δ_apex from the simulation and reports Hertz at that. -->
 <tahoe geometry_file="geometry/hertz.geom"
        output_format="ExodusII"
-       title="hertz_implicit">
+       title="hertz_implicit_elastic">
     <time num_steps="10" output_inc="1" time_step="0.1">
         <schedule_function>
             <piecewise_linear>
@@ -25,42 +35,41 @@
                 <String value="D_Y"/>
                 <String value="D_Z"/>
             </dof_labels>
+            <!-- sphere top: prescribed downward displacement -->
             <kinematic_BC dof="3" node_ID="1" schedule="1" type="u" value="-0.05"/>
+            <!-- sphere x=0, y=0: symmetry -->
             <kinematic_BC dof="1" node_ID="2"/>
             <kinematic_BC dof="2" node_ID="3"/>
+            <!-- base bottom: clamped -->
             <kinematic_BC dof="1" node_ID="4"/>
             <kinematic_BC dof="2" node_ID="4"/>
             <kinematic_BC dof="3" node_ID="4"/>
+            <!-- base symmetry -->
             <kinematic_BC dof="1" node_ID="5"/>
             <kinematic_BC dof="2" node_ID="6"/>
+            <!-- NS8 (base top) is FREE — base deforms elastically under contact load -->
         </field>
     </nodes>
     <element_list>
         <updated_lagrangian field_name="displacement">
             <hexahedron/>
             <solid_element_nodal_output displacements="1" stress="1"/>
-            <!-- block 1: sphere -->
+            <!-- single material on both blocks -->
             <large_strain_element_block>
-                <block_ID_list><String value="1"/></block_ID_list>
+                <block_ID_list>
+                    <String value="1"/>
+                    <String value="2"/>
+                </block_ID_list>
                 <large_strain_material_3D>
                     <Simo_isotropic density="7.85">
                         <E_and_nu Poisson_ratio="0.3" Young_modulus="200000.0"/>
                     </Simo_isotropic>
                 </large_strain_material_3D>
             </large_strain_element_block>
-            <!-- block 2: base (10x stiffer → near-rigid half-space approximation) -->
-            <large_strain_element_block>
-                <block_ID_list><String value="2"/></block_ID_list>
-                <large_strain_material_3D>
-                    <Simo_isotropic density="7.85">
-                        <E_and_nu Poisson_ratio="0.3" Young_modulus="2000000.0"/>
-                    </Simo_isotropic>
-                </large_strain_material_3D>
-            </large_strain_element_block>
         </updated_lagrangian>
 
         <contact_3D_penalty field_name="displacement"
-                            penalty_stiffness="1.0e6">
+                            penalty_stiffness="1.0e7">
             <contact_surface>
                 <surface_side_set side_set_ID="1"/>
             </contact_surface>
