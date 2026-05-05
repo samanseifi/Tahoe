@@ -63,7 +63,7 @@ macro(tahoe_gtest_full target_name source_file)
         $<$<COMPILE_LANGUAGE:CXX>:-fpermissive>
         -Wno-deprecated
     )
-    gtest_discover_tests(${target_name})
+    gtest_discover_tests(${target_name} ${ARGN})
 endmacro()
 
 # ---------------------------------------------------------------------------
@@ -84,12 +84,22 @@ tahoe_gtest_full(test_ExplJ2Plasticity materials/test_ExplJ2Plasticity.cpp)
 tahoe_gtest_full(test_Tet4Kernel       kernels/test_Tet4Kernel.cpp)
 tahoe_gtest_full(test_ANPHelperT       kernels/test_ANPHelperT.cpp)
 tahoe_gtest_full(test_TaylorBar benchmarks/test_TaylorBar.cpp)
-tahoe_gtest_full(test_FrictionContact benchmarks/test_FrictionContact.cpp)
+# test_FrictionContact and test_ContactPerf both shell out to tahoe and
+# write *.stdout / *.io.exo into benchmark_XML/level.5/explicit_benchmark/
+# (e.g. vectorized_cubes_friction.stdout).  Under `ctest --parallel` two
+# of these tests racing on the same XML clobber each other's stdout
+# capture, so the post-run `find("Step: 5000 of 5000")` returns npos
+# even though tahoe completed.  RESOURCE_LOCK forces ctest to serialise
+# tests that share the same lock — they still parallelise with all other
+# unrelated tests.
+tahoe_gtest_full(test_FrictionContact benchmarks/test_FrictionContact.cpp
+    PROPERTIES RESOURCE_LOCK "contact_explicit_benchmark_xml")
 target_compile_definitions(test_FrictionContact PRIVATE
     "TAHOE_TEST_REPO_ROOT=\"${CMAKE_SOURCE_DIR}\""
     "TAHOE_TEST_BUILD_DIR=\"${CMAKE_BINARY_DIR}\""
 )
-tahoe_gtest_full(test_ContactPerf benchmarks/test_ContactPerf.cpp)
+tahoe_gtest_full(test_ContactPerf benchmarks/test_ContactPerf.cpp
+    PROPERTIES RESOURCE_LOCK "contact_explicit_benchmark_xml")
 target_compile_definitions(test_ContactPerf PRIVATE
     "TAHOE_TEST_REPO_ROOT=\"${CMAKE_SOURCE_DIR}\""
     "TAHOE_TEST_BUILD_DIR=\"${CMAKE_BINARY_DIR}\""
