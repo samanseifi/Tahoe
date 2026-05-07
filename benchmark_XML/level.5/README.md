@@ -120,6 +120,17 @@ Cross-validation: explicit and implicit agree with each other to
 better than 0.5 % on every fitted metric — strong evidence that
 Tahoe's two contact pathways compute the same physics.
 
+A **Tet4 indenter on Hex8 base** variant lives alongside it:
+`hertz_tet_hex_*.xml` + `generate_hertz_tet_hex_mesh.py` +
+`compare_tet_hex_to_analytical.py`.  Same geometry, same material, but
+the indenter is meshed via the standard 5-tet split (46 080 Tet4)
+driven by `<bonet_tet>` (implicit) or `<explicit_solid>` + `<anp_tet4>`
+(explicit).  Demonstrates mixed-element-type contact (Tet-tri ↔
+Hex-quad, with the quads auto-split to triangles by
+`Contact3DT::ConvertQuadToTri`) and eliminates the +15 % apex-pressure
+spike of the all-hex case.  `merge_io.py` combines the per-element-
+group io files into one Exodus for ParaView.
+
 ## tet_classic/
 
 Classic-Tahoe (UpdatedLagrangianT) implicit Tet4 path — companion to
@@ -150,3 +161,4 @@ the explicit benchmarks above.
 | #28 ANP-Tet4 (ELFORM=13) | `vectorized_tet_anp_small.xml`, `tests/kernels/test_ANPHelperT.cpp`, `tet_classic/*` |
 | #31/#32/#33 contact-stack perf | `tests/benchmarks/test_ContactPerf.cpp`, `vectorized_cubes_*.xml` (viscous damping, OMP threshold, parallel contact) |
 | Hertz contact validation | `hertz/hertz_explicit.xml`, `hertz/hertz_implicit.xml`, `hertz/compare_to_analytical.py` |
+| Mixed Tet/Hex contact | `hertz/hertz_tet_hex_*.xml`, `hertz/compare_tet_hex_to_analytical.py` |
