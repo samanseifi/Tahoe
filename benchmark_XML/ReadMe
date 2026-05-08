@@ -6,19 +6,22 @@ reference solutions. Tests are organized into levels:
   level.0  — Core capabilities (springs, solid mechanics, diffusion,
               particle methods, meshfree, time integrators). All code
               changes should pass these before committing.
-              Status: 171/186 PASS, 15 FAIL (issue #37).
-              Remaining failures: 9 atomistic-continuum bridging tests
-              (BRIDGING_ELEMENT compiles but crashes at runtime — kept
-              disabled in ElementsConfig.h pending separate fix), and
-              6 stale-reference / config-drift tests (CSE.2, adhesion.2,
-              adhesion.3, bar.2D.lin, inputoutput/square, square dup).
+              Status: 172/186 PASS, 14 FAIL (May 2026; issue #37).
+              Remaining failures: 9 bridging tests (BRIDGING_ELEMENT
+              runtime crash — kept disabled), 5 real code regressions
+              (CSE.2 5-node-Q4, adhesion.{2,3} stress drift,
+              inputoutput/square × 2 output suppression).
 
   level.1  — Constitutive model verification under simple loading
               (bulk materials, cohesive surface relations, atomistic
               potentials).
+              Status: 100/103 PASS, 3 FAIL (May 2026).
+              Remaining failures: mat.2.a, mat.11.a (2D + 3D)
+              — unregistered material in factory.
 
   level.2  — Extended capabilities. May involve larger models or
               longer run times. No optional modules required.
+              Status: 47/47 PASS, 0 FAIL (May 2026, clean).
 
   level.3  — MPI distributed-memory parallel tests. Requires
               -DTAHOE_MPI=ON and system OpenMPI (libopenmpi-dev).
@@ -117,22 +120,28 @@ Override per-directory by placing a `compare.tol` file alongside the
 
 KNOWN EXPECTED FAILURES (level.0–2)
 -----------------------------------------------------------------------
-The following test groups require optional build features and will
-fail in a default build. This is expected:
+The 17 remaining failures across levels 0–2 are all real Tahoe code
+regressions (not config drift); each is tracked under issue #37:
 
-  bridging/          Requires BRIDGING_ELEMENT compile flag
-  adhesion/          Requires adhesion module (not in default build)
-  diffusion/heat.*   Requires ExodusII output (-DTAHOE_SEACAS=ON)
-  inputoutput/       Requires ExodusII output (-DTAHOE_SEACAS=ON)
-  hex2D_*CB*         Surface Cauchy-Born element validation failure
-  Q1P0.*.b / 3D      Require coupled voltage field
+  bridging/             9 tests; BRIDGING_ELEMENT compiles cleanly but
+                        crashes at runtime during atomistic-continuum
+                        coupling init. Flag kept off in
+                        ElementsConfig.h pending separate fix.
+  adhesion/{2,3}.xml    2 tests; s11/s22 stresses differ from reference
+                        by O(0.1) — adhesion element numerical regression.
+  inputoutput/square    2 tests; output system fails to register the
+                        configured I/O channels — no .io*.run produced.
+  CSE.2.xml             1 test; bulk Q4 with nen=5 (phantom-node CSE)
+                        unsupported by QuadT::EvaluateShapeFunctions.
+  mat.{2.a,11.a}.xml    3 tests; small_strain_StVenant_DP_2D and
+                        related material types not registered.
 
-Overall pass rates (February 2026, SEACAS + MPI + SuperLU build):
-  level.0  155 pass / 30 fail
-  level.1  106 pass /  3 fail  (includes WLC + SuperLU benchmark)
-  level.2   39 pass /  2 fail
+Overall pass rates (May 2026, default build; level.3 from MPI build):
+  level.0  172 pass / 14 fail
+  level.1  100 pass /  3 fail  (includes WLC + SuperLU benchmark)
+  level.2   47 pass /  0 fail
   level.3   22 pass /  0 fail  (MPI, 4 ranks)
-  Total    322 pass / 35 fail
+  Total    341 pass / 17 fail   (was 322/35 in February 2026)
 
 
 CLEANING TEST OUTPUT
