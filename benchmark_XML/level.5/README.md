@@ -139,15 +139,27 @@ the explicit benchmarks above.
 | File | Element | Material | Notes |
 |------|---------|----------|-------|
 | `tet4_hyperelastic.xml` | `<updated_lagrangian>` Tet4 | Neo-Hookean | Quasi-static stretch, classic Tet4 |
-| `tet4_hyperelastic_anp.xml` | `<bonet_tet>` Tet4 | Neo-Hookean | Same with ANP F-bar (issue #28) |
-| `compress_tet4.xml` | Plain Tet4 | Near-incompressible NH | Tet4 locks (κ = 1000, μ = 1) |
-| `compress_bonet_tet.xml` | BonetTet | Same NH | ANP residual / inherited tangent inconsistency → issue #29 |
+| `tet4_hyperelastic_anp.xml` | `<bonet_tet>` Tet4 | Neo-Hookean (κ=100, μ=40) | ANP F-bar with lagged-J̄ + FD tangent (#29) — quadratic Newton, ~1 iter/step |
+| `compress_tet4.xml` | Plain Tet4 | Near-incompressible NH (κ=1000, μ=1) | Tet4 locks |
+| `compress_bonet_tet.xml` | BonetTet | Same NH | Diverges (severe near-incompressibility, see limitation below) |
 
-> **Known limitation (BonetTetT, classic implicit only)**: the ANP
-> residual uses F̄ but the analytical tangent inherited from
-> `UpdatedLagrangianT` is computed from F.  Newton stalls under
-> near-incompressibility — fix is numerical tangent (forward
-> differences of `FormKd`), tracked in issue #29.
+> **#29 status — partial improvement landed.** The lagged-J̄ scheme
+> caches J̄ at step start and a per-element forward-FD `FormStiffness`
+> builds the tangent from the F̄ residual at frozen J̄.  On moderately
+> near-incompressible cases (κ/μ ~ 2.5, `tet4_hyperelastic_anp.xml`)
+> Newton now converges quadratically in ~1 iter/step — a 15× iteration
+> reduction vs the linear-rate baseline that needed ~16 iter/step.
+>
+> **Remaining limitation**: the per-element 12×12 FD tangent cannot
+> express the cross-element ∂J̄/∂u coupling (J̄ is nodal-averaged, so a
+> node perturbation changes J̄ in every neighbouring element).  At
+> severe near-incompressibility (κ ≫ μ, e.g. `compress_bonet_tet.xml`
+> with κ=1000, μ=1) the missing block kills the local volumetric
+> stiffness and Newton diverges.  Bonet & Burton 1998 itself only
+> formulates the *residual* — for explicit dynamics — and never derives
+> an implicit tangent; a fully consistent tangent would follow
+> Bonet/Marriott/Hassan 2001 or Caylak/Mahnken 2012, kept open as a
+> future analytical-tangent extension of #29.
 
 ## Coverage matrix
 
