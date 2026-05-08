@@ -41,7 +41,7 @@
 			      dof='1'
 			     type='u'
 			 schedule='1'
-			    value='-8.000000e+00'/>
+			    value='-1.000000e+00'/>
 			<kinematic_BC
 			  node_ID='4'
 			      dof='1'

@@ -30,7 +30,7 @@
 			  node_ID='3'
 			 schedule='1'
 			     type='u'
-			    value='-8.0'/>
+			    value='-1.0'/>
 			<kinematic_BC
 			      dof='1'
 			  node_ID='4'

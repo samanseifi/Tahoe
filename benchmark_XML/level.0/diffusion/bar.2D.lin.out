@@ -97,7 +97,7 @@ type = D3_u
 type = D4_u
 schedule . . . . . . . . . . . . . . . . . . . . . = 1
 schedule(default) = 0
-value. . . . . . . . . . . . . . . . . . . . . . . = -8.000000e+00
+value. . . . . . . . . . . . . . . . . . . . . . . = -1.000000e+00
 value(default) = 0.000000e+00
 end: tahoe::nodes::field::kinematic_BC
 
@@ -203,10 +203,10 @@ end: tahoe
  Time = 1.000000e+00
  Step 1 of 1
 
-   Start time: Fri May  8 12:04:35 2026
- Construction: 3.268000e-03 sec.
-     Solution: 5.100000e-04 sec.
-    Stop time: Fri May  8 12:04:35 2026
+   Start time: Fri May  8 13:01:48 2026
+ Construction: 2.123000e-03 sec.
+     Solution: 2.058000e-03 sec.
+    Stop time: Fri May  8 13:01:48 2026
 
  End Execution
 
