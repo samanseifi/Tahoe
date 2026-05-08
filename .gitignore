@@ -38,10 +38,37 @@ compare.summary
 *.io*.run
 *.io*.run.ps*
 *.io*.dat
+*.io.ID
 *.stat
 *.out
 *.exo
+*.stdout
 err.txt
+*.tracking
+*.rs.tracking
+
+# Bridging element history files (*.rcv, *.hatQ, *.hatU)
+*.rcv
+*.hatQ
+*.hatU
+
+# MPI rank console logs (consoleN, console_3D_static)
+console[0-9]*
+console_3D_static
+
+# Domain-decomposition output written by `tahoe -decomp_method ... -join_io`:
+# per-rank partition files (*.partN) and per-partition geometry trees
+# (*.nN.pK.geom, plus the *.es*/.nd/.ns*/.ss* sibling files written next to
+# each partitioned .geom).  Regenerated on every parallel run.
+*.part[0-9]*
+*.n[0-9]*.p[0-9]*.geom
+*.n[0-9]*.p[0-9]*.geom.es*
+*.n[0-9]*.p[0-9]*.geom.nd
+*.n[0-9]*.p[0-9]*.geom.ns*
+*.n[0-9]*.p[0-9]*.geom.ss*
+
+# Liquid-inclusion benchmark scratch
+benchmark_XML/level.4/liquid_inclusion/J.txt
 
 # Matrix solver test output (FullMatrixT.LHS.0, CCSMatrixT.LHS.10, etc.)
 *MatrixT.LHS.*
@@ -54,6 +81,7 @@ err.txt
 # ---------------------------------------------------------------------------
 .vscode/
 .idea/
+.claude/
 *.swp
 *.swo
 *~
