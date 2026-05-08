@@ -58,13 +58,28 @@ protected:
 	 *  See #31. */
 	double fViscousDamping;
 
+	/** Implicit-friction state (issue #40).  Set true at TakeParameterList
+	 *  when the field has no velocity (Order() < 1).  In this branch the
+	 *  RHSDriver uses stored previous-step positions to compute the tangential
+	 *  slip increment Δu_t over the load step, and applies regularised
+	 *  Coulomb friction in displacement form rather than velocity form. */
+	bool fImplicitFriction;
+
+	/** \name implicit-friction history (one row per striker, indexed by
+	 *  fStrikerTags_map).  Updated at CloseStep. */
+	/*@{*/
+	dArray2DT fPrevStrikerPos;     /**< [num_strikers x 3]   striker xyz at step start */
+	dArray2DT fPrevFacetCentroid;  /**< [num_strikers x 3]   facet centroid at step start (NaN before first contact) */
+	iArrayT   fHasHistory;         /**< [num_strikers]       1 if previous-step contact pair recorded */
+	/*@}*/
+
 	/** \name element coords and displacements */
 	/*@{*/
 	dArray2DT fElCoord;
 	dArray2DT fElRefCoord;
 	dArray2DT fElDisp;
 	/*@}*/
-	
+
 	/** \name work space */
 	/*@{*/
 	dMatrixT fdc_du;
@@ -73,6 +88,13 @@ protected:
 	dMatrixT fM2;
 	dArrayT  fV1;
 	/*@}*/
+
+public:
+
+	/** Override: capture striker / facet-centroid positions at step end
+	 *  for use as the previous-step reference in the next step's slip
+	 *  computation. */
+	virtual void CloseStep(void);
 };
 
 } // namespace Tahoe

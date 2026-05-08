@@ -37,7 +37,8 @@ PenaltyContact3DT::PenaltyContact3DT(const ElementSupportT& support):
 	fK(0.0),
 	fMu(0.0),
 	fFrictionEps(1.0e-6),
-	fViscousDamping(0.0)
+	fViscousDamping(0.0),
+	fImplicitFriction(false)
 {
 	SetName("contact_3D_penalty");
 }
@@ -85,14 +86,36 @@ void PenaltyContact3DT::TakeParameterList(const ParameterListT& list)
 	/* contact stiffness */
 	fK = list.GetParameter("penalty_stiffness");
 
-	/* Coulomb friction (defaults: mu=0 frictionless, eps=1e-6 regularisation) */
+	/* Coulomb friction (defaults: mu=0 frictionless, eps=1e-6 regularisation).
+	 * In the explicit branch eps is a velocity scale; in the implicit branch
+	 * (#40) it is a slip-increment scale.  Same XML name to keep input files
+	 * portable between integrators. */
 	const ParameterT* p_mu = list.Parameter("friction_coefficient");
 	if (p_mu) fMu = *p_mu;
 	const ParameterT* p_eps = list.Parameter("friction_epsilon_velocity");
 	if (p_eps) fFrictionEps = *p_eps;
+
+	/* Detect integrator family by inspecting the field's kinematic order.
+	 *   Order() == 0  →  no velocity stored  →  implicit (Newton-Raphson)
+	 *   Order() >= 1  →  velocity stored     →  explicit (central-difference, Verlet, …) */
+	fImplicitFriction = (Field().Order() < 1);
 	if (fMu > 0.0)
 		std::cout << "PenaltyContact3DT: Coulomb friction enabled, mu="
-		          << fMu << ", eps=" << fFrictionEps << std::endl;
+		          << fMu << ", eps=" << fFrictionEps
+		          << " (" << (fImplicitFriction ? "implicit/slip-based" : "explicit/velocity-based")
+		          << ", #" << (fImplicitFriction ? 40 : 26) << ")" << std::endl;
+
+	/* Allocate per-striker slip history (issue #40).  Only used in the
+	 * implicit branch but cheap to keep — a few KB on typical meshes. */
+	if (fImplicitFriction && fMu > 0.0) {
+		int num_strikers = fStrikerTags.Length();
+		fPrevStrikerPos.Dimension(num_strikers, NumSD());
+		fPrevFacetCentroid.Dimension(num_strikers, NumSD());
+		fHasHistory.Dimension(num_strikers);
+		fPrevStrikerPos    = 0.0;
+		fPrevFacetCentroid = 0.0;
+		fHasHistory        = 0;
+	}
 
 	/* Viscous normal damping (default 0 = no damping). */
 	const ParameterT* p_visc = list.Parameter("viscous_damping");
@@ -355,16 +378,30 @@ void PenaltyContact3DT::RHSDriver(void)
 			RHS.AddScaled(-dphi/mag, V1);
 
 			/* ----- Coulomb friction (regularised kinetic) -----
-			 * f_t = -mu * |f_n| * v_t / sqrt(|v_t|^2 + eps^2)
+			 * Two branches share the same Newton-3rd-law force distribution:
+			 *   striker:    -f_t   (resists striker tangential motion)
+			 *   facet 1..3: +f_t/3 (equal nodal split, preserves momentum)
 			 *
-			 * Distribution to nodal RHS:
-			 *   striker:  -f_t       (resists striker tangential motion)
-			 *   facet 1..3: +f_t / 3 (Newton's 3rd law, equal split)
-			 * The 1/3 split is a simplification of the proper shape-function
-			 * weighting; preserves linear momentum conservation, sufficient
-			 * for kinetic friction in penalty contact.
-			 */
-			if (fMu > 0.0) {
+			 * Explicit (#26): velocity-based, f_t = -mu·|f_n|·v_t / sqrt(|v_t|² + eps²)
+			 * Implicit (#40): slip-based,    f_t = -mu·|f_n|·Δu_t / sqrt(|Δu_t|² + eps²)
+			 *
+			 * The implicit branch needs per-striker history for Δu_t; see
+			 * fPrevStrikerPos / fPrevFacetCentroid / fHasHistory.  History
+			 * is updated at CloseStep so the slip increment is over the
+			 * just-converged load step.
+			 *
+			 * IMPLICIT TANGENT (NOT YET IN LHSDriver — known limitation #40):
+			 * the residual contribution below is correct, but the analytical
+			 * tangent ∂f_t/∂u of the slip-friction force is NOT added to
+			 * LHSDriver.  Newton therefore relies only on the inherited normal
+			 * contact stiffness; it converges only when the per-step slip
+			 * increment stays small relative to friction_epsilon_velocity
+			 * (i.e. small load steps), or when the tangential drag is small
+			 * compared with the normal contact spring.  Production use of
+			 * implicit Coulomb at large slip per step needs an analytical
+			 * tangent  ∂f_t/∂Δu_t = s·(I − Δu_t⊗Δu_t/smooth²)  and  ∂f_t/∂|f_n|
+			 * coupling — tracked as follow-up to #40. */
+			if (fMu > 0.0 && !fImplicitFriction) {
 				const dArray2DT& vel = Field()[1];
 				double v_str[3] = {vel(pelem[3], 0), vel(pelem[3], 1), vel(pelem[3], 2)};
 				double v_fc[3]  = {
@@ -381,25 +418,34 @@ void PenaltyContact3DT::RHSDriver(void)
 				double s = -fMu * f_n_mag * inv_smooth;  /* opposes v_t */
 				double ft[3] = {s*vt[0], s*vt[1], s*vt[2]};
 
-				/* fRHS layout: 4 nodes * 3 dofs = 12 doubles, node order
-				 * [facet1, facet2, facet3, striker] */
 				double third = 1.0 / 3.0;
-				/* facet 1 — opposite reaction */
-				RHS[0]  += -ft[0] * third;
-				RHS[1]  += -ft[1] * third;
-				RHS[2]  += -ft[2] * third;
-				/* facet 2 */
-				RHS[3]  += -ft[0] * third;
-				RHS[4]  += -ft[1] * third;
-				RHS[5]  += -ft[2] * third;
-				/* facet 3 */
-				RHS[6]  += -ft[0] * third;
-				RHS[7]  += -ft[1] * third;
-				RHS[8]  += -ft[2] * third;
-				/* striker — friction acts ON it */
-				RHS[9]  += ft[0];
-				RHS[10] += ft[1];
-				RHS[11] += ft[2];
+				RHS[0]  += -ft[0] * third;  RHS[1]  += -ft[1] * third;  RHS[2]  += -ft[2] * third;
+				RHS[3]  += -ft[0] * third;  RHS[4]  += -ft[1] * third;  RHS[5]  += -ft[2] * third;
+				RHS[6]  += -ft[0] * third;  RHS[7]  += -ft[1] * third;  RHS[8]  += -ft[2] * third;
+				RHS[9]  += ft[0];           RHS[10] += ft[1];           RHS[11] += ft[2];
+			}
+			else if (fMu > 0.0 && fImplicitFriction && fHasHistory[striker_index]) {
+				/* slip increment Δr = (current relative position) − (previous relative position) */
+				double r_cur[3] = {fStriker[0] - (fx1[0]+fx2[0]+fx3[0])/3.0,
+				                   fStriker[1] - (fx1[1]+fx2[1]+fx3[1])/3.0,
+				                   fStriker[2] - (fx1[2]+fx2[2]+fx3[2])/3.0};
+				double r_prev[3] = {fPrevStrikerPos(striker_index, 0) - fPrevFacetCentroid(striker_index, 0),
+				                    fPrevStrikerPos(striker_index, 1) - fPrevFacetCentroid(striker_index, 1),
+				                    fPrevStrikerPos(striker_index, 2) - fPrevFacetCentroid(striker_index, 2)};
+				double dr[3] = {r_cur[0]-r_prev[0], r_cur[1]-r_prev[1], r_cur[2]-r_prev[2]};
+				double drn = dr[0]*n[0] + dr[1]*n[1] + dr[2]*n[2];
+				double dut[3] = {dr[0]-drn*n[0], dr[1]-drn*n[1], dr[2]-drn*n[2]};
+				double dut_mag2 = dut[0]*dut[0] + dut[1]*dut[1] + dut[2]*dut[2];
+				double inv_smooth = 1.0 / sqrt(dut_mag2 + fFrictionEps*fFrictionEps);
+				double f_n_mag = fabs(dphi);
+				double s = -fMu * f_n_mag * inv_smooth;
+				double ft[3] = {s*dut[0], s*dut[1], s*dut[2]};
+
+				double third = 1.0 / 3.0;
+				RHS[0]  += -ft[0] * third;  RHS[1]  += -ft[1] * third;  RHS[2]  += -ft[2] * third;
+				RHS[3]  += -ft[0] * third;  RHS[4]  += -ft[1] * third;  RHS[5]  += -ft[2] * third;
+				RHS[6]  += -ft[0] * third;  RHS[7]  += -ft[1] * third;  RHS[8]  += -ft[2] * third;
+				RHS[9]  += ft[0];           RHS[10] += ft[1];           RHS[11] += ft[2];
 			}
 
 			/* ----- Normal viscous damping (#31) -----
@@ -459,4 +505,46 @@ void PenaltyContact3DT::RHSDriver(void)
 
 	/* set tracking */
 	SetTrackingData(num_contact, h_max);
+}
+
+/* Step-end hook: snapshot the contact-pair geometry per striker so the next
+ * step's RHSDriver can compute the tangential slip increment Δu_t for
+ * implicit Coulomb friction (#40).  We loop over the same pair connectivity
+ * the residual sees, in serial — cost is O(num_pairs) and only one pass per
+ * accepted load step. */
+void PenaltyContact3DT::CloseStep(void)
+{
+	Contact3DT::CloseStep();
+
+	if (!fImplicitFriction || fMu <= 0.0) return;
+
+	const dArray2DT& init_coords = ElementSupport().InitialCoordinates();
+	const dArray2DT& disp        = Field()[0];
+
+	const int* base = fConnectivities[0]->Pointer();
+	int rowlength   = fConnectivities[0]->MinorDim();
+	int N           = fConnectivities[0]->MajorDim();
+
+	for (int i = 0; i < N; i++) {
+		const int* pelem = base + i * rowlength;
+		int s_idx = fStrikerTags_map.Map(pelem[3]);
+
+		double s_pos[3] = {
+			init_coords(pelem[3], 0) + disp(pelem[3], 0),
+			init_coords(pelem[3], 1) + disp(pelem[3], 1),
+			init_coords(pelem[3], 2) + disp(pelem[3], 2)
+		};
+		double f_cent[3] = {0.0, 0.0, 0.0};
+		for (int k = 0; k < 3; k++)
+			for (int j = 0; j < 3; j++)
+				f_cent[j] += (init_coords(pelem[k], j) + disp(pelem[k], j)) / 3.0;
+
+		fPrevStrikerPos(s_idx, 0)    = s_pos[0];
+		fPrevStrikerPos(s_idx, 1)    = s_pos[1];
+		fPrevStrikerPos(s_idx, 2)    = s_pos[2];
+		fPrevFacetCentroid(s_idx, 0) = f_cent[0];
+		fPrevFacetCentroid(s_idx, 1) = f_cent[1];
+		fPrevFacetCentroid(s_idx, 2) = f_cent[2];
+		fHasHistory[s_idx]           = 1;
+	}
 }
