@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<!-- Hertz contact benchmark — Tet4 indenter on Hex8 base (implicit).
+     Same geometry, materials, and BC as hertz_implicit.xml, but block 1
+     uses 5-tet split + the BonetTet (ANP-Tet4 / LS-DYNA ELFORM=13)
+     element to handle volumetric locking.  Block 2 stays Hex8 +
+     <updated_lagrangian>.  Demonstrates mixed-element contact: tet
+     facets (3-node triangles) pair with hex facets (4-node quads → 2
+     triangles via Contact3DT::ConvertQuadToTri) inside one
+     <contact_3D_penalty>.
+
+     Two elastic bodies sharing the same material (E=200000, ν=0.3,
+     ρ=7.85), so:
+       1/E* = 2(1−ν²)/E,  E* = E/(2(1−ν²)) ≈ 109 890 MPa
+
+     Hertz at δ_BC = 0.05 mm:
+       a   = √(R·δ)              ≈ 0.7071 mm
+       F/4                       ≈ 1295 N
+       p₀                        ≈ 4947 MPa -->
+<tahoe geometry_file="geometry/hertz_tet_hex.geom"
+       output_format="ExodusII"
+       title="hertz_tet_hex_implicit">
+    <time num_steps="10" output_inc="1" time_step="0.1">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0.0" y="0.0"/>
+                <OrderedPair x="1.0" y="1.0"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+    <nodes>
+        <field field_name="displacement">
+            <dof_labels>
+                <String value="D_X"/>
+                <String value="D_Y"/>
+                <String value="D_Z"/>
+            </dof_labels>
+            <kinematic_BC dof="3" node_ID="1" schedule="1" type="u" value="-0.05"/>
+            <kinematic_BC dof="1" node_ID="2"/>
+            <kinematic_BC dof="2" node_ID="3"/>
+            <kinematic_BC dof="1" node_ID="4"/>
+            <kinematic_BC dof="2" node_ID="4"/>
+            <kinematic_BC dof="3" node_ID="4"/>
+            <kinematic_BC dof="1" node_ID="5"/>
+            <kinematic_BC dof="2" node_ID="6"/>
+            <!-- NS8 (base top) is FREE — base deforms elastically -->
+        </field>
+    </nodes>
+    <element_list>
+        <!-- block 1 (Tet4 indenter) — F-bar averaged tet for volumetric
+             locking relief; uses analytical (F-based) tangent — slow but
+             stable Newton on this problem.  Issue #29 is the consistent
+             F-bar tangent that would give quadratic convergence. -->
+        <bonet_tet field_name="displacement">
+            <tetrahedron/>
+            <solid_element_nodal_output displacements="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list><String value="1"/></block_ID_list>
+                <large_strain_material_3D>
+                    <Simo_isotropic density="7.85">
+                        <E_and_nu Poisson_ratio="0.3" Young_modulus="200000.0"/>
+                    </Simo_isotropic>
+                </large_strain_material_3D>
+            </large_strain_element_block>
+        </bonet_tet>
+
+        <!-- block 2 (Hex8 base) — standard updated-Lagrangian -->
+        <updated_lagrangian field_name="displacement">
+            <hexahedron/>
+            <solid_element_nodal_output displacements="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list><String value="2"/></block_ID_list>
+                <large_strain_material_3D>
+                    <Simo_isotropic density="7.85">
+                        <E_and_nu Poisson_ratio="0.3" Young_modulus="200000.0"/>
+                    </Simo_isotropic>
+                </large_strain_material_3D>
+            </large_strain_element_block>
+        </updated_lagrangian>
+
+        <!-- mixed-element contact pair: SS1 = tet triangles (sphere bottom),
+             SS2 = hex quads (base top).  Quads are split into 2 triangles
+             internally; both bodies' contact strikers are sphere bottom
+             nodes (NS7).  E* matches the all-hex setup so a/F/p₀ should
+             agree to within mesh discretisation effects. -->
+        <contact_3D_penalty field_name="displacement"
+                            penalty_stiffness="1.0e7">
+            <contact_surface>
+                <surface_side_set side_set_ID="1"/>
+            </contact_surface>
+            <contact_surface>
+                <surface_side_set side_set_ID="2"/>
+            </contact_surface>
+            <contact_nodes>
+                <node_ID_list>
+                    <String value="7"/>
+                </node_ID_list>
+            </contact_nodes>
+        </contact_3D_penalty>
+    </element_list>
+    <nonlinear_solver abs_tolerance="1.0e-6"
+                      divergence_tolerance="1.0e+04"
+                      max_iterations="40"
+                      rel_tolerance="1.0e-8">
+        <SPOOLES_matrix/>
+    </nonlinear_solver>
+</tahoe>

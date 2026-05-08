@@ -181,11 +181,62 @@ onto the universal Hertz curve `p/p₀ = √(1 − (r/a)²)`.
   Increasing the penalty would tighten the contact further but
   requires smaller Δt for explicit (CFL on the contact mode).
 
+## Mixed-element variant: Tet4 indenter on Hex8 base
+
+A second flavour of the same benchmark uses a 5-tet split of the
+indenter block (46 080 Tet4) on top of the same Hex8 base (6 912 Hex8)
+— driven by `<bonet_tet>` (implicit) or `<explicit_solid>` +
+`<anp_tet4>` + `<tetrahedron/>` (explicit).  A single
+`<contact_3D_penalty>` links the Tet4 triangular facets (SS1) with the
+Hex8 quad facets (SS2 — auto-split to 2 triangles by
+`Contact3DT::ConvertQuadToTri`).  Demonstrates that Tahoe handles
+mixed-element-type contact correctly.
+
+| metric    | explicit | implicit | Hertz   | error |
+|-----------|----------|----------|---------|-------|
+| a_fit     | 0.6934   | 0.6957   | 0.7071  | −1.9 / −1.6 % |
+| p₀_fit    | 4999     | 4951     | 4947    | +1.1 / +0.1 % |
+| F_fit/4   | 1259     | 1255     | 1295    | −2.8 / −3.1 % |
+| p₀_apex   | 4975     | 4903     | 4947    | +0.6 / −0.9 % |
+
+Notably the +15 % apex-pressure-spike artifact present in the all-hex
+case is **gone** — Tet4 faces share the apex node across more
+triangulated facets, so the point-collocation load distributes
+naturally across more strikers.  Cross-validation: explicit ↔
+implicit agree < 1 %.
+
+![Tet/Hex pressure profile](hertz_tet_hex_pressure.png)
+
+> **Implicit runtime** is slow (~2 h for 10 quasistatic steps) because
+> BonetTet inherits the analytical updated-Lagrangian tangent — which
+> is for F not F̄.  Issue #29 tracks the proper consistent-tangent
+> fix; the converged result is unchanged.
+
+> **One io per element group**: Tahoe writes a separate `*.io.exo`
+> per element group, so the Tet/Hex run produces three files
+> (`io0` = Tet block, `io1` = Hex block, `io2` = contact strikers).
+> Use [merge_io.py](merge_io.py) to combine io0 + io1 into a single
+> Exodus file for ParaView.
+
 ## Files
 
+All-hex variant:
 - [generate_hertz_mesh.py](generate_hertz_mesh.py) — mesh generator
 - [hertz_explicit.xml](hertz_explicit.xml) — explicit run
 - [hertz_implicit.xml](hertz_implicit.xml) — implicit run
 - [compare_to_analytical.py](compare_to_analytical.py) —
   post-processing (extracts a, F, p₀, fits Hertz, plots p(r) overlay)
 - [hertz_pressure.png](hertz_pressure.png) — pressure-profile plot
+
+Tet/Hex mixed-element variant:
+- [generate_hertz_tet_hex_mesh.py](generate_hertz_tet_hex_mesh.py) —
+  5-tet split mesh generator
+- [hertz_tet_hex_explicit.xml](hertz_tet_hex_explicit.xml) — Tet
+  indenter (with `<anp_tet4>`) + Hex base, explicit
+- [hertz_tet_hex_implicit.xml](hertz_tet_hex_implicit.xml) — Tet
+  indenter (with `<bonet_tet>`) + Hex base, implicit
+- [compare_tet_hex_to_analytical.py](compare_tet_hex_to_analytical.py)
+  — Tet/Hex post-processing (element-type-aware striker areas)
+- [merge_io.py](merge_io.py) — combine io0 + io1 into one Exodus file
+- [hertz_tet_hex_pressure.png](hertz_tet_hex_pressure.png) —
+  Tet/Hex pressure profile
