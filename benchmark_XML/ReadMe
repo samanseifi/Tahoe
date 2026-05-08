@@ -6,6 +6,12 @@ reference solutions. Tests are organized into levels:
   level.0  — Core capabilities (springs, solid mechanics, diffusion,
               particle methods, meshfree, time integrators). All code
               changes should pass these before committing.
+              Status: 171/186 PASS, 15 FAIL (issue #37).
+              Remaining failures: 9 atomistic-continuum bridging tests
+              (BRIDGING_ELEMENT compiles but crashes at runtime — kept
+              disabled in ElementsConfig.h pending separate fix), and
+              6 stale-reference / config-drift tests (CSE.2, adhesion.2,
+              adhesion.3, bar.2D.lin, inputoutput/square, square dup).
 
   level.1  — Constitutive model verification under simple loading
               (bulk materials, cohesive surface relations, atomistic

@@ -2,7 +2,6 @@
 
 <tahoe
  geometry_file='../geometry/quad4.4x1.geom'
- output_format='ExodusII'
       xmlns:x0='http://www.w3.org/2001/XMLSchema'>
 	<time
 	  num_steps='1'

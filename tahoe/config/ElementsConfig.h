@@ -49,6 +49,9 @@
  * This option must be set in conjunction with the DIRECTORY_BRIDGING_ELEMENT macro
  * in ElementsConfig.make. */
 /* #define BRIDGING_ELEMENT 1 */
+/* NOTE: bridging element compiles but crashes at runtime on level.0 tests.
+ * The classic bridging tests (atomistic-continuum coupling) need a separate
+ * investigation — tracking as a follow-up to issue #37. */
 
 /** \def PARTICLE_ELEMENT
  * Methods for particle simulations.
@@ -60,7 +63,7 @@
  * Surface-to-surface interaction.
  * This option must be set in conjunction with the DIRECTORY_ADHESION_ELEMENT macro
  * in ElementsConfig.make. */
-/* #define ADHESION_ELEMENT 1 */
+#define ADHESION_ELEMENT 1
 
 /** \def CONSTANT_VOLUME_ELEMENT
  * Constant volume constraint elements.

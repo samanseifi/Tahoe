@@ -3,7 +3,7 @@
 <tahoe
     geometry_format='automatic'
       geometry_file='../geometry/quad4.4x1.geom'
-      output_format='ExodusII'
+      output_format='automatic'
  restart_output_inc='0'
          echo_input='false'
             logging='moderate'

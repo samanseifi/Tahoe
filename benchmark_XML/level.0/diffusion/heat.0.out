@@ -6,7 +6,7 @@ geometry_format = automatic (default)
 geometry_format = TahoeII
 geometry_format = ExodusII
 geometry_file. . . . . . . . . . . . . . . . . . . = ../geometry/quad4.2x2.geom
-output_format. . . . . . . . . . . . . . . . . . . = ExodusII
+output_format. . . . . . . . . . . . . . . . . . . = automatic
 output_format = automatic (default)
 output_format = Tahoe
 output_format = TecPlot
@@ -203,10 +203,10 @@ end: tahoe
  Time = 1.000000e+00
  Step 1 of 1
 
-   Start time: Fri Feb 27 15:22:22 2026
- Construction: 8.250000e-04 sec.
-     Solution: 1.380000e-03 sec.
-    Stop time: Fri Feb 27 15:22:22 2026
+   Start time: Fri May  8 12:04:38 2026
+ Construction: 3.922000e-03 sec.
+     Solution: 5.970000e-04 sec.
+    Stop time: Fri May  8 12:04:38 2026
 
  End Execution
 
