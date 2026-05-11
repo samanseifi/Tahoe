@@ -5,7 +5,7 @@
 static double z[25];
 
 /* function to compute electric displacement */
-void elec_pk2_q1p0(const double* params, const double* Xsi, const double* Cmat, const double* Fmat, double J, double* dUdCelec) { 
+void fsde_elec_pk2_q1p0(const double* params, const double* Xsi, const double* Cmat, const double* Fmat, double J, double* dUdCelec) {
 
 /* common definitions */
 #include "FSDE_common_definesQ1P0.h"

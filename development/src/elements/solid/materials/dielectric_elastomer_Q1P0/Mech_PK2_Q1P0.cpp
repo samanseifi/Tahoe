@@ -5,7 +5,7 @@
 static double z[33];
 
 /* function to compute mechanical part of PK2 stress */
-void mech_pk2_q1p0(const double* params, const double* Xsi, const double* Cmat, const double* Fmat, double J, double I1, double* dUdCmech) { 
+void fsde_mech_pk2_q1p0(const double* params, const double* Xsi, const double* Cmat, const double* Fmat, double J, double I1, double* dUdCmech) {
 
 /* common definitions */
 #include "FSDE_common_definesQ1P0.h"

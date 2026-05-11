@@ -5,7 +5,7 @@
 static double z[76];
 
 /* function to compute EM stiffness in reference configuration */
-void me_mixedmodulus_q1p0(const double* params, const double *Xsi, const double* Cmat, const double* Fmat, double J, double* dCdXsi) { 
+void fsde_me_mixedmodulus_q1p0(const double* params, const double *Xsi, const double* Cmat, const double* Fmat, double J, double* dCdXsi) {
 
 /* common definitions */
 #include "FSDE_common_definesQ1P0.h"

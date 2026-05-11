@@ -5,7 +5,7 @@
 static double z[955];
 
 /* function to compute mixed electromechanical modulus */
-void me_tanmod_q1p0(const double* params, const double *Xsi, const double* Cmat, const double* Fmat, double J, double* ddCmechelec) { 
+void fsde_me_tanmod_q1p0(const double* params, const double *Xsi, const double* Cmat, const double* Fmat, double J, double* ddCmechelec) {
 
 /* common definitions */
 #include "FSDE_common_definesQ1P0.h"

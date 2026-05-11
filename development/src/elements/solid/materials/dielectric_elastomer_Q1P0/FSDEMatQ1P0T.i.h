@@ -4,6 +4,8 @@
 #include <fstream>
 using namespace std;
 
+
+
 namespace Tahoe {
 
   inline FSDEMatQ1P0T::FSDEMatQ1P0T() :
@@ -96,8 +98,8 @@ namespace Tahoe {
 	double J = F.Det();
 
 	/* call C function for mechanical part of tangent modulus */
- 	mech_tanmod_q1p0(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, I1, fTangentMechanical.Pointer());
- 	me_tanmod_q1p0(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, fTangentMechanicalElec.Pointer());
+ 	fsde_mech_tanmod_q1p0(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, I1, fTangentMechanical.Pointer());
+ 	fsde_me_tanmod_q1p0(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, fTangentMechanicalElec.Pointer());
  	fTangentMechanical+=fTangentMechanicalElec;
 
  	/* -------------- Writing into a file -------------
@@ -126,28 +128,16 @@ namespace Tahoe {
 
 	dMatrixT stress_temp(3);
 	dMatrixT stress_temp2(3);
+
 	double I1 = C(0,0)+C(1,1)+C(2,2);
 	double J = C.Det();
 	J = sqrt(J);
 
-	/* call C function for mechanical part of PK2 stress */
- 	mech_pk2_q1p0(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, I1, stress_temp.Pointer());
-	me_pk2_q1p0(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, stress_temp2.Pointer());
-	stress_temp+=stress_temp2;
+	fsde_mech_pk2_q1p0(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, I1, stress_temp.Pointer());
+	fsde_me_pk2_q1p0(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, stress_temp2.Pointer());
 
+	stress_temp += stress_temp2;
 	fStress.FromMatrix(stress_temp);
-
- 	/* -------------- Writing into a file -------------
- 	ofstream mySIJ;
- 	mySIJ.open("S_IJ.txt");
- 	for (int i = 0; i < fStress.Rows(); i++) {
- 		for (int j = 0; j < fStress.Cols(); j++) {
- 			mySIJ << fStress(i,j) << " ";
- 		}
- 		mySIJ << endl;
- 	}
- 	mySIJ.close();
- 	 ------------------------------------------------- */
 
     return fStress;
   }
@@ -163,7 +153,7 @@ namespace Tahoe {
 	J = sqrt(J);
 
 	/* call C function for electromechanical tangent modulus */
- 	me_mixedmodulus_q1p0(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, fTangentElectromechanical.Pointer());
+ 	fsde_me_mixedmodulus_q1p0(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, fTangentElectromechanical.Pointer());
 
  	/* -------------- Writing into a file -------------
  	ofstream myEIJK;
@@ -192,7 +182,7 @@ namespace Tahoe {
     const dMatrixT& F = F_mechanical();
 
 	/* call C function for (spatial) electromechanical tangent modulus */
- 	me_mixedmodulus_q1p0spatial(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, fTangentElectromechanicalSpatial.Pointer());
+ 	fsde_me_mixedmodulus_q1p0spatial(fParams.Pointer(), E.Pointer(), C.Pointer(), F.Pointer(), J, fTangentElectromechanicalSpatial.Pointer());
 
  	fTangentElectromechanicalSpatial /= J;
 
@@ -295,7 +285,7 @@ namespace Tahoe {
   	J = sqrt(J);
 
 	/* call C function for electric stress (i.e. electric displacement D_{I}) */
- 	elec_pk2_q1p0(fParams.Pointer(), E.Pointer(),
+ 	fsde_elec_pk2_q1p0(fParams.Pointer(), E.Pointer(),
  		C.Pointer(), F.Pointer(), J, fElectricDisplacement.Pointer());
 
  	/* -------------- Writing into a file -------------
@@ -383,28 +373,10 @@ namespace Tahoe {
   inline const dSymMatrixT&
   FSDEMatQ1P0T::s_ij()
   {
-    
     const dMatrixT& F = F_mechanical();
     const double J = F.Det();
-
-    // prevent aliasing
-
     const dSymMatrixT S = S_IJ();
-
     fStress.SetToScaled(1.0 / J, PushForward(F, S));
-
- 	/* -------------- Writing into a file -------------
- 	ofstream mysij;
- 	mysij.open("s_ij_2.txt");
- 	for (int i = 0; i < fStress.Rows(); i++) {
- 		for (int j = 0; j < fStress.Cols(); j++) {
- 			mysij << fStress(i,j) << " ";
- 		}
- 		mysij << endl;
- 	}
- 	mysij.close();
- 	 ------------------------------------------------- */
-
     return fStress;
   }
 

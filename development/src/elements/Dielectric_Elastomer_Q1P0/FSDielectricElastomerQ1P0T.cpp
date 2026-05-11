@@ -366,6 +366,7 @@ void FSDielectricElastomerQ1P0T::SetShape(void)
 
 			/* store current volume */
 			fCurrVol[i] = v;
+
 		}
 
 		/* "last" deformation gradient */
@@ -470,6 +471,7 @@ void FSDielectricElastomerQ1P0T::SetShape(void)
     }
 
     ElementBaseT::Equations(eq_1, eq_2);
+
   }
 
   //
@@ -685,9 +687,7 @@ void FSDielectricElastomerQ1P0T::AddNodalForce(const FieldT& field, int node, dA
 
 	/* stress stiffness into fLHS (i.e. fAmm_mat) */
 	fAmm_mat.Expand(fAmm_geo, NumDOF(), dMatrixT::kAccumulate);
-	fAem.Transpose();
-//	fAem = fAme;
-//	fAem.Transpose();
+	fAem.Transpose(fAme);
 
 	/* Add mass matrix and non-symmetric electromechanical tangent if dynamic problem */
 	if (order == 2)
@@ -704,6 +704,7 @@ void FSDielectricElastomerQ1P0T::AddNodalForce(const FieldT& field, int node, dA
 	fLHS.AddBlock(0, 0, fAmm_mat);
 	fLHS.AddBlock(fAmm_mat.Rows(), fAmm_mat.Cols(), fAee);
 	fLHS.AddBlock(0, fAmm_mat.Cols(), fAme);
+
   }
 
 /* Compute RHS, or residual of element equations */
@@ -739,6 +740,7 @@ void FSDielectricElastomerQ1P0T::AddNodalForce(const FieldT& field, int node, dA
 
 		/* B^T * Cauchy stress */
 		const dSymMatrixT& cauchy = fCurrMaterial->s_ij();
+
     fB.MultTx(cauchy, fNEEvec);
 
 		/* determinant of modified deformation gradient */

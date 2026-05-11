@@ -5,7 +5,7 @@
 static double z[62];
 
 /* function to compute mechanical part of tangent modulus */
-void mech_tanmod_q1p0(const double* params, const double* Xsi, const double* Cmat, const double* Fmat, double J, double I1, double* ddCmech) { 
+void fsde_mech_tanmod_q1p0(const double* params, const double* Xsi, const double* Cmat, const double* Fmat, double J, double I1, double* ddCmech) {
 
 /* common definitions */
 #include "FSDE_common_definesQ1P0.h"

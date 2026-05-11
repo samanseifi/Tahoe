@@ -6,7 +6,7 @@ static double z[415];
 
 /* function to compute EM stiffness in current configuration */
 /* reads in EM stiffness (Kem) from reference configuration, pushes it forward */
-void me_mixedmodulus_q1p0spatial(const double* params, const double *Xsi, const double* Cmat, const double* Fmat, double J, double* Kempf) { 
+void fsde_me_mixedmodulus_q1p0spatial(const double* params, const double *Xsi, const double* Cmat, const double* Fmat, double J, double* Kempf) {
 
 /* common definitions */
 #include "FSDE_common_definesQ1P0.h"
