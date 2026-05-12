@@ -76,10 +76,6 @@ namespace Tahoe {
 
     void Initialize();
 
-    /* ------------- */
-    const dMatrixT DeformationMatrix();
-    /* ------------- */
-
     const dMatrixT RightCauchyGreenDeformation();
     const dArrayT ElectricField();
     const dArrayT ElectricField(int ip);

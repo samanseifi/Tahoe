@@ -20,7 +20,6 @@
 #include <algorithm>
 
 using namespace std;
-std::ofstream outfile;
 
 namespace Tahoe {
 
@@ -178,9 +177,6 @@ void FSDielectricElastomerQ1P0ElastocapillaryT::TakeParameterList(const Paramete
 
       ArrayT<const iArray2DT*> connects;
       model_manager.ElementGroupPointers(block_ID, connects);
-      //cout << fSurfaceElementNeighbors << endl;
-      //cout << fSurfaceElements << endl;
-
       /* determine normal type of each face */
       dMatrixT Q(nsd);
       dMatrixT jacobian(nsd, nsd-1);
@@ -342,11 +338,6 @@ void FSDielectricElastomerQ1P0ElastocapillaryT::FormStiffness(double constK)
      const iArrayT node_set_2 = model_manager.NodeSet("2");
      const iArrayT node_set_3 = model_manager.NodeSet("3");
 
-     //cout << fSurfaceElementNeighbors << endl;
-
-     ofstream myJ;
-     myJ.open("J.txt", std::ios_base::app);
-
      fGrad_U.Dimension(2, NumSD());
      fGrad_U = 0.0;
 
@@ -359,18 +350,6 @@ void FSDielectricElastomerQ1P0ElastocapillaryT::FormStiffness(double constK)
 
  		 if (element == CurrElementNumber()) // Is the current element a surface element?
  		 {
-
- 			if (i == 20) // element number 20
- 			{
- 				for (int k = 0; k < NumIP(); k++)
- 				{
- 					fShapes->GradU(fLocDisp, fGrad_U, k);
- 					fGrad_U.PlusIdentity(); // Computing F_0 = I + Grad_U
- 					double J_0 = fGrad_U.Det();
- 					myJ << k << "," << J_0 << endl;
- 				}
- 				myJ.close();
- 			}
 
  			 const ElementCardT& element_card = ElementCard(element);
  			 fLocInitCoords.SetLocal(element_card.NodesX()); /* reference coordinates over bulk element (collects first x coords and then y coords) i.e.  [x1 x2 x3 x4 y1 y2 y3 y4] */
@@ -409,9 +388,6 @@ void FSDielectricElastomerQ1P0ElastocapillaryT::FormStiffness(double constK)
  					 double x_2 = face_coords[1];
  					 double y_1 = face_coords[2];
  					 double y_2 = face_coords[3];
-
- 					 //cout << face_nodes_index[0] << "=" << "(" << x_1 << "," << y_1 << ")" << endl;
- 					 //cout << face_nodes_index[1] << "=" << "(" << x_2 << "," << y_2 << ")" << endl;
 
  					 /* For 2D cubic element: nen = 4 */
  					 fB[0] = (x_1 - x_2);
@@ -501,10 +477,6 @@ void FSDielectricElastomerQ1P0ElastocapillaryT::FormKd(double constK)
 
   	  double fNewSurfTension = min(fSurfTension, (CurrTime*fSurfTension)/fT_0);
 
-  	  //cout << fNewSurfTension << endl;
-
-  	 //fNewSurfTension = fSurfTension;
-
       for (int i = 0; i < fSurfaceElements.Length(); i++)
       {
             /* bulk element information */
@@ -544,16 +516,10 @@ void FSDielectricElastomerQ1P0ElastocapillaryT::FormKd(double constK)
 
                         double coeff3 = -fNewSurfTension/(L_e);
 
-                        // cout << "coeff3= " << coeff3 << endl;
-
                         fD[0] = coeff3*(x_1 - x_2);
                         fD[1] = coeff3*(y_1 - y_2);
                         fD[2] = coeff3*(x_2 - x_1);
                         fD[3] = coeff3*(y_2 - y_1);
-
-                        //                        D *= coeff3;
-                        //R_Total = 0.0;
-                       	// cout << D[0] << D[1] << D[2] << D[3] << endl;
 
                        	//int normaltype = fSurfaceElementFacesType(i,j);
                        	counter = CanonicalNodes(face_nodes_index[0], face_nodes_index[1]);
@@ -619,7 +585,6 @@ iArrayT FSDielectricElastomerQ1P0ElastocapillaryT::CanonicalNodes(const int node
 void FSDielectricElastomerQ1P0ElastocapillaryT::ComputeOutput(const iArrayT& n_codes,
       dArray2DT& n_values, const iArrayT& e_codes, dArray2DT& e_values)
 {
-      // cout << "\033[1;31mCan you see this?\033[0m" << endl;
       /* inherited - bulk contribution */
       FSDielectricElastomerQ1P02DT::ComputeOutput(n_codes, n_values, e_codes, e_values);
 
