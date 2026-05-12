@@ -23,35 +23,6 @@ using namespace std;
 
 namespace Tahoe {
 
-/* vector functions */
-inline static void CrossProduct(const double* A, const double* B, double* AxB) {
-      AxB[0] = A[1]*B[2] - A[2]*B[1];
-      AxB[1] = A[2]*B[0] - A[0]*B[2];
-	AxB[2] = A[0]*B[1] - A[1]*B[0];
-};
-
-inline static double Dot(const double* A, const double* B){
-      return A[0]*B[0] + A[1]*B[1] + A[2]*B[2];
-};
-
-inline static void Vector(const double* start, const double* end, double* v) {
-      v[0] = end[0] - start[0];
-      v[1] = end[1] - start[1];
-      v[2] = end[2] - start[2];
-};
-
-inline static void Scale(double* v, double scale) {
-      v[0] *= scale;
-      v[1] *= scale;
-      v[2] *= scale;
-};
-
-inline static void Sum(const double* A, const double* B, double* AB) {
-      AB[0] = A[0] + B[0];
-	AB[1] = A[1] + B[1];
-	AB[2] = A[2] + B[2];
-};
-
 FSDielectricElastomerQ1P0ElastocapillaryT::FSDielectricElastomerQ1P0ElastocapillaryT(const ElementSupportT& support) :
     FSDielectricElastomerQ1P02DT(support),
     fLocCurrCoords(LocalArrayT::kCurrCoords), fSurfTension(0), fSurfaceCBSupport(NULL)
@@ -290,290 +261,160 @@ void FSDielectricElastomerQ1P0ElastocapillaryT::TakeParameterList(const Paramete
  * Private
  ***********************************************************************/
 
-/* ------------------------------------------------ calculate the LHS of residual, or element stiffness matrix ------------------------------------------------*/
+/* Surface-tension contribution to the element stiffness.
+ *
+ * For each free surface face (a line in 2D between face nodes A and B):
+ *     K_face = (gamma/L) * P  -  (gamma/L^3) * (b ⊗ b)
+ * where L = |x_A - x_B|, b = (dx, dy, -dx, -dy), and P is the 4x4 line
+ * stiffness pattern [[I, -I], [-I, I]].  The 4x4 block is scattered into
+ * the bulk 8x8 mechanical block using the flat DOF indices of the 2 face
+ * nodes inside the 4-node bulk element.
+ */
 void FSDielectricElastomerQ1P0ElastocapillaryT::FormStiffness(double constK)
 {
-	const char caller[] = "FSDielectricElastomerQ1P0ElastocapillaryT::FormStiffness";
+    /* Inherited bulk contribution */
+    FSDielectricElastomerQ1P02DT::FormStiffness(constK);
 
-	/* Inherited */
-	FSDielectricElastomerQ1P02DT::FormStiffness(constK);
-	dMatrixT::SymmetryFlagT format = (fLHS.Format()
-			== ElementMatrixT::kNonSymmetric)
-            ? dMatrixT::kWhole
-            : dMatrixT::kUpperOnly;
+    /* skip elements that aren't on the free surface */
+    const int curr_elem = CurrElementNumber();
+    int s_idx = -1;
+    for (int i = 0; i < fSurfaceElements.Length(); i++)
+        if (fSurfaceElements[i] == curr_elem) { s_idx = i; break; }
+    if (s_idx == -1) return;
 
-      const ShapeFunctionT& shape = ShapeFunction();
-      int nsd = shape.NumSD();                          // # of spatial dimensions in problem
-      int nfs = shape.NumFacets();                      // # of total possible element faces
-      int nsi = shape.FacetShapeFunction(0).NumIP();    // # IPs per surface face
-      int nfn = shape.FacetShapeFunction(0).NumNodes(); // # nodes on each surface face
-      int nen = NumElementNodes();                      // # nodes in bulk element
-      int nme = nen * nsd;
+    const ShapeFunctionT& shape = ShapeFunction();
+    const int nsd = shape.NumSD();
+    const int nfn = shape.FacetShapeFunction(0).NumNodes();
 
-      iArrayT counter(nen);
+    /* time-ramped surface tension */
+    const double t = ElementSupport().Time();
+    const double gamma = min(fSurfTension, t * fSurfTension / fT_0);
 
-      /* loop over surface elements */
-      dMatrixT jacobian(nsd, nsd-1);
-      iArrayT face_nodes(nfn), face_nodes_index(nfn);
-      LocalArrayT face_coords(LocalArrayT::kCurrCoords, nfn, nsd);
-      ElementSupport().RegisterCoordinates(face_coords);
+    /* P = [[I, -I], [-I, I]]: constant 4x4 line-stiffness pattern */
+    dMatrixT P(4, 4);
+    P = 0.0;
+    P(0,0) = P(1,1) = P(2,2) = P(3,3) =  1.0;
+    P(0,2) = P(2,0) = P(1,3) = P(3,1) = -1.0;
 
-      dMatrixT K1;
-      dMatrixT K2;
-      dMatrixT K_Total;
-      dArrayT fB;
-      dMatrixT K3(nen);
+    iArrayT face_nodes(nfn), face_nodes_index(nfn);
+    LocalArrayT face_coords(LocalArrayT::kCurrCoords, nfn, nsd);
+    ElementSupport().RegisterCoordinates(face_coords);
 
-      K1.Dimension(nen, nen);
-      K2.Dimension(nen, nen);
-      fB.Dimension(nen);
-      K_Total.Dimension(nen, nen);
+    dArrayT b(4);
+    dMatrixT bb(4, 4), K_face(4, 4);
+    fAmm_mat2 = 0.0;
 
- 	 double CurrTime = ElementSupport().Time(); // Obtaining current time
+    for (int j = 0; j < fSurfaceElementNeighbors.MinorDim(); j++) {
+        if (fSurfaceElementNeighbors(s_idx, j) != -1) continue;  /* not a free face */
 
- 	 double fNewSurfTension = min(fSurfTension, (CurrTime*fSurfTension)/fT_0); // Ramping up the surface tension
+        ElementCardT& element_card = ElementCard(curr_elem);
+        shape.NodesOnFacet(j, face_nodes_index);
+        face_nodes.Collect(face_nodes_index, element_card.NodesX());
+        face_coords.SetLocal(face_nodes);
 
-     ModelManagerT& model_manager = ElementSupport().ModelManager();
-     const iArrayT node_set_1 = model_manager.NodeSet("1");
-     const iArrayT node_set_2 = model_manager.NodeSet("2");
-     const iArrayT node_set_3 = model_manager.NodeSet("3");
+        const double dx = face_coords[0] - face_coords[1];
+        const double dy = face_coords[2] - face_coords[3];
+        const double L_e = sqrt(dx*dx + dy*dy);
 
-     fGrad_U.Dimension(2, NumSD());
-     fGrad_U = 0.0;
+        b[0] =  dx;  b[1] =  dy;
+        b[2] = -dx;  b[3] = -dy;
+        bb.Outer(b, b);
 
- 	 // Should be loop over number of elements on surface!! //
- 	 for (int i = 0; i < fSurfaceElements.Length(); i++)
- 	 {
+        K_face = P;
+        K_face *= gamma / L_e;
+        bb     *= -gamma / (L_e * L_e * L_e);
+        K_face += bb;
 
- 		 /* bulk element information */
- 		 int element = fSurfaceElements[i];
+        const iArrayT face_dofs = FaceDOFIndices(face_nodes_index[0], face_nodes_index[1]);
+        for (int n = 0; n < 4; n++)
+            for (int m = 0; m < 4; m++)
+                fAmm_mat2(face_dofs[n], face_dofs[m]) += K_face(n, m);
+    }
 
- 		 if (element == CurrElementNumber()) // Is the current element a surface element?
- 		 {
+    /* dynamic formulation: scale once after all faces are accumulated */
+    if (fIntegrator->Order() == 2)
+        fAmm_mat2 *= constK;
 
- 			 const ElementCardT& element_card = ElementCard(element);
- 			 fLocInitCoords.SetLocal(element_card.NodesX()); /* reference coordinates over bulk element (collects first x coords and then y coords) i.e.  [x1 x2 x3 x4 y1 y2 y3 y4] */
- 			 fLocDisp.SetLocal(element_card.NodesU()); /* displacements over bulk element */
+    fLHS.AddBlock(0, 0, fAmm_mat2);
+}
 
- 			 fB = 0.0;
- 			 K1 = 0.0;
- 			 K2 = 0.0;
- 			 K3 = 0.0;
- 			 K_Total = 0.0;
- 			 fAmm_mat2 = 0.0;
-
-
- 			 for (int j = 0; j < fSurfaceElementNeighbors.MinorDim(); j++) /* loop over faces */
- 			 {
- 				 if (fSurfaceElementNeighbors(i,j) == -1) /* no neighbor => surface */
- 				 {
-
- 					 /* face parent domain */
- 					 const ParentDomainT& surf_shape = shape.FacetShapeFunction(j);
-
- 					 /* collect coordinates of face nodes */
- 					 ElementCardT& element_card = ElementCard(fSurfaceElements[i]);
- 					 shape.NodesOnFacet(j, face_nodes_index);  // fni = 4 nodes of surface face
- 					 face_nodes.Collect(face_nodes_index, element_card.NodesX());
- 					 face_coords.SetLocal(face_nodes);
-
- 					 K1 = 0.0; K2 = 0.0; fB = 0.0;
-
- 					 K1(0,0) = 1.0; K1(1,1) = 1.0;
- 					 K1(2,2) = 1.0; K1(3,3) = 1.0;
- 					 K1(0,2) = -1.0; K1(2,0) = -1.0;
- 					 K1(3,1) = -1.0; K1(1,3) = -1.0;
-
- 					 double x_1 = face_coords[0];
- 					 double x_2 = face_coords[1];
- 					 double y_1 = face_coords[2];
- 					 double y_2 = face_coords[3];
-
- 					 /* For 2D cubic element: nen = 4 */
- 					 fB[0] = (x_1 - x_2);
- 					 fB[1] = (y_1 - y_2);
- 					 fB[2] = (x_2 - x_1);
- 					 fB[3] = (y_2 - y_1);
-
- 					 K2.Outer(fB, fB); /* Multiplying B to BT */
-
- 					 /* Length of the surface */
- 					 double L_e = sqrt((x_1 - x_2)*(x_1 - x_2) + (y_1 - y_2)*(y_1 - y_2));
-
- 					 double coeff1 =  fNewSurfTension/L_e;
- 					 double coeff2 = -fNewSurfTension/(L_e*L_e*L_e);
-
- 					 K_Total = 0.0;
-
- 					 K1 *= coeff1;
- 					 K2 *= coeff2;
- 					 K_Total += K1;
- 					 K_Total += K2;
-
- 					 /* Constructing fAmm_mat */
- 					 //int normaltype = fSurfaceElementFacesType(i, j);
- 					 counter = CanonicalNodes(face_nodes_index[0], face_nodes_index[1]);
-
- 					 for (int n = 0; n < nen; n++) {
- 					 	 fAmm_mat2(counter[n], counter[0]) = fAmm_mat2(counter[n], counter[0]) + K_Total(n ,0);
- 					 	 fAmm_mat2(counter[n], counter[1]) = fAmm_mat2(counter[n], counter[1]) + K_Total(n ,1);
- 					 	 fAmm_mat2(counter[n], counter[2]) = fAmm_mat2(counter[n], counter[2]) + K_Total(n ,2);
- 					 	 fAmm_mat2(counter[n], counter[3]) = fAmm_mat2(counter[n], counter[3]) + K_Total(n ,3);
- 					 }
-
- 					 /* Dynamic formulation */
- 					 int order = fIntegrator->Order();;
- 					 if (order == 2)
- 						 fAmm_mat2 *= constK;
-
-
- 					 /* End of constructing fAmm_mat */
-
- 				 } /* End of if */
-
- 			 } /* End of surface edge loop */
-
- 			 fLHS.AddBlock(0, 0, fAmm_mat2);
-
- 		 }
- 	 } /* End of element loop */
-
-} /* End of Function FormStiffness */
-
-/* ------------------------------------------------ Compute RHS, or residual of element equations ------------------------------------------------*/
+/* Surface-tension contribution to the element residual.
+ *
+ * For each free surface face (a line in 2D from node A to node B):
+ *     R_face = -(gamma/L) * (x_A - x_B, y_A - y_B, x_B - x_A, y_B - y_A)
+ * which is the gradient of the line-energy (gamma*L) w.r.t. the 4 face DOFs.
+ */
 void FSDielectricElastomerQ1P0ElastocapillaryT::FormKd(double constK)
 {
-      const char caller[] = "FSDielectricElastomerQ1P0ElastocapillaryT::FormKd";
+    /* Inherited bulk contribution */
+    FSDielectricElastomerQ1P02DT::FormKd(constK);
 
-      /* Inherited */
-      FSDielectricElastomerQ1P02DT::FormKd(constK);
+    /* skip elements that aren't on the free surface */
+    const int curr_elem = CurrElementNumber();
+    int s_idx = -1;
+    for (int i = 0; i < fSurfaceElements.Length(); i++)
+        if (fSurfaceElements[i] == curr_elem) { s_idx = i; break; }
+    if (s_idx == -1) return;
 
-      /* dimensions */
-      const ShapeFunctionT& shape = ShapeFunction();
-      int nsd = shape.NumSD();                          // # of spatial dimensions in problem
-      int nfs = shape.NumFacets();                      // # of total possible element faces
-      int nsi = shape.FacetShapeFunction(0).NumIP();    // # IPs per surface face
-      int nfn = shape.FacetShapeFunction(0).NumNodes(); // # nodes on each surface face
-      int nen = NumElementNodes();                      // # nodes in bulk element
-      int nme = nen * nsd;
+    const ShapeFunctionT& shape = ShapeFunction();
+    const int nsd = shape.NumSD();
+    const int nfn = shape.FacetShapeFunction(0).NumNodes();
+    const int nen = NumElementNodes();
+    const int nme = nen * nsd;
 
-      iArrayT counter(nen);
+    const double t = ElementSupport().Time();
+    const double gamma = min(fSurfTension, t * fSurfTension / fT_0);
 
-      /* loop over surface elements */
-      dMatrixT jacobian(nsd, nsd-1);
-      LocalArrayT face_coords(LocalArrayT::kCurrCoords, nfn, nsd); // kCurrCoords = current coordinates
-      iArrayT face_nodes(nfn), face_nodes_index(nfn);
-      ElementSupport().RegisterCoordinates(face_coords);
+    iArrayT face_nodes(nfn), face_nodes_index(nfn);
+    LocalArrayT face_coords(LocalArrayT::kCurrCoords, nfn, nsd);
+    ElementSupport().RegisterCoordinates(face_coords);
 
-      dArrayT fD;
-      dArrayT R_Total;
-      dArrayT R;
+    dArrayT R_mech(nme), R((nsd + 1) * nen);
+    R_mech = 0.0;
+    R      = 0.0;
 
-      fD.Dimension(nen);
-      R_Total.Dimension(nme);
-      R.Dimension((nsd + 1) * nen);
+    for (int j = 0; j < fSurfaceElementNeighbors.MinorDim(); j++) {
+        if (fSurfaceElementNeighbors(s_idx, j) != -1) continue;  /* not a free face */
 
-  	  double CurrTime = ElementSupport().Time();
+        ElementCardT& element_card = ElementCard(curr_elem);
+        shape.NodesOnFacet(j, face_nodes_index);
+        face_nodes.Collect(face_nodes_index, element_card.NodesX());
+        face_coords.SetLocal(face_nodes);
 
-  	  double fNewSurfTension = min(fSurfTension, (CurrTime*fSurfTension)/fT_0);
+        const double dx = face_coords[0] - face_coords[1];
+        const double dy = face_coords[2] - face_coords[3];
+        const double L_e = sqrt(dx*dx + dy*dy);
+        const double scale = -gamma / L_e;
 
-      for (int i = 0; i < fSurfaceElements.Length(); i++)
-      {
-            /* bulk element information */
+        const iArrayT face_dofs = FaceDOFIndices(face_nodes_index[0], face_nodes_index[1]);
+        R_mech[face_dofs[0]] += scale *  dx;
+        R_mech[face_dofs[1]] += scale *  dy;
+        R_mech[face_dofs[2]] += scale * -dx;
+        R_mech[face_dofs[3]] += scale * -dy;
+    }
 
-    	  	int element = fSurfaceElements[i];
-            if (element == CurrElementNumber()) // Is the current element a surface element?
-            {
-            	const ElementCardT& element_card = ElementCard(element);
-            	fLocInitCoords.SetLocal(element_card.NodesX()); /* reference coordinates over bulk element */
-            	fLocDisp.SetLocal(element_card.NodesU()); /* displacements over bulk element */
-
-            	fD = 0.0;
-            	R_Total = 0.0;
-            	R = 0.0;
-
-            	for (int j = 0; j < fSurfaceElementNeighbors.MinorDim(); j++) /* loop over faces */
-            	{
-            		if (fSurfaceElementNeighbors(i,j) == -1) /* no neighbor => surface */
-            		{
-            			/* face parent domain */
-            			const ParentDomainT& surf_shape = shape.FacetShapeFunction(j);
-
-            			/* collect coordinates of face nodes */
-                        ElementCardT& element_card = ElementCard(fSurfaceElements[i]);
-                        shape.NodesOnFacet(j, face_nodes_index);  // fni = 4 nodes of surface face
-                        face_nodes.Collect(face_nodes_index, element_card.NodesX());
-                        face_coords.SetLocal(face_nodes);
-
-                        double x_1 = face_coords[0];
-                       	double x_2 = face_coords[1];
-                        double y_1 = face_coords[2];
-                        double y_2 = face_coords[3];
-
-                        fD = 0.0;
-                        // Length of the surface
-                        double L_e = sqrt((x_1 - x_2)*(x_1 - x_2) + (y_1 - y_2)*(y_1 - y_2));
-
-                        double coeff3 = -fNewSurfTension/(L_e);
-
-                        fD[0] = coeff3*(x_1 - x_2);
-                        fD[1] = coeff3*(y_1 - y_2);
-                        fD[2] = coeff3*(x_2 - x_1);
-                        fD[3] = coeff3*(y_2 - y_1);
-
-                       	//int normaltype = fSurfaceElementFacesType(i,j);
-                       	counter = CanonicalNodes(face_nodes_index[0], face_nodes_index[1]);
-
-                       	R_Total[counter[0]] = R_Total[counter[0]] + fD[0];
-                       	R_Total[counter[1]] = R_Total[counter[1]] + fD[1];
-                        R_Total[counter[2]] = R_Total[counter[2]] + fD[2];
-                        R_Total[counter[3]] = R_Total[counter[3]] + fD[3];
-
-            		} /* End of if */
-
-            	}  /* End of surface edge loop */
-
-            	R.CopyIn(0, R_Total);
-            	fRHS += R;
-            }
-      } /* End of element loop */
+    R.CopyIn(0, R_mech);
+    fRHS += R;
 }
+
 /***********************************************************************
  * Protected
  ***********************************************************************/
-iArrayT FSDielectricElastomerQ1P0ElastocapillaryT::CanonicalNodes(const int node_index0, const int node_index1)
+
+/* Flat DOF indices for the 2 nodes of a quad4 face in the 8-DOF mechanical
+ * block (layout: [u_x_0, u_y_0, u_x_1, u_y_1, ..., u_y_3]).
+ *
+ *   node A -> DOFs (2A, 2A+1)
+ *   node B -> DOFs (2B, 2B+1)
+ */
+iArrayT FSDielectricElastomerQ1P0ElastocapillaryT::FaceDOFIndices(int node_a, int node_b)
 {
-	const char caller[] = "FSDielectricElastomerQ1P0ElastocapillaryT::CanonicalNodes";
-
-	/* Return nodes for canonical (psi, eta) element based on normal type */
-	int nen = NumElementNodes();
-	iArrayT counter(nen);
-
-	if (node_index0 == 0 && node_index1 == 1) {
-		counter[0] = 0;
-		counter[1] = 1;
-		counter[2] = 2;
-		counter[3] = 3;
-	} else if (node_index0 == 1 && node_index1 == 2) {
-		counter[0] = 2;
-		counter[1] = 3;
-		counter[2] = 4;
-		counter[3] = 5;
-	} else if (node_index0 == 2 && node_index1 == 3) {
-		counter[0] = 4;
-		counter[1] = 5;
-		counter[2] = 6;
-		counter[3] = 7;
-	} else if (node_index0 == 3 && node_index1 == 0) {
-		counter[0] = 6;
-		counter[1] = 7;
-		counter[2] = 0;
-		counter[3] = 1;
-	} else {
-		ExceptionT::GeneralFail(caller, "could not classify face with node index %d and %d", node_index0, node_index1);
-	}
-
-	return counter;
+    iArrayT face_dofs(4);
+    face_dofs[0] = 2 * node_a;
+    face_dofs[1] = 2 * node_a + 1;
+    face_dofs[2] = 2 * node_b;
+    face_dofs[3] = 2 * node_b + 1;
+    return face_dofs;
 }
 
 
