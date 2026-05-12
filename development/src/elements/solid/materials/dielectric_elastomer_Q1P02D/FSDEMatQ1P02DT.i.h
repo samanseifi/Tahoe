@@ -1,13 +1,5 @@
 #include "FSDE_incQ1P02D.h"
 
-#include <iostream>
-#include <fstream>
-using namespace std;
-
-/* Important notes:
- * 	1. F() = F_mechanical()
- */
-
 namespace Tahoe {
 
   inline FSDEMatQ1P02DT::FSDEMatQ1P02DT() :
@@ -53,15 +45,6 @@ namespace Tahoe {
     return fElectricField;
   }
 
-  /* ---------- Prescribed Deformation Tensor ---------- */
-  inline const dMatrixT FSDEMatQ1P02DT::DeformationMatrix()
-  {
-	  dMatrixT F = F_mechanical();
-
-	  return F;
-  }
-  /* -----------------------------------------------------*/
-  //
   inline const dMatrixT FSDEMatQ1P02DT::RightCauchyGreenDeformation()
   {
     const dMatrixT& F = F_mechanical();
@@ -197,19 +180,6 @@ namespace Tahoe {
     fStress(0,1) = stress_temp(0,1);
     fStress(1,0) = stress_temp(1,0);
     fStress(1,1) = stress_temp(1,1);
-    
- 	/* -------------- Writing into a file -------------
- 	ofstream mySIJ;
- 	mySIJ.open("S_IJ.txt");
- 	for (int i = 0; i < fStress.Rows(); i++) {
- 		for (int j = 0; j < fStress.Cols(); j++) {
- 			mySIJ << fStress(i,j) << " ";
- 		}
- 		mySIJ << endl;
- 	}
- 	mySIJ.close();
- 	 ------------------------------------------------- */
-
     return fStress;
   }
 
@@ -377,19 +347,6 @@ namespace Tahoe {
     const dMatrixT b = B_IJ();
     fTangentElectrical.MultABCT(F, b, F);
     fTangentElectrical /= J;
-
- 	/* -------------- Writing into a file -------------
- 	ofstream mybij;
- 	mybij.open("b_ij_2.txt");
- 	for (int i = 0; i < fTangentElectrical.Rows(); i++) {
- 		for (int j = 0; j < fTangentElectrical.Cols(); j++) {
- 			mybij << fTangentElectrical(i,j) << " ";
- 		}
- 		mybij << endl;
- 	}
- 	mybij.close();
- 	------------------------------------------------- */
-
     return fTangentElectrical;
   }
 

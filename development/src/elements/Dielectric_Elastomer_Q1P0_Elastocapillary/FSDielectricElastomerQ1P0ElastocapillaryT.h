@@ -43,8 +43,9 @@ namespace Tahoe {
     virtual void ComputeOutput(const iArrayT& n_codes, dArray2DT& n_values,
         const iArrayT& e_codes, dArray2DT& e_values);
 
-	// Return nodes for canonical element based on normal type
-	iArrayT CanonicalNodes(const int node_index0, const int node_index1);
+	/* Flat DOF indices for a quad4 face's 2 nodes in the 8-DOF
+	 * mechanical block (layout [u_x_0, u_y_0, u_x_1, u_y_1, ...]). */
+	iArrayT FaceDOFIndices(int node_a, int node_b);
 
   private:
 
@@ -85,8 +86,6 @@ namespace Tahoe {
 	/** list of nodes on each surface type (by normal) */
 	ArrayT<iArrayT> fSurfaceNodes;
 	/*@}*/
-
-	dMatrixT fGrad_U;
 
   private:
    
