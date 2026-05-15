@@ -114,26 +114,22 @@ Low-level infrastructure shared by all modules.
 
 ---
 
-### `spooles/` — Sparse Direct Solver (serial)
-Bundled SPOOLES 2.2 library (C, no external dependencies). Provides multi-frontal sparse LU and Cholesky factorization; the default solver for serial and shared-memory builds. See [`spooles/README.md`](spooles/README.md).
+### `third_party/` — Bundled C libraries (built from source)
 
-### `spoolesMT/` — SPOOLES Multithreaded
-POSIX-threads extension to SPOOLES. Parallelises the LU factorisation across cores on a single node without MPI. Enable with `-DTAHOE_SPOOLES_MT=ON`. See [`spoolesMT/README.md`](spoolesMT/README.md).
+All six bundled C libraries live under `third_party/`.  None has external
+dependencies; CMake builds them from source alongside the main project.
 
-### `spoolesMPI/` — SPOOLES Distributed (MPI)
-MPI extension to SPOOLES for distributed-memory parallel factorisation across multiple nodes. Enable with `-DTAHOE_MPI=ON`. See [`spoolesMPI/README.md`](spoolesMPI/README.md).
+| Subdirectory | Role | Enable flag |
+|---|---|---|
+| [`third_party/spooles/`](third_party/spooles/README.md)       | SPOOLES 2.2 serial sparse direct solver (default) | `TAHOE_SPOOLES=ON` |
+| [`third_party/spoolesMT/`](third_party/spoolesMT/README.md)   | POSIX-threads parallel LU on top of SPOOLES        | `TAHOE_SPOOLES_MT=ON` |
+| [`third_party/spoolesMPI/`](third_party/spoolesMPI/README.md) | MPI distributed-memory LU on top of SPOOLES        | `TAHOE_MPI=ON` |
+| [`third_party/superlu/`](third_party/superlu/README.md)       | SuperLU 3.0 serial sparse direct solver            | `TAHOE_SUPERLU=ON` |
+| [`third_party/f2c/`](third_party/f2c/README.md)               | Fortran-to-C runtime (ABAQUS UMAT support)         | `TAHOE_F2C=ON` |
+| [`third_party/expat/`](third_party/expat/README.md)           | XML parser for Tahoe's input format                | `TAHOE_EXPAT=ON` |
 
-### `superlu/` — SuperLU 3.0 Sparse Direct Solver
-Bundled SuperLU 3.0 library (C, no system BLAS dependency). Provides sparse LU factorisation with partial pivoting and optional iterative refinement; a fast drop-in alternative to SPOOLES for serial single-node jobs. Enable with `-DTAHOE_SUPERLU=ON`. See [`superlu/README.md`](superlu/README.md).
-
-### MUMPS (system library)
+### MUMPS (system library, *not* bundled)
 Wrapper around the system MUMPS direct solver (`libmumps-dev`). Two variants: serial (`MUMPSMatrixT` — uses `MPI_COMM_SELF`, no `mpirun` needed) and MPI distributed (`MUMPSMatrixT_mpi` — uses `MPI_COMM_WORLD`, requires `-DTAHOE_MPI=ON`). Enable with `-DTAHOE_MUMPS=ON`. Source: [`tahoe/src/primitives/globalmatrix/MUMPS/`](tahoe/src/primitives/globalmatrix/MUMPS/).
-
-### `f2c/` — Fortran-to-C Runtime
-Enables ABAQUS UMAT material subroutines (originally written in Fortran) to be compiled and called from C++.
-
-### `expat/` — XML Parser
-Bundled expat library. Parses Tahoe's XML input format (validated against `tahoe.xsd`).
 
 ### `contrib/` — Pre/Post-Processing Tools
 | Tool | Description |
@@ -227,7 +223,7 @@ In the XML input, replace the solver block with:
 <!-- refinement options: NOREFINE | SINGLE | DOUBLE | EXTRA -->
 ```
 
-Verified: WLC finite-anisotropy benchmark (290 Newton steps, single hex element) completes in ~0.35 s with SuperLU vs ~0.40 s with SPOOLES. See [`superlu/README.md`](superlu/README.md).
+Verified: WLC finite-anisotropy benchmark (290 Newton steps, single hex element) completes in ~0.35 s with SuperLU vs ~0.40 s with SPOOLES. See [`third_party/superlu/README.md`](third_party/superlu/README.md).
 
 ### MUMPS — system sparse direct solver (serial and MPI)
 
