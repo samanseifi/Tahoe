@@ -1,10 +1,22 @@
-# Level 4 Benchmarks — Solver Performance
+# Level 4 — Solver performance
 
-Level 4 contains performance benchmarks for comparing sparse direct solvers. Unlike levels 0–3 (which test correctness), level 4 problems are designed to stress the linear solver with non-trivial DOF counts and multi-physics coupling.
+Performance benchmarks for comparing the bundled sparse direct solvers.
+Unlike levels 0–3 (correctness), level.4 problems are sized to stress the
+linear solver with non-trivial DOF counts and multi-physics coupling.
+
+## Subdirectories
+
+| Directory | Theme |
+|-----------|-------|
+| `liquid_inclusion/` | Dielectric elastomer with a circular hole — 4704 Q4, 18 832 DOFs (displacement + electric potential).  The headline solver-comparison case, detailed below. |
+| `single_element/` | Single-Hex8 sanity tests (monolithic vs staggered electro-mechanics; static and dynamic). |
+| `dielectric_elastomer_damage/` | Three-way and two-way coupled staggered runs for dielectric elastomer + phase-field damage. |
+| `surface_tension/` | 3D surface-tension Q1P0 patch test. |
+| `geometry/` | Shared `.geom` meshes referenced by the cases above (partitioned `*.nN.pK.geom*` files are git-ignored). |
 
 ---
 
-## Problem: Dielectric Elastomer with Liquid Inclusion (`liquid_inclusion/`)
+## Headline benchmark: dielectric elastomer with liquid inclusion (`liquid_inclusion/`)
 
 A 2D coupled electromechanical problem using the `dielectric_elastomer_Q1P0Elastocapillary` element (mixed Q1P0 pressure + electric scalar potential field). The mesh is a square domain with a circular hole (`ah025.geom`).
 

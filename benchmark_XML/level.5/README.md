@@ -1,9 +1,21 @@
-# Level 5 — Tahoe explicit-solver benchmarks
+# Level 5 — Modernised-solver benchmarks
 
-Benchmarks introduced alongside the modernised explicit-solver track
-(`ExplicitElementT`, MVSIZ-batched).  Each subdirectory has its own
-focus; tests reference these for performance baselines and physics
-verification.
+Benchmarks introduced alongside the modernised solver tracks — the explicit
+`ExplicitElementT` (MVSIZ-batched, 2026 modernisation) and the matching
+implicit additions on the classic `UpdatedLagrangianT` path (BonetTet ANP,
+implicit Coulomb friction).  Each subdirectory has its own focus; tests
+reference these for performance baselines and physics verification.
+
+## Subdirectories at a glance
+
+| Directory | Theme |
+|-----------|-------|
+| `explicit_benchmark/` | The original speed-up suite (legacy ↔ vectorized), plus growing feature-specific smoke tests (J2 plasticity, ANP-Tet4, contact, friction, hourglass control). |
+| `taylor_bar/` | Classic Taylor-bar impact, soft-metal demo (issue #18). |
+| `hertz/` | Hertz contact validation — Hex8-only and mixed Tet/Hex variants; explicit vs implicit cross-validated to within 0.5 %. |
+| `tet_classic/` | Implicit Tet4 path: plain `<updated_lagrangian>` and ANP `<bonet_tet>` variants (#27, #28, #29). |
+| `implicit_friction/` | Implicit Coulomb friction smoke test (#40) — currently diverges as expected pending the LHS friction tangent. |
+
 
 ## explicit_benchmark/
 
@@ -161,6 +173,26 @@ the explicit benchmarks above.
 > Bonet/Marriott/Hassan 2001 or Caylak/Mahnken 2012, kept open as a
 > future analytical-tangent extension of #29.
 
+## implicit_friction/
+
+Quasi-static counterpart to the explicit Coulomb friction benchmark
+(`explicit_benchmark/vectorized_cubes_friction.xml`, #26).  Same two-cube
+geometry driven by `<updated_lagrangian>` + Newton-Raphson with the
+slip-history Coulomb branch in `PenaltyContact3DT` (#40, PR #41).
+
+| File | Notes |
+|------|-------|
+| `sliding_cubes.xml` | Top face compressed (u_z = −0.005) and dragged tangentially (u_x = 0 → 0.01 over 100 steps); μ = 0.02. |
+| `two_cubes.geom` | Copy of `../explicit_benchmark/geometry/two_cubes_refined.geom`. |
+
+**Status: diverges as expected.** The implicit branch ships the residual
+and slip-history infrastructure, but `PenaltyContact3DT::LHSDriver` does
+not yet include the friction tangent `∂f_t/∂Δu_t`.  Newton has no way to
+predict the corrections needed and exits after iter 0.  The XML is kept
+here as the natural integration test for whoever adds the analytical
+friction tangent — it should flip from diverging to ~1–2 iter/step the
+moment the tangent lands.  See [`implicit_friction/README.md`](implicit_friction/README.md).
+
 ## Coverage matrix
 
 | Issue | Headline benchmark / test |
@@ -171,6 +203,8 @@ the explicit benchmarks above.
 | #26 Coulomb friction | `vectorized_cubes_friction.xml`, `tests/benchmarks/test_FrictionContact.cpp` |
 | #27 Tet4 kernel + Ji-fix | `vectorized_tet_*.xml`, `tests/kernels/test_Tet4Kernel.cpp` |
 | #28 ANP-Tet4 (ELFORM=13) | `vectorized_tet_anp_small.xml`, `tests/kernels/test_ANPHelperT.cpp`, `tet_classic/*` |
+| #29 BonetTet lagged-J̄ + FD tangent | `tet_classic/tet4_hyperelastic_anp.xml` (quadratic on moderate κ) |
 | #31/#32/#33 contact-stack perf | `tests/benchmarks/test_ContactPerf.cpp`, `vectorized_cubes_*.xml` (viscous damping, OMP threshold, parallel contact) |
+| #40 implicit Coulomb friction | `implicit_friction/sliding_cubes.xml` (residual only — diverges pending LHS tangent) |
 | Hertz contact validation | `hertz/hertz_explicit.xml`, `hertz/hertz_implicit.xml`, `hertz/compare_to_analytical.py` |
 | Mixed Tet/Hex contact | `hertz/hertz_tet_hex_*.xml`, `hertz/compare_tet_hex_to_analytical.py` |
