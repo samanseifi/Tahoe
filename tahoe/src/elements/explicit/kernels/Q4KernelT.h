@@ -1,3 +1,4 @@
+/* $Id: Q4KernelT.h,v 2.0 2026/05/08 samanseifi Exp $ */
 /* Q4KernelT.h — 4-node quadrilateral kernel for 2D explicit dynamics. */
 
 #ifndef _Q4_KERNEL_T_H_

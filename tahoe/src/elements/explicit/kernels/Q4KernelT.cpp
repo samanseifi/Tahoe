@@ -1,3 +1,4 @@
+/* $Id: Q4KernelT.cpp,v 2.0 2026/05/08 samanseifi Exp $ */
 /* Q4KernelT.cpp — 4-node quadrilateral, 2x2 Gauss integration. */
 #include "Q4KernelT.h"
 

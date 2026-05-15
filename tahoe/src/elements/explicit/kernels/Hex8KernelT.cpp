@@ -1,3 +1,4 @@
+/* $Id: Hex8KernelT.cpp,v 2.0 2026/05/08 samanseifi Exp $ */
 /* Hex8KernelT.cpp — 8-node hexahedral, 2x2x2 Gauss integration. */
 #include "Hex8KernelT.h"
 

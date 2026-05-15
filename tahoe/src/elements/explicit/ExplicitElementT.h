@@ -1,3 +1,4 @@
+/* $Id: ExplicitElementT.h,v 2.0 2026/05/08 samanseifi Exp $ */
 /* ExplicitElementT.h — MVSIZ-batched explicit solid element.
  *
  * Derives from SolidElementT to reuse mass matrix assembly, equation

@@ -1,3 +1,4 @@
+/* $Id: Tet4KernelT.cpp,v 2.0 2026/05/08 samanseifi Exp $ */
 /* Tet4KernelT.cpp — 4-node constant-strain tet, 1-point integration.
  *
  * Parametric coords (r,s,t) on the reference unit tet:

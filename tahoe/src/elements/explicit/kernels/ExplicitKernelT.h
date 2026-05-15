@@ -1,3 +1,4 @@
+/* $Id: ExplicitKernelT.h,v 2.0 2026/05/08 samanseifi Exp $ */
 /* ExplicitKernelT.h — abstract element topology kernel for explicit dynamics.
  *
  * A kernel encapsulates the element geometry: shape functions, parent domain

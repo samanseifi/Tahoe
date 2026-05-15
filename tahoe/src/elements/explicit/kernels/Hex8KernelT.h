@@ -1,3 +1,4 @@
+/* $Id: Hex8KernelT.h,v 2.0 2026/05/08 samanseifi Exp $ */
 /* Hex8KernelT.h — 8-node hexahedral kernel for 3D explicit dynamics. */
 
 #ifndef _HEX8_KERNEL_T_H_

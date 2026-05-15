@@ -1,3 +1,4 @@
+/* $Id: ExplicitMaterialT.h,v 2.0 2026/05/08 samanseifi Exp $ */
 /* ExplicitMaterialT.h — abstract batch material interface for explicit dynamics.
  *
  * A batch material computes Cauchy stress from the deformation gradient F
