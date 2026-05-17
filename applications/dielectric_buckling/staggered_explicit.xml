@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<!--
+  Dielectric-elastomer plate buckling — STAGGERED EXPLICIT-IMPLICIT.
+
+  Two-field staggered scheme:
+    Pass 1 (implicit static):  diffusion / linear_dielectric_material solves
+                               div(eps grad Psi) = 0 for the electric potential.
+    Pass 2 (explicit dynamic): updated_lagrangian_Q1P0 with central_difference
+                               integrator advances the displacement; the element
+                               internally pulls the electric_scalar_potential
+                               field and adds the Maxwell stress to the residual.
+
+  Same mesh, same BCs, same loading as coupled_implicit.xml. Used to validate
+  the staggered solution against the monolithic reference.
+
+  Time step: explicit central-difference is bound by CFL on the volumetric
+  wave speed c_p = sqrt((lambda+2*mu)/rho) ~ 10.1 with h_min = 0.25
+  -> dt < ~25e-3. We use dt = 5e-3 (5x margin) and 400 steps to reach T=2.0.
+-->
+<tahoe xmlns:x0="http://www.w3.org/2001/XMLSchema"
+    geometry_file="plate.geom"
+    output_format="ExodusII"
+    title="Dielectric elastomer plate buckling — staggered explicit-implicit">
+
+    <time num_steps="400" output_inc="10" time_step="0.005">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0.0" y="0.0"/>
+                <OrderedPair x="2.0" y="1.0"/>
+                <OrderedPair x="100.0" y="1.0"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+
+    <nodes>
+        <!-- Electrical field — solved first, implicit static -->
+        <field field_name="electric_scalar_potential" integrator="static" solution_group="1">
+            <dof_labels>
+                <String value="Psi"/>
+            </dof_labels>
+            <kinematic_BC dof="1" node_ID="5" type="fixed"/>
+            <kinematic_BC dof="1" node_ID="6" schedule="1" type="u" value="1.5"/>
+        </field>
+
+        <!-- Mechanical field — explicit dynamics, central difference -->
+        <field field_name="displacement" integrator="central_difference" solution_group="2">
+            <dof_labels>
+                <String value="D_X"/>
+                <String value="D_Y"/>
+                <String value="D_Z"/>
+            </dof_labels>
+            <kinematic_BC dof="1" node_ID="1" type="fixed"/>
+            <kinematic_BC dof="2" node_ID="1" type="fixed"/>
+            <kinematic_BC dof="3" node_ID="1" type="fixed"/>
+            <kinematic_BC dof="1" node_ID="2" type="fixed"/>
+            <kinematic_BC dof="2" node_ID="2" type="fixed"/>
+            <kinematic_BC dof="3" node_ID="2" type="fixed"/>
+            <kinematic_BC dof="2" node_ID="3" type="fixed"/>
+            <kinematic_BC dof="2" node_ID="4" type="fixed"/>
+        </field>
+    </nodes>
+
+    <element_list>
+        <!-- Implicit linear dielectric Poisson solve -->
+        <diffusion field_name="electric_scalar_potential">
+            <hexahedron/>
+            <diffusion_element_nodal_output displacement="1" coordinates="1"/>
+            <diffusion_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <diffusion_material>
+                    <linear_dielectric_material epsilon="1.0"/>
+                </diffusion_material>
+            </diffusion_element_block>
+        </diffusion>
+
+        <!-- Explicit mechanics with Maxwell-stress coupling.
+             SimoQ1P0 auto-detects the "electric_scalar_potential" field and adds
+             the Maxwell stress sigma_E = eps (E (x) E - 1/2 |E|^2 I) using the
+             element's own epsilon (kept consistent with the diffusion material). -->
+        <updated_lagrangian_Q1P0
+            field_name="displacement"
+            mass_type="lumped_mass"
+            epsilon="1.0">
+            <hexahedron/>
+            <solid_element_nodal_output displacements="1" stress="1" material_output="1"/>
+            <large_strain_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <large_strain_material_3D>
+                    <!-- Match lambda=100 in the monolithic case: bulk modulus
+                         kappa = lambda + 2*mu/3 ≈ 100.67 -->
+                    <RG_split_general density="1.0">
+                        <rg_eq_potential>
+                            <neo-hookean kappa="100.67" mu="1.0"/>
+                        </rg_eq_potential>
+                    </RG_split_general>
+                </large_strain_material_3D>
+            </large_strain_element_block>
+        </updated_lagrangian_Q1P0>
+    </element_list>
+
+    <!-- Solver 1: implicit linear electrostatics -->
+    <linear_solver>
+        <SPOOLES_matrix/>
+    </linear_solver>
+    <!-- Solver 2: explicit dynamics (no matrix solve, lumped mass) -->
+    <linear_solver>
+        <diagonal_matrix/>
+    </linear_solver>
+
+    <solver_phases max_loops="1">
+        <solver_phase iterations="1" pass_iterations="0" solver="1"/>
+        <solver_phase iterations="1" pass_iterations="0" solver="2"/>
+    </solver_phases>
+</tahoe>

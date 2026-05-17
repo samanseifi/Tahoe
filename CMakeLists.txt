@@ -79,11 +79,11 @@ set(TAHOE_ROOT ${CMAKE_CURRENT_SOURCE_DIR})
 # ---------------------------------------------------------------------------
 
 if(TAHOE_EXPAT)
-    add_subdirectory(expat)
+    add_subdirectory(third_party/expat)
 endif()
 
 if(TAHOE_SPOOLES)
-    add_subdirectory(spooles)
+    add_subdirectory(third_party/spooles)
 endif()
 
 # ---------------------------------------------------------------------------
@@ -106,12 +106,12 @@ if(TAHOE_SPOOLES_MT)
     endif()
     find_package(Threads REQUIRED)   # resolves to system -lpthread, not conda
     target_compile_definitions(tahoe_spooles PUBLIC __POSIX_THREADS__)
-    add_subdirectory(spoolesMT)
+    add_subdirectory(third_party/spoolesMT)
     message(STATUS "Tahoe: SPOOLES-MT enabled  (${CMAKE_THREAD_LIBS_INIT})")
 endif()
 
 if(TAHOE_F2C)
-    add_subdirectory(f2c)
+    add_subdirectory(third_party/f2c)
 endif()
 
 # ---------------------------------------------------------------------------
@@ -127,7 +127,7 @@ if(TAHOE_SUPERLU)
     if(NOT TAHOE_F2C)
         message(FATAL_ERROR "TAHOE_SUPERLU=ON requires TAHOE_F2C=ON (for f2c.h types in bundled CBLAS)")
     endif()
-    add_subdirectory(superlu)
+    add_subdirectory(third_party/superlu)
     message(STATUS "Tahoe: SuperLU 3.0 enabled (bundled, no system BLAS needed)")
 endif()
 
@@ -221,7 +221,7 @@ if(TAHOE_MPI)
     endif()
 
     message(STATUS "Tahoe: MPI enabled  (${MPI_CXX_COMPILER})")
-    add_subdirectory(spoolesMPI)
+    add_subdirectory(third_party/spoolesMPI)
 endif()
 
 # ---------------------------------------------------------------------------

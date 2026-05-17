@@ -33,12 +33,12 @@ endif()
 if(TAHOE_SPOOLES)
     # SPOOLES headers needed at compile time for some solver wrappers
     target_compile_definitions(toolbox PUBLIC __SPOOLES__)
-    target_include_directories(toolbox PUBLIC "${TAHOE_ROOT}/spooles/inc")
+    target_include_directories(toolbox PUBLIC "${TAHOE_ROOT}/third_party/spooles/inc")
 endif()
 
 if(TAHOE_F2C)
     target_compile_definitions(toolbox PUBLIC __F2C__)
-    target_include_directories(toolbox PUBLIC "${TAHOE_ROOT}/f2c/inc")
+    target_include_directories(toolbox PUBLIC "${TAHOE_ROOT}/third_party/f2c/inc")
 endif()
 
 if(TAHOE_MPI)

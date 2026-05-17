@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  3D staggered explicit dielectric-elastomer buckling (beam geometry).
+
+  Two-field staggered scheme:
+    Pass 1 (static):            diffusion solves div(eps grad Psi) = 0 for Psi.
+    Pass 2 (central_difference): updated_lagrangian_Q1P0 advances displacement
+                                 using lumped mass; SimoQ1P0 auto-detects
+                                 "electric_scalar_potential" and adds Maxwell stress.
+
+  Mesh: beam_3D.geom (40x2x2 hex8, perfect — no geometric imperfection).
+  Buckling seeded by floating-point round-off in central-difference stepping.
+
+  Node sets:
+    1  y = -0.5   ground electrode      (Psi = 0)
+    2  x = +10    right clamp           (D_X = D_Y = D_Z = 0)
+    3  y = +0.5   driven electrode      (Psi = V)
+    4  x = -10    left clamp            (D_X = D_Y = D_Z = 0)
+    5  z =  0     side roller           (D_Z = 0)
+    6  z =  Lz    side roller           (D_Z = 0)
+
+  CFL check (kappa=1000.67, mu=1, rho=1, h_min=0.5):
+    c_p = sqrt(kappa + 4/3*mu) = sqrt(1002) ≈ 31.7
+    dt_CFL = 0.5 / 31.7 ≈ 0.016  →  dt=0.01 gives CFL=0.63 (safe).
+-->
+<tahoe author="samansei" compute_IC="false"
+    geometry_file="beam_3D.geom" output_format="ExodusII"
+    title="3D DE Staggered Explicit Buckling" xmlns:x0="http://www.w3.org/2001/XMLSchema">
+    <time num_steps="4700" output_inc="10" time_step="0.01">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0" y="1.0"/>
+                <OrderedPair x="10000000" y="1.0"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+    <nodes>
+        <!-- Pass 1: electrostatics — solved first (static) -->
+        <field field_name="electric_scalar_potential" integrator="static" solution_group="1">
+            <dof_labels>
+                <String value="Psi"/>
+            </dof_labels>
+            <kinematic_BC dof="1" node_ID="1" type="fixed"/>
+            <kinematic_BC dof="1" node_ID="3" schedule="1" type="u" value="0.357"/>
+        </field>
+
+        <!-- Pass 2: mechanics — explicit central difference -->
+        <field field_name="displacement" integrator="central_difference" solution_group="2">
+            <dof_labels>
+                <String value="D_X"/>
+                <String value="D_Y"/>
+                <String value="D_Z"/>
+            </dof_labels>
+            <kinematic_BC dof="1" node_ID="2" type="fixed"/>
+            <kinematic_BC dof="2" node_ID="2" type="fixed"/>
+            <kinematic_BC dof="3" node_ID="2" type="fixed"/>
+            <kinematic_BC dof="1" node_ID="4" type="fixed"/>
+            <kinematic_BC dof="2" node_ID="4" type="fixed"/>
+            <kinematic_BC dof="3" node_ID="4" type="fixed"/>
+            <kinematic_BC dof="3" node_ID="5" type="fixed"/>
+            <kinematic_BC dof="3" node_ID="6" type="fixed"/>
+        </field>
+    </nodes>
+
+    <element_list>
+        <!-- Pass 1: linear dielectric Poisson solve -->
+        <diffusion field_name="electric_scalar_potential">
+            <hexahedron/>
+            <diffusion_element_nodal_output displacement="1" coordinates="1"/>
+            <diffusion_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <diffusion_material>
+                    <linear_dielectric_material epsilon="1.0"/>
+                </diffusion_material>
+            </diffusion_element_block>
+        </diffusion>
+
+        <!-- Pass 2: explicit mechanics with Maxwell stress -->
+        <updated_lagrangian_Q1P0
+            field_name="displacement"
+            mass_type="lumped_mass"
+            epsilon="1.0">
+            <hexahedron/>
+            <solid_element_nodal_output displacements="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <large_strain_material_3D>
+                    <RG_split_general density="1.0">
+                        <rg_eq_potential>
+                            <neo-hookean kappa="1000.67" mu="1.0"/>
+                        </rg_eq_potential>
+                    </RG_split_general>
+                </large_strain_material_3D>
+            </large_strain_element_block>
+        </updated_lagrangian_Q1P0>
+    </element_list>
+
+    <!-- Solver 1: implicit linear electrostatics -->
+    <linear_solver>
+        <SPOOLES_matrix/>
+    </linear_solver>
+    <!-- Solver 2: explicit dynamics (diagonal mass, no matrix solve) -->
+    <linear_solver>
+        <diagonal_matrix/>
+    </linear_solver>
+
+    <solver_phases max_loops="1">
+        <solver_phase iterations="1" pass_iterations="0" solver="1"/>
+        <solver_phase iterations="1" pass_iterations="0" solver="2"/>
+    </solver_phases>
+</tahoe>

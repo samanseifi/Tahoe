@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 10-step smoke test for staggered_implicit_3D -->
+<tahoe author="samansei" compute_IC="false"
+    geometry_file="beam_3D.geom" output_format="ExodusII"
+    title="3D DE Staggered Implicit Smoke" xmlns:x0="http://www.w3.org/2001/XMLSchema">
+    <time num_steps="10" output_inc="10" time_step="0.01">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0" y="1.0"/>
+                <OrderedPair x="10000000" y="1.0"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+    <nodes>
+        <field field_name="electric_scalar_potential" integrator="static" solution_group="1">
+            <dof_labels>
+                <String value="Psi"/>
+            </dof_labels>
+            <kinematic_BC dof="1" node_ID="1" type="fixed"/>
+            <kinematic_BC dof="1" node_ID="3" schedule="1" type="u" value="0.357"/>
+        </field>
+        <field field_name="displacement" integrator="nonlinear_HHT" solution_group="2">
+            <dof_labels>
+                <String value="D_X"/>
+                <String value="D_Y"/>
+                <String value="D_Z"/>
+            </dof_labels>
+            <kinematic_BC dof="1" node_ID="2" type="fixed"/>
+            <kinematic_BC dof="2" node_ID="2" type="fixed"/>
+            <kinematic_BC dof="3" node_ID="2" type="fixed"/>
+            <kinematic_BC dof="1" node_ID="4" type="fixed"/>
+            <kinematic_BC dof="2" node_ID="4" type="fixed"/>
+            <kinematic_BC dof="3" node_ID="4" type="fixed"/>
+            <kinematic_BC dof="3" node_ID="5" type="fixed"/>
+            <kinematic_BC dof="3" node_ID="6" type="fixed"/>
+        </field>
+    </nodes>
+    <element_list>
+        <diffusion field_name="electric_scalar_potential">
+            <hexahedron/>
+            <diffusion_element_nodal_output displacement="1" coordinates="1"/>
+            <diffusion_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <diffusion_material>
+                    <linear_dielectric_material epsilon="1.0"/>
+                </diffusion_material>
+            </diffusion_element_block>
+        </diffusion>
+        <updated_lagrangian_Q1P0
+            field_name="displacement"
+            mass_type="lumped_mass"
+            epsilon="1.0">
+            <hexahedron/>
+            <solid_element_nodal_output displacements="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <large_strain_material_3D>
+                    <RG_split_general density="1.0">
+                        <rg_eq_potential>
+                            <neo-hookean kappa="1000.67" mu="1.0"/>
+                        </rg_eq_potential>
+                    </RG_split_general>
+                </large_strain_material_3D>
+            </large_strain_element_block>
+        </updated_lagrangian_Q1P0>
+    </element_list>
+    <linear_solver>
+        <SPOOLES_matrix/>
+    </linear_solver>
+    <nonlinear_solver abs_tolerance="1.0e-7"
+        check_LHS_perturbation="1.0E-8" check_code="no_check"
+        divergence_tolerance="1.0e+10" max_iterations="500" rel_tolerance="1.0e-9">
+        <SPOOLES_matrix/>
+    </nonlinear_solver>
+    <solver_phases max_loops="5">
+        <solver_phase iterations="1" pass_iterations="0" solver="1"/>
+        <solver_phase iterations="50" pass_iterations="0" solver="2"/>
+    </solver_phases>
+</tahoe>
