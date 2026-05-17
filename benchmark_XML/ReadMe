@@ -1,32 +1,18 @@
 BENCHMARK TESTS
 -----------------------------------------------------------------------
 The benchmark suite verifies Tahoe's numerical correctness against
-reference solutions. Tests are organized into levels:
+reference solutions.  Tests are organised into levels; each level has
+its own README.md with the theme, subdirectory list, and status.
 
-  level.0  — Core capabilities (springs, solid mechanics, diffusion,
-              particle methods, meshfree, time integrators). All code
-              changes should pass these before committing.
-              Status: 172/186 PASS, 14 FAIL (May 2026; issue #37).
-              Remaining failures: 9 bridging tests (BRIDGING_ELEMENT
-              runtime crash — kept disabled), 5 real code regressions
-              (CSE.2 5-node-Q4, adhesion.{2,3} stress drift,
-              inputoutput/square × 2 output suppression).
+  level.0/README.md  — core capabilities
+  level.1/README.md  — constitutive model verification
+  level.2/README.md  — extended capabilities
+  level.3/README.md  — MPI distributed-memory parallel
+  level.4/README.md  — solver performance
+  level.5/README.md  — modernised-solver benchmarks
 
-  level.1  — Constitutive model verification under simple loading
-              (bulk materials, cohesive surface relations, atomistic
-              potentials).
-              Status: 100/103 PASS, 3 FAIL (May 2026).
-              Remaining failures: mat.2.a, mat.11.a (2D + 3D)
-              — unregistered material in factory.
-
-  level.2  — Extended capabilities. May involve larger models or
-              longer run times. No optional modules required.
-              Status: 47/47 PASS, 0 FAIL (May 2026, clean).
-
-  level.3  — MPI distributed-memory parallel tests. Requires
-              -DTAHOE_MPI=ON and system OpenMPI (libopenmpi-dev).
-              Run with mpirun -np 4. All 22 tests pass.
-
+This file documents the *running* and *comparison* mechanics that are
+common to all levels.
 
 BUILDING
 -----------------------------------------------------------------------
