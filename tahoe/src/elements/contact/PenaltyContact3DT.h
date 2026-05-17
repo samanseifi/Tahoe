@@ -90,6 +90,20 @@ protected:
 	dArrayT  fV1;
 	/*@}*/
 
+	/** Compute the 12-vector implicit-friction contribution to the
+	 *  per-pair element RHS, given the current element coordinates
+	 *  (fElCoord layout: rows = [facet1, facet2, facet3, striker]),
+	 *  the facet outward normal n[3], and the penetration-spring
+	 *  scalar dphi = -fK·h·area.  Writes zeros when the implicit
+	 *  branch is inactive or no slip history is recorded yet.  Same
+	 *  formula as the residual block in RHSDriver; factored out so
+	 *  LHSDriver's FD friction-tangent can reuse it. */
+	void ImplicitFrictionRHS(int striker_index,
+	                         const dArray2DT& el_coord,
+	                         const double* n,
+	                         double dphi,
+	                         double f_friction[12]) const;
+
 public:
 
 	/** Override: capture striker / facet-centroid positions at step end

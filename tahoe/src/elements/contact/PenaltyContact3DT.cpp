@@ -262,9 +262,56 @@ void PenaltyContact3DT::LHSDriver(GlobalT::SystemTypeT)
 			/* add term g^T g */
 			fLHS.Outer(fRHS, fRHS, fK*constK*fStrikerArea[striker_index], dMatrixT::kAccumulate);
 
+			/* ----- Implicit Coulomb friction tangent (#40) -----
+			 * Per-element 12×12 forward-FD block of the friction residual
+			 * computed in RHSDriver:  f_t = -μ·|f_n|·Δu_t / sqrt(|Δu_t|²+ε²).
+			 *
+			 * Convention: K = ∂F_int/∂u = -∂R/∂u, where R += +ft on striker and
+			 * R += -ft/3 on each facet node.  We FD ∂R_friction/∂u and accumulate
+			 * the NEGATIVE column into fLHS, weighted by constK to match the
+			 * normal-spring contribution above.
+			 *
+			 * Cost: 12 closed-form friction-force evaluations per pair, each
+			 * O(1).  Negligible vs DDg_tri_facet and AssembleLHS. */
+			if (fImplicitFriction && fMu > 0.0 && fHasHistory[striker_index]) {
+				const double eps = 1.0e-7;
+				double f0[12], fpert[12];
+				ImplicitFrictionRHS(striker_index, fElCoord, n.Pointer(), -fK*h*fStrikerArea[striker_index], f0);
+				for (int a = 0; a < 4; a++) {
+					for (int d = 0; d < 3; d++) {
+						double saved = fElCoord(a, d);
+						fElCoord(a, d) = saved + eps;
+
+						/* friction force depends on n (via Δu_t projection) and on
+						 * dphi (= -fK·h·area) — recompute both at the perturbed
+						 * state so the FD captures the full Δu_t → ft path. */
+						double ap[3], bp[3], np[3];
+						Vector(fElCoord(0), fElCoord(1), ap);
+						Vector(fElCoord(0), fElCoord(2), bp);
+						CrossProduct(ap, bp, np);
+						double mp = sqrt(np[0]*np[0] + np[1]*np[1] + np[2]*np[2]);
+						np[0]/=mp; np[1]/=mp; np[2]/=mp;
+						double cp[3] = {
+							fElCoord(3,0) - (fElCoord(0,0)+fElCoord(1,0)+fElCoord(2,0))/3.0,
+							fElCoord(3,1) - (fElCoord(0,1)+fElCoord(1,1)+fElCoord(2,1))/3.0,
+							fElCoord(3,2) - (fElCoord(0,2)+fElCoord(1,2)+fElCoord(2,2))/3.0
+						};
+						double hp = np[0]*cp[0] + np[1]*cp[1] + np[2]*cp[2];
+						double dphi_pert = (hp < 0.0) ? -fK*hp*fStrikerArea[striker_index] : 0.0;
+						ImplicitFrictionRHS(striker_index, fElCoord, np, dphi_pert, fpert);
+
+						const int col = a*3 + d;
+						for (int row = 0; row < 12; row++)
+							fLHS(row, col) -= constK*(fpert[row] - f0[row]) / eps;
+
+						fElCoord(a, d) = saved;
+					}
+				}
+			}
+
 			/* get equation numbers */
 			fEqnos[0].RowAlias(i, eqnos);
-			
+
 			/* assemble */
 			ElementSupport().AssembleLHS(Group(), fLHS, eqnos);
 		}
@@ -389,19 +436,9 @@ void PenaltyContact3DT::RHSDriver(void)
 			 * The implicit branch needs per-striker history for Δu_t; see
 			 * fPrevStrikerPos / fPrevFacetCentroid / fHasHistory.  History
 			 * is updated at CloseStep so the slip increment is over the
-			 * just-converged load step.
-			 *
-			 * IMPLICIT TANGENT (NOT YET IN LHSDriver — known limitation #40):
-			 * the residual contribution below is correct, but the analytical
-			 * tangent ∂f_t/∂u of the slip-friction force is NOT added to
-			 * LHSDriver.  Newton therefore relies only on the inherited normal
-			 * contact stiffness; it converges only when the per-step slip
-			 * increment stays small relative to friction_epsilon_velocity
-			 * (i.e. small load steps), or when the tangential drag is small
-			 * compared with the normal contact spring.  Production use of
-			 * implicit Coulomb at large slip per step needs an analytical
-			 * tangent  ∂f_t/∂Δu_t = s·(I − Δu_t⊗Δu_t/smooth²)  and  ∂f_t/∂|f_n|
-			 * coupling — tracked as follow-up to #40. */
+			 * just-converged load step.  The matching LHS contribution is
+			 * built per-pair in LHSDriver via forward-FD on
+			 * ImplicitFrictionRHS — see #40. */
 			if (fMu > 0.0 && !fImplicitFriction) {
 				const dArray2DT& vel = Field()[1];
 				double v_str[3] = {vel(pelem[3], 0), vel(pelem[3], 1), vel(pelem[3], 2)};
@@ -506,6 +543,54 @@ void PenaltyContact3DT::RHSDriver(void)
 
 	/* set tracking */
 	SetTrackingData(num_contact, h_max);
+}
+
+/* Closed-form implicit-friction RHS contribution for a single contact pair.
+ * Returns the 12-vector [facet1 (3) | facet2 (3) | facet3 (3) | striker (3)]
+ * that the residual block in RHSDriver assembles.  LHSDriver calls this in
+ * an FD perturbation loop to build the tangent contribution (#40 LHS).
+ *
+ * Inputs:
+ *   striker_index  — index into fPrevStrikerPos / fPrevFacetCentroid / fHasHistory
+ *   el_coord       — current-config element coords, rows [f1,f2,f3,striker]
+ *   n              — facet outward unit normal (length-3 array)
+ *   dphi           — normal-spring scalar -fK·h·area (≤0 when in contact)
+ *
+ * Writes zeros when fImplicitFriction=false, fMu=0, or fHasHistory[s]=0. */
+void PenaltyContact3DT::ImplicitFrictionRHS(int striker_index,
+                                            const dArray2DT& el_coord,
+                                            const double* n,
+                                            double dphi,
+                                            double f_friction[12]) const
+{
+	for (int k = 0; k < 12; k++) f_friction[k] = 0.0;
+	if (!fImplicitFriction || fMu <= 0.0) return;
+	if (striker_index < 0 || striker_index >= fHasHistory.Length()) return;
+	if (!fHasHistory[striker_index]) return;
+
+	double r_cur[3] = {
+		el_coord(3,0) - (el_coord(0,0) + el_coord(1,0) + el_coord(2,0))/3.0,
+		el_coord(3,1) - (el_coord(0,1) + el_coord(1,1) + el_coord(2,1))/3.0,
+		el_coord(3,2) - (el_coord(0,2) + el_coord(1,2) + el_coord(2,2))/3.0
+	};
+	double r_prev[3] = {
+		fPrevStrikerPos(striker_index,0) - fPrevFacetCentroid(striker_index,0),
+		fPrevStrikerPos(striker_index,1) - fPrevFacetCentroid(striker_index,1),
+		fPrevStrikerPos(striker_index,2) - fPrevFacetCentroid(striker_index,2)
+	};
+	double dr[3] = { r_cur[0]-r_prev[0], r_cur[1]-r_prev[1], r_cur[2]-r_prev[2] };
+	double drn   = dr[0]*n[0] + dr[1]*n[1] + dr[2]*n[2];
+	double dut[3] = { dr[0]-drn*n[0], dr[1]-drn*n[1], dr[2]-drn*n[2] };
+	double dut_mag2  = dut[0]*dut[0] + dut[1]*dut[1] + dut[2]*dut[2];
+	double inv_smooth = 1.0 / sqrt(dut_mag2 + fFrictionEps*fFrictionEps);
+	double s = -fMu * std::fabs(dphi) * inv_smooth;
+	double ft[3] = { s*dut[0], s*dut[1], s*dut[2] };
+
+	const double third = 1.0 / 3.0;
+	f_friction[0]  = -ft[0]*third;  f_friction[1]  = -ft[1]*third;  f_friction[2]  = -ft[2]*third;
+	f_friction[3]  = -ft[0]*third;  f_friction[4]  = -ft[1]*third;  f_friction[5]  = -ft[2]*third;
+	f_friction[6]  = -ft[0]*third;  f_friction[7]  = -ft[1]*third;  f_friction[8]  = -ft[2]*third;
+	f_friction[9]  =  ft[0];        f_friction[10] =  ft[1];        f_friction[11] =  ft[2];
 }
 
 /* Step-end hook: snapshot the contact-pair geometry per striker so the next
