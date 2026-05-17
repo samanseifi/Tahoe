@@ -1,3 +1,4 @@
+/* $Id: ExplJ2PlasticityT.h,v 2.0 2026/05/08 samanseifi Exp $ */
 /* ExplJ2PlasticityT.h — batch finite-strain J2 plasticity for explicit dynamics.
  *
  * Hughes-Winget incremental-objective algorithm with isotropic linear hardening.

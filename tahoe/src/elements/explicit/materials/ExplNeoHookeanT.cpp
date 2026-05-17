@@ -1,3 +1,4 @@
+/* $Id: ExplNeoHookeanT.cpp,v 2.0 2026/05/08 samanseifi Exp $ */
 /* ExplNeoHookeanT.cpp — batch Neo-Hookean Cauchy stress.
  *
  * Compressible Neo-Hookean:

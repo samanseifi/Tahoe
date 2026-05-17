@@ -1,3 +1,4 @@
+/* $Id: ExplJ2PlasticityT.cpp,v 2.0 2026/05/08 samanseifi Exp $ */
 /* ExplJ2PlasticityT.cpp — batch finite-strain J2 plasticity.
  *
  * Hughes-Winget incremental-objective update:

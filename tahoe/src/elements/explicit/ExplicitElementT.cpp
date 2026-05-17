@@ -1,3 +1,4 @@
+/* $Id: ExplicitElementT.cpp,v 2.0 2026/05/08 samanseifi Exp $ */
 /* ExplicitElementT.cpp — MVSIZ-batched explicit solid element. */
 #include "ExplicitElementT.h"
 

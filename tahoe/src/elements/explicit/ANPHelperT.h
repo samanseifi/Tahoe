@@ -1,3 +1,4 @@
+/* $Id: ANPHelperT.h,v 2.0 2026/05/08 samanseifi Exp $ */
 /* ANPHelperT.h — average nodal pressure (Bonet-Burton 1998) F-bar helper.
  *
  * Equivalent to LS-DYNA ELFORM=13 for tet4: averages the dilatation

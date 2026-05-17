@@ -1,3 +1,4 @@
+/* $Id: Tet4KernelT.h,v 2.0 2026/05/08 samanseifi Exp $ */
 /* Tet4KernelT.h — 4-node constant-strain tetrahedron kernel for 3D explicit
  * dynamics.  Single integration point at the centroid (parametric coords
  * r=s=t=1/4), weight = 1/6 (volume of the unit reference tet).

@@ -1,3 +1,4 @@
+/* $Id: ANPHelperT.cpp,v 2.0 2026/05/08 samanseifi Exp $ */
 /* ANPHelperT.cpp — Bonet-Burton 1998 average nodal pressure helper.
  *
  * The two-pass loop below uses #pragma omp atomic on the nodal scatter so

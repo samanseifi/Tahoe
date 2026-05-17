@@ -1,3 +1,4 @@
+/* $Id: ExplNeoHookeanT.h,v 2.0 2026/05/08 samanseifi Exp $ */
 /* ExplNeoHookeanT.h — batch Neo-Hookean material for explicit dynamics.
  *
  * Compressible Neo-Hookean in current configuration (updated Lagrangian).
