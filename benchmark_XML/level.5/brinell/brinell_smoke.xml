@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<!-- Brinell indentation — smoke variant (#47).
+     Same physics as brinell.xml but on a coarser mesh (~2.3k Hex8 total,
+     3042 nodes, 9000 DOFs) and only 10 quasi-static steps to δ = 0.15 mm.
+     Designed to converge within ~5 min serial so the autonomous loop /
+     CI can exercise the path.
+
+     For the full Tabor-validation run on the fine mesh, see brinell.xml. -->
+<tahoe geometry_file="brinell_smoke.geom"
+       output_format="ExodusII"
+       title="brinell_smoke">
+    <time num_steps="10" output_inc="1" time_step="0.1">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0.0" y="0.0"/>
+                <OrderedPair x="1.0" y="1.0"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+    <nodes>
+        <field field_name="displacement">
+            <dof_labels>
+                <String value="D_X"/>
+                <String value="D_Y"/>
+                <String value="D_Z"/>
+            </dof_labels>
+            <kinematic_BC dof="3" node_ID="1" schedule="1" type="u" value="-0.15"/>
+            <kinematic_BC dof="1" node_ID="2"/>
+            <kinematic_BC dof="2" node_ID="3"/>
+            <kinematic_BC dof="1" node_ID="4"/>
+            <kinematic_BC dof="2" node_ID="4"/>
+            <kinematic_BC dof="3" node_ID="4"/>
+            <kinematic_BC dof="1" node_ID="5"/>
+            <kinematic_BC dof="2" node_ID="6"/>
+        </field>
+    </nodes>
+    <element_list>
+        <!-- Indenter (block 1) — near-rigid elastic, separate group so the
+             plastic block below can write its material outputs (alpha,
+             VM_Kirch, pressure) without an output-variable-name clash. -->
+        <updated_lagrangian field_name="displacement">
+            <hexahedron/>
+            <solid_element_nodal_output displacements="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <large_strain_material_3D>
+                    <Simo_isotropic density="7.85">
+                        <E_and_nu Poisson_ratio="0.3" Young_modulus="2000000.0"/>
+                    </Simo_isotropic>
+                </large_strain_material_3D>
+            </large_strain_element_block>
+        </updated_lagrangian>
+
+        <!-- Plastic block (block 2) — J2 + cubic-spline hardening.
+             material_output=1 enables Simo_J2's per-IP labels:
+                 alpha     — equivalent plastic strain ε_p
+                 norm_beta — back-stress norm (kinematic; 0 here)
+                 VM_Kirch  — von Mises Kirchhoff stress
+                 press     — hydrostatic pressure tr(σ)/3                  -->
+        <updated_lagrangian field_name="displacement">
+            <hexahedron/>
+            <solid_element_nodal_output displacements="1" material_output="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list>
+                    <String value="2"/>
+                </block_ID_list>
+                <large_strain_material_3D>
+                    <Simo_J2 density="7.85">
+                        <E_and_nu Poisson_ratio="0.3" Young_modulus="200000.0"/>
+                        <cubic_spline fixity="parabolic">
+                            <OrderedPair x="0.000" y="250.0"/>
+                            <OrderedPair x="0.005" y="320.0"/>
+                            <OrderedPair x="0.020" y="420.0"/>
+                            <OrderedPair x="0.050" y="500.0"/>
+                            <OrderedPair x="0.150" y="580.0"/>
+                            <OrderedPair x="0.500" y="650.0"/>
+                        </cubic_spline>
+                    </Simo_J2>
+                </large_strain_material_3D>
+            </large_strain_element_block>
+        </updated_lagrangian>
+
+        <contact_3D_penalty field_name="displacement"
+                            penalty_stiffness="1.0e7"
+                            friction_coefficient="0.1"
+                            friction_epsilon_velocity="1.0e-4">
+            <contact_surface>
+                <surface_side_set side_set_ID="1"/>
+            </contact_surface>
+            <contact_surface>
+                <surface_side_set side_set_ID="2"/>
+            </contact_surface>
+            <contact_nodes>
+                <node_ID_list>
+                    <String value="7"/>
+                </node_ID_list>
+            </contact_nodes>
+        </contact_3D_penalty>
+    </element_list>
+    <nonlinear_solver_LS abs_tolerance="1.0e-6"
+                         rel_tolerance="1.0e-6"
+                         divergence_tolerance="1.0e+04"
+                         max_iterations="40"
+                         search_iterations="5"
+                         orthog_tolerance="0.1"
+                         max_step_size="2.0">
+        <SPOOLES_matrix/>
+    </nonlinear_solver_LS>
+</tahoe>
