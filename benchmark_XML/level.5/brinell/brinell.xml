@@ -1,0 +1,126 @@
+<?xml version="1.0"?>
+<!-- Brinell indentation benchmark (#47).
+     Quasi-static implicit indentation of a near-rigid hemispherical
+     indenter (block 1) into a J2-plastic block (block 2), with light
+     Coulomb friction at the contact pair.
+
+     Material A (indenter, block 1)  — near-rigid elastic:
+         Simo_isotropic, E = 2 000 000 MPa  (10× steel),  ν = 0.3,  ρ = 7.85
+         (10× stiffer than the block, so its deformation is negligible.
+         A true rigid-body element would be cleaner — tracked as #30.)
+
+     Material B (block, block 2)     — steel-like J2 plasticity:
+         Simo_J2, E = 200 000 MPa, ν = 0.3, ρ = 7.85
+         Hardening: cubic-spline through (ε_p, σ_y) in MPa
+            (0.000, 250)   ← initial yield
+            (0.005, 320)
+            (0.020, 420)
+            (0.050, 500)
+            (0.150, 580)
+            (0.500, 650)
+         These points trace a Ramberg-Osgood-like curve typical of mild steel
+         (~ASTM A36 with strain hardening saturating around 650 MPa).
+
+     Contact:  <contact_3D_penalty>  μ = 0.1 (light Coulomb friction).
+     Solver:   <nonlinear_solver_LS>  (Newton + line search), SPOOLES.
+     Schedule: 20 quasi-static load steps, δ = 0 → 0.3 mm
+               (≈ 6 % of R; deep into the fully-plastic regime).
+
+     For the elastic-only sanity phase, see brinell_elastic.xml.
+     Post-processing: compare_to_tabor.py (extracts P-δ and HB).
+-->
+<tahoe geometry_file="brinell.geom"
+       output_format="ExodusII"
+       title="brinell_indentation_J2_plastic">
+    <time num_steps="20" output_inc="2" time_step="0.05">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0.0" y="0.0"/>
+                <OrderedPair x="1.0" y="1.0"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+    <nodes>
+        <field field_name="displacement">
+            <dof_labels>
+                <String value="D_X"/>
+                <String value="D_Y"/>
+                <String value="D_Z"/>
+            </dof_labels>
+            <!-- indenter top: prescribed downward displacement -->
+            <kinematic_BC dof="3" node_ID="1" schedule="1" type="u" value="-0.3"/>
+            <!-- indenter symmetry -->
+            <kinematic_BC dof="1" node_ID="2"/>
+            <kinematic_BC dof="2" node_ID="3"/>
+            <!-- base bottom: clamped -->
+            <kinematic_BC dof="1" node_ID="4"/>
+            <kinematic_BC dof="2" node_ID="4"/>
+            <kinematic_BC dof="3" node_ID="4"/>
+            <!-- base symmetry -->
+            <kinematic_BC dof="1" node_ID="5"/>
+            <kinematic_BC dof="2" node_ID="6"/>
+        </field>
+    </nodes>
+    <element_list>
+        <updated_lagrangian field_name="displacement">
+            <hexahedron/>
+            <solid_element_nodal_output displacements="1" material_output="1" stress="1"/>
+            <!-- indenter (block 1): near-rigid elastic -->
+            <large_strain_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <large_strain_material_3D>
+                    <Simo_isotropic density="7.85">
+                        <E_and_nu Poisson_ratio="0.3" Young_modulus="2000000.0"/>
+                    </Simo_isotropic>
+                </large_strain_material_3D>
+            </large_strain_element_block>
+            <!-- block (block 2): J2 plasticity with cubic-spline hardening -->
+            <large_strain_element_block>
+                <block_ID_list>
+                    <String value="2"/>
+                </block_ID_list>
+                <large_strain_material_3D>
+                    <Simo_J2 density="7.85">
+                        <E_and_nu Poisson_ratio="0.3" Young_modulus="200000.0"/>
+                        <cubic_spline fixity="parabolic">
+                            <OrderedPair x="0.000" y="250.0"/>
+                            <OrderedPair x="0.005" y="320.0"/>
+                            <OrderedPair x="0.020" y="420.0"/>
+                            <OrderedPair x="0.050" y="500.0"/>
+                            <OrderedPair x="0.150" y="580.0"/>
+                            <OrderedPair x="0.500" y="650.0"/>
+                        </cubic_spline>
+                    </Simo_J2>
+                </large_strain_material_3D>
+            </large_strain_element_block>
+        </updated_lagrangian>
+
+        <contact_3D_penalty field_name="displacement"
+                            penalty_stiffness="1.0e7"
+                            friction_coefficient="0.1"
+                            friction_epsilon_velocity="1.0e-4">
+            <contact_surface>
+                <surface_side_set side_set_ID="1"/>
+            </contact_surface>
+            <contact_surface>
+                <surface_side_set side_set_ID="2"/>
+            </contact_surface>
+            <contact_nodes>
+                <node_ID_list>
+                    <String value="7"/>
+                </node_ID_list>
+            </contact_nodes>
+        </contact_3D_penalty>
+    </element_list>
+    <nonlinear_solver_LS abs_tolerance="1.0e-6"
+                         rel_tolerance="1.0e-8"
+                         divergence_tolerance="1.0e+04"
+                         max_iterations="40"
+                         search_iterations="5"
+                         orthog_tolerance="0.1"
+                         max_step_size="2.0">
+        <SPOOLES_matrix/>
+    </nonlinear_solver_LS>
+</tahoe>

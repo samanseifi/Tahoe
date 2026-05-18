@@ -14,7 +14,8 @@ reference these for performance baselines and physics verification.
 | `taylor_bar/` | Classic Taylor-bar impact, soft-metal demo (issue #18). |
 | `hertz/` | Hertz contact validation — Hex8-only and mixed Tet/Hex variants; explicit vs implicit cross-validated to within 0.5 %. |
 | `tet_classic/` | Implicit Tet4 path: plain `<updated_lagrangian>` and ANP `<bonet_tet>` variants (#27, #28, #29). |
-| `implicit_friction/` | Implicit Coulomb friction smoke test (#40) — currently diverges as expected pending the LHS friction tangent. |
+| `implicit_friction/` | Implicit Coulomb friction smoke test (#40) — residual (PR #41) + LHS tangent (PR #45) both landed; converges quadratically. |
+| `brinell/` | Brinell-style indentation — rigid ball on J2-plastic block, light Coulomb friction (#47).  First benchmark combining cubic-spline hardening + implicit friction + Newton-LS. |
 
 
 ## explicit_benchmark/
@@ -178,20 +179,37 @@ the explicit benchmarks above.
 Quasi-static counterpart to the explicit Coulomb friction benchmark
 (`explicit_benchmark/vectorized_cubes_friction.xml`, #26).  Same two-cube
 geometry driven by `<updated_lagrangian>` + Newton-Raphson with the
-slip-history Coulomb branch in `PenaltyContact3DT` (#40, PR #41).
+slip-history Coulomb branch in `PenaltyContact3DT` (#40).
 
 | File | Notes |
 |------|-------|
 | `sliding_cubes.xml` | Top face compressed (u_z = −0.005) and dragged tangentially (u_x = 0 → 0.01 over 100 steps); μ = 0.02. |
 | `two_cubes.geom` | Copy of `../explicit_benchmark/geometry/two_cubes_refined.geom`. |
 
-**Status: diverges as expected.** The implicit branch ships the residual
-and slip-history infrastructure, but `PenaltyContact3DT::LHSDriver` does
-not yet include the friction tangent `∂f_t/∂Δu_t`.  Newton has no way to
-predict the corrections needed and exits after iter 0.  The XML is kept
-here as the natural integration test for whoever adds the analytical
-friction tangent — it should flip from diverging to ~1–2 iter/step the
-moment the tangent lands.  See [`implicit_friction/README.md`](implicit_friction/README.md).
+**Status: converges quadratically.**  The residual + slip-history landed
+in PR #41; the LHS friction tangent (per-pair 12×12 forward-FD on
+`ImplicitFrictionRHS`) landed in PR #45.  Newton converges in 1–2 iters
+per step; whole 100-step run completes in ~4 s serial.  See
+[`implicit_friction/README.md`](implicit_friction/README.md).
+
+## brinell/
+
+Quasi-static implicit indentation of a near-rigid hemispherical indenter
+into a J2-plastic block, with light Coulomb friction (#47).  Same quarter-
+symmetry topology as `hertz/` (curved-bottom block on flat half-space),
+but the base is elastoplastic and the indenter is ~10× stiffer so plastic
+flow concentrates in the block.
+
+| File | Notes |
+|------|-------|
+| [`brinell_smoke.xml`](brinell/brinell_smoke.xml) | Smoke variant: ~2.3k Hex8, 10 steps, δ = 0 → 0.15 mm, ~55 s serial.  This is the CI-friendly path. |
+| [`brinell.xml`](brinell/brinell.xml) | Fine variant: 8 800 Hex8, 20 steps, δ = 0 → 0.30 mm, ~1 h serial.  Goes deep enough into the fully-plastic regime to validate the Tabor relation `HB ≈ 2.8 σ_y`. |
+| [`generate_brinell_mesh.py`](brinell/generate_brinell_mesh.py) | Mesh generator (writes both variants). |
+
+Material: steel-like J2 with `cubic_spline` hardening through six
+`(ε_p, σ_y)` points (250 → 650 MPa).  First benchmark combining
+spline-hardening plasticity with implicit Coulomb friction (#40) and
+Newton-LS (`<nonlinear_solver_LS>`).
 
 ## Coverage matrix
 
@@ -205,6 +223,7 @@ moment the tangent lands.  See [`implicit_friction/README.md`](implicit_friction
 | #28 ANP-Tet4 (ELFORM=13) | `vectorized_tet_anp_small.xml`, `tests/kernels/test_ANPHelperT.cpp`, `tet_classic/*` |
 | #29 BonetTet lagged-J̄ + FD tangent | `tet_classic/tet4_hyperelastic_anp.xml` (quadratic on moderate κ) |
 | #31/#32/#33 contact-stack perf | `tests/benchmarks/test_ContactPerf.cpp`, `vectorized_cubes_*.xml` (viscous damping, OMP threshold, parallel contact) |
-| #40 implicit Coulomb friction | `implicit_friction/sliding_cubes.xml` (residual only — diverges pending LHS tangent) |
+| #40 implicit Coulomb friction | `implicit_friction/sliding_cubes.xml` (residual + LHS tangent — converges, quadratic Newton) |
+| #47 Brinell indentation       | `brinell/brinell_smoke.xml` (~55 s) + `brinell/brinell.xml` (Tabor validation) |
 | Hertz contact validation | `hertz/hertz_explicit.xml`, `hertz/hertz_implicit.xml`, `hertz/compare_to_analytical.py` |
 | Mixed Tet/Hex contact | `hertz/hertz_tet_hex_*.xml`, `hertz/compare_tet_hex_to_analytical.py` |
