@@ -66,7 +66,7 @@
  * Drucker-Prager plasticity models.
  * This option must be set in conjunction with the DIRECTORY_PLASTICITY_DP_MATERIAL macro
  * in SolidMaterialsConfig.make. */
-/* #define PLASTICITY_DP_MATERIAL 1 */
+#define PLASTICITY_DP_MATERIAL 1
 
 /** \def GEOMODEL_MATERIAL
  * Sandia Geomodel plasticity model.
