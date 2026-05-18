@@ -4,7 +4,6 @@
       xmlns:x0='http://www.w3.org/2001/XMLSchema'
         author='paklein'
  geometry_file='../geometry/square.1.geom'
- output_format='ExodusII'
          title='2D uniaxial tension'>
 	<time
 	  num_steps='2'
