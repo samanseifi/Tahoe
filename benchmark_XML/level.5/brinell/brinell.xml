@@ -62,10 +62,12 @@
         </field>
     </nodes>
     <element_list>
+        <!-- Indenter (block 1) — near-rigid elastic.  Separate group from
+             the plastic block so the J2 material can write its outputs
+             (alpha, VM_Kirch, press) without a name clash. -->
         <updated_lagrangian field_name="displacement">
             <hexahedron/>
-            <solid_element_nodal_output displacements="1" material_output="1" stress="1"/>
-            <!-- indenter (block 1): near-rigid elastic -->
+            <solid_element_nodal_output displacements="1" stress="1"/>
             <large_strain_element_block>
                 <block_ID_list>
                     <String value="1"/>
@@ -76,7 +78,17 @@
                     </Simo_isotropic>
                 </large_strain_material_3D>
             </large_strain_element_block>
-            <!-- block (block 2): J2 plasticity with cubic-spline hardening -->
+        </updated_lagrangian>
+
+        <!-- Plastic block (block 2) — J2 + cubic-spline hardening.
+             material_output=1 enables Simo_J2's per-IP labels:
+                 alpha     — equivalent plastic strain ε_p
+                 norm_beta — back-stress norm (kinematic; 0 here)
+                 VM_Kirch  — von Mises Kirchhoff stress
+                 press     — hydrostatic pressure tr(σ)/3                  -->
+        <updated_lagrangian field_name="displacement">
+            <hexahedron/>
+            <solid_element_nodal_output displacements="1" material_output="1" stress="1"/>
             <large_strain_element_block>
                 <block_ID_list>
                     <String value="2"/>

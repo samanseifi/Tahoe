@@ -22,6 +22,7 @@ The benchmark exercises three capabilities together for the first time:
 | [`brinell_smoke.xml`](brinell_smoke.xml) | **Smoke variant** — 2 304 Hex8, 10 steps to δ = 0.15 mm, converges serial in ~55 s.  This is what CI / autonomous loops should run. |
 | [`brinell.xml`](brinell.xml) | Fine variant — 8 800 Hex8, 20 steps to δ = 0.30 mm.  Slower (~1 h serial); deeper into the fully-plastic regime, suitable for Tabor-relation validation. |
 | `brinell_smoke.geom`, `brinell.geom` | Generated meshes (text Tahoe geom format). |
+| [`compare_to_tabor.py`](compare_to_tabor.py) | Post-processing — extracts δ, P, contact radius `a`, mean pressure `p_m` from the Exodus output; writes a CSV plus two PNGs (P-δ vs Hertz reference, and `p_m/σ_y0` vs `δ/R` with the Tabor 2.8 line). |
 
 ## Setup
 
@@ -77,6 +78,21 @@ init: 0 LS: 3 ... | 0: Rel error = 1.41e-02
 Contact patch grows monotonically as plastic deformation accumulates:
 48 active strikers at step 1 → 80 at step 9 (plastic impression spreading).
 
+## Smoke results (from `compare_to_tabor.py brinell_smoke`)
+
+10 frames, δ from 0.015 → 0.150 mm:
+
+| Frame | δ [mm] | P_quarter [N] | a [mm] | p_m [MPa] | p_m / σ_y0 |
+|------:|-------:|--------------:|-------:|----------:|-----------:|
+| 0 | 0.015 |   97.2 | 0.308 | 326.7 | 1.31 |
+| 4 | 0.075 |  690.3 | 0.791 | 351.0 | 1.40 |
+| 9 | 0.150 | 1325.1 | 1.116 | 338.5 | 1.35 |
+
+The smoke run sits in the **elastic-plastic transition** (`δ/R = 0.03`):
+past first yield (`p_m / σ_y ≈ 1.1` analytically) but well below Tabor's
+fully-plastic 2.8.  Reaching Tabor needs `δ/R ≳ 0.06`, which is what the
+fine `brinell.xml` is set up for.
+
 ## Expected physics (validated by `brinell.xml` on the fine mesh)
 
 1. **Elastic phase** (δ ≲ 0.02 mm) — `P-δ` matches Hertz `P = (4/3) E* √R δ^{3/2}`.
@@ -106,3 +122,30 @@ Contact patch grows monotonically as plastic deformation accumulates:
 - Unloading / residual depth is not in this benchmark; would require an
   additional load schedule and a small code-side change to record
   per-step results without rewriting from scratch.
+
+## Plastic strain + von Mises field on the block top (last frame)
+
+Material output from `<Simo_J2>` (enabled by `material_output="1"` on the
+plastic-block element group) gives per-node `alpha` (equivalent plastic
+strain ε_p), `VM_Kirch` (von Mises Kirchhoff), `press`, and `norm_beta`
+(back-stress norm — zero here since isotropic hardening only).
+`compare_to_tabor.py` slices the block top surface (z = 0 in the
+reference config) at the last frame and writes `*_field.png`.
+
+| Quantity | Range (smoke run, δ = 0.15 mm) |
+|----------|--------------------------------|
+| `α` (ε_p) | 0.000 → 0.106 — significant plastic flow at the impression centre |
+| `σ_VM`    | 50 → 566 MPa  — saturates at ≈ σ_y(α = 0.1) per the cubic-spline curve |
+
+The 566 MPa peak matching the spline value σ_y(0.10) ≈ 560 MPa is direct
+evidence that the radial-return is converging to the yield surface — a
+useful sanity check on the J2 update under contact loading.
+
+> **Output-channel layout (after splitting the two materials into separate
+> element groups so the J2 outputs can be emitted without clashing with
+> the elastic indenter).**
+> ```
+> *.io0.exo   — indenter (block 1) — D_X/Y/Z, Cauchy stress
+> *.io1.exo   — plastic block (block 2) — same + alpha, norm_beta, VM_Kirch, press
+> *.io2.exo   — contact group — D_X/Y/Z and F_X/Y/Z on strikers
+> ```
