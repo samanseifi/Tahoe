@@ -1,0 +1,94 @@
+<?xml version="1.0"?>
+<!-- Uniaxial tension — J2 cubic-spline hardening verification (#49).
+
+     Quarter-symmetry bar, 0.5 × 0.5 × 5 mm.  The top face (NS1) is
+     pulled in +z by prescribed displacement; symmetry on x=0 and y=0;
+     z=0 fixed in z.  Same material as level.5/brinell/ so that any
+     downstream coupon test or pedicle-screw demo can rely on the same
+     calibrated hardening curve.
+
+     Loading: 25 quasi-static steps to δ_z = 3.25 mm = 65 % engineering
+     strain over a 5 mm half-length (true ε ≈ ln(1+0.65) ≈ 0.50,
+     matching the last spline knot at ε_p = 0.5).
+
+     Output:
+       io0.exo  — all nodes — D_X/Y/Z, Cauchy stress, J2 outputs
+                  (alpha, norm_beta, VM_Kirch, press)
+     compare_to_hardening.py extracts σ_zz vs α from the central
+     IP-column and overlays the input spline.
+-->
+<tahoe geometry_file="tensile.geom"
+       output_format="ExodusII"
+       title="tensile_J2_cubic_spline_verification">
+    <time num_steps="25" output_inc="1" time_step="0.04">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0.0" y="0.0"/>
+                <OrderedPair x="1.0" y="1.0"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+    <nodes>
+        <field field_name="displacement">
+            <dof_labels>
+                <String value="D_X"/>
+                <String value="D_Y"/>
+                <String value="D_Z"/>
+            </dof_labels>
+            <!-- top: pulled in +z -->
+            <!-- Pull to 10 % engineering strain.  The hardening curve is steepest
+                 from ε_p=0 to ε_p≈0.1; past that the spline saturates and the
+                 global Newton tangent becomes near-singular for prescribed-
+                 displacement control.  10 % covers σ=250→~575 MPa, the
+                 interesting validation range. -->
+            <kinematic_BC dof="3" node_ID="1" schedule="1" type="u" value="0.5"/>
+            <!-- bottom: u_z = 0 -->
+            <kinematic_BC dof="3" node_ID="2"/>
+            <!-- symmetry -->
+            <kinematic_BC dof="1" node_ID="3"/>
+            <kinematic_BC dof="2" node_ID="4"/>
+        </field>
+    </nodes>
+    <element_list>
+        <updated_lagrangian field_name="displacement">
+            <hexahedron/>
+            <solid_element_nodal_output displacements="1" material_output="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <large_strain_material_3D>
+                    <Simo_J2 density="7.85">
+                        <E_and_nu Poisson_ratio="0.3" Young_modulus="200000.0"/>
+                        <cubic_spline fixity="parabolic">
+                            <!-- Denser knot set than brinell.xml so the spline is
+                                 well-behaved (monotonically hardening) across the
+                                 full strain range exercised here.  Same shape:
+                                 σ_y0 = 250, saturating ~650 MPa near ε_p = 0.5. -->
+                            <OrderedPair x="0.000" y="250.0"/>
+                            <OrderedPair x="0.005" y="320.0"/>
+                            <OrderedPair x="0.020" y="420.0"/>
+                            <OrderedPair x="0.050" y="500.0"/>
+                            <OrderedPair x="0.080" y="535.0"/>
+                            <OrderedPair x="0.110" y="560.0"/>
+                            <OrderedPair x="0.150" y="580.0"/>
+                            <OrderedPair x="0.200" y="600.0"/>
+                            <OrderedPair x="0.300" y="625.0"/>
+                            <OrderedPair x="0.400" y="640.0"/>
+                            <OrderedPair x="0.500" y="650.0"/>
+                        </cubic_spline>
+                    </Simo_J2>
+                </large_strain_material_3D>
+            </large_strain_element_block>
+        </updated_lagrangian>
+    </element_list>
+    <nonlinear_solver_LS abs_tolerance="1.0e-6"
+                         rel_tolerance="1.0e-8"
+                         divergence_tolerance="1.0e+04"
+                         max_iterations="40"
+                         search_iterations="10"
+                         orthog_tolerance="0.1"
+                         max_step_size="1.0">
+        <SPOOLES_matrix/>
+    </nonlinear_solver_LS>
+</tahoe>

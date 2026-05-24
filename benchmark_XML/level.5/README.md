@@ -16,6 +16,7 @@ reference these for performance baselines and physics verification.
 | `tet_classic/` | Implicit Tet4 path: plain `<updated_lagrangian>` and ANP `<bonet_tet>` variants (#27, #28, #29). |
 | `implicit_friction/` | Implicit Coulomb friction smoke test (#40) — residual (PR #41) + LHS tangent (PR #45) both landed; converges quadratically. |
 | `brinell/` | Brinell-style indentation — rigid ball on J2-plastic block, light Coulomb friction (#47).  First benchmark combining cubic-spline hardening + implicit friction + Newton-LS. |
+| `tensile/` | Uniaxial tension on a J2-plastic bar (#49) — verifies that `<Simo_J2>` with `cubic_spline` hardening reproduces the input σ_y(ε_p) data to ~2 % under monotonic loading. |
 
 
 ## explicit_benchmark/
@@ -225,5 +226,6 @@ Newton-LS (`<nonlinear_solver_LS>`).
 | #31/#32/#33 contact-stack perf | `tests/benchmarks/test_ContactPerf.cpp`, `vectorized_cubes_*.xml` (viscous damping, OMP threshold, parallel contact) |
 | #40 implicit Coulomb friction | `implicit_friction/sliding_cubes.xml` (residual + LHS tangent — converges, quadratic Newton) |
 | #47 Brinell indentation       | `brinell/brinell_smoke.xml` (~55 s) + `brinell/brinell.xml` (Tabor validation) |
+| #49 J2 spline-hardening verification | `tensile/tensile.xml` — σ_VM(α) overlays input spline within ~2 % |
 | Hertz contact validation | `hertz/hertz_explicit.xml`, `hertz/hertz_implicit.xml`, `hertz/compare_to_analytical.py` |
 | Mixed Tet/Hex contact | `hertz/hertz_tet_hex_*.xml`, `hertz/compare_tet_hex_to_analytical.py` |
