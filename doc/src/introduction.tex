@@ -23,10 +23,15 @@ itself can be obtained from the \tahoe Development Server at
 \begin{center}
 \href{http://tahoe.ca.sandia.gov}{\texttt{\textless http://tahoe.ca.sandia.gov\textgreater}}
 \end{center}
-If you are interested in getting access to the code repository for \tahoe, please contact
+The original Sandia development server is no longer maintained.
+Active development now takes place on GitHub at
 \begin{center}
-\href{mailto:tahoe-help@sandia.gov}{\texttt{tahoe-help@sandia.gov}}
+\href{https://github.com/samanseifi/tahoe}{\texttt{https://github.com/samanseifi/tahoe}}
 \end{center}
+The repository is cloned and built directly with \texttt{git} and
+CMake --- there is no longer a separate \texttt{tahoe-manager} or
+SourceForge/CVS workflow.  See Section~\ref{sect.execution} for build
+and execution procedures.
 This guide contains hypertext links.  These can be used to navigate the
 guide if your document viewer support links.
 
@@ -127,5 +132,20 @@ Parameters for solvers for linear system of equations is embedded in
 the \texttt{solver} data, including installed third-party libraries.
 
 \subsection{Supported platforms}
-\todo{provide table of supported architectures, compilers, and 
-extensions, i.e., MPI.}
+\label{sect.platforms}
+The modernised \tahoe build targets Linux distributions with a C++17
+compiler.  The reference platform for development and continuous
+verification is:
+\begin{itemize}
+\item Ubuntu 22.04 (jammy) on \texttt{x86\_64}, also tested under
+      WSL2 (Windows Subsystem for Linux).
+\item GCC 11 or newer; Clang 13+ also works.
+\item CMake 3.16 or newer.
+\item Open MPI 4.x for parallel builds (optional --- a serial build
+      is the default).
+\end{itemize}
+All third-party C dependencies (\texttt{expat}, \texttt{SPOOLES},
+\texttt{f2c}) are bundled under \texttt{third\_party/} and built from
+source by the top-level CMake project; no system packages are required
+for those.  MUMPS, METIS and SuperLU support are optional and toggled
+through CMake cache variables.

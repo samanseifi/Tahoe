@@ -16,7 +16,9 @@
 \usepackage{longtable}
 \usepackage{ulem}
 %\usepackage{overcite}
-\usepackage{hangcaption}
+% hangcaption.sty is a legacy package not in modern TeX Live;
+% modern \caption already hangs the label, so alias it.
+\providecommand{\hangcaption}{\caption}
 \usepackage{fancyhdr}
 \usepackage[pdftex,%
     bookmarks=true,%

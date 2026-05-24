@@ -103,3 +103,16 @@ inc/
 __pycache__/
 *.pyc
 *.pyo
+
+# ---------------------------------------------------------------------------
+# LaTeX build artifacts (doc/src/) — keep .tex sources and the final
+# doc/user_guide.pdf only.
+# ---------------------------------------------------------------------------
+doc/src/*.aux
+doc/src/*.bbl
+doc/src/*.blg
+doc/src/*.lof
+doc/src/*.lot
+doc/src/*.toc
+doc/src/*.out
+doc/src/tahoe.user.pdf
