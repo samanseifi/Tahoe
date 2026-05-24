@@ -14,14 +14,15 @@ Newton-Raphson via `<updated_lagrangian>` instead of central-difference.
 
 The implicit Coulomb path is complete:
 
-- **Residual + slip history** (PR #41): `PenaltyContact3DT::RHSDriver` applies
-  `f_t = -μ·|f_n|·Δu_t / sqrt(|Δu_t|² + ε²)` from per-striker slip history;
-  `CloseStep` snapshots the contact-pair geometry; branch selection between
-  explicit (#26) and implicit (#40) is automatic via `Field().Order()`.
-- **Tangent** (this PR): `PenaltyContact3DT::LHSDriver` builds the friction
-  contribution to K by a per-pair 12×12 forward-FD on the same residual,
-  with the geometric chain rule (changes in normal and contact pressure
-  under DOF perturbation) baked in.
+- **Residual + slip history** (PR #41, merged): `PenaltyContact3DT::RHSDriver`
+  applies `f_t = -μ·|f_n|·Δu_t / sqrt(|Δu_t|² + ε²)` from per-striker
+  slip history; `CloseStep` snapshots the contact-pair geometry; branch
+  selection between explicit (#26) and implicit (#40) is automatic via
+  `Field().Order()`.
+- **LHS tangent** (PR #45, merged, closes #40): `PenaltyContact3DT::LHSDriver`
+  builds the friction contribution to K by a per-pair 12×12 forward-FD on
+  the same residual, with the geometric chain rule (changes in normal and
+  contact pressure under DOF perturbation) baked in.
 
 Newton-Raphson converges quadratically:
 
@@ -46,8 +47,9 @@ cd benchmark_XML/level.5/implicit_friction
 ```
 
 ## See also
-- Issue #40 — implicit Coulomb friction tracking
+- Issue #40 — implicit Coulomb friction tracking (closed)
 - PR #41 — residual + slip-history scaffolding (merged)
+- PR #45 — LHS tangent (merged, closes #40)
 - `tahoe/src/elements/contact/PenaltyContact3DT.cpp` — inline comment at
   the `LHSDriver` friction-tangent block documents the FD construction
   and the chain rule it captures (normal, contact pressure, slip)
