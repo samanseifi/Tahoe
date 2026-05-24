@@ -14,8 +14,85 @@ updated to Version 3.4 by Patrick Klein.
 This section summarizes changes to the \tahoe input format
 since Version 3.4.
 \subsubsection{update 3.4.1}
-Two additional output variables have been added to the element output 
-for solid deformation elements listed in 
-Table~\ref{tab.solid.output.element}. This brings the number of 
-element output flags from 5 to 7. This change is version aware. Only 5 
+Two additional output variables have been added to the element output
+for solid deformation elements listed in
+Table~\ref{tab.solid.output.element}. This brings the number of
+element output flags from 5 to 7. This change is version aware. Only 5
 flags are read if the input file version is older than 3.4.1.
+
+\subsection{Modernisation track (post-3.4.1, GitHub)}
+\label{sect.changes.modern}
+After the move to GitHub (see Section~\ref{sect.cmake.build}), the
+following capability changes have landed on top of the v3.4.1 input
+format.  The format itself remains backwards compatible; the items
+below describe new \emph{features}, new \emph{elements}, new
+\emph{benchmarks}, and infrastructure cleanups that are not yet
+folded into the per-section reference material elsewhere in this
+guide.  Pull-request numbers refer to the GitHub tracker.
+
+\paragraph{Build system.}
+The legacy \texttt{tahoe-manager} Perl driver and CVS/SourceForge
+workflow have been removed.  The project now builds with CMake (root,
+\texttt{toolbox/}, \texttt{tahoe/}, plus per-library
+\texttt{CMakeLists.txt} files); all bundled third-party C libraries
+(\texttt{expat}, \texttt{SPOOLES}, \texttt{f2c}) are compiled from
+source under \texttt{third\_party/} (PR \#44).  See
+Section~\ref{sect.cmake.build} for build invocations and
+Section~\ref{sect.platforms} for supported platforms.
+
+\paragraph{Activated Drucker--Prager plasticity (Material 11).}
+The small-deformation Drucker--Prager constitutive model is now wired
+into the active element-type registry and verified on the
+level.1 material suite (PR \#37).  The mathematical formulation in
+Section~``Material 11'' of this guide already documented the model;
+it is now available in stock builds without re-enabling.
+
+\paragraph{Implicit Coulomb friction in \texttt{PenaltyContact3DT}.}
+The 3D penalty-contact element now contributes a consistent tangent
+contribution for Coulomb friction in implicit analyses (PR \#40 /
+\#45).  Previously, only the residual was assembled, which forced the
+nonlinear solver to fall back on a linear convergence rate.  With the
+LHS contribution in place, frictional contact problems now converge
+quadratically in Newton.
+
+\paragraph{BonetTet element with lagged-J-bar and FD tangent.}
+A new finite-deformation Tet4 element \texttt{<bonet\_tet>} has been
+added, following the F-bar / ANP averaging of Bonet \etal\ (PR \#29).
+The implementation caches J-bar at step start and builds the local
+12$\times$12 tangent through a forward finite-difference of the F-bar
+residual.  On moderately near-incompressible cases ($\kappa/\mu \sim
+2.5$), Newton converges quadratically in $\sim$1 iter/step --- a
+fifteenfold iteration reduction relative to the linear-rate baseline.
+A fully consistent analytical tangent (which would handle the
+cross-element $\partial \bar{J} / \partial \mathbf{u}$ coupling
+required at severe near-incompressibility) is tracked as future work.
+
+\paragraph{New benchmarks.}
+The following benchmarks have been added to
+\texttt{benchmark\_XML/level.5/} (PRs \#47, \#48, \#49 and the broader
+explicit-solver track):
+\begin{itemize}
+\item \texttt{brinell/} --- Brinell indentation of a rigid sphere on a
+$J_{2}$-plastic Hex8 block, exercising contact + plasticity together.
+\item \texttt{tensile/} --- Quarter-symmetry uniaxial tension on a slim
+Hex8 bar; isolates the $J_{2}$ radial-return from contact and verifies
+that the implementation tracks an input \texttt{cubic\_spline}
+$\sigma_{y}(\varepsilon^{p})$ hardening curve within 2\% under
+monotonic loading.
+\item \texttt{implicit\_friction/} --- Companion regression case for
+the new implicit Coulomb friction tangent (PR \#40 / \#45).
+\item \texttt{hertz/} --- Hertz contact validation case, including a
+mixed Tet4 indenter on Hex8 base variant for the Tet element track.
+\item \texttt{tet\_classic/} --- Classic-Tahoe implicit Tet4 reference
+for the BonetTet element (PR \#29).
+\end{itemize}
+All per-level benchmark directories now carry a \texttt{README.md}
+that catalogues the input files and references the originating issue
+(PR \#42).
+
+\paragraph{Documentation infrastructure.}
+The User Guide source previously depended on \texttt{hangcaption.sty},
+which was dropped from modern \TeX{}~Live.  The \texttt{\textbackslash hangcaption}
+macro is now aliased to \texttt{\textbackslash caption} in
+\texttt{tahoe.user.tex}; modern \texttt{\textbackslash caption} already
+hangs the label.  No figure layouts change as a result.

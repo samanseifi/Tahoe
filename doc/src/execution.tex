@@ -2,11 +2,50 @@
 % $Id: execution.tex,v 1.4 2001-04-23 05:07:41 paklein Exp $
 
 \section{Execution procedures}
-\tahoe has be ported to a number of platforms.  The code can be executed in
-parallel as well as in serial.  Furthermore, \tahoe runs in several modes
-that have been added to support execution in parallel.  These modes are
-listed below.  Only the Parallel Analysis mode actually runs in parallel,
-the other modes run in serial.
+\label{sect.execution}
+
+\subsection{Building \tahoe with CMake}
+\label{sect.cmake.build}
+The modernised \tahoe build is driven by a single top-level CMake
+project.  All bundled third-party C libraries
+(\texttt{expat}, \texttt{SPOOLES}, \texttt{f2c}) are compiled from
+source under \texttt{third\_party/}; the legacy \texttt{tahoe-manager}
+Perl driver and the CVS/SourceForge workflow are no longer used.
+
+The supported platforms are listed in
+Section~\ref{sect.platforms}.  From the repository root a standard
+out-of-tree build is performed with:
+\begin{center}
+\begin{minipage}{0.85\linewidth}
+\begin{alltt}
+\$ cmake -S . -B build
+\$ cmake --build build --parallel \$(nproc)
+\end{alltt}
+\end{minipage}
+\end{center}
+The serial executable is produced as
+\texttt{build/bin/tahoe}.  Several auxiliary post-processing tools
+(\texttt{MakeCSE}, \texttt{translate}, \texttt{wrap},
+\texttt{compare}, \texttt{extract\_*}) are also built in the same tree
+under \texttt{build/bin/}.
+
+Optional features are toggled through the usual CMake cache
+mechanism, for example:
+\begin{center}
+\begin{minipage}{0.85\linewidth}
+\begin{alltt}
+\$ cmake -S . -B build -DTAHOE_ENABLE_MPI=ON \(\backslash\)
+                       -DTAHOE_ENABLE_MUMPS=ON
+\end{alltt}
+\end{minipage}
+\end{center}
+A parallel build requires an MPI implementation (Open MPI 4.x is the
+reference); MUMPS, METIS and SuperLU support is optional.
+
+\subsection{Modes of execution}
+\tahoe runs in several modes that support execution in parallel.
+These modes are listed below.  Only the Parallel Analysis mode
+actually runs in parallel; the other modes run in serial.
 \begin{itemize}
 \item[(\ref{sect.serial.analysis})] Serial analysis
 \item[(\ref{sect.parallel.analysis})] Parallel analysis
@@ -25,12 +64,17 @@ line options:
 \begin{center}
 \begin{tabular}[c]{c c}
 \parbox[b]{2.0in}{\raggedleft \texttt{tahoe}} &\parbox[b]{2.0in}{}\\
-&\parbox[b]{2.0in}{\texttt{-f} $\sbrkt{\textit{job name}}$\texttt{.in}}\\
+&\parbox[b]{2.0in}{\texttt{-f} $\sbrkt{\textit{job name}}$\texttt{.xml}}\\
 &\parbox[b]{2.0in}{\texttt{-decomp}}\\
 &\parbox[b]{2.0in}{\texttt{-join}}\\
 &\parbox[b]{2.0in}{\texttt{-split\_io}}\\
 \end{tabular}
 \end{center}
+Throughout the rest of this section the parameters file is shown with
+the historical \texttt{.in} extension, but the file extension is not
+interpreted by \tahoe --- current benchmarks and applications use
+\texttt{.xml} parameters files (see Section~\ref{sect.inputfile}) and
+\texttt{.geom} geometry files in Tahoe ASCII format.
 
 \subsection{Serial analysis}
 \label{sect.serial.analysis}
