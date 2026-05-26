@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #54 Gurtin-Murdoch surface elasticity benchmark, 2D plane strain
+  IMPLICIT path: nonlinear_HHT dynamic mech (matches the solver path used
+  in applications/crease_wrinkle_instability/ and tahoe-inputs DE work).
+
+  Geometry: 8x2 quad4 strip, Lx=8, H=1.  Top edge (side set 1) has
+  Young-Laplace gamma plus the GM strain-dependent surface stress E_s.
+
+  Loading: small lateral stretch ramped via schedule 1 to D_X = +/-0.2
+  on the side edges (5% engineering stretch).  Top free, bottom
+  substrate-bonded (D_Y=0, D_X free).
+
+  Static-like dynamic settle: nonlinear_HHT with slow ramp.  By the end
+  of the run the system is in quasi-equilibrium at eps_pre = 5% and we
+  read off the surface deformation to compare with the analytical
+  GM constitutive law in verify_gm_strip.py.
+-->
+<tahoe author="samansei" compute_IC="false"
+    geometry_file="strip.geom" output_format="ExodusII"
+    title="#54 YL baseline implicit (gamma=2, E_s=0)"
+    xmlns:x0="http://www.w3.org/2001/XMLSchema">
+
+    <time num_steps="2000" output_inc="100" time_step="0.02">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0"        y="0"/>
+                <OrderedPair x="20"       y="1"/>
+                <OrderedPair x="10000000" y="1"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+
+    <nodes>
+        <field field_name="displacement" integrator="nonlinear_HHT">
+            <dof_labels><String value="D_X"/><String value="D_Y"/></dof_labels>
+            <kinematic_BC dof="2" node_ID="1" type="fixed"/>
+            <kinematic_BC dof="1" node_ID="3" schedule="1" type="u" value="-0.2"/>
+            <kinematic_BC dof="1" node_ID="4" schedule="1" type="u" value="+0.2"/>
+        </field>
+    </nodes>
+
+    <element_list>
+        <updated_lagrangian_Q1P0_surface
+            field_name="displacement" mass_type="lumped_mass" epsilon="1.0">
+            <quadrilateral/>
+            <solid_element_nodal_output displacements="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list><String value="1"/></block_ID_list>
+                <large_strain_material_2D>
+                    <RG_split_general constraint_2D="plane_strain" density="1.0">
+                        <rg_eq_potential><neo-hookean kappa="1000.67" mu="1.0"/></rg_eq_potential>
+                    </RG_split_general>
+                </large_strain_material_2D>
+            </large_strain_element_block>
+            <!-- #54 GM: gamma_0=2 (Young-Laplace residual), E_s=10 (GM stiffness) -->
+            <surface_tension side_set_ID="1" gamma="2.0" t_0="20.0" E_s="0.0"/>
+        </updated_lagrangian_Q1P0_surface>
+    </element_list>
+
+    <nonlinear_solver abs_tolerance="1.0e-7"
+        check_LHS_perturbation="1.0E-8" check_code="no_check"
+        divergence_tolerance="1.0e+10" max_iterations="100" rel_tolerance="1.0e-9">
+        <SPOOLES_matrix/>
+    </nonlinear_solver>
+</tahoe>

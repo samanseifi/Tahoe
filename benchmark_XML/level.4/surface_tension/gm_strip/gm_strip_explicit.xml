@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #54 Gurtin-Murdoch surface elasticity benchmark, 2D plane strain
+  EXPLICIT path: central_difference dynamic mech (matches the solver
+  path used in applications/crease_wrinkle_instability/staggered_explicit_*.xml).
+
+  CFL safety: c_p = sqrt((kappa + 4/3 mu)/rho) ~ 31.7, h_min = 0.5,
+  dt_CFL ~ 0.016.  We use dt = 0.01 (CFL ratio ~0.63).  num_steps=4000
+  reaches the same final time t_f = 40 as the implicit run.
+
+  Same geometry, BCs, material, and surface_tension as
+  gm_strip_implicit.xml.  Verification script verify_gm_strip.py runs
+  both XMLs and checks they converge to the same surface deformation
+  (within explicit-vs-implicit numerical tolerance).
+-->
+<tahoe author="samansei" compute_IC="false"
+    geometry_file="strip.geom" output_format="ExodusII"
+    title="#54 GM strip explicit (gamma=2, E_s=10)"
+    xmlns:x0="http://www.w3.org/2001/XMLSchema">
+
+    <time num_steps="4000" output_inc="100" time_step="0.01">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0"        y="0"/>
+                <OrderedPair x="20"       y="1"/>
+                <OrderedPair x="10000000" y="1"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+
+    <nodes>
+        <field field_name="displacement" integrator="central_difference">
+            <dof_labels><String value="D_X"/><String value="D_Y"/></dof_labels>
+            <kinematic_BC dof="2" node_ID="1" type="fixed"/>
+            <kinematic_BC dof="1" node_ID="3" schedule="1" type="u" value="-0.2"/>
+            <kinematic_BC dof="1" node_ID="4" schedule="1" type="u" value="+0.2"/>
+        </field>
+    </nodes>
+
+    <element_list>
+        <updated_lagrangian_Q1P0_surface
+            field_name="displacement" mass_type="lumped_mass" epsilon="1.0">
+            <quadrilateral/>
+            <solid_element_nodal_output displacements="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list><String value="1"/></block_ID_list>
+                <large_strain_material_2D>
+                    <RG_split_general constraint_2D="plane_strain" density="1.0">
+                        <rg_eq_potential><neo-hookean kappa="1000.67" mu="1.0"/></rg_eq_potential>
+                    </RG_split_general>
+                </large_strain_material_2D>
+            </large_strain_element_block>
+            <surface_tension side_set_ID="1" gamma="2.0" t_0="20.0" E_s="10.0"/>
+        </updated_lagrangian_Q1P0_surface>
+    </element_list>
+
+    <linear_solver>
+        <diagonal_matrix/>
+    </linear_solver>
+</tahoe>

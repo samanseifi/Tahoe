@@ -105,6 +105,12 @@ namespace Tahoe {
     /** ramp-up time t_0 per (surface element, face) — 0 means apply instantly */
     dArray2DT fSurfaceT0;
 
+    /** Gurtin-Murdoch effective 1D surface stiffness E_s = 2*mu_s + lambda_s
+     *  per (surface element, face).  0 (default) recovers Young-Laplace.
+     *  See issue #54 and benchmark_XML/level.4/surface_tension/verify_GM_surface.py
+     *  for the constitutive law and JAX-verified tangent. */
+    dArray2DT fSurfaceEs;
+
 	dMatrixT tempstiff;
   };
 
