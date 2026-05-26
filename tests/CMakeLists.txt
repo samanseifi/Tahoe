@@ -111,3 +111,11 @@ target_compile_definitions(test_TaylorBar PRIVATE
     "TAHOE_TEST_REPO_ROOT=\"${CMAKE_SOURCE_DIR}\""
     "TAHOE_TEST_BUILD_DIR=\"${CMAKE_BINARY_DIR}\""
 )
+
+# #54 Gurtin-Murdoch surface elasticity — runs the level.4 GM strip
+# benchmark to catch regressions in the C++ integration of E_s.
+tahoe_gtest_full(test_SurfaceTensionGM benchmarks/test_SurfaceTensionGM.cpp)
+target_compile_definitions(test_SurfaceTensionGM PRIVATE
+    "TAHOE_TEST_REPO_ROOT=\"${CMAKE_SOURCE_DIR}\""
+    "TAHOE_TEST_BUILD_DIR=\"${CMAKE_BINARY_DIR}\""
+)
