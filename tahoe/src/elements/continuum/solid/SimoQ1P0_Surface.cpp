@@ -75,10 +75,15 @@ ParameterInterfaceT* SimoQ1P0_Surface::NewSub(const StringT& name) const
             ParameterContainerT* st = new ParameterContainerT(name);
             /* side set ID this surface tension is applied to */
             st->AddParameter(ParameterT::Word, "side_set_ID");
-            /* surface tension coefficient gamma */
+            /* surface tension coefficient gamma (residual surface tension
+             * at zero surface strain) */
             st->AddParameter(ParameterT::Double, "gamma");
             /* ramp-up time; set to 0.0 for instant application */
             st->AddParameter(0.0, "t_0");
+            /* #54 Gurtin-Murdoch effective 1D surface stiffness
+             * E_s = 2*mu_s + lambda_s.  Default 0 recovers Young-Laplace.
+             * Optional so existing XMLs (Young-Laplace only) keep working. */
+            st->AddParameter(0.0, "E_s", ParameterListT::ZeroOrOnce);
             return st;
       }
       return SimoQ1P0::NewSub(name);
@@ -215,6 +220,9 @@ void SimoQ1P0_Surface::TakeParameterList(const ParameterListT& list)
       fSurfaceGamma = 0.0;
       fSurfaceT0.Dimension(fSurfaceElements.Length(), fSurfaceElementNeighbors.MinorDim());
       fSurfaceT0 = 0.0;
+      /* #54 Gurtin-Murdoch effective stiffness; 0 = Young-Laplace */
+      fSurfaceEs.Dimension(fSurfaceElements.Length(), fSurfaceElementNeighbors.MinorDim());
+      fSurfaceEs = 0.0;
 
       /* parse surface_tension sub-lists and assign gamma/t_0 per face */
       if (n_st > 0) {
@@ -226,9 +234,13 @@ void SimoQ1P0_Surface::TakeParameterList(const ParameterListT& list)
                   const ParameterListT& st = list.GetList("surface_tension", k);
                   StringT ss_id;
                   double gamma, t_0;
+                  double E_s = 0.0;   /* #54 default: Young-Laplace only */
                   st.GetParameter("side_set_ID", ss_id);
                   st.GetParameter("gamma", gamma);
                   st.GetParameter("t_0", t_0);
+                  /* E_s is optional (ZeroOrOnce); query only if it exists */
+                  const ParameterT* Es_param = st.Parameter("E_s");
+                  if (Es_param) E_s = *Es_param;
 
                   iArray2DT sides = model_manager.SideSet(ss_id);
                   const StringT& blk_id = model_manager.SideSetGroupID(ss_id);
@@ -245,6 +257,7 @@ void SimoQ1P0_Surface::TakeParameterList(const ParameterListT& list)
                               int side = sides(j, 1);
                               fSurfaceGamma(s_elem, side) = gamma;
                               fSurfaceT0(s_elem, side) = t_0;
+                              fSurfaceEs(s_elem, side) = E_s;
                         }
                   }
             }
@@ -390,6 +403,9 @@ void SimoQ1P0_Surface::FormStiffness(double constK)
       iArrayT face_nodes(nfn), face_nodes_index(nfn);
       LocalArrayT face_coords(LocalArrayT::kCurrCoords, nfn, nsd);
       ElementSupport().RegisterCoordinates(face_coords);
+      /* #54 reference coords for Gurtin-Murdoch surface strain */
+      LocalArrayT face_init_coords(LocalArrayT::kInitCoords, nfn, nsd);
+      ElementSupport().RegisterCoordinates(face_init_coords);
 
       dMatrixT K1;
       dMatrixT K2;
@@ -421,15 +437,18 @@ void SimoQ1P0_Surface::FormStiffness(double constK)
  		 {
  			 /* per-face surface tension with optional ramp-up */
  			 double gamma = fSurfaceGamma(i, j);
- 			 if (gamma == 0.0) continue; /* Skip faces without surface tension */
- 			 
+ 			 double E_s_face = fSurfaceEs(i, j);   /* #54 GM stiffness; 0 = Young-Laplace */
+ 			 if (gamma == 0.0 && E_s_face == 0.0) continue; /* Skip faces with no surface contribution */
+
  			 double t_0 = fSurfaceT0(i, j);
  			 double scaled_gamma = (t_0 > 0.0) ? gamma * min(1.0, CurrTime / t_0) : gamma;
+ 			 double scaled_Es    = (t_0 > 0.0) ? E_s_face * min(1.0, CurrTime / t_0) : E_s_face;
 
- 			 /* collect coordinates of face nodes */
+ 			 /* collect coordinates of face nodes (current and reference) */
  			 shape.NodesOnFacet(j, face_nodes_index);
  			 face_nodes.Collect(face_nodes_index, element_card.NodesX());
  			 face_coords.SetLocal(face_nodes);
+ 			 face_init_coords.SetLocal(face_nodes);   /* #54 reference coords */
 
  			 double x_1 = face_coords[0];
  			 double x_2 = face_coords[1];
@@ -441,9 +460,21 @@ void SimoQ1P0_Surface::FormStiffness(double constK)
  			 double edge_length_sq = dx*dx + dy*dy;
  			 double edge_length = sqrt(edge_length_sq);
 
- 			 /* Stiffness matrix: K = coeff1 * I + coeff2 * (b ⊗ b) */
- 			 double coeff1 = scaled_gamma / edge_length;
- 			 double coeff2 = -scaled_gamma / (edge_length * edge_length_sq);
+ 			 /* #54 reference edge length and engineering surface strain */
+ 			 double dX_ref = face_init_coords[0] - face_init_coords[1];
+ 			 double dY_ref = face_init_coords[2] - face_init_coords[3];
+ 			 double L_0 = sqrt(dX_ref*dX_ref + dY_ref*dY_ref);
+ 			 double eps_eng = (edge_length - L_0) / L_0;
+ 			 /* Gurtin-Murdoch surface stress: sigma_s = gamma_0 + E_s * eps_eng
+ 			  * (Young-Laplace recovered when scaled_Es = 0). */
+ 			 double sigma_s = scaled_gamma + scaled_Es * eps_eng;
+
+ 			 /* Stiffness K = K_geom + K_material  (see verify_GM_surface.py).
+ 			  *   K_geom     = (sigma_s/L)*K1 + (-sigma_s/L^3) * (fB outer fB)
+ 			  *   K_material = ( scaled_Es / (L_0 * L^2) ) * (fB outer fB) */
+ 			 double coeff1 = sigma_s / edge_length;
+ 			 double coeff2 = -sigma_s / (edge_length * edge_length_sq)
+ 			                 + scaled_Es / (L_0 * edge_length_sq);
 
  			 /* Build K_Total without intermediate matrices */
  			 K1 = 0.0;
@@ -503,6 +534,9 @@ void SimoQ1P0_Surface::FormKd(double constK)
       LocalArrayT face_coords(LocalArrayT::kCurrCoords, nfn, nsd); // kCurrCoords = current coordinates
       iArrayT face_nodes(nfn), face_nodes_index(nfn);
       ElementSupport().RegisterCoordinates(face_coords);
+      /* #54 reference coords for Gurtin-Murdoch surface strain */
+      LocalArrayT face_init_coords(LocalArrayT::kInitCoords, nfn, nsd);
+      ElementSupport().RegisterCoordinates(face_init_coords);
 
       dArrayT fD;
       dArrayT R_Total;
@@ -530,15 +564,18 @@ void SimoQ1P0_Surface::FormKd(double constK)
             {
                   /* per-face surface tension with optional ramp-up */
                   double gamma = fSurfaceGamma(i, j);
-                  if (gamma == 0.0) continue; /* Skip faces without surface tension */
-                  
+                  double E_s_face = fSurfaceEs(i, j);   /* #54 GM stiffness; 0 = Young-Laplace */
+                  if (gamma == 0.0 && E_s_face == 0.0) continue; /* Skip faces with no surface contribution */
+
                   double t_0 = fSurfaceT0(i, j);
                   double scaled_gamma = (t_0 > 0.0) ? gamma * min(1.0, CurrTime / t_0) : gamma;
+                  double scaled_Es    = (t_0 > 0.0) ? E_s_face * min(1.0, CurrTime / t_0) : E_s_face;
 
-                  /* collect coordinates of face nodes */
+                  /* collect coordinates of face nodes (current and reference) */
                   shape.NodesOnFacet(j, face_nodes_index);
                   face_nodes.Collect(face_nodes_index, element_card.NodesX());
                   face_coords.SetLocal(face_nodes);
+                  face_init_coords.SetLocal(face_nodes);   /* #54 reference coords */
 
                   double x_1 = face_coords[0];
                   double x_2 = face_coords[1];
@@ -548,7 +585,16 @@ void SimoQ1P0_Surface::FormKd(double constK)
                   double dx = x_1 - x_2;
                   double dy = y_1 - y_2;
                   double edge_length = sqrt(dx*dx + dy*dy);
-                  double scale_factor = -scaled_gamma / edge_length;
+
+                  /* #54 reference edge length and engineering surface strain */
+                  double dX_ref = face_init_coords[0] - face_init_coords[1];
+                  double dY_ref = face_init_coords[2] - face_init_coords[3];
+                  double L_0 = sqrt(dX_ref*dX_ref + dY_ref*dY_ref);
+                  double eps_eng = (edge_length - L_0) / L_0;
+                  /* GM surface stress (recovers Young-Laplace when scaled_Es = 0) */
+                  double sigma_s = scaled_gamma + scaled_Es * eps_eng;
+
+                  double scale_factor = -sigma_s / edge_length;
 
                   fD[0] = scale_factor * dx;
                   fD[1] = scale_factor * dy;
