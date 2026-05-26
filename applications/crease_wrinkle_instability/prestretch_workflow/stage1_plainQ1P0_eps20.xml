@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  STAGE 1 (revised approach): pure mechanical pre-stretch using PLAIN
+  updated_lagrangian_Q1P0 (no surface tension, no Psi field, no Maxwell
+  coupling).  Static integrator.  Quadratic Newton, no corner artifact.
+
+  Target eps_pre = 20%: side BCs ramp +/-8 over t in [0,20], hold until t=40.
+
+  Restart files written at the end will be read by stage2_explicit_*.xml
+  (staggered explicit, adds Psi field + surface tension + voltage ramp).
+  Per-element internal state (Q1P0 pressure, IP stress) is in SimoQ1P0's
+  base format, compatible with the SimoQ1P0_Surface daughter in Stage 2.
+-->
+<tahoe author="samansei" compute_IC="false"
+    geometry_file="../meshes/bar_2D.geom" output_format="ExodusII"
+    restart_output_inc="2000"
+    title="STAGE 1 (plain Q1P0): pre-stretch eps=20%, no gamma, no Psi"
+    xmlns:x0="http://www.w3.org/2001/XMLSchema">
+
+    <time num_steps="2000" output_inc="100" time_step="0.02">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0"        y="0"/>
+                <OrderedPair x="20"       y="1"/>
+                <OrderedPair x="10000000" y="1"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+
+    <nodes>
+        <field field_name="displacement" integrator="static">
+            <dof_labels><String value="D_X"/><String value="D_Y"/></dof_labels>
+            <kinematic_BC dof="2" node_ID="1" type="fixed"/>
+            <kinematic_BC dof="1" node_ID="3" schedule="1" type="u" value="-8.0"/>
+            <kinematic_BC dof="1" node_ID="4" schedule="1" type="u" value="+8.0"/>
+        </field>
+    </nodes>
+
+    <element_list>
+        <updated_lagrangian_Q1P0 field_name="displacement" mass_type="lumped_mass">
+            <quadrilateral/>
+            <solid_element_nodal_output displacements="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list><String value="1"/></block_ID_list>
+                <large_strain_material_2D>
+                    <RG_split_general constraint_2D="plane_strain" density="1.0">
+                        <rg_eq_potential><neo-hookean kappa="1000.67" mu="1.0"/></rg_eq_potential>
+                    </RG_split_general>
+                </large_strain_material_2D>
+            </large_strain_element_block>
+        </updated_lagrangian_Q1P0>
+    </element_list>
+
+    <nonlinear_solver abs_tolerance="1.0e-7"
+        check_LHS_perturbation="1.0E-8" check_code="no_check"
+        divergence_tolerance="1.0e+10" max_iterations="100" rel_tolerance="1.0e-9">
+        <MUMPS_matrix/>
+    </nonlinear_solver>
+</tahoe>

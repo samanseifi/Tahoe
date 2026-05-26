@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  STAGE 2 of the pre-stretched DE crease/wrinkle workflow.
+
+  Restarts from Stage 1 (prestretch_staggered_static.xml) which left the bar
+  pre-stretched to eps_pre=5% (sides at +/-2, time t=40).  This stage adds
+  the Psi field (electrostatics), holds the lateral stretch, and ramps
+  the voltage to seek the crease bifurcation.
+
+  Element: same updated_lagrangian_Q1P0_surface as Stage 1 (so the
+  restart-loaded element internal state aligns).  Now uses the auto-detected
+  electric_scalar_potential field for Maxwell stress.
+
+  Pass 1 (Psi, static): diffusion solves div(eps grad Psi) = 0, top BC ramps
+  Pass 2 (mech, nonlinear HHT dynamic): inertia regularises the bifurcation
+
+  Loading at t in [40, 340]:
+    schedule 1: held at 1.0  -> side BCs stay at +/-2.0 (pre-stretch held)
+    schedule 2: silent until t=40, ramp 0->1 over [40, 340]
+                -> top Psi = 15.0 * sched_2(t)
+  num_steps = 15000 * dt(0.02) = 300 t.u.  -> ends at t=340, V_f=15.
+
+  NOTE on restart files:
+    Stage 1 was static, so it wrote only:
+      *.rs2000of2000               (meta: time, step)
+      *.rs2000of2000.displacement.u  (displacement)
+      *.rs2000of2000.elem0          (element internal state, Q1P0 pressure)
+    HHT mech in Stage 2 may need *.Du and *.DDu too; we zero-fill those
+    manually if Tahoe complains.
+-->
+<tahoe author="samansei" compute_IC="false"
+    geometry_file="../meshes/bar_2D.geom" output_format="ExodusII"
+    restart_file="prestretch_eps20_stage1.rs2000of2000"
+    title="STAGE 2: V ramp on eps=20% pre-stretched bar (gamma=0)"
+    xmlns:x0="http://www.w3.org/2001/XMLSchema">
+
+    <time num_steps="15000" output_inc="50" time_step="0.02">
+        <!-- Schedule 1: stretch held at full value (constant 1.0) -->
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0"        y="1"/>
+                <OrderedPair x="10000000" y="1"/>
+            </piecewise_linear>
+        </schedule_function>
+        <!-- Schedule 2: voltage ramp (silent until t=40 = Stage 1 end) -->
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0"        y="0"/>
+                <OrderedPair x="40"       y="0"/>
+                <OrderedPair x="340"      y="1"/>
+                <OrderedPair x="10000000" y="1"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+
+    <nodes>
+        <!-- Pass 1: electrostatics (static, linear) -->
+        <field field_name="electric_scalar_potential" integrator="static" solution_group="1">
+            <dof_labels>
+                <String value="Psi"/>
+            </dof_labels>
+            <kinematic_BC dof="1" node_ID="1" type="fixed"/>
+            <kinematic_BC dof="1" node_ID="2" schedule="2" type="u" value="6.0"/>
+        </field>
+
+        <!-- Pass 2: mechanics (HHT dynamic, regularises bifurcation) -->
+        <field field_name="displacement" integrator="nonlinear_HHT" solution_group="2">
+            <dof_labels>
+                <String value="D_X"/>
+                <String value="D_Y"/>
+            </dof_labels>
+            <!-- bottom: substrate-bonded, D_Y=0 -->
+            <kinematic_BC dof="2" node_ID="1" type="fixed"/>
+            <!-- sides: hold the Stage-1 stretch at +/-2.0 (sched_1 = 1.0 throughout) -->
+            <kinematic_BC dof="1" node_ID="3" schedule="1" type="u" value="-8.0"/>
+            <kinematic_BC dof="1" node_ID="4" schedule="1" type="u" value="+8.0"/>
+        </field>
+    </nodes>
+
+    <element_list>
+        <!-- Pass 1: linear-dielectric Poisson solve -->
+        <diffusion field_name="electric_scalar_potential">
+            <quadrilateral/>
+            <diffusion_element_nodal_output displacement="1" coordinates="1"/>
+            <diffusion_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <diffusion_material>
+                    <linear_dielectric_material epsilon="1.0"/>
+                </diffusion_material>
+            </diffusion_element_block>
+        </diffusion>
+
+        <!-- Pass 2: HHT mechanics + Maxwell stress + Young-Laplace.
+             SAME element as Stage 1 so the restart's element internal state
+             (Q1P0 pressure DOF, stress history at IPs) is consistent. -->
+        <updated_lagrangian_Q1P0_surface
+            field_name="displacement" mass_type="lumped_mass" epsilon="1.0">
+            <quadrilateral/>
+            <solid_element_nodal_output displacements="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <large_strain_material_2D>
+                    <RG_split_general constraint_2D="plane_strain" density="1.0">
+                        <rg_eq_potential>
+                            <neo-hookean kappa="1000.67" mu="1.0"/>
+                        </rg_eq_potential>
+                    </RG_split_general>
+                </large_strain_material_2D>
+            </large_strain_element_block>
+            <surface_tension side_set_ID="1" gamma="0.0" t_0="20.0"/>
+        </updated_lagrangian_Q1P0_surface>
+    </element_list>
+
+    <linear_solver>
+        <MUMPS_matrix/>
+    </linear_solver>
+    <nonlinear_solver abs_tolerance="1.0e-7"
+        check_LHS_perturbation="1.0E-8" check_code="no_check"
+        divergence_tolerance="1.0e+10" max_iterations="100" rel_tolerance="1.0e-9">
+        <MUMPS_matrix/>
+    </nonlinear_solver>
+
+    <solver_phases max_loops="5">
+        <solver_phase iterations="1"  pass_iterations="0" solver="1"/>
+        <solver_phase iterations="50" pass_iterations="0" solver="2"/>
+    </solver_phases>
+</tahoe>

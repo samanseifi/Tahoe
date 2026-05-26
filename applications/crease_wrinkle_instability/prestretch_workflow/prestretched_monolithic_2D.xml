@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  2D monolithic DE crease/wrinkle WITH MECHANICAL PRE-STRETCH.
+
+  Three-phase loading via two schedule_function blocks:
+    Phase 1 (t in [0, T_pre=20])         : mechanical stretch ramps
+                                            (left/right edges pulled outward)
+    Phase 2 (t in [T_pre, T_pre+T_relax=40]) : hold pre-stretch, V still 0
+    Phase 3 (t > 40)                      : voltage ramps linearly
+
+  Surface tension gamma ramps over its own t_0=20 (Phase 1, simultaneous with
+  mechanical stretch — Young-Laplace and stretch reach equilibrium together
+  before the voltage starts).
+
+  Pre-stretch design:
+    epsilon_pre = 0.05  (5% — small validation case)
+    bar L = 80 -> each end moves by epsilon_pre * L / 2 = 2 units outward:
+      left  (NS 3, x=0):   u_x = -2 (moves to x = -2)
+      right (NS 4, x=Lx):  u_x = +2 (moves to x = +82)
+    Total stretched length: 84 -> 1.05 L.
+
+  Schedule 1 (mechanical stretch):
+    (0, 0) -> (20, 1) -> (1e7, 1)   ramps to multiplier 1.0 by t=20, holds.
+    BC value = +2.0 on right, -2.0 on left -> reaches u_x = +/-2 at t=20.
+
+  Schedule 2 (voltage):
+    (0, 0) -> (40, 0) -> (300, 1) -> (1e7, 1)
+    silent until t=40, then ramps 0->1 over [40, 300], holds.
+    BC value = 12 -> V(t) = 12 * sched_2(t), reaches V_max = 12 at t=300.
+    (V > 9.4 is the gamma_bar=0.5 crease threshold without pre-stretch;
+    pre-stretch should *raise* the threshold so we may or may not see
+    nucleation by V=12.)
+
+  CFL is not an issue for monolithic implicit (HHT).  dt=0.02, num_steps=15000
+  -> t_f = 300 (end of voltage ramp).  output_inc=50 -> 300 frames.
+-->
+<tahoe author="samansei" compute_IC="false"
+    geometry_file="../meshes/bar_2D.geom" output_format="ExodusII"
+    title="2D Monolithic Pre-stretched DE Crease (eps_pre=5%, gamma_bar=0.5)"
+    xmlns:x0="http://www.w3.org/2001/XMLSchema">
+
+    <time num_steps="15000" output_inc="50" time_step="0.02">
+        <!-- Schedule 1: mechanical pre-stretch (ramp 0->1 over t in [0,20], hold) -->
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0"        y="0"/>
+                <OrderedPair x="20"       y="1"/>
+                <OrderedPair x="10000000" y="1"/>
+            </piecewise_linear>
+        </schedule_function>
+        <!-- Schedule 2: voltage (silent until t=40, ramp over t in [40,300]) -->
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0"        y="0"/>
+                <OrderedPair x="40"       y="0"/>
+                <OrderedPair x="300"      y="1"/>
+                <OrderedPair x="10000000" y="1"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+
+    <nodes>
+        <field field_name="displacement" integrator="nonlinear_HHT">
+            <dof_labels>
+                <String value="D_X"/>
+                <String value="D_Y"/>
+            </dof_labels>
+            <!-- bottom (NS 1): substrate-bonded: D_Y=0 (no slip in y), D_X FREE
+                 so the bottom can slide with the (implicitly) stretching substrate.
+                 The substrate stretch is imposed via the side BCs below; symmetric
+                 side BCs put the bottom-center at u_x=0 and ramp linearly to the
+                 prescribed end values, consistent with a no-slip film on a uniformly
+                 stretched rigid substrate. -->
+            <kinematic_BC dof="2" node_ID="1" type="fixed"/>
+            <!-- left  (NS 3): pre-stretch outward via schedule 1 (negative direction) -->
+            <kinematic_BC dof="1" node_ID="3" schedule="1" type="u" value="-2.0"/>
+            <!-- right (NS 4): pre-stretch outward via schedule 1 -->
+            <kinematic_BC dof="1" node_ID="4" schedule="1" type="u" value="+2.0"/>
+        </field>
+
+        <field field_name="electric_scalar_potential" integrator="static">
+            <dof_labels>
+                <String value="Psi"/>
+            </dof_labels>
+            <!-- bottom (NS 1): ground Psi=0 always -->
+            <kinematic_BC dof="1" node_ID="1" type="fixed"/>
+            <!-- top (NS 2): driven Psi = 12 * sched_2(t), V_max = 12 -->
+            <kinematic_BC dof="1" node_ID="2" schedule="2" type="u" value="12.0"/>
+        </field>
+    </nodes>
+
+    <element_list>
+        <dielectric_elastomer_Q1P0Elastocapillary
+            electric_field_name="electric_scalar_potential"
+            field_name="displacement" mass_type="lumped_mass">
+            <quadrilateral/>
+            <solid_element_nodal_output displacements="1"
+                electric_displacement="1" electric_scalar_potential="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <large_strain_material_2D>
+                    <!-- gamma = 2 -> gamma_bar = gamma/(mu*H) = 0.5 (crease).
+                         t_0 = 20 ramps gamma over Phase 1 simultaneously with mech stretch. -->
+                    <Dielectric_Elastomer_Q1P02D Nrig="10000000000.0"
+                        density="1.0" epsilon="1.0"
+                        lambda="1000.0" mu="1.0"
+                        gamma="2.0" t_0="20.0"/>
+                </large_strain_material_2D>
+            </large_strain_element_block>
+        </dielectric_elastomer_Q1P0Elastocapillary>
+    </element_list>
+
+    <nonlinear_solver abs_tolerance="1.0e-7"
+        check_LHS_perturbation="1.0E-8" check_code="no_check"
+        divergence_tolerance="1.0e+10" max_iterations="500" rel_tolerance="1.0e-9">
+        <MUMPS_matrix/>
+    </nonlinear_solver>
+</tahoe>
