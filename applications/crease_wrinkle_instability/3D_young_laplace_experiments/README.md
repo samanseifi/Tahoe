@@ -35,7 +35,7 @@ the XML for exact node sets).
 ## Running
 
 ```bash
-cd 3D_paper && ../../../build/bin/tahoe -f staggered_explicit_3D.xml
+cd 3D_young_laplace_experiments && ../../../build/bin/tahoe -f staggered_explicit_3D.xml
 ```
 
 These runs are 10-30× slower than the 2D paper cases.  Expect minutes

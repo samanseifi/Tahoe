@@ -13,14 +13,14 @@ strain-dependent surface stress lives in issue
 crease_wrinkle_instability/
 ├── meshes/                  bar_2D.geom, bar_3D.geom, plate_3D.geom
 ├── scripts/                 mesh generators, sweep driver
-├── 2D_paper/                Seifi-Park 2016 IJSS replication (YL only)
-├── 3D_paper/                3D bar and plate variants
+├── 2D_young_laplace_experiments/                Seifi-Park 2016 IJSS replication (YL only)
+├── 3D_young_laplace_experiments/                3D bar and plate variants
 ├── prestretch_workflow/     two-stage pre-stretch + voltage XMLs
 ├── GM_experiments/          NEW — selected runs with E_s ≠ 0
 └── references/              papers (PDFs)
 ```
 
-Every XML in `2D_paper/`, `3D_paper/`, `prestretch_workflow/` and
+Every XML in `2D_young_laplace_experiments/`, `3D_young_laplace_experiments/`, `prestretch_workflow/` and
 `GM_experiments/` references the shared meshes via
 `geometry_file="../meshes/*.geom"`.  Run each XML from inside its own
 subdirectory so the relative path resolves.
@@ -55,13 +55,13 @@ Elastocapillary number `γ̄ = γ/(μH)` selects the instability mode:
 * **Monolithic** (implicit) — single coupled element
   `dielectric_elastomer_Q1P0Elastocapillary`, 3 DOF/node, surface
   tension carried as a material parameter, nonlinear-HHT in time.
-  Used by [2D_paper/monolithic_2D.xml](2D_paper/monolithic_2D.xml).
+  Used by [2D_young_laplace_experiments/monolithic_2D.xml](2D_young_laplace_experiments/monolithic_2D.xml).
 * **Staggered** (explicit or static) — two passes: a `<diffusion>`
   Poisson solve for the potential Ψ (MUMPS, one factorization cached),
   followed by `<updated_lagrangian_Q1P0_surface>` mechanics with the
   Maxwell stress added by the SimoQ1P0 base and Young-Laplace /
   Gurtin-Murdoch force applied on the top side set.
-  Used by [2D_paper/staggered_explicit_2D.xml](2D_paper/staggered_explicit_2D.xml)
+  Used by [2D_young_laplace_experiments/staggered_explicit_2D.xml](2D_young_laplace_experiments/staggered_explicit_2D.xml)
   and everything in [GM_experiments/](GM_experiments/).
 
 Explicit staggered is the recommended path for chasing the crease
@@ -77,7 +77,7 @@ python3 scripts/generate_bar_3D.py --Lx 40 --Lz 40 --Nx 40 --Nz 40 \
     --out ../meshes/plate_3D.geom            # plate
 
 # 2. Run a paper-replication case from its own subdir
-(cd 2D_paper && ../../../build/bin/tahoe -f staggered_explicit_2D.xml)
+(cd 2D_young_laplace_experiments && ../../../build/bin/tahoe -f staggered_explicit_2D.xml)
 
 # 3. Or run a GM experiment
 (cd GM_experiments && ../../../build/bin/tahoe -f staggered_explicit_2D_GM.xml)
@@ -95,7 +95,7 @@ edge for the surface morphology.
 ## GM vs YL — what to compare
 
 Each pair of XMLs in [GM_experiments/](GM_experiments/) was seeded
-from the corresponding YL XML in `2D_paper/` or `prestretch_workflow/`
+from the corresponding YL XML in `2D_young_laplace_experiments/` or `prestretch_workflow/`
 and differs only by adding `E_s="..."` to `<surface_tension>`.  Useful
 diagnostics:
 

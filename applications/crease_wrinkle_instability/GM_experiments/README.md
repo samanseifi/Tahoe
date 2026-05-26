@@ -3,21 +3,21 @@
 Strain-dependent surface stress
 `σ_s(ε) = γ₀ + E_s · ε_eng,  ε_eng = (L − L₀)/L₀`
 applied to selected crease/wrinkle/buckling setups from
-[../2D_paper/](../2D_paper/) and [../prestretch_workflow/](../prestretch_workflow/).
+[../2D_young_laplace_experiments/](../2D_young_laplace_experiments/) and [../prestretch_workflow/](../prestretch_workflow/).
 The underlying element implementation (`SimoQ1P0_Surface`) was added
 under issue [#54](https://github.com/samanseifi/Tahoe/issues/54);
 research questions for the paper live under issue
 [#55](https://github.com/samanseifi/Tahoe/issues/55).
 
 YL (Young-Laplace, `E_s = 0`) is the default and is preserved
-bit-identically in the existing 2D_paper XMLs — these GM variants
+bit-identically in the existing 2D_young_laplace_experiments XMLs — these GM variants
 just add `E_s` on the `<surface_tension>` element.
 
 ## XMLs
 
 | File                                                              | Seeded from                                         | E_s |
 | ----------------------------------------------------------------- | --------------------------------------------------- | --: |
-| [staggered_explicit_2D_GM.xml](staggered_explicit_2D_GM.xml)       | [../2D_paper/staggered_explicit_2D.xml](../2D_paper/staggered_explicit_2D.xml) | 10  |
+| [staggered_explicit_2D_GM.xml](staggered_explicit_2D_GM.xml)       | [../2D_young_laplace_experiments/staggered_explicit_2D.xml](../2D_young_laplace_experiments/staggered_explicit_2D.xml) | 10  |
 | [stage2_explicit_eps20_GM.xml](stage2_explicit_eps20_GM.xml)       | [../prestretch_workflow/stage2_explicit_eps20.xml](../prestretch_workflow/stage2_explicit_eps20.xml) | 10  |
 
 ### Why these two first
@@ -57,7 +57,7 @@ cd GM_experiments
 ```
 
 Compare the resulting `*.io1.exo` against the corresponding YL run in
-`../2D_paper/` — same mesh, same BCs, same time grid, only the
+`../2D_young_laplace_experiments/` — same mesh, same BCs, same time grid, only the
 surface law differs.
 
 ## Reference

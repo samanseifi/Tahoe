@@ -29,5 +29,5 @@ the top edge vs V to find V_crit per γ; compare against Wang-Zhao.
 ## Running
 
 ```bash
-cd 2D_paper && ../../../build/bin/tahoe -f staggered_explicit_2D.xml
+cd 2D_young_laplace_experiments && ../../../build/bin/tahoe -f staggered_explicit_2D.xml
 ```

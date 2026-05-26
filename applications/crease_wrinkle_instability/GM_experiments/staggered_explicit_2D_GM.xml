@@ -118,7 +118,7 @@
             </large_strain_element_block>
             <!-- #55/#54 Gurtin-Murdoch: sigma_s(eps) = gamma_0 + E_s*eps_eng.
                  E_s = 10 corresponds to ~50% stiffness boost at 5% surface
-                 strain; YL recovered with E_s=0 (see 2D_paper/staggered_explicit_2D.xml). -->
+                 strain; YL recovered with E_s=0 (see 2D_young_laplace_experiments/staggered_explicit_2D.xml). -->
             <surface_tension side_set_ID="1" gamma="20.0" t_0="20.0" E_s="10.0"/>
         </updated_lagrangian_Q1P0_surface>
     </element_list>

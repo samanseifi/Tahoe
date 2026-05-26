@@ -13,7 +13,7 @@ Both accept `--Lx`, `--H`, `--Lz` (3D only), and `--Nx`, `--Ny`,
 `--Nz` for refinement, plus `--out` to override the output path.
 
 To regenerate the plate mesh used by
-[../3D_paper/staggered_explicit_plate_3D.xml](../3D_paper/staggered_explicit_plate_3D.xml):
+[../3D_young_laplace_experiments/staggered_explicit_plate_3D.xml](../3D_young_laplace_experiments/staggered_explicit_plate_3D.xml):
 
 ```bash
 python3 generate_bar_3D.py --Lx 40 --Lz 40 --Nx 40 --Nz 40 \
