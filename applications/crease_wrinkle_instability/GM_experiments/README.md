@@ -80,6 +80,56 @@ Reproduce with:
     --voltages 8 12 14 15 16 --out gm_vs_yl_no_prestretch.png)
 ```
 
+## Second result — droplet hypothesis on the fineY mesh
+
+[`droplet_hypothesis_GM.xml`](droplet_hypothesis_GM.xml) and
+[`droplet_hypothesis_YL_control.xml`](droplet_hypothesis_YL_control.xml)
+use a paper-aspect strip (Lx=80, H=4) refined 4× through-thickness
+(Nx=80, Ny=16, dy=0.25, mesh
+[`../meshes/bar_2D_fineY.geom`](../meshes/bar_2D_fineY.geom))
+with dt=0.005 to test whether the strain-dependent surface law
+drives wrinkles toward droplet-like pinching that pure surface tension
+cannot reach.
+
+What the runs show:
+
+| V | YL amp | GM amp | ratio | comment |
+| ---: | ---: | ---: | ---: | --- |
+| 14.0 | 6·10⁻¹¹ | 9·10⁻¹³ | 65×  | both still in linear noise |
+| 15.0 | 2·10⁻⁶ | 4·10⁻⁹ | 430× | YL bifurcation visible |
+| 15.5 | 1·10⁻³ | 2·10⁻⁶ | 660× | YL fully past V_crit |
+| 15.8 | 0.10 | 1·10⁻⁴ | **800×** | clean sinusoidal YL wrinkles |
+| 16.0 | 0.49 | 3·10⁻³ | 180× | YL died at element 880 (side, mid-thickness) |
+
+Outcome: a clean **+0.5 V** shift in the wrinkle threshold and an
+**~800× amplitude suppression** at matched V (V=15.8) for GM vs YL.
+But **no droplet morphology emerged in either case** before the
+Lagrangian mesh inverted.  Top-edge profile
+([`droplet_fineY_topedge.png`](droplet_fineY_topedge.png)) shows
+smooth ~10-period sinusoidal wrinkles in YL up to V=15.9 and the same
+smooth pattern emerging in GM starting at V≈16.2.  No necking, no
+pinching, no localized severance.
+
+This isn't a falsification of the droplet hypothesis — Lagrangian
+quad4 elements simply cannot represent a topological pinch-off.  Both
+runs cap out at V ≈ 16 from element inversion at a side / top corner
+where the side roller BC pins D_X while the top wants to fold.  4×
+refinement in y compared to the original 80×4 paper mesh did *not*
+push the V_max ceiling outward — it just relocated the failing
+element.  A genuine droplet test would need adaptive remeshing
+(unavailable in Tahoe) or a mesh-free method (MPM, SPH, ALE,
+phase-field).
+
+Artifacts:
+
+* `droplet_fineY_amplitude.png` — bifurcation diagram (semilog),
+  GM curve sits ~0.5 V to the right of YL.
+* `droplet_fineY_topedge.png` — top-edge profiles at V ∈ {15.5, 15.8,
+  15.9, 16.0, 16.2}, makes the GM suppression visually obvious.
+* `droplet_fineY.png` — same in plot_top_edge_evolution.py's per-V
+  panel style.
+* `droplet_fineY_amplitude.csv` — raw amp(t, V) for both runs.
+
 ## Out of scope here (blocked on #54 Phase 5)
 
 * 3D GM (`SimoQ1P0_3D_Surface` needs `E_s`).
