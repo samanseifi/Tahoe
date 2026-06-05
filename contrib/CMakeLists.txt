@@ -146,4 +146,34 @@ else()
     )
 endif()
 
+# ---------------------------------------------------------------------------
+# pca_geom — de-risk harness for PCA parameterization + RK normal (issue #62)
+# ---------------------------------------------------------------------------
+set(PCAGEOM_SRC "${CMAKE_CURRENT_SOURCE_DIR}/pca_geom/src")
+file(GLOB_RECURSE PCAGEOM_SRCS "${PCAGEOM_SRC}/*.cpp")
+tahoe_collect_header_dirs("${PCAGEOM_SRC}" PCAGEOM_INC_DIRS)
+
+add_executable(pca_geom ${PCAGEOM_SRCS})
+target_include_directories(pca_geom PRIVATE ${PCAGEOM_INC_DIRS})
+if(TAHOE_DEV)
+    target_link_libraries(pca_geom PRIVATE libdevelopment libtahoe)
+    target_link_options(pca_geom PRIVATE
+        -Wl,--start-group
+        -Wl,--whole-archive
+        $<TARGET_FILE:libtahoe>
+        $<TARGET_FILE:toolbox>
+        -Wl,--no-whole-archive
+        $<TARGET_FILE:libdevelopment>
+        -Wl,--end-group
+    )
+else()
+    target_link_libraries(pca_geom PRIVATE libtahoe)
+    target_link_options(pca_geom PRIVATE
+        -Wl,--whole-archive
+        $<TARGET_FILE:libtahoe>
+        $<TARGET_FILE:toolbox>
+        -Wl,--no-whole-archive
+    )
+endif()
+
 # dpp is a Perl script, not compiled — skip
