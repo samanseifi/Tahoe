@@ -115,4 +115,35 @@ foreach(_tool area_diff calc_disp_cost extract_1D extract_CT extract_Disp
     endif()
 endforeach()
 
+# ---------------------------------------------------------------------------
+# mls_verify — de-risk harness for meshfree 2nd derivatives (issue #61)
+#   Depends on: toolbox + libtahoe (drives MLSSolverT directly)
+# ---------------------------------------------------------------------------
+set(MLSVERIFY_SRC "${CMAKE_CURRENT_SOURCE_DIR}/mls_verify/src")
+file(GLOB_RECURSE MLSVERIFY_SRCS "${MLSVERIFY_SRC}/*.cpp")
+tahoe_collect_header_dirs("${MLSVERIFY_SRC}" MLSVERIFY_INC_DIRS)
+
+add_executable(mls_verify ${MLSVERIFY_SRCS})
+target_include_directories(mls_verify PRIVATE ${MLSVERIFY_INC_DIRS})
+if(TAHOE_DEV)
+    target_link_libraries(mls_verify PRIVATE libdevelopment libtahoe)
+    target_link_options(mls_verify PRIVATE
+        -Wl,--start-group
+        -Wl,--whole-archive
+        $<TARGET_FILE:libtahoe>
+        $<TARGET_FILE:toolbox>
+        -Wl,--no-whole-archive
+        $<TARGET_FILE:libdevelopment>
+        -Wl,--end-group
+    )
+else()
+    target_link_libraries(mls_verify PRIVATE libtahoe)
+    target_link_options(mls_verify PRIVATE
+        -Wl,--whole-archive
+        $<TARGET_FILE:libtahoe>
+        $<TARGET_FILE:toolbox>
+        -Wl,--no-whole-archive
+    )
+endif()
+
 # dpp is a Perl script, not compiled — skip
