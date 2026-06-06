@@ -98,6 +98,12 @@
  * in DevelopmentElementsConfig.make. */
 /* #define MESHFREE_GRAD_PLAST_DEV 1 */
 
+/** \def MESHFREE_KL_SHELL_DEV
+ * meshfree RKPM Kirchhoff-Love shell (Wang & Bazilevs 2024).
+ * Experimental element in development/src/elements/meshfree_kl_shell; registered as
+ * element type "meshfree_kl_shell". Enabled by default while under development. */
+#define MESHFREE_KL_SHELL_DEV 1
+
 /** \def ENHANCED_STRAIN_LOC_DEV
  * enhanced strain embedded discontinuity element.
  * This option must be set in conjunction with the DIRECTORY_ENHANCED_STRAIN_LOC_DEV macro

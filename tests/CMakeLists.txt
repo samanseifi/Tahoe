@@ -121,33 +121,11 @@ target_compile_definitions(test_SurfaceTensionGM PRIVATE
 )
 
 # ---------------------------------------------------------------------------
-# Meshfree KL-shell de-risk harnesses (epic #59).
-# Standalone contrib executables that self-check against analytic answers and
-# return non-zero on failure. Registered here as regressions so the #69 fix
-# (orthogonal-MLS 2nd derivatives) and the KL kinematic chain can't silently
-# regress. Targets are defined in contrib/ (processed earlier; globally visible).
+# Meshfree RKPM Kirchhoff-Love shell (epic #59).
+# Validates the kernels of the experimental element in
+# development/src/elements/meshfree_kl_shell against analytic answers.
 # ---------------------------------------------------------------------------
-if(TARGET mls_verify)
-    add_test(NAME meshfree_mls_2nd_deriv COMMAND mls_verify)
-endif()
-if(TARGET pca_geom)
-    add_test(NAME meshfree_pca_geom COMMAND pca_geom)
-endif()
-if(TARGET kl_kinematics)
-    add_test(NAME meshfree_kl_kinematics COMMAND kl_kinematics)
-endif()
-if(TARGET kl_bmatrix)
-    add_test(NAME meshfree_kl_bmatrix COMMAND kl_bmatrix)
-endif()
-
-if(TARGET kl_stress)
-    add_test(NAME meshfree_kl_stress COMMAND kl_stress)
-endif()
-
-if(TARGET kl_assembly)
-    add_test(NAME meshfree_kl_assembly COMMAND kl_assembly)
-endif()
-
-if(TARGET kl_solve)
-    add_test(NAME meshfree_kl_solve COMMAND kl_solve)
-endif()
+tahoe_gtest_full(test_KLShellShape      meshfree/test_KLShellShape.cpp)
+tahoe_gtest_full(test_KLShellKinematics meshfree/test_KLShellKinematics.cpp)
+tahoe_gtest_full(test_KLShellAssembly   meshfree/test_KLShellAssembly.cpp)
+tahoe_gtest(test_KLShellStress          meshfree/test_KLShellStress.cpp)

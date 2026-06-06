@@ -43,8 +43,8 @@ void RKShellT::RHSDriver(void)
 {
 	ExceptionT::GeneralFail("RKShellT::RHSDriver",
 		"KL-shell internal force is not yet ported into the element. The formulation "
-		"kernels are validated standalone (contrib/kl_kinematics, kl_bmatrix, kl_stress, "
-		"kl_assembly; run `ctest -R meshfree_`). Porting tracked in issue #66.");
+		"kernels (KLShellKernels.h) are validated by the gtest suite "
+		"tests/meshfree/test_KLShell* (ctest -R KLShell). Porting tracked in issue #66.");
 }
 
 /* form the tangent stiffness */
