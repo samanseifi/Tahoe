@@ -18,6 +18,8 @@
 #include <vector>
 
 #include "D2OrthoMLS2DT.h"
+#include "MLSSolverT.h"
+#include "MeshFreeT.h"
 #include "dArrayT.h"
 #include "dArray2DT.h"
 #include "KLShellKernels.h"
@@ -39,6 +41,15 @@ double Monomial(int m, double x, double y)
 		case 5: return y * y;
 	}
 	return 0.0;
+}
+
+/* analytic gradient (d/dx, d/dy) of monomial m evaluated at the local origin (0,0) */
+void MonomialGrad(int m, double& gx, double& gy)
+{
+	gx = gy = 0.0;
+	if (m == 1) gx = 1.0;       /* x   */
+	else if (m == 2) gy = 1.0;  /* y   */
+	/* x^2, xy, y^2 have zero gradient at the origin */
 }
 
 /* analytic Hessian (xx, yy, xy) of monomial m */
@@ -130,6 +141,70 @@ TEST(KLShellShape, QuadraticHessianReproduction)
 
 	EXPECT_NEAR(maxValueErr, 0.0, 1e-9);
 	EXPECT_NEAR(maxHessianErr, 0.0, 1e-6);
+}
+
+/* RKPM (MLSSolverT) with quadratic completeness must also reproduce a quadratic field's
+ * Hessian — this exercises the extended PolyBasis2DT (completeness 2, #61) and the general
+ * moment-matrix inverse, and is the paper's actual basis (RKPM rather than EFG). */
+TEST(KLShellShape, RKPMQuadraticHessianReproduction)
+{
+	const int n = 13;
+	const double L = 1.0;
+	const double h = L / (n - 1);
+	const double R = 3.5 * h;
+
+	dArrayT window(1);
+	window[0] = 1.2; /* cubic-spline support scaling */
+	MLSSolverT rkpm(2, 2, false, MeshFreeT::kCubicSpline, window);
+	rkpm.Initialize();
+
+	const double pts[3][2] = {{0.5, 0.5}, {0.37, 0.62}, {0.42, 0.5}};
+	double maxValueErr = 0.0, maxGradErr = 0.0, maxHessianErr = 0.0;
+
+	for (int ip = 0; ip < 3; ip++) {
+
+		dArray2DT lc;
+		std::vector<double> gx, gy;
+		FlatGridNeighbors(n, L, pts[ip][0], pts[ip][1], R, lc, gx, gy);
+		int nn = lc.MajorDim();
+
+		dArray2DT nodalParam(nn, 1);
+		nodalParam = R;
+		dArrayT volume(nn);
+		volume = h * h;
+		dArrayT sample(2);
+		sample[0] = 0.0;
+		sample[1] = 0.0;
+		ASSERT_TRUE(rkpm.SetField(lc, nodalParam, volume, sample, 2) != 0);
+
+		const dArrayT& phi = rkpm.phi();
+		const dArray2DT& Dphi = rkpm.Dphi();
+		const dArray2DT& DDphi = rkpm.DDphi();
+
+		for (int m = 0; m < 6; m++) {
+			double sv = 0, sgx = 0, sgy = 0, sxx = 0, syy = 0, sxy = 0;
+			for (int I = 0; I < nn; I++) {
+				double p = Monomial(m, lc(I, 0), lc(I, 1));
+				sv += phi[I] * p;
+				sgx += Dphi(0, I) * p;
+				sgy += Dphi(1, I) * p;
+				sxx += DDphi(0, I) * p;
+				syy += DDphi(1, I) * p;
+				sxy += DDphi(2, I) * p;
+			}
+			double gxv, gyv, hxx, hyy, hxy;
+			MonomialGrad(m, gxv, gyv);
+			MonomialHessian(m, hxx, hyy, hxy);
+			maxValueErr = std::max(maxValueErr, std::fabs(sv - Monomial(m, 0.0, 0.0)));
+			maxGradErr = std::max(maxGradErr, std::fabs(sgx - gxv) + std::fabs(sgy - gyv));
+			maxHessianErr = std::max(maxHessianErr,
+				std::fabs(sxx - hxx) + std::fabs(syy - hyy) + std::fabs(sxy - hxy));
+		}
+	}
+
+	EXPECT_NEAR(maxValueErr, 0.0, 1e-9);
+	EXPECT_NEAR(maxGradErr, 0.0, 1e-7);
+	EXPECT_NEAR(maxHessianErr, 0.0, 1e-5);
 }
 
 /* PCA parameterization + RK first-derivative normal converge on a cylinder. */

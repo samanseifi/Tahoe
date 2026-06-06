@@ -10,9 +10,12 @@ PolyBasis2DT::PolyBasis2DT(int complete, bool cross_terms):
 	fCrossTerms(cross_terms)
 {
 	/* check */
-	if (fComplete < 0 || fComplete > 1)
+	if (fComplete < 0 || fComplete > 2)
 		ExceptionT::OutOfRange("PolyBasis2DT::PolyBasis2DT",
-			"completeness must be [0,1]: %d", complete);
+			"completeness must be [0,2]: %d", complete);
+	if (fComplete == 2 && fCrossTerms)
+		ExceptionT::GeneralFail("PolyBasis2DT::PolyBasis2DT",
+			"cross_terms not supported for completeness 2");
 }
 	
 /* return the number of basis functions */
@@ -152,7 +155,53 @@ void PolyBasis2DT::SetBasis(const dArray2DT& coords, int order)
 						}
 					}
 				}
-			}			
+			}
+			break;
+		}
+		case 2: // quadratic basis: { 1, x, y, x^2, xy, y^2 } (no extra cross terms)
+		{
+			const double* px = coords.Pointer();
+			for (int i = 0; i < nnd; i++)
+			{
+				double x = *px++;
+				double y = *px++;
+
+				fP(0,i) = 1.0;
+				fP(1,i) = x;
+				fP(2,i) = y;
+				fP(3,i) = x*x;
+				fP(4,i) = x*y;
+				fP(5,i) = y*y;
+
+				if (order > 0)
+				{
+					/* first derivatives: d/dx then d/dy */
+					(fDP[0])(0,i) = 0.0; (fDP[0])(1,i) = 1.0; (fDP[0])(2,i) = 0.0;
+					(fDP[0])(3,i) = 2.0*x; (fDP[0])(4,i) = y; (fDP[0])(5,i) = 0.0;
+
+					(fDP[1])(0,i) = 0.0; (fDP[1])(1,i) = 0.0; (fDP[1])(2,i) = 1.0;
+					(fDP[1])(3,i) = 0.0; (fDP[1])(4,i) = x; (fDP[1])(5,i) = 2.0*y;
+
+					if (order > 1)
+					{
+						/* second derivatives: components [xx, yy, xy] */
+						(fDDP[0])(0,i) = 0.0; (fDDP[0])(1,i) = 0.0; (fDDP[0])(2,i) = 0.0;
+						(fDDP[0])(3,i) = 2.0; (fDDP[0])(4,i) = 0.0; (fDDP[0])(5,i) = 0.0;
+
+						(fDDP[1])(0,i) = 0.0; (fDDP[1])(1,i) = 0.0; (fDDP[1])(2,i) = 0.0;
+						(fDDP[1])(3,i) = 0.0; (fDDP[1])(4,i) = 0.0; (fDDP[1])(5,i) = 2.0;
+
+						(fDDP[2])(0,i) = 0.0; (fDDP[2])(1,i) = 0.0; (fDDP[2])(2,i) = 0.0;
+						(fDDP[2])(3,i) = 0.0; (fDDP[2])(4,i) = 1.0; (fDDP[2])(5,i) = 0.0;
+
+						if (order > 2) /* quadratic -> all third derivatives vanish */
+							for (int b = 0; b < 6; b++) {
+								(fDDDP[0])(b,i) = 0.0; (fDDDP[1])(b,i) = 0.0;
+								(fDDDP[2])(b,i) = 0.0; (fDDDP[3])(b,i) = 0.0;
+							}
+					}
+				}
+			}
 			break;
 		}
 	}
