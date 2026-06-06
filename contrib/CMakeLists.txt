@@ -206,4 +206,34 @@ else()
     )
 endif()
 
+# ---------------------------------------------------------------------------
+# kl_bmatrix — de-risk harness for the KL-shell strain-displacement matrices (issue #64)
+# ---------------------------------------------------------------------------
+set(KLB_SRC "${CMAKE_CURRENT_SOURCE_DIR}/kl_bmatrix/src")
+file(GLOB_RECURSE KLB_SRCS "${KLB_SRC}/*.cpp")
+tahoe_collect_header_dirs("${KLB_SRC}" KLB_INC_DIRS)
+
+add_executable(kl_bmatrix ${KLB_SRCS})
+target_include_directories(kl_bmatrix PRIVATE ${KLB_INC_DIRS})
+if(TAHOE_DEV)
+    target_link_libraries(kl_bmatrix PRIVATE libdevelopment libtahoe)
+    target_link_options(kl_bmatrix PRIVATE
+        -Wl,--start-group
+        -Wl,--whole-archive
+        $<TARGET_FILE:libtahoe>
+        $<TARGET_FILE:toolbox>
+        -Wl,--no-whole-archive
+        $<TARGET_FILE:libdevelopment>
+        -Wl,--end-group
+    )
+else()
+    target_link_libraries(kl_bmatrix PRIVATE libtahoe)
+    target_link_options(kl_bmatrix PRIVATE
+        -Wl,--whole-archive
+        $<TARGET_FILE:libtahoe>
+        $<TARGET_FILE:toolbox>
+        -Wl,--no-whole-archive
+    )
+endif()
+
 # dpp is a Perl script, not compiled — skip
