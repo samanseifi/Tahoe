@@ -207,6 +207,57 @@ TEST(KLShellShape, RKPMQuadraticHessianReproduction)
 	EXPECT_NEAR(maxHessianErr, 0.0, 1e-5);
 }
 
+/* Boundary conditioning: at a one-sided (corner) neighborhood, quadratic RKPM with a
+ * GAUSSIAN window must still produce finite 2nd derivatives and reproduce a quadratic
+ * field's Hessian. (The cubic-spline window's 2nd-derivative path returns NaN there — a
+ * separate Tahoe defect; the Gaussian window is robust and is what the shell uses.) */
+TEST(KLShellShape, RKPMGaussianBoundaryReproduction)
+{
+	const int n = 13;
+	const double L = 1.0;
+	const double h = L / (n - 1);
+
+	dArrayT gwin(3);
+	gwin[0] = 1.5; gwin[1] = 0.4; gwin[2] = 3.0; /* support scaling, sharpening, cutoff */
+	MLSSolverT rkpm(2, 2, false, MeshFreeT::kGaussian, gwin);
+	rkpm.Initialize();
+
+	/* corner field point (0,0): a one-sided quarter-disk neighborhood */
+	double R = 3.0 * h;
+	dArray2DT lc;
+	std::vector<double> gx, gy;
+	FlatGridNeighbors(n, L, 0.0, 0.0, R, lc, gx, gy);
+	int nn = lc.MajorDim();
+
+	dArray2DT np(nn, 1); np = R;
+	dArrayT vol(nn); vol = h * h;
+	dArrayT sample(2); sample[0] = 0.0; sample[1] = 0.0;
+	ASSERT_TRUE(rkpm.SetField(lc, np, vol, sample, 2) != 0);
+
+	const dArrayT& phi = rkpm.phi();
+	const dArray2DT& DDphi = rkpm.DDphi();
+
+	double maxValueErr = 0.0, maxHessianErr = 0.0;
+	for (int m = 0; m < 6; m++) {
+		double sv = 0, sxx = 0, syy = 0, sxy = 0;
+		for (int I = 0; I < nn; I++) {
+			double p = Monomial(m, lc(I, 0), lc(I, 1));
+			sv += phi[I] * p;
+			sxx += DDphi(0, I) * p;
+			syy += DDphi(1, I) * p;
+			sxy += DDphi(2, I) * p;
+		}
+		double hxx, hyy, hxy;
+		MonomialHessian(m, hxx, hyy, hxy);
+		maxValueErr = std::max(maxValueErr, std::fabs(sv - Monomial(m, 0.0, 0.0)));
+		maxHessianErr = std::max(maxHessianErr,
+			std::fabs(sxx - hxx) + std::fabs(syy - hyy) + std::fabs(sxy - hxy));
+	}
+
+	EXPECT_NEAR(maxValueErr, 0.0, 1e-9);
+	EXPECT_NEAR(maxHessianErr, 0.0, 1e-6); /* finite AND reproduces at the boundary */
+}
+
 /* PCA parameterization + RK first-derivative normal converge on a cylinder. */
 TEST(KLShellShape, CylinderNormalAndCurvature)
 {

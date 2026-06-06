@@ -18,7 +18,8 @@
 #include <vector>
 #include <algorithm>
 
-#include "D2OrthoMLS2DT.h"
+#include "MLSSolverT.h"
+#include "MeshFreeT.h"
 #include "dArrayT.h"
 #include "dArray2DT.h"
 #include "KLShellKernels.h"
@@ -71,8 +72,15 @@ void AssembleShell(const std::vector<double>& X, const std::vector<double>& noda
 	double xg[3] = {-std::sqrt(3.0/5.0), 0.0, std::sqrt(3.0/5.0)};
 	double wg[3] = {5.0/9.0, 8.0/9.0, 5.0/9.0};
 
-	D2OrthoMLS2DT efg(2);
-	efg.Initialize();
+	/* RKPM (reproducing kernel), quadratic completeness, Gaussian window.
+	 * Gaussian (not cubic-spline) because its 2nd-derivative path is robust at one-sided
+	 * boundary neighborhoods — the cubic-spline window produces NaN DDphi there. */
+	dArrayT gwin(3);
+	gwin[0] = 1.5;  /* support scaling */
+	gwin[1] = 0.4;  /* sharpening */
+	gwin[2] = 3.0;  /* cutoff */
+	MLSSolverT rkpm(2, 2, false, MeshFreeT::kGaussian, gwin);
+	rkpm.Initialize();
 
 	for (int P=0;P<N;P++) {
 
@@ -98,11 +106,13 @@ void AssembleShell(const std::vector<double>& X, const std::vector<double>& noda
 			lc(k,0) = Dot(dxv, psi1);
 			lc(k,1) = Dot(dxv, psi2);
 		}
-		dArrayT dmax(nn); dmax = support;
+		dArray2DT np(nn, 1); np = support;          /* RKPM support size per neighbor */
+		dArrayT vol(nn);
+		for (int k=0;k<nn;k++) vol[k] = nodalArea[nb[k]]; /* nodal volumes for the moment matrix */
 		dArrayT sample(2); sample[0]=0.0; sample[1]=0.0;
-		if (!efg.SetField(lc, dmax, sample)) continue;
-		const dArray2DT& Dp = efg.Dphi();
-		const dArray2DT& DDp = efg.DDphi();
+		if (!rkpm.SetField(lc, np, vol, sample, 2)) continue;
+		const dArray2DT& Dp = rkpm.Dphi();
+		const dArray2DT& DDp = rkpm.DDphi();
 
 		/* reference position parametric derivatives at P */
 		double x1[3]={0,0,0},x2[3]={0,0,0},x11[3]={0,0,0},x22[3]={0,0,0},x12[3]={0,0,0};
@@ -302,8 +312,14 @@ double ScordelisLo(int nt, int nz)
 } /* anonymous namespace */
 
 /* Diagnostic: does a FREE curved (cylinder) patch have exactly 6 zero-energy modes?
- * If > 6, the curved-surface nodal integration has a spurious interior hourglass
- * (basis/stabilization problem); if == 6, the Scordelis-Lo blow-up is a boundary/BC issue. */
+ * Assembled with quadratic RKPM + Gaussian window (the BC-robust path).
+ *
+ * FINDING: still > 6 and GROWING with refinement (7 at 7x7, 15 at 9x9) — versus 9/16 with
+ * the EFG basis. So switching basis (EFG -> RKPM) does NOT cure it: the curved-shell
+ * hourglass is BASIS-INDEPENDENT. It is a STABILIZATION gap — the membrane-only
+ * (xi3=0) Taylor stabilization controls the membrane hourglass (flat patches give exactly
+ * 6) but not the curved BENDING hourglass, which needs a bending/curvature stabilization
+ * (3rd-derivative term; MLSSolverT exposes DDDphi). Tracked in #66. */
 TEST(KLShellBenchmark, DISABLED_CurvedPatchSpectrum)
 {
 	std::vector<double> s9a, s9b;
