@@ -178,6 +178,57 @@ void AssembleShell(const std::vector<double>& X, const std::vector<double>& noda
 	}
 }
 
+/* cyclic Jacobi eigenvalues (ascending) of a symmetric n x n matrix */
+void JacobiEig(std::vector<double> A, int n, std::vector<double>& ev)
+{
+	for (int sweep=0;sweep<80;sweep++) {
+		double off=0.0;
+		for (int p=0;p<n;p++) for (int q=p+1;q<n;q++) off += A[(size_t)p*n+q]*A[(size_t)p*n+q];
+		if (off < 1e-26) break;
+		for (int p=0;p<n;p++) for (int q=p+1;q<n;q++) {
+			double apq=A[(size_t)p*n+q];
+			if (std::fabs(apq) < 1e-300) continue;
+			double th=(A[(size_t)q*n+q]-A[(size_t)p*n+p])/(2*apq);
+			double t=(th>=0?1.0:-1.0)/(std::fabs(th)+std::sqrt(th*th+1));
+			double c=1/std::sqrt(t*t+1), sn=t*c;
+			for (int k=0;k<n;k++){double a1=A[(size_t)k*n+p],a2=A[(size_t)k*n+q];A[(size_t)k*n+p]=c*a1-sn*a2;A[(size_t)k*n+q]=sn*a1+c*a2;}
+			for (int k=0;k<n;k++){double a1=A[(size_t)p*n+k],a2=A[(size_t)q*n+k];A[(size_t)p*n+k]=c*a1-sn*a2;A[(size_t)q*n+k]=sn*a1+c*a2;}
+		}
+	}
+	ev.resize(n);
+	for (int i=0;i<n;i++) ev[i]=A[(size_t)i*n+i];
+	std::sort(ev.begin(), ev.end());
+}
+
+/* number of near-zero eigenvalues of a free cylinder patch (expect 6 rigid-body modes) */
+int CurvedPatchZeroModes(int nt, int nz, std::vector<double>& smallest9)
+{
+	const double Rc = 1.0;
+	double arc = 1.0/(nt-1);          /* small arc span ~1 rad total */
+	double dz = 1.0/(nz-1);
+	int N = nt*nz;
+	std::vector<double> X(3*N), area(N);
+	for (int i=0;i<nt;i++) for (int j=0;j<nz;j++) {
+		int id=j*nt+i;
+		double th = i*arc;
+		X[3*id]=Rc*std::cos(th); X[3*id+1]=Rc*std::sin(th); X[3*id+2]=j*dz;
+		area[id]=(Rc*arc)*dz;
+	}
+	double C[6][6]; PlaneStressTangent(1.0e4, 0.0, C);
+	double support = 3.0*std::max(Rc*arc, dz);
+	std::vector<double> K;
+	AssembleShell(X, area, 0.05, C, support, K);
+	int ndof=3*N;
+	std::vector<double> ev;
+	JacobiEig(K, ndof, ev);
+	double lmax=ev.back();
+	int nz0=0;
+	for (int i=0;i<ndof;i++) if (ev[i] < 1e-8*lmax) nz0++;
+	smallest9.assign(ev.begin(), ev.begin()+std::min(9,ndof));
+	for (double& e : smallest9) e/=lmax;
+	return nz0;
+}
+
 /* Scordelis-Lo roof: returns the downward deflection at the free-edge midpoint.
  * nt = nodes across the 80-degree arc, nz = nodes along the length. */
 double ScordelisLo(int nt, int nz)
@@ -249,6 +300,23 @@ double ScordelisLo(int nt, int nz)
 }
 
 } /* anonymous namespace */
+
+/* Diagnostic: does a FREE curved (cylinder) patch have exactly 6 zero-energy modes?
+ * If > 6, the curved-surface nodal integration has a spurious interior hourglass
+ * (basis/stabilization problem); if == 6, the Scordelis-Lo blow-up is a boundary/BC issue. */
+TEST(KLShellBenchmark, DISABLED_CurvedPatchSpectrum)
+{
+	std::vector<double> s9a, s9b;
+	int z1 = CurvedPatchZeroModes(7, 7, s9a);
+	int z2 = CurvedPatchZeroModes(9, 9, s9b);
+	printf("curved 7x7 zero modes: %d  (smallest9:", z1);
+	for (double e : s9a) printf(" %.2e", e);
+	printf(")\ncurved 9x9 zero modes: %d  (smallest9:", z2);
+	for (double e : s9b) printf(" %.2e", e);
+	printf(")\n");
+	EXPECT_EQ(z1, 6);
+	EXPECT_EQ(z2, 6);
+}
 
 /* DISABLED — work in progress. The geometry, diaphragm boundary conditions, gravity load
  * and curved-surface assembly are in place, but the solve currently exhibits a spurious
