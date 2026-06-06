@@ -70,15 +70,15 @@ bool BuildFlatPatch(int n, double L, Patch& p)
 		nbX[3 * k + 1] = p.Y[p.nb[k]];
 		nbX[3 * k + 2] = 0.0;
 	}
-	pcaFrame(&nbX[0], nn, p.psi1, p.psi2, p.n0);
+	PCAFrame(&nbX[0], nn, p.psi1, p.psi2, p.n0);
 	if (p.n0[2] < 0.0)
 		for (int d = 0; d < 3; d++) { p.n0[d] = -p.n0[d]; p.psi2[d] = -p.psi2[d]; }
 
 	dArray2DT lc(nn, 2);
 	for (int k = 0; k < nn; k++) {
 		double dxv[3] = {p.X[p.nb[k]] - p.X[P], p.Y[p.nb[k]] - p.Y[P], 0.0};
-		lc(k, 0) = dot3(dxv, p.psi1);
-		lc(k, 1) = dot3(dxv, p.psi2);
+		lc(k, 0) = Dot(dxv, p.psi1);
+		lc(k, 1) = Dot(dxv, p.psi2);
 	}
 
 	D2OrthoMLS2DT efg(2);
@@ -123,12 +123,12 @@ void VelocityGradient(const Patch& p, double xi3, const std::vector<double>& nod
 	double x1[3], x2[3], x11[3], x22[3], x12[3];
 	RefDerivs(p, x1, x2, x11, x22, x12);
 	ShellGeom g;
-	buildGeom(x1, x2, x11, x22, x12, kThickness, xi3, g);
+	BuildGeom(x1, x2, x11, x22, x12, kThickness, xi3, g);
 
 	for (int i = 0; i < 3; i++) for (int j = 0; j < 3; j++) L[i][j] = 0.0;
 	for (int I = 0; I < int(p.nb.size()); I++) {
 		double B[3][3][3];
-		Bmatrix(g, p.d1[I], p.d2[I], p.dd1[I], p.dd12[I], p.dd2[I], B);
+		BMatrix(g, p.d1[I], p.d2[I], p.dd1[I], p.dd12[I], p.dd2[I], B);
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++)
 				for (int k = 0; k < 3; k++)
@@ -159,7 +159,7 @@ TEST(KLShellKinematics, RigidRotationGivesZeroStrain)
 	for (int I = 0; I < nn; I++) {
 		double r[3] = {p.X[p.nb[I]] - XP[0], p.Y[p.nb[I]] - XP[1], 0.0};
 		double vv[3];
-		cross3(p.n0, r, vv);
+		Cross(p.n0, r, vv);
 		for (int d = 0; d < 3; d++) v[3 * I + d] = 0.7 * vv[d];
 	}
 
@@ -181,7 +181,7 @@ TEST(KLShellKinematics, InPlaneStretch)
 	std::vector<double> v(3 * nn);
 	for (int I = 0; I < nn; I++) {
 		double r[3] = {p.X[p.nb[I]] - XP[0], p.Y[p.nb[I]] - XP[1], 0.0};
-		double s = eps * dot3(r, p.psi1);
+		double s = eps * Dot(r, p.psi1);
 		for (int d = 0; d < 3; d++) v[3 * I + d] = s * p.psi1[d];
 	}
 
@@ -204,7 +204,7 @@ TEST(KLShellKinematics, ThroughThicknessBending)
 	std::vector<double> v(3 * nn);
 	for (int I = 0; I < nn; I++) {
 		double r[3] = {p.X[p.nb[I]] - XP[0], p.Y[p.nb[I]] - XP[1], 0.0};
-		double xi1 = dot3(r, p.psi1);
+		double xi1 = Dot(r, p.psi1);
 		double w = 0.5 * c * xi1 * xi1;
 		for (int d = 0; d < 3; d++) v[3 * I + d] = w * p.n0[d];
 	}
@@ -264,13 +264,13 @@ TEST(KLShellKinematics, ParametricGradientOnCylinder)
 	std::vector<double> nbX(3 * nn);
 	for (int k = 0; k < nn; k++) { nbX[3*k]=X[nb[k]]; nbX[3*k+1]=Y[nb[k]]; nbX[3*k+2]=Z[nb[k]]; }
 	double psi1[3], psi2[3], n0[3];
-	pcaFrame(&nbX[0], nn, psi1, psi2, n0);
+	PCAFrame(&nbX[0], nn, psi1, psi2, n0);
 
 	dArray2DT lc(nn, 2);
 	for (int k = 0; k < nn; k++) {
 		double dxv[3] = {X[nb[k]] - X[P], Y[nb[k]] - Y[P], Z[nb[k]] - Z[P]};
-		lc(k, 0) = dot3(dxv, psi1);
-		lc(k, 1) = dot3(dxv, psi2);
+		lc(k, 0) = Dot(dxv, psi1);
+		lc(k, 1) = Dot(dxv, psi2);
 	}
 
 	/* arbitrary smooth velocity field at the nodes */
@@ -306,18 +306,18 @@ TEST(KLShellKinematics, ParametricGradientOnCylinder)
 					x11[d]+=DDp(0,I)*Xq[d];x22[d]+=DDp(1,I)*Xq[d];x12[d]+=DDp(2,I)*Xq[d];
 					v1[d]+=Dp(0,I)*Vq[d];v2[d]+=Dp(1,I)*Vq[d]; }
 			}
-			ShellGeom g; buildGeom(x1,x2,x11,x22,x12,kThickness,0.0,g);
+			ShellGeom g; BuildGeom(x1,x2,x11,x22,x12,kThickness,0.0,g);
 			/* grad(v3D)_ij = sum_I B_Iijk v_Ik (rebuild B per neighbor at this sample) */
 			for(int i=0;i<3;i++)for(int j=0;j<3;j++)L[i][j]=0.0;
 			for(int I=0;I<nn;I++){ double B[3][3][3];
-				Bmatrix(g,Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I),B);
+				BMatrix(g,Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I),B);
 				double Vq[3]={(*V)[3*I],(*V)[3*I+1],(*V)[3*I+2]};
 				for(int i=0;i<3;i++)for(int j=0;j<3;j++)for(int k=0;k<3;k++)L[i][j]+=B[i][j][k]*Vq[k]; }
 		}
 	} rec;
 	rec.efg=&efg; rec.lc=&lc; rec.dmax=&dmax; rec.X=&X; rec.Y=&Y; rec.Z=&Z; rec.nb=&nb; rec.V=&V;
 
-	/* analytic sum_I B_Iijkl v_Ik via BmatrixGrad at xi3=0 */
+	/* analytic sum_I B_Iijkl v_Ik via BMatrixGradient at xi3=0 */
 	dArrayT sample(2); sample[0]=0; sample[1]=0;
 	efg.SetField(lc, dmax, sample);
 	const dArray2DT& Dp = efg.Dphi();
@@ -325,12 +325,12 @@ TEST(KLShellKinematics, ParametricGradientOnCylinder)
 	double x1[3]={0,0,0},x2[3]={0,0,0},x11[3]={0,0,0},x22[3]={0,0,0},x12[3]={0,0,0};
 	for(int I=0;I<nn;I++){ double Xq[3]={X[nb[I]],Y[nb[I]],Z[nb[I]]};
 		for(int d=0;d<3;d++){x1[d]+=Dp(0,I)*Xq[d];x2[d]+=Dp(1,I)*Xq[d];x11[d]+=DDp(0,I)*Xq[d];x22[d]+=DDp(1,I)*Xq[d];x12[d]+=DDp(2,I)*Xq[d];}}
-	ShellGeom g0; buildGeom(x1,x2,x11,x22,x12,kThickness,0.0,g0);
+	ShellGeom g0; BuildGeom(x1,x2,x11,x22,x12,kThickness,0.0,g0);
 	double Bg_sum[3][3][2]={{{0,0},{0,0},{0,0}},{{0,0},{0,0},{0,0}},{{0,0},{0,0},{0,0}}};
 	for(int I=0;I<nn;I++){
-		double Bz[3][3][3]; Bmatrix(g0,Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I),Bz);
+		double Bz[3][3][3]; BMatrix(g0,Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I),Bz);
 		double P1l[2]={DDp(0,I),DDp(2,I)}, P2l[2]={DDp(2,I),DDp(1,I)};
-		double Bg[3][3][3][2]; BmatrixGrad(g0,Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I),P1l,P2l,Bz,Bg);
+		double Bg[3][3][3][2]; BMatrixGradient(g0,Dp(0,I),Dp(1,I),P1l,P2l,Bz,Bg);
 		double Vq[3]={V[3*I],V[3*I+1],V[3*I+2]};
 		for(int i=0;i<3;i++)for(int j=0;j<3;j++)for(int l=0;l<2;l++)for(int k=0;k<3;k++)Bg_sum[i][j][l]+=Bg[i][j][k][l]*Vq[k];
 	}

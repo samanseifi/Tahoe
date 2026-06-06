@@ -44,7 +44,7 @@ void PlaneStressTangent(double E, double nu, double C[6][6])
 void VoigtFlat(const double B[3][3][3], double out[18])
 {
 	double bv[6][3];
-	toVoigt(B, bv);
+	ToVoigt(B, bv);
 	for (int r=0;r<6;r++) for (int c=0;c<3;c++) out[r*3+c] = bv[r][c];
 }
 
@@ -97,12 +97,12 @@ void Assemble(int nx, int ny, double Lx, double Wy, double h, const double C[6][
 		/* nodal-integration term: 3-pt Gauss through thickness */
 		for (int g=0;g<3;g++) {
 			ShellGeom G;
-			if (!buildGeom(x1,x2,x11,x22,x12,h,xg[g],G)) continue;
+			if (!BuildGeom(x1,x2,x11,x22,x12,h,xg[g],G)) continue;
 			double cw = wg[g]*(h/2.0)*A_K;
 			std::vector<std::vector<double> > Bv(nn, std::vector<double>(18));
 			for (int I=0;I<nn;I++) {
 				double B[3][3][3];
-				Bmatrix(G, Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I), B);
+				BMatrix(G, Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I), B);
 				VoigtFlat(B, &Bv[I][0]);
 			}
 			for (int I=0;I<nn;I++) for (int J=0;J<nn;J++) {
@@ -121,14 +121,14 @@ void Assemble(int nx, int ny, double Lx, double Wy, double h, const double C[6][
 
 		/* membrane stabilization (xi3=0) */
 		ShellGeom G0;
-		if (buildGeom(x1,x2,x11,x22,x12,h,0.0,G0)) {
+		if (BuildGeom(x1,x2,x11,x22,x12,h,0.0,G0)) {
 			std::vector<std::vector<double> > Bg(nn, std::vector<double>(36));
 			for (int I=0;I<nn;I++) {
 				double Bz[3][3][3];
-				Bmatrix(G0, Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I), Bz);
+				BMatrix(G0, Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I), Bz);
 				double P1l[2]={DDp(0,I),DDp(2,I)}, P2l[2]={DDp(2,I),DDp(1,I)};
 				double Bgr[3][3][3][2];
-				BmatrixGrad(G0, Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I), P1l,P2l,Bz,Bgr);
+				BMatrixGradient(G0, Dp(0,I),Dp(1,I), P1l,P2l,Bz,Bgr);
 				for (int l=0;l<2;l++) {
 					double B[3][3][3];
 					for (int i=0;i<3;i++) for (int j=0;j<3;j++) for (int k=0;k<3;k++) B[i][j][k]=Bgr[i][j][k][l];
@@ -260,7 +260,7 @@ TEST(KLShellAssembly, RigidBodyModesAndRank)
 				double w[3] = {0,0,0};
 				w[mode-3] = 1.0;
 				double r[3] = {Xp[0]-0.5, Xp[1]-0.5, Xp[2]};
-				cross3(w, r, uu);
+				Cross(w, r, uu);
 			}
 			for (int d=0;d<3;d++) u[3*p+d] = uu[d];
 		}

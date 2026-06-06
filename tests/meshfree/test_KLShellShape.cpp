@@ -190,13 +190,13 @@ TEST(KLShellShape, CylinderNormalAndCurvature)
 				nbX[3 * k + 2] = Z[nb[k]];
 			}
 			double psi1[3], psi2[3], n0[3];
-			pcaFrame(&nbX[0], nn, psi1, psi2, n0);
+			PCAFrame(&nbX[0], nn, psi1, psi2, n0);
 
 			dArray2DT lc(nn, 2);
 			for (int k = 0; k < nn; k++) {
 				double dxv[3] = {X[nb[k]] - X[P], Y[nb[k]] - Y[P], Z[nb[k]] - Z[P]};
-				lc(k, 0) = dot3(dxv, psi1);
-				lc(k, 1) = dot3(dxv, psi2);
+				lc(k, 0) = Dot(dxv, psi1);
+				lc(k, 1) = Dot(dxv, psi2);
 			}
 
 			dArrayT dmax(nn);
@@ -222,21 +222,21 @@ TEST(KLShellShape, CylinderNormalAndCurvature)
 			}
 
 			double nvec[3];
-			cross3(x1, x2, nvec);
-			double nm = norm3(nvec);
+			Cross(x1, x2, nvec);
+			double nm = Norm(nvec);
 			if (nm < 1e-14) continue;
 			for (int d = 0; d < 3; d++) nvec[d] /= nm;
 
 			/* normal error vs analytic (cos t, sin t, 0) */
 			double na[3] = {std::cos(TH[P]), std::sin(TH[P]), 0.0};
-			double sgn = (dot3(nvec, na) < 0.0) ? -1.0 : 1.0;
+			double sgn = (Dot(nvec, na) < 0.0) ? -1.0 : 1.0;
 			double ne = 0.0;
 			for (int d = 0; d < 3; d++) ne += (sgn * nvec[d] - na[d]) * (sgn * nvec[d] - na[d]);
 			sumNormalSq += ne;
 
 			/* principal curvatures via first/second fundamental forms */
-			double E = dot3(x1, x1), F = dot3(x1, x2), G = dot3(x2, x2);
-			double Lf = dot3(x11, nvec), Mf = dot3(x12, nvec), Nf = dot3(x22, nvec);
+			double E = Dot(x1, x1), F = Dot(x1, x2), G = Dot(x2, x2);
+			double Lf = Dot(x11, nvec), Mf = Dot(x12, nvec), Nf = Dot(x22, nvec);
 			double detI = E * G - F * F;
 			if (std::fabs(detI) > 1e-14) {
 				double a2 = detI;
