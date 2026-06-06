@@ -119,3 +119,20 @@ target_compile_definitions(test_SurfaceTensionGM PRIVATE
     "TAHOE_TEST_REPO_ROOT=\"${CMAKE_SOURCE_DIR}\""
     "TAHOE_TEST_BUILD_DIR=\"${CMAKE_BINARY_DIR}\""
 )
+
+# ---------------------------------------------------------------------------
+# Meshfree KL-shell de-risk harnesses (epic #59).
+# Standalone contrib executables that self-check against analytic answers and
+# return non-zero on failure. Registered here as regressions so the #69 fix
+# (orthogonal-MLS 2nd derivatives) and the KL kinematic chain can't silently
+# regress. Targets are defined in contrib/ (processed earlier; globally visible).
+# ---------------------------------------------------------------------------
+if(TARGET mls_verify)
+    add_test(NAME meshfree_mls_2nd_deriv COMMAND mls_verify)
+endif()
+if(TARGET pca_geom)
+    add_test(NAME meshfree_pca_geom COMMAND pca_geom)
+endif()
+if(TARGET kl_kinematics)
+    add_test(NAME meshfree_kl_kinematics COMMAND kl_kinematics)
+endif()

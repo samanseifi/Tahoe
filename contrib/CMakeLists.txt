@@ -176,4 +176,34 @@ else()
     )
 endif()
 
+# ---------------------------------------------------------------------------
+# kl_kinematics — de-risk harness for the KL-shell kinematic chain (issue #63)
+# ---------------------------------------------------------------------------
+set(KLKIN_SRC "${CMAKE_CURRENT_SOURCE_DIR}/kl_kinematics/src")
+file(GLOB_RECURSE KLKIN_SRCS "${KLKIN_SRC}/*.cpp")
+tahoe_collect_header_dirs("${KLKIN_SRC}" KLKIN_INC_DIRS)
+
+add_executable(kl_kinematics ${KLKIN_SRCS})
+target_include_directories(kl_kinematics PRIVATE ${KLKIN_INC_DIRS})
+if(TAHOE_DEV)
+    target_link_libraries(kl_kinematics PRIVATE libdevelopment libtahoe)
+    target_link_options(kl_kinematics PRIVATE
+        -Wl,--start-group
+        -Wl,--whole-archive
+        $<TARGET_FILE:libtahoe>
+        $<TARGET_FILE:toolbox>
+        -Wl,--no-whole-archive
+        $<TARGET_FILE:libdevelopment>
+        -Wl,--end-group
+    )
+else()
+    target_link_libraries(kl_kinematics PRIVATE libtahoe)
+    target_link_options(kl_kinematics PRIVATE
+        -Wl,--whole-archive
+        $<TARGET_FILE:libtahoe>
+        $<TARGET_FILE:toolbox>
+        -Wl,--no-whole-archive
+    )
+endif()
+
 # dpp is a Perl script, not compiled — skip
