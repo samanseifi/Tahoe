@@ -99,6 +99,7 @@
 #include "ExplicitElementT.h"
 #include "MeshFreeSSSolidT.h"
 #include "MeshFreeFSSolidT.h"
+#include "RKShellT.h"
 #include "MeshFreeFSSolidAxiT.h"
 #include "D2MeshFreeFSSolidT.h"
 #include "SS_SCNIMFT.h"
@@ -440,6 +441,7 @@ void ElementListT::DefineInlineSub(const StringT& name, ParameterListT::ListOrde
 		sub_lists.AddSub("total_lagrangian");
 		sub_lists.AddSub("small_strain_meshfree");
 		sub_lists.AddSub("large_strain_meshfree");
+		sub_lists.AddSub("meshfree_kl_shell");
 		sub_lists.AddSub("small_strain_axi");
 		sub_lists.AddSub("updated_lagrangian_axi");
 		sub_lists.AddSub("total_lagrangian_axi");
@@ -755,6 +757,8 @@ ElementBaseT* ElementListT::NewElement(const StringT& name) const
 		return new MeshFreeSSSolidT(fSupport);
 	else if (name == "large_strain_meshfree")
 		return new MeshFreeFSSolidT(fSupport);
+	else if (name == "meshfree_kl_shell")
+		return new RKShellT(fSupport);
 	else if (name == "small_strain_axi")
 		return new SmallStrainAxiT(fSupport);
 	else if (name == "updated_lagrangian_axi")
