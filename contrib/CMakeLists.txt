@@ -260,4 +260,22 @@ else()
     target_link_options(kl_assembly PRIVATE -Wl,--whole-archive $<TARGET_FILE:libtahoe> $<TARGET_FILE:toolbox> -Wl,--no-whole-archive)
 endif()
 
+# ---------------------------------------------------------------------------
+# kl_solve — BVP de-risk: cantilever shell solve vs beam theory (#66)
+# ---------------------------------------------------------------------------
+set(KLSV_SRC "${CMAKE_CURRENT_SOURCE_DIR}/kl_solve/src")
+file(GLOB_RECURSE KLSV_SRCS "${KLSV_SRC}/*.cpp")
+tahoe_collect_header_dirs("${KLSV_SRC}" KLSV_INC_DIRS)
+add_executable(kl_solve ${KLSV_SRCS})
+target_include_directories(kl_solve PRIVATE ${KLSV_INC_DIRS})
+# kernels header lives in the tahoe element tree
+target_include_directories(kl_solve PRIVATE "${CMAKE_SOURCE_DIR}/tahoe/src/elements/continuum/solid/meshfree")
+if(TAHOE_DEV)
+    target_link_libraries(kl_solve PRIVATE libdevelopment libtahoe)
+    target_link_options(kl_solve PRIVATE -Wl,--start-group -Wl,--whole-archive $<TARGET_FILE:libtahoe> $<TARGET_FILE:toolbox> -Wl,--no-whole-archive $<TARGET_FILE:libdevelopment> -Wl,--end-group)
+else()
+    target_link_libraries(kl_solve PRIVATE libtahoe)
+    target_link_options(kl_solve PRIVATE -Wl,--whole-archive $<TARGET_FILE:libtahoe> $<TARGET_FILE:toolbox> -Wl,--no-whole-archive)
+endif()
+
 # dpp is a Perl script, not compiled — skip
