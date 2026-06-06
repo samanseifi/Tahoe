@@ -139,3 +139,7 @@ endif()
 if(TARGET kl_bmatrix)
     add_test(NAME meshfree_kl_bmatrix COMMAND kl_bmatrix)
 endif()
+
+if(TARGET kl_stress)
+    add_test(NAME meshfree_kl_stress COMMAND kl_stress)
+endif()

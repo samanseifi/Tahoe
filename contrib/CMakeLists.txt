@@ -236,4 +236,12 @@ else()
     )
 endif()
 
+# ---------------------------------------------------------------------------
+# kl_stress — de-risk harness for the KL-shell stress-update machinery (issue #65)
+#   Pure tensor algebra; toolbox-only link.
+# ---------------------------------------------------------------------------
+file(GLOB_RECURSE KLS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/kl_stress/src/*.cpp")
+add_executable(kl_stress ${KLS_SRCS})
+target_link_libraries(kl_stress PRIVATE toolbox m)
+
 # dpp is a Perl script, not compiled — skip
