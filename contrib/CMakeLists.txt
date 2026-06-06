@@ -244,4 +244,20 @@ file(GLOB_RECURSE KLS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/kl_stress/src/*.cpp")
 add_executable(kl_stress ${KLS_SRCS})
 target_link_libraries(kl_stress PRIVATE toolbox m)
 
+# ---------------------------------------------------------------------------
+# kl_assembly — de-risk harness for the naturally-stabilized nodal assembly (#64/#66)
+# ---------------------------------------------------------------------------
+set(KLA_SRC "${CMAKE_CURRENT_SOURCE_DIR}/kl_assembly/src")
+file(GLOB_RECURSE KLA_SRCS "${KLA_SRC}/*.cpp")
+tahoe_collect_header_dirs("${KLA_SRC}" KLA_INC_DIRS)
+add_executable(kl_assembly ${KLA_SRCS})
+target_include_directories(kl_assembly PRIVATE ${KLA_INC_DIRS})
+if(TAHOE_DEV)
+    target_link_libraries(kl_assembly PRIVATE libdevelopment libtahoe)
+    target_link_options(kl_assembly PRIVATE -Wl,--start-group -Wl,--whole-archive $<TARGET_FILE:libtahoe> $<TARGET_FILE:toolbox> -Wl,--no-whole-archive $<TARGET_FILE:libdevelopment> -Wl,--end-group)
+else()
+    target_link_libraries(kl_assembly PRIVATE libtahoe)
+    target_link_options(kl_assembly PRIVATE -Wl,--whole-archive $<TARGET_FILE:libtahoe> $<TARGET_FILE:toolbox> -Wl,--no-whole-archive)
+endif()
+
 # dpp is a Perl script, not compiled — skip

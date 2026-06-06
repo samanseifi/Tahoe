@@ -143,3 +143,7 @@ endif()
 if(TARGET kl_stress)
     add_test(NAME meshfree_kl_stress COMMAND kl_stress)
 endif()
+
+if(TARGET kl_assembly)
+    add_test(NAME meshfree_kl_assembly COMMAND kl_assembly)
+endif()
