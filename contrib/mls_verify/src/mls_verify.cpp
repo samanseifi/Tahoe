@@ -220,19 +220,13 @@ static int run()
 	}
 
 	bool ok = (pathB_maxH<1e-6 && pathB_maxV<1e-9 && pathB_maxG<1e-7);
-	cout << "\n=== VERDICT (issue #61) ===\n";
+	cout << "\n=== VERDICT (issue #61 / fix #69) ===\n";
 	cout << "  Path A  RKPM/MLSSolverT : PolyBasis2DT caps completeness at 1 -> CANNOT reproduce\n"
-	        "          quadratic 2nd derivatives at all (linear Hessian only).\n";
-	cout << "  Path B  EFG/D2OrthoMLS2DT (completeness 2):\n"
-	        "          - value & gradient reproduce to ~1e-15  (OK)\n"
-	        "          - MIXED 2nd derivative DDphi_xy reproduces exactly (xy->1, else 0)  (OK)\n"
-	        "          - DIAGONAL 2nd derivatives DDphi_xx, DDphi_yy are BROKEN: large spurious\n"
-	        "            common-mode, fail reproduction (Sum DDphi_xx != 0).\n";
-	cout << "  Weight 2nd derivs (SetWeight) verified analytically correct -> defect is in the\n"
-	        "  orthogonal-basis Gram-Schmidt diagonal 2nd-derivative recursion (fDDq/fDDb).\n";
-	cout << "  CONCLUSION: existing meshfree 2nd-derivative machinery is NOT usable for the KL\n"
-	        "  shell as-is. Phase-1 prerequisite: fix D2OrthoMLSSolverT diagonal terms, or extend\n"
-	        "  PolyBasis2DT to quadratic and validate MLSSolverT::DDphi (diagonal currently untested).\n";
-	cout << "  status: " << (ok?"REPRODUCES":"BLOCKER-CONFIRMED") << "\n";
+	        "          quadratic 2nd derivatives (linear basis only). Use Path B for KL bending.\n";
+	cout << "  Path B  EFG/D2OrthoMLS2DT (completeness 2): value, gradient AND full Hessian\n"
+	        "          (xx, yy, xy) reproduce quadratics to ~machine precision.\n";
+	cout << "  #69 fix in place: the missing CjI factor on the DDb (b,ac) quotient-rule term in\n"
+	        "  D2OrthoMLSSolverT was restored; diagonal 2nd derivatives now reproduce.\n";
+	cout << "  status: " << (ok?"PASS — usable for KL shell":"FAIL — regression in DDphi") << "\n";
 	return ok?0:1;
 }

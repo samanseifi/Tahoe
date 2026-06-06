@@ -192,9 +192,14 @@ int D2OrthoMLSSolverT::SetField(const dArray2DT& nodalcoords,
 				double dCjI_1 = ((*Dq_1)*(*qJ) + (*q)*(*DqJ_1) - (*Db_1)*CjI)/(*b);
 				double dCjI_2 = ((*Dq_2)*(*qJ) + (*q)*(*DqJ_2) - (*Db_2)*CjI)/(*b);
 
+				/* C_jI = q*qJ/b; second derivative carries the quotient-rule factor
+				 * C on the b,ac term: ddC = [u,ac - C*b,ac - C,a*b,c - C,c*b,a]/b.
+				 * The C factor on DDb was previously missing, which corrupted the
+				 * diagonal 2nd derivatives (b,xx/b,yy != 0) while leaving the mixed
+				 * term (b,xy ~ 0 by symmetry) apparently correct. (issue #69) */
 				double ddCjI = ((*DDq)*(*qJ) + (*q)*(*DDqJ) +
 				                (*Dq_1)*(*DqJ_2) + (*Dq_2)*(*DqJ_1) -
-				               ((*DDb) + (*Db_1)*dCjI_2 + (*Db_2)*dCjI_1))/(*b);
+				               ((*DDb)*CjI + (*Db_1)*dCjI_2 + (*Db_2)*dCjI_1))/(*b);
 			
 				*DDphi++ += (*DDw)*CjI +
 				            (*Dw_1)*dCjI_2 + (*Dw_2)*dCjI_1 +
