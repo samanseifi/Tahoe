@@ -147,3 +147,7 @@ endif()
 if(TARGET kl_assembly)
     add_test(NAME meshfree_kl_assembly COMMAND kl_assembly)
 endif()
+
+if(TARGET kl_solve)
+    add_test(NAME meshfree_kl_solve COMMAND kl_solve)
+endif()
