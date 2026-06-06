@@ -258,6 +258,53 @@ TEST(KLShellShape, RKPMGaussianBoundaryReproduction)
 	EXPECT_NEAR(maxHessianErr, 0.0, 1e-6); /* finite AND reproduces at the boundary */
 }
 
+/* The 3rd derivatives (DDDphi) needed for a bending/curvature-gradient stabilization must
+ * (a) be finite (order=3, Gaussian window) and (b) ANNIHILATE quadratics: since the MLS
+ * reproduces a quadratic field exactly, the 3rd derivative of that reproduction is 0. This
+ * is the property the bending stabilization relies on (it must vanish for constant-curvature
+ * physical states and fire only on super-quadratic hourglass content). */
+TEST(KLShellShape, RKPMThirdDerivativeAnnihilatesQuadratics)
+{
+	const int n = 13;
+	const double L = 1.0;
+	const double h = L / (n - 1);
+
+	dArrayT gwin(3);
+	gwin[0] = 1.5; gwin[1] = 0.4; gwin[2] = 3.0;
+	MLSSolverT rkpm(2, 2, false, MeshFreeT::kGaussian, gwin);
+	rkpm.Initialize();
+
+	const double pts[2][2] = {{0.5, 0.5}, {0.42, 0.5}};
+	double maxAnnih = 0.0;
+	bool finite = true;
+
+	for (int ip = 0; ip < 2; ip++) {
+		double R = 3.5 * h;
+		dArray2DT lc;
+		std::vector<double> gx, gy;
+		FlatGridNeighbors(n, L, pts[ip][0], pts[ip][1], R, lc, gx, gy);
+		int nn = lc.MajorDim();
+
+		dArray2DT np(nn, 1); np = R;
+		dArrayT vol(nn); vol = h * h;
+		dArrayT sample(2); sample[0] = 0.0; sample[1] = 0.0;
+		ASSERT_TRUE(rkpm.SetField(lc, np, vol, sample, 3) != 0); /* order 3 */
+
+		const dArray2DT& DDD = rkpm.DDDphi(); /* 4 comps (2D): 0:111 1:122 2:112 3:222 */
+		for (int m = 0; m < 6; m++) {
+			for (int c = 0; c < 4; c++) {
+				double s = 0.0;
+				for (int I = 0; I < nn; I++) s += DDD(c, I) * Monomial(m, lc(I,0), lc(I,1));
+				if (s != s) finite = false;
+				else maxAnnih = std::max(maxAnnih, std::fabs(s));
+			}
+		}
+	}
+	printf("DDDphi finite=%d  max|sum DDDphi*quadratic|=%.3e\n", (int)finite, maxAnnih);
+	EXPECT_TRUE(finite);
+	EXPECT_NEAR(maxAnnih, 0.0, 1e-4); /* annihilates quadratics */
+}
+
 /* PCA parameterization + RK first-derivative normal converge on a cylinder. */
 TEST(KLShellShape, CylinderNormalAndCurvature)
 {

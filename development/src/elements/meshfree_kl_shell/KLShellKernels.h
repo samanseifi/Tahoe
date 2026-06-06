@@ -344,6 +344,40 @@ inline void BMatrixGradient(const ShellGeom& g0, double P1, double P2,
 	}
 }
 
+/* in-surface parametric gradient of the CURVATURE operator (the xi3-linear coefficient of
+ * the strain B_Iijk) for a bending/curvature-gradient stabilization. Output Bk[i][j][k][l],
+ * l in {0,1}, is d/d(xi_l) of kappa_ijk = grad(v3D)_ij / ((h/2) xi3) at xi3=0, with the
+ * geometry tensors (B1, B2, B1m, B2m, Finv) treated as locally constant over the nodal cell.
+ *
+ * That approximation is consistent for stabilization: the 3rd shape derivatives annihilate
+ * any quadratic (constant-curvature) displacement field, so this operator vanishes on
+ * physical bending and fires only on the super-quadratic hourglass content. Needs the node's
+ * 2nd derivatives (P11,P12,P22) and 3rd derivatives (P111,P112,P122,P222). */
+inline void BMatrixCurvatureGradient(const ShellGeom& g0,
+                                     double P11, double P12, double P22,
+                                     double P111, double P112, double P122, double P222,
+                                     double Bk[3][3][3][2])
+{
+	/* d(P-deriv)/d(xi_l): row l=0 is d/dxi1, row l=1 is d/dxi2 */
+	double dP1[2]  = {P11,  P12};   /* d(Psi,1)/dxi_l   */
+	double dP2[2]  = {P12,  P22};   /* d(Psi,2)/dxi_l   */
+	double dP11[2] = {P111, P112};  /* d(Psi,11)/dxi_l  */
+	double dP12[2] = {P112, P122};  /* d(Psi,12)/dxi_l  */
+	double dP22[2] = {P122, P222};  /* d(Psi,22)/dxi_l  */
+
+	for (int l = 0; l < 2; l++)
+		for (int i = 0; i < 3; i++)
+			for (int k = 0; k < 3; k++) {
+				/* d(crow_a)/d(xi_l), crow_a = curvature parametric row a (see BMatrix hx term) */
+				double dcrow0 = g0.B1m[0][i][k]*dP1[l] + g0.B1[i][k]*dP11[l]
+				              + g0.B2m[0][i][k]*dP2[l] + g0.B2[i][k]*dP12[l];
+				double dcrow1 = g0.B1m[1][i][k]*dP1[l] + g0.B1[i][k]*dP12[l]
+				              + g0.B2m[1][i][k]*dP2[l] + g0.B2[i][k]*dP22[l];
+				for (int j = 0; j < 3; j++)
+					Bk[i][j][k][l] = dcrow0*g0.Finv[0][j] + dcrow1*g0.Finv[1][j];
+			}
+}
+
 /* Voigt 6x3 form of B[3][3][3]; rows [11,22,33,23,13,12] with engineering shear */
 inline void ToVoigt(const double B[3][3][3], double Bv[6][3])
 {

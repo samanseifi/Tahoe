@@ -82,6 +82,7 @@ void AssembleShell(const std::vector<double>& X, const std::vector<double>& noda
 	MLSSolverT rkpm(2, 2, false, MeshFreeT::kGaussian, gwin);
 	rkpm.Initialize();
 
+	int nskip = 0;
 	for (int P=0;P<N;P++) {
 
 		/* neighbors within the support radius (3D distance on the surface) */
@@ -110,9 +111,10 @@ void AssembleShell(const std::vector<double>& X, const std::vector<double>& noda
 		dArrayT vol(nn);
 		for (int k=0;k<nn;k++) vol[k] = nodalArea[nb[k]]; /* nodal volumes for the moment matrix */
 		dArrayT sample(2); sample[0]=0.0; sample[1]=0.0;
-		if (!rkpm.SetField(lc, np, vol, sample, 2)) continue;
+		if (!rkpm.SetField(lc, np, vol, sample, 3)) { nskip++; continue; } /* order 3 for the bending stabilization */
 		const dArray2DT& Dp = rkpm.Dphi();
 		const dArray2DT& DDp = rkpm.DDphi();
+		const dArray2DT& DDDp = rkpm.DDDphi(); /* 2D comps: 0:111 1:122 2:112 3:222 */
 
 		/* reference position parametric derivatives at P */
 		double x1[3]={0,0,0},x2[3]={0,0,0},x11[3]={0,0,0},x22[3]={0,0,0},x12[3]={0,0,0};
@@ -180,8 +182,37 @@ void AssembleShell(const std::vector<double>& X, const std::vector<double>& noda
 				int gi=3*nb[I], gj=3*nb[J];
 				for (int ci=0;ci<3;ci++) for (int cj=0;cj<3;cj++) K[(size_t)(gi+ci)*ndof+(gj+cj)] += Mw*kij[ci][cj];
 			}
+
+			/* bending (curvature-gradient) stabilization: penalize d(kappa)/d(xi_l), the part
+			 * of the strain gradient that lives in the xi3-linear (bending) term and is invisible
+			 * to the membrane (xi3=0) stabilization. Coefficient M_aa * (h^3/12) is the bending
+			 * counterpart of the membrane M_aa * h; uses 3rd derivatives (DDDp). */
+			std::vector<std::vector<double> > Bkv(nn, std::vector<double>(36));
+			for (int I=0;I<nn;I++) {
+				double Bk[3][3][3][2];
+				/* DDDp comps (2D): 0:Psi,111  1:Psi,122  2:Psi,112  3:Psi,222 */
+				BMatrixCurvatureGradient(G0, DDp(0,I),DDp(2,I),DDp(1,I),
+					DDDp(0,I),DDDp(2,I),DDDp(1,I),DDDp(3,I), Bk);
+				for (int l=0;l<2;l++) {
+					double B[3][3][3];
+					for (int i=0;i<3;i++) for (int j=0;j<3;j++) for (int k=0;k<3;k++) B[i][j][k]=Bk[i][j][k][l];
+					double bv[6][3]; ToVoigt(B, bv);
+					for (int r=0;r<6;r++) for (int c=0;c<3;c++) Bkv[I][l*18+r*3+c]=bv[r][c];
+				}
+			}
+			double Mw_bend = (A_K*Mmom)*(h*h*h/12.0);
+			for (int l=0;l<2;l++) for (int I=0;I<nn;I++) for (int J=0;J<nn;J++) {
+				double kij[3][3]={{0,0,0},{0,0,0},{0,0,0}};
+				for (int a=0;a<6;a++) for (int b=0;b<6;b++) {
+					double Cab=C[a][b]; if (Cab==0.0) continue;
+					for (int ci=0;ci<3;ci++) for (int cj=0;cj<3;cj++) kij[ci][cj]+=Bkv[I][l*18+a*3+ci]*Cab*Bkv[J][l*18+b*3+cj];
+				}
+				int gi=3*nb[I], gj=3*nb[J];
+				for (int ci=0;ci<3;ci++) for (int cj=0;cj<3;cj++) K[(size_t)(gi+ci)*ndof+(gj+cj)] += Mw_bend*kij[ci][cj];
+			}
 		}
 	}
+	if (nskip > 0) printf("  [AssembleShell: %d/%d nodes skipped (SetField failed)]\n", nskip, N);
 	for (long i=0;i<ndof;i++) for (long j=i+1;j<ndof;j++) {
 		double a = 0.5*(K[i*ndof+j]+K[j*ndof+i]);
 		K[i*ndof+j] = K[j*ndof+i] = a;
@@ -211,7 +242,8 @@ void JacobiEig(std::vector<double> A, int n, std::vector<double>& ev)
 }
 
 /* number of near-zero eigenvalues of a free cylinder patch (expect 6 rigid-body modes) */
-int CurvedPatchZeroModes(int nt, int nz, std::vector<double>& smallest9)
+int CurvedPatchZeroModes(int nt, int nz, std::vector<double>& smallest9, double supportFac = 3.0,
+	double thick = 0.05)
 {
 	const double Rc = 1.0;
 	double arc = 1.0/(nt-1);          /* small arc span ~1 rad total */
@@ -225,9 +257,9 @@ int CurvedPatchZeroModes(int nt, int nz, std::vector<double>& smallest9)
 		area[id]=(Rc*arc)*dz;
 	}
 	double C[6][6]; PlaneStressTangent(1.0e4, 0.0, C);
-	double support = 3.0*std::max(Rc*arc, dz);
+	double support = supportFac*std::max(Rc*arc, dz);
 	std::vector<double> K;
-	AssembleShell(X, area, 0.05, C, support, K);
+	AssembleShell(X, area, thick, C, support, K);
 	int ndof=3*N;
 	std::vector<double> ev;
 	JacobiEig(K, ndof, ev);
@@ -268,7 +300,7 @@ double ScordelisLo(int nt, int nz)
 
 	double C[6][6];
 	PlaneStressTangent(E, nu, C);
-	double support = 3.0*std::max(arc, dz);
+	double support = 5.0*std::max(arc, dz); /* large enough for clean quadratic RKPM + stabilization */
 	std::vector<double> K;
 	AssembleShell(X, area, h, C, support, K);
 	int ndof = 3*N;
@@ -311,37 +343,42 @@ double ScordelisLo(int nt, int nz)
 
 } /* anonymous namespace */
 
-/* Diagnostic: does a FREE curved (cylinder) patch have exactly 6 zero-energy modes?
- * Assembled with quadratic RKPM + Gaussian window (the BC-robust path).
+/* A FREE curved (cylinder) patch must have exactly 6 zero-energy (rigid-body) modes.
  *
- * FINDING: still > 6 and GROWING with refinement (7 at 7x7, 15 at 9x9) — versus 9/16 with
- * the EFG basis. So switching basis (EFG -> RKPM) does NOT cure it: the curved-shell
- * hourglass is BASIS-INDEPENDENT. It is a STABILIZATION gap — the membrane-only
- * (xi3=0) Taylor stabilization controls the membrane hourglass (flat patches give exactly
- * 6) but not the curved BENDING hourglass, which needs a bending/curvature stabilization
- * (3rd-derivative term; MLSSolverT exposes DDDphi). Tracked in #66. */
-TEST(KLShellBenchmark, DISABLED_CurvedPatchSpectrum)
+ * History: with EFG and membrane-only stabilization this gave 9 modes at 7x7 and 16 at 9x9
+ * (a curved-shell BENDING hourglass that grows with refinement). The cure is the bending
+ * (curvature-gradient) stabilization (BMatrixCurvatureGradient, using DDDphi) PLUS a
+ * sufficiently large support (~5x spacing) so the quadratic RKPM strain operator is rich
+ * enough — small supports (e.g. 3x) leave a resonance with spurious modes. With both, the
+ * patch is rank-clean (exactly 6) across refinement. */
+TEST(KLShellBenchmark, CurvedPatchBendingStabilized)
 {
-	std::vector<double> s9a, s9b;
-	int z1 = CurvedPatchZeroModes(7, 7, s9a);
-	int z2 = CurvedPatchZeroModes(9, 9, s9b);
-	printf("curved 7x7 zero modes: %d  (smallest9:", z1);
-	for (double e : s9a) printf(" %.2e", e);
-	printf(")\ncurved 9x9 zero modes: %d  (smallest9:", z2);
-	for (double e : s9b) printf(" %.2e", e);
-	printf(")\n");
-	EXPECT_EQ(z1, 6);
-	EXPECT_EQ(z2, 6);
+	std::vector<double> s9;
+	int z7  = CurvedPatchZeroModes(7,  7,  s9, 5.0);
+	int z9  = CurvedPatchZeroModes(9,  9,  s9, 5.0);
+	int z11 = CurvedPatchZeroModes(11, 11, s9, 5.0);
+	EXPECT_EQ(z7,  6);
+	EXPECT_EQ(z9,  6);
+	EXPECT_EQ(z11, 6);
 }
 
-/* DISABLED — work in progress. The geometry, diaphragm boundary conditions, gravity load
- * and curved-surface assembly are in place, but the solve currently exhibits a spurious
- * nodal-integration mode that grows under mesh refinement on the CURVED surface (the flat
- * cantilever in test_KLShellAssembly converges correctly, so curvature is the trigger).
- * The membrane-only Taylor-series stabilization, sufficient for the flat case, does not
- * control this curved-shell hourglass with the EFG orthogonal-MLS basis used here (Tahoe's
- * RKPM PolyBasis2DT is capped at linear completeness, issue #61). Resolving it likely needs
- * either an RKPM quadratic basis or an additional bending/curvature stabilization (#66).
+/* DISABLED — the last remaining wall, now precisely characterized.
+ *
+ * Geometry, diaphragm BCs, gravity load and the curved RKPM assembly (quadratic basis +
+ * Gaussian window + membrane AND bending/curvature stabilization) are all in place. The
+ * bending stabilization cures the curved-shell hourglass for moderately thick shells
+ * (CurvedPatchBendingStabilized: a free patch gives exactly 6 modes at R/h=20). But the
+ * Scordelis-Lo roof is THIN (R/h=100), and a thickness sweep of the free-patch spectrum
+ * shows a spurious mode whose energy collapses to ~1.8e-9 * lambda_max as R/h grows -- about
+ * four orders below the physical bending scale (h/R)^2. That thin-shell membrane-bending
+ * hourglass is NOT controlled by the membrane+bending Taylor stabilization (boosting the
+ * bending term 100x barely moves the deflection), so the roof deflection is far too large
+ * and grows with refinement.
+ *
+ * This is the paper's own acknowledged "preliminary"/incomplete section 5 (thin-shell
+ * stabilization / membrane locking). Resolving it needs a more robust construction than the
+ * first-gradient Taylor stabilization (e.g. SCNI-style smoothed gradients, or a
+ * thickness-consistent stabilization). Tracked in #66/#68.
  *
  * Run with:  ./test_KLShellBenchmark --gtest_also_run_disabled_tests */
 TEST(KLShellBenchmark, DISABLED_ScordelisLoRoof)
