@@ -530,6 +530,90 @@ double QuarterCylinderPressure(int nt, int nz)
 	return ux*std::cos(th)+uy*std::sin(th); /* radial component */
 }
 
+/* FULL pinched cylinder (no symmetry planes -> avoids the rotation-free symmetry-BC issue;
+ * the 3D-distance neighbor search handles the circumferential seam automatically). Diaphragms
+ * at both ends, two opposite inward point loads at mid-span. R=300,L=600,h=3,E=3e6,nu=0.3,
+ * P=1; reference radial deflection under the load = 1.8248e-5. nt must be even (load at
+ * theta=0 and pi), nz odd (load at z=L/2). */
+double FullPinchedCylinder(int nt, int nz, double supportFac = 3.0)
+{
+	const double R=300.0, L=600.0, h=3.0, E=3.0e6, nu=0.3, P=1.0;
+	int N=nt*nz;
+	std::vector<double> X(3*N), area(N);
+	double dth=(2.0*M_PI)/nt, dz=L/(nz-1), arc=R*dth;
+	for (int i=0;i<nt;i++) for (int j=0;j<nz;j++){
+		int id=j*nt+i; double th=i*dth;
+		X[3*id]=R*std::cos(th); X[3*id+1]=R*std::sin(th); X[3*id+2]=j*dz;
+		double wb=(j==0||j==nz-1)?0.5:1.0;
+		area[id]=arc*dz*wb; /* full circumference: no circumferential edge halving */
+	}
+	double C[6][6]; PlaneStressTangent(E, nu, C);
+	double support=supportFac*std::max(arc,dz);
+	std::vector<double> K; AssembleShell(X, area, h, C, support, K);
+	int ndof=3*N;
+
+	std::vector<char> fixed(ndof,0);
+	for (int i=0;i<nt;i++){ int id0=0*nt+i, idL=(nz-1)*nt+i;  /* diaphragms at z=0 and z=L */
+		fixed[3*id0+0]=1; fixed[3*id0+1]=1; fixed[3*idL+0]=1; fixed[3*idL+1]=1; }
+	fixed[3*(0*nt+0)+2]=1; /* one u_z restraint -> remove axial rigid translation */
+
+	std::vector<double> f(ndof,0.0);
+	int jMid=(nz-1)/2;
+	int idTop=jMid*nt + 0;       /* theta=0  -> (R,0,zmid),  load inward = -x */
+	int idBot=jMid*nt + nt/2;    /* theta=pi -> (-R,0,zmid), load inward = +x */
+	f[3*idTop+0] += -P;
+	f[3*idBot+0] += +P;
+
+	std::vector<int> map(ndof,-1); int nf=0;
+	for (int i=0;i<ndof;i++) if(!fixed[i]) map[i]=nf++;
+	std::vector<double> Kr((size_t)nf*nf,0.0), fr(nf,0.0);
+	for (int i=0;i<ndof;i++){ if(fixed[i])continue; fr[map[i]]=f[i];
+		for(int j=0;j<ndof;j++) if(!fixed[j]) Kr[(size_t)map[i]*nf+map[j]]=K[(size_t)i*ndof+j]; }
+	std::vector<double> ur;
+	if(!SolveDense(Kr,fr,nf,ur)) return -1.0;
+	return -ur[map[3*idTop+0]]; /* inward (-x) deflection magnitude at the load */
+}
+
+/* Pinched cylinder with end diaphragms (Belytschko obstacle course). Two opposite radial
+ * point loads at mid-span; ends are rigid diaphragms. Modeled as 1/8 by symmetry. Standard
+ * data: R=300, L=600, h=3, E=3e6, nu=0.3, P=1; reference radial deflection under the load
+ * = 1.8248e-5. Returns the deflection magnitude under the load. */
+double PinchedCylinder(int nt, int nz, double supportFac = 3.0)
+{
+	const double R=300.0, L=600.0, h=3.0, E=3.0e6, nu=0.3, P=1.0;
+	int N=nt*nz;
+	std::vector<double> X(3*N), area(N);
+	double dphi=(0.5*M_PI)/(nt-1), dz=(0.5*L)/(nz-1), arc=R*dphi;
+	for (int i=0;i<nt;i++) for (int j=0;j<nz;j++){
+		int id=j*nt+i; double phi=i*dphi;            /* phi=0 at top (load), phi=90 at side */
+		X[3*id]=R*std::sin(phi); X[3*id+1]=R*std::cos(phi); X[3*id+2]=j*dz; /* z=0 mid-span */
+		double wa=(i==0||i==nt-1)?0.5:1.0, wb=(j==0||j==nz-1)?0.5:1.0;
+		area[id]=arc*dz*wa*wb;
+	}
+	double C[6][6]; PlaneStressTangent(E, nu, C);
+	double support=supportFac*std::max(arc,dz);
+	std::vector<double> K; AssembleShell(X, area, h, C, support, K);
+	int ndof=3*N;
+
+	std::vector<char> fixed(ndof,0);
+	for (int i=0;i<nt;i++) { int id=(nz-1)*nt+i; fixed[3*id+0]=1; fixed[3*id+1]=1; } /* z=L/2 diaphragm */
+	for (int i=0;i<nt;i++) { int id=0*nt+i; fixed[3*id+2]=1; }                       /* z=0 symmetry: u_z=0 */
+	for (int j=0;j<nz;j++) { int id=j*nt+0;      fixed[3*id+0]=1; }                  /* phi=0 symmetry: u_x=0 */
+	for (int j=0;j<nz;j++) { int id=j*nt+(nt-1); fixed[3*id+1]=1; }                  /* phi=90 symmetry: u_y=0 */
+
+	std::vector<double> f(ndof,0.0);
+	f[3*(0*nt+0)+1] = -0.25*P; /* load corner (top, mid-span): P/4 radial inward (-y) for the 1/8 model */
+
+	std::vector<int> map(ndof,-1); int nf=0;
+	for (int i=0;i<ndof;i++) if(!fixed[i]) map[i]=nf++;
+	std::vector<double> Kr((size_t)nf*nf,0.0), fr(nf,0.0);
+	for (int i=0;i<ndof;i++){ if(fixed[i])continue; fr[map[i]]=f[i];
+		for(int j=0;j<ndof;j++) if(!fixed[j]) Kr[(size_t)map[i]*nf+map[j]]=K[(size_t)i*ndof+j]; }
+	std::vector<double> ur;
+	if(!SolveDense(Kr,fr,nf,ur)) return -1.0;
+	return -ur[map[3*(0*nt+0)+1]]; /* inward radial (-y) deflection magnitude at the load */
+}
+
 /* FLAT cantilever strip via the SAME curved assembler (AssembleShell): clamped at x=0,
  * transverse tip load at x=L. Returns tip deflection. Beam theory: w = P L^3/(3 E I),
  * I = W h^3/12. Isolates whether AssembleShell itself is consistent (flat) before blaming
@@ -650,6 +734,28 @@ double ScordelisLo(int nt, int nz, double supportFac = 3.0, double alpha = 1.0)
  * sufficiently large support (~5x spacing) so the quadratic RKPM strain operator is rich
  * enough — small supports (e.g. 3x) leave a resonance with spurious modes. With both, the
  * patch is rank-clean (exactly 6) across refinement. */
+/* DISABLED diagnostic. The pinched cylinder (R/h=100, two opposite point loads) is
+ * BENDING / inextensional dominated -- unlike Scordelis-Lo which is membrane dominated and
+ * now works. Both the 1/8-symmetry model (PinchedCylinder) and the full model
+ * (FullPinchedCylinder, no symmetry planes) come out ~100-700x too soft and grow with
+ * refinement: a spurious inextensional-bending hourglass. Boosting the bending stabilization
+ * 50x only reduces it ~4x (the mode is largely in the stabilization's null space). So the
+ * membrane fix (local-frame plane stress) was necessary but not sufficient here -- the
+ * pinched cylinder additionally needs a bending hourglass control that the current
+ * first-gradient curvature stabilization does not provide (the paper's preliminary section 5).
+ * Tracked in #66/#68. */
+TEST(KLShellBenchmark, DISABLED_PinchedCylinderAudit)
+{
+	double ref = 1.8248e-5;
+	printf("FULL pinched cylinder (ref %.4e), nt x nz:\n", ref);
+	int sizes[3][2] = {{32,17},{40,21},{48,25}};
+	for (int s=0;s<3;s++) {
+		int nt=sizes[s][0], nz=sizes[s][1];
+		double w = FullPinchedCylinder(nt, nz, 3.0);
+		printf("  %dx%d : w=%.4e  (%.0f%% of ref)\n", nt, nz, w, 100.0*w/ref);
+	}
+}
+
 TEST(KLShellBenchmark, DISABLED_CurvedPatchBendingStabilized)
 {
 	std::vector<double> s9;
