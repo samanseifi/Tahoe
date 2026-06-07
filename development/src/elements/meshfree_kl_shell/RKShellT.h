@@ -47,6 +47,8 @@ public:
 	virtual void AddNodalForce(const FieldT& field, int node, dArrayT& force);
 	virtual double InternalEnergy(void);
 	virtual void SendOutput(int kincode);
+	virtual void RegisterOutput(void);
+	virtual void WriteOutput(void);
 	/*@}*/
 
 	/** \name connectivity / equations (register the ragged neighbor stencils) */

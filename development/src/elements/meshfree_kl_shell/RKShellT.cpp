@@ -58,9 +58,14 @@ void RKShellT::Equations(AutoArrayT<const iArray2DT*>& eq_1,
 	AutoArrayT<const RaggedArray2DT<int>*>& eq_2)
 {
 #pragma unused(eq_1)
+	fEqnos.Configure(fNeighbors, NumDOF());
 	Field().SetLocalEqnos(fNeighbors, fEqnos);
 	eq_2.Append(&fEqnos);
 }
+
+/* meshfree element: no FE-block output (override ElementBaseT's block-based output) */
+void RKShellT::RegisterOutput(void) {}
+void RKShellT::WriteOutput(void) {}
 
 void RKShellT::ConnectsU(AutoArrayT<const iArray2DT*>& connects_1,
 	AutoArrayT<const RaggedArray2DT<int>*>& connects_2) const
@@ -145,14 +150,19 @@ void RKShellT::DefineElements(const ArrayT<StringT>& block_ID, const ArrayT<int>
 		ExceptionT::GeneralFail("RKShellT::DefineElements",
 			"KL shell requires 3D coordinates, got %d", nsd);
 
-	/* gather the unique node ids referenced by the declared background block(s) */
+	/* gather the shell node set: the nodes referenced by the declared background block(s), or
+	 * ALL model nodes when no block is given (single-shell deck) */
 	int num_global = all_coords.MajorDim();
 	iArrayT used(num_global);
-	used = 0;
-	for (int b = 0; b < block_ID.Length(); b++) {
-		const iArray2DT& conn = model.ElementGroup(block_ID[b]);
-		const int* p = conn.Pointer();
-		for (int k = 0; k < conn.Length(); k++) used[p[k]] = 1;
+	if (block_ID.Length() == 0)
+		used = 1;
+	else {
+		used = 0;
+		for (int b = 0; b < block_ID.Length(); b++) {
+			const iArray2DT& conn = model.ElementGroup(block_ID[b]);
+			const int* p = conn.Pointer();
+			for (int k = 0; k < conn.Length(); k++) used[p[k]] = 1;
+		}
 	}
 
 	/* local index <-> global node id */
@@ -169,6 +179,11 @@ void RKShellT::DefineElements(const ArrayT<StringT>& block_ID, const ArrayT<int>
 			for (int d = 0; d < 3; d++) fCoords(l, d) = all_coords(n, d);
 			global_id[l] = n;
 		}
+
+	/* one element card per integration node (meshfree nodal integration); the card carries
+	 * per-node state storage. (Mirrors SCNIMFT's one-card-per-node setup.) */
+	fElementCards.Dimension(fNumNodes);
+	for (int i = 0; i < fNumNodes; i++) fElementCards[i].SetMaterialNumber(0);
 
 	/* build neighbor lists (local indices) + nodal areas */
 	BuildNeighbors();
