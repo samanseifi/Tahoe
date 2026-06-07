@@ -419,6 +419,74 @@ void AssembleShellGauss(const std::vector<double>& X, int nt, int nz, double h,
 	}
 }
 
+/* Curved-shell stiffness using a SINGLE GLOBAL parametric chart (the structured (i,j) grid)
+ * instead of a per-evaluation-point PCA frame. Because every Gauss point uses the same
+ * consistent parameterization, the RKPM shape functions form a consistent global Galerkin
+ * basis -> no spurious rank deficiency. The 3D geometry/curvature is reconstructed from the
+ * nodal 3D positions via the RKPM derivatives in (u,v); the area element is |x,u x x,v|.
+ * 2x2 in-plane Gauss per parametric cell, 3-pt through-thickness Gauss. */
+void AssembleShellParam(const std::vector<double>& X, int nt, int nz, double h,
+	const double C[6][6], double supportFac, std::vector<double>& K)
+{
+	int N=nt*nz, ndof=3*N; K.assign((size_t)ndof*ndof,0.0);
+	double xg3[3]={-std::sqrt(3.0/5.0),0.0,std::sqrt(3.0/5.0)}, wg3[3]={5.0/9.0,8.0/9.0,5.0/9.0};
+	double g2[2]={-1.0/std::sqrt(3.0),1.0/std::sqrt(3.0)};
+	double support = supportFac; /* in parametric (index) units */
+
+	dArrayT gwin(3); gwin[0]=1.5; gwin[1]=0.4; gwin[2]=3.0;
+	MLSSolverT rkpm(2,2,false,MeshFreeT::kGaussian,gwin); rkpm.Initialize();
+
+	/* node parametric coords (u,v) = (i,j) */
+	for (int cu=0; cu<nt-1; cu++)
+		for (int cv=0; cv<nz-1; cv++)
+			for (int gu=0; gu<2; gu++)
+				for (int gv=0; gv<2; gv++) {
+
+					double ug = cu + 0.5*(1.0+g2[gu]);  /* parametric position of the Gauss point */
+					double vg = cv + 0.5*(1.0+g2[gv]);
+
+					std::vector<int> nb;
+					for (int j=0;j<nz;j++) for (int i=0;i<nt;i++) {
+						double du=i-ug, dv=j-vg;
+						if (std::sqrt(du*du+dv*dv) < 0.99*support) nb.push_back(j*nt+i);
+					}
+					int nn=int(nb.size());
+					if (nn<6) continue;
+
+					dArray2DT lc(nn,2);
+					for (int k=0;k<nn;k++) { int i=nb[k]%nt, j=nb[k]/nt; lc(k,0)=i-ug; lc(k,1)=j-vg; }
+					dArray2DT np(nn,1); np=support; dArrayT vol(nn); vol=1.0; dArrayT s(2); s[0]=s[1]=0.0;
+					if (!rkpm.SetField(lc,np,vol,s,2)) continue;
+					const dArray2DT& Dp=rkpm.Dphi(); const dArray2DT& DDp=rkpm.DDphi();
+
+					double x1[3]={0,0,0},x2[3]={0,0,0},x11[3]={0,0,0},x22[3]={0,0,0},x12[3]={0,0,0};
+					for (int I=0;I<nn;I++){double Xq[3]={X[3*nb[I]],X[3*nb[I]+1],X[3*nb[I]+2]};
+						for(int d=0;d<3;d++){x1[d]+=Dp(0,I)*Xq[d];x2[d]+=Dp(1,I)*Xq[d];
+							x11[d]+=DDp(0,I)*Xq[d];x22[d]+=DDp(1,I)*Xq[d];x12[d]+=DDp(2,I)*Xq[d];}}
+					double cr[3]; Cross(x1,x2,cr); double jac=Norm(cr); /* physical area per unit (u,v) */
+					double wIP = jac*0.25; /* 2x2 Gauss on a unit parametric cell: weight 1*1, du dv = 1/4 */
+
+					for (int g=0;g<3;g++) {
+						ShellGeom G;
+						if (!BuildGeom(x1,x2,x11,x22,x12,h,xg3[g],G)) continue;
+						double cw = wg3[g]*(h/2.0)*wIP;
+						std::vector<std::vector<double> > Bv(nn, std::vector<double>(18));
+						for (int I=0;I<nn;I++){double B[3][3][3];
+							BMatrix(G,Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I),B);
+							double bv[6][3]; ToVoigt(B,bv);
+							for(int r=0;r<6;r++)for(int c=0;c<3;c++) Bv[I][r*3+c]=bv[r][c];}
+						for (int I=0;I<nn;I++) for (int J=0;J<nn;J++){
+							double kij[3][3]={{0,0,0},{0,0,0},{0,0,0}};
+							for(int a=0;a<6;a++)for(int b=0;b<6;b++){double Cab=C[a][b];if(Cab==0.0)continue;
+								for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++) kij[ci][cj]+=Bv[I][a*3+ci]*Cab*Bv[J][b*3+cj];}
+							int gI=3*nb[I], gJ=3*nb[J];
+							for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++) K[(size_t)(gI+ci)*ndof+(gJ+cj)]+=cw*kij[ci][cj];
+						}
+					}
+				}
+	for (long i=0;i<ndof;i++) for (long j=i+1;j<ndof;j++){double a=0.5*(K[i*ndof+j]+K[j*ndof+i]);K[i*ndof+j]=K[j*ndof+i]=a;}
+}
+
 /* Quarter-cylinder under internal pressure (pure MEMBRANE, plane strain u_z=0).
  * Known: radial expansion u_r = p R^2 / (E h) (nu=0). Returns the radial displacement at an
  * interior node. Tests curved-membrane stiffness in isolation. */
@@ -435,8 +503,8 @@ double QuarterCylinderPressure(int nt, int nz)
 		area[id]=arc*dz*wa*wb;
 	}
 	double C[6][6]; PlaneStressTangent(E, nu, C);
-	double support = 3.0*std::max(arc, dz);
-	std::vector<double> K; AssembleShellGauss(X, nt, nz, h, C, support, K);
+	(void)arc;
+	std::vector<double> K; AssembleShellParam(X, nt, nz, h, C, 3.0, K);
 	int ndof=3*N;
 
 	std::vector<char> fixed(ndof,0);
@@ -476,8 +544,8 @@ double FlatCantilever(int nx, int nz, double h, double supportFac = 5.0)
 		area[id]=dx*dz*wa*wb;
 	}
 	double C[6][6]; PlaneStressTangent(E, nu, C);
-	double support = supportFac*std::max(dx, dz);
-	std::vector<double> K; AssembleShellGauss(X, nx, nz, h, C, support, K);
+	(void)dx; (void)dz;
+	std::vector<double> K; AssembleShellParam(X, nx, nz, h, C, supportFac, K);
 	int ndof=3*N;
 
 	std::vector<char> fixed(ndof,0);
@@ -527,9 +595,9 @@ double ScordelisLo(int nt, int nz, double supportFac = 3.0)
 
 	double C[6][6];
 	PlaneStressTangent(E, nu, C);
-	double support = supportFac*std::max(arc, dz);
+	(void)arc; (void)dz;
 	std::vector<double> K;
-	AssembleShellGauss(X, nt, nz, h, C, support, K);
+	AssembleShellParam(X, nt, nz, h, C, supportFac, K);
 	int ndof = 3*N;
 
 	/* boundary conditions:
