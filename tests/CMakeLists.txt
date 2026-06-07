@@ -130,3 +130,11 @@ tahoe_gtest_full(test_KLShellKinematics meshfree/test_KLShellKinematics.cpp)
 tahoe_gtest_full(test_KLShellAssembly   meshfree/test_KLShellAssembly.cpp)
 tahoe_gtest(test_KLShellStress          meshfree/test_KLShellStress.cpp)
 tahoe_gtest_full(test_KLShellBenchmark  meshfree/test_KLShellBenchmark.cpp)
+
+# In-pipeline element test: runs the Scordelis-Lo deck through the tahoe binary and checks
+# the deflection (tests the real RKShellT XML->framework->solve path).
+tahoe_gtest_full(test_KLShellPipeline   meshfree/test_KLShellPipeline.cpp)
+target_compile_definitions(test_KLShellPipeline PRIVATE
+    "TAHOE_TEST_REPO_ROOT=\"${CMAKE_SOURCE_DIR}\""
+    "TAHOE_TEST_BUILD_DIR=\"${CMAKE_BINARY_DIR}\""
+)

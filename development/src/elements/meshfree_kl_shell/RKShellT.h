@@ -26,6 +26,8 @@
 #include "dArray2DT.h"
 #include "dArrayT.h"
 #include "iArrayT.h"
+#include "dMatrixT.h"
+#include "ArrayT.h"
 
 namespace Tahoe {
 
@@ -82,6 +84,11 @@ private:
 	/** build per-node neighbor lists (3D distance within the support) */
 	void BuildNeighbors(void);
 
+	/** precompute the per-node stencil stiffness K_e (linear elastic; geometry fixed) using the
+	 * validated KL-shell kernels: surface PCA chart + RKPM shapes + nodal integration + membrane
+	 * and curvature-gradient stabilization, with local-frame plane stress */
+	void BuildElementStiffness(void);
+
 private:
 
 	/** \name shell + meshfree parameters */
@@ -96,12 +103,18 @@ private:
 	/** \name surface meshfree data */
 	/*@{*/
 	int fNumNodes;                       /**< number of shell nodes */
-	dArray2DT fCoords;                   /**< reference coordinates [fNumNodes] x 3 */
+	dArray2DT fCoords;                   /**< reference coordinates [fNumNodes] x 3 (local order) */
 	dArrayT   fNodalArea;                /**< nodal integration weight per node */
-	RaggedArray2DT<int> fNeighbors;      /**< [node] x [neighbor node ids] (0-based) */
+	iArrayT   fGlobalToLocal;            /**< global node id -> local shell index (-1 if not a shell node) */
+	iArrayT   fGlobalIDs;                /**< local shell index -> global node id */
+	RaggedArray2DT<int> fNeighbors;      /**< [node] x [neighbor GLOBAL node ids] */
 	RaggedArray2DT<int> fEqnos;          /**< [node] x [neighbor dof equations] */
+	ArrayT<dMatrixT> fKe;                /**< per-node stencil stiffness (linear elastic) */
 	MLSSolverT* fMLS;                    /**< RKPM shape-function solver (local chart) */
 	/*@}*/
+
+	/** uniform per-area applied load (e.g. gravity); Scordelis-Lo: (0,-90,0) */
+	double fLoad[3];
 
 	/** plane-stress (sigma33=0, local normal frame) Voigt tangent */
 	double fC[6][6];
