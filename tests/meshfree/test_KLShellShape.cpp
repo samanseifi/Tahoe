@@ -305,6 +305,56 @@ TEST(KLShellShape, RKPMThirdDerivativeAnnihilatesQuadratics)
 	EXPECT_NEAR(maxAnnih, 0.0, 1e-4); /* annihilates quadratics */
 }
 
+/* Cubic-completeness RKPM (#66 Approach A): MLSSolverT with completeness 3 must (a) keep
+ * reproducing a quadratic field's Hessian (no regression, moment matrix stable at 10x10) and
+ * (b) reproduce a CUBIC field's 3rd derivative -- the non-vanishing higher-order derivatives
+ * that control the inextensional hourglass. */
+TEST(KLShellShape, RKPMCubicCompleteness)
+{
+	const int n = 17;
+	const double L = 1.0, h = L/(n-1), R = 4.0*h; /* larger support for the 10-term basis */
+
+	dArrayT gwin(3); gwin[0] = 1.8; gwin[1] = 0.4; gwin[2] = 3.0;
+	MLSSolverT rkpm(2, 3, false, MeshFreeT::kGaussian, gwin); /* completeness 3 */
+	rkpm.Initialize();
+
+	dArray2DT lc;
+	std::vector<double> gx, gy;
+	FlatGridNeighbors(n, L, 0.5, 0.5, R, lc, gx, gy);
+	int nn = lc.MajorDim();
+	ASSERT_GE(nn, 10);
+
+	dArray2DT np(nn,1); np = R;
+	dArrayT vol(nn); vol = h*h;
+	dArrayT sample(2); sample[0]=0.0; sample[1]=0.0;
+	ASSERT_TRUE(rkpm.SetField(lc, np, vol, sample, 3) != 0); /* 10x10 moment matrix inverts */
+
+	const dArray2DT& DDphi = rkpm.DDphi();
+	const dArray2DT& DDD = rkpm.DDDphi(); /* 2D comps: 0:xxx 1:xyy 2:xxy 3:yyy */
+
+	/* (a) quadratic Hessian reproduction (regression) */
+	double hxxErr = 0.0;
+	{
+		double sxx = 0.0;
+		for (int I=0;I<nn;I++) sxx += DDphi(0,I)*lc(I,0)*lc(I,0); /* x^2 -> d2/dx2 = 2 */
+		hxxErr = std::fabs(sxx - 2.0);
+	}
+	/* (b) cubic 3rd-derivative reproduction */
+	double sxxx=0, sxxy=0, sxyy=0, syyy=0;
+	for (int I=0;I<nn;I++) {
+		double x=lc(I,0), y=lc(I,1);
+		sxxx += DDD(0,I)*x*x*x;   /* d3(x^3)/dx3   = 6 */
+		sxxy += DDD(2,I)*x*x*y;   /* d3(x^2 y)/dx2 dy = 2 */
+		sxyy += DDD(1,I)*x*y*y;   /* d3(x y^2)/dx dy2 = 2 */
+		syyy += DDD(3,I)*y*y*y;   /* d3(y^3)/dy3   = 6 */
+	}
+	EXPECT_NEAR(hxxErr, 0.0, 1e-6);
+	EXPECT_NEAR(sxxx, 6.0, 1e-4);
+	EXPECT_NEAR(sxxy, 2.0, 1e-4);
+	EXPECT_NEAR(sxyy, 2.0, 1e-4);
+	EXPECT_NEAR(syyy, 6.0, 1e-4);
+}
+
 /* PCA parameterization + RK first-derivative normal converge on a cylinder. */
 TEST(KLShellShape, CylinderNormalAndCurvature)
 {

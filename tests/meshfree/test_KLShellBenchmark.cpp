@@ -63,7 +63,8 @@ bool SolveDense(std::vector<double> A, std::vector<double> b, int n, std::vector
  * X is a 3D point cloud (N x 3, row-major); nodalArea is the per-node integration weight;
  * h is the shell thickness; C is the (plane-stress) Voigt tangent. K is dense [3N x 3N]. */
 void AssembleShell(const std::vector<double>& X, const std::vector<double>& nodalArea,
-	double h, const double C[6][6], double support, std::vector<double>& K, double alpha = 1.0)
+	double h, const double C[6][6], double support, std::vector<double>& K, double alpha = 1.0,
+	int completeness = 2)
 {
 	int N = int(X.size())/3;
 	int ndof = 3*N;
@@ -72,14 +73,15 @@ void AssembleShell(const std::vector<double>& X, const std::vector<double>& noda
 	double xg[3] = {-std::sqrt(3.0/5.0), 0.0, std::sqrt(3.0/5.0)};
 	double wg[3] = {5.0/9.0, 8.0/9.0, 5.0/9.0};
 
-	/* RKPM (reproducing kernel), quadratic completeness, Gaussian window.
-	 * Gaussian (not cubic-spline) because its 2nd-derivative path is robust at one-sided
-	 * boundary neighborhoods — the cubic-spline window produces NaN DDphi there. */
+	/* RKPM (reproducing kernel), Gaussian window. Gaussian (not cubic-spline) because its
+	 * 2nd/3rd-derivative path is robust at one-sided boundary neighborhoods. completeness 2
+	 * (quadratic) or 3 (cubic); cubic uses a wider window so the 10-term moment matrix has
+	 * enough active neighbors. */
 	dArrayT gwin(3);
-	gwin[0] = 1.5;  /* support scaling */
+	gwin[0] = (completeness >= 3) ? 1.8 : 1.5;  /* support scaling */
 	gwin[1] = 0.4;  /* sharpening */
 	gwin[2] = 3.0;  /* cutoff */
-	MLSSolverT rkpm(2, 2, false, MeshFreeT::kGaussian, gwin);
+	MLSSolverT rkpm(2, completeness, false, MeshFreeT::kGaussian, gwin);
 	rkpm.Initialize();
 
 	int nskip = 0;
@@ -535,7 +537,7 @@ double QuarterCylinderPressure(int nt, int nz)
  * at both ends, two opposite inward point loads at mid-span. R=300,L=600,h=3,E=3e6,nu=0.3,
  * P=1; reference radial deflection under the load = 1.8248e-5. nt must be even (load at
  * theta=0 and pi), nz odd (load at z=L/2). */
-double FullPinchedCylinder(int nt, int nz, double supportFac = 3.0)
+double FullPinchedCylinder(int nt, int nz, double supportFac = 3.0, int completeness = 2)
 {
 	const double R=300.0, L=600.0, h=3.0, E=3.0e6, nu=0.3, P=1.0;
 	int N=nt*nz;
@@ -549,7 +551,7 @@ double FullPinchedCylinder(int nt, int nz, double supportFac = 3.0)
 	}
 	double C[6][6]; PlaneStressTangent(E, nu, C);
 	double support=supportFac*std::max(arc,dz);
-	std::vector<double> K; AssembleShell(X, area, h, C, support, K);
+	std::vector<double> K; AssembleShell(X, area, h, C, support, K, 1.0, completeness);
 	int ndof=3*N;
 
 	std::vector<char> fixed(ndof,0);
@@ -655,7 +657,7 @@ double FlatCantilever(int nx, int nz, double h, double supportFac = 5.0)
 
 /* Scordelis-Lo roof: returns the downward deflection at the free-edge midpoint.
  * nt = nodes across the 80-degree arc, nz = nodes along the length. */
-double ScordelisLo(int nt, int nz, double supportFac = 3.0, double alpha = 1.0)
+double ScordelisLo(int nt, int nz, double supportFac = 3.0, double alpha = 1.0, int completeness = 2)
 {
 	const double R = 25.0, Lz = 50.0, h = 0.25;
 	const double E = 4.32e8, nu = 0.0, grav = 90.0; /* load per unit area, downward */
@@ -684,7 +686,7 @@ double ScordelisLo(int nt, int nz, double supportFac = 3.0, double alpha = 1.0)
 	PlaneStressTangent(E, nu, C);
 	double support = supportFac*std::max(arc, dz);
 	std::vector<double> K;
-	AssembleShell(X, area, h, C, support, K, alpha); /* nodal integration (reduced) + stabilization */
+	AssembleShell(X, area, h, C, support, K, alpha, completeness); /* nodal integration + stabilization */
 	int ndof = 3*N;
 
 	/* boundary conditions (standard Scordelis-Lo):
@@ -755,10 +757,12 @@ double ScordelisLo(int nt, int nz, double supportFac = 3.0, double alpha = 1.0)
 TEST(KLShellBenchmark, DISABLED_PinchedCylinderAudit)
 {
 	double ref = 1.8248e-5;
-	printf("FULL pinched cylinder (ref %.4e) -- 32x17, support sweep (added B1m,l terms):\n", ref);
-	for (double sf = 1.8; sf <= 3.21; sf += 0.4) {
-		double w = FullPinchedCylinder(32, 17, sf);
-		printf("  supportFac=%.1f : w=%.4e  (%.0f%% of ref)\n", sf, w, 100.0*w/ref);
+	printf("Scordelis-Lo cubic regression (ref 0.3006): 15x15 sup3.5 cubic = %.4f\n",
+		ScordelisLo(15, 15, 3.5, 1.0, 3));
+	printf("FULL pinched cylinder (ref %.4e) -- CUBIC (small mesh proof):\n", ref);
+	for (double sf = 3.0; sf <= 4.01; sf += 0.5) {
+		double w = FullPinchedCylinder(20, 11, sf, 3);
+		printf("  cubic 20x11 sup%.1f : w=%.4e  (%.0f%% of ref)\n", sf, w, 100.0*w/ref);
 	}
 }
 
