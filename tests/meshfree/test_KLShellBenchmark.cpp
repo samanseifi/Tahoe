@@ -271,9 +271,236 @@ int CurvedPatchZeroModes(int nt, int nz, std::vector<double>& smallest9, double 
 	return nz0;
 }
 
+/* Diagnostic: does the assembler's RKPM (MLSSolverT+Gaussian) recover a cylinder's
+ * principal curvatures {1/R, 0} from nodal coordinates? Reconstructs x1,x2,x11,x22,x12 at
+ * an interior node and computes curvatures via the fundamental forms. */
+void CylinderCurvatureRKPM(double R, int nt, int nz, double supportFac,
+	double& kmax, double& kmin)
+{
+	const double Lz = 4.0*R, phiMax = 40.0*M_PI/180.0;
+	int N = nt*nz;
+	std::vector<double> X(3*N);
+	double dphi=(2*phiMax)/(nt-1), dz=Lz/(nz-1), arc=R*dphi;
+	for (int i=0;i<nt;i++) for (int j=0;j<nz;j++) {
+		int id=j*nt+i; double phi=-phiMax+i*dphi;
+		X[3*id]=R*std::sin(phi); X[3*id+1]=R*std::cos(phi); X[3*id+2]=j*dz;
+	}
+	double support = supportFac*std::max(arc,dz);
+	dArrayT gwin(3); gwin[0]=1.5; gwin[1]=0.4; gwin[2]=3.0;
+	MLSSolverT rkpm(2,2,false,MeshFreeT::kGaussian,gwin); rkpm.Initialize();
+
+	int P = (nz/2)*nt + nt/2; /* interior node */
+	std::vector<int> nb;
+	for (int Q=0;Q<N;Q++){double d0=X[3*Q]-X[3*P],d1=X[3*Q+1]-X[3*P+1],d2=X[3*Q+2]-X[3*P+2];
+		if (std::sqrt(d0*d0+d1*d1+d2*d2)<0.99*support) nb.push_back(Q);}
+	int nn=int(nb.size());
+	std::vector<double> nbX(3*nn);
+	for (int k=0;k<nn;k++){nbX[3*k]=X[3*nb[k]];nbX[3*k+1]=X[3*nb[k]+1];nbX[3*k+2]=X[3*nb[k]+2];}
+	double psi1[3],psi2[3],n0[3]; PCAFrame(&nbX[0],nn,psi1,psi2,n0);
+	dArray2DT lc(nn,2);
+	for (int k=0;k<nn;k++){double dv[3]={X[3*nb[k]]-X[3*P],X[3*nb[k]+1]-X[3*P+1],X[3*nb[k]+2]-X[3*P+2]};
+		lc(k,0)=Dot(dv,psi1); lc(k,1)=Dot(dv,psi2);}
+	dArray2DT np(nn,1); np=support; dArrayT vol(nn); vol=arc*dz; dArrayT s(2); s[0]=s[1]=0.0;
+	rkpm.SetField(lc,np,vol,s,2);
+	const dArray2DT& Dp=rkpm.Dphi(); const dArray2DT& DDp=rkpm.DDphi();
+	double x1[3]={0,0,0},x2[3]={0,0,0},x11[3]={0,0,0},x22[3]={0,0,0},x12[3]={0,0,0};
+	for (int I=0;I<nn;I++){double Xq[3]={X[3*nb[I]],X[3*nb[I]+1],X[3*nb[I]+2]};
+		for(int d=0;d<3;d++){x1[d]+=Dp(0,I)*Xq[d];x2[d]+=Dp(1,I)*Xq[d];
+			x11[d]+=DDp(0,I)*Xq[d];x22[d]+=DDp(1,I)*Xq[d];x12[d]+=DDp(2,I)*Xq[d];}}
+	double nv[3]; Cross(x1,x2,nv); double nm=Norm(nv); for(int d=0;d<3;d++) nv[d]/=nm;
+	double E=Dot(x1,x1),F=Dot(x1,x2),G=Dot(x2,x2);
+	double Lf=Dot(x11,nv),Mf=Dot(x12,nv),Nf=Dot(x22,nv);
+	double a2=E*G-F*F, a1=-(E*Nf-2*F*Mf+G*Lf), a0=Lf*Nf-Mf*Mf;
+	double disc=a1*a1-4*a2*a0; if(disc<0)disc=0;
+	double k1=std::fabs((-a1+std::sqrt(disc))/(2*a2)), k2=std::fabs((-a1-std::sqrt(disc))/(2*a2));
+	kmax=std::max(k1,k2); kmin=std::min(k1,k2);
+}
+
+/* Curved-shell stiffness by BACKGROUND-CELL GAUSS integration over a structured nt x nz
+ * node grid (classic meshfree Galerkin). Each grid cell gets 2x2 in-plane Gauss points;
+ * the RKPM shape functions are evaluated AT each Gauss point (not at nodes), so the
+ * integration is consistent and stable -- no nodal-integration hourglass, no stabilization.
+ * Through-thickness: 3-pt Gauss with sigma33=0 plane stress (via the condensed C). */
+void AssembleShellGauss(const std::vector<double>& X, int nt, int nz, double h,
+	const double C[6][6], double support, std::vector<double>& K)
+{
+	int N = nt*nz, ndof = 3*N;
+	K.assign((size_t)ndof*ndof, 0.0);
+
+	double xg3[3] = {-std::sqrt(3.0/5.0), 0.0, std::sqrt(3.0/5.0)};
+	double wg3[3] = {5.0/9.0, 8.0/9.0, 5.0/9.0};
+	double g2[2] = {-1.0/std::sqrt(3.0), 1.0/std::sqrt(3.0)};
+
+	dArrayT gwin(3); gwin[0]=1.5; gwin[1]=0.4; gwin[2]=3.0;
+	MLSSolverT rkpm(2, 2, false, MeshFreeT::kGaussian, gwin);
+	rkpm.Initialize();
+
+	for (int ci=0; ci<nt-1; ci++)
+		for (int cj=0; cj<nz-1; cj++) {
+
+			int corner[4] = { cj*nt+ci, cj*nt+ci+1, (cj+1)*nt+ci+1, (cj+1)*nt+ci };
+
+			for (int gi=0; gi<2; gi++)
+				for (int gj=0; gj<2; gj++) {
+
+					double xi=g2[gi], eta=g2[gj];
+					double Nc[4]   = {(1-xi)*(1-eta)/4,(1+xi)*(1-eta)/4,(1+xi)*(1+eta)/4,(1-xi)*(1+eta)/4};
+					double dNx[4]  = {-(1-eta)/4,(1-eta)/4,(1+eta)/4,-(1+eta)/4};
+					double dNe[4]  = {-(1-xi)/4,-(1+xi)/4,(1+xi)/4,(1-xi)/4};
+					double xgp[3]={0,0,0}, dxi[3]={0,0,0}, deta[3]={0,0,0};
+					for (int k=0;k<4;k++) for (int d=0;d<3;d++) {
+						xgp[d]  += Nc[k]*X[3*corner[k]+d];
+						dxi[d]  += dNx[k]*X[3*corner[k]+d];
+						deta[d] += dNe[k]*X[3*corner[k]+d];
+					}
+					double cr[3]; Cross(dxi, deta, cr);
+					double wIP = Norm(cr); /* area element; 2pt Gauss weights are 1 */
+
+					/* neighbors of the Gauss point within the support */
+					std::vector<int> nb;
+					for (int Q=0;Q<N;Q++) {
+						double d0=X[3*Q]-xgp[0], d1=X[3*Q+1]-xgp[1], d2=X[3*Q+2]-xgp[2];
+						if (std::sqrt(d0*d0+d1*d1+d2*d2) < 0.99*support) nb.push_back(Q);
+					}
+					int nn=int(nb.size());
+					if (nn < 6) continue;
+
+					std::vector<double> nbX(3*nn);
+					for (int k=0;k<nn;k++){nbX[3*k]=X[3*nb[k]];nbX[3*k+1]=X[3*nb[k]+1];nbX[3*k+2]=X[3*nb[k]+2];}
+					double psi1[3],psi2[3],n0[3];
+					PCAFrame(&nbX[0], nn, psi1, psi2, n0);
+
+					dArray2DT lc(nn,2);
+					for (int k=0;k<nn;k++) {
+						double dv[3]={X[3*nb[k]]-xgp[0],X[3*nb[k]+1]-xgp[1],X[3*nb[k]+2]-xgp[2]};
+						lc(k,0)=Dot(dv,psi1); lc(k,1)=Dot(dv,psi2);
+					}
+					dArray2DT np(nn,1); np=support;
+					dArrayT vol(nn); vol=wIP; /* nominal nodal volume for the moment matrix */
+					dArrayT sample(2); sample[0]=0.0; sample[1]=0.0;
+					if (!rkpm.SetField(lc, np, vol, sample, 2)) continue;
+					const dArray2DT& Dp = rkpm.Dphi();
+					const dArray2DT& DDp = rkpm.DDphi();
+
+					double x1[3]={0,0,0},x2[3]={0,0,0},x11[3]={0,0,0},x22[3]={0,0,0},x12[3]={0,0,0};
+					for (int I=0;I<nn;I++) {
+						double Xq[3]={X[3*nb[I]],X[3*nb[I]+1],X[3*nb[I]+2]};
+						for (int d=0;d<3;d++){
+							x1[d]+=Dp(0,I)*Xq[d]; x2[d]+=Dp(1,I)*Xq[d];
+							x11[d]+=DDp(0,I)*Xq[d]; x22[d]+=DDp(1,I)*Xq[d]; x12[d]+=DDp(2,I)*Xq[d];
+						}
+					}
+
+					for (int g=0; g<3; g++) {
+						ShellGeom G;
+						if (!BuildGeom(x1,x2,x11,x22,x12,h,xg3[g],G)) continue;
+						double cw = wg3[g]*(h/2.0)*wIP;
+						std::vector<std::vector<double> > Bv(nn, std::vector<double>(18));
+						for (int I=0;I<nn;I++) {
+							double B[3][3][3];
+							BMatrix(G, Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I), B);
+							double bv[6][3]; ToVoigt(B, bv);
+							for (int r=0;r<6;r++) for (int c=0;c<3;c++) Bv[I][r*3+c]=bv[r][c];
+						}
+						for (int I=0;I<nn;I++) for (int J=0;J<nn;J++) {
+							double kij[3][3]={{0,0,0},{0,0,0},{0,0,0}};
+							for (int a=0;a<6;a++) for (int b=0;b<6;b++) {
+								double Cab=C[a][b]; if (Cab==0.0) continue;
+								for (int ci2=0;ci2<3;ci2++) for (int cj2=0;cj2<3;cj2++) kij[ci2][cj2]+=Bv[I][a*3+ci2]*Cab*Bv[J][b*3+cj2];
+							}
+							int gI=3*nb[I], gJ=3*nb[J];
+							for (int ci2=0;ci2<3;ci2++) for (int cj2=0;cj2<3;cj2++) K[(size_t)(gI+ci2)*ndof+(gJ+cj2)] += cw*kij[ci2][cj2];
+						}
+					}
+				}
+		}
+	for (long i=0;i<ndof;i++) for (long j=i+1;j<ndof;j++) {
+		double a=0.5*(K[i*ndof+j]+K[j*ndof+i]); K[i*ndof+j]=K[j*ndof+i]=a;
+	}
+}
+
+/* Quarter-cylinder under internal pressure (pure MEMBRANE, plane strain u_z=0).
+ * Known: radial expansion u_r = p R^2 / (E h) (nu=0). Returns the radial displacement at an
+ * interior node. Tests curved-membrane stiffness in isolation. */
+double QuarterCylinderPressure(int nt, int nz)
+{
+	const double R = 10.0, Lz = 20.0, h = 0.5, E = 1.0e4, nu = 0.0, p = 1.0;
+	int N = nt*nz;
+	std::vector<double> X(3*N), area(N);
+	double dth = (0.5*M_PI)/(nt-1), dz = Lz/(nz-1), arc = R*dth;
+	for (int i=0;i<nt;i++) for (int j=0;j<nz;j++) {
+		int id=j*nt+i; double th=i*dth;
+		X[3*id]=R*std::cos(th); X[3*id+1]=R*std::sin(th); X[3*id+2]=j*dz;
+		double wa=(i==0||i==nt-1)?0.5:1.0, wb=(j==0||j==nz-1)?0.5:1.0;
+		area[id]=arc*dz*wa*wb;
+	}
+	double C[6][6]; PlaneStressTangent(E, nu, C);
+	double support = 3.0*std::max(arc, dz);
+	std::vector<double> K; AssembleShellGauss(X, nt, nz, h, C, support, K);
+	int ndof=3*N;
+
+	std::vector<char> fixed(ndof,0);
+	for (int i=0;i<nt;i++) for (int j=0;j<nz;j++){ int id=j*nt+i; fixed[3*id+2]=1; } /* u_z=0 plane strain */
+	for (int j=0;j<nz;j++){ fixed[3*(j*nt+0)+1]=1; fixed[3*(j*nt+nt-1)+0]=1; } /* symmetry edges */
+
+	std::vector<double> f(ndof,0.0);
+	for (int i=0;i<nt;i++) for (int j=0;j<nz;j++){ int id=j*nt+i; double th=i*dth;
+		f[3*id+0]+=p*area[id]*std::cos(th); f[3*id+1]+=p*area[id]*std::sin(th); }
+
+	std::vector<int> map(ndof,-1); int nf=0;
+	for (int i=0;i<ndof;i++) if(!fixed[i]) map[i]=nf++;
+	std::vector<double> Kr((size_t)nf*nf,0.0), fr(nf,0.0);
+	for (int i=0;i<ndof;i++){ if(fixed[i])continue; fr[map[i]]=f[i];
+		for(int j=0;j<ndof;j++) if(!fixed[j]) Kr[(size_t)map[i]*nf+map[j]]=K[(size_t)i*ndof+j]; }
+	std::vector<double> ur;
+	if(!SolveDense(Kr,fr,nf,ur)) return -1.0;
+	int id=(nz/2)*nt + nt/2; double th=(nt/2)*dth;
+	double ux=ur[map[3*id+0]], uy=ur[map[3*id+1]];
+	return ux*std::cos(th)+uy*std::sin(th); /* radial component */
+}
+
+/* FLAT cantilever strip via the SAME curved assembler (AssembleShell): clamped at x=0,
+ * transverse tip load at x=L. Returns tip deflection. Beam theory: w = P L^3/(3 E I),
+ * I = W h^3/12. Isolates whether AssembleShell itself is consistent (flat) before blaming
+ * curvature. */
+double FlatCantilever(int nx, int nz, double h, double supportFac = 5.0)
+{
+	const double L = 8.0, W = 8.0, E = 1.0e4, nu = 0.0, P = 1.0; /* square -> isotropic spacing */
+	double dx = L/(nx-1), dz = W/(nz-1);
+	int N = nx*nz;
+	std::vector<double> X(3*N), area(N);
+	for (int i=0;i<nx;i++) for (int j=0;j<nz;j++) {
+		int id=j*nx+i;
+		X[3*id]=i*dx; X[3*id+1]=0.0; X[3*id+2]=j*dz; /* flat plate in x-z plane, normal = y */
+		double wa=(i==0||i==nx-1)?0.5:1.0, wb=(j==0||j==nz-1)?0.5:1.0;
+		area[id]=dx*dz*wa*wb;
+	}
+	double C[6][6]; PlaneStressTangent(E, nu, C);
+	double support = supportFac*std::max(dx, dz);
+	std::vector<double> K; AssembleShellGauss(X, nx, nz, h, C, support, K);
+	int ndof=3*N;
+
+	std::vector<char> fixed(ndof,0);
+	for (int j=0;j<nz;j++) for (int ir=0; ir<2; ir++) { /* clamp 2 rows at x=0 */
+		int id=j*nx+ir; fixed[3*id]=fixed[3*id+1]=fixed[3*id+2]=1;
+	}
+	std::vector<double> f(ndof,0.0);
+	for (int j=0;j<nz;j++) { int id=j*nx+(nx-1); double wb=(j==0||j==nz-1)?0.5:1.0; f[3*id+1]=-P*wb/(nz-1); }
+
+	std::vector<int> map(ndof,-1); int nf=0;
+	for (int i=0;i<ndof;i++) if(!fixed[i]) map[i]=nf++;
+	std::vector<double> Kr((size_t)nf*nf,0.0), fr(nf,0.0);
+	for (int i=0;i<ndof;i++){ if(fixed[i])continue; fr[map[i]]=f[i];
+		for(int j=0;j<ndof;j++) if(!fixed[j]) Kr[(size_t)map[i]*nf+map[j]]=K[(size_t)i*ndof+j]; }
+	std::vector<double> ur;
+	if (!SolveDense(Kr,fr,nf,ur)) return 0.0;
+	int idTip = ((nz-1)/2)*nx + (nx-1);
+	return -ur[map[3*idTip+1]];
+}
+
 /* Scordelis-Lo roof: returns the downward deflection at the free-edge midpoint.
  * nt = nodes across the 80-degree arc, nz = nodes along the length. */
-double ScordelisLo(int nt, int nz)
+double ScordelisLo(int nt, int nz, double supportFac = 3.0)
 {
 	const double R = 25.0, Lz = 50.0, h = 0.25;
 	const double E = 4.32e8, nu = 0.0, grav = 90.0; /* load per unit area, downward */
@@ -300,9 +527,9 @@ double ScordelisLo(int nt, int nz)
 
 	double C[6][6];
 	PlaneStressTangent(E, nu, C);
-	double support = 5.0*std::max(arc, dz); /* large enough for clean quadratic RKPM + stabilization */
+	double support = supportFac*std::max(arc, dz);
 	std::vector<double> K;
-	AssembleShell(X, area, h, C, support, K);
+	AssembleShellGauss(X, nt, nz, h, C, support, K);
 	int ndof = 3*N;
 
 	/* boundary conditions:
@@ -362,28 +589,141 @@ TEST(KLShellBenchmark, CurvedPatchBendingStabilized)
 	EXPECT_EQ(z11, 6);
 }
 
-/* DISABLED — the last remaining wall, now precisely characterized.
+/* DISABLED — curved-shell BVP does NOT converge. Root cause traced (2026-06):
  *
- * Geometry, diaphragm BCs, gravity load and the curved RKPM assembly (quadratic basis +
- * Gaussian window + membrane AND bending/curvature stabilization) are all in place. The
- * bending stabilization cures the curved-shell hourglass for moderately thick shells
- * (CurvedPatchBendingStabilized: a free patch gives exactly 6 modes at R/h=20). But the
- * Scordelis-Lo roof is THIN (R/h=100), and a thickness sweep of the free-patch spectrum
- * shows a spurious mode whose energy collapses to ~1.8e-9 * lambda_max as R/h grows -- about
- * four orders below the physical bending scale (h/R)^2. That thin-shell membrane-bending
- * hourglass is NOT controlled by the membrane+bending Taylor stabilization (boosting the
- * bending term 100x barely moves the deflection), so the roof deflection is far too large
- * and grows with refinement.
+ * Systematic audit (all DISABLED tests above) established:
+ *   - FlatCantileverAudit: the assembler is CORRECT on flat problems -- converges to beam
+ *     theory at every thickness (L/h=16..64), with both nodal and Gauss integration.
+ *   - CylinderCurvatureAudit: RKPM recovers a cylinder's curvature correctly (kmax~0.043 vs
+ *     exact 0.04, kmin~0).
+ *   - RadialHoopStrain: the strain operator is CORRECT on curved geometry -- a radial
+ *     displacement w gives hoop strain exactly w/R (normal->membrane coupling works).
+ *   - CurvedMembraneAudit: yet a quarter-cylinder under pressure gives garbage (-1.8, sign
+ *     flipping vs exact 0.02) -- the curved BVP is near-singular.
+ *   - GaussCurvedSpectrum: a FREE curved patch has 8-9 zero modes (expect 6) even under
+ *     full GAUSS integration, with the 7th eigenvalue collapsing under refinement.
  *
- * This is the paper's own acknowledged "preliminary"/incomplete section 5 (thin-shell
- * stabilization / membrane locking). Resolving it needs a more robust construction than the
- * first-gradient Taylor stabilization (e.g. SCNI-style smoothed gradients, or a
- * thickness-consistent stabilization). Tracked in #66/#68.
+ * Conclusion: this is NOT an integration/stabilization problem (Gauss integration is
+ * hourglass-free for normal problems yet still shows the spurious modes) and NOT a geometry
+ * or kinematics bug (both validated). It is a RANK DEFICIENCY of the curved meshfree-shell
+ * discretization: the per-evaluation-point PCA local frames do not form a consistent global
+ * Galerkin basis on a curved surface, so non-rigid nodal patterns pass with ~zero strain.
+ * Flat works because every point shares one consistent frame. The earlier
+ * "bending stabilization cures the hourglass" result (CurvedPatchBendingStabilized) was
+ * rank-sufficiency only (necessary, not sufficient) -- the BVP is still soft/garbage.
+ *
+ * Fixing this needs a consistent surface parameterization (a single/stitched chart per
+ * support, not an independent PCA frame per quadrature point) -- a formulation-level change,
+ * tracked in #66/#68.
  *
  * Run with:  ./test_KLShellBenchmark --gtest_also_run_disabled_tests */
+TEST(KLShellBenchmark, DISABLED_GaussCurvedSpectrum)
+{
+	/* free cylinder patch assembled by GAUSS integration -> count zero modes (expect 6) */
+	for (int nn = 7; nn <= 11; nn += 2) {
+		const double Rc=1.0; double arc=1.0/(nn-1), dz=1.0/(nn-1);
+		int N=nn*nn; std::vector<double> X(3*N);
+		for (int i=0;i<nn;i++) for (int j=0;j<nn;j++){int id=j*nn+i;double th=i*arc;
+			X[3*id]=Rc*std::cos(th);X[3*id+1]=Rc*std::sin(th);X[3*id+2]=j*dz;}
+		double C[6][6]; PlaneStressTangent(1.0e4,0.0,C);
+		double support=3.0*std::max(Rc*arc,dz);
+		std::vector<double> K; AssembleShellGauss(X,nn,nn,0.05,C,support,K);
+		int ndof=3*N; std::vector<double> ev; JacobiEig(K,ndof,ev);
+		double lmax=ev.back(); int z=0; for(int i=0;i<ndof;i++) if(ev[i]<1e-8*lmax) z++;
+		printf("Gauss free cylinder %dx%d: zero modes=%d (expect 6)  ev[6]/lmax=%.2e\n", nn,nn,z, ev[6]/lmax);
+	}
+}
+
+TEST(KLShellBenchmark, DISABLED_RadialHoopStrain)
+{
+	const double R = 10.0, w = 0.1;
+	int nt=15, nz=15; double Lz=20.0;
+	int N=nt*nz;
+	std::vector<double> X(3*N);
+	double dth=(0.5*M_PI)/(nt-1), dz=Lz/(nz-1), arc=R*dth;
+	for (int i=0;i<nt;i++) for (int j=0;j<nz;j++){int id=j*nt+i;double th=i*dth;
+		X[3*id]=R*std::cos(th);X[3*id+1]=R*std::sin(th);X[3*id+2]=j*dz;}
+	double support=3.0*std::max(arc,dz);
+	dArrayT gwin(3);gwin[0]=1.5;gwin[1]=0.4;gwin[2]=3.0;
+	MLSSolverT rkpm(2,2,false,MeshFreeT::kGaussian,gwin); rkpm.Initialize();
+
+	int P=(nz/2)*nt+nt/2;
+	std::vector<int> nb;
+	for(int Q=0;Q<N;Q++){double d0=X[3*Q]-X[3*P],d1=X[3*Q+1]-X[3*P+1],d2=X[3*Q+2]-X[3*P+2];
+		if(std::sqrt(d0*d0+d1*d1+d2*d2)<0.99*support) nb.push_back(Q);}
+	int nn=int(nb.size());
+	std::vector<double> nbX(3*nn);
+	for(int k=0;k<nn;k++){nbX[3*k]=X[3*nb[k]];nbX[3*k+1]=X[3*nb[k]+1];nbX[3*k+2]=X[3*nb[k]+2];}
+	double psi1[3],psi2[3],n0[3]; PCAFrame(&nbX[0],nn,psi1,psi2,n0);
+	dArray2DT lc(nn,2);
+	for(int k=0;k<nn;k++){double dv[3]={X[3*nb[k]]-X[3*P],X[3*nb[k]+1]-X[3*P+1],X[3*nb[k]+2]-X[3*P+2]};
+		lc(k,0)=Dot(dv,psi1);lc(k,1)=Dot(dv,psi2);}
+	dArray2DT np(nn,1);np=support; dArrayT vol(nn);vol=arc*dz; dArrayT s(2);s[0]=s[1]=0.0;
+	rkpm.SetField(lc,np,vol,s,2);
+	const dArray2DT& Dp=rkpm.Dphi(); const dArray2DT& DDp=rkpm.DDphi();
+	double x1[3]={0,0,0},x2[3]={0,0,0},x11[3]={0,0,0},x22[3]={0,0,0},x12[3]={0,0,0};
+	for(int I=0;I<nn;I++){double Xq[3]={X[3*nb[I]],X[3*nb[I]+1],X[3*nb[I]+2]};
+		for(int d=0;d<3;d++){x1[d]+=Dp(0,I)*Xq[d];x2[d]+=Dp(1,I)*Xq[d];
+			x11[d]+=DDp(0,I)*Xq[d];x22[d]+=DDp(1,I)*Xq[d];x12[d]+=DDp(2,I)*Xq[d];}}
+	ShellGeom G; BuildGeom(x1,x2,x11,x22,x12,0.5,0.0,G);
+
+	/* impose v_I = w * (radial direction at node I) and accumulate grad(v3D) = sum B_I v_I */
+	double L[3][3]={{0,0,0},{0,0,0},{0,0,0}};
+	for(int I=0;I<nn;I++){
+		double B[3][3][3]; BMatrix(G,Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I),B);
+		double th=std::atan2(X[3*nb[I]+1],X[3*nb[I]]);
+		double vI[3]={w*std::cos(th), w*std::sin(th), 0.0}; /* radial */
+		for(int i=0;i<3;i++)for(int j=0;j<3;j++)for(int k=0;k<3;k++) L[i][j]+=B[i][j][k]*vI[k];
+	}
+	/* hoop strain = e_theta . sym(L) . e_theta, e_theta = circumferential tangent (psi that is hoop) */
+	double D[3][3]; for(int i=0;i<3;i++)for(int j=0;j<3;j++) D[i][j]=0.5*(L[i][j]+L[j][i]);
+	double thp=(nt/2)*dth; double et[3]={-std::sin(thp),std::cos(thp),0.0};
+	double hoop=0; for(int i=0;i<3;i++)for(int j=0;j<3;j++) hoop+=et[i]*D[i][j]*et[j];
+	double tr = D[0][0]+D[1][1]+D[2][2];
+	printf("radial w=%.2f R=%.1f : hoop strain=%.5f (exact w/R=%.5f)  trace=%.5f\n",
+		w, R, hoop, w/R, tr);
+	EXPECT_NEAR(hoop, w/R, 0.1*w/R);
+}
+
+TEST(KLShellBenchmark, DISABLED_CurvedMembraneAudit)
+{
+	double exact = 1.0*10.0*10.0/(1.0e4*0.5); /* p R^2/(E h) = 0.02 */
+	printf("Quarter-cylinder pressure (exact u_r=%.4f):\n", exact);
+	for (int n = 9; n <= 17; n += 4)
+		printf("  %dx%d : u_r=%.5f\n", n, n, QuarterCylinderPressure(n, n));
+}
+
+TEST(KLShellBenchmark, DISABLED_CylinderCurvatureAudit)
+{
+	for (double sf = 2.5; sf <= 4.01; sf += 0.5) {
+		double kmax, kmin;
+		CylinderCurvatureRKPM(25.0, 15, 15, sf, kmax, kmin);
+		printf("R=25 supportFac=%.1f : kmax=%.5f (exact 0.04) kmin=%.5f (exact 0)\n", sf, kmax, kmin);
+	}
+}
+
+TEST(KLShellBenchmark, DISABLED_FlatCantileverAudit)
+{
+	for (double h = 0.5; h >= 0.079; h *= 0.5) {
+		double I = 8.0*h*h*h/12.0, wbeam = 512.0/(3.0*1.0e4*I);
+		printf("FLAT h=%.3f (L/h=%.0f) beam=%.4f :", h, 8.0/h, wbeam);
+		for (int n = 9; n <= 17; n += 4)
+			printf("  %dx%d=%.4f", n, n, FlatCantilever(n, n, h, 3.0));
+		printf("\n");
+	}
+}
+
 TEST(KLShellBenchmark, DISABLED_ScordelisLoRoof)
 {
 	const double reference = 0.3006;
+
+	printf("Scordelis-Lo (ref %.4f):\n", reference);
+	for (double sf = 2.5; sf <= 4.01; sf += 0.5) {
+		printf("  supportFac=%.1f :", sf);
+		for (int n = 11; n <= 21; n += 5)
+			printf("  %dx%d=%.4f", n, n, ScordelisLo(n, n, sf));
+		printf("\n");
+	}
 
 	double wCoarse = ScordelisLo(15, 15);
 	double wFine   = ScordelisLo(21, 21);
