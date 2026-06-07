@@ -735,24 +735,30 @@ double ScordelisLo(int nt, int nz, double supportFac = 3.0, double alpha = 1.0)
  * enough — small supports (e.g. 3x) leave a resonance with spurious modes. With both, the
  * patch is rank-clean (exactly 6) across refinement. */
 /* DISABLED diagnostic. The pinched cylinder (R/h=100, two opposite point loads) is
- * BENDING / inextensional dominated -- unlike Scordelis-Lo which is membrane dominated and
- * now works. Both the 1/8-symmetry model (PinchedCylinder) and the full model
- * (FullPinchedCylinder, no symmetry planes) come out ~100-700x too soft and grow with
- * refinement: a spurious inextensional-bending hourglass. Boosting the bending stabilization
- * 50x only reduces it ~4x (the mode is largely in the stabilization's null space). So the
- * membrane fix (local-frame plane stress) was necessary but not sufficient here -- the
- * pinched cylinder additionally needs a bending hourglass control that the current
- * first-gradient curvature stabilization does not provide (the paper's preliminary section 5).
- * Tracked in #66/#68. */
+ * BENDING / inextensional dominated -- unlike Scordelis-Lo (membrane dominated) which works.
+ * Both 1/8-symmetry and full models come out ~100-700x too soft and grow with refinement:
+ * a spurious inextensional-bending hourglass.
+ *
+ * Reviewer-guided audit (2026-06-07) -- two levers pulled:
+ *   - SUPPORT SWEEP (lever 1): the softness is strongly support-driven (11x at supportFac 1.8,
+ *     ~840x at 3.4). Larger support flatlines the kernel -> the higher-order stabilization
+ *     derivatives vanish -> hourglass uncontrolled. (Paper section 5.1 / Approach 1 limit.)
+ *   - THROUGH-THICKNESS B,xi COUPLING (lever 2 / Check 1): added the dropped auxiliary-tensor
+ *     gradient terms (dB1/dxi_l = B1m[l]) to BMatrixCurvatureGradient. Negligible effect
+ *     (identical to 5 sig figs) -- and a 50x boost of the whole bending-stab term only helps
+ *     ~4x. So the first-gradient bending stabilization is simply too weak (~h^3) to control
+ *     this inextensional hourglass, regardless of its exact form.
+ *
+ * Conclusion: needs the paper's section 5.2 (Approach 2) stabilization or a higher-completeness
+ * (cubic) basis -- not a tweak to the current scheme. Membrane curved shells work
+ * (Scordelis-Lo); bending-dominated curved shells remain blocked. Tracked in #66/#68. */
 TEST(KLShellBenchmark, DISABLED_PinchedCylinderAudit)
 {
 	double ref = 1.8248e-5;
-	printf("FULL pinched cylinder (ref %.4e), nt x nz:\n", ref);
-	int sizes[3][2] = {{32,17},{40,21},{48,25}};
-	for (int s=0;s<3;s++) {
-		int nt=sizes[s][0], nz=sizes[s][1];
-		double w = FullPinchedCylinder(nt, nz, 3.0);
-		printf("  %dx%d : w=%.4e  (%.0f%% of ref)\n", nt, nz, w, 100.0*w/ref);
+	printf("FULL pinched cylinder (ref %.4e) -- 32x17, support sweep (added B1m,l terms):\n", ref);
+	for (double sf = 1.8; sf <= 3.21; sf += 0.4) {
+		double w = FullPinchedCylinder(32, 17, sf);
+		printf("  supportFac=%.1f : w=%.4e  (%.0f%% of ref)\n", sf, w, 100.0*w/ref);
 	}
 }
 

@@ -368,11 +368,14 @@ inline void BMatrixCurvatureGradient(const ShellGeom& g0,
 	for (int l = 0; l < 2; l++)
 		for (int i = 0; i < 3; i++)
 			for (int k = 0; k < 3; k++) {
-				/* d(crow_a)/d(xi_l), crow_a = curvature parametric row a (see BMatrix hx term) */
-				double dcrow0 = g0.B1m[0][i][k]*dP1[l] + g0.B1[i][k]*dP11[l]
-				              + g0.B2m[0][i][k]*dP2[l] + g0.B2[i][k]*dP12[l];
-				double dcrow1 = g0.B1m[1][i][k]*dP1[l] + g0.B1[i][k]*dP12[l]
-				              + g0.B2m[1][i][k]*dP2[l] + g0.B2[i][k]*dP22[l];
+				/* d(crow_a)/d(xi_l) of crow_a = B1m[a] P,1 + B1 P,a1 + B2m[a] P,2 + B2 P,a2.
+				 * Includes the auxiliary-tensor gradient terms (dB1/dxi_l = B1m[l],
+				 * dB2/dxi_l = B2m[l]) -- the through-thickness curvature coupling (Eq. 44/55).
+				 * (Second-order tensor gradients dB1m/dxi are still dropped.) */
+				double dcrow0 = g0.B1m[0][i][k]*dP1[l] + g0.B1m[l][i][k]*P11 + g0.B1[i][k]*dP11[l]
+				              + g0.B2m[0][i][k]*dP2[l] + g0.B2m[l][i][k]*P12 + g0.B2[i][k]*dP12[l];
+				double dcrow1 = g0.B1m[1][i][k]*dP1[l] + g0.B1m[l][i][k]*P12 + g0.B1[i][k]*dP12[l]
+				              + g0.B2m[1][i][k]*dP2[l] + g0.B2m[l][i][k]*P22 + g0.B2[i][k]*dP22[l];
 				for (int j = 0; j < 3; j++)
 					Bk[i][j][k][l] = dcrow0*g0.Finv[0][j] + dcrow1*g0.Finv[1][j];
 			}
