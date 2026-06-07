@@ -751,19 +751,27 @@ double ScordelisLo(int nt, int nz, double supportFac = 3.0, double alpha = 1.0, 
  *     ~4x. So the first-gradient bending stabilization is simply too weak (~h^3) to control
  *     this inextensional hourglass, regardless of its exact form.
  *
- * Conclusion: needs the paper's section 5.2 (Approach 2) stabilization or a higher-completeness
- * (cubic) basis -- not a tweak to the current scheme. Membrane curved shells work
- * (Scordelis-Lo); bending-dominated curved shells remain blocked. Tracked in #66/#68. */
+ * CUBIC COMPLETENESS (Approach A, #61): dramatically reduces the hourglass -- the quadratic
+ * basis was ~147x too soft (32x17), cubic is ~4.5x at 20x11 -- confirming the higher-order
+ * derivatives control the inextensional mode. BUT it still does not fully converge: at fixed
+ * support it grows with refinement, and the best support gives ~10x at 36x19. Root cause is
+ * support/R ~ 0.4-0.5 here (R=300, coarse circumferential mesh -> the kernel spans a large arc
+ * and flatlines). Driving support/R below ~0.2 needs >~100 nodes around the circumference,
+ * which this dense (Gauss-elimination) prototype cannot afford. So the pinched cylinder needs
+ * (i) a sparse solver to reach the required fine mesh, and/or (ii) the paper's section 5.2
+ * (Approach 2) bending stabilization. Membrane curved shells (Scordelis-Lo) work. #66/#68. */
 TEST(KLShellBenchmark, DISABLED_PinchedCylinderAudit)
 {
 	double ref = 1.8248e-5;
-	printf("Scordelis-Lo cubic regression (ref 0.3006): 15x15 sup3.5 cubic = %.4f\n",
-		ScordelisLo(15, 15, 3.5, 1.0, 3));
-	printf("FULL pinched cylinder (ref %.4e) -- CUBIC (small mesh proof):\n", ref);
-	for (double sf = 3.0; sf <= 4.01; sf += 0.5) {
-		double w = FullPinchedCylinder(20, 11, sf, 3);
-		printf("  cubic 20x11 sup%.1f : w=%.4e  (%.0f%% of ref)\n", sf, w, 100.0*w/ref);
-	}
+	printf("FULL pinched cylinder (ref %.4e), CUBIC completeness:\n", ref);
+	fflush(stdout);
+	/* cubic dramatically reduces the hourglass (quad 32x17 was 147x; cubic 20x11 is 4.5x),
+	 * but still does not converge at meshes the dense solver can afford -- see comment. */
+	double w1 = FullPinchedCylinder(20, 11, 3.0, 3);
+	double w2 = FullPinchedCylinder(28, 15, 2.6, 3);
+	printf("  cubic 20x11 sup3.0 : %.0f%% of ref\n  cubic 28x15 sup2.6 : %.0f%% of ref\n",
+		100.0*w1/ref, 100.0*w2/ref);
+	fflush(stdout);
 }
 
 TEST(KLShellBenchmark, DISABLED_CurvedPatchBendingStabilized)
