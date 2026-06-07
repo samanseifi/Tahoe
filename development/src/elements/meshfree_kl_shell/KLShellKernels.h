@@ -391,6 +391,45 @@ inline void ToVoigt(const double B[3][3][3], double Bv[6][3])
 	}
 }
 
+/* orthonormal in-surface tangents e1, e2 given the unit normal n (isotropic material -> the
+ * in-plane orientation is arbitrary; only e3 = n matters for the plane-stress condensation) */
+inline void OrthoTangents(const double n[3], double e1[3], double e2[3])
+{
+	double a[3] = {1.0, 0.0, 0.0};
+	if (std::fabs(n[0]) > 0.9) { a[0] = 0.0; a[1] = 1.0; }
+	double an = Dot(a, n);
+	for (int d = 0; d < 3; d++) e1[d] = a[d] - an*n[d];
+	double nm = Norm(e1);
+	for (int d = 0; d < 3; d++) e1[d] /= nm;
+	Cross(n, e1, e2);
+}
+
+/* Voigt 6x3 of the strain expressed in the LOCAL shell frame {e1, e2, n} (n = e3). This is
+ * required so the plane-stress condensation (which zeroes the Voigt-3=33 component) acts
+ * along the shell NORMAL, not the global z-axis. Rows [11,22,33,23,13,12], engineering shear. */
+inline void ToVoigtLocal(const double B[3][3][3], const double e1[3], const double e2[3],
+                         const double n[3], double Bv[6][3])
+{
+	const double* r[3] = {e1, e2, n};
+	for (int k = 0; k < 3; k++) {
+		double c[3][3];
+		for (int a = 0; a < 3; a++)
+			for (int b = 0; b < 3; b++) {
+				double s = 0.0;
+				for (int i = 0; i < 3; i++)
+					for (int j = 0; j < 3; j++)
+						s += r[a][i]*B[i][j][k]*r[b][j];
+				c[a][b] = s;
+			}
+		Bv[0][k] = c[0][0];
+		Bv[1][k] = c[1][1];
+		Bv[2][k] = c[2][2];
+		Bv[3][k] = c[1][2] + c[2][1];
+		Bv[4][k] = c[0][2] + c[2][0];
+		Bv[5][k] = c[0][1] + c[1][0];
+	}
+}
+
 /* compressible Neo-Hookean Cauchy stress from the deformation gradient F (3x3):
  *   sigma = (mu/J)(b - I) + (lambda ln J / J) I,   b = F F^T,   J = det F. */
 inline void NeoHookeCauchy(const double F[3][3], double lambda, double mu, double sig[3][3])

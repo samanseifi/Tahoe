@@ -469,11 +469,12 @@ void AssembleShellParam(const std::vector<double>& X, int nt, int nz, double h,
 					for (int g=0;g<3;g++) {
 						ShellGeom G;
 						if (!BuildGeom(x1,x2,x11,x22,x12,h,xg3[g],G)) continue;
+						double e1[3],e2[3]; OrthoTangents(G.n, e1, e2); /* local frame, e3 = normal */
 						double cw = wg3[g]*(h/2.0)*wIP;
 						std::vector<std::vector<double> > Bv(nn, std::vector<double>(18));
 						for (int I=0;I<nn;I++){double B[3][3][3];
 							BMatrix(G,Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I),B);
-							double bv[6][3]; ToVoigt(B,bv);
+							double bv[6][3]; ToVoigtLocal(B, e1, e2, G.n, bv); /* plane stress along normal */
 							for(int r=0;r<6;r++)for(int c=0;c<3;c++) Bv[I][r*3+c]=bv[r][c];}
 						for (int I=0;I<nn;I++) for (int J=0;J<nn;J++){
 							double kij[3][3]={{0,0,0},{0,0,0},{0,0,0}};
@@ -757,7 +758,7 @@ TEST(KLShellBenchmark, DISABLED_CurvedMembraneAudit)
 {
 	double exact = 1.0*10.0*10.0/(1.0e4*0.5); /* p R^2/(E h) = 0.02 */
 	printf("Quarter-cylinder pressure (exact u_r=%.4f):\n", exact);
-	for (int n = 9; n <= 17; n += 4)
+	for (int n = 9; n <= 29; n += 4)
 		printf("  %dx%d : u_r=%.5f\n", n, n, QuarterCylinderPressure(n, n));
 }
 
