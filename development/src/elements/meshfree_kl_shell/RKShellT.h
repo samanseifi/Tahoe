@@ -116,6 +116,13 @@ private:
 	/** uniform per-area applied load (e.g. gravity); Scordelis-Lo: (0,-90,0) */
 	double fLoad[3];
 
+	/** \name output (displacement field on the background cell mesh, for ParaView) */
+	/*@{*/
+	int fOutputID;                       /**< registered output set id (-1 if none) */
+	ArrayT<const iArray2DT*> fOutputConn;/**< background cell connectivity (referenced by the set) */
+	iArrayT fOutputNodesUsed;            /**< nodes used by the output set (n_values ordering) */
+	/*@}*/
+
 	/** plane-stress (sigma33=0, local normal frame) Voigt tangent */
 	double fC[6][6];
 };

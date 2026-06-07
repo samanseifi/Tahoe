@@ -19,6 +19,9 @@
 #include "KLShellKernels.h"
 #include "ElementMatrixT.h"
 #include "eIntegratorT.h"
+#include "OutputSetT.h"
+#include "GeometryT.h"
+#include "iArray2DT.h"
 
 #include <cmath>
 #include <vector>
@@ -39,6 +42,7 @@ RKShellT::RKShellT(const ElementSupportT& support):
 {
 	SetName("meshfree_kl_shell");
 	fLoad[0] = fLoad[1] = fLoad[2] = 0.0;
+	fOutputID = -1;
 }
 
 /* destructor */
@@ -67,12 +71,51 @@ void RKShellT::Equations(AutoArrayT<const iArray2DT*>& eq_1,
 	eq_2.Append(&fEqnos);
 }
 
-/* meshfree element: no FE-block output (override ElementBaseT's block-based output).
- * WriteOutput prints a deflection summary (temporary validation diagnostic). */
-void RKShellT::RegisterOutput(void) {}
+/* Register the displacement field for output on the background cell mesh (from the .geom), so
+ * the deformed shell is viewable in ParaView (ExodusII / EnSight, format chosen in the deck).
+ * Falls back to point output if no background cells exist. */
+void RKShellT::RegisterOutput(void)
+{
+	ModelManagerT& model = ElementSupport().ModelManager();
+	const ArrayT<StringT>& ids = model.ElementGroupIDs();
+
+	ArrayT<StringT> n_labels(3);
+	n_labels[0] = "D_X"; n_labels[1] = "D_Y"; n_labels[2] = "D_Z";
+
+	if (ids.Length() > 0) {
+		/* output on the background cells (a real surface mesh in ParaView) */
+		ArrayT<StringT> block_ID(ids.Length());
+		fOutputConn.Dimension(ids.Length());
+		for (int b = 0; b < ids.Length(); b++) {
+			block_ID[b] = ids[b];
+			model.ReadConnectivity(ids[b]);            /* lazy-loaded: read before use */
+			fOutputConn[b] = model.ElementGroupPointer(ids[b]);
+		}
+		/* a surface cell is a 2D manifold in 3D: pick the geometry from the node count
+		 * (the model mis-guesses a 4-node-in-3D cell as a tetrahedron) */
+		int nen = fOutputConn[0]->MinorDim();
+		GeometryT::CodeT geo = (nen == 3) ? GeometryT::kTriangle
+		                     : (nen == 4) ? GeometryT::kQuadrilateral
+		                     :              model.ElementGroupGeometry(ids[0]);
+		ArrayT<StringT> e_labels; /* none */
+		OutputSetT output_set(geo, block_ID, fOutputConn, n_labels, e_labels, false);
+		fOutputID = ElementSupport().RegisterOutput(output_set);
+		fOutputNodesUsed = output_set.NodesUsed();
+	} else {
+		/* point cloud output */
+		iArrayT pts(fNumNodes);
+		for (int i = 0; i < fNumNodes; i++) pts[i] = fGlobalIDs[i];
+		OutputSetT output_set(pts, n_labels, false);
+		fOutputID = ElementSupport().RegisterOutput(output_set);
+		fOutputNodesUsed = output_set.NodesUsed();
+	}
+}
+
 void RKShellT::WriteOutput(void)
 {
 	const dArray2DT& disp = Field()[0];
+
+	/* deflection summary (validation diagnostic) */
 	double minuy = 0.0, maxmag = 0.0;
 	for (int i = 0; i < fNumNodes; i++) {
 		int g = fGlobalIDs[i];
@@ -83,6 +126,14 @@ void RKShellT::WriteOutput(void)
 	}
 	fprintf(stdout, "[RKShell] nodes=%d  min(u_y)=% .6e  max|u|=% .6e\n", fNumNodes, minuy, maxmag);
 	fflush(stdout);
+
+	/* write the displacement field for visualization */
+	if (fOutputID < 0) return;
+	dArray2DT n_values(fOutputNodesUsed.Length(), 3);
+	for (int k = 0; k < fOutputNodesUsed.Length(); k++)
+		for (int d = 0; d < 3; d++) n_values(k,d) = disp(fOutputNodesUsed[k], d);
+	dArray2DT e_values; /* none */
+	ElementSupport().WriteOutput(fOutputID, n_values, e_values);
 }
 
 void RKShellT::ConnectsU(AutoArrayT<const iArray2DT*>& connects_1,

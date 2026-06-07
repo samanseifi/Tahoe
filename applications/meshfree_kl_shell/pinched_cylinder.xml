@@ -3,16 +3,17 @@
      R=300 L=600 t=3 E=3e6 nu=0.3, two diametric unit point loads at mid-length.
      Reference radial deflection under the load = 1.8248e-5 (bending-dominated).
 
-     STATUS (not yet converged -- known open problem): this is the thin-shell, bending-
+     STATUS (not yet converged; known open problem): this is the thin-shell, bending-
      dominated, inextensional case. Use a BALANCED mesh (generate_pinched_geom.py auto-balances
      nz from nt) so the isotropic kernel support couples in both directions. Quadratic
      hourglasses (too soft, grows with refinement). Cubic (completeness=3) controls the
      hourglass and reproduces the prototype's ~5x result (max|u| ~ 9.1e-5 at nt=36 vs ref
      1.8248e-5), but the cubic moment matrix is fragile on structured grids (zero-diagonal /
      blow-up at some nt). Full convergence needs the paper's section 5.2 thin-shell membrane
-     stabilization (SCNI-style smoothed gradient) -- the paper's acknowledged preliminary work.
+     stabilization (SCNI-style smoothed gradient); the paper's acknowledged preliminary work.
      Run with: python3 generate_pinched_geom.py 36 > pinched.geom  (nt=36, cubic). -->
 <tahoe geometry_file="pinched.geom" title="Pinched cylinder (meshfree_kl_shell)"
+       output_format="ExodusII"
        xmlns:x0="http://www.w3.org/2001/XMLSchema">
 
     <time num_steps="1" output_inc="1" time_step="1.0">
