@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Fig 18: elasto-plastic pinched cylinder crush (finite deformation), displacement-controlled,
      explicit central-difference. R=300, L=600, h=3, E=3e6, nu=0.3. The two diametric mid-length
-     points (node sets 3,4) are driven inward; the reaction at node 3 vs its displacement is the
-     load-displacement (butterfly buckling) curve. Mass-scaled (rho=7800) for the slow crush. -->
+     points (node sets 3,4) are driven inward; the reaction at the load point vs its displacement
+     is the load-displacement curve.
+
+     REQUIRES a 40-circumferential mesh:  python3 generate_pinched_geom.py 40 > pinched.geom
+       -> load point A = global node 281 (set 3), B = node 301 (set 4).
+
+     QUASI-STATIC explicit: dt MUST be near the stability limit (dt_crit ~ spacing/c, c=sqrt(E/rho)
+     ~ 19.6, spacing ~ 47 for nt=40 -> dt_crit ~ 2.4; use dt=0.25). The total time (num_steps*dt =
+     1000 s) must be MANY wave transits (tau = pi*R/c ~ 48 s) so the deformation propagates across
+     the cylinder and the structure crushes globally (NOT a local dimple at the load points). A far
+     smaller dt (e.g. 1e-6) only advances ~ms of real time -> nothing propagates -> WRONG. -->
 <tahoe geometry_file="pinched.geom" title="elasto-plastic pinched cylinder crush (meshfree_kl_shell)"
        output_format="ExodusII" xmlns:x0="http://www.w3.org/2001/XMLSchema">
 
-    <time num_steps="40000" output_inc="800" time_step="1.0e-6">
+    <time num_steps="4000" output_inc="80" time_step="0.25">
         <schedule_function>
             <piecewise_linear>
-                <OrderedPair x="0.0"  y="0.0"/>
-                <OrderedPair x="0.04" y="1.0"/>
+                <OrderedPair x="0.0"    y="0.0"/>
+                <OrderedPair x="1000.0" y="1.0"/>
             </piecewise_linear>
         </schedule_function>
     </time>
@@ -38,7 +47,7 @@
             support_factor="3.0" completeness="2"
             density="7800.0" stab_membrane="20.0"
             yield_stress="2.4e4" hardening_modulus="3.0e5"
-            finite_strain="1" monitor_node="61"/>
+            finite_strain="1" monitor_node="281"/>
     </element_list>
 
     <linear_solver><diagonal_matrix/></linear_solver>
