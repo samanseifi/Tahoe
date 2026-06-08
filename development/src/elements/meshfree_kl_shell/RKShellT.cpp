@@ -794,9 +794,16 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 		}
 	}
 
-	/* bending-hourglass control (rank-1 normal-direction penalty, linear in the total u) */
+	/* bending-hourglass control (rank-1 penalty along the CURRENT-config normal so the out-of-plane
+	 * penalty stays orthogonal to the deformed tangent plane; a static reference normal would inject
+	 * a spurious in-plane/membrane component at large crush rotations and over-stiffen the hinges) */
 	if (fBendCoeff[i] != 0.0 && (int)fBendR[i].size()==nn) {
-		const double* Rb=&fBendR[i][0]; const double* nv=&fBendN[i][0];
+		const double* Rb=&fBendR[i][0];
+		double nv[3]; Cross(x1,x2,nv); double nL=Norm(nv);
+		if (nL>1.0e-300){ for(int d=0;d<3;d++) nv[d]/=nL;
+			double dp=nv[0]*fBendN[i][0]+nv[1]*fBendN[i][1]+nv[2]*fBendN[i][2];
+			if (dp<0.0) for(int d=0;d<3;d++) nv[d]=-nv[d]; }   /* keep orientation consistent with ref */
+		else { for(int d=0;d<3;d++) nv[d]=fBendN[i][d]; }
 		double kru=0.0;
 		for (int I=0;I<nn;I++){ double nu=nv[0]*ue[I*3]+nv[1]*ue[I*3+1]+nv[2]*ue[I*3+2]; kru+=Rb[I]*nu; }
 		double c=fBendCoeff[i]*kru;
