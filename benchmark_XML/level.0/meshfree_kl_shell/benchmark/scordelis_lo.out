@@ -197,6 +197,15 @@ load_y . . . . . . . . . . . . . . . . . . . . . . = -9.000000e+01
 load_y(default) = 0.000000e+00
 load_z . . . . . . . . . . . . . . . . . . . . . . = 0.000000e+00
 load_z(default) = 0.000000e+00
+density. . . . . . . . . . . . . . . . . . . . . . = 1.000000e+00
+density > 0.000000e+00
+density(default) = 1.000000e+00
+stabilization. . . . . . . . . . . . . . . . . . . = 0
+stabilization(default) = 0
+stab_membrane. . . . . . . . . . . . . . . . . . . = 1.000000e+00
+stab_membrane(default) = 1.000000e+00
+stab_bending . . . . . . . . . . . . . . . . . . . = 1.000000e+00
+stab_bending(default) = 1.000000e+00
 end: tahoe::element_list::meshfree_kl_shell
 
 end: tahoe::element_list
@@ -236,10 +245,10 @@ end: tahoe
  Time = 1.000000e+00
  Step 1 of 1
 
-   Start time: Sun Jun  7 20:06:01 2026
- Construction: 1.892030e-01 sec.
-     Solution: 6.298100e-02 sec.
-    Stop time: Sun Jun  7 20:06:01 2026
+   Start time: Sun Jun  7 22:06:58 2026
+ Construction: 1.636690e-01 sec.
+     Solution: 4.765900e-02 sec.
+    Stop time: Sun Jun  7 22:06:58 2026
 
  End Execution
 

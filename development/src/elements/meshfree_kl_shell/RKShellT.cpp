@@ -469,9 +469,11 @@ void RKShellT::BuildElementStiffness(void)
 			} else if (fStabMode == 2) { /* section 5.2: pure bending, no membrane */
 				Mw = 0.0;
 				Mw_bend = fStabBending*(A_K*Mmom)*(h*h*h/12.0);
-			} else {                     /* default: membrane + bending (Scordelis-Lo baseline) */
+			} else {                     /* default = paper Eq 33: MEMBRANE stab only (bending energy
+			                              * comes from the through-thickness Gauss base; the paper
+			                              * avoids 3rd-deriv bending stab) */
 				Mw = fStabMembrane*V_K*Mmom;
-				Mw_bend = fStabBending*(A_K*Mmom)*(h*h*h/12.0);
+				Mw_bend = 0.0;
 			}
 			for (int l=0;l<2;l++) for (int I=0;I<nn;I++) for (int J=0;J<nn;J++){
 				double km[3][3]={{0,0,0},{0,0,0},{0,0,0}}, kb[3][3]={{0,0,0},{0,0,0},{0,0,0}};
