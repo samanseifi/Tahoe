@@ -35,7 +35,8 @@
             <kinematic_BC dof="2" node_ID="1"/>
             <kinematic_BC dof="1" node_ID="2"/>
             <kinematic_BC dof="2" node_ID="2"/>
-            <kinematic_BC dof="3" node_ID="5"/>
+            <kinematic_BC dof="3" node_ID="3"/>
+            <kinematic_BC dof="3" node_ID="4"/>
             <kinematic_BC dof="1" node_ID="3" schedule="1" type="u" value="-200.0"/>
             <kinematic_BC dof="1" node_ID="4" schedule="1" type="u" value="200.0"/>
         </field>
