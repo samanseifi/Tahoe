@@ -493,73 +493,71 @@ void RKShellT::BuildElementStiffness(void)
 	}
 }
 
-/* LHS: stiffness (implicit) and/or lumped mass (explicit central-difference solver) */
+/* LHS: stiffness (implicit) and/or lumped mass (explicit). Uses the inherited Top/NextElement +
+ * no-arg AssembleLHS() flow (CurrentElement().Equations()), as the standard meshfree element. */
 void RKShellT::LHSDriver(GlobalT::SystemTypeT sys_type)
 {
 #pragma unused(sys_type)
-	int group = Group();
+	double constM = 0.0, constK = 0.0;
+	int formM = fIntegrator->FormM(constM);
+	int formK = fIntegrator->FormK(constK);
+	if (!formM && !formK) return;
 
-	/* lumped mass: m_I on each of node i's 3 dof (for the explicit integrator). Assemble as a
-	 * diagonal ElementMatrixT per node (matching the standard element's FormMass path). */
-	double constM = 0.0;
-	if (fIntegrator->FormM(constM)) {
-		const iArray2DT& field_eqnos = Field().Equations();
-		ElementMatrixT m_e(3, ElementMatrixT::kDiagonal);
-		for (int i = 0; i < fNumNodes; i++) {
-			m_e = 0.0;
-			for (int d = 0; d < 3; d++) m_e(d,d) = constM*fLumpedMass[i];
-			iArrayT eq; eq.Alias(3, field_eqnos(fGlobalIDs[i]));
-			ElementSupport().AssembleLHS(group, m_e, eq);
+	Top();
+	while (NextElement()) {
+		int i = fElementCards.Position();
+		int nn = fNeighbors.MinorDim(i);
+		if (nn < 6) continue;
+
+		if (formM) { /* lumped mass on node i's own dof, within its stencil block */
+			const int* gnb = fNeighbors(i);
+			int ki = -1;
+			for (int k = 0; k < nn; k++) if (gnb[k] == fGlobalIDs[i]) { ki = k; break; }
+			fLHS.Dimension(3*nn);
+			fLHS.SetFormat(ElementMatrixT::kSymmetric);
+			fLHS = 0.0;
+			if (ki >= 0) for (int d = 0; d < 3; d++) fLHS(3*ki+d, 3*ki+d) = constM*fLumpedMass[i];
+			AssembleLHS();
 		}
-	}
-
-	/* tangent stiffness: assemble each per-node stencil stiffness */
-	double constK = 0.0;
-	if (fIntegrator->FormK(constK)) {
-		for (int i = 0; i < fNumNodes; i++) {
-			int nn = fNeighbors.MinorDim(i);
-			if (nn < 6) continue;
+		if (formK) {
 			fLHS.Dimension(3*nn);
 			fLHS.SetFormat(ElementMatrixT::kSymmetric); /* Ke = B^T C B is symmetric */
-			dMatrixT& m = fLHS;
-			m = fKe[i];
+			dMatrixT& m = fLHS; m = fKe[i];
 			if (constK != 1.0) m *= constK;
-			iArrayT eq; eq.Alias(3*nn, fEqnos(i));
-			ElementSupport().AssembleLHS(group, fLHS, eq);
+			AssembleLHS();
 		}
 	}
 }
 
-/* residual: external load minus internal force (R = f_ext - f_int) */
+/* residual: external load minus internal force (R = f_ext - f_int), per stencil via AssembleRHS() */
 void RKShellT::RHSDriver(void)
 {
 	double constKd = 0.0;
 	int formKd = fIntegrator->FormKd(constKd);
 	if (!formKd) return;
-	int group = Group();
 	const dArray2DT& disp = Field()[0];               /* current nodal displacement */
-	const iArray2DT& field_eqnos = Field().Equations();
 
-	/* internal force: per stencil, -constKd * Ke * u_stencil */
-	for (int i = 0; i < fNumNodes; i++) {
+	Top();
+	while (NextElement()) {
+		int i = fElementCards.Position();
 		int nn = fNeighbors.MinorDim(i);
 		if (nn < 6) continue;
 		const int* gnb = fNeighbors(i);
+
+		/* internal force f_int = Ke * u_stencil */
 		dArrayT ue(3*nn);
 		for (int k=0;k<nn;k++) for (int d=0;d<3;d++) ue[k*3+d] = disp(gnb[k], d);
-		dArrayT fint(3*nn);
-		fKe[i].Multx(ue, fint);
-		fint *= -constKd;
-		iArrayT eq; eq.Alias(3*nn, fEqnos(i));
-		ElementSupport().AssembleRHS(group, fint, eq);
-	}
+		fRHS.Dimension(3*nn);
+		fKe[i].Multx(ue, fRHS);
+		fRHS *= -constKd;                              /* residual gets -f_int */
 
-	/* external uniform per-area load: + constKd * load * A_i at node i */
-	for (int i = 0; i < fNumNodes; i++) {
-		double A_K = fNodalArea[i];
-		dArrayT fext(3);
-		for (int d=0;d<3;d++) fext[d] = constKd*fLoad[d]*A_K;
-		iArrayT eq; eq.Alias(3, field_eqnos(fGlobalIDs[i]));
-		ElementSupport().AssembleRHS(group, fext, eq);
+		/* external per-area load on node i (its own dof within the stencil) */
+		int ki = -1;
+		for (int k = 0; k < nn; k++) if (gnb[k] == fGlobalIDs[i]) { ki = k; break; }
+		if (ki >= 0) {
+			double A_K = fNodalArea[i];
+			for (int d=0;d<3;d++) fRHS[3*ki+d] += constKd*fLoad[d]*A_K;
+		}
+		AssembleRHS();
 	}
 }
