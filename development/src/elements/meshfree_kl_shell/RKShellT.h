@@ -97,7 +97,7 @@ private:
 	/** stress-driven internal force for node i's stencil: f_out = sum_pt B^T sigma(B*ue) * w.
 	 * Base points use the material law (elastic now; plane-stress J2 on the Fig 18 track);
 	 * stabilization points are always elastic. Reduces to fKe*ue for linear elasticity. */
-	void InternalForce(int i, const dArrayT& ue, dArrayT& fout);
+	void InternalForce(int i, const dArrayT& ue, dArrayT& fout, bool commit);
 
 	/** lumped nodal mass m_I = rho * A_I * h (diagonal; for the explicit central-difference
 	 * solver, with optional mass scaling via a large fDensity for quasi-static loading) */
@@ -113,6 +113,8 @@ private:
 	double fSupportFac;    /**< support size in units of nodal spacing */
 	int    fCompleteness;  /**< RKPM completeness (2 = quadratic, 3 = cubic) */
 	double fDensity;       /**< mass density (use a scaled value for explicit dynamic relaxation) */
+	double fYield;         /**< J2 initial yield stress (0 = elastic, no plasticity) */
+	double fHardening;     /**< J2 linear isotropic hardening modulus H: Y(ep) = Yield + H*ep */
 	/*@}*/
 
 	/** \name stabilization — SCNI/NSNI cell-smoothed assumed-strain residual R = B_direct - B~tilde
@@ -145,6 +147,14 @@ private:
 	std::vector<std::vector<double> > fIPB;   /**< [node] -> concatenated [npt * 6 * 3nn] */
 	std::vector<std::vector<double> > fIPw;   /**< [node] -> [npt] integration weights */
 	std::vector<std::vector<char> >   fIPstab;/**< [node] -> [npt] (1 = elastic stabilization point) */
+
+	/** plane-stress J2 history per node per through-thickness BASE point (fIPstab==0): in-plane
+	 * stress [s11,s22,s12], equivalent plastic strain, and previous in-plane strain [e11,e22,g12]
+	 * (for the strain increment). Plastic localizes at the surfaces, so each base point is tracked
+	 * independently -- never averaged to the mid-surface. */
+	std::vector<std::vector<double> > fJ2sig;  /**< [node] -> [nbase * 3] */
+	std::vector<std::vector<double> > fJ2ep;   /**< [node] -> [nbase] */
+	std::vector<std::vector<double> > fJ2eps;  /**< [node] -> [nbase * 3] */
 	/*@}*/
 	/*@}*/
 

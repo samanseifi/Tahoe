@@ -17,6 +17,7 @@
 #include "MLSSolverT.h"
 #include "MeshFreeT.h"
 #include "KLShellKernels.h"
+#include "PlaneStressJ2.h"
 #include "ElementMatrixT.h"
 #include "eIntegratorT.h"
 #include "OutputSetT.h"
@@ -43,6 +44,8 @@ RKShellT::RKShellT(const ElementSupportT& support):
 	SetName("meshfree_kl_shell");
 	fLoad[0] = fLoad[1] = fLoad[2] = 0.0;
 	fDensity = 1.0;
+	fYield = 0.0;
+	fHardening = 0.0;
 	fStabMode = 0;
 	fStabMembrane = 1.0;
 	fStabBending = 1.0;
@@ -204,6 +207,10 @@ void RKShellT::DefineParameters(ParameterListT& list) const
 	list.AddParameter(stab);
 	ParameterT sm(fStabMembrane, "stab_membrane"); sm.SetDefault(1.0); list.AddParameter(sm);
 	ParameterT sb(fStabBending,  "stab_bending");  sb.SetDefault(1.0); list.AddParameter(sb);
+
+	/* plane-stress J2 plasticity (0 yield = elastic): Y(ep) = yield_stress + hardening*ep */
+	ParameterT yld(fYield, "yield_stress"); yld.SetDefault(0.0); list.AddParameter(yld);
+	ParameterT hrd(fHardening, "hardening_modulus"); hrd.SetDefault(0.0); list.AddParameter(hrd);
 }
 
 void RKShellT::TakeParameterList(const ParameterListT& list)
@@ -224,6 +231,8 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 	fStabMode     = list.GetParameter("stabilization");
 	fStabMembrane = list.GetParameter("stab_membrane");
 	fStabBending  = list.GetParameter("stab_bending");
+	fYield        = list.GetParameter("yield_stress");
+	fHardening    = list.GetParameter("hardening_modulus");
 
 	/* plane-stress (sigma33=0) isotropic tangent; condensation acts in the LOCAL shell-normal
 	 * frame at assembly time via ToVoigtLocal */
@@ -377,6 +386,11 @@ void RKShellT::BuildElementStiffness(void)
 	fIPB.assign(fNumNodes, std::vector<double>());
 	fIPw.assign(fNumNodes, std::vector<double>());
 	fIPstab.assign(fNumNodes, std::vector<char>());
+	/* plane-stress J2 history: 3 through-thickness base points per node (over-allocated; the base
+	 * loop appends exactly the BuildGeom-valid points, indexed in order by InternalForce) */
+	fJ2sig.assign(fNumNodes, std::vector<double>(9, 0.0));
+	fJ2ep.assign(fNumNodes, std::vector<double>(3, 0.0));
+	fJ2eps.assign(fNumNodes, std::vector<double>(9, 0.0));
 	double h = fThickness;
 
 	double hmin = 1.0e30;
@@ -546,7 +560,7 @@ void RKShellT::BuildElementStiffness(void)
 /* stress-driven internal force f = sum_pt B^T sigma(B*ue) w. Elastic (sigma = fC*eps) -> reduces
  * exactly to fKe*ue; the base material points (fIPstab==0) are where the plane-stress J2 stress
  * update plugs in for the Fig 18 elasto-plastic track. */
-void RKShellT::InternalForce(int i, const dArrayT& ue, dArrayT& fout)
+void RKShellT::InternalForce(int i, const dArrayT& ue, dArrayT& fout, bool commit)
 {
 	int nn = fNeighbors.MinorDim(i);
 	int ndof = 3*nn;
@@ -554,16 +568,36 @@ void RKShellT::InternalForce(int i, const dArrayT& ue, dArrayT& fout)
 	int npt = (int) fIPw[i].size();
 	if (npt == 0) return;
 	const double* Ball = &fIPB[i][0];
+	bool plastic = (fYield > 0.0);
+	int nbase = (int) fJ2ep[i].size();
+	int bp = 0;                                   /* through-thickness base-point counter */
 	for (int p=0;p<npt;p++){
 		const double* B = Ball + (size_t)p*6*ndof;
-		/* strain eps = B*ue (local-frame Voigt) */
+		/* strain eps = B*ue (local-frame Voigt; in-plane = [0]e11 [1]e22 [5]g12) */
 		double eps[6];
 		for (int r=0;r<6;r++){ const double* Br=B+(size_t)r*ndof; double s=0.0;
 			for(int c=0;c<ndof;c++) s+=Br[c]*ue[c]; eps[r]=s; }
-		/* stress: linear elastic (plane-stress condensed tangent). Fig 18: base points will route
-		 * the in-plane components through PlaneStressJ2Return with per-point through-thickness state. */
-		double sig[6];
-		for (int r=0;r<6;r++){ double s=0.0; for(int cc=0;cc<6;cc++) s+=fC[r][cc]*eps[cc]; sig[r]=s; }
+
+		double sig[6] = {0,0,0,0,0,0};
+		if (plastic && fIPstab[i][p]==0 && bp<nbase) {
+			/* base material point: plane-stress J2 on the in-plane components, per-point state.
+			 * (sigma33 = sigma13 = sigma23 = 0: plane stress + Kirchhoff no-transverse-shear.) */
+			double sip[3] = { fJ2sig[i][3*bp], fJ2sig[i][3*bp+1], fJ2sig[i][3*bp+2] };
+			double ep = fJ2ep[i][bp];
+			double deps[3] = { eps[0]-fJ2eps[i][3*bp], eps[1]-fJ2eps[i][3*bp+1], eps[5]-fJ2eps[i][3*bp+2] };
+			PlaneStressJ2Return(sip, deps, ep, fYoung, fPoisson, fYield, fHardening);
+			sig[0]=sip[0]; sig[1]=sip[1]; sig[5]=sip[2];
+			if (commit) {
+				fJ2sig[i][3*bp]=sip[0]; fJ2sig[i][3*bp+1]=sip[1]; fJ2sig[i][3*bp+2]=sip[2];
+				fJ2ep[i][bp]=ep;
+				fJ2eps[i][3*bp]=eps[0]; fJ2eps[i][3*bp+1]=eps[1]; fJ2eps[i][3*bp+2]=eps[5];
+			}
+			bp++;
+		} else {
+			/* elastic point (stabilization residual, or elastic material): sigma = fC*eps */
+			if (fIPstab[i][p]==0) bp++;           /* keep the base counter aligned in the elastic case */
+			for (int r=0;r<6;r++){ double s=0.0; for(int cc=0;cc<6;cc++) s+=fC[r][cc]*eps[cc]; sig[r]=s; }
+		}
 		/* f += B^T sig * w */
 		double w = fIPw[i][p];
 		for (int c=0;c<ndof;c++){ double s=0.0;
@@ -625,7 +659,7 @@ void RKShellT::RHSDriver(void)
 		/* stress-driven internal force f_int = sum_pt B^T sigma(B*u) w (== fKe*u for elasticity) */
 		dArrayT ue(3*nn);
 		for (int k=0;k<nn;k++) for (int d=0;d<3;d++) ue[k*3+d] = disp(gnb[k], d);
-		InternalForce(i, ue, fRHS);
+		InternalForce(i, ue, fRHS, true);             /* commit J2 state (explicit: once per step) */
 		fRHS *= -constKd;                              /* residual gets -f_int */
 
 		/* external per-area load on node i (its own dof within the stencil) */
