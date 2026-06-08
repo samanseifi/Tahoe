@@ -16,6 +16,7 @@ integrator/run.batch
 adhesion/run.batch
 axisymmetric/run.batch
 meshfree/run.batch
+meshfree_kl_shell/run.batch
 inputoutput/run.batch
 bridging/run.batch
 
