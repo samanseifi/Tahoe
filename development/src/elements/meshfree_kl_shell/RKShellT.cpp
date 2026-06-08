@@ -161,7 +161,8 @@ void RKShellT::WriteOutput(void)
 			else               InternalForce(K, ue, f, false);
 			for (int d=0;d<3;d++) react[d] += f[pos*3+d];
 		}
-		fprintf(stdout, "[RKShell-react] node=%d  u=% .6e % .6e % .6e  R=% .6e % .6e % .6e\n",
+		/* cleanly parseable: $2=node $3=ux $4=uy $5=uz $6=Rx $7=Ry $8=Rz */
+		fprintf(stdout, "[RKShell-react] %d %.8e %.8e %.8e %.8e %.8e %.8e\n",
 			fMonitorNode, disp(mg,0),disp(mg,1),disp(mg,2), react[0],react[1],react[2]);
 	}
 	fflush(stdout);
