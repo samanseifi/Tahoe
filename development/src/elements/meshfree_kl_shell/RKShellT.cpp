@@ -48,6 +48,7 @@ RKShellT::RKShellT(const ElementSupportT& support):
 	fHardening = 0.0;
 	fFiniteStrain = 0;
 	fMonitorNode = 0;
+	fDamping = 0.0;
 	fStabMode = 0;
 	fStabMembrane = 1.0;
 	fStabBending = 1.0;
@@ -242,6 +243,7 @@ void RKShellT::DefineParameters(ParameterListT& list) const
 
 	/* report the reaction force at this (1-based global) node each output step -> Fig 18 curve */
 	ParameterT mn(fMonitorNode, "monitor_node"); mn.SetDefault(0); list.AddParameter(mn);
+	ParameterT dmp(fDamping, "damping"); dmp.SetDefault(0.0); list.AddParameter(dmp);
 }
 
 void RKShellT::TakeParameterList(const ParameterListT& list)
@@ -266,6 +268,7 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 	fHardening    = list.GetParameter("hardening_modulus");
 	fFiniteStrain = list.GetParameter("finite_strain");
 	fMonitorNode  = list.GetParameter("monitor_node");
+	fDamping      = list.GetParameter("damping");
 
 	/* plane-stress (sigma33=0) isotropic tangent; condensation acts in the LOCAL shell-normal
 	 * frame at assembly time via ToVoigtLocal */
@@ -806,6 +809,12 @@ void RKShellT::RHSDriver(void)
 		if (ki >= 0) {
 			double A_K = fNodalArea[i];
 			for (int d=0;d<3;d++) fRHS[3*ki+d] += constKd*fLoad[d]*A_K;
+			/* mass-proportional damping (dynamic relaxation -> quasi-static): -alpha * m_i * v_i */
+			if (fDamping > 0.0 && Field().Order() >= 1) {
+				const dArray2DT& vel = Field()[1];
+				int gi = fGlobalIDs[i];
+				for (int d=0;d<3;d++) fRHS[3*ki+d] -= constKd*fDamping*fLumpedMass[i]*vel(gi, d);
+			}
 		}
 		AssembleRHS();
 	}

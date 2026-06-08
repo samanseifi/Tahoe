@@ -123,6 +123,7 @@ private:
 	double fHardening;     /**< J2 linear isotropic hardening modulus H: Y(ep) = Yield + H*ep */
 	int    fFiniteStrain;  /**< 1 = finite-deformation (Green-Lagrange, current-config geometry) */
 	int    fMonitorNode;   /**< 1-based global node to report reaction force at (0 = none); Fig 18 curve */
+	double fDamping;       /**< mass-proportional damping alpha (force -alpha*m*v); dynamic relaxation -> quasi-static */
 	/*@}*/
 
 	/** \name stabilization — SCNI/NSNI cell-smoothed assumed-strain residual R = B_direct - B~tilde
