@@ -129,6 +129,7 @@ tahoe_gtest_full(test_KLShellShape      meshfree/test_KLShellShape.cpp)
 tahoe_gtest_full(test_KLShellKinematics meshfree/test_KLShellKinematics.cpp)
 tahoe_gtest_full(test_KLShellAssembly   meshfree/test_KLShellAssembly.cpp)
 tahoe_gtest(test_KLShellStress          meshfree/test_KLShellStress.cpp)
+tahoe_gtest_full(test_KLShellPlasticity meshfree/test_KLShellPlasticity.cpp)
 tahoe_gtest_full(test_KLShellBenchmark  meshfree/test_KLShellBenchmark.cpp)
 
 # In-pipeline element test: runs the Scordelis-Lo deck through the tahoe binary and checks
