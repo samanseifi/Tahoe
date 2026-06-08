@@ -73,6 +73,12 @@ void RKShellT::Equations(AutoArrayT<const iArray2DT*>& eq_1,
 	fEqnos.Configure(fNeighbors, NumDOF());
 	Field().SetLocalEqnos(fNeighbors, fEqnos);
 	eq_2.Append(&fEqnos);
+
+	/* alias each element card's equations to its stencil eqnos (as MeshFreeElementSupportT does)
+	 * so the framework -- including the explicit nodal integrator -- can resolve this element's
+	 * active DOFs via CurrentElement().Equations() */
+	for (int i = 0; i < fNumNodes; i++)
+		fEqnos.RowAlias(i, fElementCards[i].Equations());
 }
 
 /* Register the displacement field for output on the background cell mesh (from the .geom), so
