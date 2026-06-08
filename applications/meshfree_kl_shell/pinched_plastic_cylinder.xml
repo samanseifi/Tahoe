@@ -15,11 +15,11 @@
 <tahoe geometry_file="pinched.geom" title="elasto-plastic pinched cylinder crush (meshfree_kl_shell)"
        output_format="ExodusII" xmlns:x0="http://www.w3.org/2001/XMLSchema">
 
-    <time num_steps="4000" output_inc="80" time_step="0.25">
+    <time num_steps="5000" output_inc="100" time_step="0.1">
         <schedule_function>
             <piecewise_linear>
                 <OrderedPair x="0.0"    y="0.0"/>
-                <OrderedPair x="1000.0" y="1.0"/>
+                <OrderedPair x="500.0" y="1.0"/>
             </piecewise_linear>
         </schedule_function>
     </time>
@@ -47,7 +47,7 @@
             support_factor="3.0" completeness="2"
             density="7800.0" stab_membrane="20.0" stab_bending="10.0"
             yield_stress="2.4e4" hardening_modulus="3.0e5"
-            finite_strain="1" monitor_node="281"/>
+            finite_strain="1" monitor_node="4161"/>
     </element_list>
 
     <linear_solver><diagonal_matrix/></linear_solver>

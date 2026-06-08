@@ -28,7 +28,7 @@ if len(sys.argv) > 2:
     nz = int(sys.argv[2])
 else:
     nz = int(round(nt * L / (2.0 * _m.pi * R))) + 1   # axial count for square cells
-if nz % 2 == 0: nz += 1          # need a node at z=L/2
+if len(sys.argv) <= 2 and nz % 2 == 0: nz += 1          # need a node at z=L/2
 if nz < 5: nz = 5
 N = nt * nz
 def nid(i, j): return j * nt + i + 1     # 1-based; i around, j along
