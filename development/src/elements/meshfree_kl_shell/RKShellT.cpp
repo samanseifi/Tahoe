@@ -43,6 +43,9 @@ RKShellT::RKShellT(const ElementSupportT& support):
 	SetName("meshfree_kl_shell");
 	fLoad[0] = fLoad[1] = fLoad[2] = 0.0;
 	fDensity = 1.0;
+	fStabMode = 0;
+	fStabMembrane = 1.0;
+	fStabBending = 1.0;
 	fOutputID = -1;
 }
 
@@ -184,6 +187,14 @@ void RKShellT::DefineParameters(ParameterListT& list) const
 	density.AddLimit(LimitT(0.0, LimitT::Lower));
 	density.SetDefault(1.0);
 	list.AddParameter(density);
+
+	/* stabilization (paper section 5): 0=default(membrane+bending), 3=alpha-scaled membrane
+	 * (5.3), 2=pure bending (5.2) */
+	ParameterT stab(fStabMode, "stabilization");
+	stab.SetDefault(0);
+	list.AddParameter(stab);
+	ParameterT sm(fStabMembrane, "stab_membrane"); sm.SetDefault(1.0); list.AddParameter(sm);
+	ParameterT sb(fStabBending,  "stab_bending");  sb.SetDefault(1.0); list.AddParameter(sb);
 }
 
 void RKShellT::TakeParameterList(const ParameterListT& list)
@@ -201,6 +212,9 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 	fLoad[1] = list.GetParameter("load_y");
 	fLoad[2] = list.GetParameter("load_z");
 	fDensity = list.GetParameter("density");
+	fStabMode     = list.GetParameter("stabilization");
+	fStabMembrane = list.GetParameter("stab_membrane");
+	fStabBending  = list.GetParameter("stab_bending");
 
 	/* plane-stress (sigma33=0) isotropic tangent; condensation acts in the LOCAL shell-normal
 	 * frame at assembly time via ToVoigtLocal */
@@ -396,6 +410,15 @@ void RKShellT::BuildElementStiffness(void)
 		double Mmom = cell*cell/12.0;
 		dMatrixT& Ke = fKe[i];
 
+		/* in-plane characteristic length h_pl (mean neighbor distance) -> alpha = min(1, h/h_pl)
+		 * for the section-5.3 limited-membrane-stabilization scaling */
+		double h_pl = 0.0; int npc = 0;
+		for (int k=0;k<nn;k++){ if(loc[k]==i) continue;
+			double dd=0.0; for(int d=0;d<3;d++){double dx=fCoords(loc[k],d)-fCoords(i,d); dd+=dx*dx;}
+			h_pl += std::sqrt(dd); npc++; }
+		if (npc>0) h_pl /= npc;
+		double alpha = (h_pl > 0.0 && h < h_pl) ? (h/h_pl) : 1.0;
+
 		/* nodal integration (3-pt thru-thickness Gauss), local-frame plane stress */
 		for (int g=0;g<3;g++) {
 			ShellGeom G;
@@ -439,8 +462,17 @@ void RKShellT::BuildElementStiffness(void)
 					for(int r=0;r<6;r++)for(int c=0;c<3;c++){Bg[I][l*18+r*3+c]=bvm[r][c]; Bk[I][l*18+r*3+c]=bvc[r][c];}
 				}
 			}
-			double Mw = V_K*Mmom;
-			double Mw_bend = (A_K*Mmom)*(h*h*h/12.0);
+			double Mw, Mw_bend;
+			if (fStabMode == 3) {        /* section 5.3: alpha-scaled membrane, no bending */
+				Mw = fStabMembrane*alpha*V_K*Mmom;
+				Mw_bend = 0.0;
+			} else if (fStabMode == 2) { /* section 5.2: pure bending, no membrane */
+				Mw = 0.0;
+				Mw_bend = fStabBending*(A_K*Mmom)*(h*h*h/12.0);
+			} else {                     /* default: membrane + bending (Scordelis-Lo baseline) */
+				Mw = fStabMembrane*V_K*Mmom;
+				Mw_bend = fStabBending*(A_K*Mmom)*(h*h*h/12.0);
+			}
 			for (int l=0;l<2;l++) for (int I=0;I<nn;I++) for (int J=0;J<nn;J++){
 				double km[3][3]={{0,0,0},{0,0,0},{0,0,0}}, kb[3][3]={{0,0,0},{0,0,0},{0,0,0}};
 				for(int a=0;a<6;a++)for(int b=0;b<6;b++){double Cab=fC[a][b];if(Cab==0.0)continue;

@@ -105,6 +105,14 @@ private:
 	double fDensity;       /**< mass density (use a scaled value for explicit dynamic relaxation) */
 	/*@}*/
 
+	/** \name stabilization (paper section 5) */
+	/*@{*/
+	int    fStabMode;      /**< 0 = default (membrane+bending); 3 = alpha-scaled membrane (5.3);
+	                            2 = pure bending (5.2) */
+	double fStabMembrane;  /**< membrane (1st-gradient) stabilization scale */
+	double fStabBending;   /**< bending (curvature-gradient) stabilization scale */
+	/*@}*/
+
 	/** \name surface meshfree data */
 	/*@{*/
 	int fNumNodes;                       /**< number of shell nodes */
