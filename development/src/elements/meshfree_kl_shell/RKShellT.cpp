@@ -155,8 +155,8 @@ void RKShellT::ConnectsU(AutoArrayT<const iArray2DT*>& connects_1,
 
 void RKShellT::ConnectsX(AutoArrayT<const iArray2DT*>& connects) const
 {
-#pragma unused(connects)
-	/* no fixed-size geometry connectivity for a meshfree element */
+	/* expose the background cell mesh as geometry connectivity */
+	for (int b = 0; b < fOutputConn.Length(); b++) connects.Append(fOutputConn[b]);
 }
 
 /* parameters */
@@ -248,6 +248,18 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 
 	/* lumped nodal mass (for the explicit central-difference solver) */
 	BuildLumpedMass();
+
+	/* background cell connectivity: exposed via ConnectsX so the framework's node-element graph
+	 * (and the explicit nodal-update node set) sees this element's nodes as geometry */
+	{
+		ModelManagerT& model = ElementSupport().ModelManager();
+		const ArrayT<StringT>& ids = model.ElementGroupIDs();
+		fOutputConn.Dimension(ids.Length());
+		for (int b = 0; b < ids.Length(); b++) {
+			model.ReadConnectivity(ids[b]);
+			fOutputConn[b] = model.ElementGroupPointer(ids[b]);
+		}
+	}
 }
 
 /* lumped nodal mass m_I = rho * A_I * h (diagonal) */
