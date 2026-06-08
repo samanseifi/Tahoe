@@ -122,6 +122,7 @@ private:
 	double fYield;         /**< J2 initial yield stress (0 = elastic, no plasticity) */
 	double fHardening;     /**< J2 linear isotropic hardening modulus H: Y(ep) = Yield + H*ep */
 	int    fFiniteStrain;  /**< 1 = finite-deformation (Green-Lagrange, current-config geometry) */
+	int    fMonitorNode;   /**< 1-based global node to report reaction force at (0 = none); Fig 18 curve */
 	/*@}*/
 
 	/** \name stabilization — SCNI/NSNI cell-smoothed assumed-strain residual R = B_direct - B~tilde

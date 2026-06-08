@@ -47,6 +47,7 @@ RKShellT::RKShellT(const ElementSupportT& support):
 	fYield = 0.0;
 	fHardening = 0.0;
 	fFiniteStrain = 0;
+	fMonitorNode = 0;
 	fStabMode = 0;
 	fStabMembrane = 1.0;
 	fStabBending = 1.0;
@@ -142,6 +143,27 @@ void RKShellT::WriteOutput(void)
 	if (blowup) { fprintf(stdout, "[RKShell] *** BLOW-UP (NaN/inf): unstable -- K not positive definite "
 		"(hourglass) or dt too large ***\n"); fflush(stdout); return; }
 	fprintf(stdout, "[RKShell] nodes=%d  min(u_y)=% .6e  max|u|=% .6e\n", fNumNodes, minuy, maxmag);
+
+	/* reaction force at the monitored node (sum of every stencil's internal-force contribution
+	 * there) vs its displacement -> the Fig 18 load-displacement curve */
+	if (fMonitorNode > 0) {
+		int mg = fMonitorNode - 1;
+		double react[3] = {0,0,0};
+		for (int K=0; K<fNumNodes; K++){
+			int nn = fNeighbors.MinorDim(K);
+			if (nn < 6) continue;
+			const int* gnb = fNeighbors(K);
+			int pos = -1; for (int k=0;k<nn;k++) if (gnb[k]==mg){ pos=k; break; }
+			if (pos < 0) continue;
+			dArrayT ue(3*nn), f;
+			for (int k=0;k<nn;k++) for (int d=0;d<3;d++) ue[k*3+d]=disp(gnb[k],d);
+			if (fFiniteStrain) InternalForceFS(K, ue, f, false);
+			else               InternalForce(K, ue, f, false);
+			for (int d=0;d<3;d++) react[d] += f[pos*3+d];
+		}
+		fprintf(stdout, "[RKShell-react] node=%d  u=% .6e % .6e % .6e  R=% .6e % .6e % .6e\n",
+			fMonitorNode, disp(mg,0),disp(mg,1),disp(mg,2), react[0],react[1],react[2]);
+	}
 	fflush(stdout);
 
 	/* write the displacement field for visualization */
@@ -216,6 +238,9 @@ void RKShellT::DefineParameters(ParameterListT& list) const
 	/* finite-deformation kinematics (Green-Lagrange, current-config geometry); needed for the
 	 * large-displacement elasto-plastic buckling (Fig 18). 0 = small-strain linear. */
 	ParameterT fs(fFiniteStrain, "finite_strain"); fs.SetDefault(0); list.AddParameter(fs);
+
+	/* report the reaction force at this (1-based global) node each output step -> Fig 18 curve */
+	ParameterT mn(fMonitorNode, "monitor_node"); mn.SetDefault(0); list.AddParameter(mn);
 }
 
 void RKShellT::TakeParameterList(const ParameterListT& list)
@@ -239,6 +264,7 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 	fYield        = list.GetParameter("yield_stress");
 	fHardening    = list.GetParameter("hardening_modulus");
 	fFiniteStrain = list.GetParameter("finite_strain");
+	fMonitorNode  = list.GetParameter("monitor_node");
 
 	/* plane-stress (sigma33=0) isotropic tangent; condensation acts in the LOCAL shell-normal
 	 * frame at assembly time via ToVoigtLocal */
