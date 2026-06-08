@@ -167,6 +167,7 @@ private:
 	 * positions each step) + reference mid-surface derivatives (for the reference metric/curvature). */
 	std::vector<std::vector<double> > fDphi;   /**< [node] -> [nn*5]: Dp0,Dp1,DDp0,DDp1,DDp2 per stencil node */
 	std::vector<std::vector<double> > fXref;   /**< [node] -> [15]: ref x,1 x,2 x,11 x,22 x,12 (each 3) */
+	dArray2DT fUprev;                          /**< previous-step nodal displacement (rate form: du = u - u_prev) */
 	/*@}*/
 	/*@}*/
 

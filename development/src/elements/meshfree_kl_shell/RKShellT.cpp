@@ -649,54 +649,52 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 		x1[d]=X1[d]+u1[d]; x2[d]=X2[d]+u2[d]; x11[d]=X11[d]+u11[d]; x22[d]=X22[d]+u22[d]; x12[d]=X12[d]+u12[d];
 	}
 
-	/* membrane Green-Lagrange strain (parametric ~ local orthonormal frame for the PCA chart) */
-	double Em11 = 0.5*(Dot(x1,x1) - Dot(X1,X1));
-	double Em22 = 0.5*(Dot(x2,x2) - Dot(X2,X2));
-	double Em12 = 0.5*(Dot(x1,x2) - Dot(X1,X2));
-
-	/* curvature change Dk_ab = n . x,ab (current - reference) */
-	double ncur[3],nref[3],cr[3];
-	Cross(x1,x2,cr); double Jc=Norm(cr); if(Jc<1e-300) return; for(int d=0;d<3;d++) ncur[d]=cr[d]/Jc;
-	Cross(X1,X2,cr); double Jr=Norm(cr); if(Jr<1e-300) return; for(int d=0;d<3;d++) nref[d]=cr[d]/Jr;
-	double dk11 = Dot(ncur,x11)-Dot(nref,X11);
-	double dk22 = Dot(ncur,x22)-Dot(nref,X22);
-	double dk12 = Dot(ncur,x12)-Dot(nref,X12);
+	/* RATE form: strain INCREMENT deps = B_cur . du (du = u - u_prev) reuses the existing BMatrix
+	 * strain measure at the current config -> consistent with the linear element + objective for
+	 * small per-step rotations (slow mass-scaled loading). Stress is accumulated per station. */
+	const int* gnb = fNeighbors(i);
+	dArrayT due(ndof);
+	for (int k=0;k<nn;k++){ int gg=gnb[k]; for(int d=0;d<3;d++) due[k*3+d]=ue[k*3+d]-fUprev(gg,d); }
 
 	double A_K = fNodalArea[i];
 	double xg[3] = {-std::sqrt(3.0/5.0), 0.0, std::sqrt(3.0/5.0)};
 	double wg[3] = {5.0/9.0, 8.0/9.0, 5.0/9.0};
 	bool plastic = (fYield > 0.0);
+	double c_ps = fYoung/(1.0 - fPoisson*fPoisson);
 
 	for (int g=0; g<3; g++){
 		ShellGeom G;
 		if (!BuildGeom(x1,x2,x11,x22,x12,h,xg[g],G)) continue;
 		double e1[3],e2[3]; OrthoTangents(G.n,e1,e2);
-		double zeta = (h/2.0)*xg[g];
-		double eps[6] = {0,0,0,0,0,0};            /* total strain at this station (Voigt) */
-		eps[0] = Em11 + zeta*dk11;
-		eps[1] = Em22 + zeta*dk22;
-		eps[5] = 2.0*(Em12 + zeta*dk12);
-
-		double sig[6] = {0,0,0,0,0,0};
-		if (plastic && g < (int)fJ2ep[i].size()){
-			double sip[3]={fJ2sig[i][3*g],fJ2sig[i][3*g+1],fJ2sig[i][3*g+2]};
-			double ep=fJ2ep[i][g];
-			double deps[3]={eps[0]-fJ2eps[i][3*g], eps[1]-fJ2eps[i][3*g+1], eps[5]-fJ2eps[i][3*g+2]};
-			PlaneStressJ2Return(sip,deps,ep,fYoung,fPoisson,fYield,fHardening);
-			sig[0]=sip[0]; sig[1]=sip[1]; sig[5]=sip[2];
-			if (commit){ fJ2sig[i][3*g]=sip[0];fJ2sig[i][3*g+1]=sip[1];fJ2sig[i][3*g+2]=sip[2];
-				fJ2ep[i][g]=ep; fJ2eps[i][3*g]=eps[0];fJ2eps[i][3*g+1]=eps[1];fJ2eps[i][3*g+2]=eps[5]; }
-		} else {
-			for(int r=0;r<6;r++){double s=0.0;for(int cc=0;cc<6;cc++)s+=fC[r][cc]*eps[cc];sig[r]=s;}
-		}
-
-		double w = wg[g]*(h/2.0)*A_K;
+		std::vector<std::vector<double> > Bv(nn, std::vector<double>(18));
 		for (int I=0;I<nn;I++){
 			double B[3][3][3];
 			BMatrix(G, Dp[I*5], Dp[I*5+1], Dp[I*5+2], Dp[I*5+4], Dp[I*5+3], B);
 			double bv[6][3]; ToVoigtLocal(B,e1,e2,G.n,bv);
-			for(int c=0;c<3;c++){ double s=0.0; for(int r=0;r<6;r++) s+=bv[r][c]*sig[r]; fout[I*3+c]+=s*w; }
+			for(int r=0;r<6;r++)for(int cc=0;cc<3;cc++) Bv[I][r*3+cc]=bv[r][cc];
 		}
+		double deps[6];
+		for (int r=0;r<6;r++){ double s=0.0;
+			for(int I=0;I<nn;I++)for(int cc=0;cc<3;cc++) s+=Bv[I][r*3+cc]*due[I*3+cc]; deps[r]=s; }
+
+		/* accumulated in-plane stress: plane-stress J2 increment, or elastic predictor */
+		double sip[3]={fJ2sig[i][3*g],fJ2sig[i][3*g+1],fJ2sig[i][3*g+2]};
+		double dip[3]={deps[0],deps[1],deps[5]};
+		if (plastic && g < (int)fJ2ep[i].size()){
+			double ep=fJ2ep[i][g];
+			PlaneStressJ2Return(sip,dip,ep,fYoung,fPoisson,fYield,fHardening);
+			if (commit) fJ2ep[i][g]=ep;
+		} else {
+			sip[0]+=c_ps*(dip[0]+fPoisson*dip[1]);
+			sip[1]+=c_ps*(fPoisson*dip[0]+dip[1]);
+			sip[2]+=c_ps*(1.0-fPoisson)/2.0*dip[2];
+		}
+		if (commit){ fJ2sig[i][3*g]=sip[0]; fJ2sig[i][3*g+1]=sip[1]; fJ2sig[i][3*g+2]=sip[2]; }
+		double sig[6]={sip[0],sip[1],0,0,0,sip[2]};
+
+		double w = wg[g]*(h/2.0)*A_K;
+		for (int I=0;I<nn;I++)
+			for(int cc=0;cc<3;cc++){ double s=0.0; for(int r=0;r<6;r++) s+=Bv[I][r*3+cc]*sig[r]; fout[I*3+cc]+=s*w; }
 	}
 
 	/* SCNI stabilization (reference-config, linear) from the stored stabilization points */
@@ -756,6 +754,11 @@ void RKShellT::RHSDriver(void)
 	if (!formKd) return;
 	const dArray2DT& disp = Field()[0];               /* current nodal displacement */
 
+	/* rate-form finite strain: ensure the previous-step displacement buffer is sized */
+	if (fFiniteStrain && (fUprev.MajorDim()!=disp.MajorDim() || fUprev.MinorDim()!=disp.MinorDim())) {
+		fUprev.Dimension(disp.MajorDim(), disp.MinorDim()); fUprev = 0.0;
+	}
+
 	Top();
 	while (NextElement()) {
 		int i = fElementCards.Position();
@@ -779,4 +782,7 @@ void RKShellT::RHSDriver(void)
 		}
 		AssembleRHS();
 	}
+
+	/* advance the rate-form reference: u_prev <- u (once per step, after all stencils) */
+	if (fFiniteStrain) fUprev = disp;
 }
