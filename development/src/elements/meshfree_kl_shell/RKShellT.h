@@ -170,6 +170,12 @@ private:
 	std::vector<std::vector<double> > fDphi;   /**< [node] -> [nn*5]: Dp0,Dp1,DDp0,DDp1,DDp2 per stencil node */
 	std::vector<std::vector<double> > fXref;   /**< [node] -> [15]: ref x,1 x,2 x,11 x,22 x,12 (each 3) */
 	dArray2DT fUprev;                          /**< previous-step nodal displacement (rate form: du = u - u_prev) */
+
+	/** bending-hourglass control operator (rank-1 per node): residual R_I, the node normal, and the
+	 * coefficient -- so the finite-strain force path can apply the same penalty as the linear Ke. */
+	std::vector<std::vector<double> > fBendR;  /**< [node] -> [nn] curvature-residual operator R_I */
+	std::vector<std::vector<double> > fBendN;  /**< [node] -> [3] node normal */
+	std::vector<double> fBendCoeff;            /**< [node] -> coefficient */
 	/*@}*/
 	/*@}*/
 

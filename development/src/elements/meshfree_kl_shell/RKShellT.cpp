@@ -51,7 +51,7 @@ RKShellT::RKShellT(const ElementSupportT& support):
 	fDamping = 0.0;
 	fStabMode = 0;
 	fStabMembrane = 1.0;
-	fStabBending = 1.0;
+	fStabBending = 0.0;
 	fOutputID = -1;
 }
 
@@ -231,7 +231,7 @@ void RKShellT::DefineParameters(ParameterListT& list) const
 	stab.SetDefault(0);
 	list.AddParameter(stab);
 	ParameterT sm(fStabMembrane, "stab_membrane"); sm.SetDefault(1.0); list.AddParameter(sm);
-	ParameterT sb(fStabBending,  "stab_bending");  sb.SetDefault(1.0); list.AddParameter(sb);
+	ParameterT sb(fStabBending,  "stab_bending");  sb.SetDefault(0.0); list.AddParameter(sb);
 
 	/* plane-stress J2 plasticity (0 yield = elastic): Y(ep) = yield_stress + hardening*ep */
 	ParameterT yld(fYield, "yield_stress"); yld.SetDefault(0.0); list.AddParameter(yld);
@@ -429,6 +429,9 @@ void RKShellT::BuildElementStiffness(void)
 	fJ2eps.assign(fNumNodes, std::vector<double>(9, 0.0));
 	fDphi.assign(fNumNodes, std::vector<double>());
 	fXref.assign(fNumNodes, std::vector<double>());
+	fBendR.assign(fNumNodes, std::vector<double>());
+	fBendN.assign(fNumNodes, std::vector<double>(3,0.0));
+	fBendCoeff.assign(fNumNodes, 0.0);
 	double h = fThickness;
 
 	double hmin = 1.0e30;
@@ -526,6 +529,44 @@ void RKShellT::BuildElementStiffness(void)
 				for(int a=0;a<6;a++)for(int b=0;b<6;b++){double Cab=fC[a][b];if(Cab==0.0)continue;
 					for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++) kij[ci][cj]+=Bv[I][a*3+ci]*Cab*Bv[J][b*3+cj];}
 				for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++) Ke(3*I+ci,3*J+cj)+=cw*kij[ci][cj];
+			}
+		}
+
+		/* BENDING-hourglass control: penalize the curvature RESIDUAL R_I = A_I - D_I. A_I =
+		 * DDp0_I + DDp1_I is the analytical (kernel Laplacian) mean-curvature operator -- the RKPM
+		 * kernel smooths a node-to-node sawtooth so A returns ~0 on the hourglass. D_I is a DISCRETE
+		 * chord-curvature reconstruction (4/L^2 * (u_J-u_K).n, neighbor-averaged) that EXPLODES on
+		 * the sawtooth. For smooth/physical bending A==D (Taylor; the 4/L^2 directional average =
+		 * Laplacian) so R->0 (no pollution); on the hourglass R is large. Rank-1 normal-direction
+		 * penalty -> arrests the inextensional bending hourglass the SCNI membrane filter misses. */
+		if (fStabBending > 0.0) {
+			double nrm[3]; Cross(x1,x2,nrm); double Jn=Norm(nrm);
+			if (Jn > 1.0e-300) {
+				for (int d=0;d<3;d++) nrm[d]/=Jn;
+				std::vector<double> Dop(nn,0.0); double W=0.0;
+				for (int J=0;J<nn;J++){
+					double L2=lc(J,0)*lc(J,0)+lc(J,1)*lc(J,1);
+					if (L2 < 1.0e-12) continue;          /* self node (origin of the chart) */
+					Dop[J]=4.0/L2; W+=1.0;
+				}
+				double Dself=0.0;
+				if (W>0.0) for (int J=0;J<nn;J++){ Dop[J]/=W; Dself+=Dop[J]; }
+				std::vector<double> Rk(nn);
+				for (int I=0;I<nn;I++){
+					double A=DDp(0,I)+DDp(1,I);
+					double L2=lc(I,0)*lc(I,0)+lc(I,1)*lc(I,1);
+					double D=(L2 < 1.0e-12) ? -Dself : Dop[I];
+					Rk[I]=A-D;
+				}
+				double coeff=fStabBending*(fYoung*h*h*h/12.0)*A_K;
+				for (int I=0;I<nn;I++) for (int Jp=0;Jp<nn;Jp++){
+					double rr=coeff*Rk[I]*Rk[Jp];
+					for (int a=0;a<3;a++) for (int b=0;b<3;b++) Ke(3*I+a,3*Jp+b)+=rr*nrm[a]*nrm[b];
+				}
+				/* store for the finite-strain force path (same rank-1 penalty on the total u) */
+				fBendR[i].assign(Rk.begin(), Rk.end());
+				for (int d=0;d<3;d++) fBendN[i][d]=nrm[d];
+				fBendCoeff[i]=coeff;
 			}
 		}
 
@@ -737,6 +778,15 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 			double w=fIPw[i][p];
 			for(int c=0;c<ndof;c++){double s=0.0;for(int r=0;r<6;r++)s+=B[(size_t)r*ndof+c]*sig[r];fout[c]+=s*w;}
 		}
+	}
+
+	/* bending-hourglass control (rank-1 normal-direction penalty, linear in the total u) */
+	if (fBendCoeff[i] != 0.0 && (int)fBendR[i].size()==nn) {
+		const double* Rb=&fBendR[i][0]; const double* nv=&fBendN[i][0];
+		double kru=0.0;
+		for (int I=0;I<nn;I++){ double nu=nv[0]*ue[I*3]+nv[1]*ue[I*3+1]+nv[2]*ue[I*3+2]; kru+=Rb[I]*nu; }
+		double c=fBendCoeff[i]*kru;
+		for (int I=0;I<nn;I++){ double cr=c*Rb[I]; for(int d=0;d<3;d++) fout[I*3+d]+=cr*nv[d]; }
 	}
 }
 
