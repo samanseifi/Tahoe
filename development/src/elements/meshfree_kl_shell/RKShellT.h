@@ -29,6 +29,8 @@
 #include "dMatrixT.h"
 #include "ArrayT.h"
 
+#include <vector>
+
 namespace Tahoe {
 
 class MLSSolverT;
@@ -92,6 +94,11 @@ private:
 	 * and curvature-gradient stabilization, with local-frame plane stress */
 	void BuildElementStiffness(void);
 
+	/** stress-driven internal force for node i's stencil: f_out = sum_pt B^T sigma(B*ue) * w.
+	 * Base points use the material law (elastic now; plane-stress J2 on the Fig 18 track);
+	 * stabilization points are always elastic. Reduces to fKe*ue for linear elasticity. */
+	void InternalForce(int i, const dArrayT& ue, dArrayT& fout);
+
 	/** lumped nodal mass m_I = rho * A_I * h (diagonal; for the explicit central-difference
 	 * solver, with optional mass scaling via a large fDensity for quasi-static loading) */
 	void BuildLumpedMass(void);
@@ -127,8 +134,18 @@ private:
 	iArrayT   fGlobalIDs;                /**< local shell index -> global node id */
 	RaggedArray2DT<int> fNeighbors;      /**< [node] x [neighbor GLOBAL node ids] */
 	RaggedArray2DT<int> fEqnos;          /**< [node] x [neighbor dof equations] */
-	ArrayT<dMatrixT> fKe;                /**< per-node stencil stiffness (linear elastic) */
+	ArrayT<dMatrixT> fKe;                /**< per-node stencil stiffness (linear-elastic tangent / implicit LHS) */
 	MLSSolverT* fMLS;                    /**< RKPM shape-function solver (local chart) */
+
+	/** \name stress-driven internal force (f_int = sum B^T sigma): per-node integration points.
+	 * Each entry stores a Voigt strain-displacement operator B [6 x 3nn] (row-major, flattened),
+	 * its weight, and whether it is a stabilization point (always elastic) vs a base material
+	 * point. Enables plugging the plane-stress J2 stress update into the base points (Fig 18). */
+	/*@{*/
+	std::vector<std::vector<double> > fIPB;   /**< [node] -> concatenated [npt * 6 * 3nn] */
+	std::vector<std::vector<double> > fIPw;   /**< [node] -> [npt] integration weights */
+	std::vector<std::vector<char> >   fIPstab;/**< [node] -> [npt] (1 = elastic stabilization point) */
+	/*@}*/
 	/*@}*/
 
 	/** uniform per-area applied load (e.g. gravity); Scordelis-Lo: (0,-90,0) */

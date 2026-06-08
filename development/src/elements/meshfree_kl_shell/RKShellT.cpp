@@ -374,6 +374,9 @@ void RKShellT::BuildNeighbors(void)
 void RKShellT::BuildElementStiffness(void)
 {
 	fKe.Dimension(fNumNodes);
+	fIPB.assign(fNumNodes, std::vector<double>());
+	fIPw.assign(fNumNodes, std::vector<double>());
+	fIPstab.assign(fNumNodes, std::vector<char>());
 	double h = fThickness;
 
 	double hmin = 1.0e30;
@@ -453,6 +456,11 @@ void RKShellT::BuildElementStiffness(void)
 				double bv[6][3]; ToVoigtLocal(B,e1,e2,G.n,bv);
 				for(int r=0;r<6;r++)for(int c=0;c<3;c++) Bv[I][r*3+c]=bv[r][c];
 			}
+			/* store this base (material) integration point for the stress-driven internal force */
+			{ std::vector<double> Bf((size_t)6*3*nn);
+			  for(int I=0;I<nn;I++)for(int r=0;r<6;r++)for(int c=0;c<3;c++) Bf[(size_t)r*3*nn+3*I+c]=Bv[I][r*3+c];
+			  fIPB[i].insert(fIPB[i].end(),Bf.begin(),Bf.end());
+			  fIPw[i].push_back(cw); fIPstab[i].push_back(0); }
 			for (int I=0;I<nn;I++) for (int J=0;J<nn;J++){
 				double kij[3][3]={{0,0,0},{0,0,0},{0,0,0}};
 				for(int a=0;a<6;a++)for(int b=0;b<6;b++){double Cab=fC[a][b];if(Cab==0.0)continue;
@@ -518,6 +526,11 @@ void RKShellT::BuildElementStiffness(void)
 						ToVoigtLocal(Bd,e1,e2,G.n,bvd); ToVoigtLocal(Bs,e1,e2,G.n,bvs);
 						for(int r=0;r<6;r++)for(int c=0;c<3;c++) Rv[I][r*3+c]=bvd[r][c]-bvs[r][c];
 					}
+					/* store this stabilization (always-elastic) integration point */
+					{ std::vector<double> Rf((size_t)6*3*nn);
+					  for(int I=0;I<nn;I++)for(int r=0;r<6;r++)for(int c=0;c<3;c++) Rf[(size_t)r*3*nn+3*I+c]=Rv[I][r*3+c];
+					  fIPB[i].insert(fIPB[i].end(),Rf.begin(),Rf.end());
+					  fIPw[i].push_back(cw); fIPstab[i].push_back(1); }
 					for (int I=0;I<nn;I++) for (int Jp=0;Jp<nn;Jp++){
 						double kij[3][3]={{0,0,0},{0,0,0},{0,0,0}};
 						for(int a=0;a<6;a++)for(int b=0;b<6;b++){double Cab=fC[a][b];if(Cab==0.0)continue;
@@ -527,6 +540,34 @@ void RKShellT::BuildElementStiffness(void)
 				}
 			}
 		}
+	}
+}
+
+/* stress-driven internal force f = sum_pt B^T sigma(B*ue) w. Elastic (sigma = fC*eps) -> reduces
+ * exactly to fKe*ue; the base material points (fIPstab==0) are where the plane-stress J2 stress
+ * update plugs in for the Fig 18 elasto-plastic track. */
+void RKShellT::InternalForce(int i, const dArrayT& ue, dArrayT& fout)
+{
+	int nn = fNeighbors.MinorDim(i);
+	int ndof = 3*nn;
+	fout.Dimension(ndof); fout = 0.0;
+	int npt = (int) fIPw[i].size();
+	if (npt == 0) return;
+	const double* Ball = &fIPB[i][0];
+	for (int p=0;p<npt;p++){
+		const double* B = Ball + (size_t)p*6*ndof;
+		/* strain eps = B*ue (local-frame Voigt) */
+		double eps[6];
+		for (int r=0;r<6;r++){ const double* Br=B+(size_t)r*ndof; double s=0.0;
+			for(int c=0;c<ndof;c++) s+=Br[c]*ue[c]; eps[r]=s; }
+		/* stress: linear elastic (plane-stress condensed tangent). Fig 18: base points will route
+		 * the in-plane components through PlaneStressJ2Return with per-point through-thickness state. */
+		double sig[6];
+		for (int r=0;r<6;r++){ double s=0.0; for(int cc=0;cc<6;cc++) s+=fC[r][cc]*eps[cc]; sig[r]=s; }
+		/* f += B^T sig * w */
+		double w = fIPw[i][p];
+		for (int c=0;c<ndof;c++){ double s=0.0;
+			for(int r=0;r<6;r++) s+=B[(size_t)r*ndof+c]*sig[r]; fout[c]+=s*w; }
 	}
 }
 
@@ -581,11 +622,10 @@ void RKShellT::RHSDriver(void)
 		if (nn < 6) continue;
 		const int* gnb = fNeighbors(i);
 
-		/* internal force f_int = Ke * u_stencil */
+		/* stress-driven internal force f_int = sum_pt B^T sigma(B*u) w (== fKe*u for elasticity) */
 		dArrayT ue(3*nn);
 		for (int k=0;k<nn;k++) for (int d=0;d<3;d++) ue[k*3+d] = disp(gnb[k], d);
-		fRHS.Dimension(3*nn);
-		fKe[i].Multx(ue, fRHS);
+		InternalForce(i, ue, fRHS);
 		fRHS *= -constKd;                              /* residual gets -f_int */
 
 		/* external per-area load on node i (its own dof within the stencil) */
