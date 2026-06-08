@@ -89,6 +89,10 @@ private:
 	 * and curvature-gradient stabilization, with local-frame plane stress */
 	void BuildElementStiffness(void);
 
+	/** lumped nodal mass m_I = rho * A_I * h (diagonal; for the explicit central-difference
+	 * solver, with optional mass scaling via a large fDensity for quasi-static loading) */
+	void BuildLumpedMass(void);
+
 private:
 
 	/** \name shell + meshfree parameters */
@@ -98,6 +102,7 @@ private:
 	double fPoisson;       /**< Poisson ratio */
 	double fSupportFac;    /**< support size in units of nodal spacing */
 	int    fCompleteness;  /**< RKPM completeness (2 = quadratic, 3 = cubic) */
+	double fDensity;       /**< mass density (use a scaled value for explicit dynamic relaxation) */
 	/*@}*/
 
 	/** \name surface meshfree data */
@@ -105,6 +110,7 @@ private:
 	int fNumNodes;                       /**< number of shell nodes */
 	dArray2DT fCoords;                   /**< reference coordinates [fNumNodes] x 3 (local order) */
 	dArrayT   fNodalArea;                /**< nodal integration weight per node */
+	dArrayT   fLumpedMass;               /**< lumped nodal mass m_I = rho * A_I * h (for explicit) */
 	iArrayT   fGlobalToLocal;            /**< global node id -> local shell index (-1 if not a shell node) */
 	iArrayT   fGlobalIDs;                /**< local shell index -> global node id */
 	RaggedArray2DT<int> fNeighbors;      /**< [node] x [neighbor GLOBAL node ids] */

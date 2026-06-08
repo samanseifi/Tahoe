@@ -42,6 +42,7 @@ RKShellT::RKShellT(const ElementSupportT& support):
 {
 	SetName("meshfree_kl_shell");
 	fLoad[0] = fLoad[1] = fLoad[2] = 0.0;
+	fDensity = 1.0;
 	fOutputID = -1;
 }
 
@@ -177,6 +178,12 @@ void RKShellT::DefineParameters(ParameterListT& list) const
 	ParameterT lx(fLoad[0], "load_x"); lx.SetDefault(0.0); list.AddParameter(lx);
 	ParameterT ly(fLoad[1], "load_y"); ly.SetDefault(0.0); list.AddParameter(ly);
 	ParameterT lz(fLoad[2], "load_z"); lz.SetDefault(0.0); list.AddParameter(lz);
+
+	/* mass density (lumped mass for explicit dynamics; scale up for dynamic relaxation) */
+	ParameterT density(fDensity, "density");
+	density.AddLimit(LimitT(0.0, LimitT::Lower));
+	density.SetDefault(1.0);
+	list.AddParameter(density);
 }
 
 void RKShellT::TakeParameterList(const ParameterListT& list)
@@ -193,6 +200,7 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 	fLoad[0] = list.GetParameter("load_x");
 	fLoad[1] = list.GetParameter("load_y");
 	fLoad[2] = list.GetParameter("load_z");
+	fDensity = list.GetParameter("density");
 
 	/* plane-stress (sigma33=0) isotropic tangent; condensation acts in the LOCAL shell-normal
 	 * frame at assembly time via ToVoigtLocal */
@@ -217,6 +225,17 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 
 	/* precompute the per-node stencil stiffness (linear elastic, fixed geometry) */
 	BuildElementStiffness();
+
+	/* lumped nodal mass (for the explicit central-difference solver) */
+	BuildLumpedMass();
+}
+
+/* lumped nodal mass m_I = rho * A_I * h (diagonal) */
+void RKShellT::BuildLumpedMass(void)
+{
+	fLumpedMass.Dimension(fNumNodes);
+	for (int i = 0; i < fNumNodes; i++)
+		fLumpedMass[i] = fDensity*fNodalArea[i]*fThickness;
 }
 
 /* meshfree node set + neighbor lists (overrides the FE block element setup) */
@@ -434,24 +453,38 @@ void RKShellT::BuildElementStiffness(void)
 	}
 }
 
-/* tangent stiffness: assemble each per-node stencil stiffness */
+/* LHS: stiffness (implicit) and/or lumped mass (explicit central-difference solver) */
 void RKShellT::LHSDriver(GlobalT::SystemTypeT sys_type)
 {
 #pragma unused(sys_type)
-	double constK = 0.0;
-	int formK = fIntegrator->FormK(constK);
-	if (!formK) return;
 	int group = Group();
-	for (int i = 0; i < fNumNodes; i++) {
-		int nn = fNeighbors.MinorDim(i);
-		if (nn < 6) continue;
-		fLHS.Dimension(3*nn);
-		fLHS.SetFormat(ElementMatrixT::kSymmetric); /* Ke = B^T C B is symmetric */
-		dMatrixT& m = fLHS;
-		m = fKe[i];
-		if (constK != 1.0) m *= constK;
-		iArrayT eq; eq.Alias(3*nn, fEqnos(i));
-		ElementSupport().AssembleLHS(group, fLHS, eq);
+
+	/* lumped mass diagonal: m_I on each of node i's 3 dof (for the explicit integrator) */
+	double constM = 0.0;
+	if (fIntegrator->FormM(constM)) {
+		const iArray2DT& field_eqnos = Field().Equations();
+		for (int i = 0; i < fNumNodes; i++) {
+			dArrayT m_diag(3);
+			m_diag = constM*fLumpedMass[i];
+			iArrayT eq; eq.Alias(3, field_eqnos(fGlobalIDs[i]));
+			ElementSupport().AssembleLHS(group, m_diag, eq);
+		}
+	}
+
+	/* tangent stiffness: assemble each per-node stencil stiffness */
+	double constK = 0.0;
+	if (fIntegrator->FormK(constK)) {
+		for (int i = 0; i < fNumNodes; i++) {
+			int nn = fNeighbors.MinorDim(i);
+			if (nn < 6) continue;
+			fLHS.Dimension(3*nn);
+			fLHS.SetFormat(ElementMatrixT::kSymmetric); /* Ke = B^T C B is symmetric */
+			dMatrixT& m = fLHS;
+			m = fKe[i];
+			if (constK != 1.0) m *= constK;
+			iArrayT eq; eq.Alias(3*nn, fEqnos(i));
+			ElementSupport().AssembleLHS(group, fLHS, eq);
+		}
 	}
 }
 
