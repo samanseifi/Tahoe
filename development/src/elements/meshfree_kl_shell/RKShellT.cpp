@@ -95,8 +95,12 @@ void RKShellT::RegisterOutput(void)
 	ModelManagerT& model = ElementSupport().ModelManager();
 	const ArrayT<StringT>& ids = model.ElementGroupIDs();
 
-	ArrayT<StringT> n_labels(3);
+	/* add the plastic-strain field only when plasticity is active (keeps the elastic benchmark
+	 * output unchanged so the Scordelis-Lo regression stays bit-exact) */
+	int nf = (fYield > 0.0) ? 4 : 3;
+	ArrayT<StringT> n_labels(nf);
 	n_labels[0] = "D_X"; n_labels[1] = "D_Y"; n_labels[2] = "D_Z";
+	if (nf == 4) n_labels[3] = "EQ_PLASTIC_STRAIN";   /* max over thru-thickness J2 stations (surface) */
 
 	if (ids.Length() > 0) {
 		/* output on the background cells (a real surface mesh in ParaView) */
@@ -168,11 +172,21 @@ void RKShellT::WriteOutput(void)
 	}
 	fflush(stdout);
 
-	/* write the displacement field for visualization */
+	/* write the displacement field (+ equivalent plastic strain when plasticity is active) */
 	if (fOutputID < 0) return;
-	dArray2DT n_values(fOutputNodesUsed.Length(), 3);
-	for (int k = 0; k < fOutputNodesUsed.Length(); k++)
-		for (int d = 0; d < 3; d++) n_values(k,d) = disp(fOutputNodesUsed[k], d);
+	int nf = (fYield > 0.0) ? 4 : 3;
+	dArray2DT n_values(fOutputNodesUsed.Length(), nf);
+	for (int k = 0; k < fOutputNodesUsed.Length(); k++) {
+		int g = fOutputNodesUsed[k];
+		for (int d = 0; d < 3; d++) n_values(k,d) = disp(g, d);
+		if (nf == 4) {
+			double ep = 0.0;
+			int loc = (g < fGlobalToLocal.Length()) ? fGlobalToLocal[g] : -1;
+			if (loc >= 0 && loc < (int) fJ2ep.size())
+				for (size_t q = 0; q < fJ2ep[loc].size(); q++) if (fJ2ep[loc][q] > ep) ep = fJ2ep[loc][q];
+			n_values(k,3) = ep;
+		}
+	}
 	dArray2DT e_values; /* none */
 	ElementSupport().WriteOutput(fOutputID, n_values, e_values);
 }

@@ -29,7 +29,7 @@ if r is not None:
     ax.plot(u, smooth(R), '-', lw=2.2, color="#1f4e9c", label="moving-average trend")
 ax.set_xlabel("load-point crush displacement  |u_x|  (mm)")
 ax.set_ylabel("reaction force  |R_x|")
-ax.set_title("Elasto-plastic pinched cylinder crush (meshfree KL shell, nt=40)")
+ax.set_title("Elasto-plastic pinched cylinder crush (meshfree KL shell, nt=160 (8320 nodes))")
 ax.grid(True, alpha=0.3); ax.legend(loc="lower right", fontsize=9)
 fig.tight_layout(); fig.savefig("fig18.png", dpi=130)
 print("wrote fig18.png")

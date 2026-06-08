@@ -45,7 +45,7 @@
         <meshfree_kl_shell field_name="displacement"
             shell_thickness="3.0" Young_modulus="3.0e6" Poisson_ratio="0.3"
             support_factor="3.0" completeness="2"
-            density="7800.0" stab_membrane="20.0" stab_bending="10.0"
+            density="7800.0" stab_membrane="20.0" stab_bending="20.0"
             yield_stress="2.4e4" hardening_modulus="3.0e5"
             finite_strain="1" monitor_node="4001"/>
     </element_list>
