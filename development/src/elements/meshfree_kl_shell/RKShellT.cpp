@@ -493,15 +493,17 @@ void RKShellT::LHSDriver(GlobalT::SystemTypeT sys_type)
 #pragma unused(sys_type)
 	int group = Group();
 
-	/* lumped mass diagonal: m_I on each of node i's 3 dof (for the explicit integrator) */
+	/* lumped mass: m_I on each of node i's 3 dof (for the explicit integrator). Assemble as a
+	 * diagonal ElementMatrixT per node (matching the standard element's FormMass path). */
 	double constM = 0.0;
 	if (fIntegrator->FormM(constM)) {
 		const iArray2DT& field_eqnos = Field().Equations();
+		ElementMatrixT m_e(3, ElementMatrixT::kDiagonal);
 		for (int i = 0; i < fNumNodes; i++) {
-			dArrayT m_diag(3);
-			m_diag = constM*fLumpedMass[i];
+			m_e = 0.0;
+			for (int d = 0; d < 3; d++) m_e(d,d) = constM*fLumpedMass[i];
 			iArrayT eq; eq.Alias(3, field_eqnos(fGlobalIDs[i]));
-			ElementSupport().AssembleLHS(group, m_diag, eq);
+			ElementSupport().AssembleLHS(group, m_e, eq);
 		}
 	}
 
