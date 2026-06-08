@@ -125,15 +125,18 @@ void RKShellT::WriteOutput(void)
 {
 	const dArray2DT& disp = Field()[0];
 
-	/* deflection summary (validation diagnostic) */
-	double minuy = 0.0, maxmag = 0.0;
+	/* deflection summary (validation diagnostic); NaN-aware so an explicit blow-up is visible */
+	double minuy = 0.0, maxmag = 0.0; bool blowup = false;
 	for (int i = 0; i < fNumNodes; i++) {
 		int g = fGlobalIDs[i];
 		double uy = disp(g,1);
-		if (uy < minuy) minuy = uy;
 		double mag = std::sqrt(disp(g,0)*disp(g,0)+disp(g,1)*disp(g,1)+disp(g,2)*disp(g,2));
+		if (uy != uy || mag != mag || mag > 1.0e30) { blowup = true; continue; }
+		if (uy < minuy) minuy = uy;
 		if (mag > maxmag) maxmag = mag;
 	}
+	if (blowup) { fprintf(stdout, "[RKShell] *** BLOW-UP (NaN/inf): unstable -- K not positive definite "
+		"(hourglass) or dt too large ***\n"); fflush(stdout); return; }
 	fprintf(stdout, "[RKShell] nodes=%d  min(u_y)=% .6e  max|u|=% .6e\n", fNumNodes, minuy, maxmag);
 	fflush(stdout);
 

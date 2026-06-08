@@ -51,6 +51,9 @@ public:
 	virtual void SendOutput(int kincode);
 	virtual void RegisterOutput(void);
 	virtual void WriteOutput(void);
+
+	/** RKShellT treats the nodal DOFs as the (quasi-interpolatory) displacements directly. */
+	virtual int InterpolantDOFs(void) const { return 1; }
 	/*@}*/
 
 	/** \name connectivity / equations (register the ragged neighbor stencils) */
