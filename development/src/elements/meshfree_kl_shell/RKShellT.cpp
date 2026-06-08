@@ -46,6 +46,7 @@ RKShellT::RKShellT(const ElementSupportT& support):
 	fDensity = 1.0;
 	fYield = 0.0;
 	fHardening = 0.0;
+	fFiniteStrain = 0;
 	fStabMode = 0;
 	fStabMembrane = 1.0;
 	fStabBending = 1.0;
@@ -211,6 +212,10 @@ void RKShellT::DefineParameters(ParameterListT& list) const
 	/* plane-stress J2 plasticity (0 yield = elastic): Y(ep) = yield_stress + hardening*ep */
 	ParameterT yld(fYield, "yield_stress"); yld.SetDefault(0.0); list.AddParameter(yld);
 	ParameterT hrd(fHardening, "hardening_modulus"); hrd.SetDefault(0.0); list.AddParameter(hrd);
+
+	/* finite-deformation kinematics (Green-Lagrange, current-config geometry); needed for the
+	 * large-displacement elasto-plastic buckling (Fig 18). 0 = small-strain linear. */
+	ParameterT fs(fFiniteStrain, "finite_strain"); fs.SetDefault(0); list.AddParameter(fs);
 }
 
 void RKShellT::TakeParameterList(const ParameterListT& list)
@@ -233,6 +238,7 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 	fStabBending  = list.GetParameter("stab_bending");
 	fYield        = list.GetParameter("yield_stress");
 	fHardening    = list.GetParameter("hardening_modulus");
+	fFiniteStrain = list.GetParameter("finite_strain");
 
 	/* plane-stress (sigma33=0) isotropic tangent; condensation acts in the LOCAL shell-normal
 	 * frame at assembly time via ToVoigtLocal */
@@ -391,6 +397,8 @@ void RKShellT::BuildElementStiffness(void)
 	fJ2sig.assign(fNumNodes, std::vector<double>(9, 0.0));
 	fJ2ep.assign(fNumNodes, std::vector<double>(3, 0.0));
 	fJ2eps.assign(fNumNodes, std::vector<double>(9, 0.0));
+	fDphi.assign(fNumNodes, std::vector<double>());
+	fXref.assign(fNumNodes, std::vector<double>());
 	double h = fThickness;
 
 	double hmin = 1.0e30;
@@ -442,6 +450,14 @@ void RKShellT::BuildElementStiffness(void)
 				x11[d]+=DDp(0,I)*Xq[d]; x22[d]+=DDp(1,I)*Xq[d]; x12[d]+=DDp(2,I)*Xq[d];
 			}
 		}
+		/* store stencil shape derivatives + reference mid-surface derivatives (finite-strain path) */
+		fDphi[i].resize((size_t)nn*5);
+		for (int I=0;I<nn;I++){ fDphi[i][I*5]=Dp(0,I); fDphi[i][I*5+1]=Dp(1,I);
+			fDphi[i][I*5+2]=DDp(0,I); fDphi[i][I*5+3]=DDp(1,I); fDphi[i][I*5+4]=DDp(2,I); }
+		fXref[i].resize(15);
+		for (int d=0;d<3;d++){ fXref[i][d]=x1[d]; fXref[i][3+d]=x2[d];
+			fXref[i][6+d]=x11[d]; fXref[i][9+d]=x22[d]; fXref[i][12+d]=x12[d]; }
+
 		double A_K = fNodalArea[i];
 		double V_K = A_K*h;
 		double cell = std::sqrt(A_K);
@@ -605,6 +621,97 @@ void RKShellT::InternalForce(int i, const dArrayT& ue, dArrayT& fout, bool commi
 	}
 }
 
+/* finite-deformation internal force: objective Green-Lagrange strain E = 1/2(g - G) from the
+ * CURRENT-config metric/curvature (g_ab = x,a . x,b is rigid-rotation invariant -> objective with
+ * no co-rotational machinery), current-config B = dE/du via BMatrix on the deformed geometry, the
+ * plane-stress stress (elastic or per-station J2 on the strain increment), plus the (reference-
+ * config) SCNI stabilization for hourglass/explicit control. */
+void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool commit)
+{
+	int nn = fNeighbors.MinorDim(i);
+	int ndof = 3*nn;
+	fout.Dimension(ndof); fout = 0.0;
+	if ((int) fDphi[i].size() != nn*5) return;
+	const double h = fThickness;
+	const double* Dp = &fDphi[i][0];
+	const double* Xr = &fXref[i][0];
+
+	/* current mid-surface derivatives x,a = X,a(ref) + u,a (u,a = sum Dphi_I,a u_I) */
+	double u1[3]={0,0,0},u2[3]={0,0,0},u11[3]={0,0,0},u22[3]={0,0,0},u12[3]={0,0,0};
+	for (int I=0;I<nn;I++){
+		double p1=Dp[I*5],p2=Dp[I*5+1],p11=Dp[I*5+2],p22=Dp[I*5+3],p12=Dp[I*5+4];
+		for(int d=0;d<3;d++){ double u=ue[I*3+d];
+			u1[d]+=p1*u; u2[d]+=p2*u; u11[d]+=p11*u; u22[d]+=p22*u; u12[d]+=p12*u; }
+	}
+	double X1[3],X2[3],X11[3],X22[3],X12[3], x1[3],x2[3],x11[3],x22[3],x12[3];
+	for(int d=0;d<3;d++){
+		X1[d]=Xr[d]; X2[d]=Xr[3+d]; X11[d]=Xr[6+d]; X22[d]=Xr[9+d]; X12[d]=Xr[12+d];
+		x1[d]=X1[d]+u1[d]; x2[d]=X2[d]+u2[d]; x11[d]=X11[d]+u11[d]; x22[d]=X22[d]+u22[d]; x12[d]=X12[d]+u12[d];
+	}
+
+	/* membrane Green-Lagrange strain (parametric ~ local orthonormal frame for the PCA chart) */
+	double Em11 = 0.5*(Dot(x1,x1) - Dot(X1,X1));
+	double Em22 = 0.5*(Dot(x2,x2) - Dot(X2,X2));
+	double Em12 = 0.5*(Dot(x1,x2) - Dot(X1,X2));
+
+	/* curvature change Dk_ab = n . x,ab (current - reference) */
+	double ncur[3],nref[3],cr[3];
+	Cross(x1,x2,cr); double Jc=Norm(cr); if(Jc<1e-300) return; for(int d=0;d<3;d++) ncur[d]=cr[d]/Jc;
+	Cross(X1,X2,cr); double Jr=Norm(cr); if(Jr<1e-300) return; for(int d=0;d<3;d++) nref[d]=cr[d]/Jr;
+	double dk11 = Dot(ncur,x11)-Dot(nref,X11);
+	double dk22 = Dot(ncur,x22)-Dot(nref,X22);
+	double dk12 = Dot(ncur,x12)-Dot(nref,X12);
+
+	double A_K = fNodalArea[i];
+	double xg[3] = {-std::sqrt(3.0/5.0), 0.0, std::sqrt(3.0/5.0)};
+	double wg[3] = {5.0/9.0, 8.0/9.0, 5.0/9.0};
+	bool plastic = (fYield > 0.0);
+
+	for (int g=0; g<3; g++){
+		ShellGeom G;
+		if (!BuildGeom(x1,x2,x11,x22,x12,h,xg[g],G)) continue;
+		double e1[3],e2[3]; OrthoTangents(G.n,e1,e2);
+		double zeta = (h/2.0)*xg[g];
+		double eps[6] = {0,0,0,0,0,0};            /* total strain at this station (Voigt) */
+		eps[0] = Em11 + zeta*dk11;
+		eps[1] = Em22 + zeta*dk22;
+		eps[5] = 2.0*(Em12 + zeta*dk12);
+
+		double sig[6] = {0,0,0,0,0,0};
+		if (plastic && g < (int)fJ2ep[i].size()){
+			double sip[3]={fJ2sig[i][3*g],fJ2sig[i][3*g+1],fJ2sig[i][3*g+2]};
+			double ep=fJ2ep[i][g];
+			double deps[3]={eps[0]-fJ2eps[i][3*g], eps[1]-fJ2eps[i][3*g+1], eps[5]-fJ2eps[i][3*g+2]};
+			PlaneStressJ2Return(sip,deps,ep,fYoung,fPoisson,fYield,fHardening);
+			sig[0]=sip[0]; sig[1]=sip[1]; sig[5]=sip[2];
+			if (commit){ fJ2sig[i][3*g]=sip[0];fJ2sig[i][3*g+1]=sip[1];fJ2sig[i][3*g+2]=sip[2];
+				fJ2ep[i][g]=ep; fJ2eps[i][3*g]=eps[0];fJ2eps[i][3*g+1]=eps[1];fJ2eps[i][3*g+2]=eps[5]; }
+		} else {
+			for(int r=0;r<6;r++){double s=0.0;for(int cc=0;cc<6;cc++)s+=fC[r][cc]*eps[cc];sig[r]=s;}
+		}
+
+		double w = wg[g]*(h/2.0)*A_K;
+		for (int I=0;I<nn;I++){
+			double B[3][3][3];
+			BMatrix(G, Dp[I*5], Dp[I*5+1], Dp[I*5+2], Dp[I*5+4], Dp[I*5+3], B);
+			double bv[6][3]; ToVoigtLocal(B,e1,e2,G.n,bv);
+			for(int c=0;c<3;c++){ double s=0.0; for(int r=0;r<6;r++) s+=bv[r][c]*sig[r]; fout[I*3+c]+=s*w; }
+		}
+	}
+
+	/* SCNI stabilization (reference-config, linear) from the stored stabilization points */
+	int npt = (int) fIPw[i].size();
+	if (npt > 0){ const double* Ball=&fIPB[i][0];
+		for (int p=0;p<npt;p++){ if (fIPstab[i][p]==0) continue;
+			const double* B=Ball+(size_t)p*6*ndof;
+			double eps[6]; for(int r=0;r<6;r++){const double*Br=B+(size_t)r*ndof;double s=0.0;for(int c=0;c<ndof;c++)s+=Br[c]*ue[c];eps[r]=s;}
+			double sig[6]; for(int r=0;r<6;r++){double s=0.0;for(int cc=0;cc<6;cc++)s+=fC[r][cc]*eps[cc];sig[r]=s;}
+			double w=fIPw[i][p];
+			for(int c=0;c<ndof;c++){double s=0.0;for(int r=0;r<6;r++)s+=B[(size_t)r*ndof+c]*sig[r];fout[c]+=s*w;}
+		}
+	}
+}
+
 /* LHS: stiffness (implicit) and/or lumped mass (explicit). Uses the inherited Top/NextElement +
  * no-arg AssembleLHS() flow (CurrentElement().Equations()), as the standard meshfree element. */
 void RKShellT::LHSDriver(GlobalT::SystemTypeT sys_type)
@@ -659,7 +766,8 @@ void RKShellT::RHSDriver(void)
 		/* stress-driven internal force f_int = sum_pt B^T sigma(B*u) w (== fKe*u for elasticity) */
 		dArrayT ue(3*nn);
 		for (int k=0;k<nn;k++) for (int d=0;d<3;d++) ue[k*3+d] = disp(gnb[k], d);
-		InternalForce(i, ue, fRHS, true);             /* commit J2 state (explicit: once per step) */
+		if (fFiniteStrain) InternalForceFS(i, ue, fRHS, true);  /* finite-deformation (Fig 18) */
+		else               InternalForce(i, ue, fRHS, true);    /* small-strain (commit J2 once/step) */
 		fRHS *= -constKd;                              /* residual gets -f_int */
 
 		/* external per-area load on node i (its own dof within the stencil) */

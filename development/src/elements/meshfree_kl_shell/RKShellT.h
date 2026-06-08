@@ -99,6 +99,12 @@ private:
 	 * stabilization points are always elastic. Reduces to fKe*ue for linear elasticity. */
 	void InternalForce(int i, const dArrayT& ue, dArrayT& fout, bool commit);
 
+	/** finite-deformation internal force for node i's stencil: recompute the current mid-surface
+	 * geometry from the current positions, form the objective Green-Lagrange strain E = 1/2(g-G)
+	 * (membrane) + (curvature change) from the metric, the current-config B = dE/du, the stress
+	 * (elastic or per-point plane-stress J2 on the strain increment), and f = sum B^T S w. */
+	void InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool commit);
+
 	/** lumped nodal mass m_I = rho * A_I * h (diagonal; for the explicit central-difference
 	 * solver, with optional mass scaling via a large fDensity for quasi-static loading) */
 	void BuildLumpedMass(void);
@@ -115,6 +121,7 @@ private:
 	double fDensity;       /**< mass density (use a scaled value for explicit dynamic relaxation) */
 	double fYield;         /**< J2 initial yield stress (0 = elastic, no plasticity) */
 	double fHardening;     /**< J2 linear isotropic hardening modulus H: Y(ep) = Yield + H*ep */
+	int    fFiniteStrain;  /**< 1 = finite-deformation (Green-Lagrange, current-config geometry) */
 	/*@}*/
 
 	/** \name stabilization — SCNI/NSNI cell-smoothed assumed-strain residual R = B_direct - B~tilde
@@ -155,6 +162,11 @@ private:
 	std::vector<std::vector<double> > fJ2sig;  /**< [node] -> [nbase * 3] */
 	std::vector<std::vector<double> > fJ2ep;   /**< [node] -> [nbase] */
 	std::vector<std::vector<double> > fJ2eps;  /**< [node] -> [nbase * 3] */
+
+	/** finite-deformation data: stencil shape derivatives (recompute current geometry from current
+	 * positions each step) + reference mid-surface derivatives (for the reference metric/curvature). */
+	std::vector<std::vector<double> > fDphi;   /**< [node] -> [nn*5]: Dp0,Dp1,DDp0,DDp1,DDp2 per stencil node */
+	std::vector<std::vector<double> > fXref;   /**< [node] -> [15]: ref x,1 x,2 x,11 x,22 x,12 (each 3) */
 	/*@}*/
 	/*@}*/
 
