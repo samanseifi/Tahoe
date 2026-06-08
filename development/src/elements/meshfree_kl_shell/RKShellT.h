@@ -108,12 +108,13 @@ private:
 	double fDensity;       /**< mass density (use a scaled value for explicit dynamic relaxation) */
 	/*@}*/
 
-	/** \name stabilization (paper section 5) */
+	/** \name stabilization — SCNI/NSNI cell-smoothed assumed-strain residual R = B_direct - B~tilde
+	 * (B~tilde = divergence-theorem cell average over node K's quad cell). Consistent (vanishes on
+	 * smooth fields -> membrane unpolluted) + PSD (explicit-stable). */
 	/*@{*/
-	int    fStabMode;      /**< 0 = default (membrane+bending); 3 = alpha-scaled membrane (5.3);
-	                            2 = pure bending (5.2) */
-	double fStabMembrane;  /**< membrane (1st-gradient) stabilization scale */
-	double fStabBending;   /**< bending (curvature-gradient) stabilization scale */
+	int    fStabMode;      /**< 0 = full strength; 3 = alpha=min(1,h/h_pl) scaled (paper 5.3) */
+	double fStabMembrane;  /**< stabilization-residual scale (coefficient on R^T C R) */
+	double fStabBending;   /**< (reserved) */
 	/*@}*/
 
 	/** \name surface meshfree data */

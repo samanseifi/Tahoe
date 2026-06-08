@@ -461,48 +461,70 @@ void RKShellT::BuildElementStiffness(void)
 			}
 		}
 
-		/* membrane + bending (curvature-gradient) stabilization at xi3=0 */
-		ShellGeom G0;
-		if (BuildGeom(x1,x2,x11,x22,x12,h,0.0,G0)) {
-			double e1[3],e2[3]; OrthoTangents(G0.n,e1,e2);
-			std::vector<std::vector<double> > Bg(nn, std::vector<double>(36)), Bk(nn, std::vector<double>(36));
-			for (int I=0;I<nn;I++){
-				double Bz[3][3][3];
-				BMatrix(G0,Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I),Bz);
-				double P1l[2]={DDp(0,I),DDp(2,I)}, P2l[2]={DDp(2,I),DDp(1,I)};
-				double Bgr[3][3][3][2];
-				BMatrixGradient(G0,Dp(0,I),Dp(1,I),P1l,P2l,Bz,Bgr);
-				double Bkk[3][3][3][2];
-				BMatrixCurvatureGradient(G0,DDp(0,I),DDp(2,I),DDp(1,I),DDDp(0,I),DDDp(2,I),DDDp(1,I),DDDp(3,I),Bkk);
-				for (int l=0;l<2;l++){
-					double Bm[3][3][3], Bc[3][3][3];
-					for(int ii=0;ii<3;ii++)for(int jj=0;jj<3;jj++)for(int kk=0;kk<3;kk++){
-						Bm[ii][jj][kk]=Bgr[ii][jj][kk][l]; Bc[ii][jj][kk]=Bkk[ii][jj][kk][l]; }
-					double bvm[6][3], bvc[6][3];
-					ToVoigtLocal(Bm,e1,e2,G0.n,bvm); ToVoigtLocal(Bc,e1,e2,G0.n,bvc);
-					for(int r=0;r<6;r++)for(int c=0;c<3;c++){Bg[I][l*18+r*3+c]=bvm[r][c]; Bk[I][l*18+r*3+c]=bvc[r][c];}
+		/* SCNI / NSNI cell-smoothed assumed-strain stabilization. For node K's square smoothing cell
+		 * (side s = nodal spacing) in the PCA chart, the divergence-theorem cell-averaged gradient
+		 * reduces to a CENTRAL DIFFERENCE of the shape functions sampled at the 4 edge midpoints:
+		 *   d~Psi/dxi1 = [Psi(+e1) - Psi(-e1)]/s , and likewise the smoothed 2nd derivs from the
+		 * boundary integral of the 1st derivs. The stabilization is the residual R = B_direct - B~
+		 * (analytical point operator minus the cell-smoothed operator). For a smooth field the cell
+		 * average matches the point value (divergence theorem) -> R ~ 0 -> membrane/bending energy
+		 * UNPOLLUTED; the hourglass sawtooth has nonzero cell average but is invisible to the point
+		 * sample -> R large -> a PSD penalty (R^T C R) that suppresses the mode. */
+		{
+			double s_cell = std::sqrt(hmin);              /* nodal spacing = smoothing-cell side */
+			/* analytical shape derivs at K (copied before re-evaluating at the cell midpoints) */
+			std::vector<double> P1K(nn),P2K(nn),P11K(nn),P22K(nn),P12K(nn);
+			for (int I=0;I<nn;I++){ P1K[I]=Dp(0,I); P2K[I]=Dp(1,I);
+				P11K[I]=DDp(0,I); P22K[I]=DDp(1,I); P12K[I]=DDp(2,I); }
+
+			/* sample phi (values) and Dphi (1st derivs) at the 4 cell-edge midpoints (+/-e1, +/-e2) */
+			double mids[4][2] = {{ s_cell/2,0},{-s_cell/2,0},{0, s_cell/2},{0,-s_cell/2}};
+			std::vector<std::vector<double> > Phi(4, std::vector<double>(nn,0.0));
+			std::vector<std::vector<double> > Dx(4, std::vector<double>(nn,0.0)), Dy(4, std::vector<double>(nn,0.0));
+			bool okcell = true;
+			for (int m=0;m<4 && okcell;m++){
+				dArrayT sM(2); sM[0]=mids[m][0]; sM[1]=mids[m][1];
+				if (!fMLS->SetField(lc, np, vol, sM, 3)) { okcell=false; break; }
+				const dArrayT& ph=fMLS->phi(); const dArray2DT& dp=fMLS->Dphi();
+				for (int I=0;I<nn;I++){ Phi[m][I]=ph[I]; Dx[m][I]=dp(0,I); Dy[m][I]=dp(1,I); }
+			}
+
+			if (okcell) {
+				double inv_s = 1.0/s_cell;
+				/* cell-smoothed 1st + 2nd shape derivatives (R=+e1, L=-e1, T=+e2, B=-e2 -> m=0,1,2,3) */
+				std::vector<double> sm1(nn),sm2(nn),sm11(nn),sm22(nn),sm12(nn);
+				for (int I=0;I<nn;I++){
+					sm1[I]  = (Phi[0][I]-Phi[1][I])*inv_s;             /* d~Psi/dxi1 */
+					sm2[I]  = (Phi[2][I]-Phi[3][I])*inv_s;             /* d~Psi/dxi2 */
+					sm11[I] = (Dx[0][I]-Dx[1][I])*inv_s;              /* d~^2Psi/dxi1^2 */
+					sm22[I] = (Dy[2][I]-Dy[3][I])*inv_s;              /* d~^2Psi/dxi2^2 */
+					sm12[I] = 0.5*((Dx[2][I]-Dx[3][I]) + (Dy[0][I]-Dy[1][I]))*inv_s; /* symmetric mixed */
 				}
-			}
-			double Mw, Mw_bend;
-			if (fStabMode == 3) {        /* section 5.3: alpha-scaled membrane, no bending */
-				Mw = fStabMembrane*alpha*V_K*Mmom;
-				Mw_bend = 0.0;
-			} else if (fStabMode == 2) { /* section 5.2: pure bending, no membrane */
-				Mw = 0.0;
-				Mw_bend = fStabBending*(A_K*Mmom)*(h*h*h/12.0);
-			} else {                     /* default = paper Eq 33: MEMBRANE stab only (bending energy
-			                              * comes from the through-thickness Gauss base; the paper
-			                              * avoids 3rd-deriv bending stab) */
-				Mw = fStabMembrane*V_K*Mmom;
-				Mw_bend = 0.0;
-			}
-			for (int l=0;l<2;l++) for (int I=0;I<nn;I++) for (int J=0;J<nn;J++){
-				double km[3][3]={{0,0,0},{0,0,0},{0,0,0}}, kb[3][3]={{0,0,0},{0,0,0},{0,0,0}};
-				for(int a=0;a<6;a++)for(int b=0;b<6;b++){double Cab=fC[a][b];if(Cab==0.0)continue;
-					for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++){
-						km[ci][cj]+=Bg[I][l*18+a*3+ci]*Cab*Bg[J][l*18+b*3+cj];
-						kb[ci][cj]+=Bk[I][l*18+a*3+ci]*Cab*Bk[J][l*18+b*3+cj]; }}
-				for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++) Ke(3*I+ci,3*J+cj)+=Mw*km[ci][cj]+Mw_bend*kb[ci][cj];
+
+				double afac = (fStabMode == 3) ? alpha : 1.0;
+				for (int g=0; g<3; g++) {
+					ShellGeom G;
+					if (!BuildGeom(x1,x2,x11,x22,x12,h,xg[g],G)) continue;
+					double e1[3],e2[3]; OrthoTangents(G.n,e1,e2);
+					double cw = fStabMembrane*afac*wg[g]*(h/2.0)*A_K;
+					if (cw == 0.0) continue;
+					/* residual R_I = B_direct_I - B~_I (Voigt, in K's local frame) */
+					std::vector<std::vector<double> > Rv(nn, std::vector<double>(18));
+					for (int I=0;I<nn;I++){
+						double Bd[3][3][3], Bs[3][3][3];
+						BMatrix(G, P1K[I], P2K[I], P11K[I], P12K[I], P22K[I], Bd);
+						BMatrix(G, sm1[I], sm2[I], sm11[I], sm12[I], sm22[I], Bs);
+						double bvd[6][3], bvs[6][3];
+						ToVoigtLocal(Bd,e1,e2,G.n,bvd); ToVoigtLocal(Bs,e1,e2,G.n,bvs);
+						for(int r=0;r<6;r++)for(int c=0;c<3;c++) Rv[I][r*3+c]=bvd[r][c]-bvs[r][c];
+					}
+					for (int I=0;I<nn;I++) for (int Jp=0;Jp<nn;Jp++){
+						double kij[3][3]={{0,0,0},{0,0,0},{0,0,0}};
+						for(int a=0;a<6;a++)for(int b=0;b<6;b++){double Cab=fC[a][b];if(Cab==0.0)continue;
+							for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++) kij[ci][cj]+=Rv[I][a*3+ci]*Cab*Rv[Jp][b*3+cj];}
+						for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++) Ke(3*I+ci,3*Jp+cj)+=cw*kij[ci][cj];
+					}
+				}
 			}
 		}
 	}
