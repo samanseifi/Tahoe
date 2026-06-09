@@ -78,4 +78,15 @@ One physical subtlety: a SINGLE-NODE pinch is a sub-grid delta that excites a ke
 inextensional sawtooth -- the RKPM kernel smooths it to zero, so NO kernel-based stabilizer (the
 paper's included) can catch it. A RESOLVED load (3x3 patch -> smoothness 0.34; or the theta=0/pi
 generator lines = the paper's "top and bottom SURFACE" -> smoothness 0.16) does not excite it.
-RESULT: natural Taylor + resolved load = SMOOTH and PAPER-SCALE force and global butterfly crush.
+What IS resolved: the over-stiffening MECHANISM (the penalty inflation) is gone; the stabilizer is
+consistent (Gate 1) and the early-crush force is paper-scale (432/node @24mm).
+
+## Honest open item (full line curve, 7 pts to 156mm)
+The LINE load is SMOOTH (0.017 @156mm) but it is the WRONG problem: it crushes the whole 600mm length
+uniformly -> global ovalization -> per-node force rises MONOTONICALLY 432->2250 (24->156mm), crossing
+the paper's <1000 at ~70mm and hitting ~2x at 150mm, with NO post-buckling drop. The paper's curve is
+a LOCALIZED buckling (rise->peak->drop->~<1000). So the line proves smoothness+consistency but does
+NOT reproduce Fig 18's shape or 150mm magnitude. The missing ingredient is the LOAD FOOTPRINT: a load
+localized enough to BUCKLE (the drop) yet resolved enough not to sawtooth. Single node buckles but
+sawtooths; line is smooth but won't buckle. The 3x3 PATCH is the in-between candidate -- under test
+(does its force peak+drop while staying smooth?).
