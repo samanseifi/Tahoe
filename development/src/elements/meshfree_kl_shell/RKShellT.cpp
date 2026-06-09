@@ -573,38 +573,46 @@ void RKShellT::BuildElementStiffness(void)
 			ShellGeom G0;
 			if (BuildGeom(x1,x2,x11,x22,x12,h,0.0,G0)) {
 				double e1[3],e2[3]; OrthoTangents(G0.n,e1,e2);
-				double Vmom = fStabNatural * (h*A_K) * Mmom * alpha;   /* V_K * (s^2/12) * alpha */
-				std::vector<std::vector<double> > Bg(nn, std::vector<double>(36,0.0)); /* [l*18+r*3+c] */
+				double memVmom  = fStabNatural * (h*A_K)         * Mmom * alpha;  /* membrane grad: V_K*s^2/12 */
+				double bendVmom = fStabNatural * (h*h*h/12.0*A_K)* Mmom * alpha;  /* curvature grad: (h^3/12)*A_K*s^2/12 */
+				std::vector<std::vector<double> > Bg(nn,std::vector<double>(36,0.0)); /* membrane B_,xil  [l*18+r*3+c] */
+				std::vector<std::vector<double> > Bk(nn,std::vector<double>(36,0.0)); /* bending kappa_,xil */
 				for (int I=0;I<nn;I++){
 					double B[3][3][3];
 					BMatrix(G0,Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I),B);
-					double P1l[2]={DDp(0,I),DDp(2,I)};   /* Psi,1,xil = {Psi,11, Psi,12} */
-					double P2l[2]={DDp(2,I),DDp(1,I)};   /* Psi,2,xil = {Psi,12, Psi,22} */
-					double Bgt[3][3][3][2];
+					double P1l[2]={DDp(0,I),DDp(2,I)}, P2l[2]={DDp(2,I),DDp(1,I)};
+					double Bgt[3][3][3][2], Bkt[3][3][3][2];
 					BMatrixGradient(G0,Dp(0,I),Dp(1,I),P1l,P2l,B,Bgt);
+					/* DDDp order 0:xxx 1:xyy 2:xxy 3:yyy -> (P111,P112,P122,P222)=(0,2,1,3) */
+					BMatrixCurvatureGradient(G0,DDp(0,I),DDp(2,I),DDp(1,I),
+					                         DDDp(0,I),DDDp(2,I),DDDp(1,I),DDDp(3,I),Bkt);
 					for (int l=0;l<2;l++){
-						double Bgl[3][3][3];
-						for(int a=0;a<3;a++)for(int b=0;b<3;b++)for(int c=0;c<3;c++) Bgl[a][b][c]=Bgt[a][b][c][l];
-						double bv[6][3]; ToVoigtLocal(Bgl,e1,e2,G0.n,bv);
-						for(int r=0;r<6;r++)for(int c=0;c<3;c++) Bg[I][l*18+r*3+c]=bv[r][c];
+						double Bgl[3][3][3],Bkl[3][3][3];
+						for(int a=0;a<3;a++)for(int b=0;b<3;b++)for(int c=0;c<3;c++){Bgl[a][b][c]=Bgt[a][b][c][l];Bkl[a][b][c]=Bkt[a][b][c][l];}
+						double bv[6][3],bvk[6][3];
+						ToVoigtLocal(Bgl,e1,e2,G0.n,bv); ToVoigtLocal(Bkl,e1,e2,G0.n,bvk);
+						for(int r=0;r<6;r++)for(int c=0;c<3;c++){Bg[I][l*18+r*3+c]=bv[r][c];Bk[I][l*18+r*3+c]=bvk[r][c];}
 					}
 				}
-				/* store the two B_,xil operators as elastic stab points (fIPstab=1, weight Vmom) so the
-				 * existing SCNI force loop in InternalForce/FS assembles the explicit stabilization force
-				 * f = sum_l (B_,xil)^T C (B_,xil) u * Vmom automatically -- no separate force code needed */
-				for (int l=0;l<2;l++){
-					std::vector<double> Bf((size_t)6*3*nn);
-					for(int I=0;I<nn;I++)for(int r=0;r<6;r++)for(int c=0;c<3;c++) Bf[(size_t)r*3*nn+3*I+c]=Bg[I][l*18+r*3+c];
-					fIPB[i].insert(fIPB[i].end(),Bf.begin(),Bf.end());
-					fIPw[i].push_back(Vmom); fIPstab[i].push_back(1);
-				}
-				for (int I=0;I<nn;I++) for (int J=0;J<nn;J++){
-					double kij[3][3]={{0,0,0},{0,0,0},{0,0,0}};
-					for (int l=0;l<2;l++)
-						for(int a=0;a<6;a++)for(int b=0;b<6;b++){ double Cab=fC[a][b]; if(Cab==0.0) continue;
-							for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++)
-								kij[ci][cj]+=Bg[I][l*18+a*3+ci]*Cab*Bg[J][l*18+b*3+cj]; }
-					for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++) Ke(3*I+ci,3*J+cj)+=Vmom*kij[ci][cj];
+				/* store all four (membrane*2 + bending*2) B_,xil as elastic stab points (fIPstab=1) so the
+				 * existing SCNI force loop assembles f = sum (B_,xil)^T C (B_,xil) u * w automatically */
+				for (int pass=0;pass<2;pass++){
+					std::vector<std::vector<double> >& Bs = (pass==0)?Bg:Bk;
+					double wmom = (pass==0)?memVmom:bendVmom;
+					for (int l=0;l<2;l++){
+						std::vector<double> Bf((size_t)6*3*nn);
+						for(int I=0;I<nn;I++)for(int r=0;r<6;r++)for(int c=0;c<3;c++) Bf[(size_t)r*3*nn+3*I+c]=Bs[I][l*18+r*3+c];
+						fIPB[i].insert(fIPB[i].end(),Bf.begin(),Bf.end());
+						fIPw[i].push_back(wmom); fIPstab[i].push_back(1);
+					}
+					for (int I=0;I<nn;I++) for (int J=0;J<nn;J++){
+						double kij[3][3]={{0,0,0},{0,0,0},{0,0,0}};
+						for (int l=0;l<2;l++)
+							for(int a=0;a<6;a++)for(int b=0;b<6;b++){ double Cab=fC[a][b]; if(Cab==0.0) continue;
+								for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++)
+									kij[ci][cj]+=Bs[I][l*18+a*3+ci]*Cab*Bs[J][l*18+b*3+cj]; }
+						for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++) Ke(3*I+ci,3*J+cj)+=wmom*kij[ci][cj];
+					}
 				}
 			}
 		}
