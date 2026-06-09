@@ -546,17 +546,19 @@ void RKShellT::BuildElementStiffness(void)
 			}
 		}
 
-		/* BENDING-hourglass control: penalize the curvature RESIDUAL R_I = A_I - D_I. A_I =
-		 * DDp0_I + DDp1_I is the analytical (kernel Laplacian) mean-curvature operator -- the RKPM
-		 * kernel smooths a node-to-node sawtooth so A returns ~0 on the hourglass. D_I is a DISCRETE
-		 * chord-curvature reconstruction (4/L^2 * (u_J-u_K).n, neighbor-averaged) that EXPLODES on
-		 * the sawtooth. For smooth/physical bending A==D (Taylor; the 4/L^2 directional average =
-		 * Laplacian) so R->0 (no pollution); on the hourglass R is large. Rank-1 normal-direction
-		 * penalty -> arrests the inextensional bending hourglass the SCNI membrane filter misses. */
+		/* BENDING-hourglass control, FREQUENCY-SELECTIVE: penalize R_I = D_chord_I - D_LS_I.
+		 * D_chord (4/L^2 chord Laplacian) catches ALL node-to-node curvature -- the spurious sawtooth
+		 * AND the physical resolved curvature (dimple/ovalization). D_LS is a moment-matched 3x3
+		 * least-squares Laplacian: it REPRODUCES a resolved quadratic curvature field exactly but
+		 * SMOOTHS the node-to-node sawtooth to ~0. So on resolved/physical bending D_chord==D_LS ->
+		 * R~0 (NO penalty, no force inflation); on the hourglass D_LS~0 while D_chord is large -> R
+		 * large -> penalty preserved. This fixes the chord operator's over-penalization of the sharp
+		 * physical load dimple (which was inflating the reaction ~10x) without losing hourglass control. */
 		if (fStabBending > 0.0) {
 			double nrm[3]; Cross(x1,x2,nrm); double Jn=Norm(nrm);
 			if (Jn > 1.0e-300) {
 				for (int d=0;d<3;d++) nrm[d]/=Jn;
+				/* chord curvature operator (catches everything, incl. the sawtooth) */
 				std::vector<double> Dop(nn,0.0); double W=0.0;
 				for (int J=0;J<nn;J++){
 					double L2=lc(J,0)*lc(J,0)+lc(J,1)*lc(J,1);
@@ -565,12 +567,35 @@ void RKShellT::BuildElementStiffness(void)
 				}
 				double Dself=0.0;
 				if (W>0.0) for (int J=0;J<nn;J++){ Dop[J]/=W; Dself+=Dop[J]; }
+				/* moment-matched LS Laplacian: kappa = M^-1 sum p_J (u_J-u_K).n with quadratic basis
+				 * p_J=[1/2 x^2, x y, 1/2 y^2]; Laplacian coeff C_LS_J = (M^-1 p_J)[0] + (M^-1 p_J)[2] */
+				double M[3][3]={{0,0,0},{0,0,0},{0,0,0}};
+				std::vector<double> px(nn),py(nn),pz(nn);
+				for (int J=0;J<nn;J++){ double x=lc(J,0),y=lc(J,1); px[J]=0.5*x*x; py[J]=x*y; pz[J]=0.5*y*y;
+					M[0][0]+=px[J]*px[J]; M[0][1]+=px[J]*py[J]; M[0][2]+=px[J]*pz[J];
+					M[1][1]+=py[J]*py[J]; M[1][2]+=py[J]*pz[J]; M[2][2]+=pz[J]*pz[J]; }
+				M[1][0]=M[0][1]; M[2][0]=M[0][2]; M[2][1]=M[1][2];
+				double det=M[0][0]*(M[1][1]*M[2][2]-M[1][2]*M[2][1])
+				          -M[0][1]*(M[1][0]*M[2][2]-M[1][2]*M[2][0])
+				          +M[0][2]*(M[1][0]*M[2][1]-M[1][1]*M[2][0]);
+				std::vector<double> Cls(nn,0.0); double Clsself=0.0;
+				if (std::fabs(det) > 1.0e-300) {        /* singular -> collinear stencil; fall back to chord (Cls=0) */
+					double id=1.0/det;
+					double Mi[3][3];
+					Mi[0][0]=(M[1][1]*M[2][2]-M[1][2]*M[2][1])*id; Mi[0][1]=(M[0][2]*M[2][1]-M[0][1]*M[2][2])*id; Mi[0][2]=(M[0][1]*M[1][2]-M[0][2]*M[1][1])*id;
+					Mi[2][0]=(M[1][0]*M[2][1]-M[1][1]*M[2][0])*id; Mi[2][1]=(M[0][1]*M[2][0]-M[0][0]*M[2][1])*id; Mi[2][2]=(M[0][0]*M[1][1]-M[0][1]*M[1][0])*id;
+					for (int J=0;J<nn;J++){
+						double q0=Mi[0][0]*px[J]+Mi[0][1]*py[J]+Mi[0][2]*pz[J];
+						double q2=Mi[2][0]*px[J]+Mi[2][1]*py[J]+Mi[2][2]*pz[J];
+						Cls[J]=q0+q2; Clsself+=Cls[J];
+					}
+				}
 				std::vector<double> Rk(nn);
 				for (int I=0;I<nn;I++){
-					double A=DDp(0,I)+DDp(1,I);
 					double L2=lc(I,0)*lc(I,0)+lc(I,1)*lc(I,1);
-					double D=(L2 < 1.0e-12) ? -Dself : Dop[I];
-					Rk[I]=A-D;
+					double Dch=(L2 < 1.0e-12) ? -Dself   : Dop[I];
+					double Dls=(L2 < 1.0e-12) ? -Clsself : Cls[I];
+					Rk[I]=Dch-Dls;
 				}
 				double coeff=fStabBending*(fYoung*h*h*h/12.0)*A_K;
 				for (int I=0;I<nn;I++) for (int Jp=0;Jp<nn;Jp++){
