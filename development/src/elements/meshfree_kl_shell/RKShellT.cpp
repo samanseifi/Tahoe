@@ -171,7 +171,7 @@ void RKShellT::WriteOutput(void)
 				if (pos < 0) continue;
 				dArrayT ue(3*nn), f;
 				for (int k=0;k<nn;k++) for (int d=0;d<3;d++) ue[k*3+d]=disp(gnb[k],d);
-				if (fFiniteStrain) InternalForceFS(K, ue, f, false);
+				if (fFiniteStrain) InternalForceFS(K, ue, f, false, false);  /* exclude bending penalty from reported reaction */
 				else               InternalForce(K, ue, f, false);
 				for (int d=0;d<3;d++) react[d] += f[pos*3+d];
 			}
@@ -751,7 +751,7 @@ void RKShellT::InternalForce(int i, const dArrayT& ue, dArrayT& fout, bool commi
  * no co-rotational machinery), current-config B = dE/du via BMatrix on the deformed geometry, the
  * plane-stress stress (elastic or per-station J2 on the strain increment), plus the (reference-
  * config) SCNI stabilization for hourglass/explicit control. */
-void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool commit)
+void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool commit, bool include_bend)
 {
 	int nn = fNeighbors.MinorDim(i);
 	int ndof = 3*nn;
@@ -837,7 +837,7 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 	/* bending-hourglass control (rank-1 penalty along the CURRENT-config normal so the out-of-plane
 	 * penalty stays orthogonal to the deformed tangent plane; a static reference normal would inject
 	 * a spurious in-plane/membrane component at large crush rotations and over-stiffen the hinges) */
-	if (fBendCoeff[i] != 0.0 && (int)fBendR[i].size()==nn) {
+	if (include_bend && fBendCoeff[i] != 0.0 && (int)fBendR[i].size()==nn) {
 		const double* Rb=&fBendR[i][0];
 		double nv[3]; Cross(x1,x2,nv); double nL=Norm(nv);
 		if (nL>1.0e-300){ for(int d=0;d<3;d++) nv[d]/=nL;

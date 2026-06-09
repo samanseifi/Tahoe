@@ -103,7 +103,7 @@ private:
 	 * geometry from the current positions, form the objective Green-Lagrange strain E = 1/2(g-G)
 	 * (membrane) + (curvature change) from the metric, the current-config B = dE/du, the stress
 	 * (elastic or per-point plane-stress J2 on the strain increment), and f = sum B^T S w. */
-	void InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool commit);
+	void InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool commit, bool include_bend = true);
 
 	/** lumped nodal mass m_I = rho * A_I * h (diagonal; for the explicit central-difference
 	 * solver, with optional mass scaling via a large fDensity for quasi-static loading) */
