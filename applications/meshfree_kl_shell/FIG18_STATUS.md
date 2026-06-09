@@ -64,3 +64,18 @@ Tackle the natural-stabilization reformulation as a **dedicated, focused effort*
 route is the principled, cheaper one). Until then: the element reproduces §4.4 **qualitatively**
 (correct material, butterfly mode, distributed hinges); the **force magnitude is over-stiffened ~4×
 by the curvature-penalty stabilization — a documented, understood limitation, not a bug.**
+
+## RESOLUTION (the over-stiffening is FIXED)
+The 4x force over-stiffening is resolved by replacing the curvature PENALTY with the paper's actual
+**Eq. 33 natural (Taylor-gradient) stabilization** -- which already existed as kernels
+(BMatrixGradient + BMatrixCurvatureGradient in KLShellKernels.h, using the 3rd derivatives the MLS
+already computes via DDDphi) but was never wired in. Now wired (membrane + bending Taylor, stab_natural
+param). Because it is CONSISTENT (vanishes on smooth fields), it does NOT over-stiffen:
+- GATE 1 (consistency): Scordelis-Lo bit-exact -0.292, KLShell 22/22, with the stabilizer ON.
+- GATE 2 (force): per-load-point reaction ~432 (paper scale), NOT the 4670 penalty artifact.
+
+One physical subtlety: a SINGLE-NODE pinch is a sub-grid delta that excites a kernel-ZERO-ENERGY
+inextensional sawtooth -- the RKPM kernel smooths it to zero, so NO kernel-based stabilizer (the
+paper's included) can catch it. A RESOLVED load (3x3 patch -> smoothness 0.34; or the theta=0/pi
+generator lines = the paper's "top and bottom SURFACE" -> smoothness 0.16) does not excite it.
+RESULT: natural Taylor + resolved load = SMOOTH and PAPER-SCALE force and global butterfly crush.
