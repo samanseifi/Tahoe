@@ -54,6 +54,7 @@ RKShellT::RKShellT(const ElementSupportT& support):
 	fStabMode = 0;
 	fStabMembrane = 1.0;
 	fStabBending = 0.0;
+	fStabNatural = 1.0;
 	fOutputID = -1;
 }
 
@@ -256,6 +257,7 @@ void RKShellT::DefineParameters(ParameterListT& list) const
 	list.AddParameter(stab);
 	ParameterT sm(fStabMembrane, "stab_membrane"); sm.SetDefault(1.0); list.AddParameter(sm);
 	ParameterT sb(fStabBending,  "stab_bending");  sb.SetDefault(0.0); list.AddParameter(sb);
+	ParameterT sn(fStabNatural,  "stab_natural"); sn.SetDefault(1.0); list.AddParameter(sn);
 
 	/* plane-stress J2 plasticity (0 yield = elastic): Y(ep) = yield_stress + hardening*ep */
 	ParameterT yld(fYield, "yield_stress"); yld.SetDefault(0.0); list.AddParameter(yld);
@@ -291,6 +293,7 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 	fStabMode     = list.GetParameter("stabilization");
 	fStabMembrane = list.GetParameter("stab_membrane");
 	fStabBending  = list.GetParameter("stab_bending");
+	fStabNatural  = list.GetParameter("stab_natural");
 	fYield        = list.GetParameter("yield_stress");
 	fHardening    = list.GetParameter("hardening_modulus");
 	fFiniteStrain = list.GetParameter("finite_strain");
@@ -558,6 +561,51 @@ void RKShellT::BuildElementStiffness(void)
 				for(int a=0;a<6;a++)for(int b=0;b<6;b++){double Cab=fC[a][b];if(Cab==0.0)continue;
 					for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++) kij[ci][cj]+=Bv[I][a*3+ci]*Cab*Bv[J][b*3+cj];}
 				for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++) Ke(3*I+ci,3*J+cj)+=cw*kij[ci][cj];
+			}
+		}
+
+		/* NATURAL (Taylor-gradient) stabilization at xi3=0 -- the paper's Eq. 33 CONSISTENT stabilizer
+		 * (replaces the curvature penalty). K_stab = sum_l (B_,xil)^T C (B_,xil) * V_K * Mmom * alpha,
+		 * using only 2nd shape derivatives (the xi3 3rd-derivative term vanishes at xi3=0). It vanishes
+		 * on smooth fields (Scordelis-Lo stays bit-exact) but fires on node-to-node hourglass content;
+		 * scaled by Mmom~s^2 it steps out of the way of sub-grid physical folds -> no force inflation. */
+		if (fStabNatural > 0.0) {
+			ShellGeom G0;
+			if (BuildGeom(x1,x2,x11,x22,x12,h,0.0,G0)) {
+				double e1[3],e2[3]; OrthoTangents(G0.n,e1,e2);
+				double Vmom = fStabNatural * (h*A_K) * Mmom * alpha;   /* V_K * (s^2/12) * alpha */
+				std::vector<std::vector<double> > Bg(nn, std::vector<double>(36,0.0)); /* [l*18+r*3+c] */
+				for (int I=0;I<nn;I++){
+					double B[3][3][3];
+					BMatrix(G0,Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I),B);
+					double P1l[2]={DDp(0,I),DDp(2,I)};   /* Psi,1,xil = {Psi,11, Psi,12} */
+					double P2l[2]={DDp(2,I),DDp(1,I)};   /* Psi,2,xil = {Psi,12, Psi,22} */
+					double Bgt[3][3][3][2];
+					BMatrixGradient(G0,Dp(0,I),Dp(1,I),P1l,P2l,B,Bgt);
+					for (int l=0;l<2;l++){
+						double Bgl[3][3][3];
+						for(int a=0;a<3;a++)for(int b=0;b<3;b++)for(int c=0;c<3;c++) Bgl[a][b][c]=Bgt[a][b][c][l];
+						double bv[6][3]; ToVoigtLocal(Bgl,e1,e2,G0.n,bv);
+						for(int r=0;r<6;r++)for(int c=0;c<3;c++) Bg[I][l*18+r*3+c]=bv[r][c];
+					}
+				}
+				/* store the two B_,xil operators as elastic stab points (fIPstab=1, weight Vmom) so the
+				 * existing SCNI force loop in InternalForce/FS assembles the explicit stabilization force
+				 * f = sum_l (B_,xil)^T C (B_,xil) u * Vmom automatically -- no separate force code needed */
+				for (int l=0;l<2;l++){
+					std::vector<double> Bf((size_t)6*3*nn);
+					for(int I=0;I<nn;I++)for(int r=0;r<6;r++)for(int c=0;c<3;c++) Bf[(size_t)r*3*nn+3*I+c]=Bg[I][l*18+r*3+c];
+					fIPB[i].insert(fIPB[i].end(),Bf.begin(),Bf.end());
+					fIPw[i].push_back(Vmom); fIPstab[i].push_back(1);
+				}
+				for (int I=0;I<nn;I++) for (int J=0;J<nn;J++){
+					double kij[3][3]={{0,0,0},{0,0,0},{0,0,0}};
+					for (int l=0;l<2;l++)
+						for(int a=0;a<6;a++)for(int b=0;b<6;b++){ double Cab=fC[a][b]; if(Cab==0.0) continue;
+							for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++)
+								kij[ci][cj]+=Bg[I][l*18+a*3+ci]*Cab*Bg[J][l*18+b*3+cj]; }
+					for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++) Ke(3*I+ci,3*J+cj)+=Vmom*kij[ci][cj];
+				}
 			}
 		}
 
