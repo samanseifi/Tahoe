@@ -123,6 +123,8 @@ private:
 	double fHardening;     /**< J2 linear isotropic hardening modulus H: Y(ep) = Yield + H*ep */
 	int    fFiniteStrain;  /**< 1 = finite-deformation (Green-Lagrange, current-config geometry) */
 	int    fMonitorNode;   /**< 1-based global node to report reaction force at (0 = none); Fig 18 curve */
+	int    fMonitorStride; /**< stride between summed reaction nodes (driven generator line = nt) */
+	int    fMonitorCount;  /**< number of nodes to sum the reaction over (1 = single load node) */
 	double fDamping;       /**< mass-proportional damping alpha (force -alpha*m*v); dynamic relaxation -> quasi-static */
 	/*@}*/
 

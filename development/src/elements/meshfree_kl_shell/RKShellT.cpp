@@ -48,6 +48,8 @@ RKShellT::RKShellT(const ElementSupportT& support):
 	fHardening = 0.0;
 	fFiniteStrain = 0;
 	fMonitorNode = 0;
+	fMonitorStride = 1;
+	fMonitorCount = 1;
 	fDamping = 0.0;
 	fStabMode = 0;
 	fStabMembrane = 1.0;
@@ -152,23 +154,31 @@ void RKShellT::WriteOutput(void)
 	/* reaction force at the monitored node (sum of every stencil's internal-force contribution
 	 * there) vs its displacement -> the Fig 18 load-displacement curve */
 	if (fMonitorNode > 0) {
-		int mg = fMonitorNode - 1;
+		int mg0 = fMonitorNode - 1;
+		int gtot = fGlobalToLocal.Length();
+		/* TOTAL reaction summed over the load set: monitor_count nodes spaced monitor_stride apart
+		 * (e.g. the whole driven generator line: start=first line node, stride=nt, count=line length).
+		 * Default count=1 -> single node (the displacement x-axis uses the first monitor node). */
 		double react[3] = {0,0,0};
-		for (int K=0; K<fNumNodes; K++){
-			int nn = fNeighbors.MinorDim(K);
-			if (nn < 6) continue;
-			const int* gnb = fNeighbors(K);
-			int pos = -1; for (int k=0;k<nn;k++) if (gnb[k]==mg){ pos=k; break; }
-			if (pos < 0) continue;
-			dArrayT ue(3*nn), f;
-			for (int k=0;k<nn;k++) for (int d=0;d<3;d++) ue[k*3+d]=disp(gnb[k],d);
-			if (fFiniteStrain) InternalForceFS(K, ue, f, false);
-			else               InternalForce(K, ue, f, false);
-			for (int d=0;d<3;d++) react[d] += f[pos*3+d];
+		for (int l=0; l<fMonitorCount; l++){
+			int mg = mg0 + l*fMonitorStride;
+			if (mg < 0 || mg >= gtot) continue;
+			for (int K=0; K<fNumNodes; K++){
+				int nn = fNeighbors.MinorDim(K);
+				if (nn < 6) continue;
+				const int* gnb = fNeighbors(K);
+				int pos = -1; for (int k=0;k<nn;k++) if (gnb[k]==mg){ pos=k; break; }
+				if (pos < 0) continue;
+				dArrayT ue(3*nn), f;
+				for (int k=0;k<nn;k++) for (int d=0;d<3;d++) ue[k*3+d]=disp(gnb[k],d);
+				if (fFiniteStrain) InternalForceFS(K, ue, f, false);
+				else               InternalForce(K, ue, f, false);
+				for (int d=0;d<3;d++) react[d] += f[pos*3+d];
+			}
 		}
-		/* cleanly parseable: $2=node $3=ux $4=uy $5=uz $6=Rx $7=Ry $8=Rz */
+		/* cleanly parseable: $2=node $3=ux $4=uy $5=uz $6=Rx $7=Ry $8=Rz (Rx = TOTAL over load set) */
 		fprintf(stdout, "[RKShell-react] %d %.8e %.8e %.8e %.8e %.8e %.8e\n",
-			fMonitorNode, disp(mg,0),disp(mg,1),disp(mg,2), react[0],react[1],react[2]);
+			fMonitorNode, disp(mg0,0),disp(mg0,1),disp(mg0,2), react[0],react[1],react[2]);
 	}
 	fflush(stdout);
 
@@ -257,6 +267,9 @@ void RKShellT::DefineParameters(ParameterListT& list) const
 
 	/* report the reaction force at this (1-based global) node each output step -> Fig 18 curve */
 	ParameterT mn(fMonitorNode, "monitor_node"); mn.SetDefault(0); list.AddParameter(mn);
+	/* sum the reaction over monitor_count nodes spaced monitor_stride apart (driven load line) */
+	ParameterT mst(fMonitorStride, "monitor_stride"); mst.SetDefault(1); list.AddParameter(mst);
+	ParameterT mct(fMonitorCount,  "monitor_count");  mct.SetDefault(1); list.AddParameter(mct);
 	ParameterT dmp(fDamping, "damping"); dmp.SetDefault(0.0); list.AddParameter(dmp);
 }
 
@@ -282,6 +295,8 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 	fHardening    = list.GetParameter("hardening_modulus");
 	fFiniteStrain = list.GetParameter("finite_strain");
 	fMonitorNode  = list.GetParameter("monitor_node");
+	fMonitorStride = list.GetParameter("monitor_stride");
+	fMonitorCount  = list.GetParameter("monitor_count");
 	fDamping      = list.GetParameter("damping");
 
 	/* plane-stress (sigma33=0) isotropic tangent; condensation acts in the LOCAL shell-normal
