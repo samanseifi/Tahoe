@@ -90,3 +90,19 @@ NOT reproduce Fig 18's shape or 150mm magnitude. The missing ingredient is the L
 localized enough to BUCKLE (the drop) yet resolved enough not to sawtooth. Single node buckles but
 sawtooths; line is smooth but won't buckle. The 3x3 PATCH is the in-between candidate -- under test
 (does its force peak+drop while staying smooth?).
+
+## ROOT CAUSE (complete) — it is NOT proper SCNI
+The base material force uses the DIRECT point-sample B at each node (RKShellT.cpp ~504-550,
+sample=(0,0)) = direct nodal integration = rank-deficient/hourglass-prone. The hourglass is then
+patched with a PENALTY (stab_membrane: R = B_direct - B_cellsmoothed, R^T C R). Decisive test
+(line crush @78mm): stab_membrane=20 -> ~1100/node + smooth; stab_membrane=0 -> 127/node (paper
+scale!) + hourglass 3.39. So the penalty is BOTH the hourglass control AND ~90% of the over-stiffening
+-- inseparable by tuning (explains the no-sweet-spot beta sweep). The consistent natural Taylor passes
+the LINEAR Scordelis-Lo (-0.293 @ stab_membrane=0) but CANNOT catch the deep-crush kernel-zero-energy
+hourglass.
+
+THE FIX = proper SCNI: integrate the base material force with the CELL-SMOOTHED B directly (already
+computed at lines ~714-721, currently only used to form the penalty residual). Smoothed B is
+divergence-free -> stable with NO penalty -> removes the over-stiffening AND the hourglass at once.
+This is the paper's scheme. It is a focused reformulation of the base integration (and the plastic
+strain feed), not a parameter tweak.
