@@ -50,8 +50,13 @@ for j in range(nz - 1):
 jmid = (nz - 1) // 2
 ns1 = [nid(i, 0)      for i in range(nt)]
 ns2 = [nid(i, nz - 1) for i in range(nt)]
-ns3 = [nid(0,      jmid)]      # theta=0 mid-length point load
-ns4 = [nid(nt // 2, jmid)]     # theta=pi mid-length point load
+_pw = int(__import__('os').environ.get('PINCH_PATCH','0'))  # 0=single node, 1=3x3 patch
+if _pw:
+    ns3 = [nid((0+di)%nt,     jmid+dj) for di in (-1,0,1) for dj in (-1,0,1)]  # theta=0  3x3 patch
+    ns4 = [nid((nt//2+di)%nt, jmid+dj) for di in (-1,0,1) for dj in (-1,0,1)]  # theta=pi 3x3 patch
+else:
+    ns3 = [nid(0,      jmid)]      # theta=0 mid-length point load
+    ns4 = [nid(nt // 2, jmid)]     # theta=pi mid-length point load
 ns5 = [nid(0, 0)]
 # longitudinal load LINES (interior of the theta=0 / theta=pi generators; exclude the diaphragm
 # edges j=0,nz-1 so the line displacement BC doesn't clash with the end-ring BCs). Driving a whole
