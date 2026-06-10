@@ -429,6 +429,32 @@ void RKShellT::RunStabSelfTest(void)
 		fStabMembrane,fStabBending);
 	for (int m=0;m<NM;m++) fprintf(stdout,"   %-12s  E = % .6e\n",names[m],E[m]);
 	fprintf(stdout,"   expect: rigid ~0 ; linear physical & stab-invariant ; hourglass ~0 w/o stab, >0 if caught\n\n");
+
+	/* CURVATURE UNIT TEST (Algorithm 1 geometry): from the reference mid-surface derivatives in fXref,
+	 * second fundamental form b_ab = x,ab . n, metric g_ab = x,a . x,b; principal curvatures = eig(g^-1 b).
+	 * Cylinder of radius R -> max principal curvature = 1/R, min ~ 0 (flat -> both ~0). */
+	{
+		double ksum=0.0, kmin=1e30, kmax=0.0; int kn=0;
+		for (int i=0;i<fNumNodes;i++){
+			if ((int)fXref[i].size()<15) continue;
+			const double* X=&fXref[i][0];
+			double x1[3]={X[0],X[1],X[2]}, x2[3]={X[3],X[4],X[5]};
+			double x11[3]={X[6],X[7],X[8]}, x22[3]={X[9],X[10],X[11]}, x12[3]={X[12],X[13],X[14]};
+			double nv[3]; Cross(x1,x2,nv); double nl=Norm(nv); if (nl<1.0e-30) continue;
+			for (int d=0;d<3;d++) nv[d]/=nl;
+			double b11=Dot(x11,nv), b22=Dot(x22,nv), b12=Dot(x12,nv);
+			double g11=Dot(x1,x1), g22=Dot(x2,x2), g12=Dot(x1,x2);
+			double detg=g11*g22-g12*g12; if (std::fabs(detg)<1.0e-30) continue;
+			double Hc=(b11*g22-2.0*b12*g12+b22*g11)/(2.0*detg);   /* mean curvature */
+			double Kc=(b11*b22-b12*b12)/detg;                      /* Gaussian curvature */
+			double disc=Hc*Hc-Kc; if (disc<0) disc=0;
+			double k1=std::fabs(Hc+std::sqrt(disc)), k2=std::fabs(Hc-std::sqrt(disc));
+			double km=(k1>k2)?k1:k2;
+			ksum+=km; if(km<kmin)kmin=km; if(km>kmax)kmax=km; kn++;
+		}
+		if (kn>0) fprintf(stdout,"[CURVATURE-TEST] max-principal-curvature: mean=%.6e min=%.6e max=%.6e  (cylinder R -> 1/R)\n\n",
+			ksum/kn, kmin, kmax);
+	}
 	fflush(stdout);
 }
 
