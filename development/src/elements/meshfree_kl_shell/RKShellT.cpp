@@ -52,10 +52,8 @@ RKShellT::RKShellT(const ElementSupportT& support):
 	fMonitorCount = 1;
 	fDamping = 0.0;
 	fStabMode = 0;
-	fStabMembrane = 0.0;   /* proper SCNI: base force on cell-smoothed B -> membrane penalty redundant */
+	fStabMembrane = 1.0;
 	fStabBending = 0.0;
-	fStabNatural = 1.0;
-	fStabNaturalBend = 0.0; /* paper's Eq.34 bending Taylor: OFF (it caused azimuthal instability) */
 	fOutputID = -1;
 }
 
@@ -256,10 +254,8 @@ void RKShellT::DefineParameters(ParameterListT& list) const
 	ParameterT stab(fStabMode, "stabilization");
 	stab.SetDefault(0);
 	list.AddParameter(stab);
-	ParameterT sm(fStabMembrane, "stab_membrane"); sm.SetDefault(0.0); list.AddParameter(sm);
+	ParameterT sm(fStabMembrane, "stab_membrane"); sm.SetDefault(1.0); list.AddParameter(sm);
 	ParameterT sb(fStabBending,  "stab_bending");  sb.SetDefault(0.0); list.AddParameter(sb);
-	ParameterT sn(fStabNatural,  "stab_natural"); sn.SetDefault(1.0); list.AddParameter(sn);
-	ParameterT snb(fStabNaturalBend, "stab_natural_bend"); snb.SetDefault(0.0); list.AddParameter(snb);
 
 	/* plane-stress J2 plasticity (0 yield = elastic): Y(ep) = yield_stress + hardening*ep */
 	ParameterT yld(fYield, "yield_stress"); yld.SetDefault(0.0); list.AddParameter(yld);
@@ -295,8 +291,6 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 	fStabMode     = list.GetParameter("stabilization");
 	fStabMembrane = list.GetParameter("stab_membrane");
 	fStabBending  = list.GetParameter("stab_bending");
-	fStabNatural  = list.GetParameter("stab_natural");
-	fStabNaturalBend = list.GetParameter("stab_natural_bend");
 	fYield        = list.GetParameter("yield_stress");
 	fHardening    = list.GetParameter("hardening_modulus");
 	fFiniteStrain = list.GetParameter("finite_strain");
@@ -510,51 +504,18 @@ void RKShellT::BuildElementStiffness(void)
 		const dArray2DT& DDp = fMLS->DDphi();
 		const dArray2DT& DDDp = fMLS->DDDphi();
 
-		/* PROPER SCNI / NSNI: the BASE assumed-strain operator is the CELL-SMOOTHED shape derivative
-		 * (divergence-theorem cell average = central difference of phi/Dphi at the 4 cell-edge midpoints
-		 * +/- s/2), NOT the direct point sample. The smoothed gradient is divergence-free -> stable
-		 * nodal integration with NO over-stiffening penalty. The natural Taylor (below) is the NSNI
-		 * stabilizer. The direct Dp/DDp/DDDp are restored after, for that natural-Taylor term. */
-		std::vector<double> smP1(nn),smP2(nn),smP11(nn),smP22(nn),smP12(nn);
-		{
-			double s_cell = std::sqrt(hmin);
-			double mids[4][2] = {{ s_cell/2,0},{-s_cell/2,0},{0, s_cell/2},{0,-s_cell/2}};
-			std::vector<std::vector<double> > Phi(4,std::vector<double>(nn,0.0));
-			std::vector<std::vector<double> > Dx(4,std::vector<double>(nn,0.0)),Dy(4,std::vector<double>(nn,0.0));
-			bool okc=true;
-			for (int m=0;m<4&&okc;m++){
-				dArrayT sM(2); sM[0]=mids[m][0]; sM[1]=mids[m][1];
-				if (!fMLS->SetField(lc,np,vol,sM,3)){okc=false;break;}
-				const dArrayT& ph=fMLS->phi(); const dArray2DT& dpm=fMLS->Dphi();
-				for (int I=0;I<nn;I++){Phi[m][I]=ph[I];Dx[m][I]=dpm(0,I);Dy[m][I]=dpm(1,I);}
-			}
-			/* restore the node-centre field so Dp/DDp/DDDp refs are valid for the natural Taylor */
-			fMLS->SetField(lc,np,vol,sample,3);
-			if (okc){
-				double inv=1.0/s_cell;
-				for (int I=0;I<nn;I++){
-					smP1[I]=(Phi[0][I]-Phi[1][I])*inv;  smP2[I]=(Phi[2][I]-Phi[3][I])*inv;
-					smP11[I]=(Dx[0][I]-Dx[1][I])*inv;   smP22[I]=(Dy[2][I]-Dy[3][I])*inv;
-					smP12[I]=0.5*((Dx[2][I]-Dx[3][I])+(Dy[0][I]-Dy[1][I]))*inv;
-				}
-			} else {  /* cell sampling failed -> direct derivs (now node-centre) */
-				for (int I=0;I<nn;I++){smP1[I]=Dp(0,I);smP2[I]=Dp(1,I);smP11[I]=DDp(0,I);smP22[I]=DDp(1,I);smP12[I]=DDp(2,I);}
-			}
-		}
-
 		double x1[3]={0,0,0},x2[3]={0,0,0},x11[3]={0,0,0},x22[3]={0,0,0},x12[3]={0,0,0};
 		for (int I=0;I<nn;I++) {
 			double Xq[3]={fCoords(loc[I],0),fCoords(loc[I],1),fCoords(loc[I],2)};
 			for (int d=0;d<3;d++){
-				x1[d]+=smP1[I]*Xq[d]; x2[d]+=smP2[I]*Xq[d];
-				x11[d]+=smP11[I]*Xq[d]; x22[d]+=smP22[I]*Xq[d]; x12[d]+=smP12[I]*Xq[d];
+				x1[d]+=Dp(0,I)*Xq[d]; x2[d]+=Dp(1,I)*Xq[d];
+				x11[d]+=DDp(0,I)*Xq[d]; x22[d]+=DDp(1,I)*Xq[d]; x12[d]+=DDp(2,I)*Xq[d];
 			}
 		}
-		/* store the SMOOTHED stencil derivatives + smoothed reference mid-surface derivatives (the
-		 * finite-strain force path reads these -> SCNI is automatic in InternalForceFS) */
+		/* store stencil shape derivatives + reference mid-surface derivatives (finite-strain path) */
 		fDphi[i].resize((size_t)nn*5);
-		for (int I=0;I<nn;I++){ fDphi[i][I*5]=smP1[I]; fDphi[i][I*5+1]=smP2[I];
-			fDphi[i][I*5+2]=smP11[I]; fDphi[i][I*5+3]=smP22[I]; fDphi[i][I*5+4]=smP12[I]; }
+		for (int I=0;I<nn;I++){ fDphi[i][I*5]=Dp(0,I); fDphi[i][I*5+1]=Dp(1,I);
+			fDphi[i][I*5+2]=DDp(0,I); fDphi[i][I*5+3]=DDp(1,I); fDphi[i][I*5+4]=DDp(2,I); }
 		fXref[i].resize(15);
 		for (int d=0;d<3;d++){ fXref[i][d]=x1[d]; fXref[i][3+d]=x2[d];
 			fXref[i][6+d]=x11[d]; fXref[i][9+d]=x22[d]; fXref[i][12+d]=x12[d]; }
@@ -583,7 +544,7 @@ void RKShellT::BuildElementStiffness(void)
 			std::vector<std::vector<double> > Bv(nn, std::vector<double>(18));
 			for (int I=0;I<nn;I++){
 				double B[3][3][3];
-				BMatrix(G,smP1[I],smP2[I],smP11[I],smP12[I],smP22[I],B);  /* SCNI: cell-smoothed B */
+				BMatrix(G,Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I),B);
 				double bv[6][3]; ToVoigtLocal(B,e1,e2,G.n,bv);
 				for(int r=0;r<6;r++)for(int c=0;c<3;c++) Bv[I][r*3+c]=bv[r][c];
 			}
@@ -597,59 +558,6 @@ void RKShellT::BuildElementStiffness(void)
 				for(int a=0;a<6;a++)for(int b=0;b<6;b++){double Cab=fC[a][b];if(Cab==0.0)continue;
 					for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++) kij[ci][cj]+=Bv[I][a*3+ci]*Cab*Bv[J][b*3+cj];}
 				for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++) Ke(3*I+ci,3*J+cj)+=cw*kij[ci][cj];
-			}
-		}
-
-		/* NATURAL (Taylor-gradient) stabilization at xi3=0 -- the paper's Eq. 33 CONSISTENT stabilizer
-		 * (replaces the curvature penalty). K_stab = sum_l (B_,xil)^T C (B_,xil) * V_K * Mmom * alpha,
-		 * using only 2nd shape derivatives (the xi3 3rd-derivative term vanishes at xi3=0). It vanishes
-		 * on smooth fields (Scordelis-Lo stays bit-exact) but fires on node-to-node hourglass content;
-		 * scaled by Mmom~s^2 it steps out of the way of sub-grid physical folds -> no force inflation. */
-		if (fStabNatural > 0.0) {
-			ShellGeom G0;
-			if (BuildGeom(x1,x2,x11,x22,x12,h,0.0,G0)) {
-				double e1[3],e2[3]; OrthoTangents(G0.n,e1,e2);
-				double memVmom  = fStabNatural * (h*A_K)         * Mmom * alpha;  /* membrane grad: V_K*s^2/12 (paper Eq.33) */
-				double bendVmom = fStabNaturalBend * (h*h*h/12.0*A_K)* Mmom * alpha;  /* curvature grad (paper Eq.34, default OFF) */
-				std::vector<std::vector<double> > Bg(nn,std::vector<double>(36,0.0)); /* membrane B_,xil  [l*18+r*3+c] */
-				std::vector<std::vector<double> > Bk(nn,std::vector<double>(36,0.0)); /* bending kappa_,xil */
-				for (int I=0;I<nn;I++){
-					double B[3][3][3];
-					BMatrix(G0,Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I),B);
-					double P1l[2]={DDp(0,I),DDp(2,I)}, P2l[2]={DDp(2,I),DDp(1,I)};
-					double Bgt[3][3][3][2], Bkt[3][3][3][2];
-					BMatrixGradient(G0,Dp(0,I),Dp(1,I),P1l,P2l,B,Bgt);
-					/* DDDp order 0:xxx 1:xyy 2:xxy 3:yyy -> (P111,P112,P122,P222)=(0,2,1,3) */
-					BMatrixCurvatureGradient(G0,DDp(0,I),DDp(2,I),DDp(1,I),
-					                         DDDp(0,I),DDDp(2,I),DDDp(1,I),DDDp(3,I),Bkt);
-					for (int l=0;l<2;l++){
-						double Bgl[3][3][3],Bkl[3][3][3];
-						for(int a=0;a<3;a++)for(int b=0;b<3;b++)for(int c=0;c<3;c++){Bgl[a][b][c]=Bgt[a][b][c][l];Bkl[a][b][c]=Bkt[a][b][c][l];}
-						double bv[6][3],bvk[6][3];
-						ToVoigtLocal(Bgl,e1,e2,G0.n,bv); ToVoigtLocal(Bkl,e1,e2,G0.n,bvk);
-						for(int r=0;r<6;r++)for(int c=0;c<3;c++){Bg[I][l*18+r*3+c]=bv[r][c];Bk[I][l*18+r*3+c]=bvk[r][c];}
-					}
-				}
-				/* store all four (membrane*2 + bending*2) B_,xil as elastic stab points (fIPstab=1) so the
-				 * existing SCNI force loop assembles f = sum (B_,xil)^T C (B_,xil) u * w automatically */
-				for (int pass=0;pass<2;pass++){
-					std::vector<std::vector<double> >& Bs = (pass==0)?Bg:Bk;
-					double wmom = (pass==0)?memVmom:bendVmom;
-					for (int l=0;l<2;l++){
-						std::vector<double> Bf((size_t)6*3*nn);
-						for(int I=0;I<nn;I++)for(int r=0;r<6;r++)for(int c=0;c<3;c++) Bf[(size_t)r*3*nn+3*I+c]=Bs[I][l*18+r*3+c];
-						fIPB[i].insert(fIPB[i].end(),Bf.begin(),Bf.end());
-						fIPw[i].push_back(wmom); fIPstab[i].push_back(1);
-					}
-					for (int I=0;I<nn;I++) for (int J=0;J<nn;J++){
-						double kij[3][3]={{0,0,0},{0,0,0},{0,0,0}};
-						for (int l=0;l<2;l++)
-							for(int a=0;a<6;a++)for(int b=0;b<6;b++){ double Cab=fC[a][b]; if(Cab==0.0) continue;
-								for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++)
-									kij[ci][cj]+=Bs[I][l*18+a*3+ci]*Cab*Bs[J][l*18+b*3+cj]; }
-						for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++) Ke(3*I+ci,3*J+cj)+=wmom*kij[ci][cj];
-					}
-				}
 			}
 		}
 
@@ -724,10 +632,8 @@ void RKShellT::BuildElementStiffness(void)
 		 * (analytical point operator minus the cell-smoothed operator). For a smooth field the cell
 		 * average matches the point value (divergence theorem) -> R ~ 0 -> membrane/bending energy
 		 * UNPOLLUTED; the hourglass sawtooth has nonzero cell average but is invisible to the point
-		 * sample -> R large -> a PSD penalty (R^T C R) that suppresses the mode.
-		 * NOTE: with proper SCNI (base force already on the cell-smoothed B) this penalty is redundant
-		 * and was the source of the deep-crush over-stiffening; default OFF (fStabMembrane=0). */
-		if (fStabMembrane > 0.0) {
+		 * sample -> R large -> a PSD penalty (R^T C R) that suppresses the mode. */
+		{
 			double s_cell = std::sqrt(hmin);              /* nodal spacing = smoothing-cell side */
 			/* analytical shape derivs at K (copied before re-evaluating at the cell midpoints) */
 			std::vector<double> P1K(nn),P2K(nn),P11K(nn),P22K(nn),P12K(nn);
