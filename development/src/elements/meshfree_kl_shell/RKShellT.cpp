@@ -182,6 +182,20 @@ void RKShellT::WriteOutput(void)
 		fprintf(stdout, "[RKShell-react] %d %.8e %.8e %.8e %.8e %.8e %.8e\n",
 			fMonitorNode, disp(mg0,0),disp(mg0,1),disp(mg0,2), react[0],react[1],react[2]);
 	}
+
+	/* kinetic energy + peak nodal speed: quasi-static health. KE should be tiny vs the deformation
+	 * work, and max|v| ~ the loading rate; large KE / max|v| >> loading rate = dynamic ringing. */
+	if (Field().Order() >= 1) {
+		const dArray2DT& vel = Field()[1];
+		double KE=0.0, v2max=0.0;
+		for (int i=0;i<fNumNodes;i++){
+			int g=fGlobalIDs[i];
+			double v2=vel(g,0)*vel(g,0)+vel(g,1)*vel(g,1)+vel(g,2)*vel(g,2);
+			KE += 0.5*fLumpedMass[i]*v2;
+			if (v2>v2max) v2max=v2;
+		}
+		fprintf(stdout, "[RKShell-energy] KE=%.6e  max|v|=%.6e\n", KE, std::sqrt(v2max));
+	}
 	fflush(stdout);
 
 	/* write the displacement field (+ equivalent plastic strain when plasticity is active) */
