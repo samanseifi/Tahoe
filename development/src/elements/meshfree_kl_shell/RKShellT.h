@@ -181,6 +181,8 @@ private:
 	std::vector<std::vector<double> > fDphi;   /**< [node] -> [nn*5]: Dp0,Dp1,DDp0,DDp1,DDp2 per stencil node */
 	std::vector<std::vector<double> > fXref;   /**< [node] -> [15]: ref x,1 x,2 x,11 x,22 x,12 (each 3) */
 	dArray2DT fUprev;                          /**< previous-step nodal displacement (rate form: du = u - u_prev) */
+	std::vector<double> fThicknessCur;         /**< [node] current shell thickness (accumulates D33 from the
+	                                            *   sigma33=0 update, Algorithm 3); init = fThickness */
 
 	/** bending-hourglass control operator (rank-1 per node): residual R_I, the node normal, and the
 	 * coefficient -- so the finite-strain force path can apply the same penalty as the linear Ke. */

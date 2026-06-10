@@ -375,6 +375,9 @@ void RKShellT::BuildLumpedMass(void)
 	fLumpedMass.Dimension(fNumNodes);
 	for (int i = 0; i < fNumNodes; i++)
 		fLumpedMass[i] = fDensity*fNodalArea[i]*fThickness;
+
+	/* per-node current thickness (Algorithm 3 D33 accumulation); starts at the reference thickness */
+	fThicknessCur.assign(fNumNodes, fThickness);
 }
 
 /* stabilization unit test: strain energy E = sum_K u_K^T fKe_K u_K of unit-norm modes */
@@ -930,16 +933,11 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 		x1[d]=X1[d]+u1[d]; x2[d]=X2[d]+u2[d]; x11[d]=X11[d]+u11[d]; x22[d]=X22[d]+u22[d]; x12[d]=X12[d]+u12[d];
 	}
 
-	/* THICKNESS UPDATE (plastic incompressibility): the in-plane area stretch J_area=sqrt(det g/det G)
-	 * thins the shell as t = t0/J_area. A thinned hinge loses bending stiffness ~t^3 -> softens and
-	 * spreads the plastic strain instead of over-hardening. (paper: thickness update essential for
-	 * strain-localization problems.) Uses the current mid-surface metric vs the reference. */
-	if (fThicknessUpdate) {
-		double g11=Dot(x1,x1), g22=Dot(x2,x2), g12=Dot(x1,x2);
-		double G11=Dot(X1,X1), G22=Dot(X2,X2), G12=Dot(X1,X2);
-		double dg=g11*g22-g12*g12, dG=G11*G22-G12*G12;
-		if (dG>1.0e-30 && dg>1.0e-30) h = fThickness*std::sqrt(dG/dg);  /* t0 / J_area */
-	}
+	/* THICKNESS UPDATE (Algorithm 3): use the per-node current thickness accumulated from the actual
+	 * through-thickness strain D33 of the sigma33=0 update (set at the end of this routine on commit).
+	 * The thinned section loses bending/membrane stiffness -> drives necking localization. */
+	if (fThicknessUpdate && i < (int)fThicknessCur.size() && fThicknessCur[i] > 0.0)
+		h = fThicknessCur[i];
 
 	/* RATE form: strain INCREMENT deps = B_cur . du (du = u - u_prev) reuses the existing BMatrix
 	 * strain measure at the current config -> consistent with the linear element + objective for
@@ -953,6 +951,7 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 	double wg[3] = {5.0/9.0, 8.0/9.0, 5.0/9.0};
 	bool plastic = (fYield > 0.0);
 	double c_ps = fYoung/(1.0 - fPoisson*fPoisson);
+	double de33_mid = 0.0;   /* mid-surface through-thickness strain increment (Algorithm 3 thickness) */
 
 	for (int g=0; g<3; g++){
 		ShellGeom G;
@@ -974,7 +973,12 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 		double dip[3]={deps[0],deps[1],deps[5]};
 		if (plastic && g < (int)fJ2ep[i].size()){
 			double ep=fJ2ep[i][g];
-			PlaneStressJ2Return(sip,dip,ep,fYoung,fPoisson,fYield,fHardening,fYieldSat,fSatRate);
+			if (fThicknessUpdate) {   /* Algorithm 3: sigma33=0 via secant on D33, returns the thickness strain */
+				double de33 = PlaneStressJ2_D33(sip,dip,ep,fYoung,fPoisson,fYield,fHardening,fYieldSat,fSatRate);
+				if (g==1) de33_mid = de33;   /* mid-surface (xi3=0) -> the membrane thickness change */
+			} else {
+				PlaneStressJ2Return(sip,dip,ep,fYoung,fPoisson,fYield,fHardening,fYieldSat,fSatRate);
+			}
 			if (commit) fJ2ep[i][g]=ep;
 		} else {
 			sip[0]+=c_ps*(dip[0]+fPoisson*dip[1]);
@@ -987,6 +991,12 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 		double w = wg[g]*(h/2.0)*A_K;
 		for (int I=0;I<nn;I++)
 			for(int cc=0;cc<3;cc++){ double s=0.0; for(int r=0;r<6;r++) s+=Bv[I][r*3+cc]*sig[r]; fout[I*3+cc]+=s*w; }
+	}
+
+	/* Algorithm 3 thickness accumulation: t_{n+1} = t_n * exp(D33*dt) (committed steps only) */
+	if (commit && fThicknessUpdate && i < (int)fThicknessCur.size()) {
+		double tn = fThicknessCur[i]*std::exp(de33_mid);
+		if (tn > 1.0e-6*fThickness) fThicknessCur[i] = tn;   /* guard against collapse */
 	}
 
 	/* SCNI stabilization (reference-config, linear) from the stored stabilization points */
