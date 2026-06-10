@@ -48,6 +48,7 @@ RKShellT::RKShellT(const ElementSupportT& support):
 	fYield = 0.0;
 	fHardening = 0.0;
 	fFiniteStrain = 0;
+	fThicknessUpdate = 0;
 	fMonitorNode = 0;
 	fMonitorStride = 1;
 	fMonitorCount = 1;
@@ -281,6 +282,7 @@ void RKShellT::DefineParameters(ParameterListT& list) const
 	/* finite-deformation kinematics (Green-Lagrange, current-config geometry); needed for the
 	 * large-displacement elasto-plastic buckling (Fig 18). 0 = small-strain linear. */
 	ParameterT fs(fFiniteStrain, "finite_strain"); fs.SetDefault(0); list.AddParameter(fs);
+	ParameterT tu(fThicknessUpdate, "thickness_update"); tu.SetDefault(0); list.AddParameter(tu);
 
 	/* report the reaction force at this (1-based global) node each output step -> Fig 18 curve */
 	ParameterT mn(fMonitorNode, "monitor_node"); mn.SetDefault(0); list.AddParameter(mn);
@@ -312,6 +314,7 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 	fYield        = list.GetParameter("yield_stress");
 	fHardening    = list.GetParameter("hardening_modulus");
 	fFiniteStrain = list.GetParameter("finite_strain");
+	fThicknessUpdate = list.GetParameter("thickness_update");
 	fMonitorNode  = list.GetParameter("monitor_node");
 	fMonitorStride = list.GetParameter("monitor_stride");
 	fMonitorCount  = list.GetParameter("monitor_count");
@@ -878,7 +881,7 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 	int ndof = 3*nn;
 	fout.Dimension(ndof); fout = 0.0;
 	if ((int) fDphi[i].size() != nn*5) return;
-	const double h = fThickness;
+	double h = fThickness;
 	const double* Dp = &fDphi[i][0];
 	const double* Xr = &fXref[i][0];
 
@@ -893,6 +896,17 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 	for(int d=0;d<3;d++){
 		X1[d]=Xr[d]; X2[d]=Xr[3+d]; X11[d]=Xr[6+d]; X22[d]=Xr[9+d]; X12[d]=Xr[12+d];
 		x1[d]=X1[d]+u1[d]; x2[d]=X2[d]+u2[d]; x11[d]=X11[d]+u11[d]; x22[d]=X22[d]+u22[d]; x12[d]=X12[d]+u12[d];
+	}
+
+	/* THICKNESS UPDATE (plastic incompressibility): the in-plane area stretch J_area=sqrt(det g/det G)
+	 * thins the shell as t = t0/J_area. A thinned hinge loses bending stiffness ~t^3 -> softens and
+	 * spreads the plastic strain instead of over-hardening. (paper: thickness update essential for
+	 * strain-localization problems.) Uses the current mid-surface metric vs the reference. */
+	if (fThicknessUpdate) {
+		double g11=Dot(x1,x1), g22=Dot(x2,x2), g12=Dot(x1,x2);
+		double G11=Dot(X1,X1), G22=Dot(X2,X2), G12=Dot(X1,X2);
+		double dg=g11*g22-g12*g12, dG=G11*G22-G12*G12;
+		if (dG>1.0e-30 && dg>1.0e-30) h = fThickness*std::sqrt(dG/dg);  /* t0 / J_area */
 	}
 
 	/* RATE form: strain INCREMENT deps = B_cur . du (du = u - u_prev) reuses the existing BMatrix

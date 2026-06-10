@@ -127,6 +127,7 @@ private:
 	double fYield;         /**< J2 initial yield stress (0 = elastic, no plasticity) */
 	double fHardening;     /**< J2 linear isotropic hardening modulus H: Y(ep) = Yield + H*ep */
 	int    fFiniteStrain;  /**< 1 = finite-deformation (Green-Lagrange, current-config geometry) */
+	int    fThicknessUpdate; /**< 1 = update thickness t=t0/J_area (plastic incompressibility) -> hinge thinning */
 	int    fMonitorNode;   /**< 1-based global node to report reaction force at (0 = none); Fig 18 curve */
 	int    fMonitorStride; /**< stride between summed reaction nodes (driven generator line = nt) */
 	int    fMonitorCount;  /**< number of nodes to sum the reaction over (1 = single load node) */
