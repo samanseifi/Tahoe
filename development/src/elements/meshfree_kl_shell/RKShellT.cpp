@@ -26,6 +26,7 @@
 
 #include <cmath>
 #include <vector>
+#include <cstdlib>
 
 using namespace Tahoe;
 using namespace Tahoe::KLShell;
@@ -323,6 +324,9 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 	/* precompute the per-node stencil stiffness (linear elastic, fixed geometry) */
 	BuildElementStiffness();
 
+	/* optional stabilization unit test (env KLSHELL_SELFTEST=1) */
+	if (getenv("KLSHELL_SELFTEST")) RunStabSelfTest();
+
 	/* lumped nodal mass (for the explicit central-difference solver) */
 	BuildLumpedMass();
 
@@ -345,6 +349,61 @@ void RKShellT::BuildLumpedMass(void)
 	fLumpedMass.Dimension(fNumNodes);
 	for (int i = 0; i < fNumNodes; i++)
 		fLumpedMass[i] = fDensity*fNodalArea[i]*fThickness;
+}
+
+/* stabilization unit test: strain energy E = sum_K u_K^T fKe_K u_K of unit-norm modes */
+void RKShellT::RunStabSelfTest(void)
+{
+	/* node spacing (for the checkerboard parity) */
+	double hsp = 1.0e30;
+	for (int j=1;j<fNumNodes;j++){ double d2=0; for(int k=0;k<3;k++){double dx=fCoords(j,k)-fCoords(0,k);d2+=dx*dx;}
+		if (d2>1.0e-12 && d2<hsp) hsp=d2; }
+	hsp = std::sqrt(hsp);
+
+	const int NM=9;
+	const char* names[NM]={"trans_x","trans_z","rot_z","stretch_x","shear_xy",
+	                       "quad_mem_x","quad_bend_z","MEMBRANE_hg","BENDING_hg"};
+	double E[NM];
+	for (int m=0;m<NM;m++){
+		std::vector<double> U(3*fNumNodes,0.0);
+		double nrm=0.0;
+		for (int i=0;i<fNumNodes;i++){
+			double x=fCoords(i,0), y=fCoords(i,1);
+			int px=(int)std::floor(x/hsp+0.5), py=(int)std::floor(y/hsp+0.5);
+			double s=((px+py)&1)? -1.0 : 1.0;            /* checkerboard parity */
+			double u[3]={0,0,0};
+			switch(m){
+				case 0: u[0]=1.0; break;                  /* rigid translation x   */
+				case 1: u[2]=1.0; break;                  /* rigid translation z   */
+				case 2: u[0]=-y; u[1]=x; break;           /* rigid rotation about z */
+				case 3: u[0]=x; break;                    /* linear stretch (eps_xx)*/
+				case 4: u[0]=y; break;                    /* linear shear           */
+				case 5: u[0]=0.5*x*x; break;              /* quadratic membrane (resolved strain gradient) */
+				case 6: u[2]=0.5*x*x; break;              /* quadratic bending (resolved CONSTANT curvature) */
+				case 7: u[0]=s; break;                    /* in-plane MEMBRANE hourglass */
+				case 8: u[2]=s; break;                    /* out-of-plane BENDING hourglass */
+			}
+			for(int d=0;d<3;d++){ U[3*i+d]=u[d]; nrm+=u[d]*u[d]; }
+		}
+		nrm=std::sqrt(nrm); if(nrm<1.0e-30) nrm=1.0;
+		for (size_t k=0;k<U.size();k++) U[k]/=nrm;
+		double En=0.0;
+		for (int K=0;K<fNumNodes;K++){
+			int nn=fNeighbors.MinorDim(K);
+			if (nn<6) continue;
+			const int* gnb=fNeighbors(K);
+			std::vector<double> ue(3*nn);
+			for(int k=0;k<nn;k++){ int loc=fGlobalToLocal[gnb[k]]; for(int d=0;d<3;d++) ue[3*k+d]=U[3*loc+d]; }
+			const dMatrixT& Ke=fKe[K];
+			for(int a=0;a<3*nn;a++){ double sa=0; for(int b=0;b<3*nn;b++) sa+=Ke(a,b)*ue[b]; En+=ue[a]*sa; }
+		}
+		E[m]=En;
+	}
+	fprintf(stdout,"\n=== STAB SELF-TEST  stab_membrane=%.4g stab_bending=%.4g  (unit-norm mode energies) ===\n",
+		fStabMembrane,fStabBending);
+	for (int m=0;m<NM;m++) fprintf(stdout,"   %-12s  E = % .6e\n",names[m],E[m]);
+	fprintf(stdout,"   expect: rigid ~0 ; linear physical & stab-invariant ; hourglass ~0 w/o stab, >0 if caught\n\n");
+	fflush(stdout);
 }
 
 /* meshfree node set + neighbor lists (overrides the FE block element setup) */

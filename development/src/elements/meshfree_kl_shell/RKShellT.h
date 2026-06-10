@@ -109,6 +109,11 @@ private:
 	 * solver, with optional mass scaling via a large fDensity for quasi-static loading) */
 	void BuildLumpedMass(void);
 
+	/** stabilization unit test (triggered by env KLSHELL_SELFTEST): strain energy E = sum_K u_K^T
+	 * fKe_K u_K for unit-norm rigid / linear / membrane-hourglass / bending-hourglass modes. Rigid
+	 * ->~0; linear must be stab-invariant (consistency); hourglass ~0 without stab, >0 if caught. */
+	void RunStabSelfTest(void);
+
 private:
 
 	/** \name shell + meshfree parameters */
