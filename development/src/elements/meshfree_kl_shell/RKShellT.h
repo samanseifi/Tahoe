@@ -135,7 +135,9 @@ private:
 	int    fStabMode;      /**< 0 = full strength; 3 = alpha=min(1,h/h_pl) scaled (paper 5.3) */
 	double fStabMembrane;  /**< stabilization-residual scale (coefficient on R^T C R) */
 	double fStabBending;   /**< (reserved) */
-	double fStabNatural;   /**< Eq.33 natural Taylor-gradient stabilization scale (0=off, 1=full) */
+	double fStabNatural;   /**< Eq.33 natural Taylor-gradient MEMBRANE stabilization (0=off, 1=full) */
+	double fStabNaturalBend; /**< bending (curvature-gradient) Taylor stab = paper's Eq.34; NOT used in
+	                          *   their final method (it caused azimuthal instability). Default 0=off. */
 	/*@}*/
 
 	/** \name surface meshfree data */

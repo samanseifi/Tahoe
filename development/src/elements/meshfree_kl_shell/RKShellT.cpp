@@ -55,6 +55,7 @@ RKShellT::RKShellT(const ElementSupportT& support):
 	fStabMembrane = 0.0;   /* proper SCNI: base force on cell-smoothed B -> membrane penalty redundant */
 	fStabBending = 0.0;
 	fStabNatural = 1.0;
+	fStabNaturalBend = 0.0; /* paper's Eq.34 bending Taylor: OFF (it caused azimuthal instability) */
 	fOutputID = -1;
 }
 
@@ -258,6 +259,7 @@ void RKShellT::DefineParameters(ParameterListT& list) const
 	ParameterT sm(fStabMembrane, "stab_membrane"); sm.SetDefault(0.0); list.AddParameter(sm);
 	ParameterT sb(fStabBending,  "stab_bending");  sb.SetDefault(0.0); list.AddParameter(sb);
 	ParameterT sn(fStabNatural,  "stab_natural"); sn.SetDefault(1.0); list.AddParameter(sn);
+	ParameterT snb(fStabNaturalBend, "stab_natural_bend"); snb.SetDefault(0.0); list.AddParameter(snb);
 
 	/* plane-stress J2 plasticity (0 yield = elastic): Y(ep) = yield_stress + hardening*ep */
 	ParameterT yld(fYield, "yield_stress"); yld.SetDefault(0.0); list.AddParameter(yld);
@@ -294,6 +296,7 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 	fStabMembrane = list.GetParameter("stab_membrane");
 	fStabBending  = list.GetParameter("stab_bending");
 	fStabNatural  = list.GetParameter("stab_natural");
+	fStabNaturalBend = list.GetParameter("stab_natural_bend");
 	fYield        = list.GetParameter("yield_stress");
 	fHardening    = list.GetParameter("hardening_modulus");
 	fFiniteStrain = list.GetParameter("finite_strain");
@@ -606,8 +609,8 @@ void RKShellT::BuildElementStiffness(void)
 			ShellGeom G0;
 			if (BuildGeom(x1,x2,x11,x22,x12,h,0.0,G0)) {
 				double e1[3],e2[3]; OrthoTangents(G0.n,e1,e2);
-				double memVmom  = fStabNatural * (h*A_K)         * Mmom * alpha;  /* membrane grad: V_K*s^2/12 */
-				double bendVmom = fStabNatural * (h*h*h/12.0*A_K)* Mmom * alpha;  /* curvature grad: (h^3/12)*A_K*s^2/12 */
+				double memVmom  = fStabNatural * (h*A_K)         * Mmom * alpha;  /* membrane grad: V_K*s^2/12 (paper Eq.33) */
+				double bendVmom = fStabNaturalBend * (h*h*h/12.0*A_K)* Mmom * alpha;  /* curvature grad (paper Eq.34, default OFF) */
 				std::vector<std::vector<double> > Bg(nn,std::vector<double>(36,0.0)); /* membrane B_,xil  [l*18+r*3+c] */
 				std::vector<std::vector<double> > Bk(nn,std::vector<double>(36,0.0)); /* bending kappa_,xil */
 				for (int I=0;I<nn;I++){
