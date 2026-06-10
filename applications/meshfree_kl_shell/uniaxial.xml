@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Uniaxial tension of a flat strip (21x7, length 20, width 6, thickness 1), Fig-18 material
+     (E=3e3, nu=0.3, Y0=24.3, H=300, finite strain). Tests the BASE membrane+J2 kinematics.
+     Analytical sigma_xx at strain e: elastic E*e until 24.3, then (24.3+300*e)/1.1.  @e=0.2 -> ~76.6 MPa -->
+<tahoe geometry_file="strip.geom" title="uniaxial J2 base test" output_format="ExodusII">
+    <time num_steps="2000" output_inc="200" time_step="3.0">
+        <schedule_function><piecewise_linear>
+            <OrderedPair x="0.0" y="0.0"/><OrderedPair x="6000.0" y="1.0"/>
+        </piecewise_linear></schedule_function>
+    </time>
+    <nodes>
+        <field field_name="displacement" integrator="central_difference">
+            <dof_labels><String value="D_X"/><String value="D_Y"/><String value="D_Z"/></dof_labels>
+            <kinematic_BC dof="1" node_ID="1"/>        <!-- left edge ux=0 -->
+            <kinematic_BC dof="3" node_ID="9"/>        <!-- all uz=0 (keep flat: pure membrane) -->
+            <kinematic_BC dof="2" node_ID="3"/>        <!-- one corner uy=0 (remove y-rigid) -->
+            <kinematic_BC dof="1" node_ID="2" schedule="1" type="u" value="4.0"/>  <!-- right edge ux=+4 (20% strain) -->
+        </field>
+    </nodes>
+    <element_list>
+        <meshfree_kl_shell field_name="displacement"
+            shell_thickness="1.0" Young_modulus="3.0e3" Poisson_ratio="0.3"
+            support_factor="2.4" completeness="2"
+            density="7800.0" stab_membrane="20.0" stab_bending="20.0"
+            yield_stress="24.3" hardening_modulus="300.0"
+            finite_strain="1" monitor_node="21" monitor_stride="21" monitor_count="7"/>
+    </element_list>
+    <linear_solver><diagonal_matrix/></linear_solver>
+</tahoe>
