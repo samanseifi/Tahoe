@@ -26,6 +26,15 @@ inline double J2pq(const double s[3])
 	return s[0]*s[0] - s[0]*s[1] + s[1]*s[1] + 3.0*s[2]*s[2];
 }
 
+/* flow stress Y(ep) = Y0 + H*ep + (Ysat-Y0)*(1-exp(-delta*ep)).  Linear hardening: Ysat<=Y0 or
+ * delta<=0 (the saturation term vanishes). Necking (paper Fig 12): Y0=343,H=300,Ysat=680,delta=16.93. */
+inline double J2yield(double ep, double Y0, double H, double Ysat, double delta)
+{
+	double Y = Y0 + H*ep;
+	if (Ysat > Y0 && delta > 0.0) Y += (Ysat - Y0)*(1.0 - std::exp(-delta*ep));
+	return Y;
+}
+
 /* solve [I + b*C*P] x = rhs for the in-plane stress (3x3, P with engineering-shear scaling) */
 inline void J2solve(double b, double c, double nu, const double rhs[3], double x[3])
 {
@@ -48,7 +57,8 @@ inline void J2solve(double b, double c, double nu, const double rhs[3], double x
 /* Plane-stress J2 radial return. In/out: sig (in-plane stress), ep (equivalent plastic strain).
  * In: deps (in-plane engineering strain increment), E, nu, Y0 (initial yield), H (hardening mod). */
 inline void PlaneStressJ2Return(double sig[3], const double deps[3], double& ep,
-                                double E, double nu, double Y0, double H)
+                                double E, double nu, double Y0, double H,
+                                double Ysat=0.0, double delta=0.0)
 {
 	double c = E/(1.0 - nu*nu);
 	/* elastic trial stress */
@@ -58,7 +68,7 @@ inline void PlaneStressJ2Return(double sig[3], const double deps[3], double& ep,
 	st[2] = sig[2] + c*(1.0-nu)/2.0*deps[2];
 
 	double seq_tr = std::sqrt(J2pq(st));
-	double Yn = Y0 + H*ep;
+	double Yn = J2yield(ep, Y0, H, Ysat, delta);
 	if (seq_tr <= Yn || seq_tr < 1.0e-30) {       /* elastic step */
 		sig[0]=st[0]; sig[1]=st[1]; sig[2]=st[2];
 		return;
@@ -72,7 +82,7 @@ inline void PlaneStressJ2Return(double sig[3], const double deps[3], double& ep,
 	/* expand hi until r(hi) < 0 */
 	double sg[3];
 	for (int it=0; it<60; it++) {
-		double Yc = Y0 + H*(ep+hi);
+		double Yc = J2yield(ep+hi, Y0, H, Ysat, delta);
 		J2solve(hi/Yc, c, nu, st, sg);
 		if (std::sqrt(J2pq(sg)) - Yc < 0.0) break;
 		hi *= 2.0;
@@ -80,7 +90,7 @@ inline void PlaneStressJ2Return(double sig[3], const double deps[3], double& ep,
 	double dgamma = 0.5*(lo+hi);
 	for (int it=0; it<80; it++) {
 		dgamma = 0.5*(lo+hi);
-		double Yc = Y0 + H*(ep+dgamma);
+		double Yc = J2yield(ep+dgamma, Y0, H, Ysat, delta);
 		J2solve(dgamma/Yc, c, nu, st, sg);
 		double r = std::sqrt(J2pq(sg)) - Yc;
 		if (r > 0.0) lo = dgamma; else hi = dgamma;

@@ -126,6 +126,8 @@ private:
 	double fDensity;       /**< mass density (use a scaled value for explicit dynamic relaxation) */
 	double fYield;         /**< J2 initial yield stress (0 = elastic, no plasticity) */
 	double fHardening;     /**< J2 linear isotropic hardening modulus H: Y(ep) = Yield + H*ep */
+	double fYieldSat;      /**< J2 saturation yield Ysat (exponential hardening; 0 = linear only) */
+	double fSatRate;       /**< J2 saturation rate delta: + (Ysat-Y0)(1-exp(-delta*ep)) */
 	int    fFiniteStrain;  /**< 1 = finite-deformation (Green-Lagrange, current-config geometry) */
 	int    fThicknessUpdate; /**< 1 = update thickness t=t0/J_area (plastic incompressibility) -> hinge thinning */
 	int    fMonitorNode;   /**< 1-based global node to report reaction force at (0 = none); Fig 18 curve */

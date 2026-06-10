@@ -47,6 +47,8 @@ RKShellT::RKShellT(const ElementSupportT& support):
 	fDensity = 1.0;
 	fYield = 0.0;
 	fHardening = 0.0;
+	fYieldSat = 0.0;
+	fSatRate = 0.0;
 	fFiniteStrain = 0;
 	fThicknessUpdate = 0;
 	fMonitorNode = 0;
@@ -278,6 +280,8 @@ void RKShellT::DefineParameters(ParameterListT& list) const
 	/* plane-stress J2 plasticity (0 yield = elastic): Y(ep) = yield_stress + hardening*ep */
 	ParameterT yld(fYield, "yield_stress"); yld.SetDefault(0.0); list.AddParameter(yld);
 	ParameterT hrd(fHardening, "hardening_modulus"); hrd.SetDefault(0.0); list.AddParameter(hrd);
+	ParameterT ysat(fYieldSat, "yield_saturation"); ysat.SetDefault(0.0); list.AddParameter(ysat);
+	ParameterT srat(fSatRate, "saturation_rate"); srat.SetDefault(0.0); list.AddParameter(srat);
 
 	/* finite-deformation kinematics (Green-Lagrange, current-config geometry); needed for the
 	 * large-displacement elasto-plastic buckling (Fig 18). 0 = small-strain linear. */
@@ -313,6 +317,8 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 	fStabNatural  = list.GetParameter("stab_natural");
 	fYield        = list.GetParameter("yield_stress");
 	fHardening    = list.GetParameter("hardening_modulus");
+	fYieldSat     = list.GetParameter("yield_saturation");
+	fSatRate      = list.GetParameter("saturation_rate");
 	fFiniteStrain = list.GetParameter("finite_strain");
 	fThicknessUpdate = list.GetParameter("thickness_update");
 	fMonitorNode  = list.GetParameter("monitor_node");
@@ -850,7 +856,7 @@ void RKShellT::InternalForce(int i, const dArrayT& ue, dArrayT& fout, bool commi
 			double sip[3] = { fJ2sig[i][3*bp], fJ2sig[i][3*bp+1], fJ2sig[i][3*bp+2] };
 			double ep = fJ2ep[i][bp];
 			double deps[3] = { eps[0]-fJ2eps[i][3*bp], eps[1]-fJ2eps[i][3*bp+1], eps[5]-fJ2eps[i][3*bp+2] };
-			PlaneStressJ2Return(sip, deps, ep, fYoung, fPoisson, fYield, fHardening);
+			PlaneStressJ2Return(sip, deps, ep, fYoung, fPoisson, fYield, fHardening, fYieldSat, fSatRate);
 			sig[0]=sip[0]; sig[1]=sip[1]; sig[5]=sip[2];
 			if (commit) {
 				fJ2sig[i][3*bp]=sip[0]; fJ2sig[i][3*bp+1]=sip[1]; fJ2sig[i][3*bp+2]=sip[2];
@@ -942,7 +948,7 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 		double dip[3]={deps[0],deps[1],deps[5]};
 		if (plastic && g < (int)fJ2ep[i].size()){
 			double ep=fJ2ep[i][g];
-			PlaneStressJ2Return(sip,dip,ep,fYoung,fPoisson,fYield,fHardening);
+			PlaneStressJ2Return(sip,dip,ep,fYoung,fPoisson,fYield,fHardening,fYieldSat,fSatRate);
 			if (commit) fJ2ep[i][g]=ep;
 		} else {
 			sip[0]+=c_ps*(dip[0]+fPoisson*dip[1]);
