@@ -479,6 +479,10 @@ void RKShellT::RunStabSelfTest(void)
 			double k1=std::fabs(Hc+std::sqrt(disc)), k2=std::fabs(Hc-std::sqrt(disc));
 			double km=(k1>k2)?k1:k2;
 			ksum+=km; if(km<kmin)kmin=km; if(km>kmax)kmax=km; kn++;
+			/* geometry-accuracy study (paper 4.1): per-node signed principal curvatures + normal */
+			if (getenv("KLSHELL_VASE") && i<fCoords.MajorDim())
+				fprintf(stdout,"[CURV-NODE] %.8e %.8e %.8e %.10e %.10e %.10e %.10e %.10e\n",
+					fCoords(i,0),fCoords(i,1),fCoords(i,2), Hc+std::sqrt(disc), Hc-std::sqrt(disc), nv[0],nv[1],nv[2]);
 		}
 		if (kn>0) fprintf(stdout,"[CURVATURE-TEST] max-principal-curvature: mean=%.6e min=%.6e max=%.6e  (cylinder R -> 1/R)\n\n",
 			ksum/kn, kmin, kmax);

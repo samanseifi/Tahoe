@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tahoe geometry_file="vase.geom" title="vase geometry test" output_format="ExodusII">
+    <time num_steps="1" output_inc="1" time_step="1.0"/>
+    <nodes>
+        <field field_name="displacement" integrator="central_difference">
+            <dof_labels><String value="D_X"/><String value="D_Y"/><String value="D_Z"/></dof_labels>
+            <kinematic_BC dof="1" node_ID="9"/><kinematic_BC dof="2" node_ID="9"/><kinematic_BC dof="3" node_ID="9"/>
+        </field>
+    </nodes>
+    <element_list>
+        <meshfree_kl_shell field_name="displacement" shell_thickness="1.0"
+            Young_modulus="1.0" Poisson_ratio="0.3" support_factor="3.0" completeness="2" density="1.0"/>
+    </element_list>
+    <linear_solver><diagonal_matrix/></linear_solver>
+</tahoe>
