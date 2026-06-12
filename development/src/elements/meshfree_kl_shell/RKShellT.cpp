@@ -17,6 +17,7 @@
 #include "MLSSolverT.h"
 #include "MeshFreeT.h"
 #include "KLShellKernels.h"
+#include "FlanaganTaylor.h"
 #include "PlaneStressJ2.h"
 #include "ElementMatrixT.h"
 #include "eIntegratorT.h"
@@ -51,6 +52,7 @@ RKShellT::RKShellT(const ElementSupportT& support):
 	fSatRate = 0.0;
 	fFiniteStrain = 0;
 	fThicknessUpdate = 0;
+	fCorotational = 0;
 	fMonitorNode = 0;
 	fMonitorStride = 1;
 	fMonitorCount = 1;
@@ -104,10 +106,11 @@ void RKShellT::RegisterOutput(void)
 
 	/* add the plastic-strain field only when plasticity is active (keeps the elastic benchmark
 	 * output unchanged so the Scordelis-Lo regression stays bit-exact) */
-	int nf = (fYield > 0.0) ? 4 : 3;
+	int nf = (fYield > 0.0) ? ((fThicknessUpdate) ? 5 : 4) : 3;
 	ArrayT<StringT> n_labels(nf);
 	n_labels[0] = "D_X"; n_labels[1] = "D_Y"; n_labels[2] = "D_Z";
-	if (nf == 4) n_labels[3] = "EQ_PLASTIC_STRAIN";   /* max over thru-thickness J2 stations (surface) */
+	if (nf >= 4) n_labels[3] = "EQ_PLASTIC_STRAIN";   /* max over thru-thickness J2 stations (surface) */
+	if (nf >= 5) n_labels[4] = "THICKNESS";           /* current thickness (Algorithm 3 D33 accumulation) */
 
 	if (ids.Length() > 0) {
 		/* output on the background cells (a real surface mesh in ParaView) */
@@ -203,18 +206,20 @@ void RKShellT::WriteOutput(void)
 
 	/* write the displacement field (+ equivalent plastic strain when plasticity is active) */
 	if (fOutputID < 0) return;
-	int nf = (fYield > 0.0) ? 4 : 3;
+	int nf = (fYield > 0.0) ? ((fThicknessUpdate) ? 5 : 4) : 3;
 	dArray2DT n_values(fOutputNodesUsed.Length(), nf);
 	for (int k = 0; k < fOutputNodesUsed.Length(); k++) {
 		int g = fOutputNodesUsed[k];
 		for (int d = 0; d < 3; d++) n_values(k,d) = disp(g, d);
-		if (nf == 4) {
+		int loc = (g < fGlobalToLocal.Length()) ? fGlobalToLocal[g] : -1;
+		if (nf >= 4) {
 			double ep = 0.0;
-			int loc = (g < fGlobalToLocal.Length()) ? fGlobalToLocal[g] : -1;
 			if (loc >= 0 && loc < (int) fJ2ep.size())
 				for (size_t q = 0; q < fJ2ep[loc].size(); q++) if (fJ2ep[loc][q] > ep) ep = fJ2ep[loc][q];
 			n_values(k,3) = ep;
 		}
+		if (nf >= 5)
+			n_values(k,4) = (loc >= 0 && loc < (int) fThicknessCur.size()) ? fThicknessCur[loc] : fThickness;
 	}
 	dArray2DT e_values; /* none */
 	ElementSupport().WriteOutput(fOutputID, n_values, e_values);
@@ -287,6 +292,7 @@ void RKShellT::DefineParameters(ParameterListT& list) const
 	 * large-displacement elasto-plastic buckling (Fig 18). 0 = small-strain linear. */
 	ParameterT fs(fFiniteStrain, "finite_strain"); fs.SetDefault(0); list.AddParameter(fs);
 	ParameterT tu(fThicknessUpdate, "thickness_update"); tu.SetDefault(0); list.AddParameter(tu);
+	ParameterT co(fCorotational, "corotational"); co.SetDefault(0); list.AddParameter(co);
 
 	/* report the reaction force at this (1-based global) node each output step -> Fig 18 curve */
 	ParameterT mn(fMonitorNode, "monitor_node"); mn.SetDefault(0); list.AddParameter(mn);
@@ -321,6 +327,7 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 	fSatRate      = list.GetParameter("saturation_rate");
 	fFiniteStrain = list.GetParameter("finite_strain");
 	fThicknessUpdate = list.GetParameter("thickness_update");
+	fCorotational = list.GetParameter("corotational");
 	fMonitorNode  = list.GetParameter("monitor_node");
 	fMonitorStride = list.GetParameter("monitor_stride");
 	fMonitorCount  = list.GetParameter("monitor_count");
@@ -378,6 +385,24 @@ void RKShellT::BuildLumpedMass(void)
 
 	/* per-node current thickness (Algorithm 3 D33 accumulation); starts at the reference thickness */
 	fThicknessCur.assign(fNumNodes, fThickness);
+
+	/* co-rotational frames (Algorithm 2): R = reference tangent frame [E1 E2 N0] (columns), V = I */
+	fFrameR.assign((size_t)fNumNodes*9, 0.0);
+	fFrameV.assign((size_t)fNumNodes*9, 0.0);
+	for (int i=0;i<fNumNodes;i++){
+		double* R=&fFrameR[(size_t)i*9]; double* V=&fFrameV[(size_t)i*9];
+		V[0]=V[4]=V[8]=1.0;
+		R[0]=R[4]=R[8]=1.0;
+		if ((int)fXref[i].size()>=15){
+			const double* X=&fXref[i][0];
+			double X1[3]={X[0],X[1],X[2]}, X2[3]={X[3],X[4],X[5]}, N0[3];
+			Cross(X1,X2,N0); double nl=Norm(N0);
+			if (nl>1.0e-30){ for(int d=0;d<3;d++) N0[d]/=nl;
+				double E1[3],E2[3]; OrthoTangents(N0,E1,E2);
+				for(int d=0;d<3;d++){ R[d*3+0]=E1[d]; R[d*3+1]=E2[d]; R[d*3+2]=N0[d]; }
+			}
+		}
+	}
 }
 
 /* stabilization unit test: strain energy E = sum_K u_K^T fKe_K u_K of unit-norm modes */
@@ -953,10 +978,64 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 	double c_ps = fYoung/(1.0 - fPoisson*fPoisson);
 	double de33_mid = 0.0;   /* mid-surface through-thickness strain increment (Algorithm 3 thickness) */
 
+	/* ALGORITHM 2 (co-rotational): advance the material frame R via Flanagan-Taylor from the
+	 * velocity-gradient increment dL = du,a (x) g^a, re-align its normal to the geometric mid-normal,
+	 * and rotate the stored in-plane stress into the new frame (objective). cr_e1/cr_e2 = tracked
+	 * tangent directions used (instead of the arbitrary OrthoTangents) so the stress co-rotates. */
+	double cr_e1[3]={0,0,0}, cr_e2[3]={0,0,0};
+	bool use_corot = (fCorotational && (size_t)(i+1)*9 <= fFrameR.size());
+	if (use_corot) {
+		double* Rf=&fFrameR[(size_t)i*9]; double* Vf=&fFrameV[(size_t)i*9];
+		double e1o[3]={Rf[0],Rf[3],Rf[6]}, e2o[3]={Rf[1],Rf[4],Rf[7]};   /* old frame tangents */
+		double du1[3]={0,0,0}, du2[3]={0,0,0};
+		for (int I=0;I<nn;I++){ double p1=Dp[I*5],p2=Dp[I*5+1];
+			for(int d=0;d<3;d++){ double du=due[I*3+d]; du1[d]+=p1*du; du2[d]+=p2*du; } }
+		double g11=Dot(x1,x1),g22=Dot(x2,x2),g12=Dot(x1,x2), dgm=g11*g22-g12*g12;
+		double gu1[3]={0,0,0},gu2[3]={0,0,0};
+		if (std::fabs(dgm)>1.0e-30){ double gi11=g22/dgm,gi22=g11/dgm,gi12=-g12/dgm;
+			for(int d=0;d<3;d++){ gu1[d]=gi11*x1[d]+gi12*x2[d]; gu2[d]=gi12*x1[d]+gi22*x2[d]; } }
+		double dL[3][3];
+		for(int a=0;a<3;a++)for(int b=0;b<3;b++) dL[a][b]=du1[a]*gu1[b]+du2[a]*gu2[b];
+		double R[3][3],V[3][3];
+		for(int a=0;a<3;a++)for(int b=0;b<3;b++){ R[a][b]=Rf[a*3+b]; V[a][b]=Vf[a*3+b]; }
+		if (commit) KLShell::FlanaganTaylorStep(dL,R,V);
+		double ng[3]; Cross(x1,x2,ng); double nl=Norm(ng);   /* re-align R[:,2] to geometric normal */
+		if (nl>1.0e-30){ for(int d=0;d<3;d++) ng[d]/=nl;
+			double e1n[3]={R[0][0],R[1][0],R[2][0]};
+			double dp=e1n[0]*ng[0]+e1n[1]*ng[1]+e1n[2]*ng[2];
+			for(int d=0;d<3;d++) e1n[d]-=dp*ng[d];
+			double el=Norm(e1n);
+			if (el>1.0e-30){ for(int d=0;d<3;d++) e1n[d]/=el; double e2n[3]; Cross(ng,e1n,e2n);
+				for(int d=0;d<3;d++){ R[d][0]=e1n[d]; R[d][1]=e2n[d]; R[d][2]=ng[d]; } }
+		}
+		cr_e1[0]=R[0][0];cr_e1[1]=R[1][0];cr_e1[2]=R[2][0];
+		cr_e2[0]=R[0][1];cr_e2[1]=R[1][1];cr_e2[2]=R[2][1];
+		if (commit && plastic && i<(int)fJ2sig.size()){   /* co-rotate stored in-plane stress old->new */
+			for (int g=0; 3*g+2 < (int)fJ2sig[i].size(); g++){
+				double s11=fJ2sig[i][3*g],s22=fJ2sig[i][3*g+1],s12=fJ2sig[i][3*g+2];
+				double sg[3][3];
+				for(int a=0;a<3;a++)for(int b=0;b<3;b++)
+					sg[a][b]=s11*e1o[a]*e1o[b]+s22*e2o[a]*e2o[b]+s12*(e1o[a]*e2o[b]+e2o[a]*e1o[b]);
+				double n11=0,n22=0,n12=0;
+				for(int a=0;a<3;a++)for(int b=0;b<3;b++){
+					n11+=cr_e1[a]*sg[a][b]*cr_e1[b]; n22+=cr_e2[a]*sg[a][b]*cr_e2[b]; n12+=cr_e1[a]*sg[a][b]*cr_e2[b]; }
+				fJ2sig[i][3*g]=n11; fJ2sig[i][3*g+1]=n22; fJ2sig[i][3*g+2]=n12;
+			}
+		}
+		if (commit) for(int a=0;a<3;a++)for(int b=0;b<3;b++){ Rf[a*3+b]=R[a][b]; Vf[a*3+b]=V[a][b]; }
+	}
+
 	for (int g=0; g<3; g++){
 		ShellGeom G;
 		if (!BuildGeom(x1,x2,x11,x22,x12,h,xg[g],G)) continue;
-		double e1[3],e2[3]; OrthoTangents(G.n,e1,e2);
+		double e1[3],e2[3];
+		if (use_corot){   /* tracked tangents, re-orthogonalized to this station's normal */
+			double dp=cr_e1[0]*G.n[0]+cr_e1[1]*G.n[1]+cr_e1[2]*G.n[2];
+			for(int d=0;d<3;d++) e1[d]=cr_e1[d]-dp*G.n[d];
+			double el=Norm(e1);
+			if (el>1.0e-30){ for(int d=0;d<3;d++) e1[d]/=el; Cross(G.n,e1,e2); }
+			else OrthoTangents(G.n,e1,e2);
+		} else OrthoTangents(G.n,e1,e2);
 		std::vector<std::vector<double> > Bv(nn, std::vector<double>(18));
 		for (int I=0;I<nn;I++){
 			double B[3][3][3];

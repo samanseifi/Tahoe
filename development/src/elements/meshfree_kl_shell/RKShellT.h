@@ -183,6 +183,11 @@ private:
 	dArray2DT fUprev;                          /**< previous-step nodal displacement (rate form: du = u - u_prev) */
 	std::vector<double> fThicknessCur;         /**< [node] current shell thickness (accumulates D33 from the
 	                                            *   sigma33=0 update, Algorithm 3); init = fThickness */
+	std::vector<double> fFrameR;               /**< [node] x 9: co-rotational rotation R (Flanagan-Taylor,
+	                                            *   Algorithm 2); init = reference tangent frame [E1 E2 N0] */
+	std::vector<double> fFrameV;               /**< [node] x 9: left-stretch V (Flanagan-Taylor); init = I */
+	int    fCorotational;                      /**< 1 = Algorithm 2 co-rotational stress frame (objective at
+	                                            *   large rotation); 0 = legacy OrthoTangents frame */
 
 	/** bending-hourglass control operator (rank-1 per node): residual R_I, the node normal, and the
 	 * coefficient -- so the finite-strain force path can apply the same penalty as the linear Ke. */
