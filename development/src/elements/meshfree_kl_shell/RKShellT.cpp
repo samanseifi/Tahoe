@@ -749,7 +749,7 @@ void RKShellT::BuildElementStiffness(void)
 					std::vector<double> Bf((size_t)6*3*nn);
 					for(int I=0;I<nn;I++)for(int r=0;r<6;r++)for(int c=0;c<3;c++) Bf[(size_t)r*3*nn+3*I+c]=Bg[I][l*18+r*3+c];
 					fIPB[i].insert(fIPB[i].end(),Bf.begin(),Bf.end());
-					fIPw[i].push_back(Vmom); fIPstab[i].push_back(1);
+					fIPw[i].push_back(Vmom); fIPstab[i].push_back(2);  /* 2 = natural Taylor stab; degraded in plastic zones */
 				}
 				for (int I=0;I<nn;I++) for (int J=0;J<nn;J++){
 					double kij[3][3]={{0,0,0},{0,0,0},{0,0,0}};
@@ -1096,6 +1096,15 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 	}
 
 	/* SCNI stabilization (reference-config, linear) from the stored stabilization points */
+	/* natural-stab plastic degradation: the Eq-33 Taylor stab uses the elastic C, so it elastically
+	 * clamps a physical plastic neck. The paper's version uses the stress gradient, which saturates at
+	 * the yield surface. We mimic that by fading the natural stab (fIPstab==2) where the node has
+	 * yielded: g = max(0.05, exp(-ep/0.04)) -> ~1 elastic, ->0.05 fully plastic. Self-disables in
+	 * localization zones so the neck can sharpen, but stays active in elastic regions for hourglass. */
+	double epn = 0.0;
+	if (plastic && i < (int)fJ2ep.size())
+		for (size_t q=0;q<fJ2ep[i].size();q++) if (fJ2ep[i][q]>epn) epn=fJ2ep[i][q];
+	double gnat = epn>0.0 ? (0.05 > std::exp(-epn/0.04) ? 0.05 : std::exp(-epn/0.04)) : 1.0;
 	int npt = (int) fIPw[i].size();
 	if (npt > 0){ const double* Ball=&fIPB[i][0];
 		for (int p=0;p<npt;p++){ if (fIPstab[i][p]==0) continue;
@@ -1103,6 +1112,7 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 			double eps[6]; for(int r=0;r<6;r++){const double*Br=B+(size_t)r*ndof;double s=0.0;for(int c=0;c<ndof;c++)s+=Br[c]*ue[c];eps[r]=s;}
 			double sig[6]; for(int r=0;r<6;r++){double s=0.0;for(int cc=0;cc<6;cc++)s+=fC[r][cc]*eps[cc];sig[r]=s;}
 			double w=fIPw[i][p];
+			if (fIPstab[i][p]==2) w *= gnat;   /* fade the natural Taylor stab in plastic zones */
 			for(int c=0;c<ndof;c++){double s=0.0;for(int r=0;r<6;r++)s+=B[(size_t)r*ndof+c]*sig[r];fout[c]+=s*w;}
 		}
 	}
