@@ -386,6 +386,19 @@ void RKShellT::BuildLumpedMass(void)
 	/* per-node current thickness (Algorithm 3 D33 accumulation); starts at the reference thickness */
 	fThicknessCur.assign(fNumNodes, fThickness);
 
+	/* optional imperfection seed (KLSHELL_IMPERF=amp, e.g. 0.05): a smooth mid-length thickness dip to
+	 * trigger strain localization (paper: necking is triggered by a local thickness reduction). */
+	if (getenv("KLSHELL_IMPERF") && fNumNodes>0) {
+		double amp = atof(getenv("KLSHELL_IMPERF"));
+		double zmin=1.0e30, zmax=-1.0e30;
+		for (int i=0;i<fNumNodes;i++){ double z=fCoords(i,2); if(z<zmin)zmin=z; if(z>zmax)zmax=z; }
+		double zmid=0.5*(zmin+zmax), zw=0.08*(zmax-zmin);   /* dip half-width ~8% of length */
+		for (int i=0;i<fNumNodes;i++){ double dd=(fCoords(i,2)-zmid)/zw;
+			fThicknessCur[i] = fThickness*(1.0 - amp*std::exp(-dd*dd)); }
+		fprintf(stdout,"[IMPERF] mid-ring thickness dip amp=%.3f at z=%.2f (t_min=%.4f)\n",
+			amp, zmid, fThickness*(1.0-amp));
+	}
+
 	/* co-rotational frames (Algorithm 2): R = reference tangent frame [E1 E2 N0] (columns), V = I */
 	fFrameR.assign((size_t)fNumNodes*9, 0.0);
 	fFrameV.assign((size_t)fNumNodes*9, 0.0);
@@ -1134,7 +1147,12 @@ void RKShellT::LHSDriver(GlobalT::SystemTypeT sys_type)
 			fLHS.Dimension(3*nn);
 			fLHS.SetFormat(ElementMatrixT::kSymmetric);
 			fLHS = 0.0;
-			if (ki >= 0) for (int d = 0; d < 3; d++) fLHS(3*ki+d, 3*ki+d) = constM*fLumpedMass[i];
+			/* current-config mass: m = rho*A*t_current (the thinned neck carries less inertia, so the
+			 * dynamic localization instability is not over-regularized); floor 10% for explicit stability */
+			double mfac = 1.0;
+			if (fThicknessUpdate && i < (int)fThicknessCur.size() && fThickness > 0.0) {
+				mfac = fThicknessCur[i]/fThickness; if (mfac < 0.1) mfac = 0.1; }
+			if (ki >= 0) for (int d = 0; d < 3; d++) fLHS(3*ki+d, 3*ki+d) = constM*fLumpedMass[i]*mfac;
 			AssembleLHS();
 		}
 		if (formK) {
