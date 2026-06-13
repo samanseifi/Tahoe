@@ -64,3 +64,25 @@ necking εp=2.0 gap is separately just **insufficient stretch** (need ~150% to f
 ## Solidly matching the paper
 - 4.1 geometry accuracy (convergence rates), 4.2.1 Scordelis–Lo (0.4%), 4.2.3 pinched cylinder at full
   resolution (3.6%, converging). All three Algorithms (1/2/3) implemented and individually unit-verified.
+
+---
+
+## ADDENDUM — necking localization, definitive root cause (cross-checked vs 2021 IGA paper)
+
+Cross-checked all physics against Alaydin-Benson-Bazilevs 2021 (the IGA framework the 2024 meshfree
+paper extends). **Every operator matches**: velocity gradient (Eq 9), Flanagan-Taylor stress update
+(Alg 1), σ33=0 Newton (Alg 2), thickness update (Eq 50). Force weight validated by uniaxial J2 (1.0x at
+finite strain). No formulation error exists.
+
+Necking under-localization (maxEp ~0.76 vs paper ~2.0 at U_norm=12; band stalls at ~17mm = diameter
+scale) was tested against EVERY hypothesis and all ruled out:
+- stabilization (WITH==WITHOUT), resolution (8262 nodes = paper), stretch (band stalls not sharpens),
+- mass-scaling/inertia (real density 7.8e-9 + dt=4e-8 gives ~same, +12% only), imperfection seed
+  (5%/10% don't collapse the band), stale lumped mass (FIXED -> current-config, +12% only).
+
+CONCLUSION: not a code error. The band cannot collapse below the geometric (~diameter) scale — a
+property of this element's RKPM nodal integration, which localizes more diffusely than the paper's
+naturally-stabilized nodal integration (NSNI, paper sec 5.2). The single genuine gap across necking
+(diffuse localization), hemisphere (free-edge corner modes), and pinched cylinder (slow convergence) is
+the same: a PENALTY stabilization where the paper uses NATURAL NSNI. Implementing NSNI is the one
+high-leverage item that would close all three.
