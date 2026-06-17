@@ -40,6 +40,7 @@ RKShellT::RKShellT(const ElementSupportT& support):
 	fPoisson(0.0),
 	fSupportFac(3.0),
 	fCompleteness(3),
+	fKernel(0),
 	fNumNodes(0),
 	fMLS(NULL)
 {
@@ -342,6 +343,7 @@ void RKShellT::DefineParameters(ParameterListT& list) const
 	ParameterT complete(fCompleteness, "completeness");
 	complete.SetDefault(3);
 	list.AddParameter(complete);
+	ParameterT kern(fKernel, "kernel"); kern.SetDefault(0); list.AddParameter(kern);   /* 0=Gaussian, 1=cubic B-spline */
 
 	/* uniform per-area applied load (gravity / surface pressure components) */
 	ParameterT lx(fLoad[0], "load_x"); lx.SetDefault(0.0); list.AddParameter(lx);
@@ -406,6 +408,7 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 	fPoisson      = list.GetParameter("Poisson_ratio");
 	fSupportFac   = list.GetParameter("support_factor");
 	fCompleteness = list.GetParameter("completeness");
+	fKernel       = list.GetParameter("kernel");
 	fLoad[0] = list.GetParameter("load_x");
 	fLoad[1] = list.GetParameter("load_y");
 	fLoad[2] = list.GetParameter("load_z");
@@ -446,12 +449,22 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 	for (int a=0;a<6;a++) { Cc[a][2]=0.0; Cc[2][a]=0.0; }
 	for (int a=0;a<6;a++) for (int b=0;b<6;b++) fC[a][b] = Cc[a][b];
 
-	/* RKPM shape-function solver in the 2D local chart */
+	/* RKPM shape-function solver in the 2D local chart. Window: Gaussian (default) or the paper's
+	 * cubic B-spline C2 (Eq 19). For the spline, support radius = (nodal support param) * dilation;
+	 * dilation=1 makes it equal to support_factor*spacing (the paper's normalized support). */
 	dArrayT gwin(3);
-	gwin[0] = (fCompleteness >= 3) ? 1.8 : 1.5;
-	gwin[1] = 0.4;
-	gwin[2] = 3.0;
-	fMLS = new MLSSolverT(2, fCompleteness, false, MeshFreeT::kGaussian, gwin);
+	if (fKernel == 1) {
+		gwin[0] = (fCompleteness >= 3) ? 1.8 : 1.4;   /* cubic-spline dilation (1.4 matches Gaussian Scordelis -0.292) */
+		{ const char* e=getenv("KLSHELL_SPLINEDIL"); if(e) gwin[0]=atof(e); }   /* sweep override */
+		gwin[1] = 0.0; gwin[2] = 0.0;
+		fMLS = new MLSSolverT(2, fCompleteness, false, MeshFreeT::kCubicSpline, gwin);
+		fprintf(stdout, "[RKShell] RK kernel = cubic B-spline (C2), dilation=%.2f\n", gwin[0]);
+	} else {
+		gwin[0] = (fCompleteness >= 3) ? 1.8 : 1.5;
+		gwin[1] = 0.4;
+		gwin[2] = 3.0;
+		fMLS = new MLSSolverT(2, fCompleteness, false, MeshFreeT::kGaussian, gwin);
+	}
 	fMLS->Initialize();
 
 	/* precompute the per-node stencil stiffness (linear elastic, fixed geometry) */

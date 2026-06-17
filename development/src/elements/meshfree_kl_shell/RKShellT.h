@@ -144,6 +144,7 @@ private:
 	double fPoisson;       /**< Poisson ratio */
 	double fSupportFac;    /**< support size in units of nodal spacing */
 	int    fCompleteness;  /**< RKPM completeness (2 = quadratic, 3 = cubic) */
+	int    fKernel;        /**< RK window: 0 = Gaussian (default), 1 = cubic B-spline C² (paper Eq 19) */
 	double fDensity;       /**< mass density (use a scaled value for explicit dynamic relaxation) */
 	double fYield;         /**< J2 initial yield stress (0 = elastic, no plasticity) */
 	double fHardening;     /**< J2 linear isotropic hardening modulus H: Y(ep) = Yield + H*ep */
