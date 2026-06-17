@@ -35,6 +35,63 @@ inline double J2yield(double ep, double Y0, double H, double Ysat, double delta)
 	if (Ysat > Y0 && delta > 0.0) Y += (Ysat - Y0)*(1.0 - std::exp(-delta*ep));
 	return Y;
 }
+/* hardening slope H'(ep) = dY/dep (linear part H plus the saturation derivative) */
+inline double J2yieldSlope(double ep, double Y0, double H, double Ysat, double delta)
+{
+	double Hp = H;
+	if (Ysat > Y0 && delta > 0.0) Hp += (Ysat - Y0)*delta*std::exp(-delta*ep);
+	return Hp;
+}
+
+/* -------------------------------------------------------------------------------------------- *
+ * CONSISTENT plane-stress J2 elasto-plastic tangent (Simo-Taylor 3D algorithmic tangent,
+ * statically condensed for sigma33=0). This is C_ps^alg for the Eq.(33) membrane stabilizer.
+ *   C_3D^alg = K (1x1) + 2mu*beta I_dev - 2mu*gbar (n x n),    K = lam + 2mu/3
+ *   beta = sigma_Y / sigma_vm   (radial-return deviatoric scaling)
+ *   gbar = 1/(1 + H'/3mu) - (1 - beta)
+ *   n    = dev(sigma)/||dev(sigma)||   (unit yield-surface normal, 3D with sigma33=0)
+ *   C_ps^alg_ijkl = C_3D_ijkl - C_3D_ij33 C_3D_33kl / C_3D_3333   (in-plane i,j,k,l)
+ * Output Calg6 = symmetric 3x3 in Voigt [11,22,12(engineering shear)]:
+ *   [0]=11-11 [1]=11-22 [2]=11-12 [3]=22-22 [4]=22-12 [5]=12-12.
+ * Softening lives ONLY along n: perpendicular & volumetric modes keep elastic stiffness (kills
+ * hourglass), the flow direction softens (lets the neck flow). plastic=false -> elastic tangent.
+ * seq_vm = current von Mises of sig (~ sigma_Y for a returned plastic state -> beta~1, the
+ * explicit small-step limit of the algorithmic tangent). */
+inline void PlaneStressJ2Calg(const double sig[3], double seq_vm, double ep,
+                              double E, double nu, double Y0, double H, double Ysat, double delta,
+                              bool plastic, double Calg6[6])
+{
+	double c = E/(1.0 - nu*nu);
+	if (!plastic) {                              /* elastic plane-stress tangent */
+		Calg6[0]=c;  Calg6[1]=c*nu; Calg6[2]=0.0;
+		Calg6[3]=c;  Calg6[4]=0.0;  Calg6[5]=c*(1.0-nu)/2.0;
+		return;
+	}
+	double mu  = E/(2.0*(1.0+nu));
+	double lam = E*nu/((1.0+nu)*(1.0-2.0*nu));
+	double K   = lam + 2.0*mu/3.0;
+	double Y   = J2yield(ep, Y0, H, Ysat, delta);
+	double Hp  = J2yieldSlope(ep, Y0, H, Ysat, delta);
+	double beta = (seq_vm > 1.0e-30) ? Y/seq_vm : 1.0;  if (beta > 1.0) beta = 1.0;
+	double gbar = 1.0/(1.0 + Hp/(3.0*mu)) - (1.0 - beta);
+	/* unit deviatoric flow normal (3D, sigma33=0 -> dev33 = -(s11+s22)/3) */
+	double tr = sig[0]+sig[1];
+	double d11=sig[0]-tr/3.0, d22=sig[1]-tr/3.0, d33=-tr/3.0, d12=sig[2];
+	double nn = std::sqrt(d11*d11+d22*d22+d33*d33+2.0*d12*d12);
+	double n11=0,n22=0,n33=0,n12=0;
+	if (nn>1.0e-30){ n11=d11/nn; n22=d22/nn; n33=d33/nn; n12=d12/nn; }
+	double tb=2.0*mu*beta, tg=2.0*mu*gbar;
+	double C1111=K+tb*(2.0/3.0)-tg*n11*n11, C2222=K+tb*(2.0/3.0)-tg*n22*n22, C3333=K+tb*(2.0/3.0)-tg*n33*n33;
+	double C1122=K-tb/3.0-tg*n11*n22, C1133=K-tb/3.0-tg*n11*n33, C2233=K-tb/3.0-tg*n22*n33;
+	double C1112=-tg*n11*n12, C2212=-tg*n22*n12, C3312=-tg*n33*n12, C1212=tb*0.5-tg*n12*n12;
+	double inv=(std::fabs(C3333)>1.0e-30)?1.0/C3333:0.0;
+	Calg6[0]=C1111-C1133*C1133*inv;
+	Calg6[1]=C1122-C1133*C2233*inv;
+	Calg6[2]=C1112-C1133*C3312*inv;
+	Calg6[3]=C2222-C2233*C2233*inv;
+	Calg6[4]=C2212-C2233*C3312*inv;
+	Calg6[5]=C1212-C3312*C3312*inv;
+}
 
 /* solve [I + b*C*P] x = rhs for the in-plane stress (3x3, P with engineering-shear scaling) */
 inline void J2solve(double b, double c, double nu, const double rhs[3], double x[3])

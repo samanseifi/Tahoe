@@ -28,6 +28,7 @@
 #include "iArrayT.h"
 #include "dMatrixT.h"
 #include "ArrayT.h"
+#include "StringT.h"
 
 #include <vector>
 
@@ -109,6 +110,26 @@ private:
 	 * solver, with optional mass scaling via a large fDensity for quasi-static loading) */
 	void BuildLumpedMass(void);
 
+	/** total self-contact force on node i (paper sec 3.13, Eqs 83-86): repulsion from every node K
+	 * that is NOT a meshfree neighbor of i and lies within the contact band [r_in, r_out], using the
+	 * current node positions (reference + disp). Returns false (and f=0) if contact is disabled. */
+	bool ComputeContactForce(int i, const dArray2DT& disp, double f[3]) const;
+
+	/** pinball contact force-density psi(||r||) (Eq 85) with the c1/c2 smoothing of Eq 86 (p=2). */
+	double ContactPsi(double r) const;
+
+	/** resolve the rotational-continuity coupling interface node pairs (fCoupleIDa/b -> local pairs) */
+	void BuildCoupling(void);
+
+	/** add the sec 3.12 penalty-coupling force (preserve the kink angle) for both members of every
+	 * interface pair into the per-node force fout indexed by the pair's stencil position. Returns the
+	 * coupling force contribution to node `i` if `i` is one of the paired interface nodes. */
+	void AddCouplingForce(const dArray2DT& disp);
+
+	/** self-test for the new multi-body features (env KLSHELL_FEATURETEST): contact force law sign +
+	 * monotonicity, and the coupling normal-rotation operator on a 90-degree fold. */
+	void RunFeatureSelfTest(void);
+
 	/** stabilization unit test (triggered by env KLSHELL_SELFTEST): strain energy E = sum_K u_K^T
 	 * fKe_K u_K for unit-norm rigid / linear / membrane-hourglass / bending-hourglass modes. Rigid
 	 * ->~0; linear must be stab-invariant (consistency); hourglass ~0 without stab, >0 if caught. */
@@ -134,6 +155,29 @@ private:
 	int    fMonitorStride; /**< stride between summed reaction nodes (driven generator line = nt) */
 	int    fMonitorCount;  /**< number of nodes to sum the reaction over (1 = single load node) */
 	double fDamping;       /**< mass-proportional damping alpha (force -alpha*m*v); dynamic relaxation -> quasi-static */
+
+	/** \name self-contact — pinball / volumetric-potential (paper sec 3.13, Eqs 83-86). Off by
+	 * default (fContactStiffness=0). A node repels every NON-neighbor node within the contact band
+	 * [r_in, r_out] so folding shell surfaces (tube accordion crush) cannot interpenetrate. */
+	/*@{*/
+	double fContactStiffness; /**< kc (force density scale, N/mm^4); 0 = self-contact OFF */
+	double fContactRin;       /**< inner contact radius r_in (full repulsion below this) */
+	double fContactRout;      /**< outer contact radius r_out (force tapers to 0 here) */
+	/*@}*/
+
+	/** \name rotational-continuity penalty coupling (paper sec 3.12, Eqs 80-82). Off by default
+	 * (fPenaltyCoupling=0). Preserves the original angle between adjacent shell patches at a C0 kink
+	 * by penalizing the relative normal-rotation jump of paired interface nodes (each side uses its own
+	 * one-sided PCA chart). Interface pairs are read from fCoupleIDa / fCoupleIDb node sets. */
+	/*@{*/
+	double fPenaltyCoupling;  /**< dimensionless C in Cpen = C*E/hpl (Eq 82); 0 = coupling OFF */
+	StringT fCoupleIDa;       /**< node_ID of the interface curve on patch (i) */
+	StringT fCoupleIDb;       /**< node_ID of the matching interface curve on patch (j) (1:1 ordered) */
+	iArrayT fCoupleA;         /**< local indices of the patch-(i) interface nodes */
+	iArrayT fCoupleB;         /**< local indices of the patch-(j) interface nodes (paired with fCoupleA) */
+	std::vector<double> fCoupleForce; /**< [3*fNumNodes] per-step penalty-coupling force, distributed
+	                                   *   to each interface node's own dof in RHSDriver */
+	/*@}*/
 	/*@}*/
 
 	/** \name stabilization — SCNI/NSNI cell-smoothed assumed-strain residual R = B_direct - B~tilde
@@ -144,6 +188,11 @@ private:
 	double fStabMembrane;  /**< stabilization-residual scale (coefficient on R^T C R) */
 	double fStabBending;   /**< (reserved) */
 	double fStabNatural;   /**< Eq.33 natural Taylor-gradient stabilization scale (0=off, 1=full) */
+	int    fStabSigGrad;   /**< 1 = paper-faithful natural stabilizer (Eqs 67-72, sec 3.10): the membrane
+	                        *   stab force uses the ACCUMULATED Cauchy stress gradient sigma,xi (history,
+	                        *   co-rotated, updated by the per-point plane-stress ALGORITHMIC tangent) so
+	                        *   it saturates to ~0 in the yielding neck -> no elastic clamp -> sharp neck.
+	                        *   0 = legacy consistent-tangent-times-total-strain stab (diffuse neck). */
 	/*@}*/
 
 	/** \name surface meshfree data */
@@ -194,6 +243,12 @@ private:
 	std::vector<std::vector<double> > fBendR;  /**< [node] -> [nn] curvature-residual operator R_I */
 	std::vector<std::vector<double> > fBendN;  /**< [node] -> [3] node normal */
 	std::vector<double> fBendCoeff;            /**< [node] -> coefficient */
+
+	/** accumulated mid-surface Cauchy STRESS GRADIENT history (paper sec 3.10, Eq 68): per node,
+	 * [sigma,xi1: s11,s22,s12 ; sigma,xi2: s11,s22,s12] in the local shell frame. Advanced each step by
+	 * sigma,xil += C~^P_mid . (B,xil . du) and co-rotated with the Flanagan-Taylor frame (Eq 72). Drives
+	 * the paper-faithful membrane stabilization force f_stab = sum_l (B,xil)^T sigma,xil * V_K M_Kxil. */
+	std::vector<std::vector<double> > fSigGrad; /**< [node] -> [6] */
 	/*@}*/
 	/*@}*/
 
