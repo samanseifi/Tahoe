@@ -192,7 +192,12 @@ private:
 	                        *   stab force uses the ACCUMULATED Cauchy stress gradient sigma,xi (history,
 	                        *   co-rotated, updated by the per-point plane-stress ALGORITHMIC tangent) so
 	                        *   it saturates to ~0 in the yielding neck -> no elastic clamp -> sharp neck.
-	                        *   0 = legacy consistent-tangent-times-total-strain stab (diffuse neck). */
+	                        *   This is the VALIDATED default (reference-config B,xil -> fixed quadratic
+	                        *   form -> PSD/explicit-stable). 0 = legacy consistent-tangent x total strain.
+	                        *   2 = EXPERIMENTAL current-config B,xil rebuild (Phase 1): UNSTABLE in explicit
+	                        *   dynamics -- accumulating sigma,xi history with a per-step-changing operator
+	                        *   breaks PSD (diverges ~step 7k on necking). Needs the paper's full
+	                        *   co-rotational consistency, not a bare operator swap. Do NOT use for runs. */
 	/*@}*/
 
 	/** \name surface meshfree data */
