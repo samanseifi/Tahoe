@@ -58,11 +58,11 @@ RKShellT::RKShellT(const ElementSupportT& support):
 	fMonitorStride = 1;
 	fMonitorCount = 1;
 	fDamping = 0.0;
-	fStabMode = 0;
-	fStabMembrane = 1.0;
-	fStabBending = 0.0;
 	fStabNatural = 1.0;
+	fStabBending = 0.0;      /* curvature-gradient (bending) stabilization OFF by default (opt-in) */
 	fStabSigGrad = 1;        /* paper sec 3.10: stress-gradient stabilization on by default */
+	fStabSCNI = 0.0;         /* SCNI assumed-strain stabilization OFF by default */
+	fSmoothedGrad = 0;       /* direct nodal gradient by default */
 	fContactStiffness = 0.0; /* self-contact OFF by default */
 	fContactRin = 0.0;
 	fContactRout = 0.0;
@@ -185,7 +185,7 @@ void RKShellT::WriteOutput(void)
 				if (pos < 0) continue;
 				dArrayT ue(3*nn), f;
 				for (int k=0;k<nn;k++) for (int d=0;d<3;d++) ue[k*3+d]=disp(gnb[k],d);
-				if (fFiniteStrain) InternalForceFS(K, ue, f, false, false);  /* exclude bending penalty from reported reaction */
+				if (fFiniteStrain) InternalForceFS(K, ue, f, false, true);   /* TOTAL reaction incl. stabilization (resists the crush -> part of the measured load) */
 				else               InternalForce(K, ue, f, false);
 				for (int d=0;d<3;d++) react[d] += f[pos*3+d];
 			}
@@ -201,6 +201,22 @@ void RKShellT::WriteOutput(void)
 		/* cleanly parseable: $2=node $3=ux $4=uy $5=uz $6=Rx $7=Ry $8=Rz (Rx = TOTAL over load set) */
 		fprintf(stdout, "[RKShell-react] %d %.8e %.8e %.8e %.8e %.8e %.8e\n",
 			fMonitorNode, disp(mg0,0),disp(mg0,1),disp(mg0,2), react[0],react[1],react[2]);
+
+		/* RK is non-interpolatory: disp(mg0,*) is the nodal COEFFICIENT u_I, not the physical
+		 * displacement u^h(x_I)=sum_J phi_J(x_I) u_J. Reconstruct the physical value at the monitor node
+		 * from the captured self-shape-functions (fSelfPhi, aligned with fNeighbors) -- this is the
+		 * quantity the paper's reference displacements (e.g. hemisphere 0.0924) compare against. */
+		{
+			int ml = (mg0 >= 0 && mg0 < fGlobalToLocal.Length()) ? fGlobalToLocal[mg0] : -1;
+			if (ml >= 0 && ml < (int) fSelfPhi.size() && !fSelfPhi[ml].empty()) {
+				int nn = fNeighbors.MinorDim(ml);
+				const int* gnb = fNeighbors(ml);
+				double up[3] = {0,0,0};
+				for (int k = 0; k < nn; k++)
+					for (int d = 0; d < 3; d++) up[d] += fSelfPhi[ml][k]*disp(gnb[k], d);
+				fprintf(stdout, "[RKShell-uphys] %d %.8e %.8e %.8e\n", fMonitorNode, up[0], up[1], up[2]);
+			}
+		}
 
 		/* paper Fig 15 axes: U_norm = sqrt(sum_I |u_I|^2 / NP) over ALL shell nodes, and the total
 		 * reaction magnitudes. Effective stress = |R_axial| / undeformed cross-section (computed in the
@@ -253,8 +269,11 @@ void RKShellT::WriteOutput(void)
 				for (size_t q = 0; q < fJ2ep[i].size(); q++) if (fJ2ep[i][q] > ep) ep = fJ2ep[i][q];
 				if (ep > 0.5*epmax) { double z = fCoords(i,2); if (z<zlo) zlo=z; if (z>zhi) zhi=z; nband++; }
 			}
-		fprintf(stdout, "[RKShell-neck] max_eps_p=%.5f @ z=%.3f  t_min=%.4f  band[z]=%.2f..%.2f (w=%.2f, n=%d)\n",
-			epmax, zpeak, tmin, (zlo<zhi?zlo:0.0), (zhi>zlo?zhi:0.0), (zhi>zlo?zhi-zlo:0.0), nband);
+		/* mean eps_p over yielded nodes (distinguishes a real over-accumulation from a boundary-max artifact) */
+		double epsum=0.0; int epn=0;
+		for (int i=0;i<fNumNodes;i++){ double ep=0.0; for(size_t q=0;q<fJ2ep[i].size();q++) if(fJ2ep[i][q]>ep)ep=fJ2ep[i][q]; if(ep>1.0e-6){epsum+=ep;epn++;} }
+		fprintf(stdout, "[RKShell-neck] max_eps_p=%.5f mean_eps_p=%.5f @ z=%.3f  t_min=%.4f  band[z]=%.2f..%.2f (w=%.2f, n=%d)\n",
+			epmax, (epn>0?epsum/epn:0.0), zpeak, tmin, (zlo<zhi?zlo:0.0), (zhi>zlo?zhi:0.0), (zhi>zlo?zhi-zlo:0.0), nband);
 		(void) imax;
 	}
 	fflush(stdout);
@@ -356,15 +375,12 @@ void RKShellT::DefineParameters(ParameterListT& list) const
 	density.SetDefault(1.0);
 	list.AddParameter(density);
 
-	/* stabilization (paper section 5): 0=default(membrane+bending), 3=alpha-scaled membrane
-	 * (5.3), 2=pure bending (5.2) */
-	ParameterT stab(fStabMode, "stabilization");
-	stab.SetDefault(0);
-	list.AddParameter(stab);
-	ParameterT sm(fStabMembrane, "stab_membrane"); sm.SetDefault(1.0); list.AddParameter(sm);
-	ParameterT sb(fStabBending,  "stab_bending");  sb.SetDefault(0.0); list.AddParameter(sb);
+	/* stabilization (paper sec 3.10): natural Taylor-gradient + stress-gradient sigma,xi */
 	ParameterT sn(fStabNatural,  "stab_natural"); sn.SetDefault(1.0); list.AddParameter(sn);
+	ParameterT sb(fStabBending,  "stab_bending"); sb.SetDefault(0.0); list.AddParameter(sb);
 	ParameterT sg(fStabSigGrad,  "stab_siggrad"); sg.SetDefault(1);   list.AddParameter(sg);
+	ParameterT ssc(fStabSCNI, "stab_scni"); ssc.SetDefault(0.0); list.AddParameter(ssc);
+	ParameterT smg(fSmoothedGrad, "smoothed_gradient"); smg.SetDefault(0); list.AddParameter(smg);
 
 	/* plane-stress J2 plasticity (0 yield = elastic): Y(ep) = yield_stress + hardening*ep */
 	ParameterT yld(fYield, "yield_stress"); yld.SetDefault(0.0); list.AddParameter(yld);
@@ -413,11 +429,11 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 	fLoad[1] = list.GetParameter("load_y");
 	fLoad[2] = list.GetParameter("load_z");
 	fDensity = list.GetParameter("density");
-	fStabMode     = list.GetParameter("stabilization");
-	fStabMembrane = list.GetParameter("stab_membrane");
-	fStabBending  = list.GetParameter("stab_bending");
 	fStabNatural  = list.GetParameter("stab_natural");
+	fStabBending  = list.GetParameter("stab_bending");
 	fStabSigGrad  = list.GetParameter("stab_siggrad");
+	fStabSCNI     = list.GetParameter("stab_scni");
+	fSmoothedGrad = list.GetParameter("smoothed_gradient");
 	fYield        = list.GetParameter("yield_stress");
 	fHardening    = list.GetParameter("hardening_modulus");
 	fYieldSat     = list.GetParameter("yield_saturation");
@@ -454,7 +470,10 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 	 * dilation=1 makes it equal to support_factor*spacing (the paper's normalized support). */
 	dArrayT gwin(3);
 	if (fKernel == 1) {
-		gwin[0] = (fCompleteness >= 3) ? 1.8 : 1.4;   /* cubic-spline dilation (1.4 matches Gaussian Scordelis -0.292) */
+		/* dilation = 1.0 so the cubic B-spline support radius = support_factor*spacing exactly, i.e. the
+		 * paper's "normalized support size" (sec 4.2.1: 3.0). The support param already carries the scale;
+		 * the dilation must not double-count it. */
+		gwin[0] = 1.0;
 		{ const char* e=getenv("KLSHELL_SPLINEDIL"); if(e) gwin[0]=atof(e); }   /* sweep override */
 		gwin[1] = 0.0; gwin[2] = 0.0;
 		fMLS = new MLSSolverT(2, fCompleteness, false, MeshFreeT::kCubicSpline, gwin);
@@ -493,6 +512,9 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 
 	/* feature self-test (env KLSHELL_FEATURETEST=1): contact force law + coupling operator */
 	if (getenv("KLSHELL_FEATURETEST")) RunFeatureSelfTest();
+
+	/* curved-surface patch test (env KLSHELL_PATCHTEST=1): PCA-chart curvature error on the cylinder */
+	if (getenv("KLSHELL_PATCHTEST")) RunCurvedPatchTest();
 
 	/* background cell connectivity: exposed via ConnectsX so the framework's node-element graph
 	 * (and the explicit nodal-update node set) sees this element's nodes as geometry */
@@ -597,8 +619,8 @@ void RKShellT::RunStabSelfTest(void)
 		}
 		E[m]=En;
 	}
-	fprintf(stdout,"\n=== STAB SELF-TEST  stab_membrane=%.4g stab_bending=%.4g  (unit-norm mode energies) ===\n",
-		fStabMembrane,fStabBending);
+	fprintf(stdout,"\n=== STAB SELF-TEST  stab_natural=%.4g stab_siggrad=%d  (unit-norm mode energies) ===\n",
+		fStabNatural,fStabSigGrad);
 	for (int m=0;m<NM;m++) fprintf(stdout,"   %-12s  E = % .6e\n",names[m],E[m]);
 	fprintf(stdout,"   expect: rigid ~0 ; linear physical & stab-invariant ; hourglass ~0 w/o stab, >0 if caught\n\n");
 
@@ -697,6 +719,35 @@ void RKShellT::DefineElements(const ArrayT<StringT>& block_ID, const ArrayT<int>
 	fNeighbors = global_neighbors;
 }
 
+/* Sutherland-Hodgman clip of a convex polygon by the half-plane { p : a.p <= c } */
+static void ClipHalfPlane(std::vector<double>& Px, std::vector<double>& Py,
+                          double ax, double ay, double c)
+{
+	int n = (int) Px.size();
+	if (n == 0) return;
+	std::vector<double> Ox, Oy; Ox.reserve(n+2); Oy.reserve(n+2);
+	for (int i = 0; i < n; i++) {
+		double x1 = Px[i], y1 = Py[i];
+		int j = (i+1) % n;
+		double x2 = Px[j], y2 = Py[j];
+		double d1 = ax*x1 + ay*y1 - c, d2 = ax*x2 + ay*y2 - c;
+		if (d1 <= 0.0) { Ox.push_back(x1); Oy.push_back(y1); }
+		if (d1*d2 < 0.0) {
+			double t = d1 / (d1 - d2);
+			Ox.push_back(x1 + t*(x2-x1)); Oy.push_back(y1 + t*(y2-y1));
+		}
+	}
+	Px.swap(Ox); Py.swap(Oy);
+}
+
+/* signed-area magnitude of a simple polygon (shoelace) */
+static double PolyArea(const std::vector<double>& Px, const std::vector<double>& Py)
+{
+	double a = 0.0; int n = (int) Px.size();
+	for (int i = 0; i < n; i++) { int j = (i+1) % n; a += Px[i]*Py[j] - Px[j]*Py[i]; }
+	return 0.5 * std::fabs(a);
+}
+
 /* per-node neighbor lists (3D distance, local indices) + nodal areas */
 void RKShellT::BuildNeighbors(void)
 {
@@ -727,8 +778,91 @@ void RKShellT::BuildNeighbors(void)
 		for (int k = 0; k < counts[i]; k++) row[k] = flat[pos++];
 	}
 
+	/* per-node representative area for nodal integration = Voronoi cell in the local PCA chart,
+	 * capped at the domain boundary so the weights sum to the true surface area. The previous uniform
+	 * spacing^2 gave every node (incl. edges/corners) a full cell, over-integrating the boundary; that
+	 * error is O(1/sqrt(N)) and biased the coarse-mesh Scordelis deflection (a crossing vs the paper). */
 	fNodalArea.Dimension(fNumNodes);
-	fNodalArea = spacing*spacing;
+	double area_tot = 0.0;
+	for (int i = 0; i < fNumNodes; i++) {
+		int nn = fNeighbors.MinorDim(i);
+		const int* nb = fNeighbors(i);
+		fNodalArea[i] = spacing*spacing;           /* fallback */
+		if (nn < 4) { area_tot += fNodalArea[i]; continue; }
+
+		std::vector<double> nbX(3*nn);
+		for (int k = 0; k < nn; k++) for (int d = 0; d < 3; d++) nbX[3*k+d] = fCoords(nb[k], d);
+		double psi1[3], psi2[3], n0[3];
+		PCAFrame(&nbX[0], nn, psi1, psi2, n0);
+
+		/* project neighbors into the chart (origin at node i); nearest spacing + neighbor centroid */
+		std::vector<double> qx, qy; qx.reserve(nn); qy.reserve(nn);
+		double hmin_i = 1.0e30, cx = 0.0, cy = 0.0; int ncnt = 0;
+		for (int k = 0; k < nn; k++) {
+			if (nb[k] == i) continue;
+			double dv[3] = { fCoords(nb[k],0)-fCoords(i,0), fCoords(nb[k],1)-fCoords(i,1),
+			                 fCoords(nb[k],2)-fCoords(i,2) };
+			double xj = Dot(dv,psi1), yj = Dot(dv,psi2);
+			double r2 = xj*xj + yj*yj; if (r2 < hmin_i) hmin_i = r2;
+			qx.push_back(xj); qy.push_back(yj); cx += xj; cy += yj; ncnt++;
+		}
+		if (ncnt < 4) { area_tot += fNodalArea[i]; continue; }
+		double hi = std::sqrt(hmin_i); cx /= ncnt; cy /= ncnt;
+
+		/* Voronoi cell: start from a big square, clip by each perpendicular bisector { p.v <= |v|^2/2 } */
+		double B = 2.0*support;
+		std::vector<double> Px = { -B, B, B, -B }, Py = { -B, -B, B, B };
+		for (int k = 0; k < (int) qx.size() && Px.size() >= 3; k++) {
+			double vx = qx[k], vy = qy[k];
+			ClipHalfPlane(Px, Py, vx, vy, 0.5*(vx*vx+vy*vy));
+		}
+		/* boundary detection: a true edge/corner node has no neighbors on its outboard side, so its
+		 * bisector cell stays OPEN (a vertex remains far out, ~ the initial box). Interior nodes -- even
+		 * one row in, even with wide support -- are bounded by their outboard neighbors' bisectors at
+		 * ~hi. Only cap the open ones (cut the outward side at the line through the node), so near-boundary
+		 * interior nodes keep their full cell. */
+		double Rmax2 = 0.0;
+		for (int k = 0; k < (int) Px.size(); k++) { double r2 = Px[k]*Px[k]+Py[k]*Py[k]; if (r2 > Rmax2) Rmax2 = r2; }
+		double coff = std::sqrt(cx*cx + cy*cy);
+		if (Px.size() >= 3 && Rmax2 > (1.5*hi)*(1.5*hi) && coff > 1.0e-12*hi)
+			ClipHalfPlane(Px, Py, -cx, -cy, 0.0);   /* keep interior side: p.(centroid) >= 0 */
+
+		double A = (Px.size() >= 3) ? PolyArea(Px, Py) : spacing*spacing;
+		if (!(A > 0.0) || A > 4.0*spacing*spacing) A = spacing*spacing;   /* degenerate guard */
+		fNodalArea[i] = A;
+		area_tot += A;
+	}
+	if (getenv("KLSHELL_AREADUMP"))
+		fprintf(stdout, "[RKShell] nodal-area total=%.6e  n=%d  mean=%.6e  (spacing^2=%.6e)\n",
+		        area_tot, fNumNodes, area_tot/fNumNodes, spacing*spacing);
+}
+
+/* collocation rows (issue #70): per requested global node, its support node global ids and the
+ * RK shape values phi_J(x_I) at the node's own location (captured in BuildElementStiffness). Lets
+ * CollocationKBCT impose the physical displacement sum_J phi_J(x_I) d_J = ubar_I instead of d_I. */
+bool RKShellT::CollocationData(const iArrayT& nodes,
+	RaggedArray2DT<int>& support, RaggedArray2DT<double>& phi) const
+{
+	int n = nodes.Length();
+	iArrayT counts(n);
+	for (int a = 0; a < n; a++) {
+		int g = nodes[a];
+		int loc = (g >= 0 && g < fGlobalToLocal.Length()) ? fGlobalToLocal[g] : -1;
+		if (loc < 0 || loc >= (int) fSelfPhi.size() || fSelfPhi[loc].empty())
+			return false;   /* requested node is not a shell node with meshfree support */
+		counts[a] = fNeighbors.MinorDim(loc);
+	}
+	support.Configure(counts);
+	phi.Configure(counts);
+	for (int a = 0; a < n; a++) {
+		int loc = fGlobalToLocal[nodes[a]];
+		int m = fNeighbors.MinorDim(loc);
+		const int* nb = fNeighbors(loc);
+		int* srow = support(a);
+		double* prow = phi(a);
+		for (int k = 0; k < m; k++) { srow[k] = nb[k]; prow[k] = fSelfPhi[loc][k]; }
+	}
+	return true;
 }
 
 /* precompute per-node stencil stiffness via the validated KL-shell kernels (linear elastic) */
@@ -745,10 +879,8 @@ void RKShellT::BuildElementStiffness(void)
 	fJ2eps.assign(fNumNodes, std::vector<double>(9, 0.0));
 	fDphi.assign(fNumNodes, std::vector<double>());
 	fXref.assign(fNumNodes, std::vector<double>());
-	fBendR.assign(fNumNodes, std::vector<double>());
-	fBendN.assign(fNumNodes, std::vector<double>(3,0.0));
-	fBendCoeff.assign(fNumNodes, 0.0);
 	fSigGrad.assign(fNumNodes, std::vector<double>(6, 0.0));   /* accumulated sigma,xi (sec 3.10) */
+	fSelfPhi.assign(fNumNodes, std::vector<double>());          /* phi_J(x_I) for collocation BCs (#70) */
 	double h = fThickness;
 
 	double hmin = 1.0e30;
@@ -788,22 +920,51 @@ void RKShellT::BuildElementStiffness(void)
 		dArrayT vol(nn); for (int k=0;k<nn;k++) vol[k] = fNodalArea[loc[k]];
 		dArrayT sample(2); sample[0]=0.0; sample[1]=0.0;
 		if (!fMLS->SetField(lc, np, vol, sample, 3)) continue;
+		/* capture phi_J(x_I) at this node's own location (sample = origin of its chart) for the
+		 * collocation BC provider -- aligned with fNeighbors(i) (= loc[]/global-id order) (#70) */
+		{ const dArrayT& sphi = fMLS->phi(); fSelfPhi[i].resize(nn);
+		  for (int k=0;k<nn;k++) fSelfPhi[i][k] = sphi[k]; }
 		const dArray2DT& Dp = fMLS->Dphi();
 		const dArray2DT& DDp = fMLS->DDphi();
 		const dArray2DT& DDDp = fMLS->DDDphi();
+
+		/* base-strain shape derivatives: DIRECT (point) by default, or the SCNI SMOOTHED (cell-averaged
+		 * via the divergence theorem -> central difference of phi at the 4 cell-edge midpoints, and the
+		 * smoothed 2nd derivs from the boundary integral of the 1st) when fSmoothedGrad=1. The smoothed
+		 * gradient is variationally consistent: passes the linear/quadratic patch test, so it kills the
+		 * node-to-node hourglass at its source AND adds NO spurious stiffness (unlike the R^T C R penalty
+		 * which over-stiffens). This is true SCNI / NSNI nodal integration. */
+		std::vector<double> d1(nn),d2(nn),d11(nn),d22(nn),d12(nn);
+		/* default = direct nodal derivatives (also the bending 2nd derivs in the smoothed case) */
+		for(int I=0;I<nn;I++){ d1[I]=Dp(0,I);d2[I]=Dp(1,I);d11[I]=DDp(0,I);d22[I]=DDp(1,I);d12[I]=DDp(2,I);}
+		if (fSmoothedGrad) {
+			/* smooth ONLY the 1st gradient (membrane assumed strain, standard SCNI). The 2nd derivatives
+			 * (bending curvature) stay direct -- smoothing them via a finite-difference of phi-derivatives
+			 * is an inconsistent operation (different smoothed field) and destabilizes the bending. */
+			double s_cell=std::sqrt(hmin), inv=1.0/s_cell;
+			double mids[4][2]={{s_cell/2,0},{-s_cell/2,0},{0,s_cell/2},{0,-s_cell/2}};
+			std::vector<std::vector<double> > Phi(4,std::vector<double>(nn,0.0));
+			bool ok=true;
+			for(int m=0;m<4&&ok;m++){ dArrayT sM(2); sM[0]=mids[m][0]; sM[1]=mids[m][1];
+				if(!fMLS->SetField(lc,np,vol,sM,3)){ok=false;break;}
+				const dArrayT& ph=fMLS->phi();
+				for(int I=0;I<nn;I++) Phi[m][I]=ph[I]; }
+			if(ok) for(int I=0;I<nn;I++){ d1[I]=(Phi[0][I]-Phi[1][I])*inv; d2[I]=(Phi[2][I]-Phi[3][I])*inv; }
+			fMLS->SetField(lc,np,vol,sample,3);   /* restore node eval so Dp/DDp/DDDp are valid below */
+		}
 
 		double x1[3]={0,0,0},x2[3]={0,0,0},x11[3]={0,0,0},x22[3]={0,0,0},x12[3]={0,0,0};
 		for (int I=0;I<nn;I++) {
 			double Xq[3]={fCoords(loc[I],0),fCoords(loc[I],1),fCoords(loc[I],2)};
 			for (int d=0;d<3;d++){
-				x1[d]+=Dp(0,I)*Xq[d]; x2[d]+=Dp(1,I)*Xq[d];
-				x11[d]+=DDp(0,I)*Xq[d]; x22[d]+=DDp(1,I)*Xq[d]; x12[d]+=DDp(2,I)*Xq[d];
+				x1[d]+=d1[I]*Xq[d]; x2[d]+=d2[I]*Xq[d];
+				x11[d]+=d11[I]*Xq[d]; x22[d]+=d22[I]*Xq[d]; x12[d]+=d12[I]*Xq[d];
 			}
 		}
 		/* store stencil shape derivatives + reference mid-surface derivatives (finite-strain path) */
 		fDphi[i].resize((size_t)nn*5);
-		for (int I=0;I<nn;I++){ fDphi[i][I*5]=Dp(0,I); fDphi[i][I*5+1]=Dp(1,I);
-			fDphi[i][I*5+2]=DDp(0,I); fDphi[i][I*5+3]=DDp(1,I); fDphi[i][I*5+4]=DDp(2,I); }
+		for (int I=0;I<nn;I++){ fDphi[i][I*5]=d1[I]; fDphi[i][I*5+1]=d2[I];
+			fDphi[i][I*5+2]=d11[I]; fDphi[i][I*5+3]=d22[I]; fDphi[i][I*5+4]=d12[I]; }
 		fXref[i].resize(15);
 		for (int d=0;d<3;d++){ fXref[i][d]=x1[d]; fXref[i][3+d]=x2[d];
 			fXref[i][6+d]=x11[d]; fXref[i][9+d]=x22[d]; fXref[i][12+d]=x12[d]; }
@@ -813,15 +974,6 @@ void RKShellT::BuildElementStiffness(void)
 		double cell = std::sqrt(A_K);
 		double Mmom = cell*cell/12.0;
 		dMatrixT& Ke = fKe[i];
-
-		/* in-plane characteristic length h_pl (mean neighbor distance) -> alpha = min(1, h/h_pl)
-		 * for the section-5.3 limited-membrane-stabilization scaling */
-		double h_pl = 0.0; int npc = 0;
-		for (int k=0;k<nn;k++){ if(loc[k]==i) continue;
-			double dd=0.0; for(int d=0;d<3;d++){double dx=fCoords(loc[k],d)-fCoords(i,d); dd+=dx*dx;}
-			h_pl += std::sqrt(dd); npc++; }
-		if (npc>0) h_pl /= npc;
-		double alpha = (h_pl > 0.0 && h < h_pl) ? (h/h_pl) : 1.0;
 
 		/* nodal integration (3-pt thru-thickness Gauss), local-frame plane stress */
 		for (int g=0;g<3;g++) {
@@ -850,7 +1002,7 @@ void RKShellT::BuildElementStiffness(void)
 		}
 
 		/* NATURAL (Taylor-gradient) stabilization at xi3=0 -- the paper's Eq. 33 CONSISTENT stabilizer
-		 * (replaces the curvature penalty). K_stab = sum_l (B_,xil)^T C (B_,xil) * V_K * Mmom * alpha,
+		 * (replaces the curvature penalty). K_stab = sum_l (B_,xil)^T C (B_,xil) * V_K * Mmom,
 		 * using only 2nd shape derivatives (the xi3 3rd-derivative term vanishes at xi3=0). It vanishes
 		 * on smooth fields (Scordelis-Lo stays bit-exact) but fires on node-to-node hourglass content;
 		 * scaled by Mmom~s^2 it steps out of the way of sub-grid physical folds -> no force inflation. */
@@ -858,7 +1010,7 @@ void RKShellT::BuildElementStiffness(void)
 			ShellGeom G0;
 			if (BuildGeom(x1,x2,x11,x22,x12,h,0.0,G0)) {
 				double e1[3],e2[3]; OrthoTangents(G0.n,e1,e2);
-				double Vmom = fStabNatural * (h*A_K) * Mmom * alpha;   /* V_K * (s^2/12) * alpha */
+				double Vmom = fStabNatural * (h*A_K) * Mmom;   /* V_K * (s^2/12) */
 				std::vector<std::vector<double> > Bg(nn, std::vector<double>(36,0.0)); /* [l*18+r*3+c] */
 				for (int I=0;I<nn;I++){
 					double B[3][3][3];
@@ -894,86 +1046,83 @@ void RKShellT::BuildElementStiffness(void)
 			}
 		}
 
-		/* BENDING-hourglass control, FREQUENCY-SELECTIVE: penalize R_I = D_chord_I - D_LS_I.
-		 * D_chord (4/L^2 chord Laplacian) catches ALL node-to-node curvature -- the spurious sawtooth
-		 * AND the physical resolved curvature (dimple/ovalization). D_LS is a moment-matched 3x3
-		 * least-squares Laplacian: it REPRODUCES a resolved quadratic curvature field exactly but
-		 * SMOOTHS the node-to-node sawtooth to ~0. So on resolved/physical bending D_chord==D_LS ->
-		 * R~0 (NO penalty, no force inflation); on the hourglass D_LS~0 while D_chord is large -> R
-		 * large -> penalty preserved. This fixes the chord operator's over-penalization of the sharp
-		 * physical load dimple (which was inflating the reaction ~10x) without losing hourglass control. */
+		/* BENDING-gradient stabilization: the curvature analogue of the Eq-33 membrane term. Eq 33
+		 * uses one-point through-thickness quadrature on the stabilization, so it corrects ONLY the
+		 * membrane energy (paper Remark 4) and leaves the BENDING hourglass unstabilized. For thin
+		 * bending-dominated shells (hemisphere R/h=250, pinched cylinder) that residual mode makes K
+		 * singular (solver-dependent garbage). Stabilize it with the in-surface parametric gradient of
+		 * the CURVATURE operator (BMatrixCurvatureGradient): K_stab = sum_l (kappa_,xil)^T C (kappa_,xil)
+		 * weighted by the bending moment (h^3/12) A_K * Mmom (vs the membrane h A_K * Mmom). It vanishes
+		 * on constant-curvature (quadratic) fields -- so smooth/Scordelis solutions are untouched -- and
+		 * fires only on super-quadratic curvature oscillation (the bending hourglass). Parameter-free
+		 * (coeff 1.0), in the spirit of the paper's Eq 34 ksi3 term which the paper derived but did not
+		 * implement. */
 		if (fStabBending > 0.0) {
-			double nrm[3]; Cross(x1,x2,nrm); double Jn=Norm(nrm);
-			if (Jn > 1.0e-300) {
-				for (int d=0;d<3;d++) nrm[d]/=Jn;
-				/* chord curvature operator (catches everything, incl. the sawtooth) */
-				std::vector<double> Dop(nn,0.0); double W=0.0;
-				for (int J=0;J<nn;J++){
-					double L2=lc(J,0)*lc(J,0)+lc(J,1)*lc(J,1);
-					if (L2 < 1.0e-12) continue;          /* self node (origin of the chart) */
-					Dop[J]=4.0/L2; W+=1.0;
-				}
-				double Dself=0.0;
-				if (W>0.0) for (int J=0;J<nn;J++){ Dop[J]/=W; Dself+=Dop[J]; }
-				/* moment-matched LS Laplacian: kappa = M^-1 sum p_J (u_J-u_K).n with quadratic basis
-				 * p_J=[1/2 x^2, x y, 1/2 y^2]; Laplacian coeff C_LS_J = (M^-1 p_J)[0] + (M^-1 p_J)[2] */
-				double M[3][3]={{0,0,0},{0,0,0},{0,0,0}};
-				std::vector<double> px(nn),py(nn),pz(nn);
-				for (int J=0;J<nn;J++){ double x=lc(J,0),y=lc(J,1); px[J]=0.5*x*x; py[J]=x*y; pz[J]=0.5*y*y;
-					M[0][0]+=px[J]*px[J]; M[0][1]+=px[J]*py[J]; M[0][2]+=px[J]*pz[J];
-					M[1][1]+=py[J]*py[J]; M[1][2]+=py[J]*pz[J]; M[2][2]+=pz[J]*pz[J]; }
-				M[1][0]=M[0][1]; M[2][0]=M[0][2]; M[2][1]=M[1][2];
-				double det=M[0][0]*(M[1][1]*M[2][2]-M[1][2]*M[2][1])
-				          -M[0][1]*(M[1][0]*M[2][2]-M[1][2]*M[2][0])
-				          +M[0][2]*(M[1][0]*M[2][1]-M[1][1]*M[2][0]);
-				std::vector<double> Cls(nn,0.0); double Clsself=0.0;
-				if (std::fabs(det) > 1.0e-300) {        /* singular -> collinear stencil; fall back to chord (Cls=0) */
-					double id=1.0/det;
-					double Mi[3][3];
-					Mi[0][0]=(M[1][1]*M[2][2]-M[1][2]*M[2][1])*id; Mi[0][1]=(M[0][2]*M[2][1]-M[0][1]*M[2][2])*id; Mi[0][2]=(M[0][1]*M[1][2]-M[0][2]*M[1][1])*id;
-					Mi[2][0]=(M[1][0]*M[2][1]-M[1][1]*M[2][0])*id; Mi[2][1]=(M[0][1]*M[2][0]-M[0][0]*M[2][1])*id; Mi[2][2]=(M[0][0]*M[1][1]-M[0][1]*M[1][0])*id;
-					for (int J=0;J<nn;J++){
-						double q0=Mi[0][0]*px[J]+Mi[0][1]*py[J]+Mi[0][2]*pz[J];
-						double q2=Mi[2][0]*px[J]+Mi[2][1]*py[J]+Mi[2][2]*pz[J];
-						Cls[J]=q0+q2; Clsself+=Cls[J];
+			ShellGeom G0;
+			if (BuildGeom(x1,x2,x11,x22,x12,h,0.0,G0)) {
+				double e1[3],e2[3]; OrthoTangents(G0.n,e1,e2);
+				double Vbend = fStabBending * ((h*h*h/12.0)*A_K) * Mmom;   /* (h^3/12 A_K) * (s^2/12) */
+				/* TRUE physical curvature gradient by central differencing the curvature operator across
+				 * sub-cell points (each rebuilt with its OWN geometry). Vanishes on constant-curvature
+				 * fields -> no contamination of smooth bending (unlike the truncated analytic operator). */
+				double s_cell = std::sqrt(hmin), delta = 0.5*s_cell;
+				double mids[4][2] = {{delta,0},{-delta,0},{0,delta},{0,-delta}};
+				/* curvature Voigt at the 4 shifts, in G0's frame: kvs[m][(I*6+r)*3+c] */
+				std::vector<std::vector<double> > kvs(4, std::vector<double>((size_t)18*nn, 0.0));
+				bool okb = true;
+				for (int m=0;m<4 && okb;m++){
+					dArrayT sM(2); sM[0]=mids[m][0]; sM[1]=mids[m][1];
+					if (!fMLS->SetField(lc, np, vol, sM, 3)) { okb=false; break; }
+					const dArray2DT& Dpm=fMLS->Dphi(); const dArray2DT& DDpm=fMLS->DDphi();
+					double y1[3]={0,0,0},y2[3]={0,0,0},y11[3]={0,0,0},y22[3]={0,0,0},y12[3]={0,0,0};
+					for (int I=0;I<nn;I++){ double Xq[3]={fCoords(loc[I],0),fCoords(loc[I],1),fCoords(loc[I],2)};
+						for(int d=0;d<3;d++){ y1[d]+=Dpm(0,I)*Xq[d]; y2[d]+=Dpm(1,I)*Xq[d];
+							y11[d]+=DDpm(0,I)*Xq[d]; y22[d]+=DDpm(1,I)*Xq[d]; y12[d]+=DDpm(2,I)*Xq[d]; } }
+					ShellGeom Gm;
+					if (!BuildGeom(y1,y2,y11,y22,y12,h,0.0,Gm)) { okb=false; break; }
+					for (int I=0;I<nn;I++){
+						double kv[6][3];
+						CurvatureVoigt(Gm, Dpm(0,I),Dpm(1,I),DDpm(0,I),DDpm(2,I),DDpm(1,I), e1,e2,G0.n, kv);
+						for(int r=0;r<6;r++)for(int c=0;c<3;c++) kvs[m][(size_t)(I*6+r)*3+c]=kv[r][c];
 					}
 				}
-				std::vector<double> Rk(nn);
-				for (int I=0;I<nn;I++){
-					double L2=lc(I,0)*lc(I,0)+lc(I,1)*lc(I,1);
-					double Dch=(L2 < 1.0e-12) ? -Dself   : Dop[I];
-					double Dls=(L2 < 1.0e-12) ? -Clsself : Cls[I];
-					Rk[I]=Dch-Dls;
+				fMLS->SetField(lc, np, vol, sample, 3);   /* restore node evaluation */
+				if (okb) {
+					double inv = 1.0/(2.0*delta);
+					std::vector<std::vector<double> > Bg(nn, std::vector<double>(36,0.0)); /* [l*18+r*3+c] */
+					for (int I=0;I<nn;I++) for(int r=0;r<6;r++) for(int c=0;c<3;c++){
+						Bg[I][0*18+r*3+c] = (kvs[0][(size_t)(I*6+r)*3+c]-kvs[1][(size_t)(I*6+r)*3+c])*inv;
+						Bg[I][1*18+r*3+c] = (kvs[2][(size_t)(I*6+r)*3+c]-kvs[3][(size_t)(I*6+r)*3+c])*inv;
+					}
+					for (int l=0;l<2;l++){
+						std::vector<double> Bf((size_t)6*3*nn);
+						for(int I=0;I<nn;I++)for(int r=0;r<6;r++)for(int c=0;c<3;c++) Bf[(size_t)r*3*nn+3*I+c]=Bg[I][l*18+r*3+c];
+						fIPB[i].insert(fIPB[i].end(),Bf.begin(),Bf.end());
+						fIPw[i].push_back(Vbend); fIPstab[i].push_back(2);
+					}
+					for (int I=0;I<nn;I++) for (int J=0;J<nn;J++){
+						double kij[3][3]={{0,0,0},{0,0,0},{0,0,0}};
+						for (int l=0;l<2;l++)
+							for(int a=0;a<6;a++)for(int b=0;b<6;b++){ double Cab=fC[a][b]; if(Cab==0.0) continue;
+								for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++)
+									kij[ci][cj]+=Bg[I][l*18+a*3+ci]*Cab*Bg[J][l*18+b*3+cj]; }
+						for(int ci=0;ci<3;ci++)for(int cj=0;cj<3;cj++) Ke(3*I+ci,3*J+cj)+=Vbend*kij[ci][cj];
+					}
 				}
-				double coeff=fStabBending*(fYoung*h*h*h/12.0)*A_K;
-				for (int I=0;I<nn;I++) for (int Jp=0;Jp<nn;Jp++){
-					double rr=coeff*Rk[I]*Rk[Jp];
-					for (int a=0;a<3;a++) for (int b=0;b<3;b++) Ke(3*I+a,3*Jp+b)+=rr*nrm[a]*nrm[b];
-				}
-				/* store for the finite-strain force path (same rank-1 penalty on the total u) */
-				fBendR[i].assign(Rk.begin(), Rk.end());
-				for (int d=0;d<3;d++) fBendN[i][d]=nrm[d];
-				fBendCoeff[i]=coeff;
 			}
 		}
 
-		/* SCNI / NSNI cell-smoothed assumed-strain stabilization. For node K's square smoothing cell
-		 * (side s = nodal spacing) in the PCA chart, the divergence-theorem cell-averaged gradient
-		 * reduces to a CENTRAL DIFFERENCE of the shape functions sampled at the 4 edge midpoints:
-		 *   d~Psi/dxi1 = [Psi(+e1) - Psi(-e1)]/s , and likewise the smoothed 2nd derivs from the
-		 * boundary integral of the 1st derivs. The stabilization is the residual R = B_direct - B~
-		 * (analytical point operator minus the cell-smoothed operator). For a smooth field the cell
-		 * average matches the point value (divergence theorem) -> R ~ 0 -> membrane/bending energy
-		 * UNPOLLUTED; the hourglass sawtooth has nonzero cell average but is invisible to the point
-		 * sample -> R large -> a PSD penalty (R^T C R) that suppresses the mode. */
-		{
-			double s_cell = std::sqrt(hmin);              /* nodal spacing = smoothing-cell side */
-			/* analytical shape derivs at K (copied before re-evaluating at the cell midpoints) */
+		/* SCNI assumed-strain stabilization (variationally-consistent nodal integration): residual
+		 * R = B_direct - B_smoothed, B_smoothed = divergence-theorem cell-averaged shape derivatives
+		 * (central difference of phi at the 4 cell-edge midpoints). R~0 on smooth fields (no force
+		 * inflation), large on the node-to-node sawtooth -> PSD penalty R^T C R that catches the
+		 * hourglass the Taylor 2nd-derivative operator aliases over. Boundary cells also get the correct
+		 * conforming gradient -> fixes the integration-constraint (patch-test) violation of flat weights. */
+		if (fStabSCNI > 0.0) {
+			double s_cell = std::sqrt(hmin);
 			std::vector<double> P1K(nn),P2K(nn),P11K(nn),P22K(nn),P12K(nn);
 			for (int I=0;I<nn;I++){ P1K[I]=Dp(0,I); P2K[I]=Dp(1,I);
 				P11K[I]=DDp(0,I); P22K[I]=DDp(1,I); P12K[I]=DDp(2,I); }
-
-			/* sample phi (values) and Dphi (1st derivs) at the 4 cell-edge midpoints (+/-e1, +/-e2) */
 			double mids[4][2] = {{ s_cell/2,0},{-s_cell/2,0},{0, s_cell/2},{0,-s_cell/2}};
 			std::vector<std::vector<double> > Phi(4, std::vector<double>(nn,0.0));
 			std::vector<std::vector<double> > Dx(4, std::vector<double>(nn,0.0)), Dy(4, std::vector<double>(nn,0.0));
@@ -981,30 +1130,25 @@ void RKShellT::BuildElementStiffness(void)
 			for (int m=0;m<4 && okcell;m++){
 				dArrayT sM(2); sM[0]=mids[m][0]; sM[1]=mids[m][1];
 				if (!fMLS->SetField(lc, np, vol, sM, 3)) { okcell=false; break; }
-				const dArrayT& ph=fMLS->phi(); const dArray2DT& dp=fMLS->Dphi();
-				for (int I=0;I<nn;I++){ Phi[m][I]=ph[I]; Dx[m][I]=dp(0,I); Dy[m][I]=dp(1,I); }
+				const dArrayT& ph=fMLS->phi(); const dArray2DT& dpc=fMLS->Dphi();
+				for (int I=0;I<nn;I++){ Phi[m][I]=ph[I]; Dx[m][I]=dpc(0,I); Dy[m][I]=dpc(1,I); }
 			}
-
 			if (okcell) {
 				double inv_s = 1.0/s_cell;
-				/* cell-smoothed 1st + 2nd shape derivatives (R=+e1, L=-e1, T=+e2, B=-e2 -> m=0,1,2,3) */
 				std::vector<double> sm1(nn),sm2(nn),sm11(nn),sm22(nn),sm12(nn);
 				for (int I=0;I<nn;I++){
-					sm1[I]  = (Phi[0][I]-Phi[1][I])*inv_s;             /* d~Psi/dxi1 */
-					sm2[I]  = (Phi[2][I]-Phi[3][I])*inv_s;             /* d~Psi/dxi2 */
-					sm11[I] = (Dx[0][I]-Dx[1][I])*inv_s;              /* d~^2Psi/dxi1^2 */
-					sm22[I] = (Dy[2][I]-Dy[3][I])*inv_s;              /* d~^2Psi/dxi2^2 */
-					sm12[I] = 0.5*((Dx[2][I]-Dx[3][I]) + (Dy[0][I]-Dy[1][I]))*inv_s; /* symmetric mixed */
+					sm1[I]  = (Phi[0][I]-Phi[1][I])*inv_s;
+					sm2[I]  = (Phi[2][I]-Phi[3][I])*inv_s;
+					sm11[I] = (Dx[0][I]-Dx[1][I])*inv_s;
+					sm22[I] = (Dy[2][I]-Dy[3][I])*inv_s;
+					sm12[I] = 0.5*((Dx[2][I]-Dx[3][I]) + (Dy[0][I]-Dy[1][I]))*inv_s;
 				}
-
-				double afac = (fStabMode == 3) ? alpha : 1.0;
 				for (int g=0; g<3; g++) {
 					ShellGeom G;
 					if (!BuildGeom(x1,x2,x11,x22,x12,h,xg[g],G)) continue;
 					double e1[3],e2[3]; OrthoTangents(G.n,e1,e2);
-					double cw = fStabMembrane*afac*wg[g]*(h/2.0)*A_K;
+					double cw = fStabSCNI*wg[g]*(h/2.0)*A_K;
 					if (cw == 0.0) continue;
-					/* residual R_I = B_direct_I - B~_I (Voigt, in K's local frame) */
 					std::vector<std::vector<double> > Rv(nn, std::vector<double>(18));
 					for (int I=0;I<nn;I++){
 						double Bd[3][3][3], Bs[3][3][3];
@@ -1014,7 +1158,6 @@ void RKShellT::BuildElementStiffness(void)
 						ToVoigtLocal(Bd,e1,e2,G.n,bvd); ToVoigtLocal(Bs,e1,e2,G.n,bvs);
 						for(int r=0;r<6;r++)for(int c=0;c<3;c++) Rv[I][r*3+c]=bvd[r][c]-bvs[r][c];
 					}
-					/* store this stabilization (always-elastic) integration point */
 					{ std::vector<double> Rf((size_t)6*3*nn);
 					  for(int I=0;I<nn;I++)for(int r=0;r<6;r++)for(int c=0;c<3;c++) Rf[(size_t)r*3*nn+3*I+c]=Rv[I][r*3+c];
 					  fIPB[i].insert(fIPB[i].end(),Rf.begin(),Rf.end());
@@ -1028,6 +1171,7 @@ void RKShellT::BuildElementStiffness(void)
 				}
 			}
 		}
+
 	}
 }
 
@@ -1086,6 +1230,7 @@ void RKShellT::InternalForce(int i, const dArrayT& ue, dArrayT& fout, bool commi
  * config) SCNI stabilization for hourglass/explicit control. */
 void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool commit, bool include_bend)
 {
+	(void) include_bend;   /* bending-hourglass penalty removed; param kept for call-site compatibility */
 	int nn = fNeighbors.MinorDim(i);
 	int ndof = 3*nn;
 	fout.Dimension(ndof); fout = 0.0;
@@ -1106,6 +1251,16 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 		X1[d]=Xr[d]; X2[d]=Xr[3+d]; X11[d]=Xr[6+d]; X22[d]=Xr[9+d]; X12[d]=Xr[12+d];
 		x1[d]=X1[d]+u1[d]; x2[d]=X2[d]+u2[d]; x11[d]=X11[d]+u11[d]; x22[d]=X22[d]+u22[d]; x12[d]=X12[d]+u12[d];
 	}
+
+	/* in-plane area Jacobian J = |x,1 x x,2| / |X,1 x X,2|. The Cauchy-stress internal force must be
+	 * integrated over the CURRENT mid-surface area element A_K*J (and current thickness h), not the
+	 * reference A_K. Under uniaxial stretch lambda the mid-surface area grows ~sqrt(lambda) while the
+	 * thickness thins ~1/sqrt(lambda) -> current volume = reference volume (incompressible). Using A_K
+	 * (reference) with the current thickness drops this factor and under-predicts the force by ~eps/2
+	 * (zero at yield, ~6-7% at the necking strains -- the observed peak deficit vs the analytic uniaxial
+	 * F = sigma_Y(eps)*A0/lambda). */
+	double cax_[3], caX_[3]; Cross(x1, x2, cax_); Cross(X1, X2, caX_);
+	double Jinp = (Norm(caX_) > 1.0e-30) ? Norm(cax_)/Norm(caX_) : 1.0;
 
 	/* THICKNESS UPDATE (Algorithm 3): use the per-node current thickness accumulated from the actual
 	 * through-thickness strain D33 of the sigma33=0 update (set at the end of this routine on commit).
@@ -1217,6 +1372,19 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 		for (int r=0;r<6;r++){ double s=0.0;
 			for(int I=0;I<nn;I++)for(int cc=0;cc<3;cc++) s+=Bv[I][r*3+cc]*due[I*3+cc]; deps[r]=s; }
 
+		/* STRAIN-MEASURE PROBE (env KLSHELL_DEPSPROBE = 1-based global node id): accumulate the membrane
+		 * axial increment deps[0] at xi3=0 and compare to the geometric axial log strain ln(|x,1|/|X,1|).
+		 * Isolates the B.du strain measure from all constitutive coupling. */
+		if (g==1 && commit) {
+			static int probe=-2; if(probe==-2){ const char* e=getenv("KLSHELL_DEPSPROBE"); probe=e?atoi(e):-1; }
+			if (probe>0 && i<fGlobalIDs.Length() && fGlobalIDs[i]==probe-1) {
+				static double accum=0.0; accum+=deps[0];
+				double lam=Norm(x1)/Norm(X1), lg=std::log(lam);
+				fprintf(stdout,"[DEPSPROBE] accum_de11=%.6f ln(stretch)=%.6f ratio=%.4f\n",
+					accum, lg, accum/(lg+1.0e-30)); fflush(stdout);
+			}
+		}
+
 		/* accumulated in-plane stress: plane-stress J2 increment, or elastic predictor */
 		double sip[3]={fJ2sig[i][3*g],fJ2sig[i][3*g+1],fJ2sig[i][3*g+2]};
 		double dip[3]={deps[0],deps[1],deps[5]};
@@ -1246,7 +1414,7 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 		}
 		double sig[6]={sip[0],sip[1],0,0,0,sip[2]};
 
-		double w = wg[g]*(h/2.0)*A_K;
+		double w = wg[g]*(h/2.0)*A_K*Jinp;   /* current mid-surface area element A_K*Jinp */
 		for (int I=0;I<nn;I++)
 			for(int cc=0;cc<3;cc++){ double s=0.0; for(int r=0;r<6;r++) s+=Bv[I][r*3+cc]*sig[r]; fout[I*3+cc]+=s*w; }
 	}
@@ -1289,24 +1457,26 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 	double Uel=0.0, Ucons=0.0, epmax=0.0;
 	if (track && plastic && i<(int)fJ2ep.size())
 		for (size_t q=0;q<fJ2ep[i].size();q++) if (fJ2ep[i][q]>epmax) epmax=fJ2ep[i][q];
-	/* PHASE 1 (current-config sigma,xi, fStabSigGrad>=2): rebuild the B,xil parametric-gradient operators
-	 * on the CURRENT (deformed) mid-surface each step -- the paper's Eqs 67-72 use current-config D,xi,
-	 * not the stored reference operators. Built at xi3=0 in the same frame as the base stations. */
-	std::vector<std::vector<double> > curBg;
-	if (fStabSigGrad >= 2) {
+	/* CURRENT-config gradient operators B,xil (paper Eqs 70-71 frame): the Eq.33 membrane stabilization
+	 * must be evaluated on the DEFORMED mid-surface, in the co-rotational tangent frame, so it stays
+	 * aligned with the physics. With the stored REFERENCE operators the stabilizer misaligns at large
+	 * stretch/ovalization -> goes ineffective (necking softens to no-stab) or fails to catch the deformed
+	 * hourglass (pinch blows up). Rebuilt each step from the current geometry. */
+	std::vector<std::vector<double> > curBg; bool haveCur=false;
+	{
 		ShellGeom G0c;
 		if (BuildGeom(x1,x2,x11,x22,x12,h,0.0,G0c)) {
 			double e1g[3],e2g[3];
-			if (use_corot){ double dp=cr_e1[0]*G0c.n[0]+cr_e1[1]*G0c.n[1]+cr_e1[2]*G0c.n[2];
-				for(int d=0;d<3;d++) e1g[d]=cr_e1[d]-dp*G0c.n[d];
+			if (use_corot){ double dpn=cr_e1[0]*G0c.n[0]+cr_e1[1]*G0c.n[1]+cr_e1[2]*G0c.n[2];
+				for(int d=0;d<3;d++) e1g[d]=cr_e1[d]-dpn*G0c.n[d];
 				double el=Norm(e1g); if(el>1.0e-30){for(int d=0;d<3;d++)e1g[d]/=el; Cross(G0c.n,e1g,e2g);} else OrthoTangents(G0c.n,e1g,e2g);
 			} else OrthoTangents(G0c.n,e1g,e2g);
 			curBg.assign(2, std::vector<double>((size_t)6*ndof, 0.0));
 			for (int I=0;I<nn;I++){
 				double Bz[3][3][3];
 				BMatrix(G0c, Dp[I*5],Dp[I*5+1],Dp[I*5+2],Dp[I*5+4],Dp[I*5+3], Bz);
-				double P1l[2]={Dp[I*5+2],Dp[I*5+4]};   /* Psi,1,xil = {Psi,11, Psi,12} */
-				double P2l[2]={Dp[I*5+4],Dp[I*5+3]};   /* Psi,2,xil = {Psi,12, Psi,22} */
+				double P1l[2]={Dp[I*5+2],Dp[I*5+4]};
+				double P2l[2]={Dp[I*5+4],Dp[I*5+3]};
 				double Bgt[3][3][3][2];
 				BMatrixGradient(G0c, Dp[I*5],Dp[I*5+1], P1l,P2l, Bz, Bgt);
 				for (int l=0;l<2;l++){
@@ -1316,6 +1486,7 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 					for(int r=0;r<6;r++)for(int c=0;c<3;c++) curBg[l][(size_t)r*ndof+3*I+c]=bv[r][c];
 				}
 			}
+			haveCur=true;
 		}
 	}
 	int npt = (int) fIPw[i].size();
@@ -1323,19 +1494,21 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 		int lgrad=0;   /* sigma,xi direction index (0,1) among the fIPstab==2 points (stored order) */
 		for (int p=0;p<npt;p++){ if (fIPstab[i][p]==0) continue;
 			const double* B=Ball+(size_t)p*6*ndof;
-			const double* Bforce=B;   /* operator used for the assembled stab force (overridden by curBg) */
+			const double* Bforce=B;
 			double eps[6]; for(int r=0;r<6;r++){const double*Br=B+(size_t)r*ndof;double s=0.0;for(int c=0;c<ndof;c++)s+=Br[c]*ue[c];eps[r]=s;}
 			double sig[6]={0,0,0,0,0,0};
 			if (fIPstab[i][p]==2 && fStabSigGrad && i<(int)fSigGrad.size() && (int)fSigGrad[i].size()==6 && lgrad<2){
-				/* PAPER sec 3.10 (Eqs 67-72): advance the accumulated stress gradient sigma,xil by the gradient
-				 * strain INCREMENT (B,xil . du) times the mid-surface algorithmic tangent C~^P, then use it as
-				 * the stab stress. In the yielding neck C~^P collapses along the flow normal -> increment ~0 ->
-				 * sigma,xil saturates -> NO elastic clamp -> sharp neck (vs the legacy consistent-tangent path). */
-				const double* Bsig = (fStabSigGrad>=2 && curBg.size()==2) ? &curBg[lgrad][0] : B;
-				Bforce = Bsig;   /* current-config operator drives both the increment and the assembled force */
-				double deg[3]={0,0,0};   /* in-plane gradient strain increment (B,xil . du), Voigt rows 11,22,12 */
-				for (int r2=0;r2<3;r2++){ int rr=(r2<2)?r2:5; const double* Br=Bsig+(size_t)rr*ndof; double sd=0.0;
-					for(int c=0;c<ndof;c++) sd+=Br[c]*due[c]; deg[r2]=sd; }
+				/* PAPER Eqs 67-72 OBJECTIVE stress-gradient accumulation: D~,xil = B_cur,xil . du (current-
+				 * config operator, co-rotational frame; incremental du -> objective, no rigid-rotation
+				 * energy injection), pushed through the algorithmic plane-stress tangent C~^P and
+				 * accumulated into the co-rotated history sigma,xil. With a BROAD support (dilation 2.4,
+				 * paper) the B,xil 2nd-derivative operator overlaps the node-to-node sawtooth and the
+				 * stabilizer catches it; at the narrow 1.4 dilation it aliases over it -> no penalty. */
+				const double* Bg = (haveCur ? &curBg[lgrad][0] : B);
+				Bforce = Bg;
+				double deg[3]={0,0,0};   /* D~,xil = B_cur,xil . du (Voigt in-plane 11,22,12) */
+				for (int r2=0;r2<3;r2++){ int rr=(r2<2)?r2:5; const double* Br=Bg+(size_t)rr*ndof; double s=0.0;
+					for(int c=0;c<ndof;c++) s+=Br[c]*due[c]; deg[r2]=s; }
 				const double* Cm=Calg6_mid;
 				double dsg0=Cm[0]*deg[0]+Cm[1]*deg[1]+Cm[2]*deg[2];
 				double dsg1=Cm[1]*deg[0]+Cm[3]*deg[1]+Cm[4]*deg[2];
@@ -1345,43 +1518,16 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 				if (commit){ sgp[0]=s11; sgp[1]=s22; sgp[2]=s12; }
 				sig[0]=s11; sig[1]=s22; sig[5]=s12;
 				lgrad++;
-			} else if (fIPstab[i][p]==2){   /* legacy: consistent elasto-plastic tangent x TOTAL strain */
-				sig[0]=Cmem[0]*eps[0]+Cmem[1]*eps[1]+Cmem[2]*eps[5];
-				sig[1]=Cmem[1]*eps[0]+Cmem[3]*eps[1]+Cmem[4]*eps[5];
-				sig[5]=Cmem[2]*eps[0]+Cmem[4]*eps[1]+Cmem[5]*eps[5];
-				if (track){
-					Ucons += 0.5*fIPw[i][p]*(eps[0]*sig[0]+eps[1]*sig[1]+eps[5]*sig[5]);
-					double se0=fC[0][0]*eps[0]+fC[0][1]*eps[1]+fC[0][5]*eps[5];
-					double se1=fC[1][0]*eps[0]+fC[1][1]*eps[1]+fC[1][5]*eps[5];
-					double se5=fC[5][0]*eps[0]+fC[5][1]*eps[1]+fC[5][5]*eps[5];
-					Uel  += 0.5*fIPw[i][p]*(eps[0]*se0+eps[1]*se1+eps[5]*se5);
-				}
-			} else {                 /* other stab points (fIPstab==1): elastic */
+			} else {                 /* other stab points: elastic */
 				for(int r=0;r<6;r++){double s=0.0;for(int cc=0;cc<6;cc++)s+=fC[r][cc]*eps[cc];sig[r]=s;}
 			}
-			double w=fIPw[i][p];
+			double w=fIPw[i][p]*Jinp;   /* stabilization force on the current area element too */
 			for(int c=0;c<ndof;c++){double s=0.0;for(int r=0;r<6;r++)s+=Bforce[(size_t)r*ndof+c]*sig[r];fout[c]+=s*w;}
 		}
 	}
 	if (track)
 		fprintf(stdout, "[RKShell-Ustab] node=%d epmax=%.5e U_elastic=%.6e U_consistent=%.6e\n",
 			s_track, epmax, Uel, Ucons);
-
-	/* bending-hourglass control (rank-1 penalty along the CURRENT-config normal so the out-of-plane
-	 * penalty stays orthogonal to the deformed tangent plane; a static reference normal would inject
-	 * a spurious in-plane/membrane component at large crush rotations and over-stiffen the hinges) */
-	if (include_bend && fBendCoeff[i] != 0.0 && (int)fBendR[i].size()==nn) {
-		const double* Rb=&fBendR[i][0];
-		double nv[3]; Cross(x1,x2,nv); double nL=Norm(nv);
-		if (nL>1.0e-300){ for(int d=0;d<3;d++) nv[d]/=nL;
-			double dp=nv[0]*fBendN[i][0]+nv[1]*fBendN[i][1]+nv[2]*fBendN[i][2];
-			if (dp<0.0) for(int d=0;d<3;d++) nv[d]=-nv[d]; }   /* keep orientation consistent with ref */
-		else { for(int d=0;d<3;d++) nv[d]=fBendN[i][d]; }
-		double kru=0.0;
-		for (int I=0;I<nn;I++){ double nu=nv[0]*ue[I*3]+nv[1]*ue[I*3+1]+nv[2]*ue[I*3+2]; kru+=Rb[I]*nu; }
-		double c=fBendCoeff[i]*kru;
-		for (int I=0;I<nn;I++){ double cr=c*Rb[I]; for(int d=0;d<3;d++) fout[I*3+d]+=cr*nv[d]; }
-	}
 }
 
 /* pinball contact force-density psi(||r||) (paper Eq 85-86, p=2): full repulsion kc/r^2 - c2 below
@@ -1553,6 +1699,60 @@ void RKShellT::RunFeatureSelfTest(void)
 		fprintf(stdout, "   coupling n_dot(translation): max=%.3e over %d nodes (expect ~0)\n", maxnd, tested);
 	}
 	fprintf(stdout, "=== END FEATURE SELF-TEST ===\n\n");
+	fflush(stdout);
+}
+
+/* curved-surface patch test: apply the exact uniform axial-stretch field to the cylinder mesh and
+ * measure the element's membrane-strain error. eps_axial should = ea, eps_hoop should = -nu*ea
+ * everywhere; any deviation is the PCA flat-chart curvature error (small-strain ea=1% -> linear). */
+void RKShellT::RunCurvedPatchTest(void)
+{
+	const double ea = 0.01;          /* 1% axial stretch (small strain: error is pure chart, not nonlinearity) */
+	const double nu = fPoisson;
+	/* axial direction inferred from the mesh extent (necking cylinder axis = z) */
+	double zmin=1.0e30,zmax=-1.0e30;
+	for (int i=0;i<fNumNodes;i++){ double z=fCoords(i,2); if(z<zmin)zmin=z; if(z>zmax)zmax=z; }
+	double zlo=zmin+0.2*(zmax-zmin), zhi=zmax-0.2*(zmax-zmin);   /* interior axial band (exclude end BCs) */
+
+	double sa=0.0, sh=0.0, ma=0.0, mh=0.0; int cnt=0;
+	for (int i=0;i<fNumNodes;i++){
+		int nn=fNeighbors.MinorDim(i);
+		if (nn<12) continue;                                    /* well-supported nodes only */
+		if ((int)fXref[i].size()<15 || (int)fDphi[i].size()!=nn*5) continue;
+		double zi=fCoords(i,2); if (zi<zlo || zi>zhi) continue; /* interior only */
+
+		const double* Xr=&fXref[i][0]; const double* Dp=&fDphi[i][0];
+		double x1[3]={Xr[0],Xr[1],Xr[2]},x2[3]={Xr[3],Xr[4],Xr[5]},
+		       x11[3]={Xr[6],Xr[7],Xr[8]},x22[3]={Xr[9],Xr[10],Xr[11]},x12[3]={Xr[12],Xr[13],Xr[14]};
+		ShellGeom G; if(!BuildGeom(x1,x2,x11,x22,x12,fThickness,0.0,G)) continue;
+
+		const int* gnb=fNeighbors(i);
+		double gradu[3][3]={{0,0,0},{0,0,0},{0,0,0}};
+		for (int I=0;I<nn;I++){
+			int lI=fGlobalToLocal[gnb[I]]; if(lI<0) continue;
+			double X=fCoords(lI,0),Y=fCoords(lI,1),Z=fCoords(lI,2);
+			double u[3]={-nu*ea*X, -nu*ea*Y, ea*Z};            /* analytic uniform-stretch field */
+			double B[3][3][3];
+			BMatrix(G, Dp[I*5],Dp[I*5+1],Dp[I*5+2],Dp[I*5+4],Dp[I*5+3], B);
+			for(int a=0;a<3;a++)for(int b=0;b<3;b++)for(int k=0;k<3;k++) gradu[a][b]+=B[a][b][k]*u[k];
+		}
+		double eps[3][3];
+		for(int a=0;a<3;a++)for(int b=0;b<3;b++) eps[a][b]=0.5*(gradu[a][b]+gradu[b][a]);
+
+		/* axial = global z; hoop = circumferential unit vector at this node */
+		double Xi=fCoords(i,0),Yi=fCoords(i,1); double r=std::sqrt(Xi*Xi+Yi*Yi);
+		double h[3]={ (r>1e-9?-Yi/r:0.0), (r>1e-9?Xi/r:0.0), 0.0 };
+		double e_ax=eps[2][2];
+		double e_hp=0.0; for(int a=0;a<3;a++)for(int b=0;b<3;b++) e_hp+=h[a]*eps[a][b]*h[b];
+		double ra=std::fabs(e_ax-ea)/ea, rh=std::fabs(e_hp-(-nu*ea))/(nu*ea);
+		sa+=ra; sh+=rh; if(ra>ma)ma=ra; if(rh>mh)mh=rh; cnt++;
+	}
+	fprintf(stdout,"\n=== CURVED-PATCH TEST (R=%.1f cylinder, uniform axial stretch ea=1%%, %d interior nodes) ===\n",
+		(fNumNodes>0?std::sqrt(fCoords(0,0)*fCoords(0,0)+fCoords(0,1)*fCoords(0,1)):0.0), cnt);
+	if (cnt>0)
+		fprintf(stdout,"   eps_axial error: mean=%.4f%%  max=%.4f%%   |  eps_hoop error: mean=%.4f%%  max=%.4f%%\n"
+			"   (this is the PCA flat-chart curvature error -- the largest of the structural deviations)\n\n",
+			100*sa/cnt,100*ma,100*sh/cnt,100*mh);
 	fflush(stdout);
 }
 

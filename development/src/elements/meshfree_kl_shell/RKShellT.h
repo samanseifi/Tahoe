@@ -20,6 +20,7 @@
 
 /* base class */
 #include "ElementBaseT.h"
+#include "MeshFreeCollocationSupportT.h"
 
 /* members */
 #include "RaggedArray2DT.h"
@@ -36,7 +37,7 @@ namespace Tahoe {
 
 class MLSSolverT;
 
-class RKShellT: public ElementBaseT
+class RKShellT: public ElementBaseT, public MeshFreeCollocationSupportT
 {
 public:
 
@@ -57,6 +58,14 @@ public:
 
 	/** RKShellT treats the nodal DOFs as the (quasi-interpolatory) displacements directly. */
 	virtual int InterpolantDOFs(void) const { return 1; }
+	/*@}*/
+
+	/** \name MeshFreeCollocationSupportT (direct nodal-collocation essential BCs, issue #70) */
+	/*@{*/
+	/** per-node support ids + Phi_J(x_I) at each requested node's own location (non-interpolatory
+	 * RK shapes), so CollocationKBCT can impose the PHYSICAL displacement, not the bare coefficient. */
+	virtual bool CollocationData(const iArrayT& nodes,
+		RaggedArray2DT<int>& support, RaggedArray2DT<double>& phi) const;
 	/*@}*/
 
 	/** \name connectivity / equations (register the ragged neighbor stencils) */
@@ -130,6 +139,11 @@ private:
 	 * monotonicity, and the coupling normal-rotation operator on a 90-degree fold. */
 	void RunFeatureSelfTest(void);
 
+	/** curved-surface patch test (env KLSHELL_PATCHTEST): apply the ANALYTIC uniform axial-stretch
+	 * field u=(-nu*ea*x,-nu*ea*y, ea*z) to a cylinder mesh and measure the element's membrane strain
+	 * error vs the exact (eps_axial=ea, eps_hoop=-nu*ea). Isolates the PCA flat-chart curvature error. */
+	void RunCurvedPatchTest(void);
+
 	/** stabilization unit test (triggered by env KLSHELL_SELFTEST): strain energy E = sum_K u_K^T
 	 * fKe_K u_K for unit-norm rigid / linear / membrane-hourglass / bending-hourglass modes. Rigid
 	 * ->~0; linear must be stab-invariant (consistency); hourglass ~0 without stab, >0 if caught. */
@@ -185,20 +199,11 @@ private:
 	 * (B~tilde = divergence-theorem cell average over node K's quad cell). Consistent (vanishes on
 	 * smooth fields -> membrane unpolluted) + PSD (explicit-stable). */
 	/*@{*/
-	int    fStabMode;      /**< 0 = full strength; 3 = alpha=min(1,h/h_pl) scaled (paper 5.3) */
-	double fStabMembrane;  /**< stabilization-residual scale (coefficient on R^T C R) */
-	double fStabBending;   /**< (reserved) */
-	double fStabNatural;   /**< Eq.33 natural Taylor-gradient stabilization scale (0=off, 1=full) */
-	int    fStabSigGrad;   /**< 1 = paper-faithful natural stabilizer (Eqs 67-72, sec 3.10): the membrane
-	                        *   stab force uses the ACCUMULATED Cauchy stress gradient sigma,xi (history,
-	                        *   co-rotated, updated by the per-point plane-stress ALGORITHMIC tangent) so
-	                        *   it saturates to ~0 in the yielding neck -> no elastic clamp -> sharp neck.
-	                        *   This is the VALIDATED default (reference-config B,xil -> fixed quadratic
-	                        *   form -> PSD/explicit-stable). 0 = legacy consistent-tangent x total strain.
-	                        *   2 = EXPERIMENTAL current-config B,xil rebuild (Phase 1): UNSTABLE in explicit
-	                        *   dynamics -- accumulating sigma,xi history with a per-step-changing operator
-	                        *   breaks PSD (diverges ~step 7k on necking). Needs the paper's full
-	                        *   co-rotational consistency, not a bare operator swap. Do NOT use for runs. */
+	double fStabNatural;   /**< Eq.33 natural Taylor-gradient stabilization scale (0=off, 1=full) -- MEMBRANE only */
+	double fStabBending;   /**< curvature-gradient (bending) stabilization: bending analogue of Eq.33 via the in-surface parametric gradient of the curvature operator (BMatrixCurvatureGradient). Catches the bending hourglass Eq.33's one-point through-thickness (membrane-only) quadrature leaves for thin shells. 0=off, 1=consistent. */
+	int    fStabSigGrad;   /**< 1 (default) = paper sec 3.10 sigma,xi stress-gradient stabilization ON (Eqs 67-72, reference-config B,xil); 0 = off. */
+	double fStabSCNI;      /**< SCNI assumed-strain stabilization coefficient (PSD penalty R^T C R, R=B_direct-B_smoothed): variationally-consistent nodal integration that catches the sawtooth hourglass the Taylor stabilizer aliases over. 0 = off. */
+	int    fSmoothedGrad;  /**< 1 = use the SCNI SMOOTHED (cell-averaged, divergence-theorem) shape gradients for the BASE strain integration: variationally consistent -> hourglass-free AND no spurious stiffness (unlike the penalty). 0 = direct nodal gradient. */
 	/*@}*/
 
 	/** \name surface meshfree data */
@@ -210,6 +215,8 @@ private:
 	iArrayT   fGlobalToLocal;            /**< global node id -> local shell index (-1 if not a shell node) */
 	iArrayT   fGlobalIDs;                /**< local shell index -> global node id */
 	RaggedArray2DT<int> fNeighbors;      /**< [node] x [neighbor GLOBAL node ids] */
+	std::vector<std::vector<double> > fSelfPhi; /**< [node] x [phi_J(x_I) at node I's own location],
+	                                             *   aligned with fNeighbors -> collocation rows (#70) */
 	RaggedArray2DT<int> fEqnos;          /**< [node] x [neighbor dof equations] */
 	ArrayT<dMatrixT> fKe;                /**< per-node stencil stiffness (linear-elastic tangent / implicit LHS) */
 	MLSSolverT* fMLS;                    /**< RKPM shape-function solver (local chart) */
@@ -243,12 +250,6 @@ private:
 	std::vector<double> fFrameV;               /**< [node] x 9: left-stretch V (Flanagan-Taylor); init = I */
 	int    fCorotational;                      /**< 1 = Algorithm 2 co-rotational stress frame (objective at
 	                                            *   large rotation); 0 = legacy OrthoTangents frame */
-
-	/** bending-hourglass control operator (rank-1 per node): residual R_I, the node normal, and the
-	 * coefficient -- so the finite-strain force path can apply the same penalty as the linear Ke. */
-	std::vector<std::vector<double> > fBendR;  /**< [node] -> [nn] curvature-residual operator R_I */
-	std::vector<std::vector<double> > fBendN;  /**< [node] -> [3] node normal */
-	std::vector<double> fBendCoeff;            /**< [node] -> coefficient */
 
 	/** accumulated mid-surface Cauchy STRESS GRADIENT history (paper sec 3.10, Eq 68): per node,
 	 * [sigma,xi1: s11,s22,s12 ; sigma,xi2: s11,s22,s12] in the local shell frame. Advanced each step by

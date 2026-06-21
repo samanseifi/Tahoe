@@ -433,6 +433,28 @@ inline void ToVoigtLocal(const double B[3][3][3], const double e1[3], const doub
 	}
 }
 
+/* the CURVATURE operator kappa_ijk at a point (the xi3-linear coefficient of the strain
+ * grad(v3D)_ij = membrane_ij + (h/2)xi3 * kappa_ij), in Voigt 6x3 form in the local frame
+ * {e1,e2,n}. Built from the geometry tensors g (B1,B2,B1m,B2m,Finv at that point) and the
+ * node's shape derivatives P1..P22. Differencing this across sub-cell points (each rebuilt with
+ * its OWN geometry) yields the TRUE physical curvature gradient -- it vanishes when the physical
+ * curvature is constant, so it does not contaminate smooth bending (the consistent bending
+ * analogue of the membrane operator BMatrixGradient/Eq.38). */
+inline void CurvatureVoigt(const ShellGeom& g, double P1, double P2, double P11, double P12,
+                           double P22, const double e1[3], const double e2[3], const double n[3],
+                           double kv[6][3])
+{
+	double K[3][3][3];
+	for (int i = 0; i < 3; i++)
+		for (int k = 0; k < 3; k++) {
+			double crow0 = g.B1m[0][i][k]*P1 + g.B1[i][k]*P11 + g.B2m[0][i][k]*P2 + g.B2[i][k]*P12;
+			double crow1 = g.B1m[1][i][k]*P1 + g.B1[i][k]*P12 + g.B2m[1][i][k]*P2 + g.B2[i][k]*P22;
+			for (int j = 0; j < 3; j++)
+				K[i][j][k] = crow0*g.Finv[0][j] + crow1*g.Finv[1][j];
+		}
+	ToVoigtLocal(K, e1, e2, n, kv);
+}
+
 /* compressible Neo-Hookean Cauchy stress from the deformation gradient F (3x3):
  *   sigma = (mu/J)(b - I) + (lambda ln J / J) I,   b = F F^T,   J = det F. */
 inline void NeoHookeCauchy(const double F[3][3], double lambda, double mu, double sig[3][3])
