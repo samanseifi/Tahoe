@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Hemispherical shell (open, 18deg hole): the bending-dominated member of the shell obstacle
+     course (epic #59, benchmark #66). Four alternating radial point loads (paper sec 4.2.2;
+     MacNeal-Harder). Guards the BENDING regime and the consistent bending stabilizer
+     (stab_bending), complementing the membrane-dominated Scordelis case. Default Tahoe output for
+     `compare`. The radial deflection converges to ~0.0924 under refinement; this coarse M=20 mesh
+     is a repeatable regression guard, not a converged value. -->
+<tahoe geometry_file="hemisphere.geom" title="hemisphere (meshfree_kl_shell)">
+    <time num_steps="1" output_inc="1" time_step="1.0">
+        <schedule_function><piecewise_linear>
+            <OrderedPair x="0.0" y="0.0"/><OrderedPair x="1.0" y="1.0"/>
+        </piecewise_linear></schedule_function>
+    </time>
+    <nodes><field field_name="displacement">
+        <dof_labels><String value="D_X"/><String value="D_Y"/><String value="D_Z"/></dof_labels>
+        <kinematic_BC dof="1" node_ID="1"/>
+        <kinematic_BC dof="2" node_ID="1"/>
+        <kinematic_BC dof="3" node_ID="1"/>
+        <kinematic_BC dof="2" node_ID="2"/>
+        <force_BC dof="1" node_ID="2" schedule="1" value="2.0"/>
+        <force_BC dof="1" node_ID="3" schedule="1" value="-2.0"/>
+        <force_BC dof="2" node_ID="4" schedule="1" value="-2.0"/>
+        <force_BC dof="2" node_ID="5" schedule="1" value="2.0"/>
+    </field></nodes>
+    <element_list><meshfree_kl_shell field_name="displacement"
+        shell_thickness="0.04" Young_modulus="6.825e7" Poisson_ratio="0.3"
+        support_factor="3.0" completeness="2" stab_bending="1.0" kernel="1"/>
+    </element_list>
+    <linear_solver><profile_matrix/></linear_solver>
+</tahoe>

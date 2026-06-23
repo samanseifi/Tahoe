@@ -1,3 +1,8 @@
 @
 # meshfree Kirchhoff-Love shell (#59) regression
+# elastic obstacle course (#66): membrane (Scordelis), bending (hemisphere), bending+membrane (pinched cyl)
 scordelis_lo.xml
+hemisphere.xml
+pinched_cyl.xml
+# collocation essential-BC for non-interpolatory meshfree fields (#70)
+collocation_bc.xml
