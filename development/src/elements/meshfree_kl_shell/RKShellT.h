@@ -220,6 +220,7 @@ private:
 	RaggedArray2DT<int> fEqnos;          /**< [node] x [neighbor dof equations] */
 	ArrayT<dMatrixT> fKe;                /**< per-node stencil stiffness (linear-elastic tangent / implicit LHS) */
 	MLSSolverT* fMLS;                    /**< RKPM shape-function solver (local chart) */
+	MLSSolverT* fMLSmem;                 /**< one-order-lower RK solver for the membrane B-bar (anti-locking) */
 
 	/** \name stress-driven internal force (f_int = sum B^T sigma): per-node integration points.
 	 * Each entry stores a Voigt strain-displacement operator B [6 x 3nn] (row-major, flattened),
@@ -241,6 +242,7 @@ private:
 	/** finite-deformation data: stencil shape derivatives (recompute current geometry from current
 	 * positions each step) + reference mid-surface derivatives (for the reference metric/curvature). */
 	std::vector<std::vector<double> > fDphi;   /**< [node] -> [nn*5]: Dp0,Dp1,DDp0,DDp1,DDp2 per stencil node */
+	std::vector<std::vector<double> > fDphiMem; /**< [node] -> [nn*2]: lower-order membrane 1st derivs d1m,d2m for the B-bar (= d1,d2 when B-bar off) */
 	std::vector<std::vector<double> > fXref;   /**< [node] -> [15]: ref x,1 x,2 x,11 x,22 x,12 (each 3) */
 	dArray2DT fUprev;                          /**< previous-step nodal displacement (rate form: du = u - u_prev) */
 	std::vector<double> fThicknessCur;         /**< [node] current shell thickness (accumulates D33 from the

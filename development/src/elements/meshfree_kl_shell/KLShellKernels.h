@@ -289,21 +289,30 @@ inline bool BuildGeom(const double x1[3], const double x2[3], const double x11[3
 /* per-node strain-displacement operator B_Iijk (Eq. 51): grad(v3D)_ij = sum_I B[i][j][k] v_Ik.
  * The P* are the node's RK shape-function derivatives:
  *   P1 = Psi,xi1, P2 = Psi,xi2, P11 = Psi,xi1xi1, P12 = Psi,xi1xi2, P22 = Psi,xi2xi2. */
-inline void BMatrix(const ShellGeom& g, double P1, double P2, double P11, double P12,
-                    double P22, double B[3][3][3])
+/* B-bar variant: the membrane displacement-gradient (the delta_ik*P term, = the mid-surface metric
+ * change) uses P1m,P2m (one-order-LOWER RK derivatives for anti-locking), while the director/bending
+ * coupling (the hx and br2 terms) keep the FULL-order P1,P2. With P1m=P1 this is the standard BMatrix. */
+inline void BMatrixBbar(const ShellGeom& g, double P1, double P2, double P11, double P12,
+                        double P22, double P1m, double P2m, double B[3][3][3])
 {
 	double hx = (g.h/2.0)*g.xi3;
 	for (int i = 0; i < 3; i++)
 		for (int k = 0; k < 3; k++) {
 			double d_ik = (i == k ? 1.0 : 0.0);
-			double br0 = d_ik*P1
+			double br0 = d_ik*P1m
 			           + hx*(g.B1m[0][i][k]*P1 + g.B1[i][k]*P11 + g.B2m[0][i][k]*P2 + g.B2[i][k]*P12);
-			double br1 = d_ik*P2
+			double br1 = d_ik*P2m
 			           + hx*(g.B1m[1][i][k]*P1 + g.B1[i][k]*P12 + g.B2m[1][i][k]*P2 + g.B2[i][k]*P22);
 			double br2 = (g.h/2.0)*(g.B1[i][k]*P1 + g.B2[i][k]*P2);
 			for (int j = 0; j < 3; j++)
 				B[i][j][k] = br0*g.Finv[0][j] + br1*g.Finv[1][j] + br2*g.Finv[2][j];
 		}
+}
+
+inline void BMatrix(const ShellGeom& g, double P1, double P2, double P11, double P12,
+                    double P22, double B[3][3][3])
+{
+	BMatrixBbar(g, P1, P2, P11, P12, P22, P1, P2, B);
 }
 
 /* parametric gradient of the strain-displacement operator at xi3=0 (Eq. 54). The

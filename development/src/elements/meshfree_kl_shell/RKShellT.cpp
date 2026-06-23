@@ -42,7 +42,8 @@ RKShellT::RKShellT(const ElementSupportT& support):
 	fCompleteness(3),
 	fKernel(0),
 	fNumNodes(0),
-	fMLS(NULL)
+	fMLS(NULL),
+	fMLSmem(NULL)
 {
 	SetName("meshfree_kl_shell");
 	fLoad[0] = fLoad[1] = fLoad[2] = 0.0;
@@ -71,7 +72,7 @@ RKShellT::RKShellT(const ElementSupportT& support):
 }
 
 /* destructor */
-RKShellT::~RKShellT(void) { delete fMLS; }
+RKShellT::~RKShellT(void) { delete fMLS; delete fMLSmem; }
 
 /* required ElementBaseT interface (minimal for a linear static shell) */
 GlobalT::SystemTypeT RKShellT::TangentType(void) const { return GlobalT::kSymmetric; }
@@ -245,6 +246,32 @@ void RKShellT::WriteOutput(void)
 			if (v2>v2max) v2max=v2;
 		}
 		fprintf(stdout, "[RKShell-energy] KE=%.6e  max|v|=%.6e\n", KE, std::sqrt(v2max));
+	}
+
+	/* MEMBRANE-LOCKING DETECTOR: split the stored through-thickness in-plane stress into the
+	 * membrane resultant (mid-surface, xi3=0 -> station g=1) and the bending part (antisymmetric,
+	 * (top-bot)/2). For INEXTENSIONAL bending (the pinched cylinder) the membrane stress must stay
+	 * tiny vs bending. We accumulate sum(vm^2) over nodes as an energy proxy (membrane/bending energy
+	 * density ~ sigma_vm^2 * h / E, same h,E -> ratio = sum(memb_vm^2)/sum(bend_vm^2)). A skyrocketing
+	 * ratio as the shell folds = parasitic membrane strain = membrane locking caught red-handed. */
+	{
+		double memb2=0.0, bend2=0.0, memb_max=0.0, bend_max=0.0;
+		for (int i=0;i<fNumNodes;i++){
+			if (i>=(int)fJ2sig.size() || (int)fJ2sig[i].size() < 9) continue;  /* need >=3 stations */
+			/* mid = membrane; (top-bot)/2 = bending; plane-stress von Mises */
+			double m11=fJ2sig[i][3], m22=fJ2sig[i][4], m12=fJ2sig[i][5];
+			double b11=0.5*(fJ2sig[i][6]-fJ2sig[i][0]);
+			double b22=0.5*(fJ2sig[i][7]-fJ2sig[i][1]);
+			double b12=0.5*(fJ2sig[i][8]-fJ2sig[i][2]);
+			double mvm=std::sqrt(m11*m11-m11*m22+m22*m22+3.0*m12*m12);
+			double bvm=std::sqrt(b11*b11-b11*b22+b22*b22+3.0*b12*b12);
+			memb2+=mvm*mvm; bend2+=bvm*bvm;
+			if (mvm>memb_max) memb_max=mvm;
+			if (bvm>bend_max) bend_max=bvm;
+		}
+		double ratio = (bend2>1.0e-30) ? memb2/bend2 : 0.0;
+		fprintf(stdout, "[RKShell-mblock] memb_E~%.6e bend_E~%.6e ratio=%.4f memb_vm_max=%.4e bend_vm_max=%.4e\n",
+			memb2, bend2, ratio, memb_max, bend_max);
 	}
 
 	/* NECK-SHARPNESS diagnostic (Fig 13/14 comparison): peak equivalent plastic strain and its axial
@@ -485,6 +512,18 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 		fMLS = new MLSSolverT(2, fCompleteness, false, MeshFreeT::kGaussian, gwin);
 	}
 	fMLS->Initialize();
+
+	/* MEMBRANE B-BAR anti-locking (env KLSHELL_MEMBBAR=1): a second RK solver one completeness order
+	 * LOWER, used ONLY for the membrane 1st-derivatives (du,a). Bending keeps the full-order 2nd
+	 * derivatives. This balances the membrane (1st deriv) and bending (2nd deriv) polynomial orders so a
+	 * pure-bending mode produces NO parasitic membrane strain (paper cites Moutsanidis-Bazilevs [46]:
+	 * re-interpolate the membrane strains in a lower-order space). Built unconditionally; used only when
+	 * the env flag is on so it can be A/B tested. */
+	if (fCompleteness > 1) {
+		MeshFreeT::WindowTypeT wt = (fKernel == 1) ? MeshFreeT::kCubicSpline : MeshFreeT::kGaussian;
+		fMLSmem = new MLSSolverT(2, fCompleteness - 1, false, wt, gwin);
+		fMLSmem->Initialize();
+	}
 
 	/* precompute the per-node stencil stiffness (linear elastic, fixed geometry) */
 	BuildElementStiffness();
@@ -878,6 +917,7 @@ void RKShellT::BuildElementStiffness(void)
 	fJ2ep.assign(fNumNodes, std::vector<double>(3, 0.0));
 	fJ2eps.assign(fNumNodes, std::vector<double>(9, 0.0));
 	fDphi.assign(fNumNodes, std::vector<double>());
+	fDphiMem.assign(fNumNodes, std::vector<double>());
 	fXref.assign(fNumNodes, std::vector<double>());
 	fSigGrad.assign(fNumNodes, std::vector<double>(6, 0.0));   /* accumulated sigma,xi (sec 3.10) */
 	fSelfPhi.assign(fNumNodes, std::vector<double>());          /* phi_J(x_I) for collocation BCs (#70) */
@@ -953,6 +993,20 @@ void RKShellT::BuildElementStiffness(void)
 			fMLS->SetField(lc,np,vol,sample,3);   /* restore node eval so Dp/DDp/DDDp are valid below */
 		}
 
+		/* MEMBRANE B-BAR anti-locking (env KLSHELL_MEMBBAR=1): the membrane displacement-gradient
+		 * derivatives d1m,d2m come from the one-order-LOWER RK basis so the membrane strain (1st deriv)
+		 * matches the bending strain (full 2nd deriv) in polynomial order -> a pure-bending mode produces
+		 * NO parasitic membrane strain (paper cites Moutsanidis-Bazilevs [46]). These feed ONLY the
+		 * delta_ik*P membrane term of BMatrix; geometry (x,a), director, bending and the 2nd derivs all
+		 * keep FULL order. Default = full order (d1m=d1). */
+		std::vector<double> d1m(d1), d2m(d2);
+		static int s_membbar=-1; if(s_membbar<0){ const char* e=getenv("KLSHELL_MEMBBAR"); s_membbar=e?atoi(e):0; }
+		if (s_membbar && fMLSmem && fMLSmem->SetField(lc,np,vol,sample,3)) {
+			const dArray2DT& Dpm = fMLSmem->Dphi();
+			for (int I=0;I<nn;I++){ d1m[I]=Dpm(0,I); d2m[I]=Dpm(1,I); }
+			fMLS->SetField(lc,np,vol,sample,3);   /* restore fMLS node eval */
+		}
+
 		double x1[3]={0,0,0},x2[3]={0,0,0},x11[3]={0,0,0},x22[3]={0,0,0},x12[3]={0,0,0};
 		for (int I=0;I<nn;I++) {
 			double Xq[3]={fCoords(loc[I],0),fCoords(loc[I],1),fCoords(loc[I],2)};
@@ -965,6 +1019,8 @@ void RKShellT::BuildElementStiffness(void)
 		fDphi[i].resize((size_t)nn*5);
 		for (int I=0;I<nn;I++){ fDphi[i][I*5]=d1[I]; fDphi[i][I*5+1]=d2[I];
 			fDphi[i][I*5+2]=d11[I]; fDphi[i][I*5+3]=d22[I]; fDphi[i][I*5+4]=d12[I]; }
+		fDphiMem[i].resize((size_t)nn*2);
+		for (int I=0;I<nn;I++){ fDphiMem[i][I*2]=d1m[I]; fDphiMem[i][I*2+1]=d2m[I]; }
 		fXref[i].resize(15);
 		for (int d=0;d<3;d++){ fXref[i][d]=x1[d]; fXref[i][3+d]=x2[d];
 			fXref[i][6+d]=x11[d]; fXref[i][9+d]=x22[d]; fXref[i][12+d]=x12[d]; }
@@ -984,7 +1040,7 @@ void RKShellT::BuildElementStiffness(void)
 			std::vector<std::vector<double> > Bv(nn, std::vector<double>(18));
 			for (int I=0;I<nn;I++){
 				double B[3][3][3];
-				BMatrix(G,Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I),B);
+				BMatrixBbar(G,Dp(0,I),Dp(1,I),DDp(0,I),DDp(2,I),DDp(1,I),d1m[I],d2m[I],B);
 				double bv[6][3]; ToVoigtLocal(B,e1,e2,G.n,bv);
 				for(int r=0;r<6;r++)for(int c=0;c<3;c++) Bv[I][r*3+c]=bv[r][c];
 			}
@@ -1237,12 +1293,19 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 	if ((int) fDphi[i].size() != nn*5) return;
 	double h = fThickness;
 	const double* Dp = &fDphi[i][0];
+	/* lower-order membrane derivatives for the B-bar (= full d1,d2 when B-bar off) */
+	bool haveMem = (i < (int)fDphiMem.size() && (int)fDphiMem[i].size() == nn*2);
+	const double* Dpm = haveMem ? &fDphiMem[i][0] : NULL;
 	const double* Xr = &fXref[i][0];
 
 	/* current mid-surface derivatives x,a = X,a(ref) + u,a (u,a = sum Dphi_I,a u_I) */
 	double u1[3]={0,0,0},u2[3]={0,0,0},u11[3]={0,0,0},u22[3]={0,0,0},u12[3]={0,0,0};
 	for (int I=0;I<nn;I++){
 		double p1=Dp[I*5],p2=Dp[I*5+1],p11=Dp[I*5+2],p22=Dp[I*5+3],p12=Dp[I*5+4];
+		/* GEOMETRY uses the FULL-order derivatives (NOT the B-bar projection): the deformed tangents
+		 * x,a -> normal n -> metric/Jinp MUST stay exact, else a smoothed-order n against full-order
+		 * curvature x,ab gives ghost bending strain (kappa=n.x,ab) -> spurious yield -> rigid lock.
+		 * The B-bar projects ONLY the strain-displacement operator (BMatrixBbar below), never geometry. */
 		for(int d=0;d<3;d++){ double u=ue[I*3+d];
 			u1[d]+=p1*u; u2[d]+=p2*u; u11[d]+=p11*u; u22[d]+=p22*u; u12[d]+=p12*u; }
 	}
@@ -1299,6 +1362,7 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 		double* Rf=&fFrameR[(size_t)i*9]; double* Vf=&fFrameV[(size_t)i*9];
 		double e1o[3]={Rf[0],Rf[3],Rf[6]}, e2o[3]={Rf[1],Rf[4],Rf[7]};   /* old frame tangents */
 		double du1[3]={0,0,0}, du2[3]={0,0,0};
+		/* co-rotational frame (fiber frame) uses FULL-order derivatives -- same reason as the geometry */
 		for (int I=0;I<nn;I++){ double p1=Dp[I*5],p2=Dp[I*5+1];
 			for(int d=0;d<3;d++){ double du=due[I*3+d]; du1[d]+=p1*du; du2[d]+=p2*du; } }
 		double g11=Dot(x1,x1),g22=Dot(x2,x2),g12=Dot(x1,x2), dgm=g11*g22-g12*g12;
@@ -1364,7 +1428,9 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 		std::vector<std::vector<double> > Bv(nn, std::vector<double>(18));
 		for (int I=0;I<nn;I++){
 			double B[3][3][3];
-			BMatrix(G, Dp[I*5], Dp[I*5+1], Dp[I*5+2], Dp[I*5+4], Dp[I*5+3], B);
+			double p1m = haveMem ? Dpm[I*2] : Dp[I*5];
+			double p2m = haveMem ? Dpm[I*2+1] : Dp[I*5+1];
+			BMatrixBbar(G, Dp[I*5], Dp[I*5+1], Dp[I*5+2], Dp[I*5+4], Dp[I*5+3], p1m, p2m, B);
 			double bv[6][3]; ToVoigtLocal(B,e1,e2,G.n,bv);
 			for(int r=0;r<6;r++)for(int cc=0;cc<3;cc++) Bv[I][r*3+cc]=bv[r][cc];
 		}
@@ -1414,7 +1480,25 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 		}
 		double sig[6]={sip[0],sip[1],0,0,0,sip[2]};
 
-		double w = wg[g]*(h/2.0)*A_K*Jinp;   /* current mid-surface area element A_K*Jinp */
+		/* THROUGH-THICKNESS JACOBIAN (paper Eq.33 base term): integrate the Cauchy stress over the
+		 * CURRENT volume element J_bar(xi3)*A_Kxi, where J_bar(xi3)=det(grad_xi x3D) varies through the
+		 * thickness via the curvature. det(G.F) IS exactly this J_bar(xi3) (G.F = [x3D,xi1|x3D,xi2|(h/2)n]).
+		 * Our previous weight used the mid-surface value (h/2)|x,1xx,2| at ALL stations (= det(G.F) only
+		 * at xi3=0), dropping the curvature variation -> ZERO error for a flat strip (necking unchanged)
+		 * but a large bending-force error at high curvature (the pinch fold). A_Kxi(parametric)=A_K/|X1xX2|.
+		 * Env KLSHELL_JBAR=0 reverts to the old constant-Jacobian weight for A/B testing. */
+		static int s_jbar=-1; if(s_jbar<0){const char* e=getenv("KLSHELL_JBAR"); s_jbar=e?atoi(e):1;}
+		double w;
+		if (s_jbar){
+			const double (*F)[3]=G.F;
+			double detFg = F[0][0]*(F[1][1]*F[2][2]-F[1][2]*F[2][1])
+			             - F[0][1]*(F[1][0]*F[2][2]-F[1][2]*F[2][0])
+			             + F[0][2]*(F[1][0]*F[2][1]-F[1][1]*F[2][0]);
+			double normX = Norm(caX_);
+			w = wg[g]*A_K*detFg/((normX>1.0e-30)?normX:1.0);
+		} else {
+			w = wg[g]*(h/2.0)*A_K*Jinp;   /* OLD: mid-surface (constant-thru-thickness) Jacobian */
+		}
 		for (int I=0;I<nn;I++)
 			for(int cc=0;cc<3;cc++){ double s=0.0; for(int r=0;r<6;r++) s+=Bv[I][r*3+cc]*sig[r]; fout[I*3+cc]+=s*w; }
 	}
@@ -1473,12 +1557,16 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 			} else OrthoTangents(G0c.n,e1g,e2g);
 			curBg.assign(2, std::vector<double>((size_t)6*ndof, 0.0));
 			for (int I=0;I<nn;I++){
+				/* B-bar: the stabilizer operator must use the SAME projected membrane derivative as the
+				 * base strain, else it sees the parasitic (locked) membrane gradient and penalizes the
+				 * physical bending mode -> 700% spike. (membrane 1st deriv projected; 2nd derivs full.) */
+				double p1m = haveMem?Dpm[I*2]:Dp[I*5], p2m = haveMem?Dpm[I*2+1]:Dp[I*5+1];
 				double Bz[3][3][3];
-				BMatrix(G0c, Dp[I*5],Dp[I*5+1],Dp[I*5+2],Dp[I*5+4],Dp[I*5+3], Bz);
+				BMatrixBbar(G0c, Dp[I*5],Dp[I*5+1],Dp[I*5+2],Dp[I*5+4],Dp[I*5+3], p1m,p2m, Bz);
 				double P1l[2]={Dp[I*5+2],Dp[I*5+4]};
 				double P2l[2]={Dp[I*5+4],Dp[I*5+3]};
 				double Bgt[3][3][3][2];
-				BMatrixGradient(G0c, Dp[I*5],Dp[I*5+1], P1l,P2l, Bz, Bgt);
+				BMatrixGradient(G0c, p1m,p2m, P1l,P2l, Bz, Bgt);
 				for (int l=0;l<2;l++){
 					double Bgl[3][3][3];
 					for(int a=0;a<3;a++)for(int b=0;b<3;b++)for(int c=0;c<3;c++) Bgl[a][b][c]=Bgt[a][b][c][l];
