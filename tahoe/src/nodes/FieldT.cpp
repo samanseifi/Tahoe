@@ -21,6 +21,7 @@
 #include "ofstreamT.h"
 #include "nIntegratorT.h"
 #include "KBC_ControllerT.h"
+#include "CollocationKBCT.h"
 #include "FBC_ControllerT.h"
 #include "RaggedArray2DT.h"
 #include "LinkedListT.h"
@@ -1114,6 +1115,7 @@ void FieldT::DefineInlineSub(const StringT& name, ParameterListT::ListOrderT& or
 		sub_lists.AddSub("periodic_nodes");
 		sub_lists.AddSub("conveyor");
 //		sub_lists.AddSub("symmetric_conveyor");
+		sub_lists.AddSub("collocation_KBC");
 	}
 	else if (name == "FBC_controllers")
 	{
@@ -1222,6 +1224,13 @@ ParameterInterfaceT* FieldT::NewSub(const StringT& name) const
 		ParameterT value(ParameterT::Double, "value");
 		value.SetDefault(0.0);
 		kbc->AddParameter(value);
+
+		/* enforce the PHYSICAL displacement by direct nodal collocation (#70) -- required for
+		 * non-interpolatory meshfree fields where setting the bare coefficient != prescribing u.
+		 * The meshfree provider element is auto-discovered. Default 0 = ordinary KBC. */
+		ParameterT colloc(ParameterT::Boolean, "collocation");
+		colloc.SetDefault(false);
+		kbc->AddParameter(colloc);
 
 		return kbc;
 	}
@@ -1363,6 +1372,9 @@ void FieldT::TakeParameterList(const ParameterListT& list)
 				}
 			}
 			else if (name == "kinematic_BC") {
+				/* collocation-flagged cards are handled by an internal CollocationKBCT, not fKBC */
+				const ParameterT* colloc = subs[i].Parameter("collocation");
+				if (colloc && (bool) *colloc) continue;
 				const StringT& node_ID = subs[i].GetParameter("node_ID");
 				ModelManagerT& model_manager = fFieldSupport.ModelManager();
 				num_KBC += model_manager.NodeSet(node_ID).Length();
@@ -1448,8 +1460,19 @@ void FieldT::TakeParameterList(const ParameterListT& list)
 				/* get the schedule */
 				const ScheduleT* schedule = (schedule_no > -1) ? fFieldSupport.Schedule(schedule_no) : NULL;
 
-				/* set cards */
 				const iArrayT& set = model_manager.NodeSet(node_ID);
+
+				/* collocation switch: enforce the PHYSICAL value via an internal CollocationKBCT
+				 * (meshfree provider auto-discovered) instead of clamping the bare coefficients (#70) */
+				const ParameterT* colloc = sub.Parameter("collocation");
+				if (colloc && (bool) *colloc) {
+					CollocationKBCT* cc = new CollocationKBCT(fFieldSupport);
+					cc->Configure(FieldName(), dof, code, schedule, value, set);
+					AddKBCController(cc);
+					continue;
+				}
+
+				/* ordinary KBC cards */
 				for (int i = 0; i < set.Length(); i++)
 					fKBC[num_KBC++].SetValues(set[i], dof, code, schedule, value);
 			}

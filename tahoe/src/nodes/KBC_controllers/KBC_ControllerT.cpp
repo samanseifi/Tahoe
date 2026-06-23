@@ -36,6 +36,8 @@ KBC_ControllerT::CodeT KBC_ControllerT::Code(const char* name)
 		return kConveyor;
 	else if (strcmp("symmetric_conveyor", name) == 0)
 		return kConveyorSym;
+	else if (strcmp("collocation_KBC", name) == 0)
+		return kCollocation;
 //	else if (strcmp("angled_bc", name) == 0)
 //		return kAngledBC;
 	else

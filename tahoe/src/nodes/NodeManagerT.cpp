@@ -47,6 +47,7 @@
 #include "SetOfNodesKBCT.h"
 #include "TorsionKBCT.h"
 #include "ConveyorT.h"
+#include "CollocationKBCT.h"
 
 using namespace Tahoe;
 
@@ -1604,6 +1605,11 @@ KBC_ControllerT* NodeManagerT::NewKBC_Controller(FieldT& field, int code)
 		case KBC_ControllerT::kTorsion:
 		{
 			TorsionKBCT* kbc = new TorsionKBCT(fFieldSupport);
+			return kbc;
+		}
+		case KBC_ControllerT::kCollocation:
+		{
+			CollocationKBCT* kbc = new CollocationKBCT(fFieldSupport);
 			return kbc;
 		}
 		case KBC_ControllerT::kConveyor:
