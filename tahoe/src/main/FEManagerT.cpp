@@ -2047,12 +2047,25 @@ ExceptionT::CodeT FEManagerT::InitialCondition(void)
 
 	/* set system to initial state */
 	fNodeManager->InitialCondition();
+
+	/* Restore the restart configuration BEFORE initializing the elements.
+	 * ContinuumElementT::InitialCondition computes shape-function derivatives
+	 * (SetGlobalShape) on the *current* configuration.  On a restart the
+	 * configuration at this point is still the freshly zeroed field overlaid
+	 * with the prescribed-displacement boundary conditions; under a compressive
+	 * pre-strain that configuration is geometrically inverted at the gripped
+	 * corner, yielding a spurious negative jacobian and aborting the run before
+	 * the restart is read.  (A tensile pre-strain happens to survive because the
+	 * over-stretched corner keeps a positive jacobian, which is why this only
+	 * surfaced for compression.)  Reading the restart first lets the elements
+	 * see the converged configuration. */
+	bool restarted = ReadRestart();
 	for (int i = 0 ; i < fElementGroups->Length(); i++)
 		(*fElementGroups)[i]->InitialCondition();
 
 	/* initialize state: solve (t = 0) unless restarted */
 	ExceptionT::CodeT error = ExceptionT::kNoError;
-	if (!ReadRestart() && fComputeInitialCondition)
+	if (!restarted && fComputeInitialCondition)
 	{
 		cout << "\n " << caller << ": computing initial conditions" << endl;
 
