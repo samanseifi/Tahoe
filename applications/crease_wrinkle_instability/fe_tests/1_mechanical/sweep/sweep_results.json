@@ -1,0 +1,62 @@
+[
+  {
+    "gbar": 0.0,
+    "eps_c": 0.5,
+    "lH_fft": null,
+    "lH_ac": null,
+    "amp_max": 0.3915,
+    "onset_method": "extrap",
+    "fit_pts": 6,
+    "wrinkled": true
+  },
+  {
+    "gbar": 0.5,
+    "eps_c": 0.614,
+    "lH_fft": 4.84,
+    "lH_ac": 4.75,
+    "amp_max": 0.4901,
+    "onset_method": "extrap",
+    "fit_pts": 13,
+    "wrinkled": true
+  },
+  {
+    "gbar": 1.0,
+    "eps_c": 0.666,
+    "lH_fft": 6.722,
+    "lH_ac": 6.375,
+    "amp_max": 0.7635,
+    "onset_method": "extrap",
+    "fit_pts": 12,
+    "wrinkled": true
+  },
+  {
+    "gbar": 2.0,
+    "eps_c": 0.722,
+    "lH_fft": 11.0,
+    "lH_ac": 10.375,
+    "amp_max": 0.9241,
+    "onset_method": "extrap",
+    "fit_pts": 11,
+    "wrinkled": true
+  },
+  {
+    "gbar": 3.5,
+    "eps_c": 0.787,
+    "lH_fft": 13.444,
+    "lH_ac": 11.75,
+    "amp_max": 0.7079,
+    "onset_method": "extrap",
+    "fit_pts": 5,
+    "wrinkled": true
+  },
+  {
+    "gbar": 5.0,
+    "eps_c": 0.797,
+    "lH_fft": 12.1,
+    "lH_ac": 11.625,
+    "amp_max": 0.7172,
+    "onset_method": "extrap",
+    "fit_pts": 8,
+    "wrinkled": true
+  }
+]

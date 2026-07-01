@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  3D staggered explicit dielectric-elastomer crease/wrinkle test on a
+  SQUARE PLATE (true 2D mode-selection problem in the top-surface plane).
+
+  Geometry (plate_3D.geom): 40 x 4 x 40 hex8 unit cubes
+    Lx = 40, H = 4, Lz = 40, Nx = Nz = 40, Ny = 4
+    -> 6400 elements, 8405 nodes, 1600 top faces in side set 1.
+
+  BCs are symmetric in x and z, so the crease/wrinkle pattern can
+  select a true 2D wavevector (k_x, k_z) — not constrained to be
+  uniform in one direction like in the bar (4 elements through Lz).
+
+  Mechanics: bottom y=0 fully clamped, x-faces D_X=0, z-faces D_Z=0,
+             top y=H free with surface tension.
+  Electrical: bottom Psi=0, top Psi=V(t).
+
+  Same staggered explicit recipe as staggered_explicit_3D.xml
+  (diffusion + Q1P0_3D_surface, central-difference Pass 2, MUMPS Pass 1).
+
+  Loading: gamma ramps over t_0=20, then voltage ramps V(t) = 0.05 t.
+  CFL dt_CFL ~ 0.0316 -> dt = 0.02 (CFL ratio 0.63).
+
+  gamma = 2.0, H = 4 -> gamma_bar = 0.5  (CREASE regime; should match
+  the 2D and 3D-bar V_crease ~ 9.4 from Wang-Zhao 2013).  Expected
+  crease wavelength ~ 1.5 H = 6 -> 6x6 ~ 36 crease cells in the plate.
+
+  Swap gamma -> 20 for the WRINKLE regime (lambda ~ 18 -> ~2x2 wrinkle
+  cells in the plate).
+
+  num_steps = 15000 * dt(0.02) = t_f = 300 -> V_f = 15.
+  output_inc = 50 -> 300 frames.
+-->
+<tahoe author="samansei" compute_IC="false"
+    geometry_file="../meshes/plate_3D.geom" output_format="ExodusII"
+    title="3D Staggered Explicit DE Plate Crease (gamma_bar=0.5)"
+    xmlns:x0="http://www.w3.org/2001/XMLSchema">
+
+    <time num_steps="15000" output_inc="50" time_step="0.02">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0" y="0"/>
+                <OrderedPair x="10000000" y="10000000"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+
+    <nodes>
+        <!-- Pass 1: electrostatics (static, linear) -->
+        <field field_name="electric_scalar_potential" integrator="static" solution_group="1">
+            <dof_labels>
+                <String value="Psi"/>
+            </dof_labels>
+            <kinematic_BC dof="1" node_ID="1" type="fixed"/>
+            <kinematic_BC dof="1" node_ID="2" schedule="1" type="u" value="0.05"/>
+        </field>
+
+        <!-- Pass 2: mechanics (explicit central difference) -->
+        <field field_name="displacement" integrator="central_difference" solution_group="2">
+            <dof_labels>
+                <String value="D_X"/>
+                <String value="D_Y"/>
+                <String value="D_Z"/>
+            </dof_labels>
+            <!-- bottom (NS 1): clamped fully -->
+            <kinematic_BC dof="1" node_ID="1" type="fixed"/>
+            <kinematic_BC dof="2" node_ID="1" type="fixed"/>
+            <kinematic_BC dof="3" node_ID="1" type="fixed"/>
+            <!-- left (NS 3) / right (NS 4): x-roller -->
+            <kinematic_BC dof="1" node_ID="3" type="fixed"/>
+            <kinematic_BC dof="1" node_ID="4" type="fixed"/>
+            <!-- front (NS 5) / back (NS 6): z-roller -->
+            <kinematic_BC dof="3" node_ID="5" type="fixed"/>
+            <kinematic_BC dof="3" node_ID="6" type="fixed"/>
+        </field>
+    </nodes>
+
+    <element_list>
+        <!-- Pass 1: linear-dielectric Poisson solve -->
+        <diffusion field_name="electric_scalar_potential">
+            <hexahedron/>
+            <diffusion_element_nodal_output displacement="1" coordinates="1"/>
+            <diffusion_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <diffusion_material>
+                    <linear_dielectric_material epsilon="1.0"/>
+                </diffusion_material>
+            </diffusion_element_block>
+        </diffusion>
+
+        <!-- Pass 2: explicit 3D mechanics + Maxwell stress + Young-Laplace.
+             gamma = 2.0 -> gamma_bar = 0.5 (CREASE). -->
+        <updated_lagrangian_Q1P0_3D_surface
+            field_name="displacement" mass_type="lumped_mass" epsilon="1.0">
+            <hexahedron/>
+            <solid_element_nodal_output displacements="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <large_strain_material_3D>
+                    <RG_split_general density="1.0">
+                        <rg_eq_potential>
+                            <neo-hookean kappa="1000.67" mu="1.0"/>
+                        </rg_eq_potential>
+                    </RG_split_general>
+                </large_strain_material_3D>
+            </large_strain_element_block>
+            <surface_tension side_set_ID="1" gamma="2.0" t_0="20.0"/>
+        </updated_lagrangian_Q1P0_3D_surface>
+    </element_list>
+
+    <!-- Solver 1: linear electrostatics (MUMPS, one factorization reused) -->
+    <linear_solver>
+        <MUMPS_matrix/>
+    </linear_solver>
+    <!-- Solver 2: explicit central-difference (diagonal mass, no matrix solve) -->
+    <linear_solver>
+        <diagonal_matrix/>
+    </linear_solver>
+
+    <solver_phases max_loops="1">
+        <solver_phase iterations="1" pass_iterations="0" solver="1"/>
+        <solver_phase iterations="1" pass_iterations="0" solver="2"/>
+    </solver_phases>
+</tahoe>

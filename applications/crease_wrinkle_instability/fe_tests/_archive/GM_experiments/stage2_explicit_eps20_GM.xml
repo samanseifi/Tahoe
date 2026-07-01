@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  STAGE 2 (explicit staggered): restart from stage1_plainQ1P0_eps20 (the
+  pre-stretched state from the bare-Q1P0 stretch), add Psi field +
+  surface tension, ramp gamma and then voltage.
+
+  Element: updated_lagrangian_Q1P0_surface — inherits from SimoQ1P0,
+  so the elem0 internal state from Stage 1 (plain SimoQ1P0) is loaded
+  cleanly.  Surface tension is per-face geometric (not in elem0).
+
+  Why explicit: no Newton, no convergence stalls.  Corner stress
+  concentration from gamma at the three-phase contact line still
+  exists, but explicit timestepping integrates F=ma without Newton
+  divergence.  CFL with h_min=1 and c_p~31.7 -> dt_CFL~0.032; we use
+  dt=0.02 (CFL ratio ~0.63).
+
+  Loading sequence for t in [40, 380]:
+    Phase 1 (t in [40, 80])  : gamma ramps from 0 to 2 via t_0=80
+    Phase 2 (t in [80, 380]) : V ramps from 0 to 12 via schedule 2
+  num_steps = (380-40)/0.02 = 17000 steps.
+-->
+<tahoe author="samansei" compute_IC="false"
+    geometry_file="../meshes/bar_2D.geom" output_format="ExodusII"
+    restart_file="../prestretch_workflow/prestretch_eps20_stage1.rs2000of2000"
+    title="#55 GM STAGE 2 (explicit): voltage on eps=20% pre-stretched bar (gamma=2, E_s=10)"
+    xmlns:x0="http://www.w3.org/2001/XMLSchema">
+
+    <time num_steps="30000" output_inc="50" time_step="0.02">
+        <!-- Schedule 1: stretch held at full value -->
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0"        y="1"/>
+                <OrderedPair x="10000000" y="1"/>
+            </piecewise_linear>
+        </schedule_function>
+        <!-- Schedule 2: voltage ramp (silent until t=80, then ramp to 1 over [80,380]) -->
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0"        y="0"/>
+                <OrderedPair x="80"       y="0"/>
+                <OrderedPair x="680"      y="1"/>
+                <OrderedPair x="10000000" y="1"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+
+    <nodes>
+        <field field_name="electric_scalar_potential" integrator="static" solution_group="1">
+            <dof_labels><String value="Psi"/></dof_labels>
+            <kinematic_BC dof="1" node_ID="1" type="fixed"/>
+            <kinematic_BC dof="1" node_ID="2" schedule="2" type="u" value="12.0"/>
+        </field>
+
+        <field field_name="displacement" integrator="central_difference" solution_group="2">
+            <dof_labels><String value="D_X"/><String value="D_Y"/></dof_labels>
+            <kinematic_BC dof="2" node_ID="1" type="fixed"/>
+            <kinematic_BC dof="1" node_ID="3" schedule="1" type="u" value="-8.0"/>
+            <kinematic_BC dof="1" node_ID="4" schedule="1" type="u" value="+8.0"/>
+        </field>
+    </nodes>
+
+    <element_list>
+        <diffusion field_name="electric_scalar_potential">
+            <quadrilateral/>
+            <diffusion_element_nodal_output displacement="1" coordinates="1"/>
+            <diffusion_element_block>
+                <block_ID_list><String value="1"/></block_ID_list>
+                <diffusion_material><linear_dielectric_material epsilon="1.0"/></diffusion_material>
+            </diffusion_element_block>
+        </diffusion>
+
+        <updated_lagrangian_Q1P0_surface
+            field_name="displacement" mass_type="lumped_mass" epsilon="1.0">
+            <quadrilateral/>
+            <solid_element_nodal_output displacements="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list><String value="1"/></block_ID_list>
+                <large_strain_material_2D>
+                    <RG_split_general constraint_2D="plane_strain" density="1.0">
+                        <rg_eq_potential><neo-hookean kappa="1000.67" mu="1.0"/></rg_eq_potential>
+                    </RG_split_general>
+                </large_strain_material_2D>
+            </large_strain_element_block>
+            <!-- #55/#54 GM: sigma_s = gamma_0 + E_s*eps_eng.  With eps_pre=20%,
+                 the top fiber is already stretched, so E_s shifts sigma_s up
+                 by roughly E_s*eps_pre = 2.0 — comparable to gamma_0 itself. -->
+            <surface_tension side_set_ID="1" gamma="2.0" t_0="80.0" E_s="10.0"/>
+        </updated_lagrangian_Q1P0_surface>
+    </element_list>
+
+    <linear_solver><MUMPS_matrix/></linear_solver>
+    <linear_solver><diagonal_matrix/></linear_solver>
+
+    <solver_phases max_loops="1">
+        <solver_phase iterations="1" pass_iterations="0" solver="1"/>
+        <solver_phase iterations="1" pass_iterations="0" solver="2"/>
+    </solver_phases>
+</tahoe>

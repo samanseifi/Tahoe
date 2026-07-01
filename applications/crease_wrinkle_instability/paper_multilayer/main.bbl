@@ -1,0 +1,401 @@
+\begin{thebibliography}{49}
+\expandafter\ifx\csname natexlab\endcsname\relax\def\natexlab#1{#1}\fi
+\providecommand{\url}[1]{\texttt{#1}}
+\providecommand{\href}[2]{#2}
+\providecommand{\path}[1]{#1}
+\providecommand{\DOIprefix}{doi:}
+\providecommand{\ArXivprefix}{arXiv:}
+\providecommand{\URLprefix}{URL: }
+\providecommand{\Pubmedprefix}{pmid:}
+\providecommand{\doi}[1]{\href{http://dx.doi.org/#1}{\path{#1}}}
+\providecommand{\Pubmed}[1]{\href{pmid:#1}{\path{#1}}}
+\providecommand{\bibinfo}[2]{#2}
+\ifx\xfnm\relax \def\xfnm[#1]{\unskip,\space#1}\fi
+%Type = Article
+\bibitem[{Biddiss and Chau(2008)}]{biddissMEP2008}
+\bibinfo{author}{Biddiss, E.}, \bibinfo{author}{Chau, T.},
+  \bibinfo{year}{2008}.
+\newblock \bibinfo{title}{Dielectric elastomers as actuators for upper limb
+  prosthetics: challenges and opportunities}.
+\newblock \bibinfo{journal}{Medical Engineering and Physics}
+  \bibinfo{volume}{30}, \bibinfo{pages}{403--418}.
+%Type = Article
+\bibitem[{Biot(1963)}]{Biot1963}
+\bibinfo{author}{Biot, M.}, \bibinfo{year}{1963}.
+\newblock \bibinfo{title}{Surface instability of rubber in compression}.
+\newblock \bibinfo{journal}{Applied Scientific Research, Section A}
+  \bibinfo{volume}{12}, \bibinfo{pages}{168--182}.
+%Type = Article
+\bibitem[{Biot and Romain(1965)}]{biot1965mechanics}
+\bibinfo{author}{Biot, M.A.}, \bibinfo{author}{Romain, J.E.},
+  \bibinfo{year}{1965}.
+\newblock \bibinfo{title}{Mechanics of incremental deformations}.
+\newblock \bibinfo{journal}{Physics Today} \bibinfo{volume}{18},
+  \bibinfo{pages}{68}.
+%Type = Article
+\bibitem[{Brochu and Pei(2010)}]{brochuMRC2010}
+\bibinfo{author}{Brochu, P.}, \bibinfo{author}{Pei, Q.}, \bibinfo{year}{2010}.
+\newblock \bibinfo{title}{Advances in dielectric elastomers for actuators and
+  artificial muscles}.
+\newblock \bibinfo{journal}{Macromolecular Rapid Communications}
+  \bibinfo{volume}{31}, \bibinfo{pages}{10--36}.
+%Type = Article
+\bibitem[{Cai et~al.(2010)Cai, Bertoldi, Wang and Suo}]{cai2010osmotic}
+\bibinfo{author}{Cai, S.}, \bibinfo{author}{Bertoldi, K.},
+  \bibinfo{author}{Wang, H.}, \bibinfo{author}{Suo, Z.}, \bibinfo{year}{2010}.
+\newblock \bibinfo{title}{Osmotic collapse of a void in an elastomer:
+  breathing, buckling and creasing}.
+\newblock \bibinfo{journal}{Soft Matter} \bibinfo{volume}{6},
+  \bibinfo{pages}{5770--5777}.
+%Type = Article
+\bibitem[{Cai et~al.(2012)Cai, Chen, Suo and Hayward}]{cai2012creasing}
+\bibinfo{author}{Cai, S.}, \bibinfo{author}{Chen, D.}, \bibinfo{author}{Suo,
+  Z.}, \bibinfo{author}{Hayward, R.C.}, \bibinfo{year}{2012}.
+\newblock \bibinfo{title}{Creasing instability of elastomer films}.
+\newblock \bibinfo{journal}{Soft Matter} \bibinfo{volume}{8},
+  \bibinfo{pages}{1301--1304}.
+%Type = Article
+\bibitem[{Cao and Hutchinson(2012)}]{cao2012wrinkling}
+\bibinfo{author}{Cao, Y.}, \bibinfo{author}{Hutchinson, J.W.},
+  \bibinfo{year}{2012}.
+\newblock \bibinfo{title}{Wrinkling phenomena in neo-hookean film/substrate
+  bilayers}.
+\newblock \bibinfo{journal}{Journal of applied mechanics} \bibinfo{volume}{79},
+  \bibinfo{pages}{031019}.
+%Type = Article
+\bibitem[{Carpi et~al.(2010)Carpi, Bauer and Rossi}]{carpiSCIENCE2010}
+\bibinfo{author}{Carpi, F.}, \bibinfo{author}{Bauer, S.},
+  \bibinfo{author}{Rossi, D.D.}, \bibinfo{year}{2010}.
+\newblock \bibinfo{title}{Stretching dielectric elastomer performance}.
+\newblock \bibinfo{journal}{Science} \bibinfo{volume}{330},
+  \bibinfo{pages}{1759--1761}.
+%Type = Article
+\bibitem[{Carpi et~al.(2011)Carpi, Frediani, Turco and De~Rossi}]{Carpi2011}
+\bibinfo{author}{Carpi, F.}, \bibinfo{author}{Frediani, G.},
+  \bibinfo{author}{Turco, S.}, \bibinfo{author}{De~Rossi, D.},
+  \bibinfo{year}{2011}.
+\newblock \bibinfo{title}{Bioinspired tunable lens with muscle-like
+  electroactive elastomers}.
+\newblock \bibinfo{journal}{Advanced Functional Materials}
+  \bibinfo{volume}{21}, \bibinfo{pages}{4152--4158}.
+%Type = Article
+\bibitem[{Carpi et~al.(2008)Carpi, Khanicheh, Mavroidis and
+  De~Rossi}]{Carpi2008mri}
+\bibinfo{author}{Carpi, F.}, \bibinfo{author}{Khanicheh, A.},
+  \bibinfo{author}{Mavroidis, C.}, \bibinfo{author}{De~Rossi, D.},
+  \bibinfo{year}{2008}.
+\newblock \bibinfo{title}{Mri compatibility of silicone-made contractile
+  dielectric elastomer actuators}.
+\newblock \bibinfo{journal}{Mechatronics, IEEE/ASME Transactions on}
+  \bibinfo{volume}{13}, \bibinfo{pages}{370--374}.
+%Type = Article
+\bibitem[{Chen et~al.(2012)Chen, Cai, Suo and Hayward}]{chenPRL2012}
+\bibinfo{author}{Chen, D.}, \bibinfo{author}{Cai, S.}, \bibinfo{author}{Suo,
+  Z.}, \bibinfo{author}{Hayward, R.C.}, \bibinfo{year}{2012}.
+\newblock \bibinfo{title}{Surface energy as a barrier to creasing of elastomer
+  films: an elastic analogy to classical nucleation}.
+\newblock \bibinfo{journal}{Physical Review Letters} \bibinfo{volume}{109},
+  \bibinfo{pages}{038001}.
+%Type = Article
+\bibitem[{Gent(2005)}]{gent2005elastic}
+\bibinfo{author}{Gent, A.}, \bibinfo{year}{2005}.
+\newblock \bibinfo{title}{Elastic instabilities in rubber}.
+\newblock \bibinfo{journal}{International Journal of Non-Linear Mechanics}
+  \bibinfo{volume}{40}, \bibinfo{pages}{165--175}.
+%Type = Article
+\bibitem[{Gent and Cho(1999)}]{gent1999surface}
+\bibinfo{author}{Gent, A.}, \bibinfo{author}{Cho, I.}, \bibinfo{year}{1999}.
+\newblock \bibinfo{title}{Surface instabilities in compressed or bent rubber
+  blocks}.
+\newblock \bibinfo{journal}{Rubber Chemistry and Technology}
+  \bibinfo{volume}{72}, \bibinfo{pages}{253--262}.
+%Type = Article
+\bibitem[{Holmes et~al.(2013)Holmes, Tavakol, Froehlicher and
+  Stone}]{Holmes2013}
+\bibinfo{author}{Holmes, D.P.}, \bibinfo{author}{Tavakol, B.},
+  \bibinfo{author}{Froehlicher, G.}, \bibinfo{author}{Stone, H.A.},
+  \bibinfo{year}{2013}.
+\newblock \bibinfo{title}{Control and manipulation of microfluidic flow via
+  elastic deformations}.
+\newblock \bibinfo{journal}{Soft Matter} \bibinfo{volume}{9},
+  \bibinfo{pages}{7049--7053}.
+%Type = Incollection
+\bibitem[{Hong and Gao(2013)}]{hong2013crease}
+\bibinfo{author}{Hong, W.}, \bibinfo{author}{Gao, F.}, \bibinfo{year}{2013}.
+\newblock \bibinfo{title}{Crease instability on the surface of a solid}, in:
+  \bibinfo{booktitle}{Mechanical Self-Assembly}. \bibinfo{publisher}{Springer},
+  pp. \bibinfo{pages}{111--130}.
+%Type = Article
+\bibitem[{Hong et~al.(2009)Hong, Zhao and Suo}]{hong2009formation}
+\bibinfo{author}{Hong, W.}, \bibinfo{author}{Zhao, X.}, \bibinfo{author}{Suo,
+  Z.}, \bibinfo{year}{2009}.
+\newblock \bibinfo{title}{Formation of creases on the surfaces of elastomers
+  and gels}.
+\newblock \bibinfo{journal}{Applied Physics Letters} \bibinfo{volume}{95},
+  \bibinfo{pages}{111901}.
+%Type = Article
+\bibitem[{Jin et~al.(2015)Jin, Auguste, Hayward and Suo}]{Jin2015a}
+\bibinfo{author}{Jin, L.}, \bibinfo{author}{Auguste, A.},
+  \bibinfo{author}{Hayward, R.C.}, \bibinfo{author}{Suo, Z.},
+  \bibinfo{year}{2015}.
+\newblock \bibinfo{title}{Bifurcation diagrams for the formation of wrinkles or
+  creases in soft bilayers}.
+\newblock \bibinfo{journal}{Journal of Applied Mechanics} \bibinfo{volume}{82},
+  \bibinfo{pages}{061008}.
+%Type = Article
+\bibitem[{Jin et~al.(2014)Jin, Chen, Hayward and Suo}]{jin2014creases}
+\bibinfo{author}{Jin, L.}, \bibinfo{author}{Chen, D.},
+  \bibinfo{author}{Hayward, R.C.}, \bibinfo{author}{Suo, Z.},
+  \bibinfo{year}{2014}.
+\newblock \bibinfo{title}{Creases on the interface between two soft materials}.
+\newblock \bibinfo{journal}{Soft Matter} \bibinfo{volume}{10},
+  \bibinfo{pages}{303--311}.
+%Type = Article
+\bibitem[{Jin and Suo(2015)}]{jin2015smoothening}
+\bibinfo{author}{Jin, L.}, \bibinfo{author}{Suo, Z.}, \bibinfo{year}{2015}.
+\newblock \bibinfo{title}{Smoothening creases on surfaces of strain-stiffening
+  materials}.
+\newblock \bibinfo{journal}{Journal of the Mechanics and Physics of Solids}
+  \bibinfo{volume}{74}, \bibinfo{pages}{68--79}.
+%Type = Article
+\bibitem[{Kang and Huang(2010)}]{kangSM2010}
+\bibinfo{author}{Kang, M.K.}, \bibinfo{author}{Huang, R.},
+  \bibinfo{year}{2010}.
+\newblock \bibinfo{title}{Effect of surface tension on swell-induced surface
+  instability of substrate-confined hydrogel layers}.
+\newblock \bibinfo{journal}{Soft Matter} \bibinfo{volume}{6},
+  \bibinfo{pages}{5637--5742}.
+%Type = Article
+\bibitem[{Keplinger et~al.(2010)Keplinger, Kaltenbrunner, Arnold and
+  Bauer}]{keplingerPNAS2010}
+\bibinfo{author}{Keplinger, C.}, \bibinfo{author}{Kaltenbrunner, M.},
+  \bibinfo{author}{Arnold, N.}, \bibinfo{author}{Bauer, S.},
+  \bibinfo{year}{2010}.
+\newblock \bibinfo{title}{Rontgen's electrode-free elastomer actuators without
+  electromechanical pull-in instability}.
+\newblock \bibinfo{journal}{Proceedings of the National Academy of Science}
+  \bibinfo{volume}{107}, \bibinfo{pages}{4505--4510}.
+%Type = Article
+\bibitem[{Kim et~al.(2013)Kim, Laschi and Trimmer}]{kimTB2013}
+\bibinfo{author}{Kim, S.}, \bibinfo{author}{Laschi, C.},
+  \bibinfo{author}{Trimmer, B.}, \bibinfo{year}{2013}.
+\newblock \bibinfo{title}{Soft robotics: a bioinspired evolution in robotics}.
+\newblock \bibinfo{journal}{Trends in Biotechnology} \bibinfo{volume}{31},
+  \bibinfo{pages}{287--294}.
+%Type = Article
+\bibitem[{Laschi et~al.(2012)Laschi, Cianchetti, Mazzolai, Margheri, Follador
+  and Dario}]{Laschi2012}
+\bibinfo{author}{Laschi, C.}, \bibinfo{author}{Cianchetti, M.},
+  \bibinfo{author}{Mazzolai, B.}, \bibinfo{author}{Margheri, L.},
+  \bibinfo{author}{Follador, M.}, \bibinfo{author}{Dario, P.},
+  \bibinfo{year}{2012}.
+\newblock \bibinfo{title}{Soft robot arm inspired by the octopus}.
+\newblock \bibinfo{journal}{Advanced Robotics} \bibinfo{volume}{26},
+  \bibinfo{pages}{709--727}.
+%Type = Article
+\bibitem[{Li et~al.(2012)Li, Cao, Feng and Gao}]{li2012mechanics}
+\bibinfo{author}{Li, B.}, \bibinfo{author}{Cao, Y.P.}, \bibinfo{author}{Feng,
+  X.Q.}, \bibinfo{author}{Gao, H.}, \bibinfo{year}{2012}.
+\newblock \bibinfo{title}{Mechanics of morphological instabilities and surface
+  wrinkling in soft materials: a review}.
+\newblock \bibinfo{journal}{Soft Matter} \bibinfo{volume}{8},
+  \bibinfo{pages}{5728--5745}.
+%Type = Article
+\bibitem[{Liu and Feng(2012)}]{liuAMS2012}
+\bibinfo{author}{Liu, J.L.}, \bibinfo{author}{Feng, X.Q.},
+  \bibinfo{year}{2012}.
+\newblock \bibinfo{title}{On elastocapillarity: a review}.
+\newblock \bibinfo{journal}{Acta Mechanica Sinica} \bibinfo{volume}{28},
+  \bibinfo{pages}{928--940}.
+%Type = Article
+\bibitem[{Marchese et~al.(2014)Marchese, Onal and Rus}]{Marchese2014}
+\bibinfo{author}{Marchese, A.D.}, \bibinfo{author}{Onal, C.D.},
+  \bibinfo{author}{Rus, D.}, \bibinfo{year}{2014}.
+\newblock \bibinfo{title}{Autonomous soft robotic fish capable of escape
+  maneuvers using fluidic elastomer actuators}.
+\newblock \bibinfo{journal}{Soft Robotics} \bibinfo{volume}{1},
+  \bibinfo{pages}{75--87}.
+%Type = Article
+\bibitem[{Mirfakhrai et~al.(2007)Mirfakhrai, Madden and Baughman}]{mirMT2007}
+\bibinfo{author}{Mirfakhrai, T.}, \bibinfo{author}{Madden, J.D.W.},
+  \bibinfo{author}{Baughman, R.H.}, \bibinfo{year}{2007}.
+\newblock \bibinfo{title}{Polymer artificial muscles}.
+\newblock \bibinfo{journal}{Materials Today} \bibinfo{volume}{10},
+  \bibinfo{pages}{30--38}.
+%Type = Article
+\bibitem[{Park et~al.(2012)Park, Suo, Zhou and Klein}]{parkIJSS2012}
+\bibinfo{author}{Park, H.S.}, \bibinfo{author}{Suo, Z.}, \bibinfo{author}{Zhou,
+  J.}, \bibinfo{author}{Klein, P.A.}, \bibinfo{year}{2012}.
+\newblock \bibinfo{title}{A dynamic finite element method for inhomogeneous
+  deformation and electromechanical instability of dielectric elastomer
+  transducers}.
+\newblock \bibinfo{journal}{International Journal of Solids and Structures}
+  \bibinfo{volume}{49}, \bibinfo{pages}{2187--2194}.
+%Type = Article
+\bibitem[{Park et~al.(2013)Park, Wang, Zhao and Klein}]{parkCMAME2013}
+\bibinfo{author}{Park, H.S.}, \bibinfo{author}{Wang, Q.},
+  \bibinfo{author}{Zhao, X.}, \bibinfo{author}{Klein, P.A.},
+  \bibinfo{year}{2013}.
+\newblock \bibinfo{title}{Electromechanical instability on dielectric polymer
+  surface: modeling and experiment}.
+\newblock \bibinfo{journal}{Computer Methods in Applied Mechanics and
+  Engineering} \bibinfo{volume}{260}, \bibinfo{pages}{40--49}.
+%Type = Article
+\bibitem[{Plante and Dubowsky(2006)}]{planteIJSS2006}
+\bibinfo{author}{Plante, J.S.}, \bibinfo{author}{Dubowsky, S.},
+  \bibinfo{year}{2006}.
+\newblock \bibinfo{title}{Large-scale failure modes of dielectric elastomer
+  actuators}.
+\newblock \bibinfo{journal}{International Journal of Solids and Structures}
+  \bibinfo{volume}{43}, \bibinfo{pages}{7727--7751}.
+%Type = Article
+\bibitem[{Roman and Bico(2010)}]{romanJPCM2010}
+\bibinfo{author}{Roman, B.}, \bibinfo{author}{Bico, J.}, \bibinfo{year}{2010}.
+\newblock \bibinfo{title}{Elasto-capillarity: deforming an elastic structure
+  with a liquid droplet}.
+\newblock \bibinfo{journal}{Journal of Physics: Condensed Matter}
+  \bibinfo{volume}{22}, \bibinfo{pages}{493101}.
+%Type = Article
+\bibitem[{Rus and Tolley(2015)}]{rusNATURE2015}
+\bibinfo{author}{Rus, D.}, \bibinfo{author}{Tolley, M.T.},
+  \bibinfo{year}{2015}.
+\newblock \bibinfo{title}{Design, fabrication and control of soft robots}.
+\newblock \bibinfo{journal}{Nature} \bibinfo{volume}{521},
+  \bibinfo{pages}{467--475}.
+%Type = Article
+\bibitem[{Saksono and Peric(2006)}]{saksonoCM2006}
+\bibinfo{author}{Saksono, P.H.}, \bibinfo{author}{Peric, D.},
+  \bibinfo{year}{2006}.
+\newblock \bibinfo{title}{On finite element modelling of surface tension.
+  variational formulation and applications - part {I}: quasistatic problems}.
+\newblock \bibinfo{journal}{Computational Mechanics} \bibinfo{volume}{38},
+  \bibinfo{pages}{265--281}.
+%Type = Article
+\bibitem[{Seifi and Park(2016)}]{seifiIJSS2016}
+\bibinfo{author}{Seifi, S.}, \bibinfo{author}{Park, H.S.},
+  \bibinfo{year}{2016}.
+\newblock \bibinfo{title}{Computational modeling of electro-elasto-capillary
+  phenomena in dielectric elastomers}.
+\newblock \bibinfo{journal}{International Journal of Solids and Structures}
+  \bibinfo{volume}{87}, \bibinfo{pages}{236--244}.
+%Type = Article
+\bibitem[{Shivapooja et~al.(2013)Shivapooja, Wang, Orihuela, Rittschof, Lopez
+  and Zhao}]{shivapoojaAM2013}
+\bibinfo{author}{Shivapooja, P.}, \bibinfo{author}{Wang, Q.},
+  \bibinfo{author}{Orihuela, B.}, \bibinfo{author}{Rittschof, D.},
+  \bibinfo{author}{Lopez, G.P.}, \bibinfo{author}{Zhao, X.},
+  \bibinfo{year}{2013}.
+\newblock \bibinfo{title}{Bioinspired surfaces with dynamic topography for
+  active control of biofouling}.
+\newblock \bibinfo{journal}{Advanced Materials} \bibinfo{volume}{25},
+  \bibinfo{pages}{1430--1434}.
+%Type = Article
+\bibitem[{Suo(2010)}]{suoAMSS2010}
+\bibinfo{author}{Suo, Z.}, \bibinfo{year}{2010}.
+\newblock \bibinfo{title}{Theory of dielectric elastomers}.
+\newblock \bibinfo{journal}{Acta Mechanica Solida Sinica} \bibinfo{volume}{23},
+  \bibinfo{pages}{549--578}.
+%Type = Article
+\bibitem[{Suo et~al.(2008)Suo, Zhao and Greene}]{suoJMPS2008}
+\bibinfo{author}{Suo, Z.}, \bibinfo{author}{Zhao, X.}, \bibinfo{author}{Greene,
+  W.H.}, \bibinfo{year}{2008}.
+\newblock \bibinfo{title}{A nonlinear field theory of deformable dielectrics}.
+\newblock \bibinfo{journal}{Journal of the Mechanics and Physics of Solids}
+  \bibinfo{volume}{56}, \bibinfo{pages}{467--486}.
+%Type = Article
+\bibitem[{Tahoe(2015)}]{tahoe}
+\bibinfo{author}{Tahoe}, \bibinfo{year}{2015}.
+\newblock \bibinfo{journal}{http://sourceforge.net/projects/tahoe/} .
+%Type = Article
+\bibitem[{Tanaka et~al.(1987)Tanaka, Sun, Hirokawa, Katayama, Kucera, Hirose
+  and Amiya}]{tanaka1987mechanical}
+\bibinfo{author}{Tanaka, T.}, \bibinfo{author}{Sun, S.T.},
+  \bibinfo{author}{Hirokawa, Y.}, \bibinfo{author}{Katayama, S.},
+  \bibinfo{author}{Kucera, J.}, \bibinfo{author}{Hirose, Y.},
+  \bibinfo{author}{Amiya, T.}, \bibinfo{year}{1987}.
+\newblock \bibinfo{title}{Mechanical instability of gels at the phase
+  transition}.
+\newblock \bibinfo{journal}{Nature} \bibinfo{volume}{325},
+  \bibinfo{pages}{796--798}.
+%Type = Article
+\bibitem[{Wang et~al.(2012)Wang, Tahir, Zang and Zhao}]{wangAM2012}
+\bibinfo{author}{Wang, Q.}, \bibinfo{author}{Tahir, M.}, \bibinfo{author}{Zang,
+  J.}, \bibinfo{author}{Zhao, X.}, \bibinfo{year}{2012}.
+\newblock \bibinfo{title}{Dynamic electrostatic lithography: multiscale
+  on-demand patterning on large-area substrates}.
+\newblock \bibinfo{journal}{Advanced Materials} \bibinfo{volume}{24},
+  \bibinfo{pages}{1947--1951}.
+%Type = Article
+\bibitem[{Wang et~al.(2011)Wang, Zhang and Zhao}]{wangPRL2011a}
+\bibinfo{author}{Wang, Q.}, \bibinfo{author}{Zhang, L.}, \bibinfo{author}{Zhao,
+  X.}, \bibinfo{year}{2011}.
+\newblock \bibinfo{title}{Creasing to cratering instability in polymers under
+  ultrahigh electric fields}.
+\newblock \bibinfo{journal}{Physical Review Letters} \bibinfo{volume}{106},
+  \bibinfo{pages}{118301}.
+%Type = Article
+\bibitem[{Wang and Zhao(2014)}]{wangJAM2014}
+\bibinfo{author}{Wang, Q.}, \bibinfo{author}{Zhao, X.}, \bibinfo{year}{2014}.
+\newblock \bibinfo{title}{Phase diagrams of instabilities in compressed
+  film-substrate systems}.
+\newblock \bibinfo{journal}{Journal of Applied Mechanics} \bibinfo{volume}{81},
+  \bibinfo{pages}{051004}.
+%Type = Article
+\bibitem[{Wang and Zhao(2016)}]{wangMRS2016}
+\bibinfo{author}{Wang, Q.}, \bibinfo{author}{Zhao, X.}, \bibinfo{year}{2016}.
+\newblock \bibinfo{title}{Beyond wrinkles: multimodal surface instabilities for
+  multifunctional patterning}.
+\newblock \bibinfo{journal}{MRS Bulletin} \bibinfo{volume}{41},
+  \bibinfo{pages}{115--122}.
+%Type = Article
+\bibitem[{Wang et~al.(2016)Wang, Decker, Henann and Chester}]{wangJMPS2016}
+\bibinfo{author}{Wang, S.}, \bibinfo{author}{Decker, M.},
+  \bibinfo{author}{Henann, D.L.}, \bibinfo{author}{Chester, S.A.},
+  \bibinfo{year}{2016}.
+\newblock \bibinfo{title}{Modeling of dielectric viscoelastomers with
+  application to electromechanical instabilities}.
+\newblock \bibinfo{journal}{Journal of the Mechanics and Physics of Solids}
+  \bibinfo{volume}{95}, \bibinfo{pages}{213--229}.
+%Type = Article
+\bibitem[{Weiss et~al.(2013)Weiss, Cai, Hu, Kang, Huang and
+  Suo}]{weiss2013creases}
+\bibinfo{author}{Weiss, F.}, \bibinfo{author}{Cai, S.}, \bibinfo{author}{Hu,
+  Y.}, \bibinfo{author}{Kang, M.K.}, \bibinfo{author}{Huang, R.},
+  \bibinfo{author}{Suo, Z.}, \bibinfo{year}{2013}.
+\newblock \bibinfo{title}{Creases and wrinkles on the surface of a swollen
+  gel}.
+\newblock \bibinfo{journal}{Journal of Applied Physics} \bibinfo{volume}{114},
+  \bibinfo{pages}{073507}.
+%Type = Article
+\bibitem[{Yang et~al.(2017)Yang, Zhao and Sharma}]{yangJAM2017}
+\bibinfo{author}{Yang, S.}, \bibinfo{author}{Zhao, X.},
+  \bibinfo{author}{Sharma, P.}, \bibinfo{year}{2017}.
+\newblock \bibinfo{title}{Revisiting the instability and bifurcation behavior
+  of soft dielectrics}.
+\newblock \bibinfo{journal}{Journal of Applied Mechanics} \bibinfo{volume}{84},
+  \bibinfo{pages}{031008}.
+\newblock \DOIprefix\doi{10.1115/1.4035499}.
+%Type = Article
+\bibitem[{Zhao and Suo(2007)}]{zhaoAPL2007}
+\bibinfo{author}{Zhao, X.}, \bibinfo{author}{Suo, Z.}, \bibinfo{year}{2007}.
+\newblock \bibinfo{title}{Method to analyze electromechanical instability of
+  dielectric elastomers}.
+\newblock \bibinfo{journal}{Applied Physics Letters} \bibinfo{volume}{91},
+  \bibinfo{pages}{061921}.
+%Type = Article
+\bibitem[{Zhao and Suo(2009)}]{zhao2009electromechanical}
+\bibinfo{author}{Zhao, X.}, \bibinfo{author}{Suo, Z.}, \bibinfo{year}{2009}.
+\newblock \bibinfo{title}{Electromechanical instability in semicrystalline
+  polymers}.
+\newblock \bibinfo{journal}{Applied Physics Letters} \bibinfo{volume}{95},
+  \bibinfo{pages}{031904}.
+%Type = Article
+\bibitem[{Zhou et~al.(2008)Zhou, Hong, Zhao, Zhang and Suo}]{zhouIJSS2008}
+\bibinfo{author}{Zhou, J.}, \bibinfo{author}{Hong, W.}, \bibinfo{author}{Zhao,
+  X.}, \bibinfo{author}{Zhang, Z.}, \bibinfo{author}{Suo, Z.},
+  \bibinfo{year}{2008}.
+\newblock \bibinfo{title}{Propagation of instability in dielectric elastomers}.
+\newblock \bibinfo{journal}{International Journal of Solids and Structures}
+  \bibinfo{volume}{45}, \bibinfo{pages}{3739--3750}.
+
+\end{thebibliography}

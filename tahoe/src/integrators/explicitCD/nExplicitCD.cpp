@@ -112,12 +112,14 @@ void nExplicitCD::Corrector(BasicFieldT& field, const dArray2DT& update, int fie
 	// v_old = field[1]; // old veleocity from previous time step
 	// a_old = field[2]; // old displacement from previous time step
 
+	const double decay = 1.0 - fDamping*fdt;   /* mass-proportional damping (quasi-static DR) */
 	if (fieldend == -1) // operate on full arrays
 	{
 		/* no displacement corrector */
 
 		/* velocity corrector */
 		field[1].AddScaled(vcorr_a, update);
+		if (fDamping > 0.0) field[1] *= decay;
 
 		/* acceleration corrector */
 		field[2] += update;
@@ -128,6 +130,10 @@ void nExplicitCD::Corrector(BasicFieldT& field, const dArray2DT& update, int fie
 
 		/* velocity corrector */
 		field[1].AddScaled(vcorr_a, update, fieldstart, fieldend);
+		if (fDamping > 0.0) {
+			double* pv = field[1].Pointer();
+			for (int i = fieldstart; i <= fieldend; i++) pv[i] *= decay;
+		}
 
 		/* acceleration corrector */
 		field[2].AddScaled(1.0, update, fieldstart, fieldend);
@@ -157,6 +163,7 @@ void nExplicitCD::Corrector(BasicFieldT& field, const dArrayT& update,
 		{
 			double a = update[eq];
 			*pv += vcorr_a*a;
+			*pv *= (1.0 - fDamping*fdt);   /* mass-proportional damping (quasi-static DR) */
 			*pa = a;
 		}
 		pv++;
@@ -220,4 +227,12 @@ void nExplicitCD::nComputeParameters(void)
 
 	/* corrector */
 	vcorr_a		= 0.5*fdt;
+
+	/* mass-proportional (Rayleigh) damping for quasi-static dynamic relaxation;
+	 * alpha read from env TAHOE_DAMP (default 0 = original undamped behaviour) */
+	const char* damp_env = getenv("TAHOE_DAMP");
+	fDamping = (damp_env != NULL) ? atof(damp_env) : 0.0;
+	if (fDamping > 0.0)
+		cout << " nExplicitCD: mass-proportional damping alpha = " << fDamping
+		     << " (decay " << (1.0 - fDamping*fdt) << "/step)\n";
 }

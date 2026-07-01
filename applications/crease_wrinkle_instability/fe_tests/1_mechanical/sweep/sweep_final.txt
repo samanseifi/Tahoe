@@ -1,0 +1,19 @@
+=== run times ===
+sweep_g0025: gbar=0.25 eps_max=0.65 rc=0 (1823s)
+sweep_g0000: gbar=0.0 eps_max=0.56 rc=0 (1864s)
+sweep_g0050: gbar=0.5 eps_max=0.69 rc=0 (1933s)
+sweep_g0100: gbar=1.0 eps_max=0.75 rc=0 (2003s)
+sweep_g0200: gbar=2.0 eps_max=0.81 rc=0 (2080s)
+=== eps_c & wavelength ===
+  gbar=  0.0: eps_c=0.492 l/H=18.73 (~0.8 waves)
+  gbar= 0.25: eps_c=0.579 l/H=7.88 (~1.9 waves)
+  gbar=  0.5: eps_c=0.627 l/H=8.57 (~1.8 waves)
+  gbar=  1.0: eps_c=0.677 l/H=7.12 (~2.1 waves)
+  gbar=  2.0: eps_c=0.739 l/H=11.00 (~1.4 waves)
+
+wrote sweep_results.json (5 runs)
+=== FINALIZED ===
+=== plot ===
+sweep_eps_wavelength.pdf written
+FE: [(0.0, 0.4923, 18.726), (0.25, 0.579, 7.883), (0.5, 0.6274, 8.571), (1.0, 0.6772, 7.118), (2.0, 0.7393, 11.0)]
+=== ALL_DONE ===

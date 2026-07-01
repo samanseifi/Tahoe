@@ -1,0 +1,11 @@
+This is BibTeX, Version 0.99d (TeX Live 2022/dev/Debian)
+The top-level auxiliary file: main.aux
+The style file: elsarticle-harv.bst
+Database file #1: biball.bib
+Repeated entry---line 57 of file biball.bib
+ : @article{wangJAM2014
+ :                     ,
+I'm skipping whatever remains of this entry
+Database file #2: park_holmes_nsf_2016.bib
+Warning--empty title in tahoe
+(There was 1 error message)

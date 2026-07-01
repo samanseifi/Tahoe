@@ -1,0 +1,54 @@
+This is BibTeX, Version 0.99d (TeX Live 2022/dev/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+The style file: elsarticle-harv.bst
+Database file #1: biball.bib
+Repeated entry---line 57 of file biball.bib
+ : @article{wangJAM2014
+ :                     ,
+I'm skipping whatever remains of this entry
+Database file #2: park_holmes_nsf_2016.bib
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Warning--empty title in tahoe
+You've used 49 entries,
+            2990 wiz_defined-function locations,
+            1012 strings with 13746 characters,
+and the built_in function-call counts, 33899 in all, are:
+= -- 2610
+> -- 1298
+< -- 23
++ -- 503
+- -- 450
+* -- 3777
+:= -- 4876
+add.period$ -- 146
+call.type$ -- 49
+change.case$ -- 394
+chr.to.int$ -- 49
+cite$ -- 50
+duplicate$ -- 2508
+empty$ -- 2511
+format.name$ -- 625
+if$ -- 6275
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 491
+newline$ -- 259
+num.names$ -- 196
+pop$ -- 890
+preamble$ -- 1
+purify$ -- 346
+quote$ -- 0
+skip$ -- 658
+stack$ -- 0
+substring$ -- 1702
+swap$ -- 1836
+text.length$ -- 1
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 441
+warning$ -- 1
+while$ -- 232
+width$ -- 0
+write$ -- 699
+(There was 1 error message)

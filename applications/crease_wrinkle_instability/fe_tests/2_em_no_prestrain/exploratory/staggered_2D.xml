@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  2D staggered dielectric-elastomer crease / wrinkle test.
+
+  Same geometry, BCs and load as monolithic_2D.xml; just split into two
+  fields solved sequentially:
+
+    Pass 1 (static):       <diffusion> + linear_dielectric_material
+                           solves div(eps grad Psi) = 0 for Psi (SPOOLES).
+
+    Pass 2 (HHT dynamic):  <updated_lagrangian_Q1P0_surface> with the
+                           same neo-Hookean material; SimoQ1P0_Surface
+                           auto-detects "electric_scalar_potential" and
+                           adds sigma_E = eps*(E x E - 0.5|E|^2 I) to the
+                           Cauchy stress, *and* applies a Young-Laplace
+                           gamma*kappa*n force on the top side set.
+
+  Surface tension is wired via <surface_tension side_set_ID="1" gamma=..
+  t_0=.. /> — side set 1 in bar_2D.geom is the top free edge (y=H).
+  gamma="0.0" -> crease regime; raise to enter the wrinkle regime.
+-->
+<tahoe author="samansei" compute_IC="false"
+    geometry_file="../../../meshes/bar_2D.geom" output_format="ExodusII"
+    title="2D Staggered DE Crease/Wrinkle (diffusion + Q1P0_surface)"
+    xmlns:x0="http://www.w3.org/2001/XMLSchema">
+
+    <time num_steps="30000" output_inc="50" time_step="0.01">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0" y="0"/>
+                <OrderedPair x="10000000" y="10000000"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+
+    <nodes>
+        <!-- Pass 1: electrostatics -->
+        <field field_name="electric_scalar_potential" integrator="static" solution_group="1">
+            <dof_labels>
+                <String value="Psi"/>
+            </dof_labels>
+            <!-- bottom (NS 1): Psi=0 -->
+            <kinematic_BC dof="1" node_ID="1" type="fixed"/>
+            <!-- top (NS 2): Psi = 5e-3 * t  (10x faster ramp; V_f=1.5 at step 30000) -->
+            <kinematic_BC dof="1" node_ID="2" schedule="1" type="u" value="0.005"/>
+        </field>
+
+        <!-- Pass 2: mechanics with HHT, surface tension on side set 1 -->
+        <field field_name="displacement" integrator="nonlinear_HHT" solution_group="2">
+            <dof_labels>
+                <String value="D_X"/>
+                <String value="D_Y"/>
+            </dof_labels>
+            <!-- bottom (NS 1): clamp -->
+            <kinematic_BC dof="1" node_ID="1" type="fixed"/>
+            <kinematic_BC dof="2" node_ID="1" type="fixed"/>
+            <!-- left (NS 3): roller -->
+            <kinematic_BC dof="1" node_ID="3" type="fixed"/>
+            <!-- right (NS 4): roller -->
+            <kinematic_BC dof="1" node_ID="4" type="fixed"/>
+        </field>
+    </nodes>
+
+    <element_list>
+        <!-- Pass 1: linear-dielectric Poisson solve -->
+        <diffusion field_name="electric_scalar_potential">
+            <quadrilateral/>
+            <diffusion_element_nodal_output displacement="1" coordinates="1"/>
+            <diffusion_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <diffusion_material>
+                    <linear_dielectric_material epsilon="1.0"/>
+                </diffusion_material>
+            </diffusion_element_block>
+        </diffusion>
+
+        <!-- Pass 2: nonlinear mechanics + Maxwell stress + surface tension.
+             gamma=0.0 -> crease regime; gamma>0 -> wrinkle regime.
+             t_0=20 ramps gamma linearly from 0 to its target over t in [0,20]
+             so the surface tension doesn't shock the initial conditions. -->
+        <updated_lagrangian_Q1P0_surface
+            field_name="displacement" mass_type="lumped_mass" epsilon="1.0">
+            <quadrilateral/>
+            <solid_element_nodal_output displacements="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <large_strain_material_2D>
+                    <RG_split_general constraint_2D="plane_strain" density="1.0">
+                        <rg_eq_potential>
+                            <neo-hookean kappa="1000.67" mu="1.0"/>
+                        </rg_eq_potential>
+                    </RG_split_general>
+                </large_strain_material_2D>
+            </large_strain_element_block>
+            <surface_tension side_set_ID="1" gamma="0.0" t_0="20.0"/>
+        </updated_lagrangian_Q1P0_surface>
+    </element_list>
+
+    <!-- Solver 1: linear electrostatics -->
+    <linear_solver>
+        <MUMPS_matrix/>
+    </linear_solver>
+    <!-- Solver 2: nonlinear mechanics -->
+    <nonlinear_solver abs_tolerance="1.0e-7"
+        check_LHS_perturbation="1.0E-8" check_code="no_check"
+        divergence_tolerance="1.0e+10" max_iterations="500" rel_tolerance="1.0e-9">
+        <MUMPS_matrix/>
+    </nonlinear_solver>
+
+    <!-- One outer pass per step: Pass 1 solves Psi linearly, Pass 2 advances
+         mechanics with the resulting Maxwell stress.  Bump max_loops=3-5 if
+         you see coupling stagnation. -->
+    <!-- max_loops=5 gives the staggered outer loop room to converge through the
+         crease/wrinkle nucleation, where the mech-elec coupling tightens sharply. -->
+    <solver_phases max_loops="5">
+        <solver_phase iterations="1" pass_iterations="0" solver="1"/>
+        <solver_phase iterations="50" pass_iterations="0" solver="2"/>
+    </solver_phases>
+</tahoe>

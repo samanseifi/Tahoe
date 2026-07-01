@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #55 Droplet hypothesis (round 2): paper-aspect film, refined through-
+  thickness, push past V_crit to test whether the Gurtin-Murdoch
+  (E_s > 0) surface law drives wrinkles toward droplet-like pinching
+  that the constant-tension Young-Laplace law cannot reach.
+
+  Why this round differs from the Lx=20 attempt:
+    The Lx=20 short-film run (round 1) collapsed into a single bulk-
+    buckling mode (n=1 over the whole strip) because the aspect ratio
+    was too small to host multiple wrinkle wavelengths.  This run
+    restores the paper Lx=80 aspect (Seifi-Park 2016) so that several
+    wavelengths fit, AND refines only in y to give the wrinkle crests
+    enough vertical resolution to survive deeper into post-bifurcation.
+
+  Geometry:
+     Lx = 80, H = 4 (paper aspect 20),  Nx = 80, Ny = 16, 1280 quad4
+     elements,  dx = 1.0,  dy = 0.25  (4x more layers in y vs paper).
+
+  CFL — c_p ~ 31.66, h_min = 0.25  →  dt_CFL ~ 0.0079.  dt = 0.005
+  (ratio 0.63).  num_steps = 80000  →  t_f = 400,  V_f = 0.05·400 = 20
+  (well past V_crit ~ 14.9 measured on the paper 80x4 mesh).
+
+  output_inc = 400  →  200 frames.  V_dot = 0.05 (same as paper case
+  so the bifurcation diagrams stack directly).
+
+  Pair: this XML (E_s = 10) and droplet_hypothesis_YL_control.xml (E_s = 0).
+-->
+<tahoe author="samansei" compute_IC="false"
+    geometry_file="../meshes/bar_2D_fineY.geom" output_format="ExodusII"
+    title="#55 YL control for droplet hypothesis (Lx=80, dy=0.25, gamma=20, E_s=0)"
+    xmlns:x0="http://www.w3.org/2001/XMLSchema">
+
+    <time num_steps="80000" output_inc="400" time_step="0.005">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0" y="0"/>
+                <OrderedPair x="10000000" y="10000000"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+
+    <nodes>
+        <field field_name="electric_scalar_potential" integrator="static" solution_group="1">
+            <dof_labels><String value="Psi"/></dof_labels>
+            <kinematic_BC dof="1" node_ID="1" type="fixed"/>
+            <kinematic_BC dof="1" node_ID="2" schedule="1" type="u" value="0.05"/>
+        </field>
+        <field field_name="displacement" integrator="central_difference" solution_group="2">
+            <dof_labels><String value="D_X"/><String value="D_Y"/></dof_labels>
+            <kinematic_BC dof="1" node_ID="1" type="fixed"/>
+            <kinematic_BC dof="2" node_ID="1" type="fixed"/>
+            <kinematic_BC dof="1" node_ID="3" type="fixed"/>
+            <kinematic_BC dof="1" node_ID="4" type="fixed"/>
+        </field>
+    </nodes>
+
+    <element_list>
+        <diffusion field_name="electric_scalar_potential">
+            <quadrilateral/>
+            <diffusion_element_nodal_output displacement="1" coordinates="1"/>
+            <diffusion_element_block>
+                <block_ID_list><String value="1"/></block_ID_list>
+                <diffusion_material>
+                    <linear_dielectric_material epsilon="1.0"/>
+                </diffusion_material>
+            </diffusion_element_block>
+        </diffusion>
+
+        <updated_lagrangian_Q1P0_surface
+            field_name="displacement" mass_type="lumped_mass" epsilon="1.0">
+            <quadrilateral/>
+            <solid_element_nodal_output displacements="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list><String value="1"/></block_ID_list>
+                <large_strain_material_2D>
+                    <RG_split_general constraint_2D="plane_strain" density="1.0">
+                        <rg_eq_potential><neo-hookean kappa="1000.67" mu="1.0"/></rg_eq_potential>
+                    </RG_split_general>
+                </large_strain_material_2D>
+            </large_strain_element_block>
+            <!-- YL control: E_s = 0 disables Gurtin-Murdoch term -->
+            <surface_tension side_set_ID="1" gamma="20.0" t_0="20.0" E_s="0.0"/>
+        </updated_lagrangian_Q1P0_surface>
+    </element_list>
+
+    <linear_solver><MUMPS_matrix/></linear_solver>
+    <linear_solver><diagonal_matrix/></linear_solver>
+
+    <solver_phases max_loops="1">
+        <solver_phase iterations="1" pass_iterations="0" solver="1"/>
+        <solver_phase iterations="1" pass_iterations="0" solver="2"/>
+    </solver_phases>
+</tahoe>

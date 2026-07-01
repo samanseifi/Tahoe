@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  #55 Droplet hypothesis, round 3: softer bulk + higher γ̄, slower V ramp.
+
+  Motivation:
+    Experimentally, homogeneous DE films under high surface tension show
+    a transition from sinusoidal wrinkles to cusp / pinching / droplet
+    morphology (Mora 2010 elastic-Rayleigh-Plateau, Pomeau-Rica fold
+    theory).  The mechanism does NOT require bending stiffness (no
+    bilayer is needed) — it requires γ̄ = γ/(μH) ≫ 1 so the surface
+    energy dominates the bulk in the post-bifurcation evolution, plus
+    enough V-headroom past V_crit for the wavelength to coarsen and
+    folds to deepen into cusps.
+
+    Previous runs (round 2, μ=1, γ̄=5) bifurcated at V≈15 and died at
+    V≈16 — only ~1 V of post-bifurcation evolution.  This round
+    softens the bulk by 10× (μ: 1.0 → 0.1) to push γ̄ to 50, and
+    halves V_dot to give the dynamics time to localize.
+
+  Predicted thresholds (Wang-Zhao 2013, μ=0.1, γ=20, H=4, ε=1):
+    V_wrinkle ≈ (2.49·√(μ/ε) + 0.46·√(γ/(Hε))) · H
+              = (0.79 + 1.03) · 4 = 7.27
+    V_crease  ≈ (1.03·√(μ/ε) + 1.88·√(γ/(Hε))) · H
+              = (0.33 + 4.20) · 4 = 18.10
+    (V_wrinkle < V_crease → wrinkle wins linear bifurcation; whether
+     post-bif it stays sinusoidal or breaks into cusps/droplets is
+     what this run aims to find out.)
+
+  Time stepping (LONG variant, round 4 of the droplet hunt):
+    h_min = 0.25, c_p ≈ 31.63  →  dt_CFL ≈ 0.0079, dt = 0.005 (ratio 0.63).
+    V_dot = 0.01  (2.5× slower than round 3) for very-quasi-static ramp —
+            buys time for post-bif fold cascade / cusp formation.
+    num_steps = 300000  →  t_f = 1500,  V_max = 15  ≈ 2× V_wrinkle and
+            ~5× V past bifurcation onset.
+    output_inc = 1500  →  200 frames.
+
+  YL only — GM control was over-stabilizing in round 3 (failed by
+  bulk-corner compression before bifurcating).
+-->
+<tahoe author="samansei" compute_IC="false"
+    geometry_file="../meshes/bar_2D_fineY32.geom" output_format="ExodusII"
+    title="#55 GM FIXSIDES Ny=32 (μ=0.1, γ̄=50, E_s=10, dt=0.0025)"
+    xmlns:x0="http://www.w3.org/2001/XMLSchema">
+
+    <time num_steps="400000" output_inc="2000" time_step="0.0025">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0" y="0"/>
+                <OrderedPair x="10000000" y="10000000"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+
+    <nodes>
+        <field field_name="electric_scalar_potential" integrator="static" solution_group="1">
+            <dof_labels><String value="Psi"/></dof_labels>
+            <kinematic_BC dof="1" node_ID="1" type="fixed"/>
+            <!-- V_dot = 0.01 (very quasi-static) for fold-localization runtime -->
+            <kinematic_BC dof="1" node_ID="2" schedule="1" type="u" value="0.01"/>
+        </field>
+        <field field_name="displacement" integrator="central_difference" solution_group="2">
+            <dof_labels><String value="D_X"/><String value="D_Y"/></dof_labels>
+            <kinematic_BC dof="1" node_ID="1" type="fixed"/>
+            <kinematic_BC dof="2" node_ID="1" type="fixed"/>
+            <kinematic_BC dof="1" node_ID="3" type="fixed"/>
+            <kinematic_BC dof="1" node_ID="4" type="fixed"/>
+            <kinematic_BC dof="2" node_ID="3" type="fixed"/>
+            <kinematic_BC dof="2" node_ID="4" type="fixed"/>
+        </field>
+    </nodes>
+
+    <element_list>
+        <diffusion field_name="electric_scalar_potential">
+            <quadrilateral/>
+            <diffusion_element_nodal_output displacement="1" coordinates="1"/>
+            <diffusion_element_block>
+                <block_ID_list><String value="1"/></block_ID_list>
+                <diffusion_material>
+                    <linear_dielectric_material epsilon="1.0"/>
+                </diffusion_material>
+            </diffusion_element_block>
+        </diffusion>
+
+        <updated_lagrangian_Q1P0_surface
+            field_name="displacement" mass_type="lumped_mass" epsilon="1.0">
+            <quadrilateral/>
+            <solid_element_nodal_output displacements="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list><String value="1"/></block_ID_list>
+                <large_strain_material_2D>
+                    <!-- SOFT BULK: μ = 0.1 (10× softer than paper).  κ unchanged
+                         so the material stays nearly incompressible (ν ≈ 0.49997).
+                         γ̄ = γ/(μH) = 20/(0.1·4) = 50, vs 5 in round 2. -->
+                    <RG_split_general constraint_2D="plane_strain" density="1.0">
+                        <rg_eq_potential><neo-hookean kappa="1000.67" mu="0.1"/></rg_eq_potential>
+                    </RG_split_general>
+                </large_strain_material_2D>
+            </large_strain_element_block>
+            <!-- YL control: E_s = 0 disables Gurtin-Murdoch term -->
+            <surface_tension side_set_ID="1" gamma="20.0" t_0="20.0" E_s="10.0"/>
+        </updated_lagrangian_Q1P0_surface>
+    </element_list>
+
+    <linear_solver><MUMPS_matrix/></linear_solver>
+    <linear_solver><diagonal_matrix/></linear_solver>
+
+    <solver_phases max_loops="1">
+        <solver_phase iterations="1" pass_iterations="0" solver="1"/>
+        <solver_phase iterations="1" pass_iterations="0" solver="2"/>
+    </solver_phases>
+</tahoe>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Stage 1 of the pre-stretched DE crease/wrinkle workflow.
+
+  PURPOSE: mechanically pre-stretch the bar to a target lateral strain
+  eps_pre, with NO applied voltage (Psi=0 throughout).  Static integrator
+  (no inertia, no wobble) because:
+    - With V=0, the Maxwell stress is zero -> the monolithic tangent is
+      symmetric (just elasticity + Young-Laplace gamma stiffness +
+      Q1P0 u-p mixed coupling).  Newton converges quadratically.
+    - The asymmetric Maxwell coupling that murdered the static solver in
+      monolithic_static_2D.xml is absent here.
+
+  Writes a restart file at the end so Stage 2 (voltage_after_stretch_2D.xml)
+  can pick up the pre-stretched state (geometry + stress + Q1P0 internal
+  pressure) and apply voltage from there.
+
+  Geometry: bar_2D.geom (80 x 4 quad4 unit-cells, paper geometry).
+
+  BCs:
+    bottom (NS 1) : D_Y = 0 (substrate-bonded; D_X free for symmetric stretch),
+                    Psi = 0 (ground, never changes)
+    left  (NS 3) : D_X = -2.0 * sched_1(t) -> -2 at t=20 (5% stretch)
+    right (NS 4) : D_X = +2.0 * sched_1(t)
+    top   (NS 2) : Psi = 0 (FIXED throughout this stage - no voltage)
+
+  Load:
+    schedule 1: ramps 0 -> 1 over t in [0, 20], holds at 1 (the side stretch
+    multiplier).  num_steps=2000 * dt=0.02 -> t_f = 40 (extra hold time).
+
+  Restart:
+    restart_output_inc="2000" writes restart at the last step (and any
+    step that's a multiple of 2000).
+-->
+<tahoe author="samansei" compute_IC="false"
+    geometry_file="../meshes/bar_2D.geom" output_format="ExodusII"
+    restart_output_inc="2000"
+    title="2D Monolithic STATIC pre-stretch (eps_pre=5%, V=0)"
+    xmlns:x0="http://www.w3.org/2001/XMLSchema">
+
+    <time num_steps="2000" output_inc="100" time_step="0.02">
+        <!-- Schedule 1: stretch ramp -->
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0"        y="0"/>
+                <OrderedPair x="20"       y="1"/>
+                <OrderedPair x="10000000" y="1"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+
+    <nodes>
+        <field field_name="displacement" integrator="static">
+            <dof_labels>
+                <String value="D_X"/>
+                <String value="D_Y"/>
+            </dof_labels>
+            <!-- bottom (NS 1): D_Y=0 (substrate-bonded), D_X FREE -->
+            <kinematic_BC dof="2" node_ID="1" type="fixed"/>
+            <!-- left  (NS 3): pre-stretch outward -->
+            <kinematic_BC dof="1" node_ID="3" schedule="1" type="u" value="-2.0"/>
+            <!-- right (NS 4): pre-stretch outward -->
+            <kinematic_BC dof="1" node_ID="4" schedule="1" type="u" value="+2.0"/>
+        </field>
+
+        <field field_name="electric_scalar_potential" integrator="static">
+            <dof_labels>
+                <String value="Psi"/>
+            </dof_labels>
+            <!-- bottom: Psi=0 (ground, never moves) -->
+            <kinematic_BC dof="1" node_ID="1" type="fixed"/>
+            <!-- top: Psi=0 too (NO voltage in this stage) -->
+            <kinematic_BC dof="1" node_ID="2" type="fixed"/>
+        </field>
+    </nodes>
+
+    <element_list>
+        <dielectric_elastomer_Q1P0Elastocapillary
+            electric_field_name="electric_scalar_potential"
+            field_name="displacement" mass_type="lumped_mass">
+            <quadrilateral/>
+            <solid_element_nodal_output displacements="1"
+                electric_displacement="1" electric_scalar_potential="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list>
+                    <String value="1"/>
+                </block_ID_list>
+                <large_strain_material_2D>
+                    <Dielectric_Elastomer_Q1P02D Nrig="10000000000.0"
+                        density="1.0" epsilon="1.0"
+                        lambda="1000.0" mu="1.0"
+                        gamma="2.0" t_0="20.0"/>
+                </large_strain_material_2D>
+            </large_strain_element_block>
+        </dielectric_elastomer_Q1P0Elastocapillary>
+    </element_list>
+
+    <nonlinear_solver abs_tolerance="1.0e-7"
+        check_LHS_perturbation="1.0E-8" check_code="no_check"
+        divergence_tolerance="1.0e+10" max_iterations="500" rel_tolerance="1.0e-9">
+        <MUMPS_matrix/>
+    </nonlinear_solver>
+</tahoe>
