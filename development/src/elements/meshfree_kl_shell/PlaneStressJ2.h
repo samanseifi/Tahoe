@@ -21,6 +21,16 @@
 namespace Tahoe {
 namespace KLShell {
 
+/* Paper Eq. 79: second-order (Cayley/Padé) update of the thickness stretch for a
+ * constant through-thickness rate increment d33 = dt*D33. */
+inline double ThicknessStretchPade(double d33)
+{
+	double denominator = 1.0 - 0.5*d33;
+	/* A non-positive denominator would reverse the shell director. */
+	if (denominator <= 0.0) return 0.0;
+	return (1.0 + 0.5*d33)/denominator;
+}
+
 /* seq^2 = s^T P s */
 inline double J2pq(const double s[3])
 {

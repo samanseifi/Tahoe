@@ -40,7 +40,7 @@ RKShellT::RKShellT(const ElementSupportT& support):
 	fPoisson(0.0),
 	fSupportFac(3.0),
 	fCompleteness(3),
-	fKernel(0),
+	fKernel(1),
 	fNumNodes(0),
 	fMLS(NULL),
 	fMLSmem(NULL)
@@ -389,7 +389,10 @@ void RKShellT::DefineParameters(ParameterListT& list) const
 	ParameterT complete(fCompleteness, "completeness");
 	complete.SetDefault(3);
 	list.AddParameter(complete);
-	ParameterT kern(fKernel, "kernel"); kern.SetDefault(0); list.AddParameter(kern);   /* 0=Gaussian, 1=cubic B-spline */
+	ParameterT kern(fKernel, "kernel"); kern.SetDefault(1);
+	kern.AddLimit(0, LimitT::LowerInclusive);
+	kern.AddLimit(1, LimitT::UpperInclusive);
+	list.AddParameter(kern);   /* 0=Gaussian compatibility mode, 1=paper cubic B-spline */
 
 	/* uniform per-area applied load (gravity / surface pressure components) */
 	ParameterT lx(fLoad[0], "load_x"); lx.SetDefault(0.0); list.AddParameter(lx);
@@ -492,8 +495,9 @@ void RKShellT::TakeParameterList(const ParameterListT& list)
 	for (int a=0;a<6;a++) { Cc[a][2]=0.0; Cc[2][a]=0.0; }
 	for (int a=0;a<6;a++) for (int b=0;b<6;b++) fC[a][b] = Cc[a][b];
 
-	/* RKPM shape-function solver in the 2D local chart. Window: Gaussian (default) or the paper's
-	 * cubic B-spline C2 (Eq 19). For the spline, support radius = (nodal support param) * dilation;
+	/* RKPM shape-function solver in the 2D local chart. Window: the paper's cubic B-spline by default,
+	 * with Gaussian retained as an explicit compatibility option. For the spline, support radius =
+	 * (nodal support param) * dilation;
 	 * dilation=1 makes it equal to support_factor*spacing (the paper's normalized support). */
 	dArrayT gwin(3);
 	if (fKernel == 1) {
@@ -1503,9 +1507,10 @@ void RKShellT::InternalForceFS(int i, const dArrayT& ue, dArrayT& fout, bool com
 			for(int cc=0;cc<3;cc++){ double s=0.0; for(int r=0;r<6;r++) s+=Bv[I][r*3+cc]*sig[r]; fout[I*3+cc]+=s*w; }
 	}
 
-	/* Algorithm 3 thickness accumulation: t_{n+1} = t_n * exp(D33*dt) (committed steps only) */
+	/* Algorithm 3 thickness accumulation (paper Eq. 79): the [1/1] Padé update
+	 * t_{n+1}=t_n(1+d33/2)/(1-d33/2), on committed steps only. */
 	if (commit && fThicknessUpdate && i < (int)fThicknessCur.size()) {
-		double tn = fThicknessCur[i]*std::exp(de33_mid);
+		double tn = fThicknessCur[i]*ThicknessStretchPade(de33_mid);
 		if (tn > 1.0e-6*fThickness) fThicknessCur[i] = tn;   /* guard against collapse */
 	}
 

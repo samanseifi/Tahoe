@@ -11,7 +11,7 @@ Two categories: **A. quantitative result gaps** (per example) and **B. methodolo
 | § | Example | Paper reference | Our result | Deviation | Status |
 |---|---------|-----------------|-----------|-----------|--------|
 | 4.1 | Geometry accuracy (vase) | quad normal rate 2, quad curv 2 (super), cubic normal **4** (super), cubic curv 2 | 1.96 / 2.03 / **3.05** / 2.01 | cubic-normal rate is the theoretical **3**, not the paper's superconvergent **4** | ✅ replicated (3/4 rates match) |
-| 4.2.1 | Scordelis–Lo roof | −0.292 | −0.2910 | **0.4%** | ✅ replicated |
+| 4.2.1 | Scordelis–Lo roof | −0.292 | **−0.1940 fresh default rerun** (−0.2695 at spline dilation 1.4) | **33.6% default error** | ❌ prior −0.291 result not reproduced by current default |
 | 4.2.2 | Hemispherical shell | radial disp 0.0924 | **no solution** | element has **4 zero-energy modes at mesh corners** (free-edge rank deficiency) → singular stiffness | ❌ blocked |
 | 4.2.3 | Pinched cylinder | 1.8624e-5 | 1.036× at 12,096 nodes | **+3.6%**, still converging; paper's finest 19,440-node mesh **errored** for us | 🟡 converging |
 | 4.3 | Necking | neck εp contour to **2.0** | εp ~0.83 (coarse, 57%) … ~1.18 (paper-res, 89%) | εp climbs steadily but we **never stretched to ~150%** (full collapse) where 2.0 lives; Fig-15 shape matches but **not overlaid on the paper's IGA reference values** (unavailable) | 🟡 not run to collapse |

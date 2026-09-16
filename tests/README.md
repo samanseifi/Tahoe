@@ -20,7 +20,7 @@ ctest --test-dir build --output-on-failure
 ctest --test-dir build -R "^NeoHookean"
 ```
 
-## Test inventory (36 tests)
+## Test inventory
 
 ### `toolbox/test_dArrayT.cpp` — `dArrayT` (dynamic array)
 
@@ -87,6 +87,16 @@ ctest --test-dir build -R "^NeoHookean"
 | `MeanStressAtJ2` | Hydrostatic pressure at J=2 matches analytical κ·ln(2) |
 | `MeanStressZeroAtJ1` | Zero pressure at J=1 |
 | `DevModDiagonalPositive` | Positive diagonal of deviatoric tangent modulus |
+
+### `meshfree/test_RKShellConstitutive.cpp` — meshfree KL shell updates
+
+Built when `TAHOE_DEV=ON`.
+
+| Test | Checks |
+|------|--------|
+| `PadeUpdateHasExpectedProperties` | Eq. 79 thickness update identity, reversibility, accuracy, and pole guard |
+| `ElasticIncrementMatchesCondensedLaw` | Plane-stress J2 elastic branch matches the analytical condensed law |
+| `RigidQuarterTurnRotatesStressObjectively` | Flanagan–Taylor frame rotates a material stress objectively |
 
 ## Adding tests
 

@@ -84,6 +84,9 @@ tahoe_gtest_full(test_ExplJ2Plasticity materials/test_ExplJ2Plasticity.cpp)
 tahoe_gtest_full(test_Tet4Kernel       kernels/test_Tet4Kernel.cpp)
 tahoe_gtest_full(test_ANPHelperT       kernels/test_ANPHelperT.cpp)
 tahoe_gtest_full(test_TaylorBar benchmarks/test_TaylorBar.cpp)
+if(TAHOE_DEV)
+    tahoe_gtest_full(test_RKShellConstitutive meshfree/test_RKShellConstitutive.cpp)
+endif()
 # test_FrictionContact and test_ContactPerf both shell out to tahoe and
 # write *.stdout / *.io.exo into benchmark_XML/level.5/explicit_benchmark/
 # (e.g. vectorized_cubes_friction.stdout).  Under `ctest --parallel` two

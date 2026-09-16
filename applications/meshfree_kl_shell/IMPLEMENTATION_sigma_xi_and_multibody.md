@@ -30,9 +30,10 @@ therefore stops adding stiffness in the localizing direction (no elastic clamp) 
 hourglass in the orthogonal/volumetric directions. This is the single high-leverage item the prior
 `DEVIATIONS_FROM_PAPER.md` / `RESULTS_SUMMARY.md` root-caused as blocking ε_p → 2.0.
 
-**Approximation noted:** the stored `B,ξl` operators are reference-config (built once); the per-step
-gradient strain increment uses them with the current `du`, and objectivity of the *accumulated* σ,ξl is
-restored by the co-rotation. A fully current-config `B,ξl` rebuild each step is a possible refinement.
+**Approximation noted:** `B,ξl` is rebuilt in the current configuration each step and used with the
+current `du`; objectivity of the accumulated σ,ξl is restored by co-rotation. The remaining
+approximation is using the mid-surface algorithmic tangent for the stabilization update rather than a
+separate tangent at every through-thickness station.
 
 ## Gap 2 — objective stress update is now the default (paper §3.8, Algorithm 2)
 
@@ -82,6 +83,7 @@ Validated two ways:
 |---|---|---|
 | `stab_siggrad` | 1 | accumulated σ,ξ stabilization (paper §3.10) |
 | `corotational` | 1 | Flanagan–Taylor objective stress update (was 0) |
+| `kernel` | 1 | cubic B-spline C² RK window (paper Eq. 19); 0 retains Gaussian compatibility mode |
 | `contact_stiffness` | 0 | self-contact kc (>0 enables, §3.13) |
 | `contact_r_in/out` | 0 | contact band radii (auto from spacing if 0) |
 | `penalty_coupling` | 0 | kink-angle penalty C (>0 enables, §3.12) |

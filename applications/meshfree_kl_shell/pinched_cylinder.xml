@@ -3,15 +3,11 @@
      R=300 L=600 t=3 E=3e6 nu=0.3, two diametric unit point loads at mid-length.
      Reference radial deflection under the load = 1.8248e-5 (bending-dominated).
 
-     STATUS (not yet converged; known open problem): this is the thin-shell, bending-
-     dominated, inextensional case. Use a BALANCED mesh (generate_pinched_geom.py auto-balances
-     nz from nt) so the isotropic kernel support couples in both directions. Quadratic
-     hourglasses (too soft, grows with refinement). Cubic (completeness=3) controls the
-     hourglass and reproduces the prototype's ~5x result (max|u| ~ 9.1e-5 at nt=36 vs ref
-     1.8248e-5), but the cubic moment matrix is fragile on structured grids (zero-diagonal /
-     blow-up at some nt). Full convergence needs the paper's section 5.2 thin-shell membrane
-     stabilization (SCNI-style smoothed gradient); the paper's acknowledged preliminary work.
-     Run with: python3 generate_pinched_geom.py 36 > pinched.geom  (nt=36, cubic). -->
+     The paper uses quadratic completeness. Fresh 2026-09-16 runs with the cubic-completeness
+     deck diverged under refinement (3.02x at 468 nodes to 6.87x at 2160 nodes). The corrected
+     quadratic/cubic-B-spline deck reaches 0.952x at 8480 nodes. See
+     pinched_current_comparison.csv and pinched_paper_comparison.svg.
+     Run with: python3 generate_pinched_geom.py 160 > pinched.geom. -->
 <tahoe geometry_file="pinched.geom" title="Pinched cylinder (meshfree_kl_shell)"
        output_format="ExodusII"
        xmlns:x0="http://www.w3.org/2001/XMLSchema">
@@ -48,7 +44,8 @@
     <element_list>
         <meshfree_kl_shell field_name="displacement"
             shell_thickness="3.0" Young_modulus="3.0e6" Poisson_ratio="0.3"
-            support_factor="3.0" completeness="3"/>
+            support_factor="2.5" completeness="2" kernel="1"
+            stab_natural="1.0" stab_bending="0.0"/>
     </element_list>
 
     <linear_solver>
