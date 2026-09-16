@@ -33,6 +33,7 @@ _deps/
 
 # Benchmark / run output (generated during test runs)
 compare.summary
+applications/meshfree_kl_shell/pinched_paper_comparison.png
 *.echo.xml
 *.io*.geo
 *.io*.run

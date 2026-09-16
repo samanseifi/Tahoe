@@ -15,12 +15,14 @@ set(DEV_SRC_DIR "${CMAKE_CURRENT_SOURCE_DIR}/src")
 # Collect all .cpp files, excluding:
 #   - standalone main.cpp files inside DEM_ellip3d (separate simulation codes)
 #   - membrane_fluid_interaction/main.cpp
+#   - standalone test_*.cpp programs (each defines its own main)
 #   - *_old.cpp legacy files
 #   - DEM_coupling: guarded by DEM_COUPLING_DEV which is disabled in DevelopmentElementsConfig.h;
 #     its sources call FBC_CardT::AddValues/ClearValues that only exist under that guard.
 file(GLOB_RECURSE DEV_SRCS "${DEV_SRC_DIR}/*.cpp")
 list(FILTER DEV_SRCS EXCLUDE REGEX ".*/DEM_ellip3d/.*\\.cpp$")
 list(FILTER DEV_SRCS EXCLUDE REGEX ".*/membrane_fluid_interaction/.*\\.cpp$")
+list(FILTER DEV_SRCS EXCLUDE REGEX ".*/test_[^/]*\\.cpp$")
 list(FILTER DEV_SRCS EXCLUDE REGEX ".*_old\\.cpp$")
 # *_continuum.cpp: legacy API variant files with mismatched signatures (treated like *_old.cpp)
 list(FILTER DEV_SRCS EXCLUDE REGEX ".*_continuum\\.cpp$")
