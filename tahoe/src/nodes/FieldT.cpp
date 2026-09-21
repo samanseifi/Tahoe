@@ -1135,6 +1135,7 @@ void FieldT::DefineInlineSub(const StringT& name, ParameterListT::ListOrderT& or
 		sub_lists.AddSub("cylinder_penalty");
 		sub_lists.AddSub("cylinder_augmented_Lagrangian");
 		sub_lists.AddSub("pressure_bc");
+		sub_lists.AddSub("penalty_displacement_meshfree");
 	}
 	else /* inherited */
 		ParameterInterfaceT::DefineInlineSub(name, order, sub_lists);

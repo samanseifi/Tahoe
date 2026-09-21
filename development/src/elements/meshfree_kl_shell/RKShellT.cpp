@@ -22,6 +22,9 @@
 #include "ElementMatrixT.h"
 #include "eIntegratorT.h"
 #include "OutputSetT.h"
+#ifdef _OPENMP
+#include <omp.h>
+#endif
 #include "GeometryT.h"
 #include "iArray2DT.h"
 
@@ -883,6 +886,19 @@ void RKShellT::BuildNeighbors(void)
 /* collocation rows (issue #70): per requested global node, its support node global ids and the
  * RK shape values phi_J(x_I) at the node's own location (captured in BuildElementStiffness). Lets
  * CollocationKBCT impose the physical displacement sum_J phi_J(x_I) d_J = ubar_I instead of d_I. */
+/* lumped reference nodal masses (MeshFreeCollocationSupportT): sizes the dashpot of
+ * MFPenaltyDisplacementT; false if a requested node is not carried by this group */
+bool RKShellT::NodalMass(const iArrayT& nodes, dArrayT& mass) const
+{
+	mass.Dimension(nodes.Length());
+	for (int i = 0; i < nodes.Length(); i++) {
+		int loc = (nodes[i] >= 0 && nodes[i] < fGlobalToLocal.Length()) ? fGlobalToLocal[nodes[i]] : -1;
+		if (loc < 0 || loc >= fLumpedMass.Length()) return false;
+		mass[i] = fLumpedMass[loc];
+	}
+	return true;
+}
+
 bool RKShellT::CollocationData(const iArrayT& nodes,
 	RaggedArray2DT<int>& support, RaggedArray2DT<double>& phi) const
 {
@@ -1907,6 +1923,27 @@ void RKShellT::RHSDriver(void)
 	 * below to each node's own dof) */
 	if (fPenaltyCoupling > 0.0 && fCoupleA.Length() > 0) AddCouplingForce(disp);
 
+	/* PASS 1 (threaded): stress-driven internal force per stencil into private buffers. The force
+	 * kernels commit only node i's OWN state (fJ2sig[i], fJ2ep[i], fSigGrad[i], fThicknessCur[i],
+	 * fFrameR/V[i]) and read shared data only, so distinct i are independent. Assembly (pass 2)
+	 * stays serial and in the original order -> bit-identical to the single-threaded loop. */
+	std::vector<std::vector<double> > fbuf(fNumNodes);
+#ifdef _OPENMP
+#pragma omp parallel for schedule(dynamic,8)
+#endif
+	for (int i = 0; i < fNumNodes; i++) {
+		int nn = fNeighbors.MinorDim(i);
+		if (nn < 6) continue;
+		const int* gnb = fNeighbors(i);
+		dArrayT ue(3*nn), f;
+		for (int k=0;k<nn;k++) for (int d=0;d<3;d++) ue[k*3+d] = disp(gnb[k], d);
+		if (fFiniteStrain) InternalForceFS(i, ue, f, true);  /* finite-deformation (Fig 18) */
+		else               InternalForce(i, ue, f, true);    /* small-strain (commit J2 once/step) */
+		fbuf[i].assign(f.Pointer(), f.Pointer() + 3*nn);
+	}
+
+
+	/* PASS 2 (serial): external loads + assembly */
 	Top();
 	while (NextElement()) {
 		int i = fElementCards.Position();
@@ -1914,12 +1951,8 @@ void RKShellT::RHSDriver(void)
 		if (nn < 6) continue;
 		const int* gnb = fNeighbors(i);
 
-		/* stress-driven internal force f_int = sum_pt B^T sigma(B*u) w (== fKe*u for elasticity) */
-		dArrayT ue(3*nn);
-		for (int k=0;k<nn;k++) for (int d=0;d<3;d++) ue[k*3+d] = disp(gnb[k], d);
-		if (fFiniteStrain) InternalForceFS(i, ue, fRHS, true);  /* finite-deformation (Fig 18) */
-		else               InternalForce(i, ue, fRHS, true);    /* small-strain (commit J2 once/step) */
-		fRHS *= -constKd;                              /* residual gets -f_int */
+		fRHS.Dimension(3*nn);
+		for (int q = 0; q < 3*nn; q++) fRHS[q] = -constKd*fbuf[i][q];   /* residual gets -f_int */
 
 		/* external per-area load on node i (its own dof within the stencil) */
 		int ki = -1;

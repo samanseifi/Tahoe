@@ -36,6 +36,7 @@
 #include "FieldMFAugLagMultT.h"
 #include "PressureBCT.h"
 #include "Penalty_AngledBC.h"
+#include "MFPenaltyDisplacementT.h"
 
 /* kinematic BC controllers */
 #include "K_FieldT.h"
@@ -1689,6 +1690,9 @@ FBC_ControllerT* NodeManagerT::NewFBC_Controller(int code)
 
 	    case FBC_ControllerT::kAngledBC:
 	    	fbc = new Penalty_AngledBC;
+	    	break;
+	    case FBC_ControllerT::kMFPenaltyDisplacement:
+	    	fbc = new MFPenaltyDisplacementT;
 	    	break;
 
 		default:

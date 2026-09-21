@@ -66,6 +66,10 @@ public:
 	 * RK shapes), so CollocationKBCT can impose the PHYSICAL displacement, not the bare coefficient. */
 	virtual bool CollocationData(const iArrayT& nodes,
 		RaggedArray2DT<int>& support, RaggedArray2DT<double>& phi) const;
+
+	/** lumped reference nodal masses for the penalty displacement controller's dashpot
+	 * (MeshFreeCollocationSupportT interface) */
+	virtual bool NodalMass(const iArrayT& nodes, dArrayT& mass) const;
 	/*@}*/
 
 	/** \name connectivity / equations (register the ragged neighbor stencils) */
@@ -170,6 +174,7 @@ private:
 	int    fMonitorStride; /**< stride between summed reaction nodes (driven generator line = nt) */
 	int    fMonitorCount;  /**< number of nodes to sum the reaction over (1 = single load node) */
 	double fDamping;       /**< mass-proportional damping alpha (force -alpha*m*v); dynamic relaxation -> quasi-static */
+
 
 	/** \name self-contact — pinball / volumetric-potential (paper sec 3.13, Eqs 83-86). Off by
 	 * default (fContactStiffness=0). A node repels every NON-neighbor node within the contact band

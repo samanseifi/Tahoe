@@ -10,6 +10,7 @@
 #define _MESHFREE_COLLOCATION_SUPPORT_T_H_
 
 #include "iArrayT.h"
+#include "dArrayT.h"
 #include "RaggedArray2DT.h"
 
 namespace Tahoe {
@@ -27,6 +28,16 @@ public:
 	 * \return false if any requested node has no meshfree support (cannot collocate) */
 	virtual bool CollocationData(const iArrayT& nodes,
 		RaggedArray2DT<int>& support, RaggedArray2DT<double>& phi) const = 0;
+
+	/** lumped (reference) nodal mass for the requested global node ids, used by penalty
+	 * controllers to size a dashpot on a constraint. Optional: the default reports that no
+	 * mass information is available. \return false if any requested node is not carried
+	 * by this element group */
+	virtual bool NodalMass(const iArrayT& nodes, dArrayT& mass) const {
+#pragma unused(nodes)
+#pragma unused(mass)
+		return false;
+	}
 };
 
 } /* namespace Tahoe */

@@ -42,7 +42,8 @@ public:
              kAugLagCylinder = 7,
           kFieldMFAugLagMult = 8,
 	  kPressureBC        = 9,
-	  kAngledBC = 10};
+	  kAngledBC = 10,
+	  kMFPenaltyDisplacement = 11 /**< MFPenaltyDisplacementT */};
 
 	/** converts strings to FBC_ControllerT::CodeT */
 	static CodeT Code(const char* name);
