@@ -24,6 +24,8 @@ list(FILTER DEV_SRCS EXCLUDE REGEX ".*/DEM_ellip3d/.*\\.cpp$")
 list(FILTER DEV_SRCS EXCLUDE REGEX ".*/membrane_fluid_interaction/.*\\.cpp$")
 list(FILTER DEV_SRCS EXCLUDE REGEX ".*/test_[^/]*\\.cpp$")
 list(FILTER DEV_SRCS EXCLUDE REGEX ".*_old\\.cpp$")
+# standalone test harnesses with their own main() -- must not pollute the library
+list(FILTER DEV_SRCS EXCLUDE REGEX ".*/test_ft\\.cpp$")
 # *_continuum.cpp: legacy API variant files with mismatched signatures (treated like *_old.cpp)
 list(FILTER DEV_SRCS EXCLUDE REGEX ".*_continuum\\.cpp$")
 list(FILTER DEV_SRCS EXCLUDE REGEX ".*/DEM_coupling/.*\\.cpp$")

@@ -58,9 +58,14 @@ private:
 	double vpred_a;
 	/*@}*/
 	
-	/** corrector constant, also used for consistent BC*/  	
+	/** corrector constant, also used for consistent BC*/
 	double vcorr_a;
-	  	  	
+
+	/** mass-proportional (Rayleigh) damping coefficient alpha for quasi-static
+	 *  dynamic relaxation: velocity is decayed by (1 - alpha*dt) each corrector.
+	 *  Read from env TAHOE_DAMP; default 0 (undamped, original behaviour). */
+	double fDamping;
+
 };
 
 } // namespace Tahoe 
