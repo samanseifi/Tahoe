@@ -40,6 +40,8 @@ FBC_ControllerT::CodeT FBC_ControllerT::Code(const char* name)
 		return kPressureBC;
 	else if (strcmp("angled_bc", name) == 0)
 		return kAngledBC;
+	else if (strcmp("penalty_displacement_meshfree", name) == 0)
+		return kMFPenaltyDisplacement;
 	else
 		return kNone;
 }

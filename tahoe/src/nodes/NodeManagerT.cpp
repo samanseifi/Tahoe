@@ -36,6 +36,7 @@
 #include "FieldMFAugLagMultT.h"
 #include "PressureBCT.h"
 #include "Penalty_AngledBC.h"
+#include "MFPenaltyDisplacementT.h"
 
 /* kinematic BC controllers */
 #include "K_FieldT.h"
@@ -47,6 +48,7 @@
 #include "SetOfNodesKBCT.h"
 #include "TorsionKBCT.h"
 #include "ConveyorT.h"
+#include "CollocationKBCT.h"
 
 using namespace Tahoe;
 
@@ -1606,6 +1608,11 @@ KBC_ControllerT* NodeManagerT::NewKBC_Controller(FieldT& field, int code)
 			TorsionKBCT* kbc = new TorsionKBCT(fFieldSupport);
 			return kbc;
 		}
+		case KBC_ControllerT::kCollocation:
+		{
+			CollocationKBCT* kbc = new CollocationKBCT(fFieldSupport);
+			return kbc;
+		}
 		case KBC_ControllerT::kConveyor:
 		{
 			ConveyorT* kbc = new ConveyorT(fFieldSupport, field);
@@ -1683,6 +1690,9 @@ FBC_ControllerT* NodeManagerT::NewFBC_Controller(int code)
 
 	    case FBC_ControllerT::kAngledBC:
 	    	fbc = new Penalty_AngledBC;
+	    	break;
+	    case FBC_ControllerT::kMFPenaltyDisplacement:
+	    	fbc = new MFPenaltyDisplacementT;
 	    	break;
 
 		default:

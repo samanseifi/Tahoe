@@ -147,6 +147,10 @@ bool CubicSplineWindowT::Window(const dArrayT& x_n, const dArrayT& param_n, cons
 				double dw_by_r = (3.0*r/2.0 - 2.0)/a;
 				if (order > 1) {
 					double ddw = (3.0*r - 2.0)/a;
+					if (dist < 1.0e-12) {   /* sample ON the node: cubic-spline Hessian is isotropic (w'(0)=0), */
+						DDw = 0.0; DDw.PlusIdentity(dw_by_r/(a*a));   /* DDw = w''(0)/a^2 I; 3rd deriv vanishes by symmetry */
+						if (order > 2) DDDw = 0.0;
+					} else {
 					DDw.Outer(Dw, (ddw/a - dw_by_r*r/dist)/(dist*dist*a));
 					DDw.PlusIdentity(dw_by_r*r/(dist*a));
 					if (order > 2) // kyonten
@@ -201,6 +205,7 @@ bool CubicSplineWindowT::Window(const dArrayT& x_n, const dArrayT& param_n, cons
 	  					DDDw3 /= (a*dist*dist);   	
 	  					DDDw += DDDw3;
 	  				} // (order > 2)
+					}
 				}
 				Dw *= dw_by_r/(a*a);
 			}

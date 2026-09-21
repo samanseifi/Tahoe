@@ -84,6 +84,9 @@ tahoe_gtest_full(test_ExplJ2Plasticity materials/test_ExplJ2Plasticity.cpp)
 tahoe_gtest_full(test_Tet4Kernel       kernels/test_Tet4Kernel.cpp)
 tahoe_gtest_full(test_ANPHelperT       kernels/test_ANPHelperT.cpp)
 tahoe_gtest_full(test_TaylorBar benchmarks/test_TaylorBar.cpp)
+if(TAHOE_DEV)
+    tahoe_gtest_full(test_RKShellConstitutive meshfree/test_RKShellConstitutive.cpp)
+endif()
 # test_FrictionContact and test_ContactPerf both shell out to tahoe and
 # write *.stdout / *.io.exo into benchmark_XML/level.5/explicit_benchmark/
 # (e.g. vectorized_cubes_friction.stdout).  Under `ctest --parallel` two
@@ -116,6 +119,26 @@ target_compile_definitions(test_TaylorBar PRIVATE
 # benchmark to catch regressions in the C++ integration of E_s.
 tahoe_gtest_full(test_SurfaceTensionGM benchmarks/test_SurfaceTensionGM.cpp)
 target_compile_definitions(test_SurfaceTensionGM PRIVATE
+    "TAHOE_TEST_REPO_ROOT=\"${CMAKE_SOURCE_DIR}\""
+    "TAHOE_TEST_BUILD_DIR=\"${CMAKE_BINARY_DIR}\""
+)
+
+# ---------------------------------------------------------------------------
+# Meshfree RKPM Kirchhoff-Love shell (epic #59).
+# Validates the kernels of the experimental element in
+# development/src/elements/meshfree_kl_shell against analytic answers.
+# ---------------------------------------------------------------------------
+tahoe_gtest_full(test_KLShellShape      meshfree/test_KLShellShape.cpp)
+tahoe_gtest_full(test_KLShellKinematics meshfree/test_KLShellKinematics.cpp)
+tahoe_gtest_full(test_KLShellAssembly   meshfree/test_KLShellAssembly.cpp)
+tahoe_gtest(test_KLShellStress          meshfree/test_KLShellStress.cpp)
+tahoe_gtest_full(test_KLShellPlasticity meshfree/test_KLShellPlasticity.cpp)
+tahoe_gtest_full(test_KLShellBenchmark  meshfree/test_KLShellBenchmark.cpp)
+
+# In-pipeline element test: runs the Scordelis-Lo deck through the tahoe binary and checks
+# the deflection (tests the real RKShellT XML->framework->solve path).
+tahoe_gtest_full(test_KLShellPipeline   meshfree/test_KLShellPipeline.cpp)
+target_compile_definitions(test_KLShellPipeline PRIVATE
     "TAHOE_TEST_REPO_ROOT=\"${CMAKE_SOURCE_DIR}\""
     "TAHOE_TEST_BUILD_DIR=\"${CMAKE_BINARY_DIR}\""
 )

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Pinched cylinder with end diaphragms: the classic bending+membrane member of the shell
+     obstacle course (Belytschko; paper sec 4.2.3, Fig 11b). Two opposed radial point loads at
+     mid-length. Reference radial deflection under the load = 1.8624e-5 (Belytschko). This 60x21
+     meshfree mesh gives ~0.69x of that (converges under refinement). Regression guard for the
+     bending-dominated curved-shell regime. Default Tahoe output for `compare`. -->
+<tahoe geometry_file="pinched_cyl.geom" title="pinched cylinder (meshfree_kl_shell)">
+    <time num_steps="1" output_inc="1" time_step="1.0">
+        <schedule_function><piecewise_linear>
+            <OrderedPair x="0.0" y="0.0"/><OrderedPair x="1.0" y="1.0"/>
+        </piecewise_linear></schedule_function>
+    </time>
+    <nodes><field field_name="displacement">
+        <dof_labels><String value="D_X"/><String value="D_Y"/><String value="D_Z"/></dof_labels>
+        <kinematic_BC dof="1" node_ID="1"/><kinematic_BC dof="2" node_ID="1"/>
+        <kinematic_BC dof="1" node_ID="2"/><kinematic_BC dof="2" node_ID="2"/>
+        <kinematic_BC dof="3" node_ID="3"/><kinematic_BC dof="3" node_ID="4"/>
+        <force_BC dof="1" node_ID="3" schedule="1" value="-1.0"/>
+        <force_BC dof="1" node_ID="4" schedule="1" value="1.0"/>
+    </field></nodes>
+    <element_list><meshfree_kl_shell field_name="displacement"
+        shell_thickness="3.0" Young_modulus="3.0e6" Poisson_ratio="0.3"
+        support_factor="2.5" completeness="2" kernel="1"/>
+    </element_list>
+    <linear_solver><profile_matrix/></linear_solver>
+</tahoe>

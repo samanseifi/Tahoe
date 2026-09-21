@@ -43,6 +43,7 @@ public:
                 kTorsion = 9,
 		       kConveyor = 10,
 		       kConveyorSym = 11,
+		     kCollocation = 12,  /**< direct nodal-collocation essential BC for meshfree fields (#70) */
 //	            kK_Field_3D = 12,
 //				kAngledBC = 13
                 };

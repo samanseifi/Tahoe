@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- COLLOCATION essential-BC regression (#70), dynamic (explicit) path where collocation is used.
+     Meshfree RK shapes are non-interpolatory, so a plain kinematic_BC clamps the bare coefficient
+     and does NOT deliver the intended physical displacement. The two pinch points are driven to a
+     prescribed PHYSICAL radial displacement via collocation="1"; [RKShell-uphys] at the +x pinch
+     node must reach the prescribed -1.0 (proving the collocation operator inverts phi_J(x_I)).
+     Mass-scaled dynamic relaxation to a quasi-static state. -->
+<tahoe geometry_file="pinched_cyl.geom" title="collocation BC (meshfree_kl_shell)">
+    <time num_steps="2000" output_inc="2000" time_step="2.0e-3">
+        <schedule_function><piecewise_linear>
+            <OrderedPair x="0.0" y="0.0"/><OrderedPair x="2.0" y="1.0"/><OrderedPair x="4.0" y="1.0"/>
+        </piecewise_linear></schedule_function>
+    </time>
+    <nodes><field field_name="displacement" integrator="central_difference">
+        <dof_labels><String value="D_X"/><String value="D_Y"/><String value="D_Z"/></dof_labels>
+        <kinematic_BC dof="1" node_ID="1"/><kinematic_BC dof="2" node_ID="1"/>
+        <kinematic_BC dof="1" node_ID="2"/><kinematic_BC dof="2" node_ID="2"/>
+        <kinematic_BC dof="3" node_ID="3"/><kinematic_BC dof="3" node_ID="4"/>
+        <kinematic_BC dof="1" node_ID="3" schedule="1" type="u" value="-1.0" collocation="1"/>
+        <kinematic_BC dof="1" node_ID="4" schedule="1" type="u" value="1.0"  collocation="1"/>
+    </field></nodes>
+    <element_list><meshfree_kl_shell field_name="displacement"
+        shell_thickness="3.0" Young_modulus="3.0e6" Poisson_ratio="0.3"
+        support_factor="2.5" completeness="2" kernel="1"
+        density="1.0" damping="20.0" monitor_node="601"/>
+    </element_list>
+    <linear_solver><diagonal_matrix/></linear_solver>
+</tahoe>

@@ -335,7 +335,19 @@ int MLSSolverT::SetMomentMatrix(const dArrayT& volume)
 			OK = SymmetricInverse4x4(fMinv);
 			break;
 		default:
-			throw ExceptionT::kGeneralFail;
+		{
+			/* general (LU) inverse for higher-order bases, e.g. quadratic
+			 * completeness in 2D/3D where the moment matrix is larger than 4x4.
+			 * Guard against a singular/ill-conditioned moment matrix (too few
+			 * well-distributed neighbors for the basis order) by checking that the
+			 * result is finite; otherwise report failure rather than propagate NaN. */
+			fMinv.Inverse();
+			const double* pm = fMinv.Pointer();
+			int len = fMinv.Length();
+			for (int i = 0; i < len; i++)
+				if (pm[i] != pm[i] || fabs(pm[i]) > 1.0e300) { OK = 0; break; }
+			break;
+		}
 	}
 	return OK;
 }

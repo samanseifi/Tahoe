@@ -217,6 +217,10 @@
 #include "MFGPElementT.h"
 #endif
 
+#ifdef MESHFREE_KL_SHELL_DEV
+#include "RKShellT.h"
+#endif
+
 #ifdef ENHANCED_STRAIN_LOC_DEV
 #include "SmallStrainEnhLocT.h"
 #endif
@@ -528,6 +532,10 @@ void ElementListT::DefineInlineSub(const StringT& name, ParameterListT::ListOrde
 
 #ifdef MESHFREE_GRAD_PLAST_DEV
 		sub_lists.AddSub("mfgp_element");
+#endif
+
+#ifdef MESHFREE_KL_SHELL_DEV
+		sub_lists.AddSub("meshfree_kl_shell");
 #endif
 
 #ifdef ENHANCED_STRAIN_LOC_DEV
@@ -872,6 +880,11 @@ ElementBaseT* ElementListT::NewElement(const StringT& name) const
 #ifdef MESHFREE_GRAD_PLAST_DEV
 	else if (name == "mfgp_element")
 		return new MFGPElementT(fSupport);
+#endif
+
+#ifdef MESHFREE_KL_SHELL_DEV
+	else if (name == "meshfree_kl_shell")
+		return new RKShellT(fSupport);
 #endif
 
 #ifdef ENHANCED_STRAIN_LOC_DEV
