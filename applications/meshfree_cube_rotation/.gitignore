@@ -1,9 +1,0 @@
-# regenerable run artifacts
-*.exo
-*.out
-err.txt
-# geometry is produced by generate_cube.py
-cube.geom
-cube.node
-cube.elem
-run.log
