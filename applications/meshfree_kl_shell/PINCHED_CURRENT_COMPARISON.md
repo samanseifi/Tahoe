@@ -35,6 +35,10 @@ converged. The benchmark deck now explicitly selects that quadratic configuratio
 
 ## Elasto-plastic pinch
 
+> **2026-09-21:** resolved, see `run_pin_20260920/README.md` (factor-4 load convention). The
+> remainder of this section is the state as of 2026-09-16.
+
+
 The existing input decks used the obsolete `stab_membrane` penalty and coefficient-space displacement
 constraints. A fresh 40-by-15-node run exposed why the older force plots are not directly comparable
 to the paper:

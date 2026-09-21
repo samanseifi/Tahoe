@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Pinched elasto-plastic cylinder, 1/8 symmetry, hex20 solid elements (Tahoe FE reference for Fig 18).
+     E=3e3 nu=0.3, J2 linear hardening Y=24.3+300*ep (Tahoe linear_function = a*x+b -> a=H=300, b=Y0=24.3). Pinch: prescribed inward u_x on the through-thickness
+     node line at theta=0,z=L/2 (set 5). Full pinch load = 4 x |F_x| of set 5 (two symmetry planes). -->
+<tahoe geometry_file="cyl_coarse.geom" title="pinched cylinder octant hex20 J2" output_format="ExodusII"
+       xmlns:x0="http://www.w3.org/2001/XMLSchema">
+    <time num_steps="1" output_inc="1" time_step="1.0">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0.0" y="0.0"/>
+                <OrderedPair x="1.0" y="1.0"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+    <nodes>
+        <field field_name="displacement">
+            <dof_labels><String value="D_X"/><String value="D_Y"/><String value="D_Z"/></dof_labels>
+            <kinematic_BC dof="1" node_ID="1"/>
+            <kinematic_BC dof="2" node_ID="1"/>
+            <kinematic_BC dof="3" node_ID="2"/>
+            <kinematic_BC dof="2" node_ID="3"/>
+            <kinematic_BC dof="1" node_ID="4"/>
+            <force_BC dof="1" node_ID="5" schedule="1" value="-0.05"/>
+        </field>
+        <history_node_ID_list><String value="5"/></history_node_ID_list>
+    </nodes>
+    <element_list>
+        <updated_lagrangian field_name="displacement">
+            <hexahedron num_ip="8"/>
+            <solid_element_nodal_output displacements="1" material_output="1" stress="1"/>
+            <large_strain_element_block>
+                <block_ID_list><String value="1"/></block_ID_list>
+                <large_strain_material_3D>
+                    <Simo_J2 density="1.0">
+                        <E_and_nu Poisson_ratio="0.3" Young_modulus="3.0e6"/>
+                        <linear_function a="0.0" b="1.0e9"/>
+                    </Simo_J2>
+                </large_strain_material_3D>
+            </large_strain_element_block>
+        </updated_lagrangian>
+    </element_list>
+    <nonlinear_solver abs_tolerance="1.0e-12" divergence_tolerance="1.0e+03" max_iterations="20" rel_tolerance="1.0e-4"><SPOOLES_matrix/></nonlinear_solver>
+</tahoe>

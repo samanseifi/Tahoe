@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- STATIC force-controlled elasto-plastic pinch on the paper mesh (160x53): tests the early plastic
+     hinge under the point load without inertia. Paper Fig 18: 55 N -> 5 mm, 93 N -> 15 mm, 122 N -> 30 mm.
+     Linear elastic would give 55 N/mm. Coefficient point force (~Galerkin, verified), small strain. -->
+<tahoe geometry_file="pinched160.geom" title="static elasto-plastic pinch, 160x53" output_format="ExodusII"
+       xmlns:x0="http://www.w3.org/2001/XMLSchema">
+    <time num_steps="12" output_inc="1" time_step="1.0">
+        <schedule_function>
+            <piecewise_linear>
+                <OrderedPair x="0.0" y="0.0"/>
+                <OrderedPair x="12.0" y="180.0"/>
+            </piecewise_linear>
+        </schedule_function>
+    </time>
+    <nodes>
+        <field field_name="displacement">
+            <dof_labels><String value="D_X"/><String value="D_Y"/><String value="D_Z"/></dof_labels>
+            <kinematic_BC dof="1" node_ID="1"/>
+            <kinematic_BC dof="2" node_ID="1"/>
+            <kinematic_BC dof="1" node_ID="2"/>
+            <kinematic_BC dof="2" node_ID="2"/>
+            <kinematic_BC dof="3" node_ID="5"/>
+            <force_BC dof="1" node_ID="3" schedule="1" value="-1.0"/>
+            <force_BC dof="1" node_ID="4" schedule="1" value="1.0"/>
+        </field>
+    </nodes>
+    <element_list>
+        <meshfree_kl_shell field_name="displacement"
+            shell_thickness="3.0" Young_modulus="3.0e3" Poisson_ratio="0.3"
+            support_factor="2.4" completeness="2" kernel="1"
+            stab_natural="1.0" stab_bending="0.0"
+            yield_stress="24.3" hardening_modulus="300.0" monitor_node="4161"/>
+    </element_list>
+    <nonlinear_solver abs_tolerance="1.0e-8" divergence_tolerance="1.0e+03" max_iterations="60" rel_tolerance="1.0e-6"><profile_matrix/></nonlinear_solver>
+</tahoe>

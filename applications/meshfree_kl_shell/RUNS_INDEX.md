@@ -1,5 +1,8 @@
 # Pinched-cylinder investigation — run index
 
+> **2026-09-21: RESOLVED.** See `run_pin_20260920/README.md` — the literature plots the quarter-model
+> force (physical load / 4); the paper-mesh shell matches within ~10%. The runs below are historical.
+
 **How to read the results:**
 - `*.io0.exo` — open in ParaView (displacement field `D_X/D_Y/D_Z`, plus `EQ_PLASTIC_STRAIN` when plastic).
 - `*_log.txt` — lines `[RKShell-react] node ux uy uz Rx Ry Rz` → **crush = |ux| (col 3)**, **force = |Rx| (col 6)**;

@@ -1,3 +1,11 @@
+# Fig 18 — RESOLVED 2026-09-21: see `run_pin_20260920/README.md`
+
+The literature plots the symmetry-model (quarter) force = physical pinch load / 4. With that factor the
+paper-mesh meshfree shell lies inside the reference band over 0-300 mm and an independent Tahoe hex20
+solid model agrees. Everything below is the historical record of the hunt and is superseded.
+
+---
+
 # Fig 18 (pinched elasto-plastic cylinder, Wang & Bazilevs §4.4) — status & open problem
 
 ## What is reproduced (solid)
