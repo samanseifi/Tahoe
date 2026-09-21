@@ -105,3 +105,8 @@ inc/
 __pycache__/
 *.pyc
 *.pyo
+
+# ---------------------------------------------------------------------------
+# Personal application / experiment decks live outside the repository
+# ---------------------------------------------------------------------------
+applications/
