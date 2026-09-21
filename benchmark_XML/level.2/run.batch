@@ -7,4 +7,5 @@ K.field/run.batch
 thermostats/run.batch
 tied/run.batch
 conveyor/run.batch
+meshfree_kl_shell/run.batch
 

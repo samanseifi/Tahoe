@@ -6,3 +6,6 @@ hemisphere.xml
 pinched_cyl.xml
 # collocation essential-BC for non-interpolatory meshfree fields (#70)
 collocation_bc.xml
+# penalty enforcement of PHYSICAL displacements on meshfree fields (#73): explicit + implicit paths
+penalty_displacement_bc.xml
+penalty_displacement_static.xml

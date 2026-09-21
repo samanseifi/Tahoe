@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- PENALTY-DISPLACEMENT essential-BC regression (#73, controller MFPenaltyDisplacementT): the two
+     pinch points of the linear pinched cylinder are driven to a prescribed PHYSICAL radial
+     displacement u(x_A) = sum_J Phi_J(x_A) d_J = -/+1.0 by the penalty force Phi_J*lambda on every
+     support coefficient (explicit path, critically damped dashpot). Checks: [RKShell-uphys] at the
+     +x pinch node reaches -1.0 within the penalty slack, and the reported lambda is the physical
+     point reaction. Compare with collocation_bc.xml (same problem, collocation KBC). -->
+<tahoe geometry_file="pinched_cyl.geom" title="penalty displacement BC (meshfree_kl_shell)">
+    <time num_steps="2000" output_inc="2000" time_step="2.0e-3">
+        <schedule_function><piecewise_linear>
+            <OrderedPair x="0.0" y="0.0"/><OrderedPair x="2.0" y="1.0"/><OrderedPair x="4.0" y="1.0"/>
+        </piecewise_linear></schedule_function>
+    </time>
+    <nodes><field field_name="displacement" integrator="central_difference">
+        <dof_labels><String value="D_X"/><String value="D_Y"/><String value="D_Z"/></dof_labels>
+        <kinematic_BC dof="1" node_ID="1"/><kinematic_BC dof="2" node_ID="1"/>
+        <kinematic_BC dof="1" node_ID="2"/><kinematic_BC dof="2" node_ID="2"/>
+        <kinematic_BC dof="3" node_ID="3"/><kinematic_BC dof="3" node_ID="4"/>
+        <penalty_displacement_meshfree dof="1" schedule="1" value="-1.0" penalty="1.0e8" damping_ratio="1.0">
+            <node_ID_list><String value="3"/></node_ID_list>
+        </penalty_displacement_meshfree>
+        <penalty_displacement_meshfree dof="1" schedule="1" value="1.0" penalty="1.0e8" damping_ratio="1.0">
+            <node_ID_list><String value="4"/></node_ID_list>
+        </penalty_displacement_meshfree>
+    </field></nodes>
+    <element_list><meshfree_kl_shell field_name="displacement"
+        shell_thickness="3.0" Young_modulus="3.0e6" Poisson_ratio="0.3"
+        support_factor="2.5" completeness="2" kernel="1"
+        density="1.0" damping="20.0" monitor_node="601"/>
+    </element_list>
+    <linear_solver><diagonal_matrix/></linear_solver>
+</tahoe>

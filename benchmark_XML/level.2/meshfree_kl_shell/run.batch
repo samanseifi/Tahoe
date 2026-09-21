@@ -1,0 +1,6 @@
+@
+# meshfree Kirchhoff-Love shell (#59): elasto-plastic paper cases (#73), shortened and mass-scaled
+# necking of a cylindrical shell (sec. 4.3): J2 + saturation hardening, thickness update
+necking.xml
+# elasto-plastic pinched cylinder (sec. 4.4): penalty-displacement loading, plastic fold
+pinch_plastic.xml

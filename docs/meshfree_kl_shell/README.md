@@ -34,8 +34,16 @@ OpenMP-parallel (`OMP_NUM_THREADS`).
 
 ## Tests and benchmarks
 - Unit tests: `tests/meshfree/test_KLShell*.cpp`, `test_RKShellConstitutive.cpp`, `test_Collocation`.
-- Benchmarks: `benchmark_XML/level.0/meshfree_kl_shell/` (Scordelis–Lo, hemisphere, pinched
-  cylinder, collocation BC).
+- `benchmark_XML/level.0/meshfree_kl_shell/`: elastic obstacle course (Scordelis–Lo, hemisphere,
+  pinched cylinder, #66) and the essential-BC regressions `collocation_bc.xml` (#70),
+  `penalty_displacement_bc.xml` (explicit) and `penalty_displacement_static.xml` (implicit, one
+  Newton iteration) (#73).
+- `benchmark_XML/level.2/meshfree_kl_shell/`: shortened, mass-scaled elasto-plastic paper cases
+  `necking.xml` (§4.3) and `pinch_plastic.xml` (§4.4), ~45 s each single-threaded (#73). They are
+  regressions of the plastic path; the validation against the paper is `fig18_validation/`.
+- Run a level: `cd benchmark_XML/level.2 && printf "run.batch\nquit\n" | ../../build/bin/tahoe`
+  then the same with `../../build/bin/compare`; or `./run_benchmarks.sh level.0 level.2` from the
+  repository root.
 
 ## Validation status
 | case (paper section) | result |
