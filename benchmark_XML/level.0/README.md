@@ -34,11 +34,10 @@ printf "run.batch\nquit\n" | ../../build/bin/compare  # compare to references
 
 ## Status (May 2026, default build)
 
-September 2026: `meshfree_kl_shell/` grew to 6 decks (#73). `scordelis_lo.xml` currently FAILS its
-reference (rel. error 18 %): the reference was locked under #66 before the element's kernel default
-moved to the paper's cubic B-spline with dilation 1.0 (#64), which gives −0.194 on this coarse
-225-node cloud versus −0.27 with dilation 1.4 (see `docs/meshfree_kl_shell/history/`). Deliberately
-left failing until the kernel/dilation choice for the coarse deck is settled; the other five pass.
+September 2026: `meshfree_kl_shell/` grew to 6 decks (#73), all passing. `scordelis_lo.xml` now uses the
+paper's coarsest quasi-uniform cloud (15 x 21 = 315 nodes, 2.5 mm both ways) and reproduces the paper's own
+convergence point (0.259 vs 0.261, reference 0.3006); the previous 225-node cloud was unbalanced (2.5 mm
+across the arc, 3.6 mm axially), which the isotropic support barely bridged and which had made it sit at 0.19.
 
 172 / 186 PASS, 14 FAIL — all 14 remaining failures are real Tahoe code
 regressions tracked under issue #37 (9 bridging runtime crashes, plus
