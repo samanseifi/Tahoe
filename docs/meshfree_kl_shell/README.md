@@ -48,7 +48,7 @@ OpenMP-parallel (`OMP_NUM_THREADS`).
 ## Validation status
 | case (paper section) | result |
 |---|---|
-| Scordelis–Lo roof (4.2.1) | on the paper's meshes 315 / 1,189 / 4,617 nodes: 0.259 / 0.290 / 0.298 (paper Fig 7: 0.261 / 0.290 / 0.298; reference 0.3006), support 3.0 |
+| Scordelis–Lo roof (4.2.1) | on the paper's meshes 315 / 1,189 / 4,617 / 18,193 nodes: 0.259 / 0.290 / 0.298 / 0.300 (paper Fig 7: 0.261 / 0.290 / 0.298 / 0.300; reference 0.3006), support 3.0, re-verified 2026-09-22 |
 | pinched hemisphere (4.2.2) | 0.0909 vs 0.0924 at M40 (coarse meshes are far too stiff) |
 | linear pinched cylinder (4.2.3) | 0.95 of 1.8248e-5 at 8,480 nodes, quadratic completeness |
 | necking cylinder (4.3) | peak within 7%; post-peak localizes like the paper's unstabilized case |
