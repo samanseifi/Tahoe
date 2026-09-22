@@ -88,6 +88,22 @@ ctest --test-dir build -R "^NeoHookean"
 | `MeanStressZeroAtJ1` | Zero pressure at J=1 |
 | `DevModDiagonalPositive` | Positive diagonal of deviatoric tangent modulus |
 
+### `meshfree/test_KLShell*.cpp`, `meshfree/test_Collocation.cpp` — meshfree KL shell (#59)
+
+Built when `TAHOE_DEV=ON`. Bottom-up coverage of `development/src/elements/meshfree_kl_shell/`
+(`RKShellT`, `KLShellKernels.h`, `PlaneStressJ2.h`, `FlanaganTaylor.h`) and the meshfree BC machinery.
+
+| File | Checks |
+|------|--------|
+| `test_KLShellShape.cpp` | RK shape functions on the PCA chart: partition of unity, reproduction of linears/quadratics, 1st–3rd derivative consistency, curvature of analytic surfaces |
+| `test_KLShellKinematics.cpp` | Auxiliary-tensor kinematic chain (paper Eqs. 39–49) and the per-node strain–displacement operator against finite differences; rigid modes give zero strain |
+| `test_KLShellAssembly.cpp` | Assembled tangent K = Σ_K B^T C B with nodal integration and natural stabilization: symmetry, rigid-body null space, patch tests, small boundary-value problems |
+| `test_KLShellStress.cpp` | Stress-update machinery (elastic, plane-stress condensation, co-rotated increments) against analytical results |
+| `test_KLShellPlasticity.cpp` | `PlaneStressJ2Return` radial return: yield consistency, linear and saturation hardening, algorithmic tangent |
+| `test_KLShellBenchmark.cpp` | Scordelis–Lo roof through the in-memory element (obstacle-course value) |
+| `test_KLShellPipeline.cpp` | Scordelis–Lo deck through the real `tahoe` binary (XML → `FEManagerT` → solve): end-to-end regression |
+| `test_Collocation.cpp` | `CollocationSolverT` (#70): constrained coefficients reproduce the prescribed physical value; singular sets rejected |
+
 ### `meshfree/test_RKShellConstitutive.cpp` — meshfree KL shell updates
 
 Built when `TAHOE_DEV=ON`.
