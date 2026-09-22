@@ -165,9 +165,9 @@ Use `run_benchmarks.sh` at the repo root to reproduce. Level 3 requires `-DTAHOE
 
 | Level | PASS | FAIL/CRASH | SKIP | Notes |
 |-------|------|------------|------|-------|
-| level.0 | **172** | 14 | — | Core physics suite (up from 155 after issue #37 cleanup) |
+| level.0 | **172** | 15 | — | Core physics suite (2026-09-22 run). Failing: the #37 set (9 need `BRIDGING_ELEMENT`, CSE.2, adhesion.{2,3}, inputoutput/square) plus `meshfree_kl_shell/scordelis_lo.xml`, whose reference predates the #64 kernel default (see the level.0 README) |
 | level.1 | **100** | 3 | — | Extended element tests (includes WLC + SuperLU benchmark) |
-| level.2 | **47** | 0 | — | Additional verification (up from 39 — clean) |
+| level.2 | **49** | 0 | — | Additional verification (clean; includes the two elasto-plastic meshfree-shell paper cases of #73) |
 | level.3 | **22** | 0 | — | MPI parallel (4 ranks): elastostatic, explicit dynamics, particle MD, PCG, periodic BC |
 | **Total** | **341** | **17** | | up from 322/35 in Feb 2026 |
 
