@@ -1,5 +1,10 @@
 # Method-by-method: our RKShellT vs Wang & Bazilevs (2025) — and a ratification plan
 
+> **Superseded (2026-09-25).** The current, verified account of the formulation, deviations and results is
+> `technical_report.pdf` in this directory (source `technical_report.tex`). This note is kept for history;
+> several of its statements are out of date (Scordelis–Lo, hemisphere, stabilization type, necking, Fig 18).
+
+
 Goal: enumerate every methodological component, mark whether it matches the paper, rate its impact on
 the quantitative result, and give a concrete test/fix to **ratify** each one (i.e. prove it matches, or
 make it match). "Ratified" = verified equal to the paper either by a unit test or by closing the gap.

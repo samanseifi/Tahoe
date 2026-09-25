@@ -3,8 +3,8 @@
  * Runs the Scordelis-Lo roof deck through the actual tahoe binary (XML -> FEManagerT ->
  * SolverT -> RKShellT::LHS/RHSDriver -> framework sparse solve) and checks the free-edge
  * deflection. This tests the real element code path end-to-end (not just the standalone
- * kernels), keeping TDD on the Tahoe-native element. Reference deflection 0.3006; the 15x15
- * meshfree solution is ~0.275 (converges toward 0.30 under refinement). */
+ * kernels), keeping TDD on the Tahoe-native element. Reference deflection 0.3006; the paper's
+ * 315-node cloud gives 0.259 (0.290 / 0.298 at 1,189 / 4,617 nodes). */
 
 #include "gtest/gtest.h"
 
@@ -22,7 +22,8 @@
 
 TEST(KLShellPipeline, ScordelisLoThroughTahoe)
 {
-	const std::string dir = std::string(TAHOE_TEST_REPO_ROOT) + "/applications/meshfree_kl_shell";
+	/* the tracked level.0 benchmark deck (the paper's 315-node quasi-uniform cloud, #73) */
+	const std::string dir = std::string(TAHOE_TEST_REPO_ROOT) + "/benchmark_XML/level.0/meshfree_kl_shell";
 	const std::string bin = std::string(TAHOE_TEST_BUILD_DIR) + "/bin/tahoe";
 
 	std::string cmd = "cd " + dir
@@ -45,7 +46,7 @@ TEST(KLShellPipeline, ScordelisLoThroughTahoe)
 	ASSERT_NE(p, std::string::npos) << "no RKShell deflection summary:\n" << out;
 	double uy = std::atof(out.c_str() + p + key.size());
 
-	/* free-edge deflection is downward; 15x15 meshfree -> ~ -0.275 (ref -0.3006). Accept the
+	/* free-edge deflection is downward; 15x21 (315-node) cloud -> -0.259 (ref -0.3006). Accept the
 	 * converging band, comfortably bracketing both, but tight enough to catch a broken element. */
 	double mag = (uy < 0.0) ? -uy : uy;
 	EXPECT_GT(mag, 0.24) << "deflection too small (over-stiff): " << uy;

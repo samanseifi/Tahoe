@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- NECKING fix attempt (bugs A+B): Gaussian kernel (membrane-dominated, delivers the ring BC via
+     partition-of-unity, no collocation needed) + RADIAL CLAMP at the driven end so the neck centers.
+       BC: z=0 ring fully fixed (u=0); z=L ring: u_x=u_y=0 (radial clamp) + u_z driven by velocity.
+       Both ends now radially constrained -> triaxiality makes the MIDDLE the weak point -> center neck
+       (was: driven end radially free -> neck pinned to the driven edge).
+     sigma,xi membrane stab only; real density + dt; velocity ramp to 30 m/s over 5e-4 s. -->
+<tahoe geometry_file="necking_full.geom" title="necking sec 4.3, paper settings, develop 2026-09-22" output_format="ExodusII">
+    <time num_steps="30000" output_inc="500" time_step="4.0e-8">
+        <schedule_function><piecewise_linear>
+            <OrderedPair x="0.0"    y="0.0"/>
+            <OrderedPair x="5.0e-4" y="1.0"/>
+        </piecewise_linear></schedule_function>
+    </time>
+    <nodes>
+        <field field_name="displacement" integrator="central_difference">
+            <dof_labels><String value="D_X"/><String value="D_Y"/><String value="D_Z"/></dof_labels>
+            <!-- fixed end (z=0): u=0 -->
+            <kinematic_BC dof="1" node_ID="1"/>
+            <kinematic_BC dof="2" node_ID="1"/>
+            <kinematic_BC dof="3" node_ID="1"/>
+            <!-- driven end (z=L): RADIAL CLAMP (u_x=u_y=0) + axial velocity drive -->
+            <kinematic_BC dof="1" node_ID="2"/>
+            <kinematic_BC dof="2" node_ID="2"/>
+            <kinematic_BC dof="3" node_ID="2" schedule="1" type="D_u" value="30000.0"/>
+        </field>
+    </nodes>
+    <element_list>
+        <meshfree_kl_shell field_name="displacement"
+            shell_thickness="1.0" Young_modulus="189.0e3" Poisson_ratio="0.29"
+            support_factor="2.4" completeness="2" kernel="1"
+            density="7.8e-9" stab_natural="1.0" stab_siggrad="1"
+            yield_stress="343.0" hardening_modulus="300.0" yield_saturation="680.0" saturation_rate="16.93"
+            finite_strain="1" thickness_update="1" monitor_node="8161" monitor_stride="1" monitor_count="160"/>
+    </element_list>
+    <linear_solver><diagonal_matrix/></linear_solver>
+</tahoe>

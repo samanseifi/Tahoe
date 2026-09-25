@@ -2,11 +2,84 @@
 % $Id: regression.tex,v 1.3 2001-04-27 22:43:56 paklein Exp $
 
 \section{Regression tests and benchmarks}
-\todo{A system of regression tests and benchmarks is in development. 
-The purpose of the system is to allow users to exercise various parts 
-of the \tahoe to ensure they are functioning properly. Additionally, 
-the tests will provide examples of input parameters for various types of 
-simulations.}
+The regression tests are the input files in the \texttt{benchmark\_XML} directory of the source
+distribution. They exercise the parts of \tahoe\ and serve as examples of input for the various
+types of simulations. Each test directory contains the input files, a \texttt{run.batch} file
+listing them, and a \texttt{benchmark} subdirectory with reference output. The tests are grouped
+into the levels of Table~\ref{tab.regression.levels}.
+\begin{table}[h]
+\caption{\label{tab.regression.levels} Levels of regression tests.}
+\begin{center}
+\begin{tabular}[c]{|c|c|}
+\hline
+ \parbox[b]{0.75in}{\centering \textbf{level}}
+&\parbox[b]{4.5in}{\raggedright \textbf{content}}\\
+\hline
+\parbox[b]{0.75in}{\centering 0} & \parbox[b]{4.5in}{\raggedright core capabilities: every primary element, integrator and input/output format}\\
+\hline
+\parbox[b]{0.75in}{\centering 1} & \parbox[b]{4.5in}{\raggedright constitutive models under simple loading}\\
+\hline
+\parbox[b]{0.75in}{\centering 2} & \parbox[b]{4.5in}{\raggedright larger problems combining several features}\\
+\hline
+\parbox[b]{0.75in}{\centering 3} & \parbox[b]{4.5in}{\raggedright parallel execution with MPI}\\
+\hline
+\parbox[b]{0.75in}{\centering 4} & \parbox[b]{4.5in}{\raggedright linear solver performance}\\
+\hline
+\parbox[b]{0.75in}{\centering 5} & \parbox[b]{4.5in}{\raggedright explicit dynamics, contact and plasticity benchmarks}\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+A level is run by passing its batch file to \tahoe\ and then to the comparison tool, which
+compares the nodal output with the reference to a relative tolerance of $10^{-8}$ and writes the
+results to \texttt{compare.summary}:
+\begin{inputfile}
+cd benchmark_XML/level.0
+printf "run.batch\textbackslash{}nquit\textbackslash{}n" | ../../build/bin/tahoe
+printf "run.batch\textbackslash{}nquit\textbackslash{}n" | ../../build/bin/compare
+\end{inputfile}
+The script \texttt{run\_benchmarks.sh} at the top of the source tree runs one or more levels and
+reports the number of passing, failing and crashing tests; level~3 is run on four MPI processes.
+Unit tests of individual classes are built with Google Test and run with \texttt{ctest}.
+
+\subsection{Meshfree Kirchhoff--Love shell}
+\label{sect.regression.shell}
+The meshfree Kirchhoff--Love shell of Section~\ref{section.meshfree.shell} is tested by the
+input files of Table~\ref{tab.regression.shell}. The decks at level~2 are shortened, mass-scaled
+versions of the elasto-plastic examples of~\cite{WangBazilevs2025}; they test the plastic path of the
+element but are not validations. The full validation decks are in
+\texttt{docs/meshfree\_kl\_shell}.
+\begin{table}[h]
+\caption{\label{tab.regression.shell} Regression tests for the meshfree Kirchhoff--Love shell.}
+\begin{center}
+{\small
+\begin{tabular}[c]{|p{2.35in}|>{\raggedright\arraybackslash}p{1.9in}|>{\raggedright\arraybackslash}p{1.55in}|}
+\hline
+\textbf{test} & \textbf{description} & \textbf{checks}\\
+\hline
+\multicolumn{3}{|l|}{\texttt{level.0/meshfree\_kl\_shell}}\\
+\hline
+\texttt{scordelis\_lo.xml} & Scordelis--Lo roof, 315 nodes & deflection 0.259 (reference 0.3006)\\
+\hline
+\texttt{hemisphere.xml} & pinched hemisphere & bending-dominated response\\
+\hline
+\texttt{pinched\_cyl.xml} & linear pinched cylinder & membrane and bending\\
+\hline
+\texttt{collocation\_bc.xml} & collocation of prescribed displacements & physical displacement reaches its target\\
+\hline
+\texttt{penalty\_displacement\_bc.xml} & penalty controller, explicit dynamics & physical displacement and reaction\\
+\hline
+\texttt{penalty\_displacement\_static.xml} & penalty controller, static & convergence in one Newton iteration\\
+\hline
+\multicolumn{3}{|l|}{\texttt{level.2/meshfree\_kl\_shell}}\\
+\hline
+\texttt{necking.xml} & necking of a cylindrical shell, 504 nodes & saturation hardening and thickness update\\
+\hline
+\texttt{pinch\_plastic.xml} & elasto-plastic pinched cylinder, 600 nodes & yield and plastic folding\\
+\hline
+\end{tabular}}
+\end{center}
+\end{table}
 
 \subsection{Repeatability of tests across platforms}
 \subsection{Repeatability of tests during parallel execution}

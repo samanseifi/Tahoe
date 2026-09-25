@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Scordelis-Lo roof regression for the meshfree_kl_shell element (#59).
-     Membrane-dominated curved shell; analytic free-edge deflection 0.3006. The 15x15 meshfree
-     solution is ~0.275 (converges toward 0.30 under refinement). This benchmark GUARDS the
-     working membrane regime: any change to the element internal-force / stabilization loops that
-     perturbs this clean case will show up here. Default (Tahoe) output format for `compare`. -->
+<!-- Scordelis-Lo roof regression for the meshfree_kl_shell element (#59, #66, #73).
+     R=25, L=50, h=0.25, 80 deg arc, E=4.32e8, nu=0, p=90 (Wang & Bazilevs sec. 4.2.1: normalized
+     support 3.0). Cloud = the paper's coarsest QUASI-UNIFORM mesh, 15 x 21 = 315 nodes (2.5 mm in
+     both directions; generate_scordelis_geom.py 15 21). Physical vertical deflection at the free-edge
+     midpoint (monitor node 165): 0.2591 here vs 0.261 read off the paper's Fig 7(b) at this mesh;
+     the sequence 315 / 1189 / 4617 / 18193 nodes gives 0.259 / 0.290 / 0.298 / 0.300 (paper 0.261 /
+     0.290 / 0.298 / 0.300, reference 0.3006). The earlier 225-node deck was an unbalanced cloud (2.5 mm across the arc,
+     3.6 mm axially) that the isotropic support barely bridged axially, which is why it sat at 0.19. -->
 <tahoe geometry_file="scordelis.geom" title="Scordelis-Lo roof (meshfree_kl_shell)"
        xmlns:x0="http://www.w3.org/2001/XMLSchema">
 
@@ -35,7 +38,7 @@
         <meshfree_kl_shell field_name="displacement"
             shell_thickness="0.25" Young_modulus="4.32e8" Poisson_ratio="0.0"
             support_factor="3.0" completeness="2"
-            load_x="0.0" load_y="-90.0" load_z="0.0"/>
+            load_x="0.0" load_y="-90.0" load_z="0.0" monitor_node="165"/>
     </element_list>
 
     <linear_solver>

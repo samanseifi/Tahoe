@@ -28,10 +28,16 @@ printf "run.batch\nquit\n" | ../../build/bin/compare  # compare to references
 | `integrator/` | Time-integrator verification (verlet, Newmark, HHT-α, …) |
 | `matrix_check/` | Linear-solver sanity checks against analytical inverses |
 | `meshfree/` | EFG / reproducing-kernel meshfree methods |
+| `meshfree_kl_shell/` | Meshfree RKPM Kirchhoff–Love shell (#59): elastic obstacle course (Scordelis–Lo, hemisphere, pinched cylinder, #66) and essential-BC enforcement on the non-interpolatory field — collocation KBC (#70) and `penalty_displacement_meshfree` on the explicit and implicit paths (#73). |
 | `phase_field/` | Phase-field fracture smoke tests |
 | `geometry/` | Shared `.geom` mesh files referenced by tests in sibling directories |
 
 ## Status (May 2026, default build)
+
+September 2026: `meshfree_kl_shell/` grew to 6 decks (#73), all passing. `scordelis_lo.xml` now uses the
+paper's coarsest quasi-uniform cloud (15 x 21 = 315 nodes, 2.5 mm both ways) and reproduces the paper's own
+convergence point (0.259 vs 0.261, reference 0.3006); the previous 225-node cloud was unbalanced (2.5 mm
+across the arc, 3.6 mm axially), which the isotropic support barely bridged and which had made it sit at 0.19.
 
 172 / 186 PASS, 14 FAIL — all 14 remaining failures are real Tahoe code
 regressions tracked under issue #37 (9 bridging runtime crashes, plus

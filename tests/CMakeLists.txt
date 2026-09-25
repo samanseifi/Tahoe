@@ -134,6 +134,7 @@ tahoe_gtest_full(test_KLShellAssembly   meshfree/test_KLShellAssembly.cpp)
 tahoe_gtest(test_KLShellStress          meshfree/test_KLShellStress.cpp)
 tahoe_gtest_full(test_KLShellPlasticity meshfree/test_KLShellPlasticity.cpp)
 tahoe_gtest_full(test_KLShellBenchmark  meshfree/test_KLShellBenchmark.cpp)
+tahoe_gtest_full(test_Collocation       meshfree/test_Collocation.cpp)   # collocation BC transform (#70)
 
 # In-pipeline element test: runs the Scordelis-Lo deck through the tahoe binary and checks
 # the deflection (tests the real RKShellT XML->framework->solve path).
