@@ -49,10 +49,13 @@ OpenMP-parallel (`OMP_NUM_THREADS`).
 | case (paper section) | result |
 |---|---|
 | Scordelis–Lo roof (4.2.1) | on the paper's meshes 315 / 1,189 / 4,617 / 18,193 nodes: 0.259 / 0.290 / 0.298 / 0.300 (paper Fig 7: 0.261 / 0.290 / 0.298 / 0.300; reference 0.3006), support 3.0, re-verified 2026-09-22 |
-| pinched hemisphere (4.2.2) | 0.0909 vs 0.0924 at M40 (coarse meshes are far too stiff) |
-| linear pinched cylinder (4.2.3) | 0.95 of 1.8248e-5 at 8,480 nodes, quadratic completeness |
-| necking cylinder (4.3) | peak within 7%; post-peak localizes like the paper's unstabilized case |
+| pinched hemisphere (4.2.2) | 0.0207 / 0.0787 / 0.0909 at 11 / 21 / 41 nodes per side vs paper 0.0105 / 0.065 / 0.090 (reference 0.0924); full model, `stab_bending=1` |
+| linear pinched cylinder (4.2.3) | 0.593 / 1.290 / 1.622 / 1.745 (×1e-5) on the paper's 330 / 1,260 / 4,920 / 19,440-node clouds vs paper 1.055 / 1.627 / 1.783 / 1.822 (reference 1.8248); converges, more slowly than the paper (membrane locking, #68) |
+| necking cylinder (4.3) | peak 614 vs 609 MPa; follows the paper's stabilized curve within 1–4% to U_norm = 10.7 mm, then an explicit instability in the deep neck (`necking_validation/`) |
 | elasto-plastic pinched cylinder (4.4, Fig 18) | **matches** once the literature's quarter-model force (F/4) is accounted for; see `fig18_validation/README.md` |
 
-Method notes: `METHODS_vs_PAPER.md`, `DEVIATIONS_FROM_PAPER.md`,
+**Technical report:** `technical_report.pdf` (source `technical_report.tex`, build with `make`) —
+formulation, boundary conditions, implementation, verification, tests and limitations.
+
+Older method notes (partly superseded by the report): `METHODS_vs_PAPER.md`, `DEVIATIONS_FROM_PAPER.md`,
 `IMPLEMENTATION_sigma_xi_and_multibody.md`. `history/` keeps the superseded Fig 18 investigation.

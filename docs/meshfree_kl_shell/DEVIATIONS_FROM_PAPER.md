@@ -1,5 +1,10 @@
 # Deviations from Wang & Bazilevs (2025) — meshfree_kl_shell (RKShellT)
 
+> **Superseded (2026-09-25).** The current, verified account of the formulation, deviations and results is
+> `technical_report.pdf` in this directory (source `technical_report.tex`). This note is kept for history;
+> several of its statements are out of date (Scordelis–Lo, hemisphere, stabilization type, necking, Fig 18).
+
+
 Honest accounting of where this Tahoe element's results differ from the paper, and why.
 Two categories: **A. quantitative result gaps** (per example) and **B. methodological differences**
 (how the element's formulation departs from the paper's).
