@@ -12,6 +12,7 @@
 #define OMPI_SKIP_MPICXX  1
 #define MPICH_SKIP_MPICXX 1
 
+#include <stddef.h>   /* NULL: the sequential MUMPS stub mpi.h does not define it */
 #include "mpi.h"
 #include "mumps_mpi_util.h"
 
