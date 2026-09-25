@@ -1,0 +1,11 @@
+# LaTeX build products of the user guide (the published copy is doc/user_guide.pdf)
+*.aux
+*.bbl
+*.blg
+*.lof
+*.lot
+*.log
+*.out
+*.toc
+tahoe.user.pdf
+bib.log

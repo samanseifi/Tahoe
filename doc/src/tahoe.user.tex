@@ -14,9 +14,11 @@
 \usepackage{multirow}
 \usepackage{hhline}
 \usepackage{longtable}
+\usepackage{array} % ragged-right table columns
 \usepackage{ulem}
 %\usepackage{overcite}
-\usepackage{hangcaption}
+\usepackage[format=hang]{caption} % replaces the obsolete hangcaption package
+\providecommand{\hangcaption}{\caption}
 \usepackage{fancyhdr}
 \usepackage[pdftex,%
     bookmarks=true,%

@@ -19,3 +19,19 @@ for solid deformation elements listed in
 Table~\ref{tab.solid.output.element}. This brings the number of 
 element output flags from 5 to 7. This change is version aware. Only 5 
 flags are read if the input file version is older than 3.4.1.
+\subsubsection{Development version, 2026}
+The following additions concern meshfree methods.
+\begin{itemize}
+\item The meshfree Kirchhoff--Love shell element \texttt{meshfree\_kl\_shell}
+  (Section~\ref{section.meshfree.shell}), following~\cite{WangBazilevs2025}, with its parameters
+  (Table~\ref{tab.KLshell.params}), output values (Table~\ref{tab.KLshell.output}) and
+  verification (Table~\ref{tab.KLshell.verification}); added to Table~\ref{tab.element.types}.
+\item Essential boundary conditions for meshfree fields
+  (Section~\ref{set.ICandBC.meshfree.EBC}): the kinematic boundary condition controller
+  \texttt{collocation\_KBC} and the \texttt{collocation} flag on \texttt{kinematic\_BC}, and the
+  force controller \texttt{penalty\_displacement\_meshfree}. The controller tables
+  (Tables~\ref{tab.KBC.controller.type} and~\ref{tab.FBC.controller.type}) now list every
+  controller in the code with its XML name.
+\item A description of the regression test system and the meshfree shell tests
+  (Section~\ref{sect.regression.shell}).
+\end{itemize}

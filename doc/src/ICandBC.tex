@@ -114,6 +114,10 @@ The \textit{value} and \textit{schedule} in the nodal kinematic
 boundary condition specification refer to 
 $g$ and $i$ in~\eqref{eq.func.time}, respectively, for the variation 
 of the boundary condition in time.
+For fields approximated by meshfree shape functions, which lack the Kronecker delta property,
+a kinematic boundary condition prescribes the nodal coefficient rather than the physical value.
+Adding \texttt{collocation="1"} to a \texttt{kinematic\_BC} entry prescribes the physical value
+instead, see Section~\ref{set.ICandBC.meshfree.EBC}.
 
 \subsection{Kinematic boundary condition controllers}
 \label{set.ICandBC.KBC.controller}
@@ -121,30 +125,32 @@ of the boundary condition in time.
 \begin{table}[h]
 \caption{\label{tab.KBC.controller.type} Kinematic boundary condition controllers.}
 \begin{center}
-\begin{tabular}[c]{|c|c|}
+{\small
+\begin{tabular}[c]{|c|p{3.05in}|>{\raggedright\arraybackslash}p{2.45in}|}
 \hline
- \parbox[b]{0.75in}{\centering \textbf{code}}
-&\parbox[b]{2.0in}{\raggedright \textbf{description}}\\
+\textbf{code} & \textbf{XML name} & \textbf{description}\\
 \hline
-\parbox[b]{0.75in}{\centering 0} & 
-\parbox[b]{2.0in}{\raggedright K-field}\\
+0 & \texttt{K-field} & K-field\\
 \hline
-\parbox[b]{0.75in}{\centering 1}  & 
-\parbox[b]{2.0in}{\raggedright bimaterial K-field}\\
+1 & \texttt{bi-material\_K-field} & bimaterial K-field\\
 \hline
-\parbox[b]{0.75in}{\centering 2}  & 
-\parbox[b]{2.0in}{\raggedright Mapped displacements}\\
+2 & \texttt{mapped\_nodes} & Mapped displacements\\
 \hline
-\parbox[b]{0.75in}{\centering 3}  & 
-\parbox[b]{2.0in}{\raggedright Tied displacements}\\
+3 & \texttt{tied\_nodes} & Tied displacements\\
 \hline
-\parbox[b]{0.75in}{\centering 4}  & 
-\parbox[b]{2.0in}{\raggedright Symmetry line}\\
+5 & \texttt{periodic\_nodes} & Periodic displacements\\
 \hline
-\parbox[b]{0.75in}{\centering 5}  & 
-\parbox[b]{2.0in}{\raggedright Periodic displacements}\\
+7 & \texttt{scaled\_velocity} & Scaled velocity\\
 \hline
-\end{tabular}
+9 & \texttt{torsion} & Torsion\\
+\hline
+10 & \texttt{conveyor} & Conveyor (moving periodic domain)\\
+\hline
+11 & \texttt{symmetric\_conveyor} & Symmetric conveyor\\
+\hline
+12 & \texttt{collocation\_KBC} & Direct nodal collocation of essential boundary conditions for meshfree fields, Section~\ref{set.ICandBC.meshfree.EBC}\\
+\hline
+\end{tabular}}
 \end{center}
 \end{table}
 
@@ -152,8 +158,12 @@ of the boundary condition in time.
 \subsubsection{Interface K-field}
 \subsubsection{Mapped displacements}
 \subsubsection{Tied displacements}
-\subsubsection{Symmetry line}
 \subsubsection{Periodic displacements}
+\subsubsection{Scaled velocity}
+\subsubsection{Torsion}
+\subsubsection{Conveyor}
+\subsubsection{Direct nodal collocation}
+See Section~\ref{set.ICandBC.meshfree.EBC}.
 
 \subsection{Applied nodal forces}
 \label{set.ICandBC.FBC}
@@ -177,27 +187,36 @@ of the boundary condition in time.
 \begin{table}[h]
 \caption{\label{tab.FBC.controller.type} Force boundary condition controllers.}
 \begin{center}
-\begin{tabular}[c]{|c|c|}
+{\small
+\begin{tabular}[c]{|c|p{3.05in}|>{\raggedright\arraybackslash}p{2.45in}|}
 \hline
- \parbox[b]{0.75in}{\centering \textbf{code}}
-&\parbox[b]{4.0in}{\raggedright \textbf{description}}\\
+\textbf{code} & \textbf{XML name} & \textbf{description}\\
 \hline
-\parbox[b]{0.75in}{\centering 0} & 
-\parbox[b]{4.0in}{\raggedright Rigid barrier (penalty)}\\
+0 & \texttt{wall\_penalty} & Rigid barrier (penalty)\\
 \hline
-\parbox[b]{0.75in}{\centering 1}  & 
-\parbox[b]{4.0in}{\raggedright Rigid sphere (penalty)}\\
+1 & \texttt{sphere\_penalty} & Rigid sphere (penalty)\\
 \hline
-\parbox[b]{0.75in}{\centering 2}  & 
-\parbox[b]{4.0in}{\raggedright Rigid sphere (augmented Lagrangian)}\\
+2 & \texttt{sphere\_augmented\_Lagrangian} & Rigid sphere (augmented Lagrangian)\\
 \hline
-\parbox[b]{0.75in}{\centering 3}  & 
-\parbox[b]{4.0in}{\raggedright Rigid sphere for meshfree domains (penalty)}\\
+3 & \texttt{sphere\_penalty\_meshfree} & Rigid sphere for meshfree domains (penalty)\\
 \hline
-\parbox[b]{0.75in}{\centering 4}  & 
-\parbox[b]{4.0in}{\raggedright Rigid barrier (augmented Lagrangian)}\\
+4 & \texttt{wall\_augmented\_Lagrangian} & Rigid barrier (augmented Lagrangian)\\
 \hline
-\end{tabular}
+5 & \texttt{cylinder\_penalty} & Rigid cylinder (penalty)\\
+\hline
+6 & \texttt{augmented\_Lagrangian\_KBC\_meshfree} & Kinematic constraints on meshfree nodes (augmented Lagrangian)\\
+\hline
+7 & \texttt{cylinder\_augmented\_Lagrangian} & Rigid cylinder (augmented Lagrangian)\\
+\hline
+8 & \texttt{field\_augmented\_Lagrangian\_KBC\_meshfree} & Field-driven kinematic constraints on meshfree nodes (augmented Lagrangian)\\
+\hline
+9 & \texttt{pressure\_bc} & Pressure boundary condition\\
+\hline
+10 & \texttt{angled\_bc} & Kinematic condition normal to an inclined surface (penalty)\\
+\hline
+11 & \texttt{penalty\_displacement\_meshfree} & Prescribed physical displacement on meshfree fields (penalty), Section~\ref{set.ICandBC.meshfree.EBC}\\
+\hline
+\end{tabular}}
 \end{center}
 \end{table}
 
@@ -211,6 +230,75 @@ defined as functions of time.}\\
 \subsubsection{Rigid sphere (augmented Lagrangian method)}
 \subsubsection{Rigid sphere for meshfree domains (penalty method)}
 \subsubsection{Rigid barrier (augmented Lagrangian method)}
+\subsubsection{Rigid cylinder (penalty and augmented Lagrangian methods)}
+\subsubsection{Kinematic constraints on meshfree nodes (augmented Lagrangian method)}
+\subsubsection{Pressure boundary condition}
+\subsubsection{Inclined kinematic condition (penalty method)}
+\subsubsection{Prescribed physical displacement on meshfree fields (penalty method)}
+See Section~\ref{set.ICandBC.meshfree.EBC}.
+
+\subsection{Essential boundary conditions for meshfree fields}
+\label{set.ICandBC.meshfree.EBC}
+Meshfree shape functions do not satisfy $\Phi_{J}\farg{\mathbf{x}_{A}}=\delta_{JA}$
+(Section~\ref{section.RKPM}), so the physical value at a node,
+\begin{equation}
+\label{eq.meshfree.EBC.value}
+u^{h}\farg{\mathbf{x}_{A}} = \sum_{J} \Phi_{J}\farg{\mathbf{x}_{A}}\, d_{J},
+\end{equation}
+differs from its nodal coefficient $d_{A}$, and an ordinary kinematic boundary condition, which
+prescribes $d_{A}$, does not impose the intended displacement. Two treatments are available. Both
+obtain the values $\Phi_{J}\farg{\mathbf{x}_{A}}$ from the element group through a common
+interface, which is currently implemented by the meshfree Kirchhoff--Love shell
+(Section~\ref{section.meshfree.shell}).
+
+\subsubsection{Direct nodal collocation}
+The kinematic boundary condition controller \texttt{collocation\_KBC}, or equivalently the flag
+\texttt{collocation="1"} on a \texttt{kinematic\_BC} entry, solves at every step for the
+coefficients of the constrained nodes that make~\eqref{eq.meshfree.EBC.value} equal to the
+prescribed value,
+\begin{equation}
+\mathbf{\Phi}_{c}\,\mathbf{d}_{c} = \bar{\mathbf{u}} - \mathbf{\Phi}_{f}\,\mathbf{d}_{f},
+\end{equation}
+where the subscripts $c$ and $f$ denote constrained and free coefficients, and imposes them as
+ordinary prescribed values. For example,
+\begin{inputfile}
+<kinematic_BC dof="1" node_ID="3" schedule="1" type="u"
+              value="-1.0" collocation="1"/>
+\end{inputfile}
+Collocation is exact for the prescribed value but is not a variational enforcement: the free
+coefficients in the support of a constrained node receive no constraint force, and the reaction
+reported for the constrained coefficient is not the physical load.
+
+\subsubsection{Penalty enforcement of physical displacements}
+The force controller \texttt{penalty\_displacement\_meshfree} enforces the constraint
+$g_{A} = u^{h}\farg{\mathbf{x}_{A}} - \bar{u}_{A}\farg{t} = 0$ for one degree of freedom at every
+node $A$ of the listed node sets by a penalty force distributed over the support,
+\begin{equation}
+f_{J} = \Phi_{J}\farg{\mathbf{x}_{A}}\,\lambda_{A}, \qquad
+\lambda_{A} = -k\,g_{A} - c_{A}\,\dot{g}_{A}, \qquad
+c_{A} = 2\,\zeta\,\sqrt{k\,m^{\textrm{eff}}_{A}}, \qquad
+\frac{1}{m^{\textrm{eff}}_{A}} = \sum_{J}\frac{\Phi_{J}\farg{\mathbf{x}_{A}}^{2}}{m_{J}},
+\end{equation}
+where $k$ is the penalty stiffness, $\zeta$ the damping ratio of an optional dashpot that
+suppresses oscillation of the penalty spring in explicit dynamics, and $m_{J}$ the lumped nodal
+masses. The multiplier $\lambda_{A}$ is the physical reaction at node $A$, work conjugate to
+$u^{h}\farg{\mathbf{x}_{A}}$. The controller contributes the stiffness
+$k\,\Phi_{J}\Phi_{K}$, so it can also be used in implicit analyses. The parameters are
+\texttt{dof}, \texttt{schedule}, \texttt{value} (the prescribed physical value, scaled by the
+schedule), \texttt{penalty}, \texttt{damping\_ratio} (default 0) and \texttt{element\_group} (default 0,
+which selects the first group that provides the shape function values). For example,
+\begin{inputfile}
+<penalty_displacement_meshfree dof="1" schedule="1"
+    value="-300.0" penalty="1.0e5" damping_ratio="1.0">
+  <node_ID_list><String value="3"/></node_ID_list>
+</penalty_displacement_meshfree>
+\end{inputfile}
+At each output step the controller writes one line per constrained node to the output file with
+the physical displacement, the reaction $\lambda_{A}$ and their means since the previous output.
+The penalty stiffness should be large relative to the structural stiffness at the node but, in
+explicit dynamics, small enough that $2\sqrt{k/m^{\textrm{eff}}_{A}}$ does not limit the stable
+time step.
+
 
 \subsection{Body forces}
 \label{set.ICandBC.body}

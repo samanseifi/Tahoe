@@ -43,6 +43,9 @@ schemes are discussed in this chapter.
 \hhline{~--~}
 & strain gradient total Lagrangian & 20 & \\
 \hline
+% meshfree shell
+meshfree shell & \parbox{1.5in}{\centering Kirchhoff--Love RKPM~\cite{WangBazilevs2025}\\ \small\texttt{meshfree\_kl\_shell}} & --$^{\ast}$ & N/A\\
+\hline
 % cohesive surface elements
 \multirow{3}{1.5in}{\centering finite element cohesive surface} & isotropic & 
 \multirow{3}{0.75in}{\centering 11} & 0\\
@@ -88,6 +91,8 @@ anisotropic with rotating frame & 22 & N/A\\
 \hline
 \end{tabular}
 \end{center}
+{\footnotesize $^{\ast}$Elements added with the XML input format have no numeric code; they are
+selected by the XML name shown under the sub-type.}
 \end{table}
 
 \subsection{Integration domains}
@@ -527,6 +532,172 @@ tractions.
 (2) basis functions\\
 (3) order of completeness for polynomial basis functions}
 
+\subsection{Meshfree Kirchhoff--Love shell}
+\label{section.meshfree.shell}
+The element \texttt{meshfree\_kl\_shell} (class \texttt{RKShellT}) is a rotation-free
+Kirchhoff--Love shell discretized with the RKPM of Section~\ref{section.RKPM}. It follows the
+formulation of Wang and Bazilevs~\cite{WangBazilevs2025}. The shell is described by a cloud of
+mid-surface nodes; no surface parameterization or connectivity is required for the approximation,
+although a background mesh of quadrilateral or triangular cells may be supplied for output.
+
+\subsubsection{Formulation}
+A point at through-thickness coordinate $\xi^{3}\in\sbrkt{-1,1}$ is located at
+\begin{equation}
+\label{eq.KLshell.kinematics}
+\mathbf{x}\farg{\xi^{1},\xi^{2},\xi^{3}} =
+   \overline{\mathbf{x}}\farg{\xi^{1},\xi^{2}} + \xi^{3}\,\frac{h}{2}\,\mathbf{n},
+\qquad
+\mathbf{n} = \frac{\overline{\mathbf{x}}_{,1}\times\overline{\mathbf{x}}_{,2}}
+             {\left\|\overline{\mathbf{x}}_{,1}\times\overline{\mathbf{x}}_{,2}\right\|},
+\end{equation}
+where $\overline{\mathbf{x}}$ is the mid-surface, $h$ the thickness and $\mathbf{n}$ the unit normal.
+Because the normal follows from the mid-surface, the only unknowns are the three mid-surface
+displacement components. Membrane strains involve first and curvatures second derivatives of the
+approximation, so the shape functions must be at least $C^{1}$.
+
+For each node a local chart $\rbrkt{\xi^{1},\xi^{2}}$ is constructed by principal component
+analysis of its neighborhood, and the RKPM shape functions~\eqref{eq.RKPM.shape} are evaluated on
+that chart with a basis complete to quadratic order and the cubic B-spline window. The support
+radius is the product of the normalized support size (\texttt{support\_factor}) and the nodal
+spacing, taken as the minimum distance between nodes. Clouds should therefore be quasi-uniform.
+
+The shape functions do not possess the Kronecker delta property, so the nodal unknowns are
+coefficients, not displacements. Nodal output reports the physical displacement
+$\mathbf{u}^{h}\farg{\mathbf{x}_{J}}=\sum_{K}\Phi_{K}\farg{\mathbf{x}_{J}}\,\mathbf{d}_{K}$,
+and essential boundary conditions must be imposed with the controllers of
+Section~\ref{set.ICandBC.meshfree.EBC}.
+
+Integrals over the mid-surface are evaluated at the nodes with Voronoi nodal areas $A_{K}$. The
+rank deficiency of pure nodal integration is removed by a first-order Taylor expansion of the
+membrane virtual work over each nodal cell~\cite{WangBazilevs2025,Hillman2016},
+\begin{equation}
+\label{eq.KLshell.stab}
+\delta W_{K}^{\textrm{stab}} = \sum_{l=1}^{2}
+   \delta\boldsymbol{\varepsilon}_{,\xi^{l}} : \boldsymbol{\sigma}_{,\xi^{l}}\,
+   A_{K}\,h\,\frac{A_{K}}{12},
+\end{equation}
+in which the stress gradient $\boldsymbol{\sigma}_{,\xi^{l}}$ is carried as a history variable,
+advanced with the mid-surface algorithmic tangent and co-rotated with the material. An optional
+bending analogue of~\eqref{eq.KLshell.stab} (\texttt{stab\_bending}) is available for thin,
+nearly inextensional, bending-dominated problems; it is not part of the reference formulation.
+
+Stresses are integrated at three Gauss points through the thickness with a plane-stress $J_{2}$
+model with isotropic hardening
+\begin{equation}
+\label{eq.KLshell.hardening}
+Y\farg{\bar\varepsilon^{p}} = Y_{0} + H\,\bar\varepsilon^{p}
+   + \rbrkt{Y_{\textrm{sat}}-Y_{0}}\rbrkt{1-e^{-\delta\,\bar\varepsilon^{p}}},
+\end{equation}
+where $\sigma_{33}=0$ is enforced by iterating on the through-thickness rate of deformation. The
+stress update is objective, using a co-rotational frame obtained from the polar decomposition of
+the incremental deformation~\cite{Flanagan1987}, and the thickness may be updated from the
+through-thickness rate of deformation. Explicit dynamic analyses use a translational lumped
+mass $m_{K}=\rho\,A_{K}\,h$.
+
+\subsubsection{Input parameters}
+The element parameters are listed in Table~\ref{tab.KLshell.params}. Apart from
+\texttt{completeness}, whose default is cubic, the defaults reproduce the reference formulation;
+set \texttt{completeness="2"} for the quadratic basis of~\cite{WangBazilevs2025}.
+\begin{longtable}{|p{1.7in}|p{0.7in}|p{3.4in}|}
+\caption{\label{tab.KLshell.params} Parameters of the \texttt{meshfree\_kl\_shell} element.}\\
+\hline
+\textbf{parameter} & \textbf{default} & \textbf{description}\\
+\hline
+\endfirsthead
+\hline
+\textbf{parameter} & \textbf{default} & \textbf{description}\\
+\hline
+\endhead
+\texttt{shell\_thickness} & -- & initial thickness $h$\\ \hline
+\texttt{Young\_modulus}, \texttt{Poisson\_ratio} & -- & isotropic elastic constants\\ \hline
+\texttt{density} & 1.0 & mass density $\rho$ (explicit dynamics)\\ \hline
+\texttt{support\_factor} & 3.0 & normalized support size (reference values 2.4--3.0)\\ \hline
+\texttt{completeness} & 3 & order of the polynomial basis; 2 (quadratic) is the reference setting\\ \hline
+\texttt{kernel} & 1 & window function: 1 cubic B-spline, 0 Gaussian\\ \hline
+\texttt{stab\_natural} & 1.0 & scale of the membrane stabilization~\eqref{eq.KLshell.stab}\\ \hline
+\texttt{stab\_siggrad} & 1 & carry the stress gradient as a history variable (1) or use the tangent operator (0)\\ \hline
+\texttt{stab\_bending} & 0.0 & scale of the optional bending stabilization\\ \hline
+\texttt{stab\_scni}, \texttt{smoothed\_gradient} & 0 & alternative stabilizations based on stabilized conforming nodal integration~\cite{Chen2001}; not needed with the default\\ \hline
+\texttt{yield\_stress}, \texttt{hardening\_modulus} & 0.0 & $Y_{0}$ and $H$ in~\eqref{eq.KLshell.hardening}; $Y_{0}=0$ gives an elastic shell\\ \hline
+\texttt{yield\_saturation}, \texttt{saturation\_rate} & 0.0 & $Y_{\textrm{sat}}$ and $\delta$ in~\eqref{eq.KLshell.hardening}\\ \hline
+\texttt{finite\_strain} & 0 & large-deformation kinematics (required for plasticity)\\ \hline
+\texttt{corotational} & 1 & objective co-rotational stress update\\ \hline
+\texttt{thickness\_update} & 0 & update the thickness from the through-thickness rate of deformation\\ \hline
+\texttt{load\_x}, \texttt{load\_y}, \texttt{load\_z} & 0.0 & uniform load per unit mid-surface area\\ \hline
+\texttt{damping} & 0.0 & mass-proportional damping for dynamic relaxation\\ \hline
+\texttt{contact\_stiffness}, \texttt{contact\_r\_in}, \texttt{contact\_r\_out} & 0.0 & pinball self-contact; radii default to multiples of the nodal spacing\\ \hline
+\texttt{penalty\_coupling}, \texttt{couple\_node\_ID\_a}, \texttt{couple\_node\_ID\_b} & 0.0 & rotational-continuity coupling of two shell patches along paired node sets\\ \hline
+\texttt{monitor\_node}, \texttt{monitor\_stride}, \texttt{monitor\_count} & 0, 1, 1 & report the reaction and physical displacement at a node, or summed over a node set\\ \hline
+\end{longtable}
+Self-contact and patch coupling are implemented but have not yet been validated on a complete
+problem. The internal force computation is parallelized with OpenMP; the number of threads is
+set by \texttt{OMP\_NUM\_THREADS} and does not change the results.
+
+\subsubsection{Output variables}
+The nodal output values are listed in Table~\ref{tab.KLshell.output}. In addition, each output
+step writes diagnostic lines to standard output, among them \texttt{[RKShell-uphys]} with the
+physical displacement at the monitored node and \texttt{[RKShell-react]} with its reaction.
+\begin{table}[!htbp]
+\caption{\label{tab.KLshell.output} Nodal output values for the meshfree Kirchhoff--Love shell.}
+\begin{center}
+\begin{tabular}[c]{|p{1.9in}|>{\raggedright\arraybackslash}p{3.6in}|}
+\hline
+\textbf{label} & \textbf{description}\\
+\hline
+\texttt{D\_X}, \texttt{D\_Y}, \texttt{D\_Z} & physical mid-surface displacement $\mathbf{u}^{h}\farg{\mathbf{x}_{J}}$\\
+\hline
+\texttt{EQ\_PLASTIC\_STRAIN} & maximum equivalent plastic strain over the through-thickness points (when \texttt{yield\_stress}$\,>0$)\\
+\hline
+\texttt{THICKNESS} & current thickness (when \texttt{yield\_stress}$\,>0$ and \texttt{thickness\_update}=1)\\
+\hline
+\end{tabular}
+\end{center}
+\end{table}
+
+\subsubsection{Example}
+The following element block defines the elasto-plastic shell of the pinched-cylinder benchmark;
+the two pinch points are driven by the controller of Section~\ref{set.ICandBC.meshfree.EBC}.
+\begin{inputfile}
+<meshfree_kl_shell field_name="displacement"
+    shell_thickness="3.0" Young_modulus="3.0e3"
+    Poisson_ratio="0.3" support_factor="2.4"
+    completeness="2" kernel="1" density="7800.0"
+    yield_stress="24.3" hardening_modulus="300.0"
+    finite_strain="1" thickness_update="1"
+    monitor_node="281"/>
+\end{inputfile}
+
+\subsubsection{Verification}
+The element has been verified on the examples of the reference paper~\cite{WangBazilevs2025},
+as summarized in Table~\ref{tab.KLshell.verification}. The published elasto-plastic
+pinched-cylinder curves~\cite{WangBazilevs2025,Ambati2018,Alaydin2021} come from symmetry models
+whose plotted reaction is one quarter of the physical point load; the element reports the physical
+load. The input decks, scripts and a detailed technical report are in
+\texttt{docs/meshfree\_kl\_shell} of the source distribution, and regression tests are described in
+Section~\ref{sect.regression.shell}.
+\begin{center}
+\begin{minipage}{\linewidth}
+\captionof{table}{\label{tab.KLshell.verification} Verification of the meshfree Kirchhoff--Love shell
+against the reference paper~\cite{WangBazilevs2025}.}
+\centering
+\begin{tabular}[c]{|>{\raggedright\arraybackslash}p{1.7in}|>{\raggedright\arraybackslash}p{1.1in}|>{\raggedright\arraybackslash}p{2.9in}|}
+\hline
+\textbf{problem} & \textbf{reference} & \textbf{result}\\
+\hline
+Scordelis--Lo roof~\cite{Belytschko1985} & 0.3006 & 0.259, 0.290, 0.298, 0.300 on 315 to 18{,}193 nodes; paper 0.261, 0.290, 0.298, 0.300\\
+\hline
+pinched hemisphere~\cite{Belytschko1985} & 0.0924 & 0.0207, 0.0787, 0.0909 at 11, 21, 41 nodes per side (full model, \texttt{stab\_bending}=1); paper 0.0105, 0.065, 0.090\\
+\hline
+pinched cylinder~\cite{Belytschko1985} & $1.8248\times10^{-5}$ & 0.593, 1.290, 1.622, 1.745 ($\times10^{-5}$) on 330 to 19{,}440 nodes; paper 1.055, 1.627, 1.783, 1.822; converges more slowly than the paper on coarse clouds (membrane locking)\\
+\hline
+necking of a cylindrical shell & reference Fig.~15 & peak 614 MPa (paper 609); within 1--4\% of the stabilized curve to $U_{\textrm{norm}}=10.7$ mm\\
+\hline
+elasto-plastic pinched cylinder & reference Fig.~18 & within the published band~\cite{Ambati2018,Alaydin2021} over 0--300 mm at the reference resolution\\
+\hline
+\end{tabular}
+\end{minipage}
+\end{center}
+
 \subsection{Solid deformation}
 This section describes the elements available for performing analysis of stress and deformation in solids. The material models available for these elements are described in Section~\ref{sect.model.solids}.
 
@@ -534,10 +705,15 @@ This section describes the elements available for performing analysis of stress 
 This element formulation is due to Simo, Armero, and Taylor~\cite{Simo1993}. The element incorporates internal element modes of deformation to improve performance under bending and under nearly incompressible states of deformation.
 
 \subsubsection{Element 36: finite strain mixed element}
-The formulation is due to Simo, Taylor, and Pister~\cite{Simo1985}. The basic idea behind the formulation is to represent the pressure and dilatation $\Theta$ as separate fields from the displacement. For the continuous case, the determinant of the deformation gradient \begin{equation}
-       J = \det \mathbf{F}          = \mathbf{1} + \frac{\partial \mathbf{u}}{\partial \mathbf{X}} \end{equation}
-is equal to the dilatation. However, when the displacement field $\mathbf{u}$ is restricted to a finite dimensional representation, it may not contain enough degrees of freedom to represent nearly incompressible deformations without making the response overly stiff. Therefore, the dilatation and pressure are represented as separate fields. The modified deformation gradient is given by\begin{equation}
-       \bar{\mathbf{F}} = \left( \frac{\Theta}{J} \right)^{1/3} \mathbf{F}.\end{equation}
+The formulation is due to Simo, Taylor, and Pister~\cite{Simo1985}. The basic idea behind the formulation is to represent the pressure and dilatation $\Theta$ as separate fields from the displacement. For the continuous case, the determinant of the deformation gradient 
+\begin{equation}
+       J = \det \mathbf{F} 
+         = \mathbf{1} + \frac{\partial \mathbf{u}}{\partial \mathbf{X}} 
+\end{equation}
+is equal to the dilatation. However, when the displacement field $\mathbf{u}$ is restricted to a finite dimensional representation, it may not contain enough degrees of freedom to represent nearly incompressible deformations without making the response overly stiff. Therefore, the dilatation and pressure are represented as separate fields. The modified deformation gradient is given by
+\begin{equation}
+       \bar{\mathbf{F}} = \left( \frac{\Theta}{J} \right)^{1/3} \mathbf{F}.
+\end{equation}
 The remainder of the formulation results as a consequence. For Q1P0, the (2D) bi- or (3D) trilinear displacement field (Q1) is combined with piecewise constant (P0) pressure and dilatation fields. Since the space for these fields is restricted to within element domains, these degrees of freedom can be determined analytically at the element level and substituted into the remaining element equations to results in a purely displacement-based formulation.
 
 Note that several errors appear in the derivation of the consistent tangent in the CMAME paper. Therefore, the implementation of the tangent here does not match the published formulation.
