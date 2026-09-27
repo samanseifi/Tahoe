@@ -81,6 +81,12 @@ tahoe_gtest(test_GMRES       solvers/test_GMRES.cpp)
 tahoe_gtest_full(test_IsotropicT  materials/test_IsotropicT.cpp)
 tahoe_gtest_full(test_NeoHookean  materials/test_NeoHookean.cpp)
 tahoe_gtest_full(test_ExplJ2Plasticity materials/test_ExplJ2Plasticity.cpp)
+# #78 Simo_J2 consistent tangent vs a finite-difference stiffness (runs the tahoe binary)
+tahoe_gtest_full(test_J2SimoTangent materials/test_J2SimoTangent.cpp)
+target_compile_definitions(test_J2SimoTangent PRIVATE
+    "TAHOE_TEST_REPO_ROOT=\"${CMAKE_SOURCE_DIR}\""
+    "TAHOE_TEST_BUILD_DIR=\"${CMAKE_BINARY_DIR}\""
+)
 tahoe_gtest_full(test_Tet4Kernel       kernels/test_Tet4Kernel.cpp)
 tahoe_gtest_full(test_ANPHelperT       kernels/test_ANPHelperT.cpp)
 tahoe_gtest_full(test_TaylorBar benchmarks/test_TaylorBar.cpp)
