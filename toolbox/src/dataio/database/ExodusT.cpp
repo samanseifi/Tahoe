@@ -22,6 +22,29 @@ const char caller[] = "ExodusT";
 #ifdef __ACCESS__ // with SEACAS support
 #include "exodusII.h"
 
+namespace {
+
+/* Copy src into a string that fits an ExodusII character field of max_bytes bytes including the
+ * terminating NUL (MAX_LINE_LENGTH for the title and info records, MAX_STR_LENGTH for QA records).
+ * Longer strings are cut at a UTF-8 character boundary, so a multi-byte character is never split,
+ * and a warning names the field. ExodusII copies these fields into fixed-size buffers, so an
+ * over-long string overflows (issue #58). */
+Tahoe::StringT FitExodusField(const Tahoe::StringT& src, size_t max_bytes, const char* what)
+{
+	size_t len = strlen(src.Pointer());
+	if (len < max_bytes) return src;
+	size_t cut = max_bytes - 1;
+	/* back up over UTF-8 continuation bytes (10xxxxxx) to the start of a character */
+	while (cut > 0 && (static_cast<unsigned char>(src[cut]) & 0xC0) == 0x80) cut--;
+	Tahoe::StringT out;
+	out.Take(src, cut);
+	std::cout << "\n ExodusT: " << what << " is " << len << " bytes; ExodusII allows "
+	          << max_bytes - 1 << ". Truncated to \"" << out.Pointer() << "\"\n";
+	return out;
+}
+
+} /* namespace */
+
 /* constructor for opening input or output file */
 ExodusT::ExodusT(ostream& message_out, int float_size):
 	fOut(message_out),
@@ -128,8 +151,10 @@ bool ExodusT::Create(const StringT& filename, const StringT& title,
 		num_side_sets = side_sets;
 
 		/* write parameters to the database */
+		/* the title is stored in a fixed MAX_LINE_LENGTH buffer (issue #58) */
+		StringT fitted_title = FitExodusField(title, MAX_LINE_LENGTH, "title");
 		Try("ExodusT::WriteParameters",
-			ex_put_init(exoid, title, num_dim, num_nodes,
+			ex_put_init(exoid, fitted_title, num_dim, num_nodes,
 			       num_elem, num_elem_blk, num_node_sets, num_side_sets),
 			true);
 
@@ -929,10 +954,7 @@ void ExodusT::WriteQA(const ArrayT<StringT>& qa_records_) const
 	/* truncate QA records */
 	ArrayT<StringT> qa_records(qa_records_.Length());
 		for (int k = 0; k < qa_records.Length(); k++)
-			if (strlen(qa_records_[k]) >= MAX_STR_LENGTH)
-				qa_records[k].Take(qa_records_[k], MAX_STR_LENGTH - 1);
-			else
-				qa_records[k] = qa_records_[k];
+			qa_records[k] = FitExodusField(qa_records_[k], MAX_STR_LENGTH, "QA record");
 
 
 	/* DEC will not allow allocation based on passed constant */
@@ -953,10 +975,7 @@ void ExodusT::WriteInfo(const ArrayT<StringT>& info_records_) const
 	/* truncate info records */
 	ArrayT<StringT> info_records(info_records_.Length());
 	for (int k = 0; k < info_records.Length(); k++)
-		if (strlen(info_records_[k]) >= MAX_LINE_LENGTH)
-			info_records[k].Take(info_records_[k], MAX_LINE_LENGTH - 1);
-		else
-			info_records[k] = info_records_[k];
+		info_records[k] = FitExodusField(info_records_[k], MAX_LINE_LENGTH, "info record");
 
 	/* DEC will not allow allocation based on passed constant */
 	int num_recs = info_records.Length();
