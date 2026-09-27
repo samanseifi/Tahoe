@@ -17,8 +17,13 @@
 \usepackage{array} % ragged-right table columns
 \usepackage{ulem}
 %\usepackage{overcite}
-\usepackage[format=hang]{caption} % replaces the obsolete hangcaption package
+% hangcaption.sty is a legacy package not in modern TeX Live; the caption package
+% (hanging format) replaces it and \hangcaption is aliased to \caption.
+\usepackage[format=hang]{caption}
 \providecommand{\hangcaption}{\caption}
+% allow line breaks after underscores in long identifiers (\texttt{element\_name})
+\let\oldunderscore\_
+\renewcommand{\_}{\oldunderscore\allowbreak}
 \usepackage{fancyhdr}
 \usepackage[pdftex,%
     bookmarks=true,%

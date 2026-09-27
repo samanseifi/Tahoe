@@ -1,46 +1,81 @@
 %&LaTeX
-% $Id: regression.tex,v 1.3 2001-04-27 22:43:56 paklein Exp $
+% $Id: regression.tex,v 1.4 2026-05-23 saman Exp $
 
 \section{Regression tests and benchmarks}
-The regression tests are the input files in the \texttt{benchmark\_XML} directory of the source
-distribution. They exercise the parts of \tahoe\ and serve as examples of input for the various
-types of simulations. Each test directory contains the input files, a \texttt{run.batch} file
-listing them, and a \texttt{benchmark} subdirectory with reference output. The tests are grouped
-into the levels of Table~\ref{tab.regression.levels}.
-\begin{table}[h]
-\caption{\label{tab.regression.levels} Levels of regression tests.}
+\label{sect.regression}
+The repository ships a layered benchmark suite under
+\texttt{benchmark\_XML/} that doubles as a regression catalogue and a
+collection of fully-worked input examples.  Each level has a
+\texttt{run.batch} that drives the bundled \texttt{tahoe} binary
+through every input file in that level, and a companion
+\texttt{compare} tool diffs the produced results against committed
+reference data.  The complete entry point is \texttt{benchmark\_XML/ReadMe},
+and each level has its own \texttt{README.md} describing the cases in
+that tier.
+
+\subsection{Benchmark levels}
+\label{sect.benchmark.levels}
+\begin{description}
+\item[Level 0 --- Core capabilities.]
+Smoke tests for the springs, solid mechanics, diffusion, particle,
+meshfree, and time-integrator paths.  All code changes are expected to
+keep level.0 green before being merged.
+\item[Level 1 --- Constitutive verification.]
+Bulk material models, cohesive surface relations, and atomistic
+potentials exercised under simple loadings whose closed-form or
+high-quality reference answers are known.
+\item[Level 2 --- Extended capabilities.]
+Larger models and longer run times than level.1.  Still serial and
+self-contained (no optional modules required): $K$-fields, contact,
+conveyor, thermostats, tied interfaces, torsion, controllers.
+\item[Level 3 --- Parallel.]
+MPI distributed-memory tests.  Requires building \tahoe with
+\texttt{-DTAHOE\_MPI=ON} and launching through
+\texttt{mpirun -np 4}.
+\item[Level 4 --- Solver performance.]
+Multi-physics performance cases used to compare sparse direct solvers
+(SPOOLES vs MUMPS vs SuperLU) on non-trivial DOF counts.  The
+representative case is a 2D dielectric elastomer with a liquid
+inclusion (\texttt{dielectric\_elastomer\_Q1P0Elastocapillary}, $\sim$18k DOF).
+\item[Level 5 --- Explicit-solver and modern element benchmarks.]
+Benchmarks added alongside the modernised explicit solver and the new
+finite-deformation elements.  Includes the original
+legacy-vs-vectorized speed-up matrix
+(\texttt{explicit\_benchmark/}), the classic Taylor bar
+(\texttt{taylor\_bar/}), the Hertz contact case (\texttt{hertz/})
+covering both explicit and implicit pathways and a mixed Tet4/Hex8
+indenter variant, the implicit-friction case
+(\texttt{implicit\_friction/}, see~\ref{sect.changes.modern}), the
+$J_{2}$-plasticity Brinell indentation
+(\texttt{brinell/}, see~\ref{sect.changes.modern}), the uniaxial
+tension verification of cubic-spline isotropic hardening
+(\texttt{tensile/}, see~\ref{sect.changes.modern}), and the
+classic-Tahoe BonetTet implicit Tet4 path
+(\texttt{tet\_classic/}, see~\ref{sect.changes.modern}).
+\end{description}
+
+\subsection{Running a level}
+From the repository root:
 \begin{center}
-\begin{tabular}[c]{|c|c|}
-\hline
- \parbox[b]{0.75in}{\centering \textbf{level}}
-&\parbox[b]{4.5in}{\raggedright \textbf{content}}\\
-\hline
-\parbox[b]{0.75in}{\centering 0} & \parbox[b]{4.5in}{\raggedright core capabilities: every primary element, integrator and input/output format}\\
-\hline
-\parbox[b]{0.75in}{\centering 1} & \parbox[b]{4.5in}{\raggedright constitutive models under simple loading}\\
-\hline
-\parbox[b]{0.75in}{\centering 2} & \parbox[b]{4.5in}{\raggedright larger problems combining several features}\\
-\hline
-\parbox[b]{0.75in}{\centering 3} & \parbox[b]{4.5in}{\raggedright parallel execution with MPI}\\
-\hline
-\parbox[b]{0.75in}{\centering 4} & \parbox[b]{4.5in}{\raggedright linear solver performance}\\
-\hline
-\parbox[b]{0.75in}{\centering 5} & \parbox[b]{4.5in}{\raggedright explicit dynamics, contact and plasticity benchmarks}\\
-\hline
-\end{tabular}
+\begin{minipage}{0.85\linewidth}
+\begin{alltt}
+\$ cd benchmark_XML/level.0
+\$ printf "run.batch\(\backslash\)nquit\(\backslash\)n" | ../../build/bin/tahoe
+\$ printf "run.batch\(\backslash\)nquit\(\backslash\)n" | ../../build/bin/compare
+\end{alltt}
+\end{minipage}
 \end{center}
-\end{table}
-A level is run by passing its batch file to \tahoe\ and then to the comparison tool, which
-compares the nodal output with the reference to a relative tolerance of $10^{-8}$ and writes the
-results to \texttt{compare.summary}:
-\begin{inputfile}
-cd benchmark_XML/level.0
-printf "run.batch\textbackslash{}nquit\textbackslash{}n" | ../../build/bin/tahoe
-printf "run.batch\textbackslash{}nquit\textbackslash{}n" | ../../build/bin/compare
-\end{inputfile}
-The script \texttt{run\_benchmarks.sh} at the top of the source tree runs one or more levels and
-reports the number of passing, failing and crashing tests; level~3 is run on four MPI processes.
-Unit tests of individual classes are built with Google Test and run with \texttt{ctest}.
+Output files (\texttt{*.run}, \texttt{*.geo}, \ldots) are written
+alongside the input XML files and are excluded from version control
+via the project \texttt{.gitignore}.  A driver script
+\texttt{run\_benchmarks.sh} at the repository root sweeps any subset of
+levels --- e.g.\ \texttt{./run\_benchmarks.sh level.3} for the MPI
+tier alone; it reports passing, failing and crashing tests.  The second command above
+compares the nodal output with the references to a relative tolerance of $10^{-8}$ and writes
+\texttt{compare.summary}.  Unit tests of individual classes are built with Google Test and run
+with \texttt{ctest}.  For level.3, the system \texttt{/usr/bin/mpirun} (Open MPI)
+must be used; a Conda-shipped \texttt{mpirun} is typically MPICH and
+ABI-incompatible with the OpenMPI that \tahoe links against.
 
 \subsection{Meshfree Kirchhoff--Love shell}
 \label{sect.regression.shell}
@@ -82,4 +117,19 @@ element but are not validations. The full validation decks are in
 \end{table}
 
 \subsection{Repeatability of tests across platforms}
+\label{sect.repeat.platforms}
+The bundled \texttt{compare} tool (built under \texttt{build/bin/compare})
+performs the file-by-file diff against the reference results
+committed under each benchmark directory.  Cross-platform
+discrepancies should be reported as issues on the project GitHub
+tracker; numerical differences within the \texttt{compare} tolerance
+are expected, while structural differences (missing fields, mismatched
+mesh ordering) indicate a regression.
+
 \subsection{Repeatability of tests during parallel execution}
+\label{sect.repeat.parallel}
+The level.3 tier is the authoritative parallel regression check.  A
+test that passes serially but fails in parallel typically indicates a
+problem in the partitioning of state variables across the partition
+boundary, in the assembly of the global RHS, or in the
+solver-specific communication path.
