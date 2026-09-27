@@ -113,7 +113,7 @@ contains a verification test that exercises SuperLU end-to-end:
 
 | Input file | Material | Steps | Result |
 |------------|----------|-------|--------|
-| `wlc_superlu.xml` | Bischoff-Arruda WLC (finite anisotropy, 3D hex) | 290 | PASS |
+| `wlc_superlu.xml` | Bischoff-Arruda WLC (finite anisotropy, 3D hex) | 8 | PASS (compared with a stored reference) |
 
 Run from the `material.120/` directory:
 
@@ -128,12 +128,13 @@ Or via the benchmark harness:
 ./run_benchmarks.sh level.1
 ```
 
-Typical timing on a laptop (single-element problem):
-
-| Solver | 290-step total |
-|--------|---------------|
-| SuperLU 3.0 | ~0.35 s |
-| SPOOLES (serial) | ~0.40 s |
+The deck originally ran 290 steps, which pulls the single element past the
+worm-like chains' locking stretch: Newton stalls at step 9–11 with every linear
+solver, so earlier "290 steps in ~0.35 s" timings measured a run that had
+ended early (issue #74). It now runs the 8 steps that converge (2 Newton
+iterations each) and is compared with a stored reference. For solver timings
+use the 18,000-DOF level.4 cases; SuperLU, MUMPS, SPOOLES-MT and the MPI
+solvers reproduce SPOOLES there to round-off.
 
 ---
 

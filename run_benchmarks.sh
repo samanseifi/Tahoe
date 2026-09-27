@@ -26,8 +26,31 @@ if [ $# -eq 0 ]; then
     LEVELS=(level.0 level.1 level.2 level.3)
 fi
 
-PASS=0; FAIL=0; CRASH=0; SKIP=0
+PASS=0; FAIL=0; CRASH=0; ABORT=0; KNOWN=0; SKIP=0
 FAILED_LIST=()
+
+# tahoe exits 0 even when a run gives up (issue #74): after an unrecovered solver failure it prints
+# "Exiting time sequence" (load-step cutting exhausted, run ends early), and after an exception it
+# prints "exit on exception". Such runs are reported as ABORT and fail the job like a crash.
+# Decks that are known to abort, each tracked by an issue, are listed (path relative to
+# benchmark_XML, then "# #<issue> reason") in benchmark_XML/known_aborts.txt. They are reported as
+# KNOWN and do not fail the job; any other abort does.
+KNOWN_ABORTS_FILE="${KNOWN_ABORTS_FILE:-$BENCH_ROOT/known_aborts.txt}"
+is_known_abort() {  # full path -> 0 if listed
+    [ -f "$KNOWN_ABORTS_FILE" ] || return 1
+    local rel="${1#"$BENCH_ROOT"/}"
+    grep -v '^[[:space:]]*#' "$KNOWN_ABORTS_FILE" | awk '{print $1}' | grep -qxF "$rel"
+}
+
+abort_reason() {  # log -> prints a one-line reason, or nothing if the run completed
+    local log="$1"
+    if grep -q "exit on exception" "$log"; then
+        grep -m1 -A1 "exit on exception" "$log" | tr '\n' ' ' | tr -s ' ' | cut -c1-120
+    elif grep -q "Exiting time sequence" "$log"; then
+        local step; step=$(grep -E "^ *Step: " "$log" | tail -1 | tr -s ' ' | sed 's/^ //')
+        echo "time sequence ended early (load-step cutting exhausted) at ${step:-unknown step}"
+    fi
+}
 
 # Process a single XML benchmark file (serial)
 run_one() {
@@ -38,14 +61,24 @@ run_one() {
     [ -f "$full" ] || { ((SKIP++)); return; }
 
     # Run tahoe
-    local rc=0
-    (cd "$dir" && timeout 120 "$TAHOE" -f "$xml" > /dev/null 2>&1) || rc=$?
+    local rc=0 log
+    log=$(mktemp)
+    (cd "$dir" && timeout 120 "$TAHOE" -f "$xml" > "$log" 2>&1) || rc=$?
     if [ $rc -eq 124 ]; then
         echo "  TIMEOUT  $full"
-        ((CRASH++)); FAILED_LIST+=("TIMEOUT: $full"); return
+        ((CRASH++)); FAILED_LIST+=("TIMEOUT: $full"); rm -f "$log"; return
     elif [ $rc -ne 0 ]; then
         echo "  CRASH    $full  (exit $rc)"
-        ((CRASH++)); FAILED_LIST+=("CRASH:   $full"); return
+        ((CRASH++)); FAILED_LIST+=("CRASH:   $full"); rm -f "$log"; return
+    fi
+    local why; why=$(abort_reason "$log"); rm -f "$log"
+    if [ -n "$why" ]; then
+        if is_known_abort "$full"; then
+            echo "  KNOWN    $full  (listed in known_aborts.txt: $why)"
+            ((KNOWN++)); return
+        fi
+        echo "  ABORT    $full  ($why)"
+        ((ABORT++)); FAILED_LIST+=("ABORT:   $full"); return
     fi
 
     compare_one "$dir" "$xml" "$full"
@@ -143,10 +176,16 @@ run_level3() {
     fi
 
     echo "  Running MPI batch with $MPIRUN -np $MPI_NP ..."
-    local rc=0
+    local rc=0 log
+    log=$(mktemp)
     # shellcheck disable=SC2086
     (cd "$parallel_dir" && timeout 300 "$MPIRUN" --allow-run-as-root $MPIFLAGS \
-        -np "$MPI_NP" "$TAHOE" -f run.batch > /dev/null 2>&1) || rc=$?
+        -np "$MPI_NP" "$TAHOE" -f run.batch > "$log" 2>&1) || rc=$?
+    local why; why=$(abort_reason "$log"); rm -f "$log"
+    if [ $rc -eq 0 ] && [ -n "$why" ]; then
+        echo "  ABORT    level.3 MPI batch  ($why)"
+        ((ABORT++)); FAILED_LIST+=("ABORT:   level.3/parallel/run.batch")
+    fi
     if [ $rc -eq 124 ]; then
         echo "  TIMEOUT  level.3 MPI batch (300s)"
         ((CRASH++)); FAILED_LIST+=("TIMEOUT: level.3/parallel/run.batch"); return
@@ -197,6 +236,8 @@ echo "========================================================"
 printf "  %-8s %d\n" PASS    $PASS
 printf "  %-8s %d\n" FAIL    $FAIL
 printf "  %-8s %d\n" CRASH   $CRASH
+printf "  %-8s %d\n" ABORT   $ABORT
+printf "  %-8s %d   (known aborts, see known_aborts.txt)\n" KNOWN   $KNOWN
 printf "  %-8s %d\n" SKIP    $SKIP
 echo ""
 if [ ${#FAILED_LIST[@]} -gt 0 ]; then
@@ -206,11 +247,11 @@ if [ ${#FAILED_LIST[@]} -gt 0 ]; then
     done
 fi
 
-# Exit non-zero if any solver crashes (tahoe exited non-zero or timed out).
-# Reference-comparison failures (FAIL) are tolerated — many are known issues
-# with optional modules or ExodusII format mismatches.
-if [ $CRASH -gt 0 ]; then
+# Exit non-zero if any run crashed (non-zero exit or timeout) or aborted (tahoe gave up but exited 0,
+# issue #74). Reference-comparison failures (FAIL) are tolerated — many are known issues with
+# optional modules or ExodusII format mismatches.
+if [ $CRASH -gt 0 ] || [ $ABORT -gt 0 ]; then
     echo ""
-    echo "  ** $CRASH crash(es) detected — CI FAIL **"
+    echo "  ** $CRASH crash(es), $ABORT aborted run(s) detected — CI FAIL **"
     exit 1
 fi

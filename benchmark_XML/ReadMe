@@ -104,6 +104,17 @@ Override per-directory by placing a `compare.tol` file alongside the
     skip s12          # ignore variable "s12" in comparisons
 
 
+ABORTED RUNS (issue #74)
+-----------------------------------------------------------------------
+tahoe exits with code 0 even when a run gives up: after an unrecovered
+solver failure it prints "Exiting time sequence" and ends early, and after
+an exception during setup it prints "exit on exception". run_benchmarks.sh
+captures each run's output and reports such runs as ABORT, which fails the
+job like a crash. Decks that are known to abort, each tracked by an issue,
+are listed in known_aborts.txt; they are reported as KNOWN and do not fail
+the job. Remove a line from that file when its deck is fixed. Before #74
+the 12 bridging decks without references were counted as passes.
+
 KNOWN EXPECTED FAILURES (level.0–2)
 -----------------------------------------------------------------------
 The 17 remaining failures across levels 0–2 are all real Tahoe code
