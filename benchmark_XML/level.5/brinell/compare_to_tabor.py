@@ -8,15 +8,19 @@ prescribed top-face displacement δ from the time history, and computes:
   - δ(t)        — indentation depth (apex displacement of indenter)
   - P(t)        — total contact load on the quarter (full sphere = 4P)
   - a(t)        — contact radius (largest r on a striker with F_z > 5 % of peak)
-  - p_m(t)      — mean contact pressure  P / (π a²)
-  - p_m / σ_y0  — Tabor ratio (should → ~2.8 in the fully-plastic regime)
+  - p_m(t)      — mean contact pressure  P / (π a² / 4): quarter load over
+                   the quarter contact area
+  - Y_r(t)      — flow stress at Tabor's representative strain ε_r = 0.2 a/R,
+                   from the block's hardening curve
+  - p_m / Y_r   — Tabor ratio (≈ 2.8 in the fully-plastic regime)
+  - p_m / σ_y0  — the same pressure over the initial yield stress
   - HB          — Brinell hardness, computed as P / (π D h) where D = 2R
                    and h is the impression depth from the spherical cap
 
 Writes:
   brinell_results.csv  — one row per output frame
   brinell_pdelta.png   — P-δ curve with elastic Hertz reference overlaid
-  brinell_tabor.png    — p_m / σ_y0 vs δ/R, with Tabor line at 2.8
+  brinell_tabor.png    — p_m / Y_r vs δ/R, with Tabor line at 2.8 ± 10 %
 
 Usage:
   python3 compare_to_tabor.py [brinell|brinell_smoke]   # default: brinell_smoke
@@ -37,6 +41,10 @@ R       = 5.0          # indenter radius, mm
 E_BLOCK = 200_000.0    # block Young's modulus, MPa
 NU      = 0.3
 SIG_Y0  = 250.0        # block initial yield, MPa
+# Hardening curve (ε_p, σ_y) of the Simo_J2 <cubic_spline> in the decks
+HARDENING = ([0.000, 0.005, 0.020, 0.050, 0.150, 0.500],
+             [250.0, 320.0, 420.0, 500.0, 580.0, 650.0])
+TABOR = 2.8            # fully-plastic constraint factor, p_m = 2.8 Y_r
 # Effective contact modulus for one rigid + one elastic body:
 #   1/E* = (1-ν²)/E_block   (rigid → infinite E)
 ESTAR_RIGID = E_BLOCK / (1.0 - NU * NU)
@@ -143,8 +151,17 @@ def analyse_frame(f0, f1, frame):
     P = float(np.sum(Fz))                          # quarter
     in_contact = Fz > 0.05 * max(Fz.max(), 1e-12)
     a = float(r[in_contact].max()) if in_contact.any() else 0.0
-    p_m = P / (math.pi * a * a) if a > 0 else 0.0
+    # P and the striker set cover one quarter of the contact, so the
+    # matching area is a quarter disc
+    p_m = P / (0.25 * math.pi * a * a) if a > 0 else 0.0
     return {"delta": delta, "P": P, "a": a, "p_m": p_m}
+
+
+def flow_stress(eps):
+    """Flow stress on the deck's hardening curve (natural cubic spline;
+    differs from Tahoe's parabolic end fixity by < 0.3 % over ε < 0.1)."""
+    from scipy.interpolate import CubicSpline
+    return float(CubicSpline(*HARDENING, bc_type="natural")(eps))
 
 
 def hertz_P(delta, R, Estar):
@@ -172,20 +189,22 @@ def main():
     rows = []
     for k in range(n_frames):
         r = analyse_frame(f0, f2, k)
-        rows.append((k, r["delta"], r["P"], r["a"], r["p_m"]))
+        Y_r = flow_stress(0.2 * r["a"] / R) if r["a"] > 0 else float("nan")
+        rows.append((k, r["delta"], r["P"], r["a"], r["p_m"], Y_r))
 
     # Write CSV
     csv = os.path.join(here, f"{stem}_results.csv")
     with open(csv, "w") as fh:
-        fh.write("frame, delta_mm, P_quarter_N, a_mm, p_mean_MPa, p_m/sigma_y0\n")
-        for k, d, P, a, pm in rows:
-            ratio = pm / SIG_Y0 if not math.isnan(pm) else float("nan")
-            fh.write(f"{k}, {d:.6f}, {P:.4f}, {a:.4f}, {pm:.2f}, {ratio:.3f}\n")
+        fh.write("frame, delta_mm, P_quarter_N, a_mm, p_mean_MPa, p_m/sigma_y0, Y_r_MPa, p_m/Y_r\n")
+        for k, d, P, a, pm, Y_r in rows:
+            fh.write(f"{k}, {d:.6f}, {P:.4f}, {a:.4f}, {pm:.2f}, {pm/SIG_Y0:.3f}, "
+                     f"{Y_r:.1f}, {pm/Y_r:.3f}\n")
     print(f"wrote {csv}")
 
     deltas = np.array([r[1] for r in rows])
     Ps     = np.array([r[2] for r in rows])
     p_ms   = np.array([r[4] for r in rows])
+    Y_rs   = np.array([r[5] for r in rows])
 
     # --- P-δ plot ---
     plt.figure(figsize=(7, 5))
@@ -201,12 +220,13 @@ def main():
     plt.savefig(pfile, dpi=120, bbox_inches="tight")
     print(f"wrote {pfile}")
 
-    # --- Tabor plot: p_m / σ_y vs δ/R ---
+    # --- Tabor plot: p_m / Y_r vs δ/R ---
     plt.figure(figsize=(7, 5))
-    plt.plot(deltas / R, p_ms / SIG_Y0, "o-", color="tab:red", label="Tahoe")
-    plt.axhline(2.8, ls="--", color="k", alpha=0.5, label="Tabor (2.8 σ_y)")
+    plt.plot(deltas / R, p_ms / Y_rs, "o-", color="tab:red", label="Tahoe")
+    plt.axhline(TABOR, ls="--", color="k", alpha=0.5, label="Tabor (p_m = 2.8 Y_r)")
+    plt.axhspan(0.9 * TABOR, 1.1 * TABOR, color="k", alpha=0.08, label="± 10 %")
     plt.xlabel("δ / R")
-    plt.ylabel("p_m / σ_y0")
+    plt.ylabel("p_m / Y_r,   Y_r = σ_y(ε_p = 0.2 a/R)")
     plt.title(f"Tabor relation — {stem}")
     plt.grid(alpha=0.3); plt.legend()
     tfile = os.path.join(here, f"{stem}_tabor.png")
@@ -258,7 +278,14 @@ def main():
     print(f"  a        = {last[3]:.4f} mm")
     print(f"  p_m      = {last[4]:.2f} MPa")
     if last[4] > 0:
-        print(f"  p_m/σ_y0 = {last[4]/SIG_Y0:.3f}   (Tabor target ≈ 2.8 fully plastic)")
+        print(f"  p_m/σ_y0 = {last[4]/SIG_Y0:.3f}")
+        print(f"  Y_r      = {last[5]:.1f} MPa   (σ_y at ε_r = 0.2 a/R = {0.2*last[3]/R:.4f})")
+        print(f"  p_m/Y_r  = {last[4]/last[5]:.3f}   (Tabor ≈ {TABOR}, fully plastic)")
+    plastic = [r for r in rows if r[1] >= 0.06 - 1e-9 and r[4] > 0]
+    if plastic:
+        ratios = np.array([r[4] / r[5] for r in plastic])
+        print(f"  p_m/Y_r over δ ≥ 0.06 mm: mean {ratios.mean():.3f}, "
+              f"range {ratios.min():.3f}–{ratios.max():.3f} ({len(ratios)} frames)")
 
 
 if __name__ == "__main__":
