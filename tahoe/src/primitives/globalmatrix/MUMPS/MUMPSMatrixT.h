@@ -39,6 +39,16 @@ public:
     /** name of an ordering, for output */
     static const char* OrderingName(int ordering);
 
+    /** PORD calls exit() inside MUMPS on some small graphs ("no valid
+     *  number of stages in multisector"); 38 of the level.0-2 decks, all
+     *  with at most 58 equations, hit it with MUMPS 5.4 and 5.6 (#80).
+     *  Below this size AMD is used instead: the ordering does not matter
+     *  for such small systems. */
+    enum { kPORDMinEquations = 1000 };
+
+    /** ordering actually passed to MUMPS for the requested one */
+    static int EffectiveOrdering(int ordering, int num_equations);
+
     MUMPSMatrixT(ostream& out, int check_code, bool symmetric,
         int message_level, int ordering, const CommunicatorT& comm);
 

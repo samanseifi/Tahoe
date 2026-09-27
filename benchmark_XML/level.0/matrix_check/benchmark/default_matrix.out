@@ -279,7 +279,7 @@ end: tahoe
  Total number of equations . . . . . . . . . . . = 10
 
  MUMPS sparse direct solver:
-    ordering . . . . . . . . . . . . . . . . . . . = PORD
+    ordering . . . . . . . . . . . . . . . . . . . = AMD (PORD is used from 1000 equations up)
     BLAS . . . . . . . . . . . . . . . . . . . . . = (build dependent)
 
  Converged at time = 1.000000e+00
@@ -287,10 +287,10 @@ end: tahoe
  Time = 1.000000e+00
  Step 1 of 1
 
-   Start time: Sun Sep 27 14:35:47 2026
- Construction: 1.036540e-01 sec.
-     Solution: 1.011866e+00 sec.
-    Stop time: Sun Sep 27 14:35:47 2026
+   Start time: Sun Sep 27 15:15:39 2026
+ Construction: 3.007800e-02 sec.
+     Solution: 5.896530e-01 sec.
+    Stop time: Sun Sep 27 15:15:39 2026
 
  End Execution
 

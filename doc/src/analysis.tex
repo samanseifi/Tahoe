@@ -48,7 +48,9 @@ When the solver block names no matrix, \tahoe uses the default linear
 solver: the multifrontal direct solver \textsf{MUMPS}~\cite{Amestoy2001}
 with the \textsf{PORD} fill-reducing ordering~\cite{Schulze2001}, running on
 the optimized BLAS linked at build time (\textsf{OpenBLAS}~\cite{OpenBLAS} by
-default).  Under \texttt{mpirun} the distributed variant is used.  If \tahoe
+default); systems with fewer than 1{,}000 equations use the AMD ordering,
+because \textsf{PORD} fails on some very small graphs.  Under
+\texttt{mpirun} the distributed variant is used.  If \tahoe
 was built without \textsf{MUMPS}, the default is \textsf{SPOOLES}.  Explicit
 dynamic analyses, whose system matrix is diagonal, always use the diagonal
 matrix, whatever the input names.  The choice, the ordering and the BLAS in

@@ -51,7 +51,8 @@ jobs:
           cd benchmark_XML/level.0/matrix_check
           ../../../build/bin/tahoe -f default_matrix.xml > default_matrix.stdout 2>&1
           grep 'Linear solver: <MUMPS_matrix>' default_matrix.out
-          grep -E 'ordering .*= PORD' default_matrix.out
+          # PORD, or AMD for systems below MUMPSMatrixT::kPORDMinEquations
+          grep -E 'ordering .*= (PORD|AMD \(PORD is used from)' default_matrix.out
           grep -E 'BLAS .*= OpenBLAS' default_matrix.out
 
       # ---------------------------------------------------------------

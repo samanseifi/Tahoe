@@ -186,8 +186,8 @@ void MUMPSMatrixT_mpi::Initialize(void)
     /* Distributed assembled input — each rank provides its own local triplets */
     fId.icntl[17] = 3;
 
-    /* fill-reducing ordering, PORD by default (#80) */
-    fId.icntl[6] = fOrdering;
+    /* fill-reducing ordering, PORD by default (#80), AMD for small systems */
+    fId.icntl[6] = MUMPSMatrixT::EffectiveOrdering(fOrdering, fTotNumEQ);
 
     /* Allow 200% of estimated workspace (default 20% can be too tight) */
     fId.icntl[13] = 100;
@@ -199,7 +199,7 @@ void MUMPSMatrixT_mpi::Initialize(void)
     if (rank == 0)
         fOut << "\n MUMPS sparse direct solver (MPI):\n"
              << "    ordering . . . . . . . . . . . . . . . . . . . = "
-             << MUMPSMatrixT::OrderingName(fOrdering) << '\n'
+             << MUMPSMatrixT::OrderingName(fId.icntl[6]) << '\n'
              << "    BLAS . . . . . . . . . . . . . . . . . . . . . = " << BLASRuntimeT::Describe() << '\n';
 }
 

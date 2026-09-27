@@ -306,7 +306,9 @@ In the XML input, omit the matrix element or give it explicitly:
 <!-- ordering options: PORD (default) | AMD | AMF | QAMD | METIS | SCOTCH | automatic -->
 ```
 
-Both variants use 200% workspace headroom (`icntl[13]=100`). An ordering the MUMPS build
+Systems with fewer than 1,000 equations use AMD instead of PORD: PORD calls `exit()`
+inside MUMPS on some small graphs (38 of the level.0–2 decks, all with at most 58
+equations), and the ordering makes no difference at that size. Both variants use 200% workspace headroom (`icntl[13]=100`). An ordering the MUMPS build
 lacks (Debian's has no METIS or SCOTCH) falls back to MUMPS's automatic choice with a
 note in the `.out` file. The serial variant reuses the symbolic analysis while the
 sparsity pattern of the assembled matrix is unchanged, so most Newton iterations only

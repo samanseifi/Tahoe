@@ -28,6 +28,11 @@ const char* MUMPSMatrixT::OrderingName(int ordering)
     }
 }
 
+int MUMPSMatrixT::EffectiveOrdering(int ordering, int num_equations)
+{
+    return (ordering == kPORD && num_equations < kPORDMinEquations) ? kAMD : ordering;
+}
+
 MUMPSMatrixT::MUMPSMatrixT(ostream& out, int check_code, bool symmetric,
     int message_level, int ordering, const CommunicatorT& comm)
   : MSRMatrixT(out, check_code, symmetric, comm),
@@ -141,6 +146,8 @@ void MUMPSMatrixT::Factorize(void)
 
     /* --- Analysis + numerical factorization (job 4) --- */
     fIsAnalyzed = false;
+    if (fId.icntl[6] != kAuto)
+        fId.icntl[6] = EffectiveOrdering(fOrdering, fTotNumEQ);
     bool ok = RunJob(4);
 
     /* an ordering this MUMPS build lacks: fall back to MUMPS's own choice */
@@ -224,7 +231,7 @@ void MUMPSMatrixT::Initialize(void)
     fId.icntl[17] = 0;
 
     /* icntl[6] : fill-reducing ordering, PORD by default (#80) */
-    fId.icntl[6] = fOrdering;
+    fId.icntl[6] = EffectiveOrdering(fOrdering, fTotNumEQ);
 
     /* icntl[13]=100 : allow 200% of estimated workspace (default 20% often too tight) */
     fId.icntl[13] = 100;
@@ -235,7 +242,11 @@ void MUMPSMatrixT::Initialize(void)
     /* BLAS threads and a record of the BLAS actually in use */
     BLASRuntimeT::SetDefaultThreads();
     fOut << "\n MUMPS sparse direct solver:\n"
-         << "    ordering . . . . . . . . . . . . . . . . . . . = " << OrderingName(fOrdering) << '\n'
+         << "    ordering . . . . . . . . . . . . . . . . . . . = " << OrderingName(fId.icntl[6]);
+    if (fId.icntl[6] != fOrdering)
+        fOut << " (" << OrderingName(fOrdering) << " is used from "
+             << int(kPORDMinEquations) << " equations up)";
+    fOut << '\n'
          << "    BLAS . . . . . . . . . . . . . . . . . . . . . = " << BLASRuntimeT::Describe() << '\n';
 }
 
