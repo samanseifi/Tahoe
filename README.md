@@ -9,10 +9,18 @@
 ## Building
 
 ```bash
+# optional but recommended: the default solver stack (MUMPS on OpenBLAS)
+sudo apt-get install libmumps-dev libopenblas-dev     # Debian/Ubuntu
+
 cmake -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build -j$(nproc)
 # Executables → build/bin/  |  Libraries → build/lib/
 ```
+
+The configure step ends with a line naming the default linear solver and the BLAS it
+found, for example `Tahoe: default linear solver MUMPS (PORD ordering), BLAS: /usr/lib/x86_64-linux-gnu/libopenblas.so`.
+Without MUMPS or OpenBLAS the build still succeeds, with a warning, and falls back as
+described under [Solvers](#solvers).
 
 ### Build Options
 
@@ -22,7 +30,9 @@ cmake --build build -j$(nproc)
 | `TAHOE_SPOOLES` | `ON` | Bundled SPOOLES sparse direct solver |
 | `TAHOE_SPOOLES_MT` | `OFF` | SPOOLES multithreaded solver — POSIX-thread parallel LU factorisation on a single node; no MPI required. Requires `TAHOE_SPOOLES=ON`. Use `<SPOOLES_MT_matrix num_threads="N" .../>` in XML (N ≥ 2). |
 | `TAHOE_SUPERLU` | `OFF` | Bundled SuperLU 3.0 serial sparse direct solver — high-performance LU with partial pivoting and optional iterative refinement. Requires `TAHOE_F2C=ON`. No system BLAS needed. Use `<SuperLU_matrix/>` in XML. |
-| `TAHOE_MUMPS` | `OFF` | System MUMPS direct solver — links against system `libmumps-dev`. Two variants: `<MUMPS_matrix/>` (serial, uses `MPI_COMM_SELF`) and `<MUMPS_MPI_matrix/>` (distributed, requires `TAHOE_MPI=ON`). Install: `sudo apt-get install libmumps-dev`. |
+| `TAHOE_MUMPS` | `ON` | System MUMPS direct solver, the default linear solver. Two variants: `<MUMPS_matrix/>` (serial, uses `MPI_COMM_SELF`) and `<MUMPS_MPI_matrix/>` (distributed, requires `TAHOE_MPI=ON`). Install: `sudo apt-get install libmumps-dev`. If it is not found, configure warns and SPOOLES becomes the default. |
+| `TAHOE_BLAS` | `ON` | Link an optimized BLAS into `tahoe` so MUMPS runs on it instead of the distribution's reference `libblas.so.3` (about 6× faster factorization). Install: `sudo apt-get install libopenblas-dev`. If it is not found, configure warns and MUMPS uses its own BLAS. |
+| `TAHOE_BLAS_VENDOR` | `OpenBLAS` | CMake `FindBLAS` vendor for `TAHOE_BLAS`: `OpenBLAS`, `FLAME` (BLIS), `Intel10_64lp_seq` (MKL), `Apple` (Accelerate), `Generic`, … A specific library can be given with `-DBLAS_LIBRARIES=...`. |
 | `TAHOE_F2C` | `ON` | Fortran-to-C converter (ABAQUS UMAT support) |
 | `TAHOE_DEV` | `ON` | Research/development element module |
 | `TAHOE_MPI` | `OFF` | MPI parallelization — requires system OpenMPI (`libopenmpi-dev`). Automatically builds the bundled `spoolesMPI` distributed solver. CMake prefers system wrappers (`/usr/bin/mpicxx`) over conda-installed MPI; override with `-DMPI_CXX_COMPILER=...`. Run with `mpirun -np N tahoe -f input.xml`. |
@@ -122,7 +132,7 @@ dependencies; CMake builds them from source alongside the main project.
 
 | Subdirectory | Role | Enable flag |
 |---|---|---|
-| [`third_party/spooles/`](third_party/spooles/README.md)       | SPOOLES 2.2 serial sparse direct solver (default) | `TAHOE_SPOOLES=ON` |
+| [`third_party/spooles/`](third_party/spooles/README.md)       | SPOOLES 2.2 serial sparse direct solver (default when MUMPS is not built) | `TAHOE_SPOOLES=ON` |
 | [`third_party/spoolesMT/`](third_party/spoolesMT/README.md)   | POSIX-threads parallel LU on top of SPOOLES        | `TAHOE_SPOOLES_MT=ON` |
 | [`third_party/spoolesMPI/`](third_party/spoolesMPI/README.md) | MPI distributed-memory LU on top of SPOOLES        | `TAHOE_MPI=ON` |
 | [`third_party/superlu/`](third_party/superlu/README.md)       | SuperLU 3.0 serial sparse direct solver            | `TAHOE_SUPERLU=ON` |
@@ -196,14 +206,44 @@ Tahoe ships five sparse direct solvers. The bundled solvers (SPOOLES, SuperLU) h
 
 | Solver | CMake flag | Parallelism | XML element | When to use |
 |--------|-----------|-------------|-------------|-------------|
-| SPOOLES (default) | `TAHOE_SPOOLES=ON` | 1 thread | `<SPOOLES_matrix/>` | Default; development and small models |
+| MUMPS (default) | `TAHOE_MUMPS=ON` (default) | 1 thread | `<MUMPS_matrix/>` or no matrix element | Default; fastest serial solver, runs on OpenBLAS |
+| SPOOLES | `TAHOE_SPOOLES=ON` | 1 thread | `<SPOOLES_matrix/>` | Bundled, no dependencies; default when MUMPS is not built; used by most regression decks |
 | SuperLU 3.0 | `TAHOE_SUPERLU=ON` | 1 thread | `<SuperLU_matrix/>` | Serial alternative with partial pivoting; often faster than SPOOLES on medium models |
-| MUMPS (serial) | `TAHOE_MUMPS=ON` | 1 thread | `<MUMPS_matrix/>` | System MUMPS on a single process; requires `libmumps-dev` |
 | MUMPS (MPI) | `TAHOE_MUMPS=ON` + `TAHOE_MPI=ON` | N MPI ranks | `<MUMPS_MPI_matrix/>` | Distributed MUMPS across MPI ranks; same install, run with `mpirun -decomp_method -0` |
 | SPOOLES-MT | `TAHOE_SPOOLES_MT=ON` | N pthreads | `<SPOOLES_MT_matrix num_threads="N"/>` | Multicore workstations; no MPI required |
 | SPOOLES-MPI | `TAHOE_MPI=ON` | N MPI ranks | batch mode | HPC clusters or multi-node jobs |
 
-### Serial SPOOLES (default)
+### Default solver: MUMPS + OpenBLAS + PORD
+
+When a deck's solver block names no matrix, Tahoe uses `MUMPS_matrix` (or
+`MUMPS_MPI_matrix` under `mpirun`) with PORD ordering. Without MUMPS in the build it uses
+`SPOOLES_matrix`, and explicit dynamics always uses the diagonal matrix. Decks that name a
+matrix keep it, so the regression decks still run on SPOOLES. The `.out` file records the
+choice:
+
+```
+ Linear solver: <MUMPS_matrix> (default: none given in the input)
+ MUMPS sparse direct solver:
+    ordering . . . . . . . . . . . . . . . . . . . = PORD
+    BLAS . . . . . . . . . . . . . . . . . . . . . = OpenBLAS (OpenBLAS 0.3.26 ...), 1 thread(s), /usr/lib/.../libopenblas.so.0
+```
+
+Measured on step 1 of `level.5/brinell/brinell.xml` (29,022 equations, 8 Newton
+iterations, one core; every variant gives the identical residual history, #80):
+
+| Solver, BLAS, ordering | Step time |
+|---|---|
+| SPOOLES | 250 s |
+| MUMPS, reference BLAS, AMD (previous MUMPS default) | 110 s |
+| MUMPS, OpenBLAS, AMD | 18–22 s |
+| MUMPS, OpenBLAS, PORD (default) | 15–17 s |
+
+The BLAS is found at configure time and linked directly into `tahoe`, so MUMPS uses it
+regardless of the system's `libblas.so.3` choice. BLAS runs on one thread unless
+`OPENBLAS_NUM_THREADS`, `MKL_NUM_THREADS` or `OMP_NUM_THREADS` is set; more threads
+were slower at this problem size and would compete with Tahoe's OpenMP threads.
+
+### Serial SPOOLES
 
 No extra flags needed. Built automatically when `TAHOE_SPOOLES=ON`.
 
@@ -254,22 +294,31 @@ cmake --build build -j$(nproc)
 /usr/bin/mpirun -np 4 ./build/bin/tahoe -f input.xml
 ```
 
-In the XML input, replace the solver block with:
+In the XML input, omit the matrix element or give it explicitly:
 ```xml
-<!-- Serial (no mpirun needed) — recommended: -->
-<MUMPS_matrix message_level="silent" always_symmetric="false"/>
+<!-- Serial (no mpirun needed): -->
+<MUMPS_matrix message_level="silent" always_symmetric="false" ordering="PORD"/>
 
 <!-- MPI distributed — run with /usr/bin/mpirun and -decomp_method -0: -->
-<MUMPS_MPI_matrix message_level="silent" always_symmetric="false"/>
+<MUMPS_MPI_matrix message_level="silent" always_symmetric="false" ordering="PORD"/>
 
 <!-- message_level options: silent | errors | verbose -->
+<!-- ordering options: PORD (default) | AMD | AMF | QAMD | METIS | SCOTCH | automatic -->
 ```
 
-Both variants use AMD fill-reducing ordering (`icntl[6]=0`) and 200% workspace headroom (`icntl[13]=100`).
+Systems with fewer than 1,000 equations use AMD instead of PORD: PORD calls `exit()`
+inside MUMPS on some small graphs (38 of the level.0–2 decks, all with at most 58
+equations), and the ordering makes no difference at that size. Both variants use 200% workspace headroom (`icntl[13]=100`). An ordering the MUMPS build
+lacks (Debian's has no METIS or SCOTCH) falls back to MUMPS's automatic choice with a
+note in the `.out` file. The analysis is redone at every factorization: MUMPS computes
+a value-dependent column permutation and scaling there, and reusing them across Newton
+iterates made MUMPS 5.6 report a regular matrix as singular.
 
 **How MUMPS-MPI works** (`icntl[17]=3`, distributed assembled input): each MPI rank calls `GenerateRCV()` to extract its local COO triplets with global indices, then supplies them to MUMPS directly. MUMPS handles the global assembly and distributed factorization internally. After the solve, the full solution is gathered on rank 0 and broadcast to all ranks, which extract their local portion.
 
-> **BLAS note**: MUMPS links against system BLAS (`libblas.so.3`). The build uses `-Wl,--exclude-libs,ALL` to prevent SuperLU's bundled CBLAS routines from shadowing MUMPS's BLAS calls — without this, MUMPS segfaults on large problems inside the frontal factorization kernel.
+> **BLAS note**: `libdmumps` depends on the system `libblas.so.3`, which on Debian and Ubuntu is the unoptimized reference BLAS unless OpenBLAS is installed. With `TAHOE_BLAS=ON` (default) the build links OpenBLAS (or `TAHOE_BLAS_VENDOR`) as a direct dependency of `tahoe`; the dynamic loader searches the executable's own dependencies first, so MUMPS's BLAS calls resolve to it. Check with `readelf -d build/bin/tahoe | grep openblas` or the `BLAS` line in any `.out` file. The build also uses `-Wl,--exclude-libs,ALL` so SuperLU's bundled CBLAS routines cannot shadow MUMPS's BLAS calls — without this, MUMPS segfaults on large problems inside the frontal factorization kernel.
+>
+> **Conda note**: configure does not search `PATH`-derived prefixes for the BLAS, so an active conda environment is not picked up (its lib directory on the RPATH would shadow the system MPI and gfortran MUMPS was built against). To use a BLAS outside the system directories pass `-DCMAKE_PREFIX_PATH=...` or `-DBLAS_LIBRARIES=...`.
 
 > **mpirun note**: always use the system OpenMPI launcher (`/usr/bin/mpirun`), not conda's MPICH. With system OpenMPI, worker ranks redirect their output to per-rank `console<N>` log files, avoiding N-fold duplicated messages. Conda's `mpirun` bypasses rank detection and duplicates all output.
 
@@ -362,4 +411,4 @@ See the `LICENSE` file. Tahoe was developed at Sandia National Laboratories unde
 | March–April 2026 | Saman Seifi (Boston University) | **Classic-Tahoe (implicit / `<updated_lagrangian>`) modernisation**.  **SimoQ1P0** (issues #2, #3, #4): full refactor to make the element 2D/3D-consistent (div-div terms `/3.0 → /NumSD()` in 4 locations; B-bar exponent `1/3 → 1.0/NumSD()`) and to support coupled electro-mechanical-fracture physics — Maxwell stress and electrical tangent via `s_electric_ij` / `c_electrical_ijkl`, `TensorTransformT::PushForward` for Voigt push-forward; phase-field degradation g(d)=(1−d)²+k applied to stress *and* tangent; surface-tension Q1P0 element (3D and 2D), multi-block element groups with internal-interface surface tension (issue #10).  **Quadratic Newton convergence**: replaced the approximate analytical Q1P0 tangent with a numerical tangent (forward finite differences of `ComputeInternalForce`) — Newton goes from linear to quadratic on near-incompressible problems (#4).  **Phase-field fracture element** (AT2 model) added with a standalone verification benchmark (#4); **three-way electro-mechano-fracture coupling** between SimoQ1P0, the phase-field element, and a dielectric field.  **Linear-dielectric material** (constant ε, no electrostriction) registered for use as the bulk dielectric law (#3).  **Newton–Krylov solver**: `NewtonKrylovSolver` with GMRES(m) and `MSRMatrixT::Multx` for matrix-vector products — registered in the `FEManagerT` solver list (PR #7).  **Static dielectric-elastomer cleanup**: removed obsolete staggered formulations and the `DEDiffusion` element; resolved `FSDielectricElastomerQ1P0ElastocapillaryT` ODR collision; fixed `R` array sizing in `FormKd` to match `fRHS`; made the electric-potential field optional in SimoQ1P0; sideset-driven surface-tension input.  **Implicit Tet4 + ANP-Tet4** (`BonetTet`, issues #27, #28): plain Tet4 in `<updated_lagrangian>` and Bonet-Burton 1998 / ELFORM=13 F-bar averaged variant on the classic implicit path; known limitation tracked in issue #29 (BonetTet residual is computed from F̄ but the inherited tangent is from F → Newton stalls under near-incompressibility, fix is the same numerical-tangent approach used for SimoQ1P0). |
 | April–May 2026 | Saman Seifi (Boston University) | **Modernised explicit solver track** (`ExplicitElementT`) with batch-vectorised internal-force kernels, OpenMP parallelism, single-pass Jacobian, flat connectivity arrays, mass scaling (fixed + adaptive), CFL-based time-step computation, viscous hourglass control, and material wave-speed propagation — issue #11.  Per-element Hex8/Q4 kernels (`Hex8Kernel`, `Q4Kernel`) with single-IP and full-IP variants; 29-116× speedup over the legacy explicit path on 3D and 2D benchmarks (level.5/explicit_benchmark).  **Batch finite-strain J2 plasticity** in the explicit element loop — issue #16.  **Tet4 element kernel** with Ji-transpose bug fix in all explicit kernels — issue #27.  **ANP-Tet4** (Bonet-Burton 1998 / LS-DYNA ELFORM=13 equivalent) F-bar averaged tetrahedron, both explicit and classic-Tahoe paths — issue #28.  **PenaltyContact3DT in explicit** — verified force-balance with central-difference, MVSIZ-batched striker loop — issue #19.  **Coulomb friction in PenaltyContact3DT** — regularised kinetic friction, retards sliding cube ~10 % at t=0.5 µs — issue #26.  **Contact-stack performance and stability fixes** — viscous damping (#31), explicit-element OpenMP auto-tune threshold (#32), parallel contact loop with thread-local workspaces (#33).  **Taylor bar benchmark** — issue #18; soft-metal demo, 60 µs validation, captures KE → plastic-work conversion.  **Hertz contact benchmark** — quarter-symmetry sphere indenter on elastic base, validates Hertz analytical to within 1-2 % on contact radius, peak pressure, and total load (level.5/hertz).  **Hertz Tet/Hex contact** (PR #35) — Tet4 indenter on Hex8 base (mixed-element contact via `Contact3DT::ConvertQuadToTri`), 1-3 % match to analytical with explicit ↔ implicit cross-validation < 0.5 %.  **Google Test suite expanded** to 50+ tests covering kernels, materials, contact-perf integration tests, and end-to-end benchmark verification. |
 | May 2026 | Saman Seifi (Boston University) | **BonetTetT lagged-J̄ + FD tangent** (issue #29, PR #36) — `InitStep` caches J̄ at step start; `RHSDriver`/`LHSDriver` hold it frozen across all Newton iterations; `FormStiffness` builds the per-element 12×12 tangent by forward FD on the F̄ residual at frozen J̄. Both residual and tangent see the same `fJbarE` → consistent ∂R(u; J̄_step)/∂u and quadratic Newton. **15× iteration reduction** on `tet4_hyperelastic_anp.xml` (16 → 1 iter/step). Confirmed against Bonet & Burton 1998 (added to `ref/bonet1998.pdf`): F̄ formulation gives F̂_bar = F̂ and det(F̄) = J̄, equivalent to the iso/vol split in eqs (24)–(30) of the paper. Limitation documented in `BonetTetT.h`: cross-element ∂J̄/∂u coupling cannot fit in a per-element 12×12 block; severe κ ≫ μ remains future work (JFNK or analytical F-bar tangent à la Bonet/Marriott/Hassan 2001). **Failing-benchmark cleanup** (issue #37, PR #38) — enabled `ADHESION_ELEMENT` in `ElementsConfig.h`; dropped redundant `output_format="ExodusII"` from `diffusion/heat.0.xml`; reverted XML BC drift in `bar.2D.lin.xml`. Level.0 benchmark pass-rate: **172/186 PASS** (up from 155). Total across levels 0–3: **341 PASS / 17 FAIL** (up from 322/35). Remaining 17 failures are real Tahoe code regressions (bridging runtime crash, adhesion stress regression, output-channel suppression, 5-node Q4 unsupported, unregistered materials), tracked as sub-investigations under #37. |
-| June–September 2026 | Saman Seifi (Boston University) | **Meshfree RKPM Kirchhoff–Love shell** (`development/src/elements/meshfree_kl_shell/RKShellT`, epic #59; sub-issues #60–#67): rotation-free shell on a point cloud after Wang & Bazilevs, *Eng. Comput.* 41 (2025) — PCA local charts and KL auxiliary-tensor kinematics (#63), paper cubic B-spline RK kernel with 2nd/3rd derivatives on Tahoe's `MLSSolverT` (#61, #64, #69), naturally stabilized nodal integration with membrane / stress-gradient stabilization (#64), 3-point through-thickness plane-stress J2 with linear and saturation hardening, Flanagan–Taylor co-rotation and thickness update (#65, #67), self-contact and rotational patch coupling. **Essential BCs on non-interpolatory fields**: direct nodal collocation `kinematic_BC collocation="1"` (`CollocationKBCT`, #70) and the penalty controller `penalty_displacement_meshfree` (`MFPenaltyDisplacementT`): variational enforcement of the physical displacement over the whole kernel support with the physical reaction reported, explicit and implicit paths; both use the `MeshFreeCollocationSupportT` element interface. OpenMP-parallel explicit force pass (bit-identical assembly). **Verification**: elastic obstacle course (#66: Scordelis–Lo, hemisphere, pinched cylinder 0.96 of reference at 19,440 nodes), necking cylinder (§4.3), and the elasto-plastic pinched cylinder (§4.4, Fig 18) — a long-standing 4–9× "over-stiffness" turned out to be the literature's quarter-model load convention (F/4); with the physical load the paper-mesh shell lies inside the literature band over the full 300 mm crush and an independent Tahoe hex20 Simo-J2 solid model agrees (`docs/meshfree_kl_shell/fig18_validation/`). **Benchmarks** (#73): `level.0/meshfree_kl_shell` (obstacle course, collocation and penalty-displacement regressions) and `level.2/meshfree_kl_shell` (shortened elasto-plastic necking and pinch). **Restart fix** (#71): `ReadRestart` now runs before element `InitialCondition` (compressive pre-strain restarts inverted). **Documentation**: meshfree shell chapter, meshfree boundary-condition section, regression chapter and updated controller tables in the User Guide (`doc/user_guide.pdf`); technical report `docs/meshfree_kl_shell/technical_report.pdf`. **CI**: the three workflows, red from 2026-09-21 because a unit test read a deck from the untracked `applications/` directory, are fixed; all solver back-ends cross-validated before the merge (identical Newton histories, nodal output to 1e-16). **Repository hygiene**: `applications/` (personal experiment decks) removed from all branches and ignored; feature documentation lives under `docs/<feature>/`. Scordelis–Lo re-verified on the paper's four meshes (315 / 1,189 / 4,617 / 18,193 nodes: 0.259 / 0.290 / 0.298 / 0.300 vs the paper's 0.261 / 0.290 / 0.298 / 0.300, reference 0.3006); the level.0 deck now uses the paper's 315-node cloud. **`Simo_J2` tangent** (#78): the β₂ term of the Simo–Hughes Box 9.2 consistent tangent lacked the factor ‖s_trial‖; the analytic stiffness now matches a finite-difference stiffness to ~3e-8 (was ~1e-3), guarded by `test_J2SimoTangent`. **WLC decks** (#82): the `material.120` decks fixed node set 4 in y instead of x (XML transcription of `wlc.in`), leaving the x translation free and over-constraining y; with the fix they run the original 290 steps at 3 Newton iterations per step (the #74 stall was this bug, not chain locking). |
+| June–September 2026 | Saman Seifi (Boston University) | **Meshfree RKPM Kirchhoff–Love shell** (`development/src/elements/meshfree_kl_shell/RKShellT`, epic #59; sub-issues #60–#67): rotation-free shell on a point cloud after Wang & Bazilevs, *Eng. Comput.* 41 (2025) — PCA local charts and KL auxiliary-tensor kinematics (#63), paper cubic B-spline RK kernel with 2nd/3rd derivatives on Tahoe's `MLSSolverT` (#61, #64, #69), naturally stabilized nodal integration with membrane / stress-gradient stabilization (#64), 3-point through-thickness plane-stress J2 with linear and saturation hardening, Flanagan–Taylor co-rotation and thickness update (#65, #67), self-contact and rotational patch coupling. **Essential BCs on non-interpolatory fields**: direct nodal collocation `kinematic_BC collocation="1"` (`CollocationKBCT`, #70) and the penalty controller `penalty_displacement_meshfree` (`MFPenaltyDisplacementT`): variational enforcement of the physical displacement over the whole kernel support with the physical reaction reported, explicit and implicit paths; both use the `MeshFreeCollocationSupportT` element interface. OpenMP-parallel explicit force pass (bit-identical assembly). **Verification**: elastic obstacle course (#66: Scordelis–Lo, hemisphere, pinched cylinder 0.96 of reference at 19,440 nodes), necking cylinder (§4.3), and the elasto-plastic pinched cylinder (§4.4, Fig 18) — a long-standing 4–9× "over-stiffness" turned out to be the literature's quarter-model load convention (F/4); with the physical load the paper-mesh shell lies inside the literature band over the full 300 mm crush and an independent Tahoe hex20 Simo-J2 solid model agrees (`docs/meshfree_kl_shell/fig18_validation/`). **Benchmarks** (#73): `level.0/meshfree_kl_shell` (obstacle course, collocation and penalty-displacement regressions) and `level.2/meshfree_kl_shell` (shortened elasto-plastic necking and pinch). **Restart fix** (#71): `ReadRestart` now runs before element `InitialCondition` (compressive pre-strain restarts inverted). **Documentation**: meshfree shell chapter, meshfree boundary-condition section, regression chapter and updated controller tables in the User Guide (`doc/user_guide.pdf`); technical report `docs/meshfree_kl_shell/technical_report.pdf`. **CI**: the three workflows, red from 2026-09-21 because a unit test read a deck from the untracked `applications/` directory, are fixed; all solver back-ends cross-validated before the merge (identical Newton histories, nodal output to 1e-16). **Repository hygiene**: `applications/` (personal experiment decks) removed from all branches and ignored; feature documentation lives under `docs/<feature>/`. Scordelis–Lo re-verified on the paper's four meshes (315 / 1,189 / 4,617 / 18,193 nodes: 0.259 / 0.290 / 0.298 / 0.300 vs the paper's 0.261 / 0.290 / 0.298 / 0.300, reference 0.3006); the level.0 deck now uses the paper's 315-node cloud. **`Simo_J2` tangent** (#78): the β₂ term of the Simo–Hughes Box 9.2 consistent tangent lacked the factor ‖s_trial‖; the analytic stiffness now matches a finite-difference stiffness to ~3e-8 (was ~1e-3), guarded by `test_J2SimoTangent`. **WLC decks** (#82): the `material.120` decks fixed node set 4 in y instead of x (XML transcription of `wlc.in`), leaving the x translation free and over-constraining y; with the fix they run the original 290 steps at 3 Newton iterations per step (the #74 stall was this bug, not chain locking). **Default linear solver** (#80): MUMPS with PORD ordering on an optimized BLAS linked directly into `tahoe` (OpenBLAS by default, any `FindBLAS` vendor), 15× faster than SPOOLES on the 29k-equation Brinell step; `TAHOE_MUMPS` defaults ON with a SPOOLES fallback when MUMPS or OpenBLAS is missing; the solver matrix element is now optional; MUMPS falls back to AMD below 1,000 equations (PORD exits on some tiny graphs) and reports the ordering and the BLAS it runs on. |

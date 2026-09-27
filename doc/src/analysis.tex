@@ -36,46 +36,65 @@ Specifying a nonlinear analysis type for a linear problem will produce a
 solution after a single iteration of the solution procedure.
 
 Whether linear or nonlinear, the solution procedure ultimately results in a
-linear system of equation.  A number of different storage schemes are
-available for the global matrix associated with this linear system.  The
-different types of matrix storage are listed in 
-Table~\ref{tab.matrix.types}.  The choice of
-matrix depends on the analysis type as is outlined below.  Moreover, all
-matrix types may be used for serial execution, while parallel execution
-must use either the diagonal, \textsf{Aztec}~\cite{Aztecv11}, 
-or \textsf{SPOOLES}~\cite{SPOOLESv22} matrices.
+linear system of equations.  A number of different storage schemes and
+solvers are available for the global matrix associated with this linear
+system.  They are listed in Table~\ref{tab.matrix.types} and selected
+with one element inside the solver block of the input file, for example
+\texttt{<nonlinear\_solver ...><SPOOLES\_matrix/></nonlinear\_solver>}.
+Which of them are available depends on the build options
+(Section~\ref{sect.cmake.build}).
+
+When the solver block names no matrix, \tahoe uses the default linear
+solver: the multifrontal direct solver \textsf{MUMPS}~\cite{Amestoy2001}
+with the \textsf{PORD} fill-reducing ordering~\cite{Schulze2001}, running on
+the optimized BLAS linked at build time (\textsf{OpenBLAS}~\cite{OpenBLAS} by
+default); systems with fewer than 1{,}000 equations use the AMD ordering,
+because \textsf{PORD} fails on some very small graphs.  Under
+\texttt{mpirun} the distributed variant is used.  If \tahoe
+was built without \textsf{MUMPS}, the default is \textsf{SPOOLES}.  Explicit
+dynamic analyses, whose system matrix is diagonal, always use the diagonal
+matrix, whatever the input names.  The choice, the ordering and the BLAS in
+use are written to the output file.  On a 29{,}022-equation elasto-plastic
+contact problem the default solver factorizes about 15 times faster than
+\textsf{SPOOLES} with identical Newton iterations.
 \begin{table}[h]
-\caption{\label{tab.matrix.types} Matrix types for the global system 
+\caption{\label{tab.matrix.types} Matrix types for the global system
 of equations.}
 \begin{center}
-\begin{tabular}[c]{|c|c|}
+\begin{tabular}[c]{|p{1.9in}|>{\raggedright\arraybackslash}p{1.2in}|>{\raggedright\arraybackslash}p{2.5in}|}
 \hline
- \parbox[b]{2.0in}{\centering \textbf{matrix type}}
-&\parbox[b]{1.0in}{\centering \textbf{code}}\\
+\textbf{input element} & \textbf{build option} & \textbf{notes}\\
 \hline
-diagonal &0\\
+\texttt{MUMPS\_matrix} & \texttt{TAHOE\_MUMPS} (on) & default; serial \textsf{MUMPS}~\cite{Amestoy2001}.
+  Parameters \texttt{message\_level}, \texttt{always\_symmetric},
+  \texttt{ordering} (\texttt{PORD} default, \texttt{AMD}, \texttt{AMF},
+  \texttt{QAMD}, \texttt{METIS}, \texttt{SCOTCH}, \texttt{automatic})\\
 \hline
-profile &1\\
+\texttt{MUMPS\_MPI\_matrix} & \texttt{TAHOE\_MUMPS}, \texttt{TAHOE\_MPI} & distributed \textsf{MUMPS}; same parameters\\
 \hline
-full &2\\
+\texttt{SPOOLES\_matrix} & \texttt{TAHOE\_SPOOLES} (on) & bundled \textsf{SPOOLES}~\cite{SPOOLESv22}; serial or, under \texttt{mpirun}, distributed\\
 \hline
-\textsf{Aztec}~\cite{Aztecv11} &3\\
+\texttt{SPOOLES\_MT\_matrix} & \texttt{TAHOE\_SPOOLES\_MT} & multithreaded \textsf{SPOOLES}\\
 \hline
-\textsf{SPOOLES}~\cite{SPOOLESv22} &5\\
+\texttt{SuperLU\_matrix} & \texttt{TAHOE\_SUPERLU} & bundled SuperLU 3.0\\
+\hline
+\texttt{profile\_matrix} & always & skyline storage, serial\\
+\hline
+\texttt{full\_matrix} & always & dense storage, small problems and tangent checks\\
+\hline
+\texttt{diagonal\_matrix} & always & explicit dynamics (lumped mass)\\
 \hline
 \end{tabular}
 \end{center}
 \end{table}
 
 \subsubsection{Elastostatic analysis}
-This analysis can be used with profile, full, \textsf{Aztec}, or 
-\textsf{SPOOLES} global matrix types.
+This analysis can be used with any of the sparse or dense matrix types.
 
 \subsubsection{Implicit elastodynamic analysis}
 This analysis uses HHT-$\alpha$ time integration developed by Hilber 
-\etal~\cite{Hughes1977} and can be used with
-profile, full, \textsf{Aztec}, 
-or \textsf{SPOOLES}  global matrix types.
+\etal~\cite{Hughes1977} and can be used with any of the sparse or dense
+matrix types.
 
 \subsubsection{Explicit elastodynamic analysis}
 This analysis uses the explicit, central-difference time integration scheme
@@ -84,9 +103,7 @@ from the classic Newmark family of methods. In order to make this method
 
 \subsubsection{Steady-state and transient diffusion}
 Transient head conduction uses a trapezoidal time integration scheme, and
-can be used with profile, full, \textsf{Aztec}, or 
-\textsf{SPOOLES}  global
-matrix types.
+can be used with any of the sparse or dense matrix types.
 
 \subsection{Solution techniques}
 

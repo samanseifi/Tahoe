@@ -5,6 +5,8 @@
 
 #include "CommunicatorT.h"
 #include "ExceptionT.h"
+#include "MUMPSMatrixT.h"
+#include "BLASRuntimeT.h"
 #include <cstring>
 
 using namespace Tahoe;
@@ -14,9 +16,10 @@ using namespace Tahoe;
  * ----------------------------------------------------------------------- */
 
 MUMPSMatrixT_mpi::MUMPSMatrixT_mpi(ostream& out, int check_code, bool symmetric,
-    int message_level, const CommunicatorT& comm)
+    int message_level, int ordering, const CommunicatorT& comm)
   : MSRMatrixT(out, check_code, symmetric, comm),
     fMessageLevel(message_level),
+    fOrdering(ordering),
     fSymmetric(symmetric),
     fIsInitialized(false),
     fIsFactorized(false)
@@ -27,6 +30,7 @@ MUMPSMatrixT_mpi::MUMPSMatrixT_mpi(ostream& out, int check_code, bool symmetric,
 MUMPSMatrixT_mpi::MUMPSMatrixT_mpi(const MUMPSMatrixT_mpi& source)
   : MSRMatrixT(source),
     fMessageLevel(source.fMessageLevel),
+    fOrdering(source.fOrdering),
     fSymmetric(source.fSymmetric),
     fIsInitialized(false),
     fIsFactorized(false)
@@ -92,7 +96,7 @@ void MUMPSMatrixT_mpi::Factorize(void)
     /* Job 4: Analysis + Numerical factorization (combined) — collective call */
     fId.job = 4;
     dmumps_c(&fId);
-    if (fId.infog[0] != 0)
+    if (fId.infog[0] < 0)
         ExceptionT::BadJacobianDet("MUMPSMatrixT_mpi::Factorize",
             "MUMPS analysis+factorization (job 4) failed: infog[0]=%d infog[1]=%d "
             "(negative value means singular or near-singular matrix)",
@@ -137,7 +141,7 @@ void MUMPSMatrixT_mpi::BackSubstitute(dArrayT& result)
 
     fId.job = 3;
     dmumps_c(&fId);   /* collective: all ranks must call this */
-    if (fId.infog[0] != 0)
+    if (fId.infog[0] < 0)
         ExceptionT::BadJacobianDet("MUMPSMatrixT_mpi::BackSubstitute",
             "MUMPS solve (job 3) failed: infog[0]=%d infog[1]=%d",
             fId.infog[0], fId.infog[1]);
@@ -166,7 +170,7 @@ void MUMPSMatrixT_mpi::Initialize(void)
     fId.comm_fortran = (MUMPS_INT) MPI_Comm_c2f(MPI_COMM_WORLD);
     dmumps_c(&fId);
 
-    if (fId.infog[0] != 0)
+    if (fId.infog[0] < 0)
         ExceptionT::GeneralFail("MUMPSMatrixT_mpi::Initialize",
             "MUMPS init (job -1) failed: infog[0]=%d infog[1]=%d",
             fId.infog[0], fId.infog[1]);
@@ -182,13 +186,21 @@ void MUMPSMatrixT_mpi::Initialize(void)
     /* Distributed assembled input — each rank provides its own local triplets */
     fId.icntl[17] = 3;
 
-    /* AMD fill-reducing ordering */
-    fId.icntl[6] = 0;
+    /* fill-reducing ordering, PORD by default (#80), AMD for small systems */
+    fId.icntl[6] = MUMPSMatrixT::EffectiveOrdering(fOrdering, fTotNumEQ);
 
     /* Allow 200% of estimated workspace (default 20% can be too tight) */
     fId.icntl[13] = 100;
 
     fIsInitialized = true;
+
+    /* BLAS threads and a record of the BLAS actually in use */
+    BLASRuntimeT::SetDefaultThreads();
+    if (rank == 0)
+        fOut << "\n MUMPS sparse direct solver (MPI):\n"
+             << "    ordering . . . . . . . . . . . . . . . . . . . = "
+             << MUMPSMatrixT::OrderingName(fId.icntl[6]) << '\n'
+             << "    BLAS . . . . . . . . . . . . . . . . . . . . . = " << BLASRuntimeT::Describe() << '\n';
 }
 
 void MUMPSMatrixT_mpi::Finalize(void)

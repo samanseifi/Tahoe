@@ -5,6 +5,7 @@
 
 #include "ExceptionT.h"
 #include "mumps_mpi_util.h"
+#include "BLASRuntimeT.h"
 #include <cstring>
 
 using namespace Tahoe;
@@ -13,10 +14,30 @@ using namespace Tahoe;
  * Constructor / destructor
  * ----------------------------------------------------------------------- */
 
+const char* MUMPSMatrixT::OrderingName(int ordering)
+{
+    switch (ordering) {
+        case kAMD:    return "AMD";
+        case kAMF:    return "AMF";
+        case kSCOTCH: return "SCOTCH";
+        case kPORD:   return "PORD";
+        case kMETIS:  return "METIS";
+        case kQAMD:   return "QAMD";
+        case kAuto:   return "automatic";
+        default:      return "unknown";
+    }
+}
+
+int MUMPSMatrixT::EffectiveOrdering(int ordering, int num_equations)
+{
+    return (ordering == kPORD && num_equations < kPORDMinEquations) ? kAMD : ordering;
+}
+
 MUMPSMatrixT::MUMPSMatrixT(ostream& out, int check_code, bool symmetric,
-    int message_level, const CommunicatorT& comm)
+    int message_level, int ordering, const CommunicatorT& comm)
   : MSRMatrixT(out, check_code, symmetric, comm),
     fMessageLevel(message_level),
+    fOrdering(ordering),
     fSymmetric(symmetric),
     fIsInitialized(false),
     fIsFactorized(false),
@@ -28,6 +49,7 @@ MUMPSMatrixT::MUMPSMatrixT(ostream& out, int check_code, bool symmetric,
 MUMPSMatrixT::MUMPSMatrixT(const MUMPSMatrixT& source)
   : MSRMatrixT(source),
     fMessageLevel(source.fMessageLevel),
+    fOrdering(source.fOrdering),
     fSymmetric(source.fSymmetric),
     fIsInitialized(false),
     fIsFactorized(false),
@@ -102,12 +124,30 @@ void MUMPSMatrixT::Factorize(void)
     fId.jcn = fColIdx.Pointer();
     fId.a   = fValues.Pointer();
 
-    /* --- Job 4: Analysis + Numerical factorization (combined) ---
-     * Using combined job avoids potential state issues between separate
-     * job 1 and job 2 calls (e.g. MUMPS internal workspace re-allocation). */
-    fId.job = 4;
-    dmumps_c(&fId);
-    if (fId.infog[0] != 0)
+    /* --- Analysis + numerical factorization (job 4) ---
+     * The analysis is redone every time.  Reusing it (job 2) while the
+     * pattern is unchanged saved about 5 % on the Brinell deck but is
+     * unsafe: the analysis computes a column permutation and scaling from
+     * the matrix values (ICNTL(6), ICNTL(8)), and with the values of a
+     * later Newton iterate MUMPS 5.6 declared a regular matrix singular
+     * (#80, level.1 WLC deck). */
+    if (fId.icntl[6] != kAuto)
+        fId.icntl[6] = EffectiveOrdering(fOrdering, fTotNumEQ);
+    bool ok = RunJob(4);
+
+    /* an ordering this MUMPS build lacks: fall back to MUMPS's own choice */
+    if (!ok && fId.icntl[6] != kAuto) {
+        const int requested = fId.icntl[6];
+        fId.icntl[6] = kAuto;
+        ok = RunJob(4);
+        if (ok)
+            fOut << "\n MUMPS: " << OrderingName(requested)
+                 << " ordering failed; using MUMPS automatic ordering\n";
+        else
+            fId.icntl[6] = requested;
+    }
+
+    if (!ok)
         ExceptionT::BadJacobianDet("MUMPSMatrixT::Factorize",
             "MUMPS analysis+factorization (job 4) failed: infog[0]=%d infog[1]=%d "
             "(negative value means singular or near-singular matrix)",
@@ -129,7 +169,7 @@ void MUMPSMatrixT::BackSubstitute(dArrayT& result)
 
     fId.job = 3;   /* solve */
     dmumps_c(&fId);
-    if (fId.infog[0] != 0)
+    if (fId.infog[0] < 0)
         ExceptionT::BadJacobianDet("MUMPSMatrixT::BackSubstitute",
             "MUMPS solve (job 3) failed: infog[0]=%d infog[1]=%d",
             fId.infog[0], fId.infog[1]);
@@ -158,7 +198,7 @@ void MUMPSMatrixT::Initialize(void)
     fId.comm_fortran = (MUMPS_INT) tahoe_mumps_comm_self();
     dmumps_c(&fId);
 
-    if (fId.infog[0] != 0)
+    if (fId.infog[0] < 0)
         ExceptionT::GeneralFail("MUMPSMatrixT::Initialize",
             "MUMPS init (job -1) failed: infog[0]=%d infog[1]=%d",
             fId.infog[0], fId.infog[1]);
@@ -174,13 +214,30 @@ void MUMPSMatrixT::Initialize(void)
     /* icntl[17]=0 : centralized assembled input (host provides irn/jcn/a) */
     fId.icntl[17] = 0;
 
-    /* icntl[6]=0 : AMD ordering */
-    fId.icntl[6] = 0;
+    /* icntl[6] : fill-reducing ordering, PORD by default (#80) */
+    fId.icntl[6] = EffectiveOrdering(fOrdering, fTotNumEQ);
 
     /* icntl[13]=100 : allow 200% of estimated workspace (default 20% often too tight) */
     fId.icntl[13] = 100;
 
     fIsInitialized = true;
+
+    /* BLAS threads and a record of the BLAS actually in use */
+    BLASRuntimeT::SetDefaultThreads();
+    fOut << "\n MUMPS sparse direct solver:\n"
+         << "    ordering . . . . . . . . . . . . . . . . . . . = " << OrderingName(fId.icntl[6]);
+    if (fId.icntl[6] != fOrdering)
+        fOut << " (" << OrderingName(fOrdering) << " is used from "
+             << int(kPORDMinEquations) << " equations up)";
+    fOut << '\n'
+         << "    BLAS . . . . . . . . . . . . . . . . . . . . . = " << BLASRuntimeT::Describe() << '\n';
+}
+
+bool MUMPSMatrixT::RunJob(int job)
+{
+    fId.job = job;
+    dmumps_c(&fId);
+    return fId.infog[0] >= 0;   /* > 0 are warnings */
 }
 
 void MUMPSMatrixT::Finalize(void)

@@ -34,13 +34,22 @@ mechanism, for example:
 \begin{center}
 \begin{minipage}{0.85\linewidth}
 \begin{alltt}
-\$ cmake -S . -B build -DTAHOE_ENABLE_MPI=ON \(\backslash\)
-                       -DTAHOE_ENABLE_MUMPS=ON
+\$ cmake -S . -B build -DTAHOE_MPI=ON -DTAHOE_METIS=ON
 \end{alltt}
 \end{minipage}
 \end{center}
 A parallel build requires an MPI implementation (Open MPI 4.x is the
-reference); MUMPS, METIS and SuperLU support is optional.
+reference); METIS and SuperLU support is optional.
+
+The default linear solver (Table~\ref{tab.matrix.types}) needs the system
+\textsf{MUMPS} library and an optimized BLAS, on Debian and Ubuntu
+\texttt{sudo apt-get install libmumps-dev libopenblas-dev}.  Both are
+optional: when one is missing, CMake prints a warning and the build falls
+back to \textsf{SPOOLES}, or to the BLAS \textsf{MUMPS} was built against.
+The BLAS is linked directly into \texttt{tahoe}, so \textsf{MUMPS} uses it
+regardless of the system's default \texttt{libblas.so.3}; another vendor
+can be chosen with \texttt{-DTAHOE\_BLAS\_VENDOR}.  The configure step
+ends with a line naming the default solver and the BLAS it found.
 
 \subsection{Modes of execution}
 \tahoe runs in several modes that support execution in parallel.

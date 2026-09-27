@@ -20,7 +20,7 @@ jobs:
           sudo apt-get update -qq
           sudo apt-get install -y cmake build-essential \
             libexodusii-dev libnetcdf-dev \
-            libmumps-dev openmpi-bin libopenmpi-dev
+            libmumps-dev libopenblas-dev openmpi-bin libopenmpi-dev
 
       - name: Configure (MUMPS)
         run: |
@@ -38,6 +38,22 @@ jobs:
 
       - name: Build
         run: cmake --build build --parallel $(nproc)
+
+      # ---------------------------------------------------------------
+      # Default solver stack (#80): MUMPS must run on OpenBLAS, not on the
+      # reference libblas.so.3 that libdmumps pulls in.  tahoe links
+      # OpenBLAS as a direct dependency; check the link and what a deck
+      # with no matrix element reports at run time.
+      # ---------------------------------------------------------------
+      - name: Default solver uses MUMPS + PORD + OpenBLAS
+        run: |
+          readelf -d build/bin/tahoe | grep -E 'NEEDED.*libopenblas'
+          cd benchmark_XML/level.0/matrix_check
+          ../../../build/bin/tahoe -f default_matrix.xml > default_matrix.stdout 2>&1
+          grep 'Linear solver: <MUMPS_matrix>' default_matrix.out
+          # PORD, or AMD for systems below MUMPSMatrixT::kPORDMinEquations
+          grep -E 'ordering .*= (PORD|AMD \(PORD is used from)' default_matrix.out
+          grep -E 'BLAS .*= OpenBLAS' default_matrix.out
 
       # ---------------------------------------------------------------
       # Unit tests — must pass, block CI on failure

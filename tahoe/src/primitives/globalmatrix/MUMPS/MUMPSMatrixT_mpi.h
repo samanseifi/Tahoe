@@ -24,14 +24,14 @@ namespace Tahoe {
  *  Requires TAHOE_MUMPS=ON and TAHOE_MPI=ON.
  *
  *  Usage in XML input file (MPI run only, requires -decomp_method flag):
- *    <MUMPS_MPI_matrix message_level="silent" always_symmetric="false"/>
+ *    <MUMPS_MPI_matrix message_level="silent" always_symmetric="false" ordering="PORD"/>
  */
 class MUMPSMatrixT_mpi : public MSRMatrixT
 {
 public:
 
     MUMPSMatrixT_mpi(ostream& out, int check_code, bool symmetric,
-        int message_level, const CommunicatorT& comm);
+        int message_level, int ordering, const CommunicatorT& comm);
 
     MUMPSMatrixT_mpi(const MUMPSMatrixT_mpi& source);
 
@@ -61,6 +61,7 @@ private:
 
     DMUMPS_STRUC_C fId;
     int  fMessageLevel;
+    int  fOrdering;      /**< ICNTL(7), see MUMPSMatrixT::OrderingT */
     bool fSymmetric;
     bool fIsInitialized;
     bool fIsFactorized;

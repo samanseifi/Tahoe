@@ -565,7 +565,8 @@ void SolverT::DefineSubs(SubListT& sub_list) const
 	ParameterInterfaceT::DefineSubs(sub_list);
 
 	/* linear solver choice */
-	sub_list.AddSub("matrix_type_choice", ParameterListT::Once, true);
+	/* optional: DefaultMatrixList() supplies the matrix when omitted (#80) */
+	sub_list.AddSub("matrix_type_choice", ParameterListT::ZeroOrOnce, true);
 
 #ifdef __TRILINOS__
 	/* eigenvalue solver options */
@@ -682,12 +683,25 @@ ParameterInterfaceT* SolverT::NewSub(const StringT& name) const
 		ParameterT mumps_always_sym(ParameterT::Boolean, "always_symmetric");
 		mumps_always_sym.SetDefault(false);
 		MUMPS.AddParameter(mumps_always_sym);
+		/* fill-reducing ordering (MUMPS ICNTL(7)); orderings missing from
+		 * the MUMPS build fall back to its automatic choice (#80) */
+		ParameterT mumps_ordering(ParameterT::Enumeration, "ordering");
+		mumps_ordering.AddEnumeration("PORD",   MUMPSMatrixT::kPORD);
+		mumps_ordering.AddEnumeration("AMD",    MUMPSMatrixT::kAMD);
+		mumps_ordering.AddEnumeration("AMF",    MUMPSMatrixT::kAMF);
+		mumps_ordering.AddEnumeration("QAMD",   MUMPSMatrixT::kQAMD);
+		mumps_ordering.AddEnumeration("METIS",  MUMPSMatrixT::kMETIS);
+		mumps_ordering.AddEnumeration("SCOTCH", MUMPSMatrixT::kSCOTCH);
+		mumps_ordering.AddEnumeration("automatic", MUMPSMatrixT::kAuto);
+		mumps_ordering.SetDefault(MUMPSMatrixT::kPORD);
+		MUMPS.AddParameter(mumps_ordering);
 		choice->AddSub(MUMPS);
 
 #if defined(__MUMPS__) && defined(__TAHOE_MPI__)
 		ParameterContainerT MUMPS_MPI("MUMPS_MPI_matrix");
 		MUMPS_MPI.AddParameter(mumps_msg_level);
 		MUMPS_MPI.AddParameter(mumps_always_sym);
+		MUMPS_MPI.AddParameter(mumps_ordering);
 		choice->AddSub(MUMPS_MPI);
 #endif /* __MUMPS__ && __TAHOE_MPI__ */
 #endif /* __MUMPS__ */
@@ -828,7 +842,17 @@ void SolverT::TakeParameterList(const ParameterListT& list)
 	fPrintEquationNumbers = list.GetParameter("print_eqnos");
 	int check_code = list.GetParameter("check_code");
 	fPerturbation = list.GetParameter("check_LHS_perturbation");
-	SetGlobalMatrix(list.GetListChoice(*this, "matrix_type_choice"), check_code);
+	const ParameterListT* matrix = list.ListChoice(*this, "matrix_type_choice");
+	if (matrix)
+		SetGlobalMatrix(*matrix, check_code);
+	else
+	{
+		ParameterListT default_matrix;
+		DefaultMatrixList(default_matrix);
+		fFEManager.Output() << "\n Linear solver: <" << default_matrix.Name()
+		                    << "> (default: none given in the input)\n";
+		SetGlobalMatrix(default_matrix, check_code);
+	}
 
 #ifdef __TRILINOS__
 	/* look for eigenmodes solver */
@@ -1070,6 +1094,39 @@ int SolverT::CheckMatrixType(int matrix_type, int analysis_code) const
 }
 
 /* set global equation matrix */
+void SolverT::DefaultMatrixList(ParameterListT& matrix) const
+{
+	const bool parallel = fFEManager.Size() > 1;
+	(void) parallel; /* unused in some build configurations */
+
+#if defined(__MUMPS__) && defined(__TAHOE_MPI__)
+	if (parallel) {
+		matrix.SetName("MUMPS_MPI_matrix");
+		matrix.AddParameter(0, "message_level");
+		matrix.AddParameter(false, "always_symmetric");
+		matrix.AddParameter(int(MUMPSMatrixT::kPORD), "ordering");
+		return;
+	}
+#endif
+#ifdef __MUMPS__
+	if (!parallel) {
+		matrix.SetName("MUMPS_matrix");
+		matrix.AddParameter(0, "message_level");
+		matrix.AddParameter(false, "always_symmetric");
+		matrix.AddParameter(int(MUMPSMatrixT::kPORD), "ordering");
+		return;
+	}
+#endif
+#ifdef __SPOOLES__
+	matrix.SetName("SPOOLES_matrix");
+	matrix.AddParameter(0, "message_level");
+	matrix.AddParameter(true, "enable_pivoting");
+	matrix.AddParameter(false, "always_symmetric");
+#else
+	matrix.SetName("profile_matrix");
+#endif
+}
+
 void SolverT::SetGlobalMatrix(const ParameterListT& params, int check_code)
 {
 	const char caller[] = "SolverT::SetGlobalMatrix";
@@ -1265,7 +1322,8 @@ void SolverT::SetGlobalMatrix(const ParameterListT& params, int check_code)
 		else
 			ExceptionT::GeneralFail(caller, "unexpected system type: %d", type);
 
-		fLHS = new MUMPSMatrixT(out, check_code, symmetric, message_level, comm);
+		int ordering = params.GetParameter("ordering");
+		fLHS = new MUMPSMatrixT(out, check_code, symmetric, message_level, ordering, comm);
 #else /* no __MUMPS__ */
 		ExceptionT::GeneralFail(caller, "MUMPS not installed");
 #endif /* __MUMPS__ */
@@ -1288,7 +1346,8 @@ void SolverT::SetGlobalMatrix(const ParameterListT& params, int check_code)
 		else
 			ExceptionT::GeneralFail(caller, "unexpected system type: %d", type);
 
-		fLHS = new MUMPSMatrixT_mpi(out, check_code, symmetric, message_level, comm);
+		int ordering = params.GetParameter("ordering");
+		fLHS = new MUMPSMatrixT_mpi(out, check_code, symmetric, message_level, ordering, comm);
 #else
 		ExceptionT::GeneralFail(caller, "MUMPS_MPI requires TAHOE_MUMPS=ON and TAHOE_MPI=ON");
 #endif /* __MUMPS__ && __TAHOE_MPI__ */
