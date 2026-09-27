@@ -41,7 +41,6 @@ MUMPSMatrixT::MUMPSMatrixT(ostream& out, int check_code, bool symmetric,
     fSymmetric(symmetric),
     fIsInitialized(false),
     fIsFactorized(false),
-    fIsAnalyzed(false),
     fInitedMPI(false)
 {
     memset(&fId, 0, sizeof(DMUMPS_STRUC_C));
@@ -54,7 +53,6 @@ MUMPSMatrixT::MUMPSMatrixT(const MUMPSMatrixT& source)
     fSymmetric(source.fSymmetric),
     fIsInitialized(false),
     fIsFactorized(false),
-    fIsAnalyzed(false),
     fInitedMPI(false)
 {
     ExceptionT::GeneralFail("MUMPSMatrixT::MUMPSMatrixT(copy)", "not implemented");
@@ -104,30 +102,20 @@ void MUMPSMatrixT::Factorize(void)
     if (fIsFactorized) return;
 
     /* --- Extract COO triplets from MSR storage ---
-     * GenerateRCV returns 0-based indices; MUMPS needs 1-based.  Entries
-     * below the drop tolerance are omitted, so the pattern can change from
-     * one assembly to the next and is compared in full. */
+     * GenerateRCV returns 0-based indices; MUMPS needs 1-based. */
     iArrayT r, c;
     dArrayT v;
     GenerateRCV(r, c, v, 1.0e-15);
+
     const int nnz = r.Length();
-
-    bool same_pattern = fIsAnalyzed && nnz == fRowIdx.Length();
-    for (int i = 0; same_pattern && i < nnz; i++)
-        if (fRowIdx[i] != r[i] + 1 || fColIdx[i] != c[i] + 1)
-            same_pattern = false;
-
-    if (!same_pattern) {
-        fRowIdx.Dimension(nnz);
-        fColIdx.Dimension(nnz);
-        for (int i = 0; i < nnz; i++) {
-            fRowIdx[i] = r[i] + 1;   /* 0→1 based */
-            fColIdx[i] = c[i] + 1;
-        }
-        fIsAnalyzed = false;
-    }
+    fRowIdx.Dimension(nnz);
+    fColIdx.Dimension(nnz);
     fValues.Dimension(nnz);
-    fValues = v;
+    for (int i = 0; i < nnz; i++) {
+        fRowIdx[i] = r[i] + 1;   /* 0→1 based */
+        fColIdx[i] = c[i] + 1;
+        fValues[i] = v[i];
+    }
 
     /* --- Pass matrix data to MUMPS --- */
     fId.n   = fTotNumEQ;
@@ -136,16 +124,13 @@ void MUMPSMatrixT::Factorize(void)
     fId.jcn = fColIdx.Pointer();
     fId.a   = fValues.Pointer();
 
-    /* --- Numerical factorization reusing the analysis (job 2) ---
-     * If it fails, for instance because pivoting outgrew the workspace
-     * estimated by the analysis, redo the analysis below. */
-    if (same_pattern && RunJob(2)) {
-        fIsFactorized = true;
-        return;
-    }
-
-    /* --- Analysis + numerical factorization (job 4) --- */
-    fIsAnalyzed = false;
+    /* --- Analysis + numerical factorization (job 4) ---
+     * The analysis is redone every time.  Reusing it (job 2) while the
+     * pattern is unchanged saved about 5 % on the Brinell deck but is
+     * unsafe: the analysis computes a column permutation and scaling from
+     * the matrix values (ICNTL(6), ICNTL(8)), and with the values of a
+     * later Newton iterate MUMPS 5.6 declared a regular matrix singular
+     * (#80, level.1 WLC deck). */
     if (fId.icntl[6] != kAuto)
         fId.icntl[6] = EffectiveOrdering(fOrdering, fTotNumEQ);
     bool ok = RunJob(4);
@@ -168,7 +153,6 @@ void MUMPSMatrixT::Factorize(void)
             "(negative value means singular or near-singular matrix)",
             fId.infog[0], fId.infog[1]);
 
-    fIsAnalyzed   = true;
     fIsFactorized = true;
 }
 
@@ -237,7 +221,6 @@ void MUMPSMatrixT::Initialize(void)
     fId.icntl[13] = 100;
 
     fIsInitialized = true;
-    fIsAnalyzed    = false;
 
     /* BLAS threads and a record of the BLAS actually in use */
     BLASRuntimeT::SetDefaultThreads();
@@ -263,7 +246,6 @@ void MUMPSMatrixT::Finalize(void)
     dmumps_c(&fId);
     fIsInitialized = false;
     fIsFactorized  = false;
-    fIsAnalyzed    = false;
 
     /* Finalize MPI only if we were the ones who initialized it */
     tahoe_mumps_mpi_finalize(fInitedMPI);

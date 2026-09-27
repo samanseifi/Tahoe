@@ -24,9 +24,6 @@ namespace Tahoe {
  *    <MUMPS_matrix message_level="silent" always_symmetric="false" ordering="PORD"/>
  *
  *  This is the default linear solver when a deck names no matrix (#80).
- *  The symbolic analysis is reused while the sparsity pattern of the
- *  assembled matrix is unchanged, so repeated Newton iterations only
- *  refactorize numerically.
  */
 class MUMPSMatrixT: public MSRMatrixT
 {
@@ -72,7 +69,7 @@ public:
 protected:
 
     /** LU factorize the assembled matrix: MUMPS job 4 (analysis and
-     *  factorization) when the sparsity pattern changed, job 2 otherwise */
+     *  numerical factorization) */
     virtual void Factorize(void);
 
     /** back-substitute: result is overwritten with the solution (MUMPS job 3) */
@@ -96,7 +93,6 @@ private:
     bool fSymmetric;
     bool fIsInitialized;
     bool fIsFactorized;
-    bool fIsAnalyzed;    /**< fRowIdx/fColIdx hold the analyzed pattern */
     bool fInitedMPI;     /**< true if this object called MPI_Init */
 
     /** 1-based COO storage kept alive between Factorize and BackSubstitute */
