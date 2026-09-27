@@ -83,7 +83,7 @@
         </updated_lagrangian>
 
         <contact_3D_penalty field_name="displacement"
-                            penalty_stiffness="1.0e7"
+                            penalty_stiffness="1.0e6"
                             friction_coefficient="0.1"
                             friction_epsilon_velocity="1.0e-4">
             <contact_surface>

@@ -45,7 +45,7 @@ Boundary conditions:
 - indenter and block symmetry on x=0 and y=0 faces
 - block bottom (NS4): fully clamped
 - contact pair: `<contact_3D_penalty>` with `μ = 0.1`, regularised slip
-  scale `friction_epsilon_velocity = 1e-4`, `penalty_stiffness = 1e7`
+  scale `friction_epsilon_velocity = 1e-4`, `penalty_stiffness = 1e6` (see *Contact penalty* below)
 
 Solver: `<nonlinear_solver_LS>` + SPOOLES, `max_iterations=40`,
 `search_iterations=5`.
@@ -55,24 +55,22 @@ Solver: `<nonlinear_solver_LS>` + SPOOLES, `max_iterations=40`,
 ```bash
 cd benchmark_XML/level.5/brinell
 python3 generate_brinell_mesh.py        # writes brinell_smoke.geom + brinell.geom
-../../../build/bin/tahoe -f brinell_smoke.xml   # ~55 s on serial SPOOLES
+../../../build/bin/tahoe -f brinell_smoke.xml   # ~3.5 min on serial SPOOLES
 # or for the fine variant:
-../../../build/bin/tahoe -f brinell.xml         # ~1 h
+../../../build/bin/tahoe -f brinell.xml         # several hours (see fine-run results)
 ```
 
 ## Convergence (brinell_smoke.xml)
 
-All 10 steps converge.  Step 10 (deepest load, δ = 0.15 mm, fully plastic):
+All 10 steps converge in 6–7 Newton iterations.  Step 10 (deepest load, δ = 0.15 mm, fully plastic):
 
 ```
-init: 0 LS: 3 ... | 0: Rel error = 1.41e-02
-                   | 1: Rel error = 1.60e-02
-                   | 2: Rel error = 9.07e-04
-                   | 3: Rel error = 6.76e-04
-                   | 4: Rel error = 3.57e-04
-                   | 5: Rel error = 5.93e-05
-                   | 6: Rel error = 2.24e-06
-                   | 7: Rel error = 1.21e-08    ← converged
+init: 0 LS: 3 ... | 0: Rel error = 1.37e-02
+                  | 1: Rel error = 1.55e-03
+                  | 2: Rel error = 5.19e-04
+                  | 3: Rel error = 2.02e-04
+                  | 4: Rel error = 1.98e-05
+                  | 5: Rel error = 2.21e-07    ← converged
 ```
 
 Contact patch grows monotonically as plastic deformation accumulates:
@@ -80,18 +78,44 @@ Contact patch grows monotonically as plastic deformation accumulates:
 
 ## Smoke results (from `compare_to_tabor.py brinell_smoke`)
 
-10 frames, δ from 0.015 → 0.150 mm:
+10 frames, δ from 0.015 → 0.150 mm (`penalty_stiffness = 1e6`):
 
 | Frame | δ [mm] | P_quarter [N] | a [mm] | p_m [MPa] | p_m / σ_y0 |
 |------:|-------:|--------------:|-------:|----------:|-----------:|
-| 0 | 0.015 |   97.2 | 0.308 | 326.7 | 1.31 |
-| 4 | 0.075 |  690.3 | 0.791 | 351.0 | 1.40 |
-| 9 | 0.150 | 1325.1 | 1.116 | 338.5 | 1.35 |
+| 0 | 0.015 |   93.3 | 0.308 | 313.4 | 1.25 |
+| 4 | 0.075 |  681.8 | 0.791 | 346.6 | 1.39 |
+| 9 | 0.150 | 1317.9 | 1.116 | 336.6 | 1.35 |
 
 The smoke run sits in the **elastic-plastic transition** (`δ/R = 0.03`):
 past first yield (`p_m / σ_y ≈ 1.1` analytically) but well below Tabor's
 fully-plastic 2.8.  Reaching Tabor needs `δ/R ≳ 0.06`, which is what the
 fine `brinell.xml` is set up for.
+
+## Contact penalty (2026-09-27, issue #47)
+
+The penalty force is `k · g · A` per striker, so `k` is a pressure per unit penetration and the
+penetration is `g ≈ p/k`. At Tabor pressure (~700 MPa) that is 7e-5 mm for `k = 1e7` and 7e-4 mm
+for `k = 1e6`.
+
+The decks used `1e7` (50× the block modulus) until 2026-09-27. Every change of the active contact
+set then cost a burst of Newton iterations. `brinell_smoke.xml` needed 7, 19, 10, 6, 21, 11, 7, 7, 7
+and 8 iterations per step at `1e7`, and 6, 6, 6, 6, 6, 6, 7, 7, 6 and 6 at `1e6`, 35 % less wall
+time. The load and the Tabor ratio barely move:
+
+| δ [mm] | P_quarter, k = 1e6 [N] | P_quarter, k = 1e7 [N] | ΔP | p_m/σ_y0 (1e6 / 1e7) |
+|------:|------:|------:|------:|------:|
+| 0.015 |   93.3 |   97.2 | −4.1 % | 1.25 / 1.31 |
+| 0.060 |  513.8 |  520.5 | −1.3 % | 1.40 / 1.42 |
+| 0.090 |  813.4 |  821.5 | −1.0 % | 1.45 / 1.47 |
+| 0.150 | 1317.9 | 1325.1 | −0.6 % | 1.35 / 1.35 |
+
+The difference is a fixed penetration offset, so it matters only at the shallowest frames and is
+below 1 % in the δ ≳ 0.1 mm range where the Tabor ratio is read. Both decks now use `1e6`, and
+`brinell.xml` allows five load-step cuts.
+
+The iteration counts are not caused by the J2 tangent. A finite-difference global stiffness gives
+the same Newton history as the analytic `Simo_J2` tangent (#78, which fixed a small term found by
+that check).
 
 ## Fine-run results (2026-09-26, issue #47)
 
