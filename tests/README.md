@@ -88,6 +88,12 @@ ctest --test-dir build -R "^NeoHookean"
 | `MeanStressZeroAtJ1` | Zero pressure at J=1 |
 | `DevModDiagonalPositive` | Positive diagonal of deviatoric tangent modulus |
 
+### `materials/test_J2SimoTangent.cpp` — `Simo_J2` consistent tangent (#78)
+
+| Test | Checks |
+|------|--------|
+| `AnalyticMatchesFiniteDifference` | Runs `benchmark_XML/level.0/matrix_check/j2_simo_tangent.xml` (one distorted hex8, tension plus shear, steep hardening) with `check_code="check_LHS"` and requires the analytic global stiffness to match a forward-difference stiffness to 1e-6 at every Newton iteration (observed ~3e-8; 1.3e-3 before the fix) |
+
 ### `meshfree/test_KLShell*.cpp`, `meshfree/test_Collocation.cpp` — meshfree KL shell (#59)
 
 Built when `TAHOE_DEV=ON`. Bottom-up coverage of `development/src/elements/meshfree_kl_shell/`

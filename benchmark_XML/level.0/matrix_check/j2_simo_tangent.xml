@@ -1,0 +1,40 @@
+<?xml version='1.0' encoding='US-ASCII' standalone='no' ?>
+<!-- Consistent-tangent check for Simo_J2 (#78).
+     One distorted hex8 under combined tension and shear, J2 plasticity with
+     steep linear hardening so every term of the Simo & Hughes (1998) Box 9.2
+     tangent is exercised.  check_code="check_LHS" makes the solver also
+     assemble a forward-difference stiffness from the residual and write both
+     matrices (FullMatrixT.LHS.<even> analytic, .<odd> finite difference).
+     tests/materials/test_J2SimoTangent.cpp compares every pair; they agree
+     to the finite-difference truncation level (~3e-8) only if the analytic
+     tangent is consistent.  Not part of run.batch. -->
+<tahoe geometry_file='j2_simo_tangent.geom' output_format='ExodusII' title='j2_simo_tangent_check'>
+  <time num_steps='1' output_inc='1' time_step='1.0'>
+    <schedule_function><piecewise_linear>
+      <OrderedPair x='0.0' y='0.0'/><OrderedPair x='1.0' y='1.0'/>
+    </piecewise_linear></schedule_function>
+  </time>
+  <nodes><field field_name='displacement'>
+    <dof_labels><String value='D_X'/><String value='D_Y'/><String value='D_Z'/></dof_labels>
+    <kinematic_BC dof='1' node_ID='1'/><kinematic_BC dof='2' node_ID='1'/><kinematic_BC dof='3' node_ID='1'/>
+    <kinematic_BC dof='3' node_ID='2' schedule='1' type='u' value='0.10'/>
+    <kinematic_BC dof='1' node_ID='2' schedule='1' type='u' value='0.03'/>
+  </field></nodes>
+  <element_list><updated_lagrangian field_name='displacement'>
+    <hexahedron/>
+    <solid_element_nodal_output displacements='1'/>
+    <large_strain_element_block>
+      <block_ID_list><String value='1'/></block_ID_list>
+      <large_strain_material_3D>
+        <Simo_J2 density='7.85'>
+          <E_and_nu Poisson_ratio='0.3' Young_modulus='200000.0'/>
+          <linear_function a='50000.0' b='250.0'/>
+        </Simo_J2>
+      </large_strain_material_3D>
+    </large_strain_element_block>
+  </updated_lagrangian></element_list>
+  <nonlinear_solver abs_tolerance='1.0e-10' rel_tolerance='1.0e-12' divergence_tolerance='1.0e+04'
+                    max_iterations='30' check_code='check_LHS' check_LHS_perturbation='1.0e-7'>
+    <full_matrix/>
+  </nonlinear_solver>
+</tahoe>

@@ -280,7 +280,9 @@ const dMatrixT& J2SimoC0HardeningT::ModuliCorrection(ElementCardT& element, doub
 		double d0 = 1.0 + dH(alpha)/3.0/mu + dK(alpha)/3.0/mu_bar_bar;
 
 		double f1 = 1.0/d0 - f0;
-		double d1 = 2.0*mu_bar_bar*f1 - (4.0/3.0)*dgamma*((1.0 + dH(alpha)/3.0/mu)/d0 - 1.0);
+		/* 2 mu_bar beta_3 of Simo & Hughes (1998) Box 9.2, where
+		 * 2 mu_bar beta_2 = (4/3) ||s_tr|| dgamma (1 - 1/beta_0) */
+		double d1 = 2.0*mu_bar_bar*f1 - (4.0/3.0)*stressnorm*dgamma*((1.0 + dH(alpha)/3.0/mu)/d0 - 1.0);
 		
 		double d2 = 2.0*stressnorm*f1;
 
