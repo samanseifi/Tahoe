@@ -1,0 +1,27 @@
+# Benchmark decks known to abort (tahoe gives up but exits 0). Issue #74: run_benchmarks.sh reports
+# these as KNOWN instead of failing the job; any abort NOT listed here fails CI. Remove a line when
+# its deck is fixed. Format: <path relative to benchmark_XML>   # #<issue> reason
+
+level.0/2D.elastostatic/CSE.2.xml                          # #37 exception during construction
+level.0/2D.elastostatic/hex2D_90_CB_LJ5.xml                # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/2D.elastostatic/hex2D_CB_LJ2.xml                   # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/2D.elastostatic/hex2D_CB_LJ5.xml                   # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/2D.elastostatic/hex2D_CB_harmonic.xml              # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/2D.elastostatic/hex2D_rot_CB_LJ5.xml               # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/bridging/BSM/2D/2D_shear/bridge.2D.0.xml           # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/bridging/BSM/2D/2D_simple_wave/bridge.2D.0.xml     # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/bridging/interpolate.meshfree.1/bridge.xml         # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/bridging/interpolate.meshfree.2/bridge.xml         # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/bridging/interpolate/bridge.xml                    # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/bridging/meshfree.1/bridge.mf.xml                  # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/bridging/meshfree.2/bridge.mf.xml                  # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/bridging/meshfree.3/bridge.mf.cross.xml            # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/bridging/meshfree.3/bridge.mf.nocross.xml          # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/bridging/meshfree/bridge.mf.xml                    # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/bridging/projection/bridge.2D.0.xml                # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/bridging/projection/bridge.2D.1.xml                # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/bridging/projection/bridge.2D.2.xml                # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/bridging/projection/bridge.3D.0.xml                # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/bridging/projection/bridge.3D.1.xml                # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/bridging/projection/bridge.3D.2.xml                # #37 needs BRIDGING_ELEMENT (disabled in the default build)
+level.0/inputoutput/square.xml                             # #37 load-step cutting exhausted

@@ -231,7 +231,7 @@ In the XML input, replace the solver block with:
 <!-- refinement options: NOREFINE | SINGLE | DOUBLE | EXTRA -->
 ```
 
-Verified: WLC finite-anisotropy benchmark (290 Newton steps, single hex element) completes in ~0.35 s with SuperLU vs ~0.40 s with SPOOLES. See [`third_party/superlu/README.md`](third_party/superlu/README.md).
+Verified: the WLC finite-anisotropy benchmark (single hex element, 8 steps) matches its stored reference, and on the 18,000-DOF level.4 liquid-inclusion case SuperLU reproduces the SPOOLES Newton history exactly. See [`third_party/superlu/README.md`](third_party/superlu/README.md).
 
 ### MUMPS — system sparse direct solver (serial and MPI)
 
@@ -275,7 +275,7 @@ Both variants use AMD fill-reducing ordering (`icntl[6]=0`) and 200% workspace h
 
 > **Domain decomposition**: `<MUMPS_MPI_matrix/>` requires the same domain-decomposition setup as SPOOLES-MPI — pass `-decomp_method -0` on the command line (or include it in a batch file). This generates per-rank geometry partitions automatically at startup.
 
-Verified: WLC benchmark (290 Newton steps) and dielectric elastomer benchmark (18832 DOFs, mixed-physics) complete correctly with both `<MUMPS_matrix/>` and `<MUMPS_MPI_matrix/>`. See [`benchmark_XML/level.4/README.md`](benchmark_XML/level.4/README.md) for a full solver comparison.
+Verified: the dielectric elastomer benchmark (18832 DOFs, mixed-physics) completes correctly with both `<MUMPS_matrix/>` and `<MUMPS_MPI_matrix/>`. See [`benchmark_XML/level.4/README.md`](benchmark_XML/level.4/README.md) for a full solver comparison.
 
 ### SPOOLES-MT — shared-memory multithreaded
 
