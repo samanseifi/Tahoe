@@ -75,22 +75,23 @@ jobs:
       #
       # These files use <MUMPS_matrix/> and are intentionally kept
       # out of the standard run.batch files so they don't crash
-      # non-MUMPS builds.
+      # non-MUMPS builds. run_smoke.sh fails a step on a crash OR an
+      # aborted run (tahoe exits 0 after giving up, issue #74).
       # ---------------------------------------------------------------
       - name: MUMPS smoke test — level.0 diffusion (sequential)
         run: |
           cd benchmark_XML/level.0/diffusion
-          ${{ github.workspace }}/build/bin/tahoe -f bar.2D.lin.mumps.xml
+          ${{ github.workspace }}/benchmark_XML/scripts/run_smoke.sh ${{ github.workspace }}/build/bin/tahoe -f bar.2D.lin.mumps.xml
 
       - name: MUMPS smoke test — level.1 solid 2D (sequential)
         run: |
           cd benchmark_XML/level.1/material.solid/2D/material.02
-          ${{ github.workspace }}/build/bin/tahoe -f mat.2.a.mumps.xml
+          ${{ github.workspace }}/benchmark_XML/scripts/run_smoke.sh ${{ github.workspace }}/build/bin/tahoe -f mat.2.a.mumps.xml
 
-      - name: MUMPS smoke test — level.1 WLC 3D (sequential, 290 steps)
+      - name: MUMPS smoke test — level.1 WLC 3D (sequential, 8 steps)
         run: |
           cd benchmark_XML/level.1/material.solid/3D/material.120
-          ${{ github.workspace }}/build/bin/tahoe -f wlc_mumps.xml
+          ${{ github.workspace }}/benchmark_XML/scripts/run_smoke.sh ${{ github.workspace }}/build/bin/tahoe -f wlc_mumps.xml
 
       # ---------------------------------------------------------------
       # MUMPS + MPI smoke tests (parallel MUMPS_MPI_matrix)
@@ -117,9 +118,9 @@ jobs:
       - name: MUMPS MPI smoke test — level.0 diffusion (2 ranks)
         run: |
           cd benchmark_XML/level.0/diffusion
-          mpirun -np 2 --oversubscribe ${{ github.workspace }}/build-mpi-mumps/bin/tahoe -f bar.2D.lin.mumps_mpi.xml
+          ${{ github.workspace }}/benchmark_XML/scripts/run_smoke.sh mpirun -np 2 --oversubscribe ${{ github.workspace }}/build-mpi-mumps/bin/tahoe -f bar.2D.lin.mumps_mpi.xml
 
       - name: MUMPS MPI smoke test — level.1 solid 2D (2 ranks)
         run: |
           cd benchmark_XML/level.1/material.solid/2D/material.02
-          mpirun -np 2 --oversubscribe ${{ github.workspace }}/build-mpi-mumps/bin/tahoe -f mat.2.a.mumps_mpi.xml
+          ${{ github.workspace }}/benchmark_XML/scripts/run_smoke.sh mpirun -np 2 --oversubscribe ${{ github.workspace }}/build-mpi-mumps/bin/tahoe -f mat.2.a.mumps_mpi.xml
