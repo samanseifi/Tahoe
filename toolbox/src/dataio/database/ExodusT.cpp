@@ -31,7 +31,10 @@ namespace {
  * over-long string overflows (issue #58). */
 Tahoe::StringT FitExodusField(const Tahoe::StringT& src, size_t max_bytes, const char* what)
 {
-	size_t len = strlen(src.Pointer());
+	/* an empty StringT may hold a NULL buffer: treat it as "" */
+	const char* p = src.Pointer();
+	size_t len = p ? strlen(p) : 0;
+	if (len == 0) return Tahoe::StringT("");
 	if (len < max_bytes) return src;
 	size_t cut = max_bytes - 1;
 	/* back up over UTF-8 continuation bytes (10xxxxxx) to the start of a character */
@@ -154,7 +157,7 @@ bool ExodusT::Create(const StringT& filename, const StringT& title,
 		/* the title is stored in a fixed MAX_LINE_LENGTH buffer (issue #58) */
 		StringT fitted_title = FitExodusField(title, MAX_LINE_LENGTH, "title");
 		Try("ExodusT::WriteParameters",
-			ex_put_init(exoid, fitted_title, num_dim, num_nodes,
+			ex_put_init(exoid, fitted_title.Pointer() ? fitted_title.Pointer() : "", num_dim, num_nodes,
 			       num_elem, num_elem_blk, num_node_sets, num_side_sets),
 			true);
 

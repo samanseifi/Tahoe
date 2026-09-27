@@ -11,3 +11,6 @@ square.xml
 -3
 square.xml
 -run
+# #58: ExodusII title handling (long UTF-8 title truncated safely; no title)
+exodus_long_title.xml
+exodus_no_title.xml
