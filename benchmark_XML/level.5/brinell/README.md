@@ -45,7 +45,7 @@ Boundary conditions:
 - indenter and block symmetry on x=0 and y=0 faces
 - block bottom (NS4): fully clamped
 - contact pair: `<contact_3D_penalty>` with `μ = 0.1`, regularised slip
-  scale `friction_epsilon_velocity = 1e-4`, `penalty_stiffness = 1e7`
+  scale `friction_epsilon_velocity = 1e-4`, `penalty_stiffness = 1e6` (see *Contact penalty* below)
 
 Solver: `<nonlinear_solver_LS>` + SPOOLES, `max_iterations=40`,
 `search_iterations=5`.
@@ -55,24 +55,22 @@ Solver: `<nonlinear_solver_LS>` + SPOOLES, `max_iterations=40`,
 ```bash
 cd benchmark_XML/level.5/brinell
 python3 generate_brinell_mesh.py        # writes brinell_smoke.geom + brinell.geom
-../../../build/bin/tahoe -f brinell_smoke.xml   # ~55 s on serial SPOOLES
+../../../build/bin/tahoe -f brinell_smoke.xml   # ~3.5 min on serial SPOOLES
 # or for the fine variant:
-../../../build/bin/tahoe -f brinell.xml         # ~1 h
+../../../build/bin/tahoe -f brinell.xml         # ~1.6 h on one core
 ```
 
 ## Convergence (brinell_smoke.xml)
 
-All 10 steps converge.  Step 10 (deepest load, δ = 0.15 mm, fully plastic):
+All 10 steps converge in 6–7 Newton iterations.  Step 10 (deepest load, δ = 0.15 mm, fully plastic):
 
 ```
-init: 0 LS: 3 ... | 0: Rel error = 1.41e-02
-                   | 1: Rel error = 1.60e-02
-                   | 2: Rel error = 9.07e-04
-                   | 3: Rel error = 6.76e-04
-                   | 4: Rel error = 3.57e-04
-                   | 5: Rel error = 5.93e-05
-                   | 6: Rel error = 2.24e-06
-                   | 7: Rel error = 1.21e-08    ← converged
+init: 0 LS: 3 ... | 0: Rel error = 1.37e-02
+                  | 1: Rel error = 1.55e-03
+                  | 2: Rel error = 5.19e-04
+                  | 3: Rel error = 2.02e-04
+                  | 4: Rel error = 1.98e-05
+                  | 5: Rel error = 2.21e-07    ← converged
 ```
 
 Contact patch grows monotonically as plastic deformation accumulates:
@@ -80,47 +78,91 @@ Contact patch grows monotonically as plastic deformation accumulates:
 
 ## Smoke results (from `compare_to_tabor.py brinell_smoke`)
 
-10 frames, δ from 0.015 → 0.150 mm:
+10 frames, δ from 0.015 → 0.150 mm (`penalty_stiffness = 1e6`). `p_m` is the quarter load over the
+quarter contact disc, `Y_r` the flow stress at Tabor's representative strain `ε_r = 0.2 a/R`:
 
-| Frame | δ [mm] | P_quarter [N] | a [mm] | p_m [MPa] | p_m / σ_y0 |
-|------:|-------:|--------------:|-------:|----------:|-----------:|
-| 0 | 0.015 |   97.2 | 0.308 | 326.7 | 1.31 |
-| 4 | 0.075 |  690.3 | 0.791 | 351.0 | 1.40 |
-| 9 | 0.150 | 1325.1 | 1.116 | 338.5 | 1.35 |
+| Frame | δ [mm] | P_quarter [N] | a [mm] | p_m [MPa] | p_m / σ_y0 | p_m / Y_r |
+|------:|-------:|--------------:|-------:|----------:|-----------:|----------:|
+| 0 | 0.015 |   93.3 | 0.308 | 1253.7 | 5.02 | 3.26 |
+| 4 | 0.075 |  681.8 | 0.791 | 1386.6 | 5.55 | 3.03 |
+| 9 | 0.150 | 1317.9 | 1.116 | 1346.6 | 5.39 | 2.75 |
 
-The smoke run sits in the **elastic-plastic transition** (`δ/R = 0.03`):
-past first yield (`p_m / σ_y ≈ 1.1` analytically) but well below Tabor's
-fully-plastic 2.8.  Reaching Tabor needs `δ/R ≳ 0.06`, which is what the
-fine `brinell.xml` is set up for.
+Over δ ≥ 0.06 mm the coarse mesh gives `p_m / Y_r` = 2.95 on average (2.75–3.16), 5 % above Tabor.
 
-## Fine-run results (2026-09-26, issue #47)
+## Contact penalty (2026-09-27, issue #47)
 
-`brinell.xml` (8 800 Hex8, 20 steps planned to δ = 0.30 mm) does **not** reach the fully-plastic
-regime yet. Steps 1–5 converge; at step 6 (δ = 0.09 mm) Newton stagnates at a relative residual of
-1.8e-2 for 40 iterations while the line-search step shrinks toward zero, and with the default
-`max_step_cuts="0"` the time sequence ends. Each step takes 10–15 min on one core (78 min to step 6),
-so the full run is several hours, not ~1 h.
+The penalty force is `k · g · A` per striker, so `k` is a pressure per unit penetration and the
+penetration is `g ≈ p/k`. At Tabor pressure (~700 MPa) that is 7e-5 mm for `k = 1e7` and 7e-4 mm
+for `k = 1e6`.
 
-Last converged output frame (`compare_to_tabor.py brinell`):
+The decks used `1e7` (50× the block modulus) until 2026-09-27. Every change of the active contact
+set then cost a burst of Newton iterations. `brinell_smoke.xml` needed 7, 19, 10, 6, 21, 11, 7, 7, 7
+and 8 iterations per step at `1e7`, and 6, 6, 6, 6, 6, 6, 7, 7, 6 and 6 at `1e6`, 35 % less wall
+time. The load and the Tabor ratio barely move:
 
-| δ [mm] | δ/R | P (quarter) [N] | a [mm] | p_m [MPa] | p_m / σ_y0 |
-|------:|----:|----------------:|-------:|----------:|-----------:|
-| 0.060 | 1.2 % | 515.6 | 0.714 | 321.6 | 1.29 |
+| δ [mm] | P_quarter, k = 1e6 [N] | P_quarter, k = 1e7 [N] | ΔP | p_m/Y_r (1e6 / 1e7) |
+|------:|------:|------:|------:|------:|
+| 0.015 |   93.3 |   97.2 | −4.1 % | 3.26 / 3.40 |
+| 0.060 |  513.8 |  520.5 | −1.3 % | 3.16 / 3.20 |
+| 0.090 |  813.4 |  821.5 | −1.0 % | 3.14 / 3.17 |
+| 0.150 | 1317.9 | 1325.1 | −0.6 % | 2.75 / 2.77 |
 
-This is still the elastic–plastic transition; the Tabor check (p_m/σ_y ≈ 2.8 ± 10 %) needs
-δ/R ≳ 6 %. **The Tabor relation is therefore not yet validated.** Next attempt: allow load-step
-cutting (`max_step_cuts`) or smaller increments; if the stagnation is contact chatter rather than
-increment size, the contact penalty or the line search needs attention.
+The difference is a fixed penetration offset, so it matters only at the shallowest frames and is
+below 1 % in the δ ≳ 0.1 mm range where the Tabor ratio is read. Both decks now use `1e6`, and
+`brinell.xml` allows five load-step cuts.
 
-## Expected physics (to be validated by `brinell.xml` on the fine mesh)
+The iteration counts are not caused by the J2 tangent. A finite-difference global stiffness gives
+the same Newton history as the analytic `Simo_J2` tangent (#78, which fixed a small term found by
+that check).
+
+## Fine-run results (2026-09-27, issue #47)
+
+`brinell.xml` (8 800 Hex8, 20 steps to δ = 0.30 mm, δ/R = 6 %) now runs to the end.
+
+| Run | Wall time (1 core) | Newton iterations per step | Step cuts |
+|-----|------:|------|------:|
+| `penalty_stiffness = 1e6`, `max_step_cuts = 5` (committed deck) | 97 min | 6–10 | 0 |
+| `penalty_stiffness = 1e7`, `max_step_cuts = 5` | 217 min | 6–42 | 1 (at δ = 0.09 mm) |
+| `penalty_stiffness = 1e7`, no cuts (2026-09-26) | stalled at δ = 0.09 mm | 10–42 | – |
+
+Tabor check for the committed deck (`compare_to_tabor.py brinell`):
+
+| δ [mm] | a/R | P_quarter [N] | p_m [MPa] | ε_r = 0.2 a/R | Y_r [MPa] | p_m / Y_r |
+|------:|----:|------:|------:|------:|------:|------:|
+| 0.030 | 0.100 |  218.9 | 1107.9 | 0.020 | 420.2 | 2.64 |
+| 0.060 | 0.143 |  507.9 | 1267.5 | 0.029 | 448.2 | 2.83 |
+| 0.090 | 0.178 |  790.6 | 1276.6 | 0.036 | 467.6 | 2.73 |
+| 0.120 | 0.204 | 1041.2 | 1273.7 | 0.041 | 480.5 | 2.65 |
+| 0.150 | 0.220 | 1277.4 | 1338.8 | 0.044 | 487.9 | 2.74 |
+| 0.180 | 0.244 | 1503.4 | 1289.5 | 0.049 | 497.5 | 2.59 |
+| 0.210 | 0.256 | 1706.5 | 1324.5 | 0.051 | 502.4 | 2.64 |
+| 0.240 | 0.275 | 1911.9 | 1283.1 | 0.055 | 509.5 | 2.52 |
+| 0.270 | 0.288 | 2099.9 | 1293.7 | 0.058 | 513.6 | 2.52 |
+| 0.300 | 0.302 | 2269.1 | 1262.9 | 0.061 | 518.6 | 2.44 |
+
+Over the fully plastic frames (δ ≥ 0.06 mm) `p_m / Y_r` averages **2.63 (2.44–2.83), 6 % below
+Tabor's 2.8**; the `1e7` run gives 2.67 (2.54–2.87). The coarse smoke mesh gives 2.95, so the two
+meshes bracket 2.8. The frame-to-frame scatter comes from the contact radius `a`, which moves in
+steps of one node ring: at δ = 0.30 mm the two penalties agree on the load to 0.4 % but the `1e6` run
+picks up one more ring, lowering its `p_m` by 5 %. The slow drift below 2.8 at depth is consistent
+with pile-up widening the measured contact ring.
+
+**Tabor is validated to within 10 % on average**, with the deepest frame at −13 %.
+
+The first report of this run (2026-09-26, `p_m / σ_y0 ≈ 1.3`) was wrong for two reasons, both fixed
+in `compare_to_tabor.py`: the quarter-model load was divided by the full contact disc (a factor of
+4), and a hardening material has to be compared at Tabor's representative flow stress, not at the
+initial yield stress. With `σ_y0` the ratio is about 5.
+
+## Expected physics
 
 1. **Elastic phase** (δ ≲ 0.02 mm) — `P-δ` matches Hertz `P = (4/3) E* √R δ^{3/2}`.
 2. **Yield onset** — maximum von Mises beneath the indenter reaches σ_y0 = 250 MPa
    at indentation depth `δ_y ≈ 0.012 mm` (Hertz analytical `p₀,y = 1.6 σ_y0`).
 3. **Plastic phase** — contact patch grows faster than Hertz; mean pressure
    `p_m = P / πa²` flattens.
-4. **Tabor relation** — at full load (δ = 0.3 mm in the fine variant),
-   `HB ≈ p_m ≈ 2.8 σ_y` (Tabor 1951 for fully-plastic indentation).
+4. **Tabor relation** — in the fully plastic regime `p_m ≈ 2.8 Y_r`, with `Y_r` the flow stress
+   at the representative strain `ε_r ≈ 0.2 a/R` (Tabor 1951). Checked above.
 
 ## See also
 - Issue #47 — Brinell benchmark tracking
@@ -133,9 +175,9 @@ increment size, the contact penalty or the line search needs attention.
 - The "rigid" indenter is actually a stiff elastic body (E = 2 × 10⁶ MPa).
   Its compliance contributes ~0.5 % of total displacement.  A true rigid-body
   element would be cleaner — tracked as #30.
-- The fine variant (`brinell.xml`) takes ~1 h serial on profile_matrix
-  with line-search Newton.  Each step is ~3 min, dominated by SPOOLES
-  factorisation of the 29 022-DOF tangent.  For repeated runs, MUMPS or
+- The fine variant (`brinell.xml`) takes about 1.6 h serial with line-search
+  Newton.  Each step is about 5 min, dominated by SPOOLES factorisation of
+  the 29 022-DOF tangent.  For repeated runs, MUMPS or
   SuperLU would speed this up; not changed here so the benchmark is
   reproducible on a default build with no optional flags.
 - Unloading / residual depth is not in this benchmark; would require an

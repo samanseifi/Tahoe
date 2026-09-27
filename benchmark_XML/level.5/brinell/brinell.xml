@@ -21,7 +21,11 @@
          These points trace a Ramberg-Osgood-like curve typical of mild steel
          (~ASTM A36 with strain hardening saturating around 650 MPa).
 
-     Contact:  <contact_3D_penalty>  μ = 0.1 (light Coulomb friction).
+     Contact:  <contact_3D_penalty>  μ = 0.1 (light Coulomb friction),
+               penalty 1e6 MPa/mm: penetration p/k ≈ 1e-3 mm at Tabor
+               pressure, <1 % of δ past 0.1 mm; 1e7 costs 2-3x the
+               Newton iterations on active-set changes (README).
+     Steps:    max_step_cuts=5 halves a step that fails to converge.
      Solver:   <nonlinear_solver_LS>  (Newton + line search), SPOOLES.
      Schedule: 20 quasi-static load steps, δ = 0 → 0.3 mm
                (≈ 6 % of R; deep into the fully-plastic regime).
@@ -32,7 +36,7 @@
 <tahoe geometry_file="brinell.geom"
        output_format="ExodusII"
        title="brinell_indentation_J2_plastic">
-    <time num_steps="20" output_inc="2" time_step="0.05">
+    <time num_steps="20" output_inc="2" time_step="0.05" max_step_cuts="5">
         <schedule_function>
             <piecewise_linear>
                 <OrderedPair x="0.0" y="0.0"/>
@@ -110,7 +114,7 @@
         </updated_lagrangian>
 
         <contact_3D_penalty field_name="displacement"
-                            penalty_stiffness="1.0e7"
+                            penalty_stiffness="1.0e6"
                             friction_coefficient="0.1"
                             friction_epsilon_velocity="1.0e-4">
             <contact_surface>
