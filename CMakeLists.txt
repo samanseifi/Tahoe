@@ -132,16 +132,28 @@ if(TAHOE_SUPERLU)
 endif()
 
 # ---------------------------------------------------------------------------
-# Optional: MUMPS  (requires system libmumps-dev — apt-get install libmumps-dev)
+# MUMPS direct solver + optimized BLAS (default linear solver, #80)
 #
-# Uses comm_fortran=-987654 (sequential dummy communicator), so MUMPS runs
-# without actual MPI communication, but the library itself still depends on
-# MPI and ScaLAPACK at link time.
+# MUMPS comes from the system (Debian/Ubuntu: libmumps-dev; Fedora: MUMPS-devel;
+# Homebrew: brewsci/num/mumps).  Its dense frontal kernels run through BLAS,
+# and the distribution default libblas.so.3 is often the unoptimized Netlib
+# reference BLAS, which makes MUMPS about 6x slower.  Tahoe therefore links an
+# optimized BLAS (TAHOE_BLAS_VENDOR, a CMake FindBLAS vendor name) directly into
+# the tahoe executable; the dynamic loader then resolves MUMPS's BLAS calls to
+# it, whatever the system default is.
+#
+# Both are optional at configure time: if MUMPS is not found the build keeps
+# SPOOLES as the default solver, and if the requested BLAS is not found MUMPS
+# uses whatever BLAS it was built against.  Both cases print a warning.
+# SPOOLES (TAHOE_SPOOLES) is built alongside MUMPS and can be selected per deck.
+#
+# Uses MPI_COMM_SELF, so serial MUMPS runs without MPI communication, but the
+# system library still depends on MPI and ScaLAPACK at link time.
 # ---------------------------------------------------------------------------
-option(TAHOE_MUMPS "Link system MUMPS direct solver (-DTAHOE_MUMPS=ON)" OFF)
-if(TAHOE_MUMPS)
-    message(STATUS "Tahoe: MUMPS enabled (system library — requires libmumps-dev)")
-endif()
+option(TAHOE_MUMPS "Link the system MUMPS direct solver (default linear solver)" ON)
+option(TAHOE_BLAS  "Link an optimized BLAS for MUMPS (see TAHOE_BLAS_VENDOR)"    ON)
+set(TAHOE_BLAS_VENDOR "OpenBLAS" CACHE STRING
+    "FindBLAS vendor for MUMPS: OpenBLAS, FLAME (BLIS), Intel10_64lp_seq (MKL), Apple, Generic, ...")
 
 # ---------------------------------------------------------------------------
 # Optional: METIS  (requires system libmetis-dev — apt-get install libmetis-dev)
@@ -281,6 +293,19 @@ endif()
 # ---------------------------------------------------------------------------
 add_subdirectory(toolbox)
 add_subdirectory(tahoe)         # the 'tahoe' sub-directory (the FEM module)
+
+# Linear-solver summary (#80)
+if(TAHOE_HAVE_MUMPS)
+    if(TAHOE_BLAS_LIBRARIES)
+        message(STATUS "Tahoe: default linear solver MUMPS (PORD ordering), BLAS: ${TAHOE_BLAS_LIBRARIES}")
+    else()
+        message(STATUS "Tahoe: default linear solver MUMPS (PORD ordering), BLAS: MUMPS's own (not optimized)")
+    endif()
+elseif(TAHOE_SPOOLES)
+    message(STATUS "Tahoe: default linear solver SPOOLES (MUMPS not available)")
+else()
+    message(STATUS "Tahoe: default linear solver profile_matrix (neither MUMPS nor SPOOLES built)")
+endif()
 
 if(TAHOE_DEV)
     add_subdirectory(development)

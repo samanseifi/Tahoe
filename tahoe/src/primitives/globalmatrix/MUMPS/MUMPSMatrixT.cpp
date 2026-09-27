@@ -5,6 +5,7 @@
 
 #include "ExceptionT.h"
 #include "mumps_mpi_util.h"
+#include "BLASRuntimeT.h"
 #include <cstring>
 
 using namespace Tahoe;
@@ -13,13 +14,29 @@ using namespace Tahoe;
  * Constructor / destructor
  * ----------------------------------------------------------------------- */
 
+const char* MUMPSMatrixT::OrderingName(int ordering)
+{
+    switch (ordering) {
+        case kAMD:    return "AMD";
+        case kAMF:    return "AMF";
+        case kSCOTCH: return "SCOTCH";
+        case kPORD:   return "PORD";
+        case kMETIS:  return "METIS";
+        case kQAMD:   return "QAMD";
+        case kAuto:   return "automatic";
+        default:      return "unknown";
+    }
+}
+
 MUMPSMatrixT::MUMPSMatrixT(ostream& out, int check_code, bool symmetric,
-    int message_level, const CommunicatorT& comm)
+    int message_level, int ordering, const CommunicatorT& comm)
   : MSRMatrixT(out, check_code, symmetric, comm),
     fMessageLevel(message_level),
+    fOrdering(ordering),
     fSymmetric(symmetric),
     fIsInitialized(false),
     fIsFactorized(false),
+    fIsAnalyzed(false),
     fInitedMPI(false)
 {
     memset(&fId, 0, sizeof(DMUMPS_STRUC_C));
@@ -28,9 +45,11 @@ MUMPSMatrixT::MUMPSMatrixT(ostream& out, int check_code, bool symmetric,
 MUMPSMatrixT::MUMPSMatrixT(const MUMPSMatrixT& source)
   : MSRMatrixT(source),
     fMessageLevel(source.fMessageLevel),
+    fOrdering(source.fOrdering),
     fSymmetric(source.fSymmetric),
     fIsInitialized(false),
     fIsFactorized(false),
+    fIsAnalyzed(false),
     fInitedMPI(false)
 {
     ExceptionT::GeneralFail("MUMPSMatrixT::MUMPSMatrixT(copy)", "not implemented");
@@ -80,20 +99,30 @@ void MUMPSMatrixT::Factorize(void)
     if (fIsFactorized) return;
 
     /* --- Extract COO triplets from MSR storage ---
-     * GenerateRCV returns 0-based indices; MUMPS needs 1-based. */
+     * GenerateRCV returns 0-based indices; MUMPS needs 1-based.  Entries
+     * below the drop tolerance are omitted, so the pattern can change from
+     * one assembly to the next and is compared in full. */
     iArrayT r, c;
     dArrayT v;
     GenerateRCV(r, c, v, 1.0e-15);
-
     const int nnz = r.Length();
-    fRowIdx.Dimension(nnz);
-    fColIdx.Dimension(nnz);
-    fValues.Dimension(nnz);
-    for (int i = 0; i < nnz; i++) {
-        fRowIdx[i] = r[i] + 1;   /* 0→1 based */
-        fColIdx[i] = c[i] + 1;
-        fValues[i] = v[i];
+
+    bool same_pattern = fIsAnalyzed && nnz == fRowIdx.Length();
+    for (int i = 0; same_pattern && i < nnz; i++)
+        if (fRowIdx[i] != r[i] + 1 || fColIdx[i] != c[i] + 1)
+            same_pattern = false;
+
+    if (!same_pattern) {
+        fRowIdx.Dimension(nnz);
+        fColIdx.Dimension(nnz);
+        for (int i = 0; i < nnz; i++) {
+            fRowIdx[i] = r[i] + 1;   /* 0→1 based */
+            fColIdx[i] = c[i] + 1;
+        }
+        fIsAnalyzed = false;
     }
+    fValues.Dimension(nnz);
+    fValues = v;
 
     /* --- Pass matrix data to MUMPS --- */
     fId.n   = fTotNumEQ;
@@ -102,17 +131,37 @@ void MUMPSMatrixT::Factorize(void)
     fId.jcn = fColIdx.Pointer();
     fId.a   = fValues.Pointer();
 
-    /* --- Job 4: Analysis + Numerical factorization (combined) ---
-     * Using combined job avoids potential state issues between separate
-     * job 1 and job 2 calls (e.g. MUMPS internal workspace re-allocation). */
-    fId.job = 4;
-    dmumps_c(&fId);
-    if (fId.infog[0] != 0)
+    /* --- Numerical factorization reusing the analysis (job 2) ---
+     * If it fails, for instance because pivoting outgrew the workspace
+     * estimated by the analysis, redo the analysis below. */
+    if (same_pattern && RunJob(2)) {
+        fIsFactorized = true;
+        return;
+    }
+
+    /* --- Analysis + numerical factorization (job 4) --- */
+    fIsAnalyzed = false;
+    bool ok = RunJob(4);
+
+    /* an ordering this MUMPS build lacks: fall back to MUMPS's own choice */
+    if (!ok && fId.icntl[6] != kAuto) {
+        const int requested = fId.icntl[6];
+        fId.icntl[6] = kAuto;
+        ok = RunJob(4);
+        if (ok)
+            fOut << "\n MUMPS: " << OrderingName(requested)
+                 << " ordering failed; using MUMPS automatic ordering\n";
+        else
+            fId.icntl[6] = requested;
+    }
+
+    if (!ok)
         ExceptionT::BadJacobianDet("MUMPSMatrixT::Factorize",
             "MUMPS analysis+factorization (job 4) failed: infog[0]=%d infog[1]=%d "
             "(negative value means singular or near-singular matrix)",
             fId.infog[0], fId.infog[1]);
 
+    fIsAnalyzed   = true;
     fIsFactorized = true;
 }
 
@@ -129,7 +178,7 @@ void MUMPSMatrixT::BackSubstitute(dArrayT& result)
 
     fId.job = 3;   /* solve */
     dmumps_c(&fId);
-    if (fId.infog[0] != 0)
+    if (fId.infog[0] < 0)
         ExceptionT::BadJacobianDet("MUMPSMatrixT::BackSubstitute",
             "MUMPS solve (job 3) failed: infog[0]=%d infog[1]=%d",
             fId.infog[0], fId.infog[1]);
@@ -158,7 +207,7 @@ void MUMPSMatrixT::Initialize(void)
     fId.comm_fortran = (MUMPS_INT) tahoe_mumps_comm_self();
     dmumps_c(&fId);
 
-    if (fId.infog[0] != 0)
+    if (fId.infog[0] < 0)
         ExceptionT::GeneralFail("MUMPSMatrixT::Initialize",
             "MUMPS init (job -1) failed: infog[0]=%d infog[1]=%d",
             fId.infog[0], fId.infog[1]);
@@ -174,13 +223,27 @@ void MUMPSMatrixT::Initialize(void)
     /* icntl[17]=0 : centralized assembled input (host provides irn/jcn/a) */
     fId.icntl[17] = 0;
 
-    /* icntl[6]=0 : AMD ordering */
-    fId.icntl[6] = 0;
+    /* icntl[6] : fill-reducing ordering, PORD by default (#80) */
+    fId.icntl[6] = fOrdering;
 
     /* icntl[13]=100 : allow 200% of estimated workspace (default 20% often too tight) */
     fId.icntl[13] = 100;
 
     fIsInitialized = true;
+    fIsAnalyzed    = false;
+
+    /* BLAS threads and a record of the BLAS actually in use */
+    BLASRuntimeT::SetDefaultThreads();
+    fOut << "\n MUMPS sparse direct solver:\n"
+         << "    ordering . . . . . . . . . . . . . . . . . . . = " << OrderingName(fOrdering) << '\n'
+         << "    BLAS . . . . . . . . . . . . . . . . . . . . . = " << BLASRuntimeT::Describe() << '\n';
+}
+
+bool MUMPSMatrixT::RunJob(int job)
+{
+    fId.job = job;
+    dmumps_c(&fId);
+    return fId.infog[0] >= 0;   /* > 0 are warnings */
 }
 
 void MUMPSMatrixT::Finalize(void)
@@ -189,6 +252,7 @@ void MUMPSMatrixT::Finalize(void)
     dmumps_c(&fId);
     fIsInitialized = false;
     fIsFactorized  = false;
+    fIsAnalyzed    = false;
 
     /* Finalize MPI only if we were the ones who initialized it */
     tahoe_mumps_mpi_finalize(fInitedMPI);

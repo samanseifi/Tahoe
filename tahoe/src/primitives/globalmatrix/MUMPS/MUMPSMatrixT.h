@@ -21,14 +21,26 @@ namespace Tahoe {
  *  Factorize().
  *
  *  Usage in XML input file:
- *    <MUMPS_matrix message_level="silent" always_symmetric="false"/>
+ *    <MUMPS_matrix message_level="silent" always_symmetric="false" ordering="PORD"/>
+ *
+ *  This is the default linear solver when a deck names no matrix (#80).
+ *  The symbolic analysis is reused while the sparsity pattern of the
+ *  assembled matrix is unchanged, so repeated Newton iterations only
+ *  refactorize numerically.
  */
 class MUMPSMatrixT: public MSRMatrixT
 {
 public:
 
+    /** MUMPS ICNTL(7) fill-reducing orderings */
+    enum OrderingT { kAMD = 0, kAMF = 2, kSCOTCH = 3, kPORD = 4,
+                     kMETIS = 5, kQAMD = 6, kAuto = 7 };
+
+    /** name of an ordering, for output */
+    static const char* OrderingName(int ordering);
+
     MUMPSMatrixT(ostream& out, int check_code, bool symmetric,
-        int message_level, const CommunicatorT& comm);
+        int message_level, int ordering, const CommunicatorT& comm);
 
     /** copy constructor — not supported */
     MUMPSMatrixT(const MUMPSMatrixT& source);
@@ -49,7 +61,8 @@ public:
 
 protected:
 
-    /** LU factorize the assembled matrix via MUMPS jobs 1+2 */
+    /** LU factorize the assembled matrix: MUMPS job 4 (analysis and
+     *  factorization) when the sparsity pattern changed, job 2 otherwise */
     virtual void Factorize(void);
 
     /** back-substitute: result is overwritten with the solution (MUMPS job 3) */
@@ -65,10 +78,15 @@ private:
     void Finalize(void);     /* MUMPS job -2 */
 
     DMUMPS_STRUC_C fId;      /**< MUMPS control structure */
+    /** run one MUMPS job; returns false on error (infog[0] < 0) */
+    bool RunJob(int job);
+
     int  fMessageLevel;
+    int  fOrdering;      /**< requested ICNTL(7) */
     bool fSymmetric;
     bool fIsInitialized;
     bool fIsFactorized;
+    bool fIsAnalyzed;    /**< fRowIdx/fColIdx hold the analyzed pattern */
     bool fInitedMPI;     /**< true if this object called MPI_Init */
 
     /** 1-based COO storage kept alive between Factorize and BackSubstitute */

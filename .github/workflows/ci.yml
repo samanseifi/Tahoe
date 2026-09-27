@@ -18,6 +18,8 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update -qq
+          # No MUMPS or OpenBLAS here on purpose: this job checks the
+          # fallback build, in which SPOOLES is the default solver (#80).
           sudo apt-get install -y cmake build-essential libexodusii-dev libnetcdf-dev
 
       - name: Configure

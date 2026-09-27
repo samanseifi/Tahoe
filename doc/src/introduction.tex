@@ -147,5 +147,8 @@ verification is:
 All third-party C dependencies (\texttt{expat}, \texttt{SPOOLES},
 \texttt{f2c}) are bundled under \texttt{third\_party/} and built from
 source by the top-level CMake project; no system packages are required
-for those.  MUMPS, METIS and SuperLU support are optional and toggled
-through CMake cache variables.
+for those.  The default linear solver, MUMPS on OpenBLAS, uses the
+system packages \texttt{libmumps-dev} and \texttt{libopenblas-dev}; without
+them the build falls back to the bundled SPOOLES.  METIS and SuperLU
+support are optional.  All of these are toggled through CMake cache
+variables.

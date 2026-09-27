@@ -198,6 +198,12 @@ private:
 	/** set global equation matrix */
 	void SetGlobalMatrix(const ParameterListT& params, int check_code);
 
+	/** matrix used when the input names none (#80): MUMPS_MPI_matrix or
+	 * MUMPS_matrix when built with MUMPS, else SPOOLES_matrix, else
+	 * profile_matrix, with each matrix's default parameters.  Explicit
+	 * (diagonal) systems are switched to diagonal_matrix by SetGlobalMatrix. */
+	void DefaultMatrixList(ParameterListT& matrix) const;
+
 protected:
 
 	/** the Boss */
