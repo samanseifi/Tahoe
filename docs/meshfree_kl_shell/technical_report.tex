@@ -528,7 +528,9 @@ the same partition correctly.
 One regression deck, \code{level.1/.../material.120/wlc\_superlu.xml}, aborts at step 11 of 290 with
 every solver, identically before and after these merges, yet is counted as passing: it has no
 stored reference and \code{tahoe} returns exit code 0 after a solver exception. Checking the run log
-for exceptions in \code{run\_benchmarks.sh} would expose such cases.
+for exceptions in \code{run\_benchmarks.sh} would expose such cases.  (Follow-up, issues \#74 and
+\#82: the runner now reports aborted runs, and the abort itself was a boundary-condition transcription
+error that left the $x$ translation free; with it corrected the deck runs all 290 steps.)
 
 % ===========================================================================
 \section{Limitations and outlook}\label{sec:limits}

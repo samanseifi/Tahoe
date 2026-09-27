@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tahoe geometry_file="elem3D.geom" output_format="ExodusII" xmlns:x0="http://www.w3.org/2001/XMLSchema">
-    <!-- #74: 8 steps (face displacement 0 -> 8 on the single hexahedron). 290 steps drove the
-         worm-like-chain network past its locking stretch; Newton stalled at step 9-11 with every
-         linear solver and the run ended early while exiting with code 0. -->
-    <time num_steps="8" output_inc="0" time_step="0.01">
+    <!-- #82: 290 steps (face displacement 0 -> 290 on the single 100 mm hexahedron), as in the
+         legacy wlc.in.  The x = 0 face (node set 4) is fixed in x.  #74 had cut the run to 8
+         steps because Newton stalled at step 9-11; the cause was a transcription typo that
+         fixed set 4 in y instead of x, leaving the x translation free (singular tangent) and
+         nodes 4 and 8 both fixed and pulled in y.  Now 3 Newton iterations per step. -->
+    <time num_steps="290" output_inc="0" time_step="0.01">
         <schedule_function>
             <piecewise_linear>
                 <OrderedPair x="0.0" y="0.0"/>
@@ -15,7 +17,7 @@
         <field field_name="displacement">
             <dof_count ndof="3"/>
             <kinematic_BC dof="3" node_ID="1"/>
-            <kinematic_BC dof="2" node_ID="4"/>
+            <kinematic_BC dof="1" node_ID="4"/>
             <kinematic_BC dof="2" node_ID="3"/>
             <kinematic_BC dof="2" node_ID="5" schedule="1" type="u" value="1.0"/>
         </field>

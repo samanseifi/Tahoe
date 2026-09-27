@@ -113,7 +113,7 @@ contains a verification test that exercises SuperLU end-to-end:
 
 | Input file | Material | Steps | Result |
 |------------|----------|-------|--------|
-| `wlc_superlu.xml` | Bischoff-Arruda WLC (finite anisotropy, 3D hex) | 8 | PASS (compared with a stored reference) |
+| `wlc_superlu.xml` | Bischoff-Arruda WLC (finite anisotropy, 3D hex) | 290 | PASS (compared with a stored reference) |
 
 Run from the `material.120/` directory:
 
