@@ -149,6 +149,9 @@ with pile-up widening the measured contact ring.
 
 **Tabor is validated to within 10 % on average**, with the deepest frame at −13 %.
 
+![Tabor ratio, fine run](brinell_tabor.png)
+![P-δ, fine run](brinell_pdelta.png)
+
 The first report of this run (2026-09-26, `p_m / σ_y0 ≈ 1.3`) was wrong for two reasons, both fixed
 in `compare_to_tabor.py`: the quarter-model load was divided by the full contact disc (a factor of
 4), and a hardening material has to be compared at Tabor's representative flow stress, not at the
