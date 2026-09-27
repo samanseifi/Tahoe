@@ -88,7 +88,7 @@ jobs:
           cd benchmark_XML/level.1/material.solid/2D/material.02
           ${{ github.workspace }}/benchmark_XML/scripts/run_smoke.sh ${{ github.workspace }}/build/bin/tahoe -f mat.2.a.mumps.xml
 
-      - name: MUMPS smoke test — level.1 WLC 3D (sequential, 8 steps)
+      - name: MUMPS smoke test — level.1 WLC 3D (sequential, 290 steps)
         run: |
           cd benchmark_XML/level.1/material.solid/3D/material.120
           ${{ github.workspace }}/benchmark_XML/scripts/run_smoke.sh ${{ github.workspace }}/build/bin/tahoe -f wlc_mumps.xml

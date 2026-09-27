@@ -29,9 +29,9 @@ scaling = linear (default)
 scaling = logarithmic
 init_time. . . . . . . . . . . . . . . . . . . . . = 0.000000e+00
 init_time >= 0 (default)
-num_steps. . . . . . . . . . . . . . . . . . . . . = 8
+num_steps. . . . . . . . . . . . . . . . . . . . . = 290
 num_steps >= 0
-output_inc . . . . . . . . . . . . . . . . . . . . = 2
+output_inc . . . . . . . . . . . . . . . . . . . . = 29
 output_inc(default) = 0
 max_step_cuts. . . . . . . . . . . . . . . . . . . = 0
 max_step_cuts >= 0 (default)
@@ -105,7 +105,7 @@ end: tahoe::nodes::field::kinematic_BC
 
 begin: tahoe::nodes::field::kinematic_BC
 node_ID. . . . . . . . . . . . . . . . . . . . . . = 4
-dof. . . . . . . . . . . . . . . . . . . . . . . . = 2
+dof. . . . . . . . . . . . . . . . . . . . . . . . = 1
 type . . . . . . . . . . . . . . . . . . . . . . . = fixed
 type = fixed (default)
 type = u
@@ -293,43 +293,625 @@ end: tahoe
 
  E q u a t i o n    S y s t e m    D a t a :
 
- Local number of equations . . . . . . . . . . . = 12
- Total number of equations . . . . . . . . . . . = 12
- Number of nonzeros in global matrix = 144
+ Local number of equations . . . . . . . . . . . = 8
+ Total number of equations . . . . . . . . . . . = 8
+ Number of nonzeros in global matrix = 64
 
 
  Converged at time = 1.000000e-02
 
  Converged at time = 2.000000e-02
 
- Time = 2.000000e-02
- Step 2 of 8
-
  Converged at time = 3.000000e-02
 
  Converged at time = 4.000000e-02
-
- Time = 4.000000e-02
- Step 4 of 8
 
  Converged at time = 5.000000e-02
 
  Converged at time = 6.000000e-02
 
- Time = 6.000000e-02
- Step 6 of 8
-
  Converged at time = 7.000000e-02
 
  Converged at time = 8.000000e-02
 
- Time = 8.000000e-02
- Step 8 of 8
+ Converged at time = 9.000000e-02
 
-   Start time: Sat Sep 26 22:05:01 2026
- Construction: 6.314000e-03 sec.
-     Solution: 1.184100e-02 sec.
-    Stop time: Sat Sep 26 22:05:01 2026
+ Converged at time = 1.000000e-01
+
+ Converged at time = 1.100000e-01
+
+ Converged at time = 1.200000e-01
+
+ Converged at time = 1.300000e-01
+
+ Converged at time = 1.400000e-01
+
+ Converged at time = 1.500000e-01
+
+ Converged at time = 1.600000e-01
+
+ Converged at time = 1.700000e-01
+
+ Converged at time = 1.800000e-01
+
+ Converged at time = 1.900000e-01
+
+ Converged at time = 2.000000e-01
+
+ Converged at time = 2.100000e-01
+
+ Converged at time = 2.200000e-01
+
+ Converged at time = 2.300000e-01
+
+ Converged at time = 2.400000e-01
+
+ Converged at time = 2.500000e-01
+
+ Converged at time = 2.600000e-01
+
+ Converged at time = 2.700000e-01
+
+ Converged at time = 2.800000e-01
+
+ Converged at time = 2.900000e-01
+
+ Time = 2.900000e-01
+ Step 29 of 290
+
+ Converged at time = 3.000000e-01
+
+ Converged at time = 3.100000e-01
+
+ Converged at time = 3.200000e-01
+
+ Converged at time = 3.300000e-01
+
+ Converged at time = 3.400000e-01
+
+ Converged at time = 3.500000e-01
+
+ Converged at time = 3.600000e-01
+
+ Converged at time = 3.700000e-01
+
+ Converged at time = 3.800000e-01
+
+ Converged at time = 3.900000e-01
+
+ Converged at time = 4.000000e-01
+
+ Converged at time = 4.100000e-01
+
+ Converged at time = 4.200000e-01
+
+ Converged at time = 4.300000e-01
+
+ Converged at time = 4.400000e-01
+
+ Converged at time = 4.500000e-01
+
+ Converged at time = 4.600000e-01
+
+ Converged at time = 4.700000e-01
+
+ Converged at time = 4.800000e-01
+
+ Converged at time = 4.900000e-01
+
+ Converged at time = 5.000000e-01
+
+ Converged at time = 5.100000e-01
+
+ Converged at time = 5.200000e-01
+
+ Converged at time = 5.300000e-01
+
+ Converged at time = 5.400000e-01
+
+ Converged at time = 5.500000e-01
+
+ Converged at time = 5.600000e-01
+
+ Converged at time = 5.700000e-01
+
+ Converged at time = 5.800000e-01
+
+ Time = 5.800000e-01
+ Step 58 of 290
+
+ Converged at time = 5.900000e-01
+
+ Converged at time = 6.000000e-01
+
+ Converged at time = 6.100000e-01
+
+ Converged at time = 6.200000e-01
+
+ Converged at time = 6.300000e-01
+
+ Converged at time = 6.400000e-01
+
+ Converged at time = 6.500000e-01
+
+ Converged at time = 6.600000e-01
+
+ Converged at time = 6.700000e-01
+
+ Converged at time = 6.800000e-01
+
+ Converged at time = 6.900000e-01
+
+ Converged at time = 7.000000e-01
+
+ Converged at time = 7.100000e-01
+
+ Converged at time = 7.200000e-01
+
+ Converged at time = 7.300000e-01
+
+ Converged at time = 7.400000e-01
+
+ Converged at time = 7.500000e-01
+
+ Converged at time = 7.600000e-01
+
+ Converged at time = 7.700000e-01
+
+ Converged at time = 7.800000e-01
+
+ Converged at time = 7.900000e-01
+
+ Converged at time = 8.000000e-01
+
+ Converged at time = 8.100000e-01
+
+ Converged at time = 8.200000e-01
+
+ Converged at time = 8.300000e-01
+
+ Converged at time = 8.400000e-01
+
+ Converged at time = 8.500000e-01
+
+ Converged at time = 8.600000e-01
+
+ Converged at time = 8.700000e-01
+
+ Time = 8.700000e-01
+ Step 87 of 290
+
+ Converged at time = 8.800000e-01
+
+ Converged at time = 8.900000e-01
+
+ Converged at time = 9.000000e-01
+
+ Converged at time = 9.100000e-01
+
+ Converged at time = 9.200000e-01
+
+ Converged at time = 9.300000e-01
+
+ Converged at time = 9.400000e-01
+
+ Converged at time = 9.500000e-01
+
+ Converged at time = 9.600000e-01
+
+ Converged at time = 9.700000e-01
+
+ Converged at time = 9.800000e-01
+
+ Converged at time = 9.900000e-01
+
+ Converged at time = 1.000000e+00
+
+ Converged at time = 1.010000e+00
+
+ Converged at time = 1.020000e+00
+
+ Converged at time = 1.030000e+00
+
+ Converged at time = 1.040000e+00
+
+ Converged at time = 1.050000e+00
+
+ Converged at time = 1.060000e+00
+
+ Converged at time = 1.070000e+00
+
+ Converged at time = 1.080000e+00
+
+ Converged at time = 1.090000e+00
+
+ Converged at time = 1.100000e+00
+
+ Converged at time = 1.110000e+00
+
+ Converged at time = 1.120000e+00
+
+ Converged at time = 1.130000e+00
+
+ Converged at time = 1.140000e+00
+
+ Converged at time = 1.150000e+00
+
+ Converged at time = 1.160000e+00
+
+ Time = 1.160000e+00
+ Step 116 of 290
+
+ Converged at time = 1.170000e+00
+
+ Converged at time = 1.180000e+00
+
+ Converged at time = 1.190000e+00
+
+ Converged at time = 1.200000e+00
+
+ Converged at time = 1.210000e+00
+
+ Converged at time = 1.220000e+00
+
+ Converged at time = 1.230000e+00
+
+ Converged at time = 1.240000e+00
+
+ Converged at time = 1.250000e+00
+
+ Converged at time = 1.260000e+00
+
+ Converged at time = 1.270000e+00
+
+ Converged at time = 1.280000e+00
+
+ Converged at time = 1.290000e+00
+
+ Converged at time = 1.300000e+00
+
+ Converged at time = 1.310000e+00
+
+ Converged at time = 1.320000e+00
+
+ Converged at time = 1.330000e+00
+
+ Converged at time = 1.340000e+00
+
+ Converged at time = 1.350000e+00
+
+ Converged at time = 1.360000e+00
+
+ Converged at time = 1.370000e+00
+
+ Converged at time = 1.380000e+00
+
+ Converged at time = 1.390000e+00
+
+ Converged at time = 1.400000e+00
+
+ Converged at time = 1.410000e+00
+
+ Converged at time = 1.420000e+00
+
+ Converged at time = 1.430000e+00
+
+ Converged at time = 1.440000e+00
+
+ Converged at time = 1.450000e+00
+
+ Time = 1.450000e+00
+ Step 145 of 290
+
+ Converged at time = 1.460000e+00
+
+ Converged at time = 1.470000e+00
+
+ Converged at time = 1.480000e+00
+
+ Converged at time = 1.490000e+00
+
+ Converged at time = 1.500000e+00
+
+ Converged at time = 1.510000e+00
+
+ Converged at time = 1.520000e+00
+
+ Converged at time = 1.530000e+00
+
+ Converged at time = 1.540000e+00
+
+ Converged at time = 1.550000e+00
+
+ Converged at time = 1.560000e+00
+
+ Converged at time = 1.570000e+00
+
+ Converged at time = 1.580000e+00
+
+ Converged at time = 1.590000e+00
+
+ Converged at time = 1.600000e+00
+
+ Converged at time = 1.610000e+00
+
+ Converged at time = 1.620000e+00
+
+ Converged at time = 1.630000e+00
+
+ Converged at time = 1.640000e+00
+
+ Converged at time = 1.650000e+00
+
+ Converged at time = 1.660000e+00
+
+ Converged at time = 1.670000e+00
+
+ Converged at time = 1.680000e+00
+
+ Converged at time = 1.690000e+00
+
+ Converged at time = 1.700000e+00
+
+ Converged at time = 1.710000e+00
+
+ Converged at time = 1.720000e+00
+
+ Converged at time = 1.730000e+00
+
+ Converged at time = 1.740000e+00
+
+ Time = 1.740000e+00
+ Step 174 of 290
+
+ Converged at time = 1.750000e+00
+
+ Converged at time = 1.760000e+00
+
+ Converged at time = 1.770000e+00
+
+ Converged at time = 1.780000e+00
+
+ Converged at time = 1.790000e+00
+
+ Converged at time = 1.800000e+00
+
+ Converged at time = 1.810000e+00
+
+ Converged at time = 1.820000e+00
+
+ Converged at time = 1.830000e+00
+
+ Converged at time = 1.840000e+00
+
+ Converged at time = 1.850000e+00
+
+ Converged at time = 1.860000e+00
+
+ Converged at time = 1.870000e+00
+
+ Converged at time = 1.880000e+00
+
+ Converged at time = 1.890000e+00
+
+ Converged at time = 1.900000e+00
+
+ Converged at time = 1.910000e+00
+
+ Converged at time = 1.920000e+00
+
+ Converged at time = 1.930000e+00
+
+ Converged at time = 1.940000e+00
+
+ Converged at time = 1.950000e+00
+
+ Converged at time = 1.960000e+00
+
+ Converged at time = 1.970000e+00
+
+ Converged at time = 1.980000e+00
+
+ Converged at time = 1.990000e+00
+
+ Converged at time = 2.000000e+00
+
+ Converged at time = 2.010000e+00
+
+ Converged at time = 2.020000e+00
+
+ Converged at time = 2.030000e+00
+
+ Time = 2.030000e+00
+ Step 203 of 290
+
+ Converged at time = 2.040000e+00
+
+ Converged at time = 2.050000e+00
+
+ Converged at time = 2.060000e+00
+
+ Converged at time = 2.070000e+00
+
+ Converged at time = 2.080000e+00
+
+ Converged at time = 2.090000e+00
+
+ Converged at time = 2.100000e+00
+
+ Converged at time = 2.110000e+00
+
+ Converged at time = 2.120000e+00
+
+ Converged at time = 2.130000e+00
+
+ Converged at time = 2.140000e+00
+
+ Converged at time = 2.150000e+00
+
+ Converged at time = 2.160000e+00
+
+ Converged at time = 2.170000e+00
+
+ Converged at time = 2.180000e+00
+
+ Converged at time = 2.190000e+00
+
+ Converged at time = 2.200000e+00
+
+ Converged at time = 2.210000e+00
+
+ Converged at time = 2.220000e+00
+
+ Converged at time = 2.230000e+00
+
+ Converged at time = 2.240000e+00
+
+ Converged at time = 2.250000e+00
+
+ Converged at time = 2.260000e+00
+
+ Converged at time = 2.270000e+00
+
+ Converged at time = 2.280000e+00
+
+ Converged at time = 2.290000e+00
+
+ Converged at time = 2.300000e+00
+
+ Converged at time = 2.310000e+00
+
+ Converged at time = 2.320000e+00
+
+ Time = 2.320000e+00
+ Step 232 of 290
+
+ Converged at time = 2.330000e+00
+
+ Converged at time = 2.340000e+00
+
+ Converged at time = 2.350000e+00
+
+ Converged at time = 2.360000e+00
+
+ Converged at time = 2.370000e+00
+
+ Converged at time = 2.380000e+00
+
+ Converged at time = 2.390000e+00
+
+ Converged at time = 2.400000e+00
+
+ Converged at time = 2.410000e+00
+
+ Converged at time = 2.420000e+00
+
+ Converged at time = 2.430000e+00
+
+ Converged at time = 2.440000e+00
+
+ Converged at time = 2.450000e+00
+
+ Converged at time = 2.460000e+00
+
+ Converged at time = 2.470000e+00
+
+ Converged at time = 2.480000e+00
+
+ Converged at time = 2.490000e+00
+
+ Converged at time = 2.500000e+00
+
+ Converged at time = 2.510000e+00
+
+ Converged at time = 2.520000e+00
+
+ Converged at time = 2.530000e+00
+
+ Converged at time = 2.540000e+00
+
+ Converged at time = 2.550000e+00
+
+ Converged at time = 2.560000e+00
+
+ Converged at time = 2.570000e+00
+
+ Converged at time = 2.580000e+00
+
+ Converged at time = 2.590000e+00
+
+ Converged at time = 2.600000e+00
+
+ Converged at time = 2.610000e+00
+
+ Time = 2.610000e+00
+ Step 261 of 290
+
+ Converged at time = 2.620000e+00
+
+ Converged at time = 2.630000e+00
+
+ Converged at time = 2.640000e+00
+
+ Converged at time = 2.650000e+00
+
+ Converged at time = 2.660000e+00
+
+ Converged at time = 2.670000e+00
+
+ Converged at time = 2.680000e+00
+
+ Converged at time = 2.690000e+00
+
+ Converged at time = 2.700000e+00
+
+ Converged at time = 2.710000e+00
+
+ Converged at time = 2.720000e+00
+
+ Converged at time = 2.730000e+00
+
+ Converged at time = 2.740000e+00
+
+ Converged at time = 2.750000e+00
+
+ Converged at time = 2.760000e+00
+
+ Converged at time = 2.770000e+00
+
+ Converged at time = 2.780000e+00
+
+ Converged at time = 2.790000e+00
+
+ Converged at time = 2.800000e+00
+
+ Converged at time = 2.810000e+00
+
+ Converged at time = 2.820000e+00
+
+ Converged at time = 2.830000e+00
+
+ Converged at time = 2.840000e+00
+
+ Converged at time = 2.850000e+00
+
+ Converged at time = 2.860000e+00
+
+ Converged at time = 2.870000e+00
+
+ Converged at time = 2.880000e+00
+
+ Converged at time = 2.890000e+00
+
+ Converged at time = 2.900000e+00
+
+ Time = 2.900000e+00
+ Step 290 of 290
+
+   Start time: Sun Sep 27 15:49:16 2026
+ Construction: 2.335000e-03 sec.
+     Solution: 6.687100e-02 sec.
+    Stop time: Sun Sep 27 15:49:16 2026
 
  End Execution
 
