@@ -93,7 +93,26 @@ past first yield (`p_m / σ_y ≈ 1.1` analytically) but well below Tabor's
 fully-plastic 2.8.  Reaching Tabor needs `δ/R ≳ 0.06`, which is what the
 fine `brinell.xml` is set up for.
 
-## Expected physics (validated by `brinell.xml` on the fine mesh)
+## Fine-run results (2026-09-26, issue #47)
+
+`brinell.xml` (8 800 Hex8, 20 steps planned to δ = 0.30 mm) does **not** reach the fully-plastic
+regime yet. Steps 1–5 converge; at step 6 (δ = 0.09 mm) Newton stagnates at a relative residual of
+1.8e-2 for 40 iterations while the line-search step shrinks toward zero, and with the default
+`max_step_cuts="0"` the time sequence ends. Each step takes 10–15 min on one core (78 min to step 6),
+so the full run is several hours, not ~1 h.
+
+Last converged output frame (`compare_to_tabor.py brinell`):
+
+| δ [mm] | δ/R | P (quarter) [N] | a [mm] | p_m [MPa] | p_m / σ_y0 |
+|------:|----:|----------------:|-------:|----------:|-----------:|
+| 0.060 | 1.2 % | 515.6 | 0.714 | 321.6 | 1.29 |
+
+This is still the elastic–plastic transition; the Tabor check (p_m/σ_y ≈ 2.8 ± 10 %) needs
+δ/R ≳ 6 %. **The Tabor relation is therefore not yet validated.** Next attempt: allow load-step
+cutting (`max_step_cuts`) or smaller increments; if the stagnation is contact chatter rather than
+increment size, the contact penalty or the line search needs attention.
+
+## Expected physics (to be validated by `brinell.xml` on the fine mesh)
 
 1. **Elastic phase** (δ ≲ 0.02 mm) — `P-δ` matches Hertz `P = (4/3) E* √R δ^{3/2}`.
 2. **Yield onset** — maximum von Mises beneath the indenter reaches σ_y0 = 250 MPa
