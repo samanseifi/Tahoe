@@ -123,4 +123,4 @@ jobs:
       - name: MUMPS MPI smoke test — level.1 solid 2D (2 ranks)
         run: |
           cd benchmark_XML/level.1/material.solid/2D/material.02
-          ${{ github.workspace }}/benchmark_XML/scripts/run_smoke.sh mpirun -np 2 --oversubscribe ${{ github.workspace }}/build-mpi-mumps/bin/tahoe -f mat.2.a.mumps_mpi.xml
+          ${{ github.workspace }}/benchmark_XML/scripts/run_smoke.sh mpirun -np 2 --oversubscribe ${{ github.workspace }}/build-mpi-mumps/bin/tahoe -f mat.2.a.mumps_mpi.xml -decomp_method -0
